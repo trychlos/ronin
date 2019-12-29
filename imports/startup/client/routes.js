@@ -3,7 +3,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 // Import needed layouts and templates
-//import '/imports/ui/layouts/body/body.js';
+import '/imports/ui/layouts/body/body.js';
 //import '/imports/ui/layouts/desktop/desktop.js';
 //import '/imports/ui/layouts/topbar/topbar.js';
 //import '/imports/ui/pages/actions/actions.js';
@@ -12,7 +12,7 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 //import '/imports/ui/pages/process/process.js';
 //import '/imports/ui/pages/projects/projects.js';
 //import '/imports/ui/pages/setup/setup.js';
-//import '/imports/ui/pages/not-found/not-found.js';
+import '/imports/ui/pages/not_found/not_found.js';
 
 // Set up all routes in the app
 FlowRouter.route('/', {
@@ -164,7 +164,8 @@ FlowRouter.route('/review/done', {
     },
 });
 FlowRouter.notFound = {
+    name: 'not.found',
     action(){
-        BlazeLayout.render('App_body', { main: 'App_notFound' });
+        BlazeLayout.render('appBody', { main: 'notFound' });
     },
 };
