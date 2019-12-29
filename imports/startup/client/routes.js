@@ -11,7 +11,7 @@ import '/imports/ui/layouts/desktop/desktop.js';
 //import '/imports/ui/pages/overview/overview.js';
 //import '/imports/ui/pages/process/process.js';
 //import '/imports/ui/pages/projects/projects.js';
-//import '/imports/ui/pages/setup/setup.js';
+import '/imports/ui/pages/setup/setup.js';
 import '/imports/ui/pages/not_found/not_found.js';
 
 // Set up all routes in the app

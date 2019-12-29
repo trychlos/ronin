@@ -1,6 +1,6 @@
 // jQuery UI widgets are made globally available in the application
-//import 'jquery-ui-dist/jquery-ui.js';
-//import 'jquery-ui-dist/jquery-ui.css';
+import 'jquery-ui-dist/jquery-ui.js';
+import 'jquery-ui-dist/jquery-ui.css';
 
 // FontAwesome are made globally available in the application
 // nb: our free version include 'solid' and 'brand' icon styles
