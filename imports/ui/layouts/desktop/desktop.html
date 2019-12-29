@@ -1,0 +1,16 @@
+<template name="appDesktop">
+    <div class="layout-desktop">
+        <div class="lyt-bar">
+            <p>header</p>
+            {{>errors}}
+        </div>
+        <div class="lyt-body">
+            <div class="side">
+                {{> menu_side}}
+            </div>
+            <div class="lyt-main">
+                {{> Template.dynamic template=main}}
+            </div>
+        </div>
+    </div>
+</template>
