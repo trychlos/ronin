@@ -1,0 +1,119 @@
+ Ronin - TODO
+
+ Summary
+ =======
+ 
+   Todo
+   Done
+
+-----------------------------------------------------------------------
+ Todo
+ ====
+
+    1 2019-11-10 make all the lists sortable by column
+                 see for example mrt:jquery-ui-sortable
+
+    2 2019-11-10 process thoughts should only be available if there is at
+                 least one thought (disable if zero)
+
+    4 2019-11-17 when entering in /collect, set the cursor in the Thought
+                 field
+
+   16 2019-12- 1 delegates crud
+
+   17 2019-12- 1 goal levels crud
+
+   18 2019-12- 2 ellipsize long strings (eg. topic on thoughts list)
+
+   20 2019-12- 5 priority_value_edit: spinner buttons are not visible
+
+   21 2019-12- 5 do not delete a topic used by a thought or an action
+
+   25 2019-12- 8 disable the whole page after having processed the last
+                 thought + hide the badge
+
+   26 2019-12- 8 do not delete a context used by an action
+
+   27 2019-12- 8 do not delete an action status used by an action
+      2019-12-27 action_status should not be editable at all
+
+   28 2019-12-15 review general layout, adding vertical and horizontal menus
+
+   29 2019-12-15 projects hierarchy icon should be green if there is at
+                 least one actionable action
+
+   30 2019-12-23 projects_tree: projects/actions should have the color of
+                 their attached topic
+
+   35
+
+-----------------------------------------------------------------------
+ Done
+ ====
+
+    3 2019-11-17 save the /process split position as a session variable,
+                 and restore it
+      2019-12-23 done
+
+    5 2019-11-24 since we have added the is_deletable helper, the a.id
+                 attribute of the delete command is no more set
+      2019-11-24 fixed
+
+    6 2019-11-24 modify an existing thought
+      2019-12-20 done
+
+    7 2019-11-24 modify an existing context
+      2019-11-30 done
+
+    8 2019-11-24 process thoughts: split is not adjustable
+      2019-12-20 split is no more used here
+
+    9 2019-11-24 on /setup, update the route accordingly in topbar when
+                 changing from a tab to another one
+      2019-12-19 done
+
+   10 2019-11-30 funny display errors
+      2019-12- 1 done
+
+   11 2019-12- 1 topic crud
+      2019-12- 2 done
+
+   12 2019-12- 1 action status crud
+      2019-12- 5 done
+
+   13 2019-12- 1 energy values crud
+      2019-12- 5 done
+
+   14 2019-12- 1 priority crud
+      2019-12- 5 done
+
+   15 2019-12- 1 time values crud
+      2019-12- 5 done
+
+   19 2019-12- 5 after page reload, go back to the same page and tab
+      2019-12-20 done
+
+   22 2019-12- 7 have default=true in the reference tables
+      2019-12- 7 done
+
+   23 2019-12- 7 to_action: datepicker jQuery UI widget doesn't work
+      2019-12-20 fixed
+
+   24 2019-12- 7 process thoughts: the description of the current thought
+                 doesn't take into account the lines
+      2019-12-20 the scroll part no more displays the thought description
+
+   31 2019-12-23 projects_tree: have a specific icon for actions
+      2019-12-23 done
+
+   32 2019-12-23 date_select: prev/next arrows are not visible
+      2019-12-27 fixed by copying jquery-ui-dist/images to /public/jquery-ui
+
+   33 2019-12-27 projects_tree: item label should show the link cursor
+      2019-12-27 done (only for the label, not for the entire li)
+
+   34 2019-12-27 date_select: ui-datepicker-calendar personalization does not work
+      2019-12-27 fixed
+
+-----------------------------------------------------------------------
+ P. Wieser - Created on 2019, Nov. 19th
