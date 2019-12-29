@@ -1,0 +1,11 @@
+<template name="setup_energy">
+    <div class="setup-energy">
+        <div class="edit">
+            {{> energy_value_edit}}
+        </div>
+        <div class="list">
+            <h2>Energy values list</h2>
+            {{> energy_values_list cursor=energy_values_cursor}}
+        </div>
+    </div>
+</template>

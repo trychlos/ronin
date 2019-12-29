@@ -1,0 +1,11 @@
+<template name="setup_topics">
+    <div class="setup-topics">
+        <div class="edit">
+            {{> topic_edit}}
+        </div>
+        <div class="list">
+            <h2>Topics list</h2>
+            {{> topics_list cursor=topics_cursor}}
+        </div>
+    </div>
+</template>

@@ -1,0 +1,11 @@
+<template name="setup_contexts">
+    <div class="setup-contexts">
+        <div class="edit">
+            {{> context_edit}}
+        </div>
+        <div class="list">
+            <h2>Contexts list</h2>
+            {{> contexts_list cursor=contexts_cursor}}
+        </div>
+    </div>
+</template>

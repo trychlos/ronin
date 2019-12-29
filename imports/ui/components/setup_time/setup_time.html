@@ -1,0 +1,11 @@
+<template name="setup_time">
+    <div class="setup-time">
+        <div class="edit">
+            {{> time_value_edit}}
+        </div>
+        <div class="list">
+            <h2>Time values list</h2>
+            {{> time_values_list cursor=time_values_cursor}}
+        </div>
+    </div>
+</template>
