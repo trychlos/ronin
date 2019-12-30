@@ -1,0 +1,39 @@
+div.errors {
+    @keyframes fadeOut {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+
+    position: fixed;
+    z-index: 10000;
+    top: 2em;
+    right: 0px;
+
+    .alert {
+        animation: fadeOut 2700ms ease-in 0s 1 forwards;
+        background-color: rgb(252, 185, 185);
+        color: rgb(168, 0, 0);
+        border: solid 1px;
+        border-radius: 3px;
+
+        p {
+            padding: 1em 2em;
+            display: inline;
+        }
+        button {
+            background-color: inherit;
+            border-style: none;
+            padding: 0.2em 0.4em;
+            margin: 0.8em 2px;
+            font-weight: bold;
+            color: gray;
+        }
+        button:hover {
+            border-style: solid 1px;
+            border-color: gray;
+            border-radius: 2px;
+        }
+    }
+}

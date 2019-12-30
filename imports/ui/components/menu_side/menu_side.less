@@ -1,0 +1,28 @@
+div.menu-side {
+    height: 100%;
+    width: max-content;
+    margin-left: 0.25em;
+
+    div.menu-button {
+        text-align: right;
+    }
+    ul {
+        margin-block-start: 0;
+        margin-block-end: 0;
+        padding: 0;
+    }
+    li>div {
+        padding: 3px 0.5em;
+    }
+    li>div.disabled-item {
+        display: none;
+    }
+    li>div.header-item {
+        font-weight: bold;
+        font-size: 110%;
+    }
+    li>div:not(.header-item):hover {
+        background-color: @menu-color;
+        color: white;
+    }
+}

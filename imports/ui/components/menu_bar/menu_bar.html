@@ -1,0 +1,9 @@
+<template name="menu_bar">
+    <div class="menu-bar">
+        <ul>
+            {{#each item in gtdFeatures}}
+                {{> menu_item type='bar' item=item}}
+            {{/each}}
+        </ul>
+    </div>
+</template>

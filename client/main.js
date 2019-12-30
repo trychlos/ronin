@@ -2,6 +2,10 @@
 import 'jquery-ui-dist/jquery-ui.js';
 import 'jquery-ui-dist/jquery-ui.css';
 
+// import simone window manager
+import '/imports/ui/third-party/simone/simone.min.js';
+import '/imports/ui/third-party/simone/simone.min.css';
+
 // FontAwesome are made globally available in the application
 // nb: our free version include 'solid' and 'brand' icon styles
 // see also https://fontawesome.com/how-to-use/on-the-web/setup/getting-started
