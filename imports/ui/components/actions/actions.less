@@ -1,0 +1,32 @@
+div.actions {
+    h1 {
+        background-color: @review-color;
+        color: white;
+        padding: 0.5em;
+        font-weight: bolder;
+        font-size: 175%;
+    }
+    h2 {
+        background-color: @review-color-light;
+        color: white;
+        padding: 0.25em 0.5em;
+    }
+
+    font-size: var(--font-size);
+    li.ui-state-active,
+    .ui-button {
+        background: @review-color;
+        border: darken( @review-color, 25% );
+    }
+    .jqx-splitter-splitbar-vertical {
+        width: 4px;
+        border: 1px solid white;
+        background-color: @splitter-color;
+    }
+    .jqx-splitter-collapse-button-vertical {
+        background-color: @splitter-button-color;
+    }
+    .ui-tabs .ui-tabs-panel {
+        padding: 0;
+    }
+}

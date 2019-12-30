@@ -1,0 +1,16 @@
+<template name="actions_classes">
+    <div class="actions-classes">
+        <div id="tabs">
+            <ul>
+                {{#each it in classes}}
+                    <li><a href="#{{it}}">{{itLabel it}}</a></li>
+                {{/each}}
+            </ul>
+            {{#each it in classes}}
+                <div id="{{it}}">
+                    {{> actions_grid status=it}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>

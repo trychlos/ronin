@@ -1,0 +1,38 @@
+<template name="setup">
+    <div class="setup">
+        <h1>Setup</h1>
+        <div id="tabs">
+            <ul>
+                {{#each item in gtdSetup}}
+                    <li><a href="#{{item.id}}">{{item.label}}</a></li>
+                {{/each}}
+            </ul>
+            <div id="contexts">
+                {{> setup_contexts}}
+            </div>
+            <div id="time">
+                {{> setup_time}}
+            </div>
+            <div id="energy">
+                {{> setup_energy}}
+            </div>
+            <div id="priority">
+                {{> setup_priority}}
+            </div>
+            <div id="status">
+                {{> setup_status}}
+            </div>
+            <div id="topics">
+                {{> setup_topics}}
+            </div>
+            <div id="refs">
+                <!-- {{> setup_refs}} -->
+                <p>Reference items here</p>
+            </div>
+            <div id="delegates">
+                <!-- {{> setup_delegates}} -->
+                <p>Delegates here</p>
+            </div>
+        </div>
+    </div>
+</template>
