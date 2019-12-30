@@ -10,7 +10,7 @@ import '/imports/ui/pages/actions/actions.js';
 import '/imports/ui/pages/collect/collect.js';
 import '/imports/ui/pages/overview/overview.js';
 import '/imports/ui/pages/process/process.js';
-//import '/imports/ui/pages/projects/projects.js';
+import '/imports/ui/pages/projects/projects.js';
 import '/imports/ui/pages/setup/setup.js';
 import '/imports/ui/pages/not_found/not_found.js';
 
