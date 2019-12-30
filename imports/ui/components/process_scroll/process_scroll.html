@@ -1,0 +1,29 @@
+<template name="process_scroll">
+    <div class="process-scroll">
+        <div class="inline">
+            <h2>Run through each thought, one by one</h2>
+            {{> thoughts_badge }}
+        </div>
+        <table class="process">
+            <tr>
+                <td class="icon">
+                    <a href="#" class="js-prev" title="Previous thought">
+                        <div class="ui-state-default ui-corner-all">
+                            <span class="fas fa-caret-left x-font"></span>
+                        </div>
+                    </a>
+                </td>
+                <td>
+                    {{> thoughts_list cursor=cursor editable=false }}
+                </td>
+                <td class="icon">
+                    <a href="#" class="js-next" title="Next thought">
+                        <div class="ui-state-default ui-corner-all">
+                            <span class="fas fa-caret-right x-font"></span>
+                        </div>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</template>

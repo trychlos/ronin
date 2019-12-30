@@ -1,0 +1,51 @@
+div.process {
+    h1 {
+        background-color: @process-color;
+        color: white;
+        padding: 0.5em;
+        font-weight: bolder;
+        font-size: 175%;
+    }
+    h2 {
+        background-color: @process-color-light;
+        color: white;
+        padding: 0.25em 0.5em;
+    }
+    div.inline {
+        background-color: @process-color-light;
+        h2 {
+            display: inline-block;
+        }
+        .thoughts-badge {
+            float: right;
+            margin-right: 0.5em;
+            margin-top: 0.4em;
+        }
+    }
+    div.process-scroll {
+        table.process {
+            width: 100%;
+            font-size: var(--font-size);
+            td.icon {
+                width: 2em;
+                text-align: center;
+                height: 2em;
+            }
+        }
+    }
+    div.process-dispatch {
+        font-size: var(--font-size);
+        li.ui-state-active {
+            background: @process-color;
+            border: darken( @process-color, 25% );
+        }
+    }
+    .jqx-splitter-splitbar-horizontal {
+        height: 4px;
+        border: 1px solid white;
+        background-color: @splitter-color;
+    }
+    .jqx-splitter-collapse-button-horizontal {
+        background-color: @splitter-button-color;
+    }
+}

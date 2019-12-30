@@ -1,0 +1,109 @@
+div.overview {
+    table {
+        border-collapse: separate;
+        border-spacing: 0 0.5em;
+        height: 100%;
+        td {
+            white-space: nowrap;
+        }
+        tr {
+            height: 12em;
+        }
+    }
+    // define the standard colors
+    .setup {
+        background-color: @setup-color-light;
+        .title {
+            background-color: @setup-color;
+        }
+        .items p {
+            color: @setup-color-dark;
+            border-left-color: @setup-color;
+        }
+    }
+    .collect {
+        background-color: @collect-color-light;
+        .title {
+            background-color: @collect-color;
+        }
+        .items p {
+            color: @collect-color-dark;
+            border-left-color: @collect-color;
+        }
+    }
+    .process {
+        background-color: @process-color-light;
+        .title {
+            background-color: @process-color;
+        }
+        .items p {
+            color: @process-color-dark;
+            border-left-color: @process-color;
+        }
+    }
+    .review {
+        background-color: @review-color-light;
+        .title {
+            background-color: @review-color;
+        }
+        .items p {
+            color: @review-color-dark;
+            border-left-color: @review-color;
+        }
+    }
+    // define the div's
+    .title {
+        color: white;
+        font-size: 125%;
+        font-weight: bold;
+        height: 6em;
+        margin: 0 0.5em;
+
+        h2, h3 {
+            margin: 0;
+            padding: 0 20px;
+        }
+        h2:only-child {
+            padding-top: 1.3em;
+        }
+        h2:nth-last-child(2) {
+            padding-top: 1em;
+        }
+        h2:nth-last-child(3) {
+            padding-top: 0.7em;
+        }
+        h3 {
+            //padding-bottom: 0.5em;
+            font-size: 90%;
+            font-style: italic;
+        }
+    }
+    // Define the individual data links
+    .items {
+        display: flex;
+        justify-content: space-evenly;
+        
+        p {
+            margin: 5px;
+            padding: 5px 1em;
+            border-width: 1px 1px 1px 5px;
+            border-color: white;
+            border-style: solid;
+        }
+        a {
+            text-decoration: none;
+        }
+        p {
+            display: inline-block;
+            font-size: 100%;
+            font-weight: bold;
+            line-height: 3em;
+        }
+        p.disabled {
+            color: gray;
+            font-style: italic;
+            border-color: gray;
+            border-width: 1px;
+        }
+    }
+}

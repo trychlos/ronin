@@ -1,0 +1,68 @@
+<template name="to_action">
+    <div class="to-action">
+        <p>
+            Transform the thought into an action.<br />
+            This action may, or may not, be immediately actionable, delegatable, ...
+        </p>
+        <table class="first">
+            {{#each t in thought}}
+                <tr>
+                    <td class="label x-hright"><p>Action:</p></td>
+                    <td><input class="js-name" type="text" size="60" value="{{ t.name }}" /></td>
+                    <td class="label padleft"><p>Topic:</p></td>
+                    <td class="js-topic">
+                        {{> topics_select selected=t.topic}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label x-hright"><p>Successful outcome:</p></td>
+                    <td><input class="js-outcome" type="text" size="60" placeholder="Successful outcome" /></td>
+                    <td class="label padleft"><p>Context:</p></td>
+                    <td class="js-context">
+                        {{> contexts_select}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label verttop"><p>Description:</p></td>
+                    <td>
+                        <textarea
+                            name="description"
+                            class="js-description"
+                            placeholder="Description of the action"
+                            rows="4">{{ t.description }}</textarea>
+                    </td>
+                    <td class="label x-hright verttop"><p>Project:</p></td>
+                    <td class="js-project verttop">
+                        {{> projects_select}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label x-hright"><p>Status:</p></td>
+                    <td colspan="3">
+                        <table class="inside-table">
+                            <tr>
+                                <td class="js-status">{{> action_status_select}}</td>
+                                <td class="label"><p>Start date:</p></td>
+                                <td class="js-datestart" title="Start date">{{> date_select }}</td>
+                                <td class="label padleft"><p>Due date:</p></td>
+                                <td class="js-datedue" title="Due date">{{> date_select }}</td>
+                                <td class="label padleft"><p>Done date:</p></td>
+                                <td class="js-datedone" title="Done date">{{> date_select }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="hidden">
+                    <td colspan="4">
+                        <p id="to-action-thought-id">{{ t._id }}</p>
+                    </td>
+                </tr>
+            {{/each}}
+            <tr>
+                <td class="button" colspan="4">
+                    <button type="button" class="js-transform ui-corner-all ui-button ui-state-active">Transform</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</template>

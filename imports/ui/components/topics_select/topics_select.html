@@ -1,0 +1,9 @@
+<template name="topics_select">
+    <div class="topics-select">
+        <select class="js-topic" name="topic">
+            {{#each topic in topics_cursor}}
+                <option value="{{ topic._id }}" {{topic_selected topic selected}}>{{ topic.name }}</option>
+            {{/each}}
+        </select>
+    </div>
+</template>

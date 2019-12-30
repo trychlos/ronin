@@ -1,0 +1,16 @@
+<template name="topnav">
+    <div class="topnav">
+        {{#each o in gtd_topnav}}
+            <div class={{ o.id }}>
+                {{#if is_topnav_visible o }}
+                    {{{sub_link o}}}
+                {{/if}}
+                {{#each s in o.subs }}
+                    {{#if is_subnav_visible o s }}
+                        {{{sub_link s}}}
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/each}}
+    </div>
+</template>

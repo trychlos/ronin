@@ -1,0 +1,28 @@
+<template name="time_values_list">
+    <div class="time-values-list setup-list">
+        <table>
+            {{#each item in cursor}}
+                <tr class="item">
+                    <td class="icon-first">
+                        <a class="js-update" id="{{ updateId item }}" href="#">
+                            <div class="ui-state-default ui-corner-all" title="Edit {{ item.name }}">
+                                <span class="fas fa-edit x-font"></span>
+                            </div>
+                        </a>
+                    </td>
+                    <td class="name"><p>{{ item.name }}</p></td>
+                    <td class="x-createdAt"><p>{{ lastUpdated item }}</p></td>
+                    <td class="icon-last">
+                        {{#if isDeletable item deletable}}
+                            <a class="js-delete" id="{{ deleteId item }}" href="#">
+                                <div class="ui-state-default ui-corner-all" title="Delete {{ item.name }}">
+                                    <span class="fas fa-trash x-font"></span>
+                                </div>
+                            </a>
+                        {{/if}}
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+</template>
