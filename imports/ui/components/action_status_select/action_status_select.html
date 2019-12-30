@@ -1,9 +1,0 @@
-<template name="action_status_select">
-    <div class="status-select">
-        <select class="js-status-select" name="status">
-            {{#each status in statusCursor}}
-                <option value="{{ status.code }}" {{statusSelected status selected}}>{{ status.name }}</option>
-            {{/each}}
-        </select>
-    </div>
-</template>

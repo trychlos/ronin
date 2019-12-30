@@ -1,11 +1,13 @@
 {
-  "name": "ronin2",
+  "name": "ronin",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run --settings config/settings.json"
   },
   "dependencies": {
     "@babel/runtime": "^7.7.6",
+    "@fortawesome/fontawesome-free": "^5.12.0",
+    "amplifyjs": "^1.1.2-beta.2",
     "jqtree": "^1.4.12",
     "jquery-ui-dist": "^1.12.1",
     "meteor-node-stubs": "^1.0.0",
