@@ -1,0 +1,45 @@
+div.collect {
+    h1 {
+        background-color: @collect-color;
+        color: white;
+        padding: 0.5em;
+        font-weight: bolder;
+        font-size: 175%;
+    }
+    h2 {
+        background-color: @collect-color-light;
+        color: white;
+        padding: 0.25em 0.5em;
+    }
+    /* edit part on the top */
+    .edit-header {
+        background-color: @collect-color-light;
+        h2 {
+            display: inline-block;
+        }
+        .btn-submit,
+        .btn-cancel {
+            float: right;
+            margin-right: 0.5em;
+        }
+        .btn-submit {
+            margin-top: 0.19em;
+        }
+        .btn-cancel {
+            margin-top: 0.35em;
+        }
+    }
+    .edit-body {
+        border-spacing: 0.5em;
+        margin-right: 0.5em;
+        tr {
+            height: 0;
+        }
+        td.label {
+            vertical-align: top;
+        }
+        td.label p {
+            margin-top: 3px;
+        }
+    }
+}

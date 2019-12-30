@@ -1,0 +1,12 @@
+<template name="collect">
+    <div class="collect">
+        <h1>Collect thoughts</h1>
+        <div class="edit">
+            {{> thought_edit}}
+        </div>
+        <div class="list">
+            <h2>Thoughts list</h2>
+            {{> thoughts_list cursor=thoughts_cursor}}
+        </div>
+    </div>
+</template>
