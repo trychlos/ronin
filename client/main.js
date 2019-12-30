@@ -6,6 +6,11 @@ import 'jquery-ui-dist/jquery-ui.css';
 import '/imports/ui/third-party/simone/simone.min.js';
 import '/imports/ui/third-party/simone/i18n/simone.min.custom.js';
 import '/imports/ui/third-party/simone/simone.min.css';
+g = {
+    barSideWidth: 150,
+    barTopHeight: 30,
+    taskbar: new ReactiveVar( null )
+};
 
 // FontAwesome are made globally available in the application
 // nb: our free version include 'solid' and 'brand' icon styles

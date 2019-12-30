@@ -8,9 +8,18 @@ import '/imports/ui/components/errors/errors.js';
 import './desktop.html';
 
 Template.appDesktop.onRendered( function(){
-    $('.lyt-taskbar').taskbar({
-        minimizeAll: false,
-        windowButtonsSortable: false,
-        windowsContainment: 'visible'
-    });
+    g.taskbar.set(
+        $('.lyt-taskbar').taskbar({
+            minimizeAll: false,
+            viewportMargins: {
+                top   : [ g.barTopHeight, "correctNone" ],
+                right : [              0, "correct" ],
+                bottom: [              0, "correct" ],
+                left  : [ g.barSideWidth, "correctNone" ]
+            },
+            windowButtonsSortable: false,
+            windowsContainment: 'visible'
+        })
+    );
+    //console.log( 'desktop set taskbar='+taskbar );
 });
