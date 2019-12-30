@@ -4,6 +4,7 @@ import 'jquery-ui-dist/jquery-ui.css';
 
 // import simone window manager
 import '/imports/ui/third-party/simone/simone.min.js';
+import '/imports/ui/third-party/simone/i18n/simone.min.custom.js';
 import '/imports/ui/third-party/simone/simone.min.css';
 
 // FontAwesome are made globally available in the application
