@@ -8,8 +8,8 @@
  */
 import { gtd } from '/imports/ui/interfaces/gtd/gtd.js';
 import '/imports/ui/components/setup_contexts/setup_contexts.js';
-//import '/imports/ui/components/setup_delegates/setup_delegates.js';
-//import '/imports/ui/components/setup_energy/setup_energy.js';
+import '/imports/ui/components/setup_delegates/setup_delegates.js';
+import '/imports/ui/components/setup_energy/setup_energy.js';
 //import '/imports/ui/components/setup_priority/setup_priority.js';
 //import '/imports/ui/components/setup_refs/setup_refs.js';
 //import '/imports/ui/components/setup_status/setup_status.js';
