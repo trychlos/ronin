@@ -8,18 +8,18 @@ import '/imports/ui/layouts/desktop/desktop.js';
 
 //import '/imports/ui/pages/actions/actions.js';
 //import '/imports/ui/pages/collect/collect.js';
-import '/imports/ui/pages/overview/overview.js';
+import '/imports/ui/pages/empty/empty.js';
 //import '/imports/ui/pages/process/process.js';
 //import '/imports/ui/pages/projects/projects.js';
 //import '/imports/ui/pages/review/review.js';
-//import '/imports/ui/pages/setup/setup.js';
+import '/imports/ui/pages/setup/setup.js';
 import '/imports/ui/pages/not_found/not_found.js';
 
 // Set up all routes in the app
 FlowRouter.route('/', {
     name: 'home',
     action(){
-        BlazeLayout.render('appDesktop', { main: 'overviewPage' });
+        BlazeLayout.render('appDesktop', { main: 'empty' });
     },
 });
 /*
@@ -34,6 +34,7 @@ FlowRouter.route('/setup/criterias', {
         BlazeLayout.render('App_topbar', { main: 'App_setup' });
     },
 });
+*/
 FlowRouter.route('/setup/contexts', {
     name: 'setup.contexts',
     action(){
@@ -96,6 +97,7 @@ FlowRouter.route('/setup/delegates', {
         BlazeLayout.render('appDesktop', { main: 'setupPage' });
     },
 });
+/*
 FlowRouter.route('/collect', {
     name: 'collect.thoughts',
     action(){

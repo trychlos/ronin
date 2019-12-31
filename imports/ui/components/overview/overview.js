@@ -32,6 +32,7 @@ Template.overview.fn = {
 };
 
 Template.overview.onRendered( function(){
+    /*
     this.autorun(() => {
         if( g.taskbar.get()){
             $('.overview').window({
@@ -56,6 +57,7 @@ Template.overview.onRendered( function(){
                 .prev('div.ui-dialog-titlebar').css({ 'display': 'none' });
         }
     });
+    */
 });
 
 Template.overview.helpers({
