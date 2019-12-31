@@ -13,7 +13,6 @@
  *  Session variables:
  *  - 'setup.topics.obj': the edited object, selected in topics_list.
  */
-import { Meteor } from 'meteor/meteor';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import './topic_edit.html';
 
@@ -56,9 +55,6 @@ Template.topic_edit.fn = {
         Template.topic_edit.fn.objName.css({ 'background-color':color });
     }
 };
-
-Template.topic_edit.onCreated( function(){
-});
 
 Template.topic_edit.onRendered( function(){
     Template.topic_edit.fn.objName = this.$('.js-name');

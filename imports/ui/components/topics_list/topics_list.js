@@ -1,13 +1,13 @@
 /*
  * 'topics_list' component.
  *  Display the specified list of topics:
+ * 
  *  Parms:
- *  - cursor (mandatory) the cursor (interpreted as an array) to be displayed
+ *  - topics (mandatory) the cursor (interpreted as an array) to be displayed
  *  - deletable (optional) whether the items are deletable
  *      apply to each and every item of the cursor
  *      defaults to true.
  */
-import { Meteor } from 'meteor/meteor';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import './topics_list.html';
 
@@ -22,9 +22,6 @@ Template.topics_list.fn = {
         return 'topics-list-update-';
     }
 };
-
-Template.topics_list.onRendered( function(){
-});
 
 Template.topics_list.helpers({
     backgroundColor(o){

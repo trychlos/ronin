@@ -143,9 +143,11 @@ import '/imports/ui/components/errors/errors.js'
         //console.log( '_beforeCloseEH $(this) '+$(this).attr('class'));
         _saveSettings( $(ev.target), $(ev.target).data('iwindowed-id'));
     };
+    // the widget which encapsulates the window has been closed
+    //  but the div itself is still in the DOM
+    // $(ev.target) === ui.$window === jQuery object on which we have called window()
     function _closeEH( ev, ui ){
-        //console.log( '_closeEH $(ev.target) '+$(ev.target).attr('class'));
-        //console.log( '_closeEH '+ui.$window.attr('class')); // the same
+        $(ev.target).remove();
     };
     // default values, overridable by the user at global level
     $.fn.iWindowed.defaults = {

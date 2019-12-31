@@ -14,7 +14,7 @@ import '/imports/ui/components/setup_priority/setup_priority.js';
 import '/imports/ui/components/setup_refs/setup_refs.js';
 import '/imports/ui/components/setup_status/setup_status.js';
 import '/imports/ui/components/setup_time/setup_time.js';
-//import '/imports/ui/components/setup_topics/setup_topics.js';
+import '/imports/ui/components/setup_topics/setup_topics.js';
 import '/imports/ui/interfaces/itabbed/itabbed.js';
 import './setup_tab.html';
 
