@@ -1,16 +1,19 @@
 /*
  * 'thoughts_list' component.
  *  Display the specified list of thoughts, giving a cursor (aka an array)
+ * 
  *  Parms:
- *  - cursor: the cursor (aka an array) to be displayed
- *  - editable: whether the items are editable/deletable
- *      apply to each and every item of the cursor as a whole
+ *  - thoughts: the cursor (aka an array) to be displayed
+ *  - editable: whether the items are editable/deletable;
+ *      apply to each and every item of the cursor as a whole;
  *      defaults to true
- *  - withDescription: whether to display the description of the tought
- *      apply to each and every item of the cursor as a whole
+ *  - withDescription: whether to display the description of the thought;
+ *      apply to each and every item of the cursor as a whole;
  *      defaults to false.
+ * 
+ *  NB: this component is used both as a reminder when collecting new thoughts,
+ *      and as a dispatcher when processing thoughts.
  */
-import { Meteor } from 'meteor/meteor';
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import './thoughts_list.html';

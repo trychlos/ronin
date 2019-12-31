@@ -2,8 +2,10 @@
  * 'thought_edit' component.
  *  Let the user enter a new thought (session/setup.thought.obj empty)
  *  or edit an existing one (session/setup.thought.obj already exists)/
+ * 
+ *  Session variable:
+ *  - setup.thought.obj: the thought being edited.
  */
-import { Meteor } from 'meteor/meteor';
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import '/imports/ui/components/topics_select/topics_select.js';
 import './thought_edit.html';
@@ -23,9 +25,6 @@ Template.thought_edit.fn = {
         }
     }
 };
-
-Template.thought_edit.onRendered( function(){
-});
   
 Template.thought_edit.helpers({
     descriptionPlaceholder(){

@@ -10,6 +10,8 @@ import '/imports/ui/interfaces/iwindowed/iwindowed.js';
 import './collect_window.html';
 
 Template.collectWindow.onCreated( function(){
+    this.subscribe('thoughts.all');
+    this.subscribe('topics.all');
 });
 
 Template.collectWindow.onRendered( function(){
@@ -24,7 +26,7 @@ Template.collectWindow.onRendered( function(){
 });
 
 Template.collectWindow.helpers({
-});
-
-Template.collectWindow.events({
+    thoughts(){
+        return Thoughts.find({}, { sort:{ createdAt: -1 }});
+    }
 });

@@ -5,7 +5,6 @@
  *
  *  NB: relies on the main page having subscribed to 'thoughts.all'
  */
-import { Meteor } from 'meteor/meteor';
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import './thoughts_badge.html';
 
@@ -14,9 +13,6 @@ Template.thoughts_badge.fn = {
         return Thoughts.find().count();
     }
 };
-
-Template.thoughts_badge.onRendered( function(){
-});
   
 Template.thoughts_badge.helpers({
     thoughtNum(){

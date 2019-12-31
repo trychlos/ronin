@@ -1,12 +1,12 @@
 <template name="thoughts_list">
     <div class="thoughts-list">
         <table>
-            {{#each item in cursor}}
-                <tr class="item" id="thought_{{_id}}">
+            {{#each it in thoughts}}
+                <tr class="item" id="thought_{{it._id}}">
                     <td class="icon-first">
                         {{#if isEditable editable}}
-                            <a class="js-update" id="{{ updateId item }}" href="#">
-                                <div class="ui-state-default ui-corner-all" title="Edit {{ item.name }}">
+                            <a class="js-update" id="{{ updateId it }}" href="#">
+                                <div class="ui-state-default ui-corner-all" title="Edit {{ it.name }}">
                                     <span class="fas fa-edit x-font"></span>
                                 </div>
                             </a>
@@ -15,14 +15,14 @@
                     <td class="x-w100">
                         <table>
                             <tr>
-                                <td class="name"><p>{{ item.name }}</p></td>
-                                <td class="topic"><p>{{ topic_byId item.topic }}</p></td>
-                                <td class="x-createdAt"><p>{{ lastUpdated item }}</p></td>
+                                <td class="name"><p>{{ it.name }}</p></td>
+                                <td class="topic"><p>{{ topic_byId it.topic }}</p></td>
+                                <td class="x-createdAt"><p>{{ lastUpdated it }}</p></td>
                             </tr>
                             {{#if hasDescription withDescription}}
                                 <tr>
                                     <td colspan="3" class="description x-hright">
-                                        <p>{{item.description}}</p>
+                                        <p>{{it.description}}</p>
                                     </td>
                                 </tr>
                             {{/if}}
@@ -30,8 +30,8 @@
                     </td>
                     <td class="icon-last">
                         {{#if isEditable editable}}
-                            <a class="js-delete" id="{{ item._id }}" href="#">
-                                <div class="ui-state-default ui-corner-all" title="Delete">
+                            <a class="js-delete" id="{{ it._id }}" href="#">
+                                <div class="ui-state-default ui-corner-all" title="Delete {{it.name}}">
                                     <span class="fas fa-trash x-font"></span>
                                 </div>
                             </a>

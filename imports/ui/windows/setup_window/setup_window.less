@@ -1,39 +1,16 @@
 div.setup-window {
-    .x-h2 {
+    .edit-header {
         background-color: @setup-color-light;
     }
     li.ui-state-active {
         background: @setup-color;
         border: darken( @setup-color, 25% );
     }
-    /* edit part on the top */
-    .edit-header {
-        background-color: @setup-color-light;
-        display: flex;
-        align-items: center;
-        .x-h2 {
-            flex-grow: 1;
-        }
-        .btn-submit,
-        .btn-cancel {
-            margin-right: 0.25em;
-        }
-    }
-    .edit-body {
-        border-spacing: 0.5em;
-        margin-right: 0.5em;
-        tr {
-            height: 0;
-        }
-        td.label {
-            vertical-align: top;
-        }
-        td.label p {
-            margin-top: 3px;
-        }
-    }
     /* list part on the bottom */
-    .setup-list {
+    .list {
+        p.x-h2 {
+            background-color: @setup-color-light;
+        }
         table {
             width: 100%;
         }

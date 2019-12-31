@@ -2,13 +2,13 @@
     <div class="thought-edit">
         <form class="js-edit">
             <div class="edit-header">
-                <h2>{{title}}</h2>
+                <p class="x-h2">{{title}}</p>
+                <button type="submit" class="btn-submit x-radius ui-button">{{submit}}</button>
                 <a class="js-cancel btn-cancel" href="#">
                     <div class="ui-state-default ui-corner-all" title="Cancel">
                         <span class="fas fa-times x-font"></span>
                     </div>
                 </a>
-                <button type="submit" class="btn-submit x-radius ui-button">{{submit}}</button>
             </div>
             <table class="edit-body">
                 <tr>
@@ -25,7 +25,7 @@
                     <td>{{> topics_select selected=topic }}</td>
                 </tr>
                 <tr>
-                    <td class="label x-hright"><p>Description:</p></td>
+                    <td class="label x-hright x-vtop"><p>Description:</p></td>
                     <td colspan="3">
                         <textarea
                             name="description" 
