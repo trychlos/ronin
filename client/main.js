@@ -7,9 +7,11 @@ import '/imports/ui/third-party/simone/simone.min.js';
 import '/imports/ui/third-party/simone/i18n/simone.min.custom.js';
 import '/imports/ui/third-party/simone/simone.min.css';
 g = {
-    barSideWidth: 150,
-    barTopHeight: 30,
-    taskbar: new ReactiveVar( null )
+    barSideWidth:   150,
+    barTopHeight:    30,
+    settingsPrefix: 'settings-',
+    rootId:         '25d211fe-06ba-4781-ae41-c5a20e66075d',
+    taskbar:         new ReactiveVar( null )
 };
 
 // FontAwesome are made globally available in the application

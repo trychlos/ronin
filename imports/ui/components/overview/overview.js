@@ -1,6 +1,7 @@
 /*
  * 'overview' component.
  *  This is the main component of the overview page.
+ *  It is permanently displayed as a general active background.
  */
 import { gtd } from '/imports/ui/interfaces/gtd/gtd.js';
 import './overview.html';
@@ -30,35 +31,6 @@ Template.overview.fn = {
         return str;
     }
 };
-
-Template.overview.onRendered( function(){
-    /*
-    this.autorun(() => {
-        if( g.taskbar.get()){
-            $('.overview').window({
-                appendTo: 'div.overview-page',
-                draggable: false,
-                group: 'overview',
-                icons: {
-                    close:        null,
-                    confirmClose: null,
-                    main:         null,
-                    maximize:     null,
-                    minimize:     null,
-                    restore:      null
-                },
-                resizable: false,
-                taskbar: g.taskbar.get()
-            });
-            $('.overview')
-                .window( 'maximize', false )
-                .parent('div.ui-dialog').css({ 'border': 'none' });
-            $('.overview')
-                .prev('div.ui-dialog-titlebar').css({ 'display': 'none' });
-        }
-    });
-    */
-});
 
 Template.overview.helpers({
     displayH3( item ){

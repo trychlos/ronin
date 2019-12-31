@@ -7,12 +7,12 @@ import '/imports/ui/layouts/desktop/desktop.js';
 //import '/imports/ui/layouts/unused_topbar/topbar.js';
 
 //import '/imports/ui/pages/actions/actions.js';
-//import '/imports/ui/pages/collect/collect.js';
+import '/imports/ui/pages/collect_page/collect_page.js';
 import '/imports/ui/pages/empty/empty.js';
 //import '/imports/ui/pages/process/process.js';
 //import '/imports/ui/pages/projects/projects.js';
 //import '/imports/ui/pages/review/review.js';
-import '/imports/ui/pages/setup/setup.js';
+import '/imports/ui/pages/setup_page/setup_page.js';
 import '/imports/ui/pages/not_found/not_found.js';
 
 // Set up all routes in the app
@@ -97,7 +97,6 @@ FlowRouter.route('/setup/delegates', {
         BlazeLayout.render('appDesktop', { main: 'setupPage' });
     },
 });
-/*
 FlowRouter.route('/collect', {
     name: 'collect.thoughts',
     action(){
@@ -105,6 +104,7 @@ FlowRouter.route('/collect', {
         BlazeLayout.render('appDesktop', { main: 'collectPage' });
     },
 });
+/*
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){

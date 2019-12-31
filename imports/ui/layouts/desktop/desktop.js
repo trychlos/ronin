@@ -11,14 +11,13 @@ import './desktop.html';
 Template.appDesktop.onRendered( function(){
     g.taskbar.set(
         $('.lyt-taskbar').taskbar({
-            buttonsTooltips: true,
+            //buttonsTooltips: true,
             localization: {
                 en: {
-                    'group:collect':  'Collect',
-                    'group:overview': 'Overview',
-                    'group:process':  'Process',
-                    'group:review':   'Review',
-                    'group:setup':    'Setup'
+                    'group:collectWindow': 'Collect',
+                    'group:processWindow': 'Process',
+                    'group:reviewWindow':  'Review',
+                    'group:setupWindow':   'Setup'
                 }
             },
             minimizeAll: false,
@@ -31,4 +30,10 @@ Template.appDesktop.onRendered( function(){
         })
     );
     //console.log( 'desktop set taskbar='+taskbar );
+});
+
+Template.appDesktop.helpers({
+    rootId(){
+        return g.rootId;
+    }
 });
