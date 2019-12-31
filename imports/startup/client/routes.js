@@ -4,14 +4,13 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 import '/imports/ui/layouts/body/body.js';
 import '/imports/ui/layouts/desktop/desktop.js';
-//import '/imports/ui/layouts/unused_topbar/topbar.js';
 
 //import '/imports/ui/pages/actions/actions.js';
 import '/imports/ui/pages/collect_page/collect_page.js';
 import '/imports/ui/pages/empty/empty.js';
-//import '/imports/ui/pages/process/process.js';
+import '/imports/ui/pages/process_page/process_page.js';
 //import '/imports/ui/pages/projects/projects.js';
-//import '/imports/ui/pages/review/review.js';
+import '/imports/ui/pages/review_page/review_page.js';
 import '/imports/ui/pages/setup_page/setup_page.js';
 import '/imports/ui/pages/not_found/not_found.js';
 
@@ -104,13 +103,19 @@ FlowRouter.route('/collect', {
         BlazeLayout.render('appDesktop', { main: 'collectPage' });
     },
 });
-/*
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
         BlazeLayout.render('appDesktop', { main: 'processPage' });
     },
 });
+FlowRouter.route('/review', {
+    name: 'review',
+    action(){
+        BlazeLayout.render('appDesktop', { main: 'reviewPage' });
+    },
+});
+/*
 FlowRouter.route('/review/projects', {
     name: 'review.projects',
     action(){

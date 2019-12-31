@@ -1,5 +1,5 @@
 /*
- * 'collect' component.
+ * 'collectWindow' window.
  *  CRUD operations on thoughts.
  */
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';

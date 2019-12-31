@@ -1,0 +1,71 @@
+<template name="to_project">
+    <div class="to-project">
+        <p>
+            Transform the thought into a project
+            because it will probably require several actions.<br />
+            As all project, this new one will be reorderable in the projects view.
+        </p>
+        <table class="first">
+            {{#each t in thought}}
+                <tr>
+                    <td class="label"><p>Project:</p></td>
+                    <td class="data"><input class="js-name" type="text" value="{{ t.name }}" /></td>
+                    <td class="label padleft"><p>Topic:</p></td>
+                    <td class="data js-topic">
+                        {{> topics_select selected=t.topic}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><p>Purpose:</p></td>
+                    <td><input class="js-purpose" type="text" placeholder="Purpose" /></td>
+                    <td class="label padleft"><p>Vision:</p></td>
+                    <td><input class="js-vision" type="text" placeholder="Vision" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><p>Brainstorming:</p></td>
+                    <td><input class="js-brainstorm" type="text" placeholder="Brainstorming" /></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="label verttop"><p>Description:</p></td>
+                    <td>
+                        <textarea
+                            name="description"
+                            class="js-description"
+                            placeholder="Description of the project"
+                            rows="4">{{ t.description }}</textarea>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="label">Future project:</td>
+                    <td colspan="3">
+                        <table class="inside-table">
+                            <tr>
+                                <td><input type="checkbox" class="js-future winherit" /></td>
+                                <td class="label"><p>Start date:</p></td>
+                                <td class="js-datestart" title="Start date">{{> date_select }}</td>
+                                <td class="label padleft"><p>Due date:</p></td>
+                                <td class="js-datedue" title="Due date">{{> date_select }}</td>
+                                <td class="label padleft"><p>Done date:</p></td>
+                                <td class="js-datedone" title="Done date">{{> date_select }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="hidden">
+                    <td colspan="4">
+                        <p id="to-project-thought-id">{{ t._id }}</p>
+                    </td>
+                </tr>
+            {{/each}}
+            <tr>
+                <td class="button" colspan="4">
+                    <button type="button" class="js-transform ui-button ui-corner-all ui-state-active">Transform</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</template>

@@ -1,0 +1,9 @@
+<template name="projects_select">
+    <div class="projects-select">
+        <select class="js-project" name="project">
+            {{#each project in projects_cursor}}
+                <option value="{{ project._id }}" {{project_selected project selected}}>{{ project.name }}</option>
+            {{/each}}
+        </select>
+    </div>
+</template>
