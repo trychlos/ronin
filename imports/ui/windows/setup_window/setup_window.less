@@ -1,33 +1,22 @@
 div.setup-window {
-    h1 {
-        background-color: @setup-color;
-    }
-    h2 {
+    .x-h2 {
         background-color: @setup-color-light;
     }
     li.ui-state-active {
         background: @setup-color;
         border: darken( @setup-color, 25% );
     }
-    .ui-tabs-panel {
-        padding: 1em 0.5em;
-    }
     /* edit part on the top */
     .edit-header {
         background-color: @setup-color-light;
-        h2 {
-            display: inline-block;
+        display: flex;
+        align-items: center;
+        .x-h2 {
+            flex-grow: 1;
         }
         .btn-submit,
         .btn-cancel {
-            float: right;
-            margin-right: 0.5em;
-        }
-        .btn-submit {
-            margin-top: 0.19em;
-        }
-        .btn-cancel {
-            margin-top: 0.35em;
+            margin-right: 0.25em;
         }
     }
     .edit-body {

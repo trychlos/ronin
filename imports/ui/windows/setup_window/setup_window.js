@@ -1,6 +1,11 @@
 /*
  * 'setupWindow' window.
  *  Embeds the tabbed 'setup_tab' component.
+ * 
+ *  NB: because the setup_tab is dynamically built from gtd.features(),
+ *  we cannot subscribe from the window and pass the cursors to each tab.
+ *  Instead, each tab is independant: subscribe to its own datas, and
+ *  manages its own cursor.
  */
 import '/imports/ui/components/setup_tab/setup_tab.js';
 import '/imports/ui/interfaces/iwindowed/iwindowed.js';

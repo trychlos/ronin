@@ -1,0 +1,38 @@
+<template name="context_edit">
+    <div class="context-edit">
+        <form class="js-edit">
+            <div class="edit-header">
+                <p class="x-h2">{{title}}</p>
+                <a class="js-cancel btn-cancel" href="#">
+                    <div class="ui-state-default ui-corner-all" title="Cancel">
+                        <span class="fas fa-times x-font"></span>
+                    </div>
+                </a>
+                <button type="submit" class="btn-submit x-radius ui-button">{{submit}}</button>
+            </div>
+            <table class="edit-body">
+                <tr>
+                    <td class="label x-hright"><p>Name:</p></td>
+                    <td class="x-w100">
+                        <input
+                            name="name"
+                            class="js-name x-w100"
+                            type="text"
+                            placeholder="{{namePlaceholder}}"
+                            value="{{nameValue}}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label x-hright"><p>Description:</p></td>
+                    <td>
+                        <textarea
+                            name="description"
+                            class="js-description x-w100"
+                            rows="3"
+                            placeholder="{{descriptionPlaceholder}}">{{descriptionValue}}</textarea>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</template>
