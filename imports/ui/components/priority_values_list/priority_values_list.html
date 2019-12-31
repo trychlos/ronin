@@ -1,0 +1,28 @@
+<template name="priority_values_list">
+    <div class="priority-values-list setup-list">
+        <table>
+            {{#each it in priorities}}
+                <tr class="item">
+                    <td class="icon-first">
+                        <a class="js-update" id="{{ updateId it }}" href="#">
+                            <div class="ui-state-default ui-corner-all" title="Edit {{ it.name }}">
+                                <span class="fas fa-edit x-font"></span>
+                            </div>
+                        </a>
+                    </td>
+                    <td class="name"><p>{{ it.name }}</p></td>
+                    <td class="x-createdAt"><p>{{ lastUpdated it }}</p></td>
+                    <td class="icon-last">
+                        {{#if isDeletable it deletable}}
+                            <a class="js-delete" id="{{ deleteId it }}" href="#">
+                                <div class="ui-state-default ui-corner-all" title="Delete {{ it.name }}">
+                                    <span class="fas fa-trash x-font"></span>
+                                </div>
+                            </a>
+                        {{/if}}
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+</template>

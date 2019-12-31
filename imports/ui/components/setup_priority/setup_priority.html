@@ -1,0 +1,11 @@
+<template name="setup_priority">
+    <div class="setup-priority">
+        <div class="edit">
+            {{> priority_value_edit}}
+        </div>
+        <div class="list">
+            <p class="x-h2">Priority values list</p>
+            {{> priority_values_list priorities=priorities}}
+        </div>
+    </div>
+</template>
