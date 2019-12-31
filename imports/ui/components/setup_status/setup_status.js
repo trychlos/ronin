@@ -14,7 +14,7 @@ import '/imports/ui/components/action_status_list/action_status_list.js';
 import './setup_status.html';
 
 Template.setup_status.onCreated( function(){
-    Meteor.subscribe('action_status.all');
+    this.subscribe('action_status.all');
 });
 
 Template.setup_status.helpers({
