@@ -46,8 +46,21 @@
    35 2019-12-31 on overview, minimize all
 
    36 2019-12-31 closing a window should invalidate the corresponding route
+                  and activate the route of the newly active window
 
-   37
+   37 2019-12-31 rename setup_tab to setup_tabbed
+                 rename process_dispatch to process_tabbed
+                 harmonize the iTabbed div names
+
+   38 2019-12-31 added classes should be pwi-prefixed
+                  itabbed
+                  iwindowed
+                  ww-         -> pwi-  done
+
+   39 2020- 1- 1 review the height allocation of the horizontal splitter
+                  of the process window to be dynamic instead of being fixed
+
+   40
 
 -----------------------------------------------------------------------
  Done

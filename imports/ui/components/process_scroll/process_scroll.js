@@ -1,11 +1,10 @@
 /*
  * 'process_scroll' component.
  *  Scroll through the unprocessed thoughts.
+ * 
  *  Parameters:
- *  - cursor: the thought indexed by the 'process.thoughts.num' session variable.
+ *  - thought: the thought indexed by the 'process.thoughts.num' session variable.
  */
-import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import '/imports/ui/components/thoughts_badge/thoughts_badge.js';
 import '/imports/ui/components/thoughts_list/thoughts_list.js';

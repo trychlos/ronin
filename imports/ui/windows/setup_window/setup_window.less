@@ -1,46 +1,48 @@
-div.setup-window {
-    .edit-header {
-        background-color: @setup-color-light;
-    }
-    li.ui-state-active {
-        background: @setup-color;
-        border: darken( @setup-color, 25% );
-    }
-    /* list part on the bottom */
-    .list {
-        p.x-h2 {
+.pwi-setupWindow {
+    div.setup-window {
+        .edit-header {
             background-color: @setup-color-light;
         }
-        table {
-            width: 100%;
-        }
-        tr {
-            line-height: 0;
-        }
-        tr.item {
-            p {
-                display: inline-block;
+        /* list part on the bottom */
+        .list {
+            p.x-h2 {
+                background-color: @setup-color-light;
             }
-            td.icon-first {
-                padding-right: 0.2em;
+            table {
+                width: 100%;
             }
-            td.icon-last {
-                padding-left: 0.2em;
+            tr {
+                line-height: 0;
             }
-            td.name,
-            td.x-createdAt {
-                padding-left: 0.2em;
-                padding-right: 0.2em;
-            }
-            td.name {
-                width: 75%;
+            tr.item {
                 p {
-                    font-weight: bold;
+                    display: inline-block;
+                }
+                td.icon-first {
+                    padding-right: 0.2em;
+                }
+                td.icon-last {
+                    padding-left: 0.2em;
+                }
+                td.name,
+                td.x-createdAt {
+                    padding-left: 0.2em;
+                    padding-right: 0.2em;
+                }
+                td.name {
+                    width: 75%;
+                    p {
+                        font-weight: bold;
+                    }
+                }
+                td.x-createdAt {
+                    width: 25%;
                 }
             }
-            td.x-createdAt {
-                width: 25%;
-            }
         }
+    }
+    div.ui-widget-header.ui-state-active {
+        background: @setup-color;
+        border: darken( @setup-color, 25% );
     }
 }

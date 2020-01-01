@@ -1,24 +1,15 @@
 /*
  * 'to_project' component.
  *  Create a project from a thought.
+ * 
  *  Parameters:
  *  - thought: a cursor with only one element.
  */
-import { Meteor } from 'meteor/meteor';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import '/imports/ui/components/date_select/date_select.js';
 import '/imports/ui/components/topics_select/topics_select.js';
 import './to_project.html';
-
-Template.to_project.fn = {
-};
-
-Template.to_project.onRendered( function(){
-});
-
-Template.to_project.helpers({
-});
 
 Template.to_project.events({
     'click .js-transform'(event, instance){

@@ -3,7 +3,7 @@
  *  Display the number of the currently processed thought, along with the total
  *  count of the remaining (still unprocessed) thoughts.
  *
- *  NB: relies on the main page having subscribed to 'thoughts.all'
+ *  NB: relies on the parent having subscribed to 'thoughts.all'
  */
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import './thoughts_badge.html';
@@ -16,8 +16,8 @@ Template.thoughts_badge.fn = {
   
 Template.thoughts_badge.helpers({
     thoughtNum(){
-        var num = Session.get('process.thoughts.num');
-        if( !num && Template.process.fn.thoughtsCount() > 0 ){
+        let num = Session.get('process.thoughts.num');
+        if( !num && Template.thoughts_badge.fn.thoughtsCount() > 0 ){
             num = 1;
             Session.set('process.thoughts.num',num);
         }

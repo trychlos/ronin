@@ -1,12 +1,11 @@
 /*
  * 'to_action' component.
  *  Transform a thought into an action.
+ * 
  *  Parameters:
- *  - cursor: a cursor with the one thought to be transformed.
+ *  - thought: a cursor with the one thought to be transformed.
  */
-import { Meteor } from 'meteor/meteor';
 import { Actions } from '/imports/api/collections/actions/actions.js';
-import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import '/imports/ui/components/action_status_select/action_status_select.js';
 import '/imports/ui/components/contexts_select/contexts_select.js';
@@ -14,15 +13,6 @@ import '/imports/ui/components/date_select/date_select.js';
 import '/imports/ui/components/projects_select/projects_select.js';
 import '/imports/ui/components/topics_select/topics_select.js';
 import './to_action.html';
-
-Template.to_action.fn = {
-};
-
-Template.to_action.onRendered( function(){
-});
-
-Template.to_action.helpers({
-});
 
 Template.to_action.events({
     'click .js-transform'(event,instance){

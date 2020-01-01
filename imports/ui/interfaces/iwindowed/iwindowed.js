@@ -52,7 +52,7 @@ import '/imports/ui/components/errors/errors.js'
             }
         });
         // create a new window, using global default values
-        let settings = $.fn.iWindowed.defaults;
+        let settings = Object.assign({}, $.fn.iWindowed.defaults);
         $.extend( settings, opts );
         settings.group = specs.id;
         settings.widgetClass += ' '+_className( specs.id );
@@ -69,7 +69,7 @@ import '/imports/ui/components/errors/errors.js'
     // return the class name added to the widget
     //  (aka the parent of the div we are working with)
     function _className( id ){
-        return 'ww-'+id;
+        return 'pwi-'+id;
     }
     // activate a window, first restoring it if it was minimized
     function _moveToTop( obj ){

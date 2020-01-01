@@ -1,7 +1,7 @@
 <template name="process_scroll">
     <div class="process-scroll">
         <div class="inline">
-            <h2>Run through each thought, one by one</h2>
+            <p class="x-h2">Run through each thought, one by one</p>
             {{> thoughts_badge }}
         </div>
         <table class="process">
@@ -14,7 +14,7 @@
                     </a>
                 </td>
                 <td>
-                    {{> thoughts_list cursor=cursor editable=false }}
+                    {{> thoughts_list thoughts=thought editable=false }}
                 </td>
                 <td class="icon">
                     <a href="#" class="js-next" title="Next thought">

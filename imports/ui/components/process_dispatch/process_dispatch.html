@@ -1,11 +1,11 @@
 <template name="process_dispatch">
     <div class="process-dispatch">
-        <h2>What to do with this thought?</h2>
-        <div id="tabs">
+        <p class="x-h2">What to do with this thought?</p>
+        <div class="process-tabs">
             <ul>
-                <li><a href="#action">Transform the thought into an action</a></li>
-                <li><a href="#project">Transform the thought into a project</a></li>
-                <li><a href="#maybe">Someday / Maybe</a></li>
+                <li data-itabbed="action">Transform the thought into an action</li>
+                <li data-itabbed="project">Transform the thought into a project</li>
+                <li data-itabbed="maybe">Someday / Maybe</li>
             </ul>
             <div id="action">
                 {{> to_action thought=thought }}
@@ -14,13 +14,7 @@
                 {{> to_project thought=thought }}
             </div>
             <div id="maybe">
-                <!-- {{> maybe_from_thought item=thought }} -->
-                <p>
-                    This thought may be processed someday or another.<br />
-                    Keep it for future reference,<br />
-                    but remove it from the thoughts collector, and does not<br />
-                    present it in the future processes.
-                </p>
+                {{> to_maybe thought=thought }}
             </div>
         </div>
     </div>
