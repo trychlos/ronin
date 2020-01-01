@@ -62,7 +62,7 @@ import '/imports/ui/components/errors/errors.js'
         settings.close = _closeEH;
         settings.taskbar = g.taskbar.get();
         this.window( settings );
-        this.data( 'iwindowed-id', specs.id );
+        this.data( 'iwindowed', specs.id );
         _restoreSettings( this, specs.id );
         return this;
     };
@@ -141,7 +141,7 @@ import '/imports/ui/components/errors/errors.js'
     function _beforeCloseEH( ev ){
         //console.log( '_beforeCloseEH $(ev.target) '+$(ev.target).attr('class'));
         //console.log( '_beforeCloseEH $(this) '+$(this).attr('class'));
-        _saveSettings( $(ev.target), $(ev.target).data('iwindowed-id'));
+        _saveSettings( $(ev.target), $(ev.target).data('iwindowed'));
     };
     // the widget which encapsulates the window has been closed
     //  but the div itself is still in the DOM
@@ -151,6 +151,6 @@ import '/imports/ui/components/errors/errors.js'
     };
     // default values, overridable by the user at global level
     $.fn.iWindowed.defaults = {
-        widgetClass: 'iwindowed'
+        widgetClass: 'pwi-iwindowed'
     };
 })( jQuery );

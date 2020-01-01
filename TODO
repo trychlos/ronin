@@ -52,15 +52,14 @@
                  rename process_dispatch to process_tabbed
                  harmonize the iTabbed div names
 
-   38 2019-12-31 added classes should be pwi-prefixed
-                  itabbed
-                  iwindowed
-                  ww-         -> pwi-  done
-
    39 2020- 1- 1 review the height allocation of the horizontal splitter
                   of the process window to be dynamic instead of being fixed
 
-   40
+   40 2020- 1- 1 to_maybe to be done
+
+   41 2020- 1- 1 to_action: makes the last column wider
+
+   42
 
 -----------------------------------------------------------------------
  Done
@@ -132,6 +131,12 @@
 
    34 2019-12-27 date_select: ui-datepicker-calendar personalization does not work
       2019-12-27 fixed
+
+   38 2019-12-31 added classes should be pwi-prefixed
+                  itabbed     -> pwi-itabbed
+                  iwindowed   -> pwi-iwindowed
+                  ww-         -> pwi-
+      2020- 1- 1 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

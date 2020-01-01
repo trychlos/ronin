@@ -50,16 +50,16 @@ import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxtabs.js';
                 delete opts[key];
             }
         });
-        // set a 'itabbed' class on the root element
+        // set a 'pwi-itabbed' class on the root element
         //  if this class is already there, so this is not the first initialization
         //  else setup default values
         let settings = {};
-        if( element.hasClass( 'itabbed' )){
+        if( element.hasClass( 'pwi-itabbed' )){
             settings = opts;
         } else {
             settings = $.fn.iTabbed.defaults;
             $.extend( settings, opts );
-            element.addClass( 'itabbed' );
+            element.addClass( 'pwi-itabbed' );
         }
         //console.log( 'jqxTabs settings='+JSON.stringify( settings ));
         element.jqxTabs( settings );
