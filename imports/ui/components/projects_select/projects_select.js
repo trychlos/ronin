@@ -25,6 +25,10 @@ Template.projects_select.fn = {
     },
 };
 
+Template.projects_select.onCreated( function(){
+    this.subscribe('projects.all');
+});
+
 Template.projects_select.helpers({
     projects_cursor(){
         return Projects.find({}, { sort:{ select_order:1, name:1 }});

@@ -1,6 +1,7 @@
 /*
  * 'contexts_select' component.
  *  Display a drop-down box to select a context.
+ * 
  *  Parameters:
  *  - 'selected=_id' (optional) set the initially selected value.
  */
@@ -25,6 +26,10 @@ Template.contexts_select.fn = {
         }
     },
 };
+
+Template.contexts_select.onCreated( function(){
+    this.subscribe('contexts.all');
+});
 
 Template.contexts_select.helpers({
     contextCursor(){

@@ -7,13 +7,10 @@
  *  - process.thoughts.split: height of the top panel
  */
 import { Actions } from '/imports/api/collections/actions/actions.js';
-import { ActionStatus } from '/imports/api/collections/action_status/action_status.js';
-import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
-import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/ui/components/process_scroll/process_scroll.js';
-import '/imports/ui/components/process_dispatch/process_dispatch.js';
+import '/imports/ui/components/process_tabs/process_tabs.js';
 import '/imports/ui/interfaces/iwindowed/iwindowed.js';
 import '/imports/ui/third-party/jqwidgets/jqwidgets/styles/jqx.base.css';
 import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxcore.js';

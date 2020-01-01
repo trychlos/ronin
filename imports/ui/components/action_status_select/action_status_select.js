@@ -1,6 +1,7 @@
 /*
  * 'action_status_select' component.
  *  Display a drop-down box to select an action status.
+ * 
  *  Parameters:
  *  - 'selected=code' (optional) initial selected item's code.
  */
@@ -23,6 +24,10 @@ Template.action_status_select.fn = {
         }
     },
 };
+
+Template.action_status_select.onCreated( function(){
+    this.subscribe('action_status.all');
+});
 
 Template.action_status_select.helpers({
     statusCursor(){

@@ -1,5 +1,5 @@
 /*
- * 'process_dispatch' component.
+ * 'process_tabs' component.
  *  The component which encapsulates the three differents ways for a thought.
  * 
  *  Parameters:
@@ -9,10 +9,10 @@ import '/imports/ui/components/to_action/to_action.js';
 import '/imports/ui/components/to_project/to_project.js';
 import '/imports/ui/components/to_maybe/to_maybe.js';
 import '/imports/ui/interfaces/itabbed/itabbed.js';
-import './process_dispatch.html';
+import './process_tabs.html';
 
-Template.process_dispatch.onRendered( function(){
+Template.process_tabs.onRendered( function(){
     this.autorun(() => {
-        $('.process-tabs').iTabbed({});
+        $('.process-tabbed').iTabbed({});
     })
 });

@@ -115,21 +115,21 @@ FlowRouter.route('/review', {
         BlazeLayout.render('appDesktop', { main: 'reviewPage' });
     },
 });
-/*
 FlowRouter.route('/review/projects', {
     name: 'review.projects',
     action(){
         Session.set('review.projects.tab', 'projects' );
-        BlazeLayout.render('appDesktop', { main: 'projectsPage' });
+        BlazeLayout.render('appDesktop', { main: 'reviewPage' });
     },
 });
 FlowRouter.route('/review/future', {
     name: 'review.future',
     action(){
         Session.set('review.projects.tab', 'future' );
-        BlazeLayout.render('appDesktop', { main: 'projectsPage' });
+        BlazeLayout.render('appDesktop', { main: 'reviewPage' });
     },
 });
+/*
 FlowRouter.route('/review/actions', {
     name: 'review.actions',
     action(){

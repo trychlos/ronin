@@ -48,10 +48,6 @@
    36 2019-12-31 closing a window should invalidate the corresponding route
                   and activate the route of the newly active window
 
-   37 2019-12-31 rename setup_tab to setup_tabbed
-                 rename process_dispatch to process_tabbed
-                 harmonize the iTabbed div names
-
    39 2020- 1- 1 review the height allocation of the horizontal splitter
                   of the process window to be dynamic instead of being fixed
 
@@ -131,6 +127,11 @@
 
    34 2019-12-27 date_select: ui-datepicker-calendar personalization does not work
       2019-12-27 fixed
+
+   37 2019-12-31 rename setup_tab to setup_tabbed
+                 rename process_dispatch to process_tabbed
+                 harmonize the iTabbed div names
+      2020- 1- 1 done as _tabs
 
    38 2019-12-31 added classes should be pwi-prefixed
                   itabbed     -> pwi-itabbed

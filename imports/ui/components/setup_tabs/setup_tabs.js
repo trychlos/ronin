@@ -1,5 +1,5 @@
 /*
- * 'setup_tab' component.
+ * 'setup_tabs' component.
  *  Display a tab per reference table.
  * 
  *  Session variables:
@@ -16,24 +16,24 @@ import '/imports/ui/components/setup_status/setup_status.js';
 import '/imports/ui/components/setup_time/setup_time.js';
 import '/imports/ui/components/setup_topics/setup_topics.js';
 import '/imports/ui/interfaces/itabbed/itabbed.js';
-import './setup_tab.html';
+import './setup_tabs.html';
 
-Template.setup_tab.fn = {
+Template.setup_tabs.fn = {
 };
 
-Template.setup_tab.onCreated( function(){
+Template.setup_tabs.onCreated( function(){
 });
 
-Template.setup_tab.onRendered( function(){
+Template.setup_tabs.onRendered( function(){
     this.autorun(() => {
-        //console.log( 'setup_tab.onRendered tab='+Session.get('setup.tab.name'));
-        $('.setup-tab').iTabbed({
+        //console.log( 'setup_tabs.onRendered tab='+Session.get('setup.tab.name'));
+        $('.setup-tabbed').iTabbed({
             tab: Session.get('setup.tab.name')
         });
     })
 });
 
-Template.setup_tab.helpers({
+Template.setup_tabs.helpers({
     gtdSetup(){
         return gtd.setupItems();
     },
@@ -42,5 +42,5 @@ Template.setup_tab.helpers({
     }
 });
 
-Template.setup_tab.events({
+Template.setup_tabs.events({
 });

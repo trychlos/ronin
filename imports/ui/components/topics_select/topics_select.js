@@ -25,6 +25,10 @@ Template.topics_select.fn = {
     },
 };
 
+Template.topics_select.onCreated( function(){
+    this.subscribe('topics.all');
+});
+
 Template.topics_select.helpers({
     topics_cursor(){
         return Topics.find();

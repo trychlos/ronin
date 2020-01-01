@@ -1,0 +1,16 @@
+<template name="setup_tabs">
+    <div class="setup-tabs">
+        <div class="setup-tabbed">
+            <ul>
+                {{#each it in gtdSetup}}
+                    <li data-itabbed="{{it.id}}">{{it.label}}</li>
+                {{/each}}
+            </ul>
+            {{#each it in gtdSetup}}
+                <div>
+                    {{>Template.dynamic template=(itTemplate it)}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>
