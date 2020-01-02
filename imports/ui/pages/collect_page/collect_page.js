@@ -9,7 +9,7 @@ import './collect_page.html';
 Template.collectPage.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
-            $('.collect-page').iWindowed( 'show', 'collectWindow' );
+            $('.collect-page').IWindowed( 'show', 'collectWindow' );
         }
     })
 });

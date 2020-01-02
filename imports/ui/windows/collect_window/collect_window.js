@@ -17,7 +17,7 @@ Template.collectWindow.onCreated( function(){
 Template.collectWindow.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
-            $('div.collect-window').iWindowed({
+            $('div.collect-window').IWindowed({
                 id:    'collectWindow',
                 title: 'Collect thoughts'
             });

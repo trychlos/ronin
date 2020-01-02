@@ -14,7 +14,7 @@ Template.reviewWindow.onCreated( function(){
 Template.reviewWindow.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
-            $('div.review-window').iWindowed({
+            $('div.review-window').IWindowed({
                 id:    'reviewWindow',
                 title: 'Review, Organize, Do'
             });

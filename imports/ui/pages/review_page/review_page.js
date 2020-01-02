@@ -9,7 +9,7 @@ import './review_page.html';
 Template.reviewPage.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
-            $('.review-page').iWindowed( 'show', 'reviewWindow' );
+            $('.review-page').IWindowed( 'show', 'reviewWindow' );
         }
     })
 });

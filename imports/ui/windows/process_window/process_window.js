@@ -52,7 +52,7 @@ Template.processWindow.onCreated( function(){
 Template.processWindow.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
-            $('div.process-window').iWindowed({
+            $('div.process-window').IWindowed({
                 id:    'processWindow',
                 title: 'Process thoughts'
             });

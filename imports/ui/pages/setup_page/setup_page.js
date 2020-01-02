@@ -9,7 +9,7 @@ import './setup_page.html';
 Template.setupPage.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
-            $('.setup-page').iWindowed( 'show', 'setupWindow' );
+            $('.setup-page').IWindowed( 'show', 'setupWindow' );
         }
     })
 });

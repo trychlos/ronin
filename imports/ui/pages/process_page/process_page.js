@@ -9,7 +9,7 @@ import './process_page.html';
 Template.processPage.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
-            $('.process-page').iWindowed( 'show', 'processWindow' );
+            $('.process-page').IWindowed( 'show', 'processWindow' );
         }
     })
 });

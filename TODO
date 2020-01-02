@@ -66,7 +66,11 @@
 
    45 2020- 1- 2 update the route when activating another window
 
-   46
+   47 2020- 1- 2 rename iTabbed to ITabbed
+
+   48 2020- 1- 2 go back to jQuery Tabs instead of jqxTabs
+
+   49
 
 -----------------------------------------------------------------------
  Done
@@ -149,6 +153,9 @@
                   iwindowed   -> pwi-iwindowed
                   ww-         -> pwi-
       2020- 1- 1 done
+
+   46 2020- 1- 2 rename iWindowed to IWindowed
+      2020- 1- 2 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

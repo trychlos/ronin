@@ -14,7 +14,7 @@ import './setup_window.html';
 Template.setupWindow.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
-            $('div.setup-window').iWindowed({
+            $('div.setup-window').IWindowed({
                 id:    'setupWindow',
                 title: 'Setup'
             });

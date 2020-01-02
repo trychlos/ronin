@@ -1,5 +1,5 @@
 /*
- * 'iWindowed' pseudo-interface.
+ * 'IWindowed' pseudo-interface.
  *  To be used by every non modal window.
  *  This (pseudo-)interface manages the currently opened windows
  *  and makes sure that opened identifiers are kept unique.
@@ -15,9 +15,9 @@
 import '/imports/ui/components/errors/errors.js'
 
 ( function( $ ){
-    $.fn.iWindowed = function(){
+    $.fn.IWindowed = function(){
         if( !arguments.length ){
-            throwError({ message: 'iWindowed interface requires at least one argument' });
+            throwError({ message: 'IWindowed interface requires at least one argument' });
             return this;
         }
         if( typeof arguments[0] === 'string' ){
@@ -26,17 +26,17 @@ import '/imports/ui/components/errors/errors.js'
                     _show( arguments );
                     break;
                 default:
-                    throwError({ message:'iWindowed: unknown method: '+arguments[0] });
+                    throwError({ message:'IWindowed: unknown method: '+arguments[0] });
             }
             return this;
         }
         if( arguments.length != 1 ){
-            throwError({ message:'iWindowed: options object expected, not found' });
+            throwError({ message:'IWindowed: options object expected, not found' });
             return this;
         }
         const opts = arguments[0];
         if( !opts.id ){
-            throwError({ message:'iWindowed: identifier not set' });
+            throwError({ message:'IWindowed: identifier not set' });
             return this;
         }
         // split between specific and window properties
@@ -52,7 +52,7 @@ import '/imports/ui/components/errors/errors.js'
             }
         });
         // create a new window, using global default values
-        let settings = Object.assign({}, $.fn.iWindowed.defaults);
+        let settings = Object.assign({}, $.fn.IWindowed.defaults);
         $.extend( settings, opts );
         settings.group = specs.id;
         settings.widgetClass += ' '+_className( specs.id );
@@ -150,7 +150,7 @@ import '/imports/ui/components/errors/errors.js'
         $(ev.target).remove();
     };
     // default values, overridable by the user at global level
-    $.fn.iWindowed.defaults = {
+    $.fn.IWindowed.defaults = {
         widgetClass: 'pwi-iwindowed'
     };
 })( jQuery );
