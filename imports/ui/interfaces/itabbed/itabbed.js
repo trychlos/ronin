@@ -23,7 +23,7 @@ import '/imports/ui/components/errors/errors.js'
             //throwError({ message: "no 'this' context here" });
             return;
         }
-        const element = this;
+        const self = this;
         // are we calling a method on this interface ?
         if( arguments.length > 0 && typeof arguments[0] === 'string' ){
             const action = arguments[0];
@@ -48,34 +48,27 @@ import '/imports/ui/components/errors/errors.js'
         //  if this class is already there, so this is not the first initialization
         //  else setup default values
         let settings = {};
-        if( element.hasClass( 'pwi-itabbed' )){
+        if( self.hasClass( 'pwi-itabbed' )){
             settings = Object.assign({}, opts );
         } else {
             settings = Object.assign({}, $.fn.ITabbed.defaults );
             $.extend( settings, opts );
-            element.addClass( 'pwi-itabbed' );
+            self.addClass( 'pwi-itabbed' );
         }
         //console.log( 'jqxTabs settings='+JSON.stringify( settings ));
-        element.tabs( settings );
+        self.tabs( settings );
         // make sure the requested tab is activated
         if( specs.tab ){
-            const idx = _index( element, specs.tab );
-            element.tabs({ active: idx });
+            const idx = _index( self, specs.tab );
+            self.tabs({ active: idx });
         }
         // events tracker
-        element.on( 'activate', function( event, ui ){
-            objDumpProps( event );
-            objDumpProps( ui );
-            /*
-            var selectedTab = event.args.item;
-            const tabs = _tabs( element );
-            //console.log( JSON.stringify( event.args )); // {"item":2}
-            const tab = tabs[selectedTab];
+        self.on( 'tabsactivate', function( event, ui ){
+            const tab = $(ui.newTab).data('itabbed');
             const item = gtd.byId( tab );
             if( item && item.router ){
                 FlowRouter.go( item.router );
             }
-            */
         });
         return this;
     };

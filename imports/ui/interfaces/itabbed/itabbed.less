@@ -2,4 +2,29 @@
     .ui-dialog-content {
         padding: 0.5em;
     }
+    li[role=tab].ui-tabs-tab {
+        margin-bottom: -1px;
+        padding-bottom: 1px;
+    }
+    li[role=tab].ui-tabs-active,
+    li[role=tab].ui-tabs-active.ui-state-focus {
+        background-color: white;
+        border: 1px solid #bbbbbb;
+        a {
+            color: black;
+            font-weight: normal;
+        }
+    }
+    li[role=tab]:not(.ui-tabs-active) {
+        background: transparent;
+        border: 1px solid #e9e9e9;
+        :hover {
+            border: 1px solid #bbbbbb;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            border-bottom-width: 0;
+            margin-bottom: -1px;
+            padding-bottom: 1px;
+        }
+    }
 }

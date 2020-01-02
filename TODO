@@ -70,7 +70,10 @@
 
    48 2020- 1- 2 go back to jQuery Tabs instead of jqxTabs
 
-   49
+   49 2020- 1- 2 make jqWidgets the minimal size (only used files)
+                  to try to get a faster hot reload code in Meteor
+
+   50
 
 -----------------------------------------------------------------------
  Done
