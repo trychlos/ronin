@@ -20,7 +20,7 @@ import './setup_tabs.html';
 
 Template.setup_tabs.onRendered( function(){
     //console.log( 'setup_tabs.onRendered tab='+Session.get('setup.tab.name'));
-    $('.setup-tabbed').iTabbed({
+    $('.setup-tabbed').ITabbed({
         tab: Session.get('setup.tab.name')
     });
 });

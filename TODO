@@ -36,6 +36,8 @@
       2019-12-27 action_status should not be editable at all
 
    28 2019-12-15 review general layout, adding vertical and horizontal menus
+      2020- 1- 2 running work: have a menu_side + a menu bar placeholder
+                  + each principal theme has its own window
 
    29 2019-12-15 projects hierarchy icon should be green if there is at
                  least one actionable action
@@ -65,8 +67,6 @@
                   not activate the corresponding tab
 
    45 2020- 1- 2 update the route when activating another window
-
-   47 2020- 1- 2 rename iTabbed to ITabbed
 
    48 2020- 1- 2 go back to jQuery Tabs instead of jqxTabs
 
@@ -155,6 +155,9 @@
       2020- 1- 1 done
 
    46 2020- 1- 2 rename iWindowed to IWindowed
+      2020- 1- 2 done
+
+   47 2020- 1- 2 rename iTabbed to ITabbed
       2020- 1- 2 done
 
 -----------------------------------------------------------------------

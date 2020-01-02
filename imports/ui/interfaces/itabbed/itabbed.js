@@ -1,5 +1,5 @@
 /*
- * 'iTabbed' pseudo-interface.
+ * 'ITabbed' pseudo-interface.
  *  To be used by every tabbed window.
  * 
  *  We have chosen to use jqxTabs.
@@ -10,7 +10,7 @@
  * 
  *  As a consequence, it is expected that each <li> holds a 'data-itabbed'
  *  attribute, with the tab identifier as a value.
- *  This is not a jqxTabs requirement, but a iTabbed interface one.
+ *  This is not a jqxTabs requirement, but a ITabbed interface one.
  * 
  *  Properties:
  *  - tab (optional) tab identifier
@@ -24,7 +24,7 @@ import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxcore.js';
 import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxtabs.js';
 
 ( function( $ ){
-    $.fn.iTabbed = function(){
+    $.fn.ITabbed = function(){
         if( !this.length ){
             throwError({ message: "no 'this' context here" });
             return;
@@ -57,7 +57,7 @@ import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxtabs.js';
         if( element.hasClass( 'pwi-itabbed' )){
             settings = Object.assign({}, opts );
         } else {
-            settings = Object.assign({}, $.fn.iTabbed.defaults );
+            settings = Object.assign({}, $.fn.ITabbed.defaults );
             $.extend( settings, opts );
             element.addClass( 'pwi-itabbed' );
         }
@@ -81,7 +81,7 @@ import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxtabs.js';
         return this;
     };
     // default values, overridable by the user at global level
-    $.fn.iTabbed.defaults = {
+    $.fn.ITabbed.defaults = {
     };
     // return the index of the named tab
     function _index( element, name ){

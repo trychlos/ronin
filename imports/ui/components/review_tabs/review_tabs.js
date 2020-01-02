@@ -23,5 +23,5 @@ import '/imports/ui/interfaces/itabbed/itabbed.js';
 import './review_tabs.html';
 
 Template.review_tabs.onRendered( function(){
-    $('.review-tabbed').iTabbed({});
+    $('.review-tabbed').ITabbed({});
 });
