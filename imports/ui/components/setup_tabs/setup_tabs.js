@@ -18,19 +18,11 @@ import '/imports/ui/components/setup_topics/setup_topics.js';
 import '/imports/ui/interfaces/itabbed/itabbed.js';
 import './setup_tabs.html';
 
-Template.setup_tabs.fn = {
-};
-
-Template.setup_tabs.onCreated( function(){
-});
-
 Template.setup_tabs.onRendered( function(){
-    this.autorun(() => {
-        //console.log( 'setup_tabs.onRendered tab='+Session.get('setup.tab.name'));
-        $('.setup-tabbed').iTabbed({
-            tab: Session.get('setup.tab.name')
-        });
-    })
+    //console.log( 'setup_tabs.onRendered tab='+Session.get('setup.tab.name'));
+    $('.setup-tabbed').iTabbed({
+        tab: Session.get('setup.tab.name')
+    });
 });
 
 Template.setup_tabs.helpers({
@@ -40,7 +32,4 @@ Template.setup_tabs.helpers({
     itTemplate( it ){
         return 'setup_'+it.id;
     }
-});
-
-Template.setup_tabs.events({
 });

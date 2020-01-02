@@ -116,7 +116,7 @@ import '/imports/ui/components/errors/errors.js'
     // 1: template name to be rendered if not already exists (aka window id)
     function _show( args ){
         if( args.length != 2 ){
-            throwError({ message: 'show expects 1 argument, '+args.length-1+' found' });
+            throwError({ message: 'show expects 1 argument, '+( args.length-1 )+' found' });
         } else {
             //console.log( '_show searching for '+args[1] );
             const windows = g.taskbar.get().taskbar('windows');

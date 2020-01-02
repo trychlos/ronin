@@ -55,9 +55,9 @@ import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxtabs.js';
         //  else setup default values
         let settings = {};
         if( element.hasClass( 'pwi-itabbed' )){
-            settings = opts;
+            settings = Object.assign({}, opts );
         } else {
-            settings = $.fn.iTabbed.defaults;
+            settings = Object.assign({}, $.fn.iTabbed.defaults );
             $.extend( settings, opts );
             element.addClass( 'pwi-itabbed' );
         }

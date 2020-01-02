@@ -131,9 +131,9 @@ export const gtd = {
             },
             {
                 id: 'review',
-                label: 'Organize',
+                label: 'Review',
                 h3: [
-                    'Review',
+                    'Organize',
                     'Do'
                 ],
                 bar: false,

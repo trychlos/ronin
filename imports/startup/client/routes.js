@@ -129,14 +129,14 @@ FlowRouter.route('/review/future', {
         BlazeLayout.render('appDesktop', { main: 'reviewPage' });
     },
 });
-/*
 FlowRouter.route('/review/actions', {
     name: 'review.actions',
     action(){
         Session.set('review.projects.tab', 'actions' );
-        BlazeLayout.render('appDesktop', { main: 'projectsPage' });
+        BlazeLayout.render('appDesktop', { main: 'reviewPage' });
     },
 });
+/*
 FlowRouter.route('/review/inactive', {
     name: 'review.actions.inactive',
     action(){

@@ -12,7 +12,5 @@ import '/imports/ui/interfaces/itabbed/itabbed.js';
 import './process_tabs.html';
 
 Template.process_tabs.onRendered( function(){
-    this.autorun(() => {
-        $('.process-tabbed').iTabbed({});
-    })
+    $('.process-tabbed').iTabbed({});
 });

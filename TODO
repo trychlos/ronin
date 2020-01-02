@@ -55,7 +55,18 @@
 
    41 2020- 1- 1 to_action: makes the last column wider
 
-   42
+   42 2020- 1- 1 define a iSplitted interface
+                  with isplitted.less from desktop.less
+
+   43 2020- 1- 2 review_tabs: make the tabs dynamic again
+
+   44 2020- 1- 2 when reviewWindow is opened on Projects tab, activating the
+                  menu_side option Future projects changes the route but does
+                  not activate the corresponding tab
+
+   45 2020- 1- 2 update the route when activating another window
+
+   46
 
 -----------------------------------------------------------------------
  Done

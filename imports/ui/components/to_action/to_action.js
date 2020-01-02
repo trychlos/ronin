@@ -18,7 +18,7 @@ Template.to_action.events({
     'click .js-transform'(event,instance){
         event.preventDefault();
         const prevNum = Session.get('process.thoughts.num');
-        const prevCount = Template.process.fn.thoughtsCount();
+        const prevCount = Template.processWindow.fn.thoughtsCount();
         // build an object which embeds both the initial thought id
         //  and the to be created action
         // the server code will take care of transforming the former
@@ -47,7 +47,7 @@ Template.to_action.events({
         // the client side reactive var may not be updated when calling
         //  the method - this is the reason why we provide a sure photo
         //  of the previous counters
-        Template.process.fn.thoughtRemoved( prevNum, prevCount );
+        Template.processWindow.fn.thoughtRemoved( prevNum, prevCount );
         return false;
     }
 });
