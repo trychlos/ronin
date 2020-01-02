@@ -9,7 +9,7 @@
  *  an already opened window.
  * 
  *  Properties:
- *  - id: mandatory, must be the template name
+ *  - template: mandatory, the template name
  *  + all simone options
  */
 import '/imports/client/components/errors/errors.js'
@@ -34,14 +34,14 @@ import '/imports/client/components/errors/errors.js'
             throwError({ message:'IWindowed: options object expected, not found' });
             return this;
         }
-        const opts = arguments[0];
-        if( !opts.id ){
-            throwError({ message:'IWindowed: identifier not set' });
+        const opts = Object.assign({}, arguments[0]);
+        if( !opts.template ){
+            throwError({ message:'IWindowed: template name not set' });
             return this;
         }
         // split between specific and window properties
         const specifics = [
-            'id'
+            'template'
         ];
         let specs = {};
         const keys = Object.keys( opts );
@@ -54,16 +54,16 @@ import '/imports/client/components/errors/errors.js'
         // create a new window, using global default values
         let settings = Object.assign({}, $.fn.IWindowed.defaults);
         $.extend( settings, opts );
-        settings.group = specs.id;
-        settings.widgetClass += ' '+_className( specs.id );
-        //console.log( specs.id+' creating with settings='+JSON.stringify( settings ));
+        settings.group = specs.template;
+        settings.widgetClass += ' '+_className( specs.template );
+        //console.log( specs.template+' creating with settings='+JSON.stringify( settings ));
         settings.appendTo = '#'+g.rootId;
         settings.beforeClose = _beforeCloseEH;
         settings.close = _closeEH;
         settings.taskbar = g.taskbar.get();
         this.window( settings );
-        this.data( 'iwindowed', specs.id );
-        _restoreSettings( this, specs.id );
+        this.data( 'iwindowed', specs.template );
+        _restoreSettings( this, specs.template );
         return this;
     };
     // return the class name added to the widget
@@ -107,13 +107,13 @@ import '/imports/client/components/errors/errors.js'
         localStorage[_settingsName( id )] = jsonSettings;
         //console.log( id+' _saveSettings '+jsonSettings );
     };
-    // return the settings key
+    // return the settings key when saving/restoring size and position
     function _settingsName( id ){
         return g.settingsPrefix+id;
     };
     // show a window, re-activating it or creating a new one
     // 0: name of the called method (show)
-    // 1: template name to be rendered if not already exists (aka window id)
+    // 1: template name to be rendered if not already exists
     function _show( args ){
         if( args.length != 2 ){
             throwError({ message: 'show expects 1 argument, '+( args.length-1 )+' found' });
@@ -151,6 +151,10 @@ import '/imports/client/components/errors/errors.js'
     };
     // default values, overridable by the user at global level
     $.fn.IWindowed.defaults = {
-        widgetClass: 'pwi-iwindowed'
+        widgetClass:    'pwi-iwindowed',
+        icons: {
+            close:      'ui-icon-close',
+            minimize:   'ui-icon-minus'
+        }
     };
 })( jQuery );

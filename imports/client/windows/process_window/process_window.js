@@ -12,10 +12,10 @@ import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import '/imports/client/components/process_scroll/process_scroll.js';
 import '/imports/client/components/process_tabs/process_tabs.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
-import '/imports/client/third-party/jqwidgets/jqwidgets/styles/jqx.base.css';
-import '/imports/client/third-party/jqwidgets/jqwidgets/jqxcore.js';
-import '/imports/client/third-party/jqwidgets/jqwidgets/jqxbuttons.js';
-import '/imports/client/third-party/jqwidgets/jqwidgets/jqxsplitter.js';
+import '/imports/client/third-party/jqwidgets/jqx.base.css';
+import '/imports/client/third-party/jqwidgets/jqxcore.js';
+import '/imports/client/third-party/jqwidgets/jqxbuttons.js';
+import '/imports/client/third-party/jqwidgets/jqxsplitter.js';
 import './process_window.html';
 
 Template.processWindow.fn = {
@@ -53,8 +53,8 @@ Template.processWindow.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
             $('div.process-window').IWindowed({
-                id:    'processWindow',
-                title: 'Process thoughts'
+                template:   'processWindow',
+                title:      'Process thoughts'
             });
             let height = Session.get('process.thoughts.split');
             if( !( height > 0 )){

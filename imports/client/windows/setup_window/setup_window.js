@@ -15,8 +15,8 @@ Template.setupWindow.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
             $('div.setup-window').IWindowed({
-                id:    'setupWindow',
-                title: 'Setup'
+                template:   'setupWindow',
+                title:      'Setup'
             });
         }
     });

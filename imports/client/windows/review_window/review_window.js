@@ -10,8 +10,8 @@ Template.reviewWindow.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
             $('div.review-window').IWindowed({
-                id:    'reviewWindow',
-                title: 'Review, Organize, Do'
+                template:   'reviewWindow',
+                title:      'Review, Organize, Do'
             });
         }
     });

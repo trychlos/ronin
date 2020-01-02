@@ -18,8 +18,8 @@ Template.collectWindow.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
             $('div.collect-window').IWindowed({
-                id:    'collectWindow',
-                title: 'Collect thoughts'
+                template:   'collectWindow',
+                title:      'Collect thoughts'
             });
         }
     });
