@@ -118,21 +118,21 @@ FlowRouter.route('/review', {
 FlowRouter.route('/review/projects', {
     name: 'review.projects',
     action(){
-        Session.set('review.projects.tab', 'projects' );
+        Session.set('review.tab.name', 'projects' );
         BlazeLayout.render('appDesktop', { main: 'reviewPage' });
     },
 });
 FlowRouter.route('/review/future', {
     name: 'review.future',
     action(){
-        Session.set('review.projects.tab', 'future' );
+        Session.set('review.tab.name', 'future' );
         BlazeLayout.render('appDesktop', { main: 'reviewPage' });
     },
 });
 FlowRouter.route('/review/actions', {
     name: 'review.actions',
     action(){
-        Session.set('review.projects.tab', 'actions' );
+        Session.set('review.tab.name', 'actions' );
         BlazeLayout.render('appDesktop', { main: 'reviewPage' });
     },
 });

@@ -20,9 +20,11 @@ import './setup_tabs.html';
 
 Template.setup_tabs.onRendered( function(){
     //console.log( 'setup_tabs.onRendered tab='+Session.get('setup.tab.name'));
-    $('.setup-tabbed').ITabbed({
-        tab: Session.get('setup.tab.name')
-    });
+    this.autorun(() => {
+        $('.setup-tabbed').ITabbed({
+            tab: Session.get('setup.tab.name')
+        });
+    })
 });
 
 Template.setup_tabs.helpers({

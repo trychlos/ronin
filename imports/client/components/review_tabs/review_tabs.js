@@ -21,7 +21,9 @@ Template.review_tabs.onCreated( function(){
 Template.review_tabs.onRendered( function(){
     this.autorun(() => {
         if( this.handle.ready()){
-            $('.review-tabbed').ITabbed();
+            $('.review-tabbed').ITabbed({
+                tab: Session.get('review.tab.name')
+            });
         }
     });
 });

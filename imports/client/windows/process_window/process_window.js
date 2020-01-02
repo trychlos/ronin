@@ -56,6 +56,7 @@ Template.processWindow.onRendered( function(){
                 template:   'processWindow',
                 title:      'Process thoughts'
             });
+            /* pwi 2020- 1- 2 remove unused splitter
             let height = Session.get('process.thoughts.split');
             if( !( height > 0 )){
                 height = '30%';
@@ -75,6 +76,7 @@ Template.processWindow.onRendered( function(){
                     Session.set( 'process.thoughts.split', height );
                 }
             });
+            */
         }
     });
 });

@@ -6,9 +6,8 @@
  *  jQuery Tabs relies on a specific HTML markup
  *  see API documentation https://api.jqueryui.com/tabs/.
  * 
- *  As a consequence, it is expected that each <li> holds a 'data-itabbed'
+ *  More, ITabbed expects that each <li> holds a 'data-itabbed'
  *  attribute, with the tab identifier as a value.
- *  This is not a jqxTabs requirement, but a ITabbed interface one.
  * 
  *  Properties:
  *  - tab (optional) tab identifier
