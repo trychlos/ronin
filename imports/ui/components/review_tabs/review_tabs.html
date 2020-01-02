@@ -2,19 +2,15 @@
     <div class="review-tabs">
         <div class="review-tabbed">
             <ul>
-                <li data-itabbed="projects">Projects</li>
-                <li data-itabbed="actions">Actions</li>
-                <li data-itabbed="future">Future projects</li>
+                {{#each it in counters}}
+                    <li data-itabbed="{{it.tabid}}"><a href="#{{it.tabid}}">{{it.value}}</a></li>
+                {{/each}}
             </ul>
-            <div>
-                {{> projects_tree tab='projects' label='Projects' }}
-            </div>
-            <div>
-                {{> projects_tree tab='actions' label='Single actions' }}
-            </div>
-            <div>
-                {{> projects_tree tab='future' label='Future projects' }}
-            </div>
+            {{#each it in counters}}
+                <div id="{{it.tabid}}">
+                    {{> projects_tree tab=it.tabid label=it.value }}
+                </div>
+            {{/each}}
         </div>
     </div>
 </template>

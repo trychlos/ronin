@@ -68,12 +68,13 @@
 
    45 2020- 1- 2 update the route when activating another window
 
-   48 2020- 1- 2 go back to jQuery Tabs instead of jqxTabs
-
    49 2020- 1- 2 make jqWidgets the minimal size (only used files)
                   to try to get a faster hot reload code in Meteor
 
-   50
+   50 2020- 1- 2 review simone min/restore/max window icons
+                  have a tooltip + change icon
+
+   51
 
 -----------------------------------------------------------------------
  Done
@@ -161,6 +162,9 @@
       2020- 1- 2 done
 
    47 2020- 1- 2 rename iTabbed to ITabbed
+      2020- 1- 2 done
+
+   48 2020- 1- 2 go back to jQuery Tabs instead of jqxTabs
       2020- 1- 2 done
 
 -----------------------------------------------------------------------

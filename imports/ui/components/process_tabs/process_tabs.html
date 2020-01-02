@@ -3,17 +3,17 @@
         <p class="x-h2">What to do with this thought?</p>
         <div class="process-tabbed">
             <ul>
-                <li data-itabbed="action">Transform the thought into an action</li>
-                <li data-itabbed="project">Transform the thought into a project</li>
-                <li data-itabbed="maybe">Someday / Maybe</li>
+                <li data-itabbed="action"><a href="#action">Transform the thought into an action</a></li>
+                <li data-itabbed="project"><a href="#project">Transform the thought into a project</a></li>
+                <li data-itabbed="maybe"><a href="#maybe">Someday / Maybe</a></li>
             </ul>
-            <div>
+            <div id="action">
                 {{> to_action thought=thought }}
             </div>
-            <div>
+            <div id="project">
                 {{> to_project thought=thought }}
             </div>
-            <div>
+            <div id="maybe">
                 {{> to_maybe thought=thought }}
             </div>
         </div>
