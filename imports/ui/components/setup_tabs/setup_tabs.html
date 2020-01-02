@@ -3,11 +3,11 @@
         <div class="setup-tabbed">
             <ul>
                 {{#each it in gtdSetup}}
-                    <li data-itabbed="{{it.id}}">{{it.label}}</li>
+                    <li data-itabbed="{{it.id}}"><a href="#{{it.id}}">{{it.label}}</a></li>
                 {{/each}}
             </ul>
             {{#each it in gtdSetup}}
-                <div>
+                <div id="{{it.id}}">
                     {{>Template.dynamic template=(itTemplate it)}}
                 </div>
             {{/each}}

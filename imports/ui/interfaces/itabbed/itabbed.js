@@ -2,11 +2,9 @@
  * 'ITabbed' pseudo-interface.
  *  To be used by every tabbed window.
  * 
- *  We have chosen to use jqxTabs.
- *  jqxTabs does not make use of <li> id's, nor of any anchor, but relies
- *  instead on the order of the:
- *  - <ul><li>.... for the tabs
- *  - subsequent <div>'s for the contents.
+ *  We have chosen to use jQuery Tabs.
+ *  jQuery Tabs relies on a specific HTML markup
+ *  see API documentation https://api.jqueryui.com/tabs/.
  * 
  *  As a consequence, it is expected that each <li> holds a 'data-itabbed'
  *  attribute, with the tab identifier as a value.
@@ -14,19 +12,15 @@
  * 
  *  Properties:
  *  - tab (optional) tab identifier
- *  + all jqxTabs options
- *    https://www.jqwidgets.com/jquery-widgets-documentation/documentation/jqxtabs/jquery-tabs-api.htm/
+ *  + all jQuery Tabs options.
  */
 import { gtd } from '/imports/ui/interfaces/gtd/gtd.js';
 import '/imports/ui/components/errors/errors.js'
-import '/imports/ui/third-party/jqwidgets/jqwidgets/styles/jqx.base.css';
-import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxcore.js';
-import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxtabs.js';
 
 ( function( $ ){
     $.fn.ITabbed = function(){
         if( !this.length ){
-            throwError({ message: "no 'this' context here" });
+            //throwError({ message: "no 'this' context here" });
             return;
         }
         const element = this;
@@ -36,9 +30,9 @@ import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxtabs.js';
             /* deal with action */
             return this;
         }
-        const opts = arguments.length > 0 ? arguments[0] : {};
-        // split between specific and jqxTabs properties
-        //  Rationale: jqWidgets library refuse to work with extra props
+        const opts = arguments.length > 0 ? Object.assign({},arguments[0]) : {};
+        // split between specific and Tabs properties
+        //  Rationale: jqWidgets library refuse to work with extra props; jQuery not tested against
         const specifics = [
             'tab'
         ];
@@ -62,13 +56,17 @@ import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxtabs.js';
             element.addClass( 'pwi-itabbed' );
         }
         //console.log( 'jqxTabs settings='+JSON.stringify( settings ));
-        element.jqxTabs( settings );
+        element.tabs( settings );
         // make sure the requested tab is activated
-        const idx = _index( element, Session.get('setup.tab.name'));
-        element.jqxTabs({ selectedItem: idx });
-
+        if( specs.tab ){
+            const idx = _index( element, specs.tab );
+            element.tabs({ active: idx });
+        }
         // events tracker
-        element.on( 'selected', function( event ){
+        element.on( 'activate', function( event, ui ){
+            objDumpProps( event );
+            objDumpProps( ui );
+            /*
             var selectedTab = event.args.item;
             const tabs = _tabs( element );
             //console.log( JSON.stringify( event.args )); // {"item":2}
@@ -77,6 +75,7 @@ import '/imports/ui/third-party/jqwidgets/jqwidgets/jqxtabs.js';
             if( item && item.router ){
                 FlowRouter.go( item.router );
             }
+            */
         });
         return this;
     };
