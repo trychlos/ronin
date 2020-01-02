@@ -54,8 +54,12 @@ import '/imports/client/components/errors/errors.js'
         // create a new window, using global default values
         let settings = Object.assign({}, $.fn.IWindowed.defaults);
         $.extend( settings, opts );
-        settings.group = specs.template;
         settings.widgetClass += ' '+_className( specs.template );
+        if( !settings.group ){
+            settings.group = specs.template;
+        } else {
+            settings.widgetClass += ' '+_className( settings.group );
+        }
         //console.log( specs.template+' creating with settings='+JSON.stringify( settings ));
         settings.appendTo = '#'+g.rootId;
         settings.beforeClose = _beforeCloseEH;

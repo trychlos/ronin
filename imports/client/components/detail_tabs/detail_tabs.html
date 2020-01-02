@@ -1,0 +1,16 @@
+<template name="detail_tabs">
+    <div class="detail-tabs">
+        <div class="detail-tabbed">
+            <ul>
+                {{#each it in tabs}}
+                    <li data-itabbed="{{it.tab}}"><a href="#{{it.tab}}">{{it.label}}</a></li>
+                {{/each}}
+            </ul>
+            {{#each it in tabs}}
+                <div id="{{it.tab}}">
+                    {{> Template.dynamic template=it.template }}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>

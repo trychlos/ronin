@@ -1,0 +1,84 @@
+<template name="project_edit">
+    <div class="project-edit">
+        <form class="js-edit">
+            <fieldset>
+                <table>
+                    <tr>
+                        <td class="x-hright"><p>Name:</p></td>
+                        <td class="x-w100"><input class="js-name x-w100" type="text" value="{{ it.name }}" /></td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Topic:</p></td>
+                        <td class="data js-topic">
+                            {{> topics_select selected=it.topic}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Purpose:</p></td>
+                        <td><input class="js-purpose x-w100" type="text" placeholder="Purpose" value="{{ it.purpose }}" /></td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Vision:</p></td>
+                        <td><input class="js-vision x-w100" type="text" placeholder="Vision" value="{{ it.vision }}" /></td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright x-vtop"><p>Brainstorming:</p></td>
+                        <td>
+                            <textarea
+                                name="brainstorming"
+                                class="js-brainstorm x-w100"
+                                placeholder="Brainstorming"
+                                rows="4">{{ it.brainstorm }}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright x-vtop"><p>Description:</p></td>
+                        <td>
+                            <textarea
+                                name="description"
+                                class="js-description x-w100"
+                                placeholder="Description of the project"
+                                rows="4">{{ it.description }}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright">Future project:</td>
+                        <td><input type="checkbox" class="js-future" {{isFuture it.future}} /></td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Start date:</p></td>
+                        <td class="js-datestart" title="Start date">{{> date_select name='start' orig=it.name date=it.startDate }}</td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Due date:</p></td>
+                        <td class="js-datedue" title="Due date">{{> date_select name='due' orig=it.name date=it.dueDate }}</td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Done date:</p></td>
+                        <td class="js-datedone" title="Done date">{{> date_select name='done' orig=it.name date=it.doneDate }}</td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright x-vtop"><p>Notes:</p></td>
+                        <td>
+                            <textarea
+                                name="notes"
+                                class="js-notes x-w100"
+                                placeholder="Notes of the project"
+                                rows="8">{{ it.notes }}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="x-hidden">
+                            <p class="js-id">{{ it._id }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="x-hcenter">
+                            <button type="button" class="js-update ui-corner-all ui-button">{{button}}</button>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
+    </div>
+</template>

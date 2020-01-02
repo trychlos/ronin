@@ -1,0 +1,88 @@
+<template name="action_edit">
+    <div class="action-edit">
+        <form class="js-edit">
+            <fieldset>
+                <table>
+                    <tr>
+                        <td class="x-hright"><p>Name:</p></td>
+                        <td class="x-w100">
+                            <input class="js-name x-w100" type="text" size="60" value="{{ it.name }}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Topic:</p></td>
+                        <td class="js-topic">
+                            {{> topics_select selected=it.topic}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Successful outcome:</p></td>
+                        <td>
+                            <input class="js-outcome x-w100" type="text" size="60" placeholder="Successful outcome" value="{{ it.outcome }}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Context:</p></td>
+                        <td class="js-context">
+                            {{> contexts_select selected=it.context}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright x-vtop"><p>Description:</p></td>
+                        <td>
+                            <textarea
+                                name="description"
+                                class="js-description x-w100"
+                                placeholder="Description of the action"
+                                rows="4">{{ it.description }}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Project:</p></td>
+                        <td class="js-project">
+                            {{> projects_select selected=it.project}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Status:</p></td>
+                        <td class="js-status">
+                            {{> action_status_select selected=it.status}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Start date:</p></td>
+                        <td class="js-datestart" title="Start date">{{> date_select name='start' orig=it.name date=it.startDate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Due date:</p></td>
+                        <td class="js-datedue" title="Due date">{{> date_select name='due' orig=it.name date=it.dueDate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright"><p>Done date:</p></td>
+                        <td class="js-datedone" title="Done date">{{> date_select name='done' orig=it.name date=it.doneDate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="x-hright x-vtop"><p>Notes:</p></td>
+                        <td>
+                            <textarea
+                                name="notes"
+                                class="js-notes x-w100"
+                                placeholder="Notes of the action"
+                                rows="8">{{ it.notes }}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="x-hidden">
+                            <p class="js-id">{{ it._id }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="x-hcenter">
+                            <button type="button" class="js-update ui-corner-all ui-button">{{button}}</button>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
+    </div>
+</template>

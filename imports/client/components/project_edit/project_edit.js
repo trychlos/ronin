@@ -1,0 +1,110 @@
+/*
+ * 'project_edit' component.
+ *  Let the user edit an existing project.
+ * 
+ *  Session variables:
+ *  - detail.edit.obj: the object being edited (a project or an action).
+ */
+import { Projects } from '/imports/api/collections/projects/projects.js';
+import '/imports/client/components/date_select/date_select.js';
+import '/imports/client/components/topics_select/topics_select.js';
+import './project_edit.html';
+
+Template.project_edit.fn = {
+    enable: function( selector, enable ){
+        // NB: Chrome does not consider that button is member of fieldset
+        if( enable ){
+            $(selector+' fieldset').removeAttr('disabled');
+            //$(selector+' button.js-update').removeProp('disabled');
+            $(selector+' button.js-update').show();
+        } else {
+            $(selector+' fieldset').attr('disabled','disabled');
+            //$(selector+' button.js-update').prop('disabled', true );
+            $(selector+' button.js-update').hide();
+        }
+    },
+    focus: function( selector ){
+        const instance = Template.instance();
+        if( instance.view.isRendered ){
+            $elt = instance.$(selector);
+            if( $elt ){
+                $elt.focus().select();
+            }
+        }
+    }
+};
+
+Template.project_edit.onRendered( function(){
+    this.autorun(() => {
+        const obj = Session.get('review.detail.obj');
+        this.isProject = ( obj && obj.type === 'P' );
+        console.log( 'project_edit.onRendered this.isProject='+this.isProject );
+        Template.project_edit.fn.enable( '.project-edit form.js-edit', this.isProject );
+    })
+});
+
+Template.project_edit.helpers({
+    button(){
+        const obj = Session.get('review.detail.obj');
+        let label = 'Update';
+        if( !obj || !obj._id ){
+            label = 'Insert';
+        }
+        return label;
+    },
+    isFuture( future ){
+        const instance = Template.instance();
+        if( instance.view.isRendered ){
+            const $box = instance.$('.js-future');
+            if( $box ){
+                $box.prop( 'checked', future );
+            }
+        }
+    },
+    it(){
+        Template.project_edit.fn.focus('.js-name');
+        const obj = Session.get('review.detail.obj');
+        return ( obj && obj.type === 'P' ) ? obj : {};
+    }
+});
+
+Template.project_edit.events({
+    'click .js-update'( event, instance ){
+        event.preventDefault();
+        // a name is mandatory
+        const name = instance.$('.js-name').val();
+        if( name.length ){
+            const obj = Session.get( 'review.detail.obj' );
+            const id = obj ? obj._id : null;
+            var newobj = {
+                name: name,
+                topic: Template.topics_select.fn.getSelected( '.js-topic' ),
+                purpose: instance.$('.js-purpose').val(),
+                vision: instance.$('.js-vision').val(),
+                brainstorm: instance.$('.js-brainstorm').val(),
+                description: instance.$('.js-description').val(),
+                startDate: Template.date_select.fn.getDate( '.js-datestart' ),
+                dueDate: Template.date_select.fn.getDate( '.js-datedue' ),
+                doneDate: Template.date_select.fn.getDate( '.js-datedone' ),
+                future: instance.$('.js-future').is(':checked'),
+                notes: instance.$('.js-notes').val(),
+            };
+            if( id ){
+                Meteor.call('projects.update', id, newobj, ( error ) => {
+                    if( error ){
+                        return throwError({ message: error.message });
+                    }
+                });
+                newobj._id = id;
+            } else {
+                newobj._id = Meteor.call('projects.insert', newobj, ( error ) => {
+                    if( error ){
+                        return throwError({ message: error.message });
+                    }
+                });
+            }
+            Session.set( 'review.detail.obj', newobj );
+        }
+        return false;
+    }
+});
