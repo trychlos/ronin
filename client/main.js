@@ -3,9 +3,9 @@ import 'jquery-ui-dist/jquery-ui.js';
 import 'jquery-ui-dist/jquery-ui.css';
 
 // import simone window manager
-import '/imports/ui/third-party/simone/simone.min.js';
-import '/imports/ui/third-party/simone/i18n/simone.min.custom.js';
-import '/imports/ui/third-party/simone/simone.min.css';
+import '/imports/client/third-party/simone/simone.min.js';
+import '/imports/client/third-party/simone/i18n/simone.min.custom.js';
+import '/imports/client/third-party/simone/simone.min.css';
 g = {
     barSideWidth:   150,
     barTopHeight:    30,
