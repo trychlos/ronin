@@ -1,0 +1,22 @@
+<template name="details_edit">
+    <div class="details-edit">
+        <div class="inline">
+            <h2>{{headerTitle}}</h2>
+            <a class="js-delete btn-submit btn-delete" href="#">
+                <div class="ui-state-default ui-corner-all">
+                    <span class="fas fa-trash x-font"></span>
+                </div>
+            </a>
+            <button type="submit" class="js-new-action btn-submit x-radius ui-button det-button">New action</button>
+            <button type="submit" class="js-new-project btn-submit x-radius ui-button det-button">New project</button>
+        </div>
+        <div class="det-body">
+            <div class="js-edit-project">
+                <!-- {{> project_edit }} -->
+            </div>
+            <div class="js-edit-action">
+                <!-- {{> action_edit }} -->
+            </div>
+        </div>
+    </div>
+</template>

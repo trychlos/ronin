@@ -2,17 +2,17 @@ import { Session } from 'meteor/session';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
-import '/imports/ui/layouts/body/body.js';
-import '/imports/ui/layouts/desktop/desktop.js';
+import '/imports/client/layouts/body/body.js';
+import '/imports/client/layouts/desktop/desktop.js';
 
-//import '/imports/ui/pages/actions/actions.js';
-import '/imports/ui/pages/collect_page/collect_page.js';
-import '/imports/ui/pages/empty/empty.js';
-import '/imports/ui/pages/process_page/process_page.js';
-//import '/imports/ui/pages/projects/projects.js';
-import '/imports/ui/pages/review_page/review_page.js';
-import '/imports/ui/pages/setup_page/setup_page.js';
-import '/imports/ui/pages/not_found/not_found.js';
+//import '/imports/client/pages/actions/actions.js';
+import '/imports/client/pages/collect_page/collect_page.js';
+import '/imports/client/pages/empty/empty.js';
+import '/imports/client/pages/process_page/process_page.js';
+//import '/imports/client/pages/projects/projects.js';
+import '/imports/client/pages/review_page/review_page.js';
+import '/imports/client/pages/setup_page/setup_page.js';
+import '/imports/client/pages/not_found/not_found.js';
 
 // Set up all routes in the app
 FlowRouter.route('/', {
