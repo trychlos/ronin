@@ -60,16 +60,11 @@
    42 2020- 1- 1 define a iSplitted interface
                   with isplitted.less from desktop.less
 
-   43 2020- 1- 2 review_tabs: make the tabs dynamic again
-
    44 2020- 1- 2 when reviewWindow is opened on Projects tab, activating the
                   menu_side option Future projects changes the route but does
                   not activate the corresponding tab
 
    45 2020- 1- 2 update the route when activating another window
-
-   49 2020- 1- 2 make jqWidgets the minimal size (only used files)
-                  to try to get a faster hot reload code in Meteor
 
    50 2020- 1- 2 review simone min/restore/max window icons
                   have a tooltip + change icon
@@ -158,6 +153,9 @@
                   ww-         -> pwi-
       2020- 1- 1 done
 
+   43 2020- 1- 2 review_tabs: make the tabs dynamic again
+      2020- 1- 2 fixed with jQuery Tabs
+
    46 2020- 1- 2 rename iWindowed to IWindowed
       2020- 1- 2 done
 
@@ -165,6 +163,10 @@
       2020- 1- 2 done
 
    48 2020- 1- 2 go back to jQuery Tabs instead of jqxTabs
+      2020- 1- 2 done
+
+   49 2020- 1- 2 make jqWidgets the minimal size (only used files)
+                  to try to get a faster hot reload code in Meteor
       2020- 1- 2 done
 
 -----------------------------------------------------------------------
