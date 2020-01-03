@@ -68,6 +68,27 @@ import '/imports/client/components/errors/errors.js'
         this.window( settings );
         this.data( 'iwindowed', specs.template );
         _restoreSettings( this, specs.template );
+        // events tracker
+        /* unable to attach an event */
+        /*
+        this.on( 'focus', function( event, ui ){
+            console.log( 'IWindowed focus');
+            objDumpProps( event );
+            objDumpProps( ui );
+        });
+        */
+        document.getElementById(g.rootId).addEventListener( 'focus', function( event, ui ){
+            console.log( 'IWindowed focus');
+            objDumpProps( event );
+            objDumpProps( ui );
+        });
+        /*
+        document.getElementsByTagName('body')[0].addEventListener( 'focus', function( event, ui ){
+            console.log( 'IWindowed focus');
+            objDumpProps( event );
+            objDumpProps( ui );
+        });
+        */
         return this;
     };
     // return the class name added to the widget

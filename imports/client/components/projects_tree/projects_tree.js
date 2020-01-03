@@ -41,13 +41,15 @@ Template.projects_tree.fn = {
                     const p = Projects.findOne({ _id: it.project });
                     if( p && !p.future ){
                         node.parent = it.project;
-                        Template.projects_tree.fn.addNode( $tree, node );
+                        const added = Template.projects_tree.fn.addNode( $tree, node );
+                        Template.projects_tree.fn.setActivable( $tree, added );
                     }
                 }
             // on actions tab, display actions without a project
             } else if( tab === 'actions' ){
                 if( !it.project || it.project === pNone._id ){
-                    Template.projects_tree.fn.addNode( $tree, node );
+                    const added = Template.projects_tree.fn.addNode( $tree, node );
+                    Template.projects_tree.fn.setActivable( $tree, added );
                 }
             // last display on future tab the actions attached to a future project
             } else if( tab === 'future' ){
@@ -55,7 +57,8 @@ Template.projects_tree.fn = {
                     const p = Projects.findOne({ _id: it.project });
                     if( p && p.future ){
                         node.parent = it.project;
-                        Template.projects_tree.fn.addNode( $tree, node );
+                        const added = Template.projects_tree.fn.addNode( $tree, node );
+                        Template.projects_tree.fn.setActivable( $tree, added );
                     }
                 }
             } else {
@@ -86,6 +89,7 @@ Template.projects_tree.fn = {
         //console.log( 'appending node id='+node.id+' parent='+parentNode );
         $tree.tree( 'appendNode', node, parentNode );
         //console.log( tab+' addNode '+node.name );
+        return $tree.tree( 'getNodeById', node.id );
     },
     // add the projects in projects and future tabs
     addProjects: function( tab, fetched ){
@@ -104,6 +108,79 @@ Template.projects_tree.fn = {
             node.obj.type = 'P';
             Template.projects_tree.fn.addNode( $tree, node );
         }));
+    },
+    // dump the tree by HTML elements
+    dumpHtml: function( tab ){
+        const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
+        if( $tree ){
+            const $ul = $tree.children('ul:first-child');
+            Template.projects_tree.fn._dumpHtmlUl( $ul, '' );
+        }
+    },
+    _dumpHtmlLi: function( $li, prefix ){
+        console.log( prefix+$li.attr('class')+' ('+$li.data('node')+')');
+        objDumpProps( $li.data('node'));
+        const $ul = $li.children('ul');
+        if( $ul && $ul.length ){
+            for( let i=0; i<$ul.length; i++ ){
+                Template.projects_tree.fn._dumpHtmlUl( $($ul[i]), prefix+' ' );
+            }
+        }
+    },
+    _dumpHtmlUl: function( $ul, prefix ){
+        const $li = $ul.children('li');
+        for( let i=0; i<$li.length; i++ ){
+            Template.projects_tree.fn._dumpHtmlLi( $($li[i]), prefix );
+        }
+},
+    // dump the tree by nodes
+    dumpTree: function( tab ){
+        const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
+        if( $tree ){
+            const root = $tree.tree('getNodeById','root');
+            Template.projects_tree.fn._dumpTreeRec( $tree, root, '' );
+        }
+    },
+    _dumpTreeRec: function( $tree, node, prefix ){
+        console.log( prefix+node.name+' ('+node.id+')');
+        for( let i=0; i<node.children.length; i++ ){
+            Template.projects_tree.fn._dumpTreeRec( $tree, node.children[i], prefix+' ' );
+        }
+    },
+    // returns the ad-hox class if the action is activable
+    getClass: function( node ){
+        return node && node.obj && node.obj.type === 'A' ?
+            ( node.obj.status === 'don' ? 'rev-status-done' :
+                ( node.obj.status !== 'ina' ? 'rev-status-activable' : '' )) : '';
+    },
+    // returns the appliable icon
+    getIcon: function( node ){
+        return node && node.obj && node.obj.type === 'A' ? 'fa-radiation-alt' : 'fa-folder-open';
+    },
+    // if $node is activable, then propagate to the up hierarchy
+    setActivable: function( $tree, node ){
+        if( node.obj.type !== 'A' ){
+            console.log( 'project_tree:setActivable for type='+node.obj.type );
+        } else {
+            const status = node.obj.status;
+            const activable = ( status !== 'ina' && status !== 'don' );
+            //console.log( 'node '+node.name+' status='+status+' activable='+activable );
+            Template.projects_tree.fn._setActivableRec( $tree, node, activable );
+        }
+    },
+    _setActivableRec: function( $tree, node, activable ){
+        /*
+         * doesn't work
+         */
+        const $li = $(node.element).parent('li');
+        if( activable ){
+            $li.addClass( 'rev-activable' );
+        } else {
+            $li.removeClass( 'rev-activable' );
+        }
+        if( node.parent ){
+            Template.projects_tree.fn._setActivableRec( $tree, node.parent, activable );
+        }
     },
     // insert the root node (type='R') of the tree
     setRootNode: function( tab, label ){
@@ -154,7 +231,8 @@ Template.projects_tree.onRendered( function(){
     // create the tree for this tab and display the root node
     const tab = this.data.tab;
     if( tab ){
-        const $tree = this.$('.projects-tree');
+        const $tree = this.$('.projects-tree .tree');
+        $tree.data('tab',tab);
         $tree.tree({
             autoOpen: true,
             dragAndDrop: true,
@@ -163,8 +241,9 @@ Template.projects_tree.onRendered( function(){
             openedIcon: $('<i class="fas fa-minus"></i>'),
             onCreateLi: function( node, $li, isSelected ){
                 // Add 'icon' span before title
-                const icon = ( node.obj && node.obj.type === 'A' ) ? 'fa-radiation-alt' : 'fa-folder-open';
-                $li.find('.jqtree-title').before('<span class="fas '+icon+' icon"></span>');
+                const icon = Template.projects_tree.fn.getIcon( node );
+                const classe = Template.projects_tree.fn.getClass( node );
+                $li.find('.jqtree-title').before('<span class="fas '+icon+' '+classe+' icon"></span>');
             }
         });
         Template.projects_tree.fn.dict[tab].tree = $tree;
@@ -202,11 +281,16 @@ Template.projects_tree.onRendered( function(){
 });
 
 Template.projects_tree.events({
-    'tree.select .projects-tree'( event ){
+    'click .js-dump'( ev, instance ){
+        const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
+        Template.projects_tree.fn.dumpTree( tab );
+        Template.projects_tree.fn.dumpHtml( tab );
+    },
+    'tree.select .projects-tree .tree'( event ){
         const obj = event.node ? event.node.obj : null;
         if( obj && obj.type === 'A' ){
             obj.initial_status = obj.status;
         }
-        Session.set('review.projects.obj', obj );
+        Session.set('review.detail.obj', obj );
     }
 });

@@ -41,6 +41,8 @@
 
    29 2019-12-15 projects hierarchy icon should be green if there is at
                  least one actionable action
+      2020- 1- 2 for now, only the action's icon itself is colored because jqtree does
+                  not provide any primitive to associate a HTML element with a node
 
    30 2019-12-23 projects_tree: projects/actions should have the color of
                  their attached topic
@@ -59,10 +61,6 @@
 
    42 2020- 1- 1 define a iSplitted interface
                   with isplitted.less from desktop.less
-
-   44 2020- 1- 2 when reviewWindow is opened on Projects tab, activating the
-                  menu_side option Future projects changes the route but does
-                  not activate the corresponding tab
 
    45 2020- 1- 2 update the route when activating another window
 
@@ -156,6 +154,11 @@
 
    43 2020- 1- 2 review_tabs: make the tabs dynamic again
       2020- 1- 2 fixed with jQuery Tabs
+
+   44 2020- 1- 2 when reviewWindow is opened on Projects tab, activating the
+                  menu_side option Future projects changes the route but does
+                  not activate the corresponding tab
+      2020- 1- 2 fixed with this.autorun()
 
    46 2020- 1- 2 rename iWindowed to IWindowed
       2020- 1- 2 done

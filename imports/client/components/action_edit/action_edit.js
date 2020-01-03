@@ -41,7 +41,7 @@ Template.action_edit.onRendered( function(){
     this.autorun(() => {
         const obj = Session.get('review.detail.obj');
         this.isAction = ( obj && obj.type === 'A' );
-        console.log( 'action_edit.onRendered this.isAction='+this.isAction );
+        //console.log( 'action_edit.onRendered this.isAction='+this.isAction );
         Template.action_edit.fn.enable( '.action-edit form.js-edit', this.isAction );
     })
 });

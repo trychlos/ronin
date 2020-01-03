@@ -38,7 +38,7 @@ Template.project_edit.onRendered( function(){
     this.autorun(() => {
         const obj = Session.get('review.detail.obj');
         this.isProject = ( obj && obj.type === 'P' );
-        console.log( 'project_edit.onRendered this.isProject='+this.isProject );
+        //console.log( 'project_edit.onRendered this.isProject='+this.isProject );
         Template.project_edit.fn.enable( '.project-edit form.js-edit', this.isProject );
     })
 });

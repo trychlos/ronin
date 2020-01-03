@@ -17,3 +17,9 @@ Template.reviewWindow.onRendered( function(){
         }
     });
 });
+
+Template.reviewWindow.events({
+    'review-ops-dump .review-window'( ev ){
+        console.log( 'reviewWindow review-ops-dump') ;
+    }
+});
