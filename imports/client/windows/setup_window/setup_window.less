@@ -50,3 +50,9 @@
     background-color: @setup-color;
     border: darken( @setup-color, 25% );
 }
+.simone-taskbar-window-button[data-group-name*='setupWindow']:hover,
+.simone-taskbar-window-button[data-group-name*='setupWindow'].ui-state-active:hover {
+    background-color: lighten( @setup-color, 25% );
+    border: @setup-color;
+    color: white
+}

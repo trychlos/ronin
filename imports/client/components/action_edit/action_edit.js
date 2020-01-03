@@ -67,7 +67,7 @@ Template.action_edit.events({
         // a name is mandatory
         const name = instance.$('.js-name').val();
         if( name.length ){
-            const obj = Object.assign( {}, this.data.obj );
+            const obj = Object.assign( {}, instance.obj.get());
             const id = obj ? obj._id : null;
             var newobj = {
                 name: name,
@@ -101,6 +101,8 @@ Template.action_edit.events({
                 });
             }
             Session.set( 'process.edit.obj', newobj );
+            const $div = $( instance.$('.action-edit').parents('div.edit-window')[0] );
+            $div.IWindowed('close');
         }
         return false;
     },

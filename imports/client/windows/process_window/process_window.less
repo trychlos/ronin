@@ -48,3 +48,9 @@
     background-color: @process-color;
     border: darken( @process-color, 25% );
 }
+.simone-taskbar-window-button[data-group-name*='processWindow']:hover,
+.simone-taskbar-window-button[data-group-name*='processWindow'].ui-state-active:hover {
+    background-color: lighten( @process-color, 25% );
+    border: @process-color;
+    color: white
+}

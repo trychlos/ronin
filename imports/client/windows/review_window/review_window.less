@@ -35,3 +35,9 @@
     background-color: @review-color;
     border: darken( @review-color, 25% );
 }
+.simone-taskbar-window-button[data-group-name*='reviewWindow']:hover,
+.simone-taskbar-window-button[data-group-name*='reviewWindow'].ui-state-active:hover {
+    background-color: lighten( @review-color, 25% );
+    border: @review-color;
+    color: white
+}

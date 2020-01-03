@@ -22,11 +22,14 @@ import '/imports/client/components/errors/errors.js'
         }
         if( typeof arguments[0] === 'string' ){
             switch( arguments[0] ){
+                case 'close':
+                    _close( this, arguments );
+                    break;
                 case 'show':
-                    _show( arguments );
+                    _show( this, arguments );
                     break;
                 case 'showNew':
-                    _showNew( arguments );
+                    _showNew( this, arguments );
                     break;
                 default:
                     throwError({ message:'IWindowed: unknown method: '+arguments[0] });
@@ -99,6 +102,15 @@ import '/imports/client/components/errors/errors.js'
     function _className( id ){
         return 'pwi-'+id;
     }
+    // close the current window
+    function _close( self ){
+        //objDumpProps( self );
+        if( $(self).data('iwindowed' )){
+            $(self).window('close');
+        } else {
+            throwError({ message:'IWindowed: unable to close this window' });
+        }
+    }
     // activate a window, first restoring it if it was minimized
     function _moveToTop( obj ){
         if( obj.window('minimized')){
@@ -142,7 +154,7 @@ import '/imports/client/components/errors/errors.js'
     // show a window, re-activating it or creating a new one
     // 0: name of the called method (show)
     // 1: template name to be rendered if not already exists
-    function _show( args ){
+    function _show( self, args ){
         if( args.length != 2 ){
             throwError({ message: 'show expects 1 argument, '+( args.length-1 )+' found' });
         } else {
@@ -169,7 +181,7 @@ import '/imports/client/components/errors/errors.js'
     // show unconditionally a new window
     // 0: name of the called method (showNew)
     // 1: template name to be rendered
-    function _showNew( args ){
+    function _showNew( self, args ){
         if( args.length != 2 ){
             throwError({ message: 'showNew expects 1 argument, '+( args.length-1 )+' found' });
         } else {
@@ -186,6 +198,7 @@ import '/imports/client/components/errors/errors.js'
     //  but the div itself is still in the DOM
     // $(ev.target) === ui.$window === jQuery object on which we have called window()
     function _closeEH( ev, ui ){
+        //console.log( 'close event handler' );
         $(ev.target).remove();
     };
     // default values, overridable by the user at global level

@@ -27,7 +27,7 @@ Template.projects_tree.fn = {
             return;
         }
         const pNone = Projects.findOne({ code: 'non' });
-        fetched.forEach(( it => {
+        fetched.forEach( it => {
             //console.log( tab+': addActions '+it.name );
             let node = {
                 id: it._id,
@@ -64,7 +64,7 @@ Template.projects_tree.fn = {
             } else {
                 throwError({ message: 'unknown tab='+tab });
             }
-        }));
+        });
     },
     addNode: function( $tree, node ){
         if( node.id === 'root' ){
@@ -75,7 +75,7 @@ Template.projects_tree.fn = {
         const existing = $tree.tree( 'getNodeById', node.id );
         if( existing ){
             $tree.tree( 'updateNode', existing, node )
-            return;
+            return existing;
         }
         let parentNode = null;
         //console.log( 'node='+node.name+' parent='+node.parent );
@@ -156,6 +156,27 @@ Template.projects_tree.fn = {
     // returns the appliable icon
     getIcon: function( node ){
         return node && node.obj && node.obj.type === 'A' ? 'fa-radiation-alt' : 'fa-folder-open';
+    },
+    // contextual menu, delete operation
+    opeDelete: function( tab, node ){
+        if( node.id !== 'root' ){
+            console.log( tab+': deleting '+node.name );
+            let msg = 'Are you sure you want to delete this ';
+            msg += node.type === 'A' ? 'action' : ( node.type === 'P' ? 'project' : 'item' );
+            if( node.children.length > 0 ){
+                msg += ', and all its children';
+            }
+            msg += ' ?';
+        }
+    },
+    // contextual menu, edit operation
+    opeEdit: function( tab, node ){
+        if( node.id !== 'root' ){
+            //console.log( tab+': editing '+node.name );
+            const $tree = Template.projects_tree.fn.dict[tab].tree;
+            Session.set( 'process.edit.obj', node.obj );
+            $tree.IWindowed( 'showNew', 'editWindow' );
+        }
     },
     // if $node is activable, then propagate to the up hierarchy
     setActivable: function( $tree, node ){
@@ -249,6 +270,47 @@ Template.projects_tree.onRendered( function(){
         });
         Template.projects_tree.fn.dict[tab].tree = $tree;
         Template.projects_tree.fn.setRootNode( tab, this.data.label );
+        // define the context menu
+        $tree.contextMenu({
+            selector: 'li.jqtree_common span.jqtree-title',
+            items: {
+                edit: {
+                    name: 'Edit',
+                    icon: 'fas fa-edit'
+                },
+                delete: {
+                    name: 'Delete',
+                    icon: 'fas fa-trash-alt'
+                }
+            },
+            autoHide: true,
+            callback: function( item, opt ){
+                // opt: menu object
+                // opt.context: DIV.tree element
+                // opt.$trigger: SPAN.jqtree-title.jqtree_common element
+                const li = $(opt.$trigger).parents('li')[0];
+                const $li = $(li);
+                const node = $li.data( 'node' );
+                if( node.id !== 'root' ){
+                    switch( item ){
+                        case 'edit':
+                            Template.projects_tree.fn.opeEdit( tab, node );
+                            break;
+                        case 'delete':
+                            Template.projects_tree.fn.opeDelete( tab, node );
+                            break;
+                    }
+                }
+            },
+            position: function( opt, x, y ){
+                // opt: menu object
+                opt.$menu.position({
+                    my: 'left top',
+                    at: 'right bottom',
+                    of: opt.$trigger
+                });
+            }
+        });
     }
     // display projects when they are available
     //  the method takes care of displaying them depending of the current tab
@@ -287,13 +349,15 @@ Template.projects_tree.events({
         Template.projects_tree.fn.dumpTree( tab );
         Template.projects_tree.fn.dumpHtml( tab );
     },
+    /*
     'tree.contextmenu .projects-tree .tree'( ev ){
-        const obj = event.node ? event.node.obj : null;
-        if( obj && obj.type === 'A' ){
-            obj.initial_status = obj.status;
-        }
-        Session.set('process.edit.obj', obj );
+        // ev.target = ev.currentTarget = the div.tree element
+        // ev.node is the tree node
+        // ev.node.element is the li element
+        const $li = $( ev.node.element );
+        $li.contextMenu();
     }
+    */
     /*
     'tree.select .projects-tree .tree'( event ){
         const obj = event.node ? event.node.obj : null;

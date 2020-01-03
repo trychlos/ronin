@@ -15,3 +15,13 @@
         border: darken( @process-color, 25% );
     }
 }
+.simone-taskbar-window-button[data-group-name*='editWindow'].ui-state-active {
+    background-color: @process-color;
+    border: darken( @process-color, 25% );
+}
+.simone-taskbar-window-button[data-group-name*='editWindow']:hover,
+.simone-taskbar-window-button[data-group-name*='editWindow'].ui-state-active:hover {
+    background-color: lighten( @process-color, 25% );
+    border: @process-color;
+    color: white
+}

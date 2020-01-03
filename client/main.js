@@ -2,6 +2,12 @@
 import 'jquery-ui-dist/jquery-ui.js';
 import 'jquery-ui-dist/jquery-ui.css';
 
+// jQuery context menu
+//  https://swisnl.github.io/jQuery-contextMenu/
+import 'jquery-contextmenu/dist/jquery.contextMenu.min.css';
+import 'jquery-contextmenu/dist/jquery.contextMenu.min.js';
+import 'jquery-contextmenu/dist/jquery.ui.position.min.js';
+
 // import simone window manager
 import '/imports/client/third-party/simone/simone.min.js';
 import '/imports/client/third-party/simone/i18n/simone.min.custom.js';
