@@ -13,6 +13,10 @@ import '/imports/client/components/topics_select/topics_select.js';
 import './action_edit.html';
 
 Template.action_edit.fn = {
+    close: function( self ){
+        const $div = $( self.$('.action-edit').parents('div.edit-window')[0] );
+        $div.IWindowed('close');
+    },
     enable: function( selector, enable ){
         // NB: Chrome does not consider that button is member of fieldset
         //  NNB: unable to disable the button !! So hide it
@@ -62,6 +66,11 @@ Template.action_edit.helpers({
 });
 
 Template.action_edit.events({
+    'click .js-cancel'( event, instance ){
+        event.preventDefault();
+        Template.action_edit.fn.close( instance );
+        return false;
+    },
     'click .js-update'( event, instance ){
         event.preventDefault();
         // a name is mandatory
@@ -101,8 +110,7 @@ Template.action_edit.events({
                 });
             }
             Session.set( 'process.edit.obj', newobj );
-            const $div = $( instance.$('.action-edit').parents('div.edit-window')[0] );
-            $div.IWindowed('close');
+            Template.action_edit.fn.close( instance );
         }
         return false;
     },

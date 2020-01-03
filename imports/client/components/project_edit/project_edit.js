@@ -11,6 +11,10 @@ import '/imports/client/components/topics_select/topics_select.js';
 import './project_edit.html';
 
 Template.project_edit.fn = {
+    close: function( self ){
+        const $div = $( self.$('.project-edit').parents('div.edit-window')[0] );
+        $div.IWindowed('close');
+    },
     enable: function( selector, enable ){
         // NB: Chrome does not consider that button is member of fieldset
         if( enable ){
@@ -52,13 +56,7 @@ Template.project_edit.helpers({
         return label;
     },
     isFuture( future ){
-        const self = Template.instance();
-        if( self.view.isRendered ){
-            const $box = self.$('.js-future');
-            if( $box ){
-                $box.prop( 'checked', future );
-            }
-        }
+       return future ? 'checked' : '';
     },
     it(){
         const self = Template.instance();
@@ -68,6 +66,11 @@ Template.project_edit.helpers({
 });
 
 Template.project_edit.events({
+    'click .js-cancel'( event, instance ){
+        event.preventDefault();
+        Template.project_edit.fn.close( instance );
+        return false;
+    },
     'click .js-update'( event, instance ){
         event.preventDefault();
         // a name is mandatory
@@ -102,7 +105,7 @@ Template.project_edit.events({
                     }
                 });
             }
-            instance.obj.set( newobj );
+            Template.project_edit.fn.close( instance );
         }
         return false;
     }

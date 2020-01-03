@@ -73,7 +73,15 @@
    53 2020- 1- 3 when opening several window with the same template
                   (editWindow typically), shift each new window from the previous
 
-   54
+   55 2020- 1- 3 project_trees: when an item changes of tab, remove the
+                  old item from the initial tab
+                  Template.projects_tree.fn.updateTree() falsely coded
+
+   56 2020- 1- 3 action delete
+
+   57 2020- 1- 3 project delete
+
+   58
 
 -----------------------------------------------------------------------
  Done
@@ -180,6 +188,9 @@
 
    51 2020- 1- 3 git rm review_ops+detail_tabs+detail_window
                   when menu side items will be available
+      2020- 1- 3 done
+
+   54 2020- 1- 3 project_edit: future checkbox not correctly checked
       2020- 1- 3 done
 
 -----------------------------------------------------------------------
