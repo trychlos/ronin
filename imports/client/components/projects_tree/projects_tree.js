@@ -244,6 +244,7 @@ Template.projects_tree.onRendered( function(){
                 const icon = Template.projects_tree.fn.getIcon( node );
                 const classe = Template.projects_tree.fn.getClass( node );
                 $li.find('.jqtree-title').before('<span class="fas '+icon+' '+classe+' icon"></span>');
+                $li.attr('data-pwi-nodeid', node.id);
             }
         });
         Template.projects_tree.fn.dict[tab].tree = $tree;
@@ -286,6 +287,14 @@ Template.projects_tree.events({
         Template.projects_tree.fn.dumpTree( tab );
         Template.projects_tree.fn.dumpHtml( tab );
     },
+    'tree.contextmenu .projects-tree .tree'( ev ){
+        const obj = event.node ? event.node.obj : null;
+        if( obj && obj.type === 'A' ){
+            obj.initial_status = obj.status;
+        }
+        Session.set('process.edit.obj', obj );
+    }
+    /*
     'tree.select .projects-tree .tree'( event ){
         const obj = event.node ? event.node.obj : null;
         if( obj && obj.type === 'A' ){
@@ -293,4 +302,5 @@ Template.projects_tree.events({
         }
         Session.set('process.edit.obj', obj );
     }
+    */
 });
