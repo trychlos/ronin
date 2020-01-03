@@ -291,6 +291,6 @@ Template.projects_tree.events({
         if( obj && obj.type === 'A' ){
             obj.initial_status = obj.status;
         }
-        Session.set('review.detail.obj', obj );
+        Session.set('process.detail.obj', obj );
     }
 });

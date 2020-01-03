@@ -7,6 +7,7 @@ import '/imports/client/layouts/desktop/desktop.js';
 
 //import '/imports/client/pages/actions/actions.js';
 import '/imports/client/pages/collect_page/collect_page.js';
+import '/imports/client/pages/edit_page/edit_page.js';
 import '/imports/client/pages/empty/empty.js';
 import '/imports/client/pages/process_page/process_page.js';
 //import '/imports/client/pages/projects/projects.js';
@@ -107,6 +108,20 @@ FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
         BlazeLayout.render('appDesktop', { main: 'processPage' });
+    },
+});
+FlowRouter.route('/project/new', {
+    name: 'process.new.project',
+    action(){
+        Session.set( 'process.detail.obj', { type:'P', name:'New project'});
+        BlazeLayout.render('appDesktop', { main: 'editPage' });
+    },
+});
+FlowRouter.route('/action/new', {
+    name: 'process.new.action',
+    action(){
+        Session.set( 'process.detail.obj', { type:'A', name:'New action'});
+        BlazeLayout.render('appDesktop', { main: 'editPage' });
     },
 });
 FlowRouter.route('/review', {

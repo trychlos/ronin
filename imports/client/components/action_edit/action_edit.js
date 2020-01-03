@@ -39,7 +39,7 @@ Template.action_edit.fn = {
 
 Template.action_edit.onRendered( function(){
     this.autorun(() => {
-        const obj = Session.get('review.detail.obj');
+        const obj = Session.get('process.detail.obj');
         this.isAction = ( obj && obj.type === 'A' );
         //console.log( 'action_edit.onRendered this.isAction='+this.isAction );
         Template.action_edit.fn.enable( '.action-edit form.js-edit', this.isAction );
@@ -48,7 +48,7 @@ Template.action_edit.onRendered( function(){
 
 Template.action_edit.helpers({
     button(){
-        const obj = Session.get('review.detail.obj');
+        const obj = Session.get('process.detail.obj');
         let label = 'Update';
         if( !obj || !obj._id ){
             label = 'Insert';
@@ -57,7 +57,7 @@ Template.action_edit.helpers({
     },
     it(){
         Template.action_edit.fn.focus('.js-name');
-        const obj = Session.get('review.detail.obj');
+        const obj = Session.get('process.detail.obj');
         return ( obj && obj.type === 'A' ) ? obj : {};
     }
 });
@@ -68,7 +68,7 @@ Template.action_edit.events({
         // a name is mandatory
         const name = instance.$('.js-name').val();
         if( name.length ){
-            const obj = Session.get( 'review.detail.obj' );
+            const obj = Session.get( 'process.detail.obj' );
             const id = obj ? obj._id : null;
             var newobj = {
                 name: name,
@@ -101,7 +101,7 @@ Template.action_edit.events({
                     }
                 });
             }
-            Session.set( 'review.detail.obj', newobj );
+            Session.set( 'process.detail.obj', newobj );
         }
         return false;
     },
@@ -126,7 +126,7 @@ Template.action_edit.events({
     'date_select-change .js-datedone'( event, instance ){
         //console.log( 'dateDone date_select-change' );
         const date = Template.date_select.fn.getDate( '.js-datedone' );
-        const obj = Session.get('review.detail.obj');
+        const obj = Session.get('process.detail.obj');
         const status = date ? 'don' : ( obj.initial_status ? obj.initial_status : 'ina' );
         Template.action_status_select.fn.setSelected( '.js-status', status );
     }

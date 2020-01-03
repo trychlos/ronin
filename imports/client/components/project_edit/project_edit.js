@@ -36,7 +36,7 @@ Template.project_edit.fn = {
 
 Template.project_edit.onRendered( function(){
     this.autorun(() => {
-        const obj = Session.get('review.detail.obj');
+        const obj = Session.get('process.detail.obj');
         this.isProject = ( obj && obj.type === 'P' );
         //console.log( 'project_edit.onRendered this.isProject='+this.isProject );
         Template.project_edit.fn.enable( '.project-edit form.js-edit', this.isProject );
@@ -45,7 +45,7 @@ Template.project_edit.onRendered( function(){
 
 Template.project_edit.helpers({
     button(){
-        const obj = Session.get('review.detail.obj');
+        const obj = Session.get('process.detail.obj');
         let label = 'Update';
         if( !obj || !obj._id ){
             label = 'Insert';
@@ -63,7 +63,7 @@ Template.project_edit.helpers({
     },
     it(){
         Template.project_edit.fn.focus('.js-name');
-        const obj = Session.get('review.detail.obj');
+        const obj = Session.get('process.detail.obj');
         return ( obj && obj.type === 'P' ) ? obj : {};
     }
 });
@@ -74,7 +74,7 @@ Template.project_edit.events({
         // a name is mandatory
         const name = instance.$('.js-name').val();
         if( name.length ){
-            const obj = Session.get( 'review.detail.obj' );
+            const obj = Session.get( 'process.detail.obj' );
             const id = obj ? obj._id : null;
             var newobj = {
                 name: name,
@@ -103,7 +103,7 @@ Template.project_edit.events({
                     }
                 });
             }
-            Session.set( 'review.detail.obj', newobj );
+            Session.set( 'process.detail.obj', newobj );
         }
         return false;
     }

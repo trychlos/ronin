@@ -127,6 +127,16 @@ export const gtd = {
                         id: 'may',
                         label: 'Someday / Maybe'
                     },
+                    {
+                        id: 'nep',
+                        label: 'New project',
+                        router: 'process.new.project'
+                    },
+                    {
+                        id: 'nea',
+                        label: 'new action',
+                        router: 'process.new.action'
+                    },
                 ],
             },
             {

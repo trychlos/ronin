@@ -25,6 +25,9 @@ import '/imports/client/components/errors/errors.js'
                 case 'show':
                     _show( arguments );
                     break;
+                case 'showNew':
+                    _showNew( arguments );
+                    break;
                 default:
                     throwError({ message:'IWindowed: unknown method: '+arguments[0] });
             }
@@ -162,7 +165,17 @@ import '/imports/client/components/errors/errors.js'
                 Blaze.render( Template[args[1]], document.getElementById( g.rootId ));
             }
         }
-    }
+    };
+    // show unconditionally a new window
+    // 0: name of the called method (showNew)
+    // 1: template name to be rendered
+    function _showNew( args ){
+        if( args.length != 2 ){
+            throwError({ message: 'showNew expects 1 argument, '+( args.length-1 )+' found' });
+        } else {
+            Blaze.render( Template[args[1]], document.getElementById( g.rootId ));
+        }
+    };
     function _beforeCloseEH( ev ){
         //console.log( '_beforeCloseEH $(ev.target) '+$(ev.target).attr('class'));
         //console.log( '_beforeCloseEH $(this) '+$(this).attr('class'));
