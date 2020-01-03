@@ -113,21 +113,17 @@ FlowRouter.route('/process', {
 FlowRouter.route('/project/new', {
     name: 'process.new.project',
     action(){
-        Session.set( 'process.detail.obj', { type:'P', name:'New project'});
+        //console.log( "FlowRouter process.init.obj={ type:'P', name:'New project'}" );
+        Session.set( 'process.edit.obj', { type:'P', name:'New project'});
         BlazeLayout.render('appDesktop', { main: 'editPage' });
     },
 });
 FlowRouter.route('/action/new', {
     name: 'process.new.action',
     action(){
-        Session.set( 'process.detail.obj', { type:'A', name:'New action'});
+        //console.log( "FlowRouter process.init.obj={ type:'A', name:'New action'}" );
+        Session.set( 'process.edit.obj', { type:'A', name:'New action'});
         BlazeLayout.render('appDesktop', { main: 'editPage' });
-    },
-});
-FlowRouter.route('/review', {
-    name: 'review',
-    action(){
-        BlazeLayout.render('appDesktop', { main: 'reviewPage' });
     },
 });
 FlowRouter.route('/review/projects', {

@@ -68,7 +68,9 @@
                   have a tooltip + change icon
       2020- 1- 2 icons are changed to minus/close instead of minusthick/closethick
 
-   52
+   52 2020- 1- 3 fix close icon display in taskbar (cf. iwindowed.less)
+
+   53
 
 -----------------------------------------------------------------------
  Done

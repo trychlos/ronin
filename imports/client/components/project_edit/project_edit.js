@@ -2,8 +2,8 @@
  * 'project_edit' component.
  *  Let the user edit an existing project.
  * 
- *  Session variables:
- *  - detail.edit.obj: the object being edited (a project or an action).
+ *  Parameters:
+ *  - obj: the object being edited (a project or an action).
  */
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import '/imports/client/components/date_select/date_select.js';
@@ -22,30 +22,29 @@ Template.project_edit.fn = {
             //$(selector+' button.js-update').prop('disabled', true );
             $(selector+' button.js-update').hide();
         }
-    },
-    focus: function( selector ){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            $elt = instance.$(selector);
-            if( $elt ){
-                $elt.focus().select();
-            }
-        }
     }
 };
 
+Template.project_edit.onCreated( function(){
+    this.obj = new ReactiveVar( JSON.parse( this.data ));
+});
+
 Template.project_edit.onRendered( function(){
     this.autorun(() => {
-        const obj = Session.get('process.detail.obj');
+        const obj = this.obj.get();
         this.isProject = ( obj && obj.type === 'P' );
         //console.log( 'project_edit.onRendered this.isProject='+this.isProject );
         Template.project_edit.fn.enable( '.project-edit form.js-edit', this.isProject );
+        if( this.isProject ){
+            this.$('.js-name').focus().select();
+        }
     })
 });
 
 Template.project_edit.helpers({
     button(){
-        const obj = Session.get('process.detail.obj');
+        const self = Template.instance();
+        const obj = self.obj.get();
         let label = 'Update';
         if( !obj || !obj._id ){
             label = 'Insert';
@@ -53,17 +52,17 @@ Template.project_edit.helpers({
         return label;
     },
     isFuture( future ){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            const $box = instance.$('.js-future');
+        const self = Template.instance();
+        if( self.view.isRendered ){
+            const $box = self.$('.js-future');
             if( $box ){
                 $box.prop( 'checked', future );
             }
         }
     },
     it(){
-        Template.project_edit.fn.focus('.js-name');
-        const obj = Session.get('process.detail.obj');
+        const self = Template.instance();
+        const obj = self.obj.get();
         return ( obj && obj.type === 'P' ) ? obj : {};
     }
 });
@@ -74,7 +73,7 @@ Template.project_edit.events({
         // a name is mandatory
         const name = instance.$('.js-name').val();
         if( name.length ){
-            const obj = Session.get( 'process.detail.obj' );
+            const obj = Object.assign( {}, instance.obj.get());
             const id = obj ? obj._id : null;
             var newobj = {
                 name: name,
@@ -103,7 +102,7 @@ Template.project_edit.events({
                     }
                 });
             }
-            Session.set( 'process.detail.obj', newobj );
+            instance.obj.set( newobj );
         }
         return false;
     }

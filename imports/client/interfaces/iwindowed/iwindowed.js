@@ -37,7 +37,7 @@ import '/imports/client/components/errors/errors.js'
             throwError({ message:'IWindowed: options object expected, not found' });
             return this;
         }
-        const opts = Object.assign({}, arguments[0]);
+        const opts = Object.assign( {}, arguments[0] );
         if( !opts.template ){
             throwError({ message:'IWindowed: template name not set' });
             return this;
@@ -55,7 +55,7 @@ import '/imports/client/components/errors/errors.js'
             }
         });
         // create a new window, using global default values
-        let settings = Object.assign({}, $.fn.IWindowed.defaults);
+        let settings = Object.assign( {}, $.fn.IWindowed.defaults );
         $.extend( settings, opts );
         settings.widgetClass += ' '+_className( specs.template );
         if( !settings.group ){
@@ -173,6 +173,7 @@ import '/imports/client/components/errors/errors.js'
         if( args.length != 2 ){
             throwError({ message: 'showNew expects 1 argument, '+( args.length-1 )+' found' });
         } else {
+            //console.log( 'IWindowed.showNew '+args[1] );
             Blaze.render( Template[args[1]], document.getElementById( g.rootId ));
         }
     };

@@ -134,7 +134,7 @@ export const gtd = {
                     },
                     {
                         id: 'nea',
-                        label: 'new action',
+                        label: 'New action',
                         router: 'process.new.action'
                     },
                 ],

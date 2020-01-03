@@ -2,8 +2,8 @@
  * 'action_edit' component.
  *  Let the user edit an action.
  * 
- *  Session variables:
- *  - detail.edit.obj: the object being edited (a project or an action).
+ *  Parameters:
+ *  - obj: the currently edited object.
  */
 import { Actions } from '/imports/api/collections/actions/actions.js';
 import '/imports/client/components/contexts_select/contexts_select.js';
@@ -25,30 +25,29 @@ Template.action_edit.fn = {
             //$(selector+' button.js-update').prop('disabled', true );
             $(selector+' button.js-update').hide();
         }
-    },
-    focus: function( selector ){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            $elt = instance.$(selector);
-            if( $elt ){
-                $elt.focus().select();
-            }
-        }
     }
 };
 
+Template.action_edit.onCreated( function(){
+    this.obj = new ReactiveVar( JSON.parse( this.data ));
+});
+
 Template.action_edit.onRendered( function(){
     this.autorun(() => {
-        const obj = Session.get('process.detail.obj');
+        const obj = this.obj.get();
         this.isAction = ( obj && obj.type === 'A' );
         //console.log( 'action_edit.onRendered this.isAction='+this.isAction );
         Template.action_edit.fn.enable( '.action-edit form.js-edit', this.isAction );
+        if( this.isAction ){
+            this.$('.js-name').focus().select();
+        }
     })
 });
 
 Template.action_edit.helpers({
     button(){
-        const obj = Session.get('process.detail.obj');
+        const self = Template.instance();
+        const obj = self.obj.get();
         let label = 'Update';
         if( !obj || !obj._id ){
             label = 'Insert';
@@ -56,8 +55,8 @@ Template.action_edit.helpers({
         return label;
     },
     it(){
-        Template.action_edit.fn.focus('.js-name');
-        const obj = Session.get('process.detail.obj');
+        const self = Template.instance();
+        const obj = self.obj.get();
         return ( obj && obj.type === 'A' ) ? obj : {};
     }
 });
@@ -68,7 +67,7 @@ Template.action_edit.events({
         // a name is mandatory
         const name = instance.$('.js-name').val();
         if( name.length ){
-            const obj = Session.get( 'process.detail.obj' );
+            const obj = Object.assign( {}, this.data.obj );
             const id = obj ? obj._id : null;
             var newobj = {
                 name: name,
@@ -101,7 +100,7 @@ Template.action_edit.events({
                     }
                 });
             }
-            Session.set( 'process.detail.obj', newobj );
+            Session.set( 'process.edit.obj', newobj );
         }
         return false;
     },
@@ -126,7 +125,7 @@ Template.action_edit.events({
     'date_select-change .js-datedone'( event, instance ){
         //console.log( 'dateDone date_select-change' );
         const date = Template.date_select.fn.getDate( '.js-datedone' );
-        const obj = Session.get('process.detail.obj');
+        const obj = Session.get('process.edit.obj');
         const status = date ? 'don' : ( obj.initial_status ? obj.initial_status : 'ina' );
         Template.action_status_select.fn.setSelected( '.js-status', status );
     }
