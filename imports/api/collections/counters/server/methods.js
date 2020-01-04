@@ -25,7 +25,7 @@ Meteor.methods({
     'counters.getValue'( name ){
         check( name, String );
         const o = Counters.findOne({ name:name });
-        return o ? o.value : '';
+        return o ? o.value : null;
     },
     'counters.setValue'( name, value ){
         check( name, String );

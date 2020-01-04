@@ -73,14 +73,13 @@
    53 2020- 1- 3 when opening several window with the same template
                   (editWindow typically), shift each new window from the previous
 
-   55 2020- 1- 3 project_trees: when an item changes of tab, remove the
-                  old item from the initial tab
-                  Template.projects_tree.fn.updateTree() falsely coded
-                  + idem when deleting an item
-
    57 2020- 1- 4 projects_tree: set node opened at creation
 
-   58
+   58 2020- 1- 4 projects tree per tab: display or not done items
+
+   59 2020- 1- 4 save previous in user settings
+
+   60
 
 -----------------------------------------------------------------------
  Done
@@ -191,6 +190,12 @@
 
    54 2020- 1- 3 project_edit: future checkbox not correctly checked
       2020- 1- 3 done
+
+   55 2020- 1- 3 project_trees: when an item changes of tab, remove the
+                  old item from the initial tab
+                  Template.projects_tree.fn.updateTree() falsely coded
+                  + idem when deleting an item
+      2020- 1- 4 fixed
 
    56 2020- 1- 3 action/project delete
                   requires a confirmation dialog

@@ -93,22 +93,49 @@ Template.projects_tree.fn = {
         return $tree.tree( 'getNodeById', node.id );
     },
     // add the projects in projects and future tabs
-    addProjects: function( tab, fetched ){
+    addProjects: function( tab, future, fetched ){
         const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
         if( !$tree ){
             console.log( tab+': addProjects while $tree not built' );
             return;
         }
-        fetched.forEach(( it => {
-            //console.log( tab+': addProjects '+item.name );
+        const order = Template.projects_tree.fn.dict[tab].order.get();
+        if( order ){
+            order.forEach( it => {
+                Template.projects_tree.fn._addProjectsRec( $tree, future, it, '>' );
+            });
+        } else {
+            fetched.forEach( it => {
+                Template.projects_tree.fn._addProjectNode( $tree, future, it, '' );
+            });
+        }
+    },
+    // add a project node
+    _addProjectNode: function( $tree, future, project, prefix ){
+        if( project.future === future ){
             let node = {
-                id: it._id,
-                name:  it.name,
-                obj: it
+                id: project._id,
+                name:  project.name,
+                parent: project.parent,
+                obj: project
             };
             node.obj.type = 'P';
             Template.projects_tree.fn.addNode( $tree, node );
-        }));
+            //console.log( prefix+' adding '+node.obj.type+' '+node.name );
+        }
+    },
+    // recursively add projects starting from the saved JSON
+    //  note that the project's attributes must be revalidated regarding to the
+    //  current tab as they may have been modified since last save
+    _addProjectsRec: function( $tree, future, it, prefix ){
+        if( it.id !== 'root' && it.type === 'P' ){
+            Template.projects_tree.fn._addProjectNode( $tree, future, Projects.findOne({ _id:it.id }), prefix );
+        }
+        if( it.children ){
+            it.children.forEach( child => {
+                Template.projects_tree.fn._addProjectsRec( $tree, future, child, prefix+'>' );
+            });
+        }
     },
     // delete a node, both in the server side and in the tree
     //  and recursively for each child
@@ -189,7 +216,7 @@ Template.projects_tree.fn = {
         return JSON.stringify( out );
     },
     _jsonFilterRec: function( it ){
-        let obj = { id: it.id };
+        let obj = { id:it.id, type:it.obj.type };
         if( it.children ){
             obj.children = new Array();
             it.children.forEach( child => {
@@ -338,9 +365,12 @@ Template.projects_tree.onCreated( function(){
     if( tab ){
         Template.projects_tree.fn.dict[tab] = {
             actionsHandle:  this.subscribe('actions.all'),
+            countersHandle: this.subscribe( 'counters.all' ),
             projectsHandle: this.subscribe('projects.all'),
+            countersGot:    new ReactiveVar( false ),
             projectsShown:  new ReactiveVar( false ),
-            tree:           null
+            tree:           null,
+            order:          new ReactiveVar( null )
         }
     }
 });
@@ -409,6 +439,7 @@ Template.projects_tree.onRendered( function(){
             },
             position: function( opt, x, y ){
                 // opt: menu object
+                //objDumpProps( opt );
                 opt.$menu.position({
                     my: 'left top',
                     at: 'right bottom',
@@ -417,18 +448,33 @@ Template.projects_tree.onRendered( function(){
             }
         });
     }
+    // get the initial tree ordering when counters are here
+    this.autorun(() => {
+        const tab = this.data.tab;
+        if( tab &&
+            Template.projects_tree.fn.dict[tab].countersHandle.ready()){
+                const json = Meteor.call( 'counters.getValue', 'tree_'+tab );
+                if( json ){
+                    Template.projects_tree.fn.dict[tab].order.set( JSON.parse( json.value ));
+                }
+                console.log( tab+' json '+json );
+                Template.projects_tree.fn.dict[tab].countersGot.set( true );
+        }
+    });
     // display projects when they are available
     //  the method takes care of displaying them depending of the current tab
     //  also update the projects
     this.autorun(() => {
         const tab = this.data.tab;
         if( tab &&
+            Template.projects_tree.fn.dict[tab].countersGot.get() &&
             Template.projects_tree.fn.dict[tab].projectsHandle.ready()){
                 //console.log( tab+': updating projects' );
                 if( tab !== 'actions' ){
                     const future = ( tab === 'future' );
                     Template.projects_tree.fn.addProjects( 
                         tab,
+                        future,
                         Projects.find({ select_order: { $gt: 0 }, future: future }).fetch());
                 }
                 Template.projects_tree.fn.dict[tab].projectsShown.set( true );
@@ -473,44 +519,31 @@ Template.projects_tree.events({
         Template.projects_tree.fn.dumpHtml( tab );
     },
     // moving a mode means both reparenting and reordering it 
+    // note that we are refusing to move outside of the root node
     'tree.move .projects-tree .tree'( ev ){
         //console.log( 'ev ', ev );
         //console.log( 'moved_node', ev.move_info.moved_node );
         //console.log('target_node', ev.move_info.target_node);
         //console.log('position', ev.move_info.position);
         //console.log('previous_parent', ev.move_info.previous_parent);
-        const obj = ev.move_info.moved_node.obj;
-        const method = obj.type === 'A' ? 'actions.project' : 'projects.parent';
-        Meteor.call( method, obj._id, ev.move_info.target_node.id, ( error ) => {
-            if( error ){
-                return throwError({ message: error.message });
-            }
-        });
-        const $tree = $( ev.target );
-        const tab = $tree.data( 'tab' );
-        const json = Template.projects_tree.fn.jsonFilter( $tree.tree( 'toJson' ));
-        Meteor.call( 'counters.setValue', 'tree_'+tab, json, ( error ) => {
-            if( error ){
-                return throwError({ message: error.message });
-            }
-        });
-}
-    /*
-    'tree.contextmenu .projects-tree .tree'( ev ){
-        // ev.target = ev.currentTarget = the div.tree element
-        // ev.node is the tree node
-        // ev.node.element is the li element
-        const $li = $( ev.node.element );
-        $li.contextMenu();
-    }
-    */
-    /*
-    'tree.select .projects-tree .tree'( event ){
-        const obj = event.node ? event.node.obj : null;
-        if( obj && obj.type === 'A' ){
-            obj.initial_status = obj.status;
+        ev.preventDefault();
+        if( ev.move_info.target_node.id !== 'root' || ev.move_info.position === 'inside' ){
+            const obj = ev.move_info.moved_node.obj;
+            const method = obj.type === 'A' ? 'actions.project' : 'projects.parent';
+            Meteor.call( method, obj._id, ev.move_info.target_node.id, ( error ) => {
+                if( error ){
+                    return throwError({ message: error.message });
+                }
+            });
+            ev.move_info.do_move();
+            const $tree = $( ev.target );
+            const tab = $tree.data( 'tab' );
+            const json = Template.projects_tree.fn.jsonFilter( $tree.tree( 'toJson' ));
+            Meteor.call( 'counters.setValue', 'tree_'+tab, json, ( error ) => {
+                if( error ){
+                    return throwError({ message: error.message });
+                }
+            });
         }
-        Session.set('process.edit.obj', obj );
     }
-    */
 });

@@ -4,11 +4,14 @@ export const ActionStatus = new Mongo.Collection('action_status');
 
 ActionStatus.schema = new SimpleSchema({
     code: {
-        type: String,
-        optional: true
+        type: String
     },
     name: {
         type: String,
+    },
+    activable: {
+        type: Boolean,
+        optional: true
     },
     deletable: {
         type: Boolean,
@@ -27,9 +30,18 @@ ActionStatus.attachBehaviour( 'timestampable', {
 });
 
 ActionStatus.helpers({
+    // 'activable' defaults to true
+    //  so is only specified when false
+    isActivable: function(){
+        return this.activable === undefined ? true : this.activable;
+    },
+    // 'default' defaults to false
+    //  so is only specified when true
     isDefault: function(){
         return this.default === undefined ? false : this.default;
     },
+    // 'deletable' defaults to true
+    //  so is only specified when false
     isDeletable: function(){
         return this.deletable === undefined ? true : this.deletable;
     }
