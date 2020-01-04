@@ -21,7 +21,7 @@ import './edit_window.html';
 
 Template.editWindow.onCreated( function(){
     this.obj = new ReactiveVar( Session.get('process.edit.obj'));
-    console.log( 'editWindow.onCreated this.obj='+JSON.stringify( this.obj.get()));
+    //console.log( 'editWindow.onCreated this.obj='+JSON.stringify( this.obj.get()));
 });
 
 Template.editWindow.onRendered( function(){

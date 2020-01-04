@@ -42,6 +42,7 @@ Meteor.methods({
         });
     },
     'actions.remove'( id ){
+        console.log( 'actions.remove id='+id );
         Actions.remove(id);
     },
     'actions.update'( id, o ){

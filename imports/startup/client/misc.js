@@ -1,3 +1,22 @@
+// Display a modal dialog box
+//  Returning true si OK.
+miscDialog = function( title, msg, tag ){
+    if( !obj ){
+        console.log( 'miscParent() specified object is null (tag="'+tag+'")' );
+    } else {
+        //console.log( 'miscParent() obj='+obj+' tag='+tag );
+        var parent = obj;
+        const utag = tag.toUpperCase();
+        //console.log( 'parent='+parent+' tagName='+parent.tagName+' parent='+parent.parentNode+' tag='+tag );
+        while( parent.tagName.toUpperCase() != utag ){
+            parent = parent.parentNode;
+            //console.log( "new parent="+parent+' tagName='+parent.tagName );
+        }
+        return parent;
+    }
+    return null;
+};
+
 // rewind the parent hierarchy until finding an object with this tag
 // obj is expected to be a DOM element
 miscParent = function( obj, tag ){

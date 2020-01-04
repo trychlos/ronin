@@ -76,12 +76,9 @@
    55 2020- 1- 3 project_trees: when an item changes of tab, remove the
                   old item from the initial tab
                   Template.projects_tree.fn.updateTree() falsely coded
+                  + idem when deleting an item
 
-   56 2020- 1- 3 action delete
-
-   57 2020- 1- 3 project delete
-
-   58
+   57
 
 -----------------------------------------------------------------------
  Done
@@ -191,6 +188,10 @@
       2020- 1- 3 done
 
    54 2020- 1- 3 project_edit: future checkbox not correctly checked
+      2020- 1- 3 done
+
+   56 2020- 1- 3 action/project delete
+                  requires a confirmation dialog
       2020- 1- 3 done
 
 -----------------------------------------------------------------------

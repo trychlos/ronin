@@ -160,13 +160,43 @@ Template.projects_tree.fn = {
     // contextual menu, delete operation
     opeDelete: function( tab, node ){
         if( node.id !== 'root' ){
-            console.log( tab+': deleting '+node.name );
-            let msg = 'Are you sure you want to delete this ';
-            msg += node.type === 'A' ? 'action' : ( node.type === 'P' ? 'project' : 'item' );
+            //console.log( tab+': about to delete '+node.name );
+            //objDumpProps( node );
+            let msg = 'Are you sure you want to delete the \''+node.name+'\' ';
+            msg += node.obj.type === 'A' ? 'action' : 'project';
             if( node.children.length > 0 ){
                 msg += ', and all its children';
             }
             msg += ' ?';
+            const $tree = Template.projects_tree.fn.dict[tab].tree;
+            $tree.parent().append('<div class="dialog"></div>');
+            const $dialog = $('.projects-tree .dialog');
+            $dialog.text( msg );
+            $dialog.dialog({
+                buttons: [
+                    {
+                        text: 'Delete',
+                        click: function(){
+                            const method = node.obj.type === 'A' ? 'actions.remove' : 'projects.remove';
+                            Meteor.call( method, node.obj._id, ( error ) => {
+                                if( error ){
+                                    return throwError({ message: error.message });
+                                }
+                            });
+                            $( this ).dialog( 'close' );
+                    }},
+                    {
+                        text: 'Cancel',
+                        click: function(){
+                            console.log( 'click' );
+                            $( this ).dialog( 'close' );
+                    }}
+                ],
+                modal: true,
+                resizable: false,
+                title: 'Confirmation requested',
+                width: 400
+            });
         }
     },
     // contextual menu, edit operation
