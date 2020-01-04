@@ -41,7 +41,7 @@ Template.priority_values_list.events({
     'click .js-delete'(event){
         event.preventDefault();
         const target = event.target;        // target=[object SVGSVGElement] but may also be SVGPathElement
-        const anchor = miscParent( target, 'a' );
+        const anchor = $( target ).parents( 'a' )[0];
         const id = anchor.id.substring( Template.priority_values_list.fn.pfxDelete().length );
         Meteor.call('priority_values.remove', id, ( error ) => {
             if( error ){
@@ -53,7 +53,7 @@ Template.priority_values_list.events({
     'click .js-update'(event){
         event.preventDefault();
         const target = event.target;        // target=[object SVGSVGElement] but may also be SVGPathElement
-        const anchor = miscParent( target, 'a' );
+        const anchor = $( target ).parents( 'a' )[0];
         const id = anchor.id.substring( Template.priority_values_list.fn.pfxUpdate().length );
         var obj = PriorityValues.findOne({ _id: id });
         if( !obj ){

@@ -44,7 +44,7 @@ Template.thoughts_list.events({
     'click .js-delete'(event){
         event.preventDefault();
         const target = event.target;        // target=[object SVGSVGElement] but may also be SVGPathElement
-        const anchor = miscParent( target, 'a' );
+        const anchor = $( target ).parents( 'a' )[0];
         //console.log( "deleting id='"+anchor.id+"'");
         Meteor.call('thoughts.remove', anchor.id, ( error ) => {
             if( error ){
@@ -56,7 +56,7 @@ Template.thoughts_list.events({
     'click .js-update'(event){
         event.preventDefault();
         const target = event.target;        // target=[object SVGSVGElement] but may also be SVGPathElement
-        const anchor = miscParent( target, 'a' );
+        const anchor = $( target ).parents( 'a' )[0];
         const id = anchor.id.substring( Template.thoughts_list.fn.pfxUpdate().length );
         var obj = Thoughts.findOne({ _id: id });
         if( !obj ){
