@@ -87,9 +87,11 @@
                   project parent is a project or none
                   all topics, contexts, action status are referenced in db
 
-   63 2020- 1- 4 make sure a project is not ended while all action are not done
+   63 2020- 1- 4 make sure a project is not ended while all actions are not done
 
-   64
+   64 2020- 1- 4 have a template for recurrent tasks
+
+   65
 
 -----------------------------------------------------------------------
  Done

@@ -166,27 +166,27 @@ export const gtd = {
                     {
                         id: 'ina',
                         label: 'Inactive',
-                        router: 'review.actions.inactive'
+                        router: 'review.inactive'
                     },
                     {
                         id: 'asa',
                         label: 'Do ASAP',
-                        router: 'review.actions.asap'
+                        router: 'review.asap'
                     },
                     {
                         id: 'sch',
                         label: 'Scheduled',
-                        router: 'review.actions.scheduled'
+                        router: 'review.scheduled'
                     },
                     {
                         id: 'del',
                         label: 'Delegated',
-                        router: 'review.actions.delegated'
+                        router: 'review.delegated'
                     },
                     {
                         id: 'don',
                         label: 'Done',
-                        router: 'review.actions.done'
+                        router: 'review.done'
                     }
                 ]
             }

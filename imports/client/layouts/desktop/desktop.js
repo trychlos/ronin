@@ -16,7 +16,7 @@ Template.appDesktop.onRendered( function(){
                 en: {
                     'group:collectWindow':  'Collect',
                     'group:processWindow':  'Process',
-                    'group:projectsWindow': 'Review',
+                    'group:reviewWindow':   'Review',
                     'group:setupWindow':    'Setup'
                 }
             },

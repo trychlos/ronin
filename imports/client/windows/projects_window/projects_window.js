@@ -11,7 +11,8 @@ Template.projectsWindow.onRendered( function(){
         if( g.taskbar.get()){
             $('div.projects-window').IWindowed({
                 template:   'projectsWindow',
-                title:      'Review, organize and do'
+                group:      'reviewWindow',
+                title:      'Review, organize and do - Projects'
             });
         }
     });
