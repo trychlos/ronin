@@ -13,6 +13,7 @@ import { Projects } from '/imports/api/collections/projects/projects.js';
 import '/imports/client/components/errors/errors.js';
 import 'jqtree';
 import './projects_tree.html';
+import { notEqual } from 'assert';
 
 Template.projects_tree.fn = {
     // dict handles a key per tab, with data as:
@@ -63,7 +64,7 @@ Template.projects_tree.fn = {
                     }
                 }
             } else {
-                throwError({ message: 'unknown tab='+tab });
+                console.log( tab+': unknown tab' );
             }
         });
     },
@@ -93,6 +94,8 @@ Template.projects_tree.fn = {
         return $tree.tree( 'getNodeById', node.id );
     },
     // add the projects in projects and future tabs
+    //  note that even if an order has been initially retrieved, fetched must still
+    //  be explored for new items
     addProjects: function( tab, future, fetched ){
         const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
         if( !$tree ){
@@ -104,24 +107,25 @@ Template.projects_tree.fn = {
             order.forEach( it => {
                 Template.projects_tree.fn._addProjectsRec( $tree, future, it, '>' );
             });
-        } else {
-            fetched.forEach( it => {
-                Template.projects_tree.fn._addProjectNode( $tree, future, it, '' );
-            });
         }
-    },
+        fetched.forEach( it => {
+            Template.projects_tree.fn._addProjectNode( $tree, future, it, '' );
+        });
+},
     // add a project node
     _addProjectNode: function( $tree, future, project, prefix ){
         if( project.future === future ){
-            let node = {
-                id: project._id,
-                name:  project.name,
-                parent: project.parent,
-                obj: project
-            };
-            node.obj.type = 'P';
-            Template.projects_tree.fn.addNode( $tree, node );
-            //console.log( prefix+' adding '+node.obj.type+' '+node.name );
+            if( !$tree.tree( 'getNodeById', project._id )){
+                let node = {
+                    id: project._id,
+                    name:  project.name,
+                    parent: project.parent,
+                    obj: project
+                };
+                node.obj.type = 'P';
+                Template.projects_tree.fn.addNode( $tree, node );
+                //console.log( prefix+' adding '+node.obj.type+' '+node.name );
+            }
         }
     },
     // recursively add projects starting from the saved JSON
@@ -157,6 +161,41 @@ Template.projects_tree.fn = {
             Template.projects_tree.fn._deleteNodeRec( $tree, node.children[i] );
         }
     },
+    // display done items (or not)
+    displayDone: function( tab, display ){
+        const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
+        if( $tree ){
+            const $ul = $tree.children('ul:first-child');
+            //console.log( tab+' displayDone '+display );
+            Template.projects_tree.fn._displayDoneUl( $ul, display );
+        }
+    },
+    _displayDoneLi: function( $li, display ){
+        const node = $li.data('node');
+        if( node.obj.type !== 'R' ){
+            const done = node.obj.type === 'A' ? node.obj.status === 'don' : node.obj.ended;
+            let hidden = !display && done;
+            //console.log( node.name+' display='+display+' done='+done+' hidden='+hidden );
+            if( hidden ){
+                display = false;
+                $li.addClass('x-hidden');
+            } else {
+                $li.removeClass('x-hidden');
+            }
+        }
+        const $ul = $li.children('ul');
+        if( $ul ){
+            for( let i=0; i<$ul.length; i++ ){
+                Template.projects_tree.fn._displayDoneUl( $($ul[i]), display );
+            }
+        }
+    },
+    _displayDoneUl: function( $ul, display ){
+        const $li = $ul.children('li');
+        for( let i=0; i<$li.length; i++ ){
+            Template.projects_tree.fn._displayDoneLi( $($li[i]), display );
+        }
+    },
     // dump the tree by HTML elements
     dumpHtml: function( tab ){
         const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
@@ -180,7 +219,7 @@ Template.projects_tree.fn = {
         for( let i=0; i<$li.length; i++ ){
             Template.projects_tree.fn._dumpHtmlLi( $($li[i]), prefix );
         }
-},
+    },
     // dump the tree by nodes
     dumpTree: function( tab ){
         const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
@@ -195,14 +234,14 @@ Template.projects_tree.fn = {
             Template.projects_tree.fn._dumpTreeRec( $tree, node.children[i], prefix+' ' );
         }
     },
-    // returns the ad-hoc icon class if the action is activable
-    getIconClass: function( node ){
+    // returns the ad-hoc class for the item LI
+    getItemClass: function( node ){
         return node && node.obj && node.obj.type === 'A' ?
             ( node.obj.status === 'don' ? 'rev-status-done' :
                 ( node.obj.status !== 'ina' ? 'rev-status-activable' : '' )) : '';
     },
     // returns the appliable icon
-    getIconName: function( node ){
+    getItemIcon: function( node ){
         return node && node.obj && node.obj.type === 'A' ? 'fa-radiation-alt' : 'fa-folder-open';
     },
     // transforms the JSON object returned by tree('toJson') by removing all but id's
@@ -389,10 +428,10 @@ Template.projects_tree.onRendered( function(){
             openedIcon: $('<i class="fas fa-minus"></i>'),
             onCreateLi: function( node, $li, isSelected ){
                 // Add 'icon' span before title
-                const icon = Template.projects_tree.fn.getIconName( node );
-                const classe = Template.projects_tree.fn.getIconClass( node );
-                $li.find('.jqtree-title').before('<span class="fas '+icon+' '+classe+' icon"></span>');
-                $li.attr('data-pwi-nodeid', node.id);
+                const icon = Template.projects_tree.fn.getItemIcon( node );
+                const classe = Template.projects_tree.fn.getItemClass( node );
+                $li.find('.jqtree-title').before('<span class="fas '+icon+' icon"></span>');
+                $li.addClass( classe );
             }
         });
         Template.projects_tree.fn.dict[tab].tree = $tree;
@@ -447,17 +486,20 @@ Template.projects_tree.onRendered( function(){
                 });
             }
         });
+        // display done defaults to true
+        this.$('.js-done').prop('checked', true );
     }
     // get the initial tree ordering when counters are here
     this.autorun(() => {
         const tab = this.data.tab;
         if( tab &&
             Template.projects_tree.fn.dict[tab].countersHandle.ready()){
-                const json = Meteor.call( 'counters.getValue', 'tree_'+tab );
-                if( json ){
-                    Template.projects_tree.fn.dict[tab].order.set( JSON.parse( json.value ));
-                }
-                console.log( tab+' json '+json );
+                Meteor.call( 'counters.getValue', 'tree_'+tab, ( error, result ) => {
+                    //console.log( tab+' json async callback '+result );
+                    if( result ){
+                        Template.projects_tree.fn.dict[tab].order.set( JSON.parse( result ));
+                    }
+                });
                 Template.projects_tree.fn.dict[tab].countersGot.set( true );
         }
     });
@@ -513,6 +555,11 @@ Template.projects_tree.onRendered( function(){
 });
 
 Template.projects_tree.events({
+    'change .js-done'( ev, instance ){
+        const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
+        const checked = instance.$('.js-done' ).is(':checked');
+        Template.projects_tree.fn.displayDone( tab, checked );
+    },
     'click .js-dump'( ev, instance ){
         const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
         Template.projects_tree.fn.dumpTree( tab );
@@ -520,6 +567,7 @@ Template.projects_tree.events({
     },
     // moving a mode means both reparenting and reordering it 
     // note that we are refusing to move outside of the root node
+    //  + we also refuse to drop an action inside another action
     'tree.move .projects-tree .tree'( ev ){
         //console.log( 'ev ', ev );
         //console.log( 'moved_node', ev.move_info.moved_node );
@@ -527,23 +575,30 @@ Template.projects_tree.events({
         //console.log('position', ev.move_info.position);
         //console.log('previous_parent', ev.move_info.previous_parent);
         ev.preventDefault();
-        if( ev.move_info.target_node.id !== 'root' || ev.move_info.position === 'inside' ){
-            const obj = ev.move_info.moved_node.obj;
-            const method = obj.type === 'A' ? 'actions.project' : 'projects.parent';
-            Meteor.call( method, obj._id, ev.move_info.target_node.id, ( error ) => {
-                if( error ){
-                    return throwError({ message: error.message });
-                }
-            });
-            ev.move_info.do_move();
-            const $tree = $( ev.target );
-            const tab = $tree.data( 'tab' );
-            const json = Template.projects_tree.fn.jsonFilter( $tree.tree( 'toJson' ));
-            Meteor.call( 'counters.setValue', 'tree_'+tab, json, ( error ) => {
-                if( error ){
-                    return throwError({ message: error.message });
-                }
-            });
+        if( ev.move_info.target_node.id === 'root' && ev.move_info.position !== 'inside' ){
+            throwError({ message: 'Refusing to drop outside the root' });
+            return false;
         }
+        const target_type = ev.move_info.target_node.obj.type;
+        if( target_type !== 'P' && target_type !== 'R' ){
+            throwError({ message: 'Refusing to drop elsewhere than the root or a project' });
+            return false;
+        }
+        const obj = ev.move_info.moved_node.obj;
+        const method = obj.type === 'A' ? 'actions.project' : 'projects.parent';
+        Meteor.call( method, obj._id, ev.move_info.target_node.id, ( error ) => {
+            if( error ){
+                return throwError({ message: error.message });
+            }
+        });
+        ev.move_info.do_move();
+        const $tree = $( ev.target );
+        const tab = $tree.data( 'tab' );
+        const json = Template.projects_tree.fn.jsonFilter( $tree.tree( 'toJson' ));
+        Meteor.call( 'counters.setValue', 'tree_'+tab, json, ( error ) => {
+            if( error ){
+                return throwError({ message: error.message });
+            }
+        });
     }
 });

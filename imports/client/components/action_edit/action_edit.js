@@ -111,7 +111,6 @@ Template.action_edit.events({
                     }
                 });
             }
-            Session.set( 'process.edit.obj', newobj );
             Template.action_edit.fn.close( instance );
         }
         return false;

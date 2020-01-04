@@ -18,14 +18,22 @@
                     cursor: pointer;
                 }
             }
-            .rev-status-activable.icon {
-                color: green;
+            .rev-status-activable {
+                .icon {
+                    color: green;
+                }
             }
-            .rev-status-done.icon {
-                color: blue;
+            .rev-status-done {
+                text-decoration: line-through;
+                .icon {
+                    color: blue;
+                }
             }
             .contextmenu-showing {
                 background-color: #d1dfe9; //lighten( '#2980b9', 25% );
+            }
+            div.btns {
+                margin: 0.5em 0;
             }
         }
     }
