@@ -7,6 +7,7 @@
  */
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import '/imports/client/components/date_select/date_select.js';
+import '/imports/client/components/projects_select/projects_select.js';
 import '/imports/client/components/topics_select/topics_select.js';
 import './project_edit.html';
 
@@ -88,6 +89,7 @@ Template.project_edit.events({
                 startDate: Template.date_select.fn.getDate( '.js-datestart' ),
                 dueDate: Template.date_select.fn.getDate( '.js-datedue' ),
                 doneDate: Template.date_select.fn.getDate( '.js-datedone' ),
+                parent: Template.projects_select.fn.getSelected( '.js-parent' ),
                 future: instance.$('.js-future').is(':checked'),
                 notes: instance.$('.js-notes').val(),
             };
