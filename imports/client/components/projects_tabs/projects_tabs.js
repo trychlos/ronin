@@ -1,34 +1,34 @@
 /*
- * 'review_tabs' component.
+ * 'projects_tabs' component.
  *  Display projects and single actions as tabs.
  * 
  *  Parameters:
  *  - counters: the list of root nodes of the embedded trees,
- *      which must have been previously fetched by reviewWindow.
+ *      which must have been previously fetched by projectsWindow.
  * 
  *  Session variables:
- *  - review.tab.name: the current tab.
+ *  - projects.tab.name: the current tab.
  */
 import { Counters } from '/imports/api/collections/counters/counters.js';
 import '/imports/client/components/projects_tree/projects_tree.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
-import './review_tabs.html';
+import './projects_tabs.html';
 
-Template.review_tabs.onCreated( function(){
+Template.projects_tabs.onCreated( function(){
     this.handle = this.subscribe('counters.root.tree');
 });
 
-Template.review_tabs.onRendered( function(){
+Template.projects_tabs.onRendered( function(){
     this.autorun(() => {
         if( this.handle.ready()){
-            $('.review-tabbed').ITabbed({
-                tab: Session.get('review.tab.name')
+            $('.projects-tabbed').ITabbed({
+                tab: Session.get('projects.tab.name')
             });
         }
     });
 });
 
-Template.review_tabs.helpers({
+Template.projects_tabs.helpers({
     counters(){
         return Counters.find({ name:'root' }, { sort: { nid: 1 }});
     }

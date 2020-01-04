@@ -11,7 +11,7 @@ import '/imports/client/pages/edit_page/edit_page.js';
 import '/imports/client/pages/empty/empty.js';
 import '/imports/client/pages/process_page/process_page.js';
 //import '/imports/client/pages/projects/projects.js';
-import '/imports/client/pages/review_page/review_page.js';
+import '/imports/client/pages/projects_page/projects_page.js';
 import '/imports/client/pages/setup_page/setup_page.js';
 import '/imports/client/pages/not_found/not_found.js';
 
@@ -129,22 +129,22 @@ FlowRouter.route('/action/new', {
 FlowRouter.route('/review/projects', {
     name: 'review.projects',
     action(){
-        Session.set('review.tab.name', 'projects' );
-        BlazeLayout.render('appDesktop', { main: 'reviewPage' });
+        Session.set('projects.tab.name', 'projects' );
+        BlazeLayout.render('appDesktop', { main: 'projectsPage' });
     },
 });
 FlowRouter.route('/review/future', {
     name: 'review.future',
     action(){
-        Session.set('review.tab.name', 'future' );
-        BlazeLayout.render('appDesktop', { main: 'reviewPage' });
+        Session.set('projects.tab.name', 'future' );
+        BlazeLayout.render('appDesktop', { main: 'projectsPage' });
     },
 });
 FlowRouter.route('/review/actions', {
     name: 'review.actions',
     action(){
-        Session.set('review.tab.name', 'actions' );
-        BlazeLayout.render('appDesktop', { main: 'reviewPage' });
+        Session.set('projects.tab.name', 'actions' );
+        BlazeLayout.render('appDesktop', { main: 'projectsPage' });
     },
 });
 /*

@@ -14,10 +14,10 @@ Template.appDesktop.onRendered( function(){
             //buttonsTooltips: true,
             localization: {
                 en: {
-                    'group:collectWindow': 'Collect',
-                    'group:processWindow': 'Process',
-                    'group:reviewWindow':  'Review',
-                    'group:setupWindow':   'Setup'
+                    'group:collectWindow':  'Collect',
+                    'group:processWindow':  'Process',
+                    'group:projectsWindow': 'Review',
+                    'group:setupWindow':    'Setup'
                 }
             },
             minimizeAll: false,
