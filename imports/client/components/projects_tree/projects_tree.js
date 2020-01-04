@@ -8,6 +8,7 @@
  *  - tab: the identifier of the created instance (may not be the one currently shown).
  */
 import { Actions } from '/imports/api/collections/actions/actions.js';
+import { Counters } from '/imports/api/collections/counters/counters.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import '/imports/client/components/errors/errors.js';
 import 'jqtree';
@@ -177,6 +178,26 @@ Template.projects_tree.fn = {
     getIconName: function( node ){
         return node && node.obj && node.obj.type === 'A' ? 'fa-radiation-alt' : 'fa-folder-open';
     },
+    // transforms the JSON object returned by tree('toJson') by removing all but id's
+    //  returns a JSON string
+    jsonFilter: function( json ){
+        const js = JSON.parse( json );
+        const out = new Array();
+        js.forEach( it => {
+            out.push( Template.projects_tree.fn._jsonFilterRec( it ));
+        });
+        return JSON.stringify( out );
+    },
+    _jsonFilterRec: function( it ){
+        let obj = { id: it.id };
+        if( it.children ){
+            obj.children = new Array();
+            it.children.forEach( child => {
+                obj.children.push( Template.projects_tree.fn._jsonFilterRec( child ));
+            });
+        }
+        return obj;
+    },
     // An item has been changed so that is must be moved from one tree to another
     //  Though the Meteor reactivity takes care of inserting into the target tree
     //  we have to take care ourselves of removing from old tree
@@ -197,7 +218,7 @@ Template.projects_tree.fn = {
     obsoleteParent: function( parent, id ){
         const pNone = Projects.findOne({ code: 'non' });
         const searched = parent && parent !== pNone._id ? parent : 'root';
-        console.log( 'obsoletedParent='+parent+' id='+id+' searched='+searched );
+        //console.log( 'obsoletedParent='+parent+' id='+id+' searched='+searched );
         const tabs = Object.keys( Template.projects_tree.fn.dict );
         for( var i=0 ; i<tabs.length ; ++i ){
             const $tree = Template.projects_tree.fn.dict[tabs[i]].tree;
@@ -378,6 +399,14 @@ Template.projects_tree.onRendered( function(){
                     }
                 }
             },
+            events: {
+                show: function( opts ){
+                    this.addClass( 'contextmenu-showing' );
+                },
+                hide: function( opts ){
+                    this.removeClass( 'contextmenu-showing' );
+                }
+            },
             position: function( opt, x, y ){
                 // opt: menu object
                 opt.$menu.position({
@@ -443,6 +472,29 @@ Template.projects_tree.events({
         Template.projects_tree.fn.dumpTree( tab );
         Template.projects_tree.fn.dumpHtml( tab );
     },
+    // moving a mode means both reparenting and reordering it 
+    'tree.move .projects-tree .tree'( ev ){
+        //console.log( 'ev ', ev );
+        //console.log( 'moved_node', ev.move_info.moved_node );
+        //console.log('target_node', ev.move_info.target_node);
+        //console.log('position', ev.move_info.position);
+        //console.log('previous_parent', ev.move_info.previous_parent);
+        const obj = ev.move_info.moved_node.obj;
+        const method = obj.type === 'A' ? 'actions.project' : 'projects.parent';
+        Meteor.call( method, obj._id, ev.move_info.target_node.id, ( error ) => {
+            if( error ){
+                return throwError({ message: error.message });
+            }
+        });
+        const $tree = $( ev.target );
+        const tab = $tree.data( 'tab' );
+        const json = Template.projects_tree.fn.jsonFilter( $tree.tree( 'toJson' ));
+        Meteor.call( 'counters.setValue', 'tree_'+tab, json, ( error ) => {
+            if( error ){
+                return throwError({ message: error.message });
+            }
+        });
+}
     /*
     'tree.contextmenu .projects-tree .tree'( ev ){
         // ev.target = ev.currentTarget = the div.tree element

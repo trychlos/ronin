@@ -46,8 +46,7 @@ Meteor.methods({
         console.log( 'projects.remove id='+id );
         Projects.remove(id);
     },
-    'projects.setParent'( id, parent ){
-        console.log( 'projects.setParent() id='+id+' parent='+parent );
+    'projects.parent'( id, parent ){
         Projects.update({ _id:id }, { $set: { parent: parent }});
     },
     'projects.update'( id, o ){
