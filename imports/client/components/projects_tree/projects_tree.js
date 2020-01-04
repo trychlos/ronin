@@ -109,6 +109,26 @@ Template.projects_tree.fn = {
             Template.projects_tree.fn.addNode( $tree, node );
         }));
     },
+    // delete a node, both in the server side and in the tree
+    //  and recursively for each child
+    //  NB deleting a hierarchy actually means a recursion for deletion in the sgbd
+    //  but only the deletion of the only parent relatively to the DOM
+    deleteNode( $tree, node ){
+        Template.projects_tree.fn._deleteNodeRec( $tree, node );
+        $tree.tree( 'removeNode', node );
+    },
+    _deleteNodeRec( $tree, node ){
+        const method = node.obj.type === 'A' ? 'actions.remove' : 'projects.remove';
+        //console.log( 'Meteor.call '+method+' '+node.name );
+        Meteor.call( method, node.obj._id, ( error ) => {
+            if( error ){
+                return throwError({ message: error.message });
+            }
+        });
+        for( var i=0 ; i<node.children.length ; ++i ){
+            Template.projects_tree.fn._deleteNodeRec( $tree, node.children[i] );
+        }
+    },
     // dump the tree by HTML elements
     dumpHtml: function( tab ){
         const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
@@ -147,15 +167,48 @@ Template.projects_tree.fn = {
             Template.projects_tree.fn._dumpTreeRec( $tree, node.children[i], prefix+' ' );
         }
     },
-    // returns the ad-hox class if the action is activable
-    getClass: function( node ){
+    // returns the ad-hoc icon class if the action is activable
+    getIconClass: function( node ){
         return node && node.obj && node.obj.type === 'A' ?
             ( node.obj.status === 'don' ? 'rev-status-done' :
                 ( node.obj.status !== 'ina' ? 'rev-status-activable' : '' )) : '';
     },
     // returns the appliable icon
-    getIcon: function( node ){
+    getIconName: function( node ){
         return node && node.obj && node.obj.type === 'A' ? 'fa-radiation-alt' : 'fa-folder-open';
+    },
+    // An item has been changed so that is must be moved from one tree to another
+    //  Though the Meteor reactivity takes care of inserting into the target tree
+    //  we have to take care ourselves of removing from old tree
+    //  Here, the 'future' status of a project has been switched.
+    //  - future: previous value
+    //  - id: project id (because only project has this flag)
+    obsoleteFuture: function( future, id ){
+        const tab = future ? 'future' : 'projects';
+        const $tree =  Template.projects_tree.fn.dict[tab].tree;
+        const node = $tree.tree( 'getNodeById', id );
+        if( node ){
+            $tree.tree( 'removeNode', node );
+        }
+    },
+    // An item (action or project) has been reparented
+    //  - parent: previous parent
+    //  - id: item id
+    obsoleteParent: function( parent, id ){
+        const pNone = Projects.findOne({ code: 'non' });
+        const searched = parent && parent !== pNone._id ? parent : 'root';
+        console.log( 'obsoletedParent='+parent+' id='+id+' searched='+searched );
+        const tabs = Object.keys( Template.projects_tree.fn.dict );
+        for( var i=0 ; i<tabs.length ; ++i ){
+            const $tree = Template.projects_tree.fn.dict[tabs[i]].tree;
+            const node = $tree.tree( 'getNodeById', searched );
+            if( node ){
+                const child = $tree.tree( 'getNodeById', id );
+                if( child ){
+                    $tree.tree( 'removeNode', child );
+                }
+            }
+        }
     },
     // contextual menu, delete operation
     opeDelete: function( tab, node ){
@@ -177,12 +230,7 @@ Template.projects_tree.fn = {
                     {
                         text: 'Delete',
                         click: function(){
-                            const method = node.obj.type === 'A' ? 'actions.remove' : 'projects.remove';
-                            Meteor.call( method, node.obj._id, ( error ) => {
-                                if( error ){
-                                    return throwError({ message: error.message });
-                                }
-                            });
+                            Template.projects_tree.fn.deleteNode( $tree, node );
                             $( this ).dialog( 'close' );
                     }},
                     {
@@ -206,6 +254,18 @@ Template.projects_tree.fn = {
             const $tree = Template.projects_tree.fn.dict[tab].tree;
             Session.set( 'process.edit.obj', node.obj );
             $tree.IWindowed( 'showNew', 'editWindow' );
+        }
+    },
+    // Remove the node from the tab
+    removeTabNode: function( tab, node ){
+        const $tree = Template.projects_tree.fn.dict[tab].tree;
+        Template.projects_tree.fn.removeTreeNode( $tree, node );
+    },
+    // Remove the node from the tree
+    removeTreeNode: function( $tree, node ){
+        $tree.tree( 'removeNode', node );
+        for( var i=0 ; i<node.children.length ; ++i ){
+            Template.projects_tree.fn.removeTreeNode( $tree, node.children[i] );
         }
     },
     // if $node is activable, then propagate to the up hierarchy
@@ -248,20 +308,6 @@ Template.projects_tree.fn = {
                 type: 'R'
             }
         });
-    },
-    // this object has changed enough to get a new place somewhere in the trees
-    // the tree which holds the previous place has to be refreshed
-    updateTree: function( obj ){
-        const tabs = Object.keys( Template.projects_tree.fn.dict );
-        for( var i=0 ; i<tabs.length ; ++i ){
-            const $tree = Template.projects_tree.fn.dict[tabs[i]]
-            let found = $tree.tree( 'getNodeById', obj._id );
-            if( found ){
-                //console.log( obj.name+' node found' );
-                $tree.tree( 'removeNode', found );
-                break;
-            }
-        }
     }
 };
 
@@ -292,8 +338,8 @@ Template.projects_tree.onRendered( function(){
             openedIcon: $('<i class="fas fa-minus"></i>'),
             onCreateLi: function( node, $li, isSelected ){
                 // Add 'icon' span before title
-                const icon = Template.projects_tree.fn.getIcon( node );
-                const classe = Template.projects_tree.fn.getClass( node );
+                const icon = Template.projects_tree.fn.getIconName( node );
+                const classe = Template.projects_tree.fn.getIconClass( node );
                 $li.find('.jqtree-title').before('<span class="fas '+icon+' '+classe+' icon"></span>');
                 $li.attr('data-pwi-nodeid', node.id);
             }
@@ -370,6 +416,24 @@ Template.projects_tree.onRendered( function(){
                 //console.log( tab+': updating actions' );
                 Template.projects_tree.fn.addActions( tab, Actions.find().fetch());
         }
+    });
+    // on action or project update, the new status of the updated item is reactively
+    //  updated on the ad-hoc tree. Contrarily, the old status must be manually removed
+    this.autorun(() => {
+        const update = Session.get( 'process.obsolete.obj' );
+        if( update && update.changes ){
+            for( var i=0 ; i<update.changes.length ; ++i ){
+                switch( update.changes[i].data ){
+                    case 'future':
+                        Template.projects_tree.fn.obsoleteFuture( update.changes[i].value, update.id );
+                        break;
+                    case 'project':
+                        Template.projects_tree.fn.obsoleteParent( update.changes[i].value, update.id );
+                        break;
+                }
+            }
+        }
+        Session.set( 'process.obsolete.obj', null );
     });
 });
 

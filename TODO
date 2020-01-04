@@ -78,7 +78,9 @@
                   Template.projects_tree.fn.updateTree() falsely coded
                   + idem when deleting an item
 
-   57
+   57 2020- 1- 4 projects_tree: set node opened at creation
+
+   58
 
 -----------------------------------------------------------------------
  Done

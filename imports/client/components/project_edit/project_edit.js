@@ -98,6 +98,13 @@ Template.project_edit.events({
                     }
                 });
                 newobj._id = id;
+                // if project.future has changed, then the previous tree should be updated (refreshed)
+                if( obj.future !== newobj.future ){
+                    Session.set( 'process.obsolete.obj', 
+                        { id:id, type:'A', changes: [
+                            { data:'future', value:obj.future }
+                    ]});
+                }
             } else {
                 newobj._id = Meteor.call('projects.insert', newobj, ( error ) => {
                     if( error ){
