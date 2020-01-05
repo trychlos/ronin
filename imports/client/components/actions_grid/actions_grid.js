@@ -160,12 +160,12 @@ Template.actions_grid.onRendered( function(){
                         autoHide: true,
                         events: {
                             show: function( opts ){
-                                console.log( this.attr('class'));
-                                objDumpProps( this );
-                                this.parents('div[role=row]')[0].addClass( 'contextmenu-showing' );
+                                //console.log( this.attr('class'));
+                                //objDumpProps( this );
+                                this.parents('div[role=row]').addClass( 'contextmenu-showing' );
                             },
                             hide: function( opts ){
-                                this.parents('div[role=row]')[0].removeClass( 'contextmenu-showing' );
+                                this.parents('div[role=row]').removeClass( 'contextmenu-showing' );
                             }
                         },
                         position: function( opt, x, y ){
@@ -201,6 +201,7 @@ Template.actions_grid.onRendered( function(){
             const $grid = fn.dict[data.tab].grid.get();
             const ready = fn.dict[data.tab].ready.get();
             if( $grid && ready && data.actions ){
+                $grid.jqxGrid( 'clear' );
                 data.actions.forEach( it => {
                     //console.log( it.name );
                     let obj = Object.assign( {}, it );
@@ -215,7 +216,4 @@ Template.actions_grid.onRendered( function(){
             }
         }
     });
-});
-
-Template.actions_grid.events({
 });
