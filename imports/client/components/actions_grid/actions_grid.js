@@ -9,6 +9,11 @@
  *  Session variables:
  *  - actions.tab.name: the current tab.
  */
+import { Contexts } from '/imports/api/collections/contexts/contexts.js';
+import { Projects } from '/imports/api/collections/projects/projects.js';
+import { Topics } from '/imports/api/collections/topics/topics.js';
+import '/imports/client/interfaces/icontextmenu/icontextmenu.js';
+import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import '/imports/client/third-party/jqwidgets/jqx.base.css';
 import '/imports/client/third-party/jqwidgets/jqxcore.js';
 import '/imports/client/third-party/jqwidgets/jqxbuttons.js';
@@ -32,10 +37,13 @@ Template.actions_grid.fn = {
         'default': {
             columns: [
                 { text:'Action', datafield:'name' },
-                { text:'Topic', datafield:'topic' },
-                { text:'Context', datafield:'context' },
-                { text:'Project', datafield:'project' }
-            ]
+                { text:'Topic', datafield:'topicLabel' },
+                { text:'Context', datafield:'contextLabel' },
+                { text:'Project', datafield:'projectLabel' },
+                { text:'Creation', datafield:'createdAt', cellsalign:'center', cellsformat:'dd/MM/yyyy', width:75 }
+            ],
+            columnsresize: true,
+            sortable: true
         }
     },
     getSettings: function( tab ){
@@ -46,6 +54,47 @@ Template.actions_grid.fn = {
             }
         }
         return( Template.actions_grid.fn.grids.default );
+    },
+    // delete the row in the grid, along with corresponding document server-side
+    deleteRow: function( $grid, row ){
+        Meteor.call( 'actions.remove', row._id );
+    },
+    // contextual menu, delete operation
+    opeDelete: function( tab, row ){
+        //console.log( 'opeDelete tab='+tab+' row='+row.name );
+        const fn = Template.actions_grid.fn;
+        const msg = 'Are you sure you want to delete the \''+row.name+'\' action ?';
+        const $grid = fn.dict[tab].grid.get();
+        $grid.parent().append('<div class="dialog"></div>');
+        const $dialog = $('.actions-grid .dialog');
+        $dialog.text( msg );
+        $dialog.dialog({
+            buttons: [
+                {
+                    text: 'Delete',
+                    click: function(){
+                        fn.deleteRow( $grid, row );
+                        $( this ).dialog( 'close' );
+                }},
+                {
+                    text: 'Cancel',
+                    click: function(){
+                        $( this ).dialog( 'close' );
+                }}
+            ],
+            modal: true,
+            resizable: false,
+            title: 'Confirmation is requested',
+            width: 400
+    });
+},
+    // contextual menu, edit operation
+    opeEdit: function( tab, row ){
+        //console.log( 'opeEdit tab='+tab+' row='+row.name );
+        const $grid = Template.actions_grid.fn.dict[tab].grid.get();
+        row.type = 'A';
+        Session.set( 'process.edit.obj', row );
+        $grid.IWindowed( 'showNew', 'editWindow' );
     }
 };
 
@@ -54,35 +103,119 @@ Template.actions_grid.onCreated( function(){
     const data = Template.currentData();
     if( data && data.tab ){
         Template.actions_grid.fn.dict[data.tab] = {
-            grid: new ReactiveVar( null )
+            grid: new ReactiveVar( null ),
+            handles: [
+                this.subscribe( 'contexts.all' ),
+                this.subscribe( 'projects.all' ),
+                this.subscribe( 'topics.all' )
+            ],
+            ready: new ReactiveVar( false ),
+            rowIndex: null
         }
     }
 });
 
 Template.actions_grid.onRendered( function(){
+    const fn = Template.actions_grid.fn;
+    const self = this;
     // create the grid
     this.autorun(() => {
         const data = Template.currentData();
         if( data && data.tab ){
             const $grid = this.$('.grid');
-            $grid.jqxGrid( Template.actions_grid.fn.getSettings( data.tab ));
-            Template.actions_grid.fn.dict[data.tab].grid.set( $grid );
+            $grid.jqxGrid( fn.getSettings( data.tab ));
+            // on each click on a row, store the corresponding rowindex
+            //  this is a sort of hack as context menu does not provide that
+            $grid.on( 'rowclick', function( ev ){
+                fn.dict[data.tab].rowIndex = ev.args.rowindex;
+            });
+            fn.dict[data.tab].grid.set( $grid );
+            // define a context menu on the rows
+            $grid.contextMenu({
+                selector: 'div.jqx-grid-content div.jqx-grid-cell',
+                build: function( $elt, ev ){
+                    return {
+                        items: {
+                            edit: {
+                                name: 'Edit',
+                                icon: 'fas fa-edit'
+                            },
+                            delete: {
+                                name: 'Delete',
+                                icon: 'fas fa-trash-alt'
+                            }
+                        },
+                        callback: function( item, opt, menu, ev ){
+                            const row = $grid.jqxGrid( 'getrowdata', fn.dict[data.tab].rowIndex );
+                            //objDumpProps( row );
+                            switch( item ){
+                                case 'edit':
+                                    fn.opeEdit( data.tab, row );
+                                    break;
+                                case 'delete':
+                                    fn.opeDelete( data.tab, row );
+                                    break;
+                            }
+                        },
+                        autoHide: true,
+                        events: {
+                            show: function( opts ){
+                                console.log( this.attr('class'));
+                                objDumpProps( this );
+                                this.parents('div[role=row]')[0].addClass( 'contextmenu-showing' );
+                            },
+                            hide: function( opts ){
+                                this.parents('div[role=row]')[0].removeClass( 'contextmenu-showing' );
+                            }
+                        },
+                        position: function( opt, x, y ){
+                            opt.$menu.position({
+                                my: 'left top',
+                                at: 'right bottom',
+                                of: ev
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    });
+    // wait for all subscriptions are ready
+    this.autorun(() => {
+        const data = Template.currentData();
+        if( data && data.tab ){
+            let ready = fn.dict[data.tab].ready.get();
+            if( !ready ){
+                ready = true;
+                fn.dict[data.tab].handles.forEach( it => {
+                    ready &= it.ready();
+                });
+                fn.dict[data.tab].ready.set( ready );
+            }
         }
     });
     // when actions are ready, populate the grid
     this.autorun(() => {
         const data = Template.currentData();
-        //objDumpProps( data );
-        //objDumpProps( data.actions );
         if( data && data.tab ){
-            //console.log( data.tab );
-            const $grid = Template.actions_grid.fn.dict[data.tab].grid.get();
-            if( $grid && data.actions ){
+            const $grid = fn.dict[data.tab].grid.get();
+            const ready = fn.dict[data.tab].ready.get();
+            if( $grid && ready && data.actions ){
                 data.actions.forEach( it => {
                     //console.log( it.name );
-                    $grid.jqxGrid( 'addrow', null, it );
+                    let obj = Object.assign( {}, it );
+                    const context = Contexts.findOne({ _id: it.context });
+                    obj.contextLabel = context ? context.name : '';
+                    const project = Projects.findOne({ _id: it.project });
+                    obj.projectLabel = project ? project.name : '';
+                    const topic = Topics.findOne({ _id: it.topic });
+                    obj.topicLabel = topic ? topic.name : '';
+                    $grid.jqxGrid( 'addrow', it._id, obj );
                 });
             }
         }
     });
+});
+
+Template.actions_grid.events({
 });

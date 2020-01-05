@@ -28,8 +28,8 @@ Template.editWindow.onRendered( function(){
     this.autorun(() => {
         if( g.taskbar.get()){
             const obj = this.obj.get();
-            let title = 'Edit';
-            title += obj && obj.type === 'A' ? ' action' : 'project';
+            let title = 'Edit ';
+            title += obj && obj.type === 'A' ? 'action' : 'project';
             title += obj && obj.name ? ' - '+obj.name : '';
             this.$('div.edit-window').IWindowed({
                 template:   'editWindow',

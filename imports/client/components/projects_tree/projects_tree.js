@@ -11,6 +11,8 @@ import { Actions } from '/imports/api/collections/actions/actions.js';
 import { Counters } from '/imports/api/collections/counters/counters.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import '/imports/client/components/errors/errors.js';
+import '/imports/client/interfaces/icontextmenu/icontextmenu.js';
+import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import 'jqtree';
 import './projects_tree.html';
 import { notEqual } from 'assert';
@@ -323,13 +325,12 @@ Template.projects_tree.fn = {
                     {
                         text: 'Cancel',
                         click: function(){
-                            console.log( 'click' );
                             $( this ).dialog( 'close' );
                     }}
                 ],
                 modal: true,
                 resizable: false,
-                title: 'Confirmation requested',
+                title: 'Confirmation is requested',
                 width: 400
             });
         }
@@ -415,6 +416,7 @@ Template.projects_tree.onCreated( function(){
 });
 
 Template.projects_tree.onRendered( function(){
+    const fn = Template.projects_tree.fn;
     // create the tree for this tab and display the root node
     const tab = this.data.tab;
     if( tab ){
@@ -428,28 +430,17 @@ Template.projects_tree.onRendered( function(){
             openedIcon: $('<i class="fas fa-minus"></i>'),
             onCreateLi: function( node, $li, isSelected ){
                 // Add 'icon' span before title
-                const icon = Template.projects_tree.fn.getItemIcon( node );
-                const classe = Template.projects_tree.fn.getItemClass( node );
+                const icon = fn.getItemIcon( node );
+                const classe = fn.getItemClass( node );
                 $li.find('.jqtree-title').before('<span class="fas '+icon+' icon"></span>');
                 $li.addClass( classe );
             }
         });
-        Template.projects_tree.fn.dict[tab].tree = $tree;
-        Template.projects_tree.fn.setRootNode( tab, this.data.label );
+        fn.dict[tab].tree = $tree;
+        fn.setRootNode( tab, this.data.label );
         // define the context menu
-        $tree.contextMenu({
+        $tree.IContextMenu({
             selector: 'li.jqtree_common span.jqtree-title',
-            items: {
-                edit: {
-                    name: 'Edit',
-                    icon: 'fas fa-edit'
-                },
-                delete: {
-                    name: 'Delete',
-                    icon: 'fas fa-trash-alt'
-                }
-            },
-            autoHide: true,
             callback: function( item, opt ){
                 // opt: menu object
                 // opt.context: DIV.tree element
@@ -460,30 +451,13 @@ Template.projects_tree.onRendered( function(){
                 if( node.id !== 'root' ){
                     switch( item ){
                         case 'edit':
-                            Template.projects_tree.fn.opeEdit( tab, node );
+                            fn.opeEdit( tab, node );
                             break;
                         case 'delete':
-                            Template.projects_tree.fn.opeDelete( tab, node );
+                            fn.opeDelete( tab, node );
                             break;
                     }
                 }
-            },
-            events: {
-                show: function( opts ){
-                    this.addClass( 'contextmenu-showing' );
-                },
-                hide: function( opts ){
-                    this.removeClass( 'contextmenu-showing' );
-                }
-            },
-            position: function( opt, x, y ){
-                // opt: menu object
-                //objDumpProps( opt );
-                opt.$menu.position({
-                    my: 'left top',
-                    at: 'right bottom',
-                    of: opt.$trigger
-                });
             }
         });
         // display done defaults to true
@@ -493,14 +467,14 @@ Template.projects_tree.onRendered( function(){
     this.autorun(() => {
         const tab = this.data.tab;
         if( tab &&
-            Template.projects_tree.fn.dict[tab].countersHandle.ready()){
+            fn.dict[tab].countersHandle.ready()){
                 Meteor.call( 'counters.getValue', 'tree_'+tab, ( error, result ) => {
                     //console.log( tab+' json async callback '+result );
                     if( result ){
-                        Template.projects_tree.fn.dict[tab].order.set( JSON.parse( result ));
+                        fn.dict[tab].order.set( JSON.parse( result ));
                     }
                 });
-                Template.projects_tree.fn.dict[tab].countersGot.set( true );
+                fn.dict[tab].countersGot.set( true );
         }
     });
     // display projects when they are available
@@ -509,17 +483,17 @@ Template.projects_tree.onRendered( function(){
     this.autorun(() => {
         const tab = this.data.tab;
         if( tab &&
-            Template.projects_tree.fn.dict[tab].countersGot.get() &&
-            Template.projects_tree.fn.dict[tab].projectsHandle.ready()){
+            fn.dict[tab].countersGot.get() &&
+            fn.dict[tab].projectsHandle.ready()){
                 //console.log( tab+': updating projects' );
                 if( tab !== 'actions' ){
                     const future = ( tab === 'future' );
-                    Template.projects_tree.fn.addProjects( 
+                    fn.addProjects( 
                         tab,
                         future,
                         Projects.find({ select_order: { $gt: 0 }, future: future }).fetch());
                 }
-                Template.projects_tree.fn.dict[tab].projectsShown.set( true );
+                fn.dict[tab].projectsShown.set( true );
         }
     });
     // display actions when they are available and the projects have been shown
@@ -528,10 +502,10 @@ Template.projects_tree.onRendered( function(){
     this.autorun(() => {
         const tab = this.data.tab;
         if( tab &&
-            Template.projects_tree.fn.dict[tab].actionsHandle.ready() &&
-            Template.projects_tree.fn.dict[tab].projectsShown.get()){
+            fn.dict[tab].actionsHandle.ready() &&
+            fn.dict[tab].projectsShown.get()){
                 //console.log( tab+': updating actions' );
-                Template.projects_tree.fn.addActions( tab, Actions.find().fetch());
+                fn.addActions( tab, Actions.find().fetch());
         }
     });
     // on action or project update, the new status of the updated item is reactively
@@ -542,10 +516,10 @@ Template.projects_tree.onRendered( function(){
             for( var i=0 ; i<update.changes.length ; ++i ){
                 switch( update.changes[i].data ){
                     case 'future':
-                        Template.projects_tree.fn.obsoleteFuture( update.changes[i].value, update.id );
+                        fn.obsoleteFuture( update.changes[i].value, update.id );
                         break;
                     case 'project':
-                        Template.projects_tree.fn.obsoleteParent( update.changes[i].value, update.id );
+                        fn.obsoleteParent( update.changes[i].value, update.id );
                         break;
                 }
             }
