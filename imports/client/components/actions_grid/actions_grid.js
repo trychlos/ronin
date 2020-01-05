@@ -12,7 +12,6 @@
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
-import '/imports/client/interfaces/icontextmenu/icontextmenu.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import '/imports/client/third-party/jqwidgets/jqx.base.css';
 import '/imports/client/third-party/jqwidgets/jqxcore.js';
@@ -131,45 +130,48 @@ Template.actions_grid.onRendered( function(){
             });
             fn.dict[data.tab].grid.set( $grid );
             // define a context menu on the rows
+            // note that event passed to callback functions are the click on the menu item
+            //  and note the click which opened the menu - so stay with build event.
             $grid.contextMenu({
-                selector: 'div.jqx-grid-content div.jqx-grid-cell',
+                selector: 'div.jqx-grid-content .jqx-grid-cell',
                 build: function( $elt, ev ){
                     return {
                         items: {
                             edit: {
                                 name: 'Edit',
-                                icon: 'fas fa-edit'
+                                icon: 'fas fa-edit',
+                                callback: function( item, opt, event ){
+                                    const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
+                                    const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
+                                    if( row ){
+                                        fn.opeEdit( data.tab, row );
+                                    }
+                                }
                             },
                             delete: {
                                 name: 'Delete',
-                                icon: 'fas fa-trash-alt'
-                            }
-                        },
-                        callback: function( item, opt, menu, ev ){
-                            const row = $grid.jqxGrid( 'getrowdata', fn.dict[data.tab].rowIndex );
-                            //objDumpProps( row );
-                            switch( item ){
-                                case 'edit':
-                                    fn.opeEdit( data.tab, row );
-                                    break;
-                                case 'delete':
-                                    fn.opeDelete( data.tab, row );
-                                    break;
+                                icon: 'fas fa-trash-alt',
+                                callback: function( item, opt, menu, event ){
+                                    const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
+                                    const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
+                                    if( row ){
+                                        fn.opeDelete( data.tab, row );
+                                    }
+                                }
                             }
                         },
                         autoHide: true,
+                        // executed in the selector (triggering object) context
                         events: {
                             show: function( opts ){
-                                //console.log( this.attr('class'));
-                                //objDumpProps( this );
-                                this.parents('div[role=row]').addClass( 'contextmenu-showing' );
+                                $(this.parents('div[role*=row]')[0]).addClass( 'contextmenu-showing' );
                             },
                             hide: function( opts ){
-                                this.parents('div[role=row]').removeClass( 'contextmenu-showing' );
+                                $(this.parents('div[role*=row]')[0]).removeClass( 'contextmenu-showing' );
                             }
                         },
-                        position: function( opt, x, y ){
-                            opt.$menu.position({
+                        position: function( opts, x, y ){
+                            opts.$menu.position({
                                 my: 'left top',
                                 at: 'right bottom',
                                 of: ev

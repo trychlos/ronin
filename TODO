@@ -91,7 +91,14 @@
 
    64 2020- 1- 4 have a template for recurrent tasks
 
-   65
+   65 2020- 1- 5 homogeneize all table editions in setup to jqxGrid idem actions_grid
+                  have both the edition icons and the context menu - same color
+
+   66 2020- 1- 5 action_status should be hard-coded object (as gtd)
+
+   67 2020- 1- 5 have a IGrid
+
+   68
 
 -----------------------------------------------------------------------
  Done
