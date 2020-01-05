@@ -46,13 +46,25 @@ Template.actions_grid.fn = {
         }
     },
     getSettings: function( tab ){
-        const keys = Object.keys( Template.actions_grid.fn.grids );
+        const fn = Template.actions_grid.fn;
+        const keys = Object.keys( fn.grids );
+        let settings = null;
         for( var i=0 ; i<keys.length ; ++i ){
             if( keys[i] === tab ){
-                return( Template.actions_grid.fn.grids[keys[i]] );
+                let settings = Object.assign( {}, fn.grids[keys[i]] );
+                break;
             }
         }
-        return( Template.actions_grid.fn.grids.default );
+        if( !settings ){
+            settings = Object.assign( {}, fn.grids.default );
+        }
+        if( tab === 'don' ){
+            settings.columns.push(
+                { text:'Done', datafield:'doneDate', cellsalign:'center', cellsformat:'dd/MM/yyyy', width:75 }
+            );
+        }
+        //console.log( tab+' '+JSON.stringify( settings ));
+        return( settings );
     },
     // delete the row in the grid, along with corresponding document server-side
     deleteRow: function( $grid, row ){
@@ -109,79 +121,82 @@ Template.actions_grid.onCreated( function(){
                 this.subscribe( 'topics.all' )
             ],
             ready: new ReactiveVar( false ),
-            rowIndex: null
+            //rowIndex: null
         }
     }
 });
 
 Template.actions_grid.onRendered( function(){
     const fn = Template.actions_grid.fn;
+    const data = Template.currentData();
     const self = this;
     // create the grid
-    this.autorun(() => {
-        const data = Template.currentData();
-        if( data && data.tab ){
-            const $grid = this.$('.grid');
-            $grid.jqxGrid( fn.getSettings( data.tab ));
-            // on each click on a row, store the corresponding rowindex
-            //  this is a sort of hack as context menu does not provide that
-            $grid.on( 'rowclick', function( ev ){
-                fn.dict[data.tab].rowIndex = ev.args.rowindex;
-            });
-            fn.dict[data.tab].grid.set( $grid );
-            // define a context menu on the rows
-            // note that event passed to callback functions are the click on the menu item
-            //  and note the click which opened the menu - so stay with build event.
-            $grid.contextMenu({
-                selector: 'div.jqx-grid-content .jqx-grid-cell',
-                build: function( $elt, ev ){
-                    return {
-                        items: {
-                            edit: {
-                                name: 'Edit',
-                                icon: 'fas fa-edit',
-                                callback: function( item, opts, event ){
-                                    const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
-                                    const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
-                                    if( row ){
-                                        fn.opeEdit( data.tab, row );
-                                    }
-                                }
-                            },
-                            delete: {
-                                name: 'Delete',
-                                icon: 'fas fa-trash-alt',
-                                callback: function( item, opts, event ){
-                                    const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
-                                    const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
-                                    if( row ){
-                                        fn.opeDelete( data.tab, row );
-                                    }
+    if( data && data.tab ){
+        const $grid = $('#'+data.tab+' .grid');
+        $grid.data( 'tab', data.tab );
+        //$grid.jqxGrid( fn.getSettings( data.tab ));
+        const settings = fn.getSettings( data.tab );
+        //console.log( data.tab+' jqxGrid '+JSON.stringify( settings ));
+        $grid.jqxGrid( settings );
+        // on each click on a row, store the corresponding rowindex
+        //  this is a sort of hack as context menu does not provide that
+        //  but the dynamic build of context menu let us get the context row
+        //$grid.on( 'rowclick', function( ev ){
+        //    fn.dict[data.tab].rowIndex = ev.args.rowindex;
+        //});
+        fn.dict[data.tab].grid.set( $grid );
+        // define a context menu on the rows
+        // note that event passed to callback functions are the click on the menu item
+        //  and note the click which opened the menu - so stay with build event.
+        $grid.contextMenu({
+            selector: 'div.jqx-grid-content .jqx-grid-cell',
+            build: function( $elt, ev ){
+                return {
+                    items: {
+                        edit: {
+                            name: 'Edit',
+                            icon: 'fas fa-edit',
+                            callback: function( item, opts, event ){
+                                const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
+                                const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
+                                if( row ){
+                                    fn.opeEdit( data.tab, row );
                                 }
                             }
                         },
-                        autoHide: true,
-                        // executed in the selector (triggering object) context
-                        events: {
-                            show: function( opts ){
-                                $(this.parents('div[role*=row]')[0]).addClass( 'contextmenu-showing' );
-                            },
-                            hide: function( opts ){
-                                $(this.parents('div[role*=row]')[0]).removeClass( 'contextmenu-showing' );
+                        delete: {
+                            name: 'Delete',
+                            icon: 'fas fa-trash-alt',
+                            callback: function( item, opts, event ){
+                                const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
+                                const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
+                                if( row ){
+                                    fn.opeDelete( data.tab, row );
+                                }
                             }
-                        },
-                        position: function( opts, x, y ){
-                            opts.$menu.position({
-                                my: 'left top',
-                                at: 'right bottom',
-                                of: ev
-                            });
                         }
+                    },
+                    autoHide: true,
+                    // executed in the selector (triggering object) context
+                    events: {
+                        show: function( opts ){
+                            $(this.parents('div[role*=row]')[0]).addClass( 'contextmenu-showing' );
+                        },
+                        hide: function( opts ){
+                            $(this.parents('div[role*=row]')[0]).removeClass( 'contextmenu-showing' );
+                        }
+                    },
+                    position: function( opts, x, y ){
+                        opts.$menu.position({
+                            my: 'left top',
+                            at: 'right bottom',
+                            of: ev
+                        });
                     }
                 }
-            });
-        }
-    });
+            }
+        });
+    }
     // wait for all subscriptions are ready
     this.autorun(() => {
         const data = Template.currentData();
