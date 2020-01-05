@@ -1,20 +1,14 @@
 .pwi-projectsWindow {
     div.projects-window {
         div.projects-tree {
-            margin-left: 0.5em;
             ul.jqtree_common[role="tree"] {
-                padding-left: 0.5em;
-                padding-right: 0.5em;
-        
+                padding: 0 0.5em;
                 .jqtree-toggler,
                 .icon {
-                    padding-right: 0.5em;
-                }
-                li {
-                    padding-top: 2px;
-                    padding-bottom: 2px;
+                    margin-right: 0.35em;
                 }
                 li span {
+                    margin: 2px 0;
                     cursor: pointer;
                 }
             }
@@ -31,6 +25,9 @@
             }
             div.btns {
                 margin: 0.5em 0;
+            }
+            .contextmenu-showing {
+                background-color: @context-item-bg-color;
             }
         }
     }

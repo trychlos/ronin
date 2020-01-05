@@ -74,8 +74,9 @@
                   (editWindow typically), shift each new window from the previous
 
    57 2020- 1- 4 projects_tree: set node opened at creation
+                  caution: the behavior is slightly altered when jqtree.css is loaded
 
-   59 2020- 1- 4 save #58 in user settings
+   59 2020- 1- 4 save #58 (projects tree display done per tab) in user settings
 
    60 2020- 1- 4 topics color should be user settings
 
@@ -98,7 +99,14 @@
 
    67 2020- 1- 5 have a IGrid
 
-   68
+   68 2020- 1- 5 factorize delete confirmation dialog
+                  + title bar should be shown active
+                  + fix icon
+
+   69 2020- 1- 5 review background-colors
+                  tabs / grid headers / selected row / hover row / right-click row
+
+   70
 
 -----------------------------------------------------------------------
  Done

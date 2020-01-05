@@ -11,11 +11,10 @@ import { Actions } from '/imports/api/collections/actions/actions.js';
 import { Counters } from '/imports/api/collections/counters/counters.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import '/imports/client/components/errors/errors.js';
-import '/imports/client/interfaces/icontextmenu/icontextmenu.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import 'jqtree';
+//import 'jqtree/jqtree.css';
 import './projects_tree.html';
-import { notEqual } from 'assert';
 
 Template.projects_tree.fn = {
     // dict handles a key per tab, with data as:
@@ -439,23 +438,48 @@ Template.projects_tree.onRendered( function(){
         fn.dict[tab].tree = $tree;
         fn.setRootNode( tab, this.data.label );
         // define the context menu
-        $tree.IContextMenu({
+        $tree.contextMenu({
             selector: 'li.jqtree_common span.jqtree-title',
-            callback: function( item, opt ){
-                // opt: menu object
-                // opt.context: DIV.tree element
-                // opt.$trigger: SPAN.jqtree-title.jqtree_common element
-                const li = $(opt.$trigger).parents('li')[0];
-                const $li = $(li);
-                const node = $li.data( 'node' );
-                if( node.id !== 'root' ){
-                    switch( item ){
-                        case 'edit':
-                            fn.opeEdit( tab, node );
-                            break;
-                        case 'delete':
-                            fn.opeDelete( tab, node );
-                            break;
+            build: function( $elt, ev ){
+                return {
+                    items: {
+                        edit: {
+                            name: 'Edit',
+                            icon: 'fas fa-edit',
+                            callback: function( item, opts, event ){
+                                const node = $( $(opts.$trigger).parents('li')[0] ).data('node');
+                                if( node.id !== 'root' ){
+                                    fn.opeEdit( tab, node );
+                                }
+                            }
+                        },
+                        delete: {
+                            name: 'Delete',
+                            icon: 'fas fa-trash-alt',
+                            callback: function( item, opts, event ){
+                                const node = $( $(opts.$trigger).parents('li')[0] ).data('node');
+                                if( node.id !== 'root' ){
+                                    fn.opeDelete( tab, node );
+                                }
+                            }
+                        }
+                    },
+                    autoHide: true,
+                    // executed in the selector (triggering object) context
+                    events: {
+                        show: function( opts ){
+                            this.addClass( 'contextmenu-showing' );
+                        },
+                        hide: function( opts ){
+                            this.removeClass( 'contextmenu-showing' );
+                        }
+                    },
+                    position: function( opts, x, y ){
+                        opts.$menu.position({
+                            my: 'left top',
+                            at: 'right bottom',
+                            of: ev
+                        });
                     }
                 }
             }

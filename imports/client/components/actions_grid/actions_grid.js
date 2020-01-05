@@ -140,7 +140,7 @@ Template.actions_grid.onRendered( function(){
                             edit: {
                                 name: 'Edit',
                                 icon: 'fas fa-edit',
-                                callback: function( item, opt, event ){
+                                callback: function( item, opts, event ){
                                     const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
                                     const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
                                     if( row ){
@@ -151,7 +151,7 @@ Template.actions_grid.onRendered( function(){
                             delete: {
                                 name: 'Delete',
                                 icon: 'fas fa-trash-alt',
-                                callback: function( item, opt, menu, event ){
+                                callback: function( item, opts, event ){
                                     const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
                                     const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
                                     if( row ){
