@@ -12,8 +12,8 @@ import { Counters } from '/imports/api/collections/counters/counters.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import '/imports/client/components/errors/errors.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
-import 'jqtree';
-//import 'jqtree/jqtree.css';
+import 'jqtree/tree.jquery.js';
+import 'jqtree/jqtree.css';
 import './projects_tree.html';
 
 Template.projects_tree.fn = {
@@ -425,8 +425,8 @@ Template.projects_tree.onRendered( function(){
             autoOpen: true,
             dragAndDrop: true,
             saveState: 'ronin-projects-tree-'+tab,
-            closedIcon: $('<i class="fas fa-plus"></i>'),
-            openedIcon: $('<i class="fas fa-minus"></i>'),
+            //closedIcon: $('<i class="fas fa-plus"></i>'),
+            //openedIcon: $('<i class="fas fa-minus"></i>'),
             onCreateLi: function( node, $li, isSelected ){
                 // Add 'icon' span before title
                 const icon = fn.getItemIcon( node );

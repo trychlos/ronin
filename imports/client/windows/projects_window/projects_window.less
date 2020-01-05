@@ -2,14 +2,25 @@
     div.projects-window {
         div.projects-tree {
             ul.jqtree_common[role="tree"] {
-                padding: 0 0.5em;
-                .jqtree-toggler,
+                li {
+                    padding-left: 0.75em;
+                }
+                >li:first-child {
+                    padding-left: 0.25em;
+                }
+                .jqtree-element svg:first-child  {
+                    padding-left: 1.5em;
+                }
                 .icon {
                     margin-right: 0.35em;
                 }
                 li span {
                     margin: 2px 0;
                     cursor: pointer;
+                }
+                .jqtree-selected .jqtree-element {
+                    background: none;
+                    background-color: transparent;
                 }
             }
             .rev-status-activable {
