@@ -32,8 +32,8 @@ import './actions_grid.html';
 
 Template.actions_grid.fn = {
     dict: {},
-    grids: {
-        'default': {
+    defineGrid: function( $grid, tab ){
+        let settings = {
             columns: [
                 { text:'Action', datafield:'name' },
                 { text:'Topic', datafield:'topicLabel' },
@@ -42,29 +42,15 @@ Template.actions_grid.fn = {
                 { text:'Creation', datafield:'createdAt', cellsalign:'center', cellsformat:'dd/MM/yyyy', width:75 }
             ],
             columnsresize: true,
-            sortable: true
-        }
-    },
-    getSettings: function( tab ){
-        const fn = Template.actions_grid.fn;
-        const keys = Object.keys( fn.grids );
-        let settings = null;
-        for( var i=0 ; i<keys.length ; ++i ){
-            if( keys[i] === tab ){
-                let settings = Object.assign( {}, fn.grids[keys[i]] );
-                break;
-            }
-        }
-        if( !settings ){
-            settings = Object.assign( {}, fn.grids.default );
-        }
+            sortable: true,
+            width: '100%'
+        };
         if( tab === 'don' ){
             settings.columns.push(
                 { text:'Done', datafield:'doneDate', cellsalign:'center', cellsformat:'dd/MM/yyyy', width:75 }
             );
         }
-        //console.log( tab+' '+JSON.stringify( settings ));
-        return( settings );
+        $grid.jqxGrid( settings );
     },
     // delete the row in the grid, along with corresponding document server-side
     deleteRow: function( $grid, row ){
@@ -135,15 +121,7 @@ Template.actions_grid.onRendered( function(){
         const $grid = $('#'+data.tab+' .grid');
         $grid.data( 'tab', data.tab );
         //$grid.jqxGrid( fn.getSettings( data.tab ));
-        const settings = fn.getSettings( data.tab );
-        //console.log( data.tab+' jqxGrid '+JSON.stringify( settings ));
-        $grid.jqxGrid( settings );
-        // on each click on a row, store the corresponding rowindex
-        //  this is a sort of hack as context menu does not provide that
-        //  but the dynamic build of context menu let us get the context row
-        //$grid.on( 'rowclick', function( ev ){
-        //    fn.dict[data.tab].rowIndex = ev.args.rowindex;
-        //});
+        fn.defineGrid( $grid, data.tab );
         fn.dict[data.tab].grid.set( $grid );
         // define a context menu on the rows
         // note that event passed to callback functions are the click on the menu item

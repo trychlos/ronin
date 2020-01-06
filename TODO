@@ -108,8 +108,6 @@
 
    70 2020- 1- 5 projects_tree: have expand all / collapse all buttons
 
-   71 2020- 1- 5 actions_grid: unable to get different columns per tab
-
    72
 
 -----------------------------------------------------------------------
@@ -234,6 +232,9 @@
 
    58 2020- 1- 4 projects tree per tab: display or not done items
       2020- 1- 4 done
+
+   71 2020- 1- 5 actions_grid: unable to get different columns per tab
+      2020- 1- 6 fixed
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
