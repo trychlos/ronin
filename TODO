@@ -97,8 +97,6 @@
 
    66 2020- 1- 5 action_status should be hard-coded object (as gtd)
 
-   67 2020- 1- 5 have a IGrid
-
    68 2020- 1- 5 factorize delete confirmation dialog
                   + title bar should be shown active
                   + fix icon
@@ -232,6 +230,9 @@
 
    58 2020- 1- 4 projects tree per tab: display or not done items
       2020- 1- 4 done
+
+   67 2020- 1- 5 have a IGrid
+      2020- 1- 6 done
 
    71 2020- 1- 5 actions_grid: unable to get different columns per tab
       2020- 1- 6 fixed

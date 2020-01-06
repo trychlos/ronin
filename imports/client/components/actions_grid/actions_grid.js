@@ -12,46 +12,26 @@
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
+import '/imports/client/interfaces/igrid/igrid.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
-import '/imports/client/third-party/jqwidgets/jqx.base.css';
-import '/imports/client/third-party/jqwidgets/jqxcore.js';
-import '/imports/client/third-party/jqwidgets/jqxbuttons.js';
-import '/imports/client/third-party/jqwidgets/jqxdata.js';
-import '/imports/client/third-party/jqwidgets/jqxdropdownlist.js';
-import '/imports/client/third-party/jqwidgets/jqxgrid.js';
-import '/imports/client/third-party/jqwidgets/jqxgrid.columnsresize.js';
-import '/imports/client/third-party/jqwidgets/jqxgrid.filter.js';
-import '/imports/client/third-party/jqwidgets/jqxgrid.grouping.js';
-import '/imports/client/third-party/jqwidgets/jqxgrid.pager.js';
-import '/imports/client/third-party/jqwidgets/jqxgrid.selection.js';
-import '/imports/client/third-party/jqwidgets/jqxgrid.sort.js';
-import '/imports/client/third-party/jqwidgets/jqxlistbox.js';
-import '/imports/client/third-party/jqwidgets/jqxmenu.js';
-import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
 import './actions_grid.html';
 
 Template.actions_grid.fn = {
     dict: {},
     defineGrid: function( $grid, tab ){
-        let settings = {
-            columns: [
-                { text:'Action', datafield:'name' },
-                { text:'Topic', datafield:'topicLabel' },
-                { text:'Context', datafield:'contextLabel' },
-                { text:'Project', datafield:'projectLabel' },
-                { text:'Creation', datafield:'createdAt', cellsalign:'center', cellsformat:'dd/MM/yyyy', width:75 }
-            ],
-            columnsheight: 28,
-            columnsresize: true,
-            sortable: true,
-            width: '100%'
-        };
+        let columns = [
+            { text:'Action', datafield:'name' },
+            { text:'Topic', datafield:'topicLabel' },
+            { text:'Context', datafield:'contextLabel' },
+            { text:'Project', datafield:'projectLabel' },
+            { text:'Creation', datafield:'createdAt', cellsalign:'center', cellsformat:'dd/MM/yyyy', width:75 }
+        ];
         if( tab === 'don' ){
-            settings.columns.push(
+            columns.push(
                 { text:'Done', datafield:'doneDate', cellsalign:'center', cellsformat:'dd/MM/yyyy', width:75 }
             );
         }
-        $grid.jqxGrid( settings );
+        $grid.IGrid({ columns: columns });
     },
     // define a context menu on the rows
     // note that event passed to callback functions are the click on the menu item
@@ -67,8 +47,8 @@ Template.actions_grid.fn = {
                             name: 'Edit',
                             icon: 'fas fa-edit',
                             callback: function( item, opts, event ){
-                                const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
-                                const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
+                                const cell = $grid.IGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
+                                const row = cell ? $grid.IGrid( 'getrowdata', cell.row ) : null;
                                 if( row ){
                                     fn.opeEdit( tab, row );
                                 }
@@ -78,8 +58,8 @@ Template.actions_grid.fn = {
                             name: 'Delete',
                             icon: 'fas fa-trash-alt',
                             callback: function( item, opts, event ){
-                                const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
-                                const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
+                                const cell = $grid.IGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
+                                const row = cell ? $grid.IGrid( 'getrowdata', cell.row ) : null;
                                 if( row ){
                                     fn.opeDelete( tab, row );
                                 }
@@ -175,7 +155,6 @@ Template.actions_grid.onRendered( function(){
     if( data && data.tab ){
         const $grid = $('#'+data.tab+' .grid');
         $grid.data( 'tab', data.tab );
-        //$grid.jqxGrid( fn.getSettings( data.tab ));
         fn.defineGrid( $grid, data.tab );
         fn.defineMenu( $grid, data.tab );
         fn.dict[data.tab].grid.set( $grid );
@@ -201,7 +180,7 @@ Template.actions_grid.onRendered( function(){
             const $grid = fn.dict[data.tab].grid.get();
             const ready = fn.dict[data.tab].ready.get();
             if( $grid && ready && data.actions ){
-                $grid.jqxGrid( 'clear' );
+                $grid.IGrid( 'clear' );
                 data.actions.forEach( it => {
                     //console.log( it.name );
                     let obj = Object.assign( {}, it );
@@ -211,7 +190,7 @@ Template.actions_grid.onRendered( function(){
                     obj.projectLabel = project ? project.name : '';
                     const topic = Topics.findOne({ _id: it.topic });
                     obj.topicLabel = topic ? topic.name : '';
-                    $grid.jqxGrid( 'addrow', it._id, obj );
+                    $grid.IGrid( 'addrow', it._id, obj );
                 });
             }
         }
