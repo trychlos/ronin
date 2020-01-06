@@ -41,6 +41,7 @@ Template.actions_grid.fn = {
                 { text:'Project', datafield:'projectLabel' },
                 { text:'Creation', datafield:'createdAt', cellsalign:'center', cellsformat:'dd/MM/yyyy', width:75 }
             ],
+            columnsheight: 28,
             columnsresize: true,
             sortable: true,
             width: '100%'
@@ -51,6 +52,60 @@ Template.actions_grid.fn = {
             );
         }
         $grid.jqxGrid( settings );
+    },
+    // define a context menu on the rows
+    // note that event passed to callback functions are the click on the menu item
+    //  and note the click which opened the menu - so stay with build event.
+    defineMenu: function( $grid, tab ){
+        const fn = Template.actions_grid.fn;
+        $grid.contextMenu({
+            selector: 'div.jqx-grid-content .jqx-grid-cell',
+            build: function( $elt, ev ){
+                return {
+                    items: {
+                        edit: {
+                            name: 'Edit',
+                            icon: 'fas fa-edit',
+                            callback: function( item, opts, event ){
+                                const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
+                                const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
+                                if( row ){
+                                    fn.opeEdit( tab, row );
+                                }
+                            }
+                        },
+                        delete: {
+                            name: 'Delete',
+                            icon: 'fas fa-trash-alt',
+                            callback: function( item, opts, event ){
+                                const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
+                                const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
+                                if( row ){
+                                    fn.opeDelete( tab, row );
+                                }
+                            }
+                        }
+                    },
+                    autoHide: true,
+                    // executed in the selector (triggering object) context
+                    events: {
+                        show: function( opts ){
+                            $(this.parents('div[role*=row]')[0]).addClass( 'contextmenu-showing' );
+                        },
+                        hide: function( opts ){
+                            $(this.parents('div[role*=row]')[0]).removeClass( 'contextmenu-showing' );
+                        }
+                    },
+                    position: function( opts, x, y ){
+                        opts.$menu.position({
+                            my: 'left top',
+                            at: 'right bottom',
+                            of: ev
+                        });
+                    }
+                }
+            }
+        });
     },
     // delete the row in the grid, along with corresponding document server-side
     deleteRow: function( $grid, row ){
@@ -122,58 +177,8 @@ Template.actions_grid.onRendered( function(){
         $grid.data( 'tab', data.tab );
         //$grid.jqxGrid( fn.getSettings( data.tab ));
         fn.defineGrid( $grid, data.tab );
+        fn.defineMenu( $grid, data.tab );
         fn.dict[data.tab].grid.set( $grid );
-        // define a context menu on the rows
-        // note that event passed to callback functions are the click on the menu item
-        //  and note the click which opened the menu - so stay with build event.
-        $grid.contextMenu({
-            selector: 'div.jqx-grid-content .jqx-grid-cell',
-            build: function( $elt, ev ){
-                return {
-                    items: {
-                        edit: {
-                            name: 'Edit',
-                            icon: 'fas fa-edit',
-                            callback: function( item, opts, event ){
-                                const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
-                                const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
-                                if( row ){
-                                    fn.opeEdit( data.tab, row );
-                                }
-                            }
-                        },
-                        delete: {
-                            name: 'Delete',
-                            icon: 'fas fa-trash-alt',
-                            callback: function( item, opts, event ){
-                                const cell = $grid.jqxGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
-                                const row = cell ? $grid.jqxGrid( 'getrowdata', cell.row ) : null;
-                                if( row ){
-                                    fn.opeDelete( data.tab, row );
-                                }
-                            }
-                        }
-                    },
-                    autoHide: true,
-                    // executed in the selector (triggering object) context
-                    events: {
-                        show: function( opts ){
-                            $(this.parents('div[role*=row]')[0]).addClass( 'contextmenu-showing' );
-                        },
-                        hide: function( opts ){
-                            $(this.parents('div[role*=row]')[0]).removeClass( 'contextmenu-showing' );
-                        }
-                    },
-                    position: function( opts, x, y ){
-                        opts.$menu.position({
-                            my: 'left top',
-                            at: 'right bottom',
-                            of: ev
-                        });
-                    }
-                }
-            }
-        });
     }
     // wait for all subscriptions are ready
     this.autorun(() => {
