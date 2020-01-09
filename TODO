@@ -106,7 +106,9 @@
 
    70 2020- 1- 5 projects_tree: have expand all / collapse all buttons
 
-   72
+   73 2020- 1- 7 have edit and delete buttons components
+
+   74
 
 -----------------------------------------------------------------------
  Done
@@ -236,6 +238,9 @@
 
    71 2020- 1- 5 actions_grid: unable to get different columns per tab
       2020- 1- 6 fixed
+
+   72 2020- 1- 6 have edit and delete buttons in IGrid
+      2020- 1- 9 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

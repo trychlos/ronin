@@ -19,11 +19,12 @@
 import '/imports/client/components/errors/errors.js'
 import '/imports/client/third-party/jqwidgets/jqx.base.css';
 import '/imports/client/third-party/jqwidgets/jqxcore.js';
-import '/imports/client/third-party/jqwidgets/jqxbuttons.js';
+import '/imports/client/third-party/jqwidgets/jqxbuttons-patched.js';
 import '/imports/client/third-party/jqwidgets/jqxdata.js';
 import '/imports/client/third-party/jqwidgets/jqxdropdownlist.js';
-import '/imports/client/third-party/jqwidgets/jqxgrid.js';
+import '/imports/client/third-party/jqwidgets/jqxgrid-patched.js';
 import '/imports/client/third-party/jqwidgets/jqxgrid.columnsresize.js';
+import '/imports/client/third-party/jqwidgets/jqxgrid.edit.js';
 import '/imports/client/third-party/jqwidgets/jqxgrid.filter.js';
 import '/imports/client/third-party/jqwidgets/jqxgrid.grouping.js';
 import '/imports/client/third-party/jqwidgets/jqxgrid.pager.js';
@@ -55,8 +56,32 @@ import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
             return self;
         }
         if( Object.keys( arguments[0] ).includes( 'columns' )){
-            arguments[0].columns.unshift({ text:'E' });  // edit button
-            arguments[0].columns.push({ text:'D' });     // delete button
+            // insert Edit button as column 0
+            arguments[0].columns.unshift({
+                text: '',
+                width: 32,
+                columntype: 'button',
+                cellsrenderer: function( row, columnfield, value, defaulthtml, colproperties ){
+                    return ' <span class="fas fa-edit"></span>';
+                },
+                // target=button element; currentTarget=grid element
+                buttonclick: function( row, ev ){
+                    console.log( 'hey '+row );
+                }   
+            });
+            // add Delete button as last column
+            arguments[0].columns.push({
+                text: '',
+                width: 32,
+                columntype: 'button',
+                cellsrenderer: function( row, columnfield, value, defaulthtml, colproperties ){
+                    return ' <span class="fas fa-trash"></span>';
+                },
+                // target=button element; currentTarget=grid element
+                buttonclick: function( row, ev ){
+                    console.log( 'hey '+row );
+                }   
+            });
             let settings = Object.assign( {}, arguments[0] )
             Object.assign( settings, {
                 columnsheight: 28,
@@ -64,6 +89,12 @@ import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
                 sortable: true,
                 width: '100%'
             });
+            
+            $('div.igrid-edit-button').on( 'click', function( ev ){
+                console.log( 'click event' );
+                console.log( ev );
+            });
+            
             //console.log( 'jqxGrid settings='+JSON.stringify( settings ));
             self.jqxGrid( settings );
             self.addClass( 'pwi-igrid' );
@@ -75,5 +106,11 @@ import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
             self.jqxGrid( arguments[0] );
         }
         return self;
+    };
+    function _idEdit( tab, row ){
+        return _idPrefix()+tab+'-'+row;
+    };
+    function _idPrefix(){
+        return 'actions-grid-'
     }
 }( jQuery ));
