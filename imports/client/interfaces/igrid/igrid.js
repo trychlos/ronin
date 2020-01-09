@@ -44,8 +44,7 @@ import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
         // are we calling a method on this interface ?
         //  this is the only situation where we accept more than one argument
         if( typeof arguments[0] === 'string' ){
-            self.jqxGrid.apply( self, arguments );
-            return self;
+            return self.jqxGrid.apply( self, arguments );
         }
         if( arguments.length > 1 ){
             throwError({ message: "Igrid: only one argument expected when not calling a method" });
@@ -66,7 +65,8 @@ import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
                 },
                 // target=button element; currentTarget=grid element
                 buttonclick: function( row, ev ){
-                    console.log( 'hey '+row );
+                    //console.log( 'hey '+row );
+                    $(ev.currentTarget).trigger( 'igrid-btnclick-edit', row );
                 }   
             });
             // add Delete button as last column
@@ -79,7 +79,8 @@ import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
                 },
                 // target=button element; currentTarget=grid element
                 buttonclick: function( row, ev ){
-                    console.log( 'hey '+row );
+                    //console.log( 'hey '+row );
+                    $(ev.currentTarget).trigger( 'igrid-btnclick-delete', row );
                 }   
             });
             let settings = Object.assign( {}, arguments[0] )

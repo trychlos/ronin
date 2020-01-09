@@ -36,6 +36,7 @@ Template.actions_grid.fn = {
     // define a context menu on the rows
     // note that event passed to callback functions are the click on the menu item
     //  and note the click which opened the menu - so stay with build event.
+    //  ev.target = li context menu element
     defineMenu: function( $grid, tab ){
         const fn = Template.actions_grid.fn;
         $grid.contextMenu({
@@ -47,8 +48,14 @@ Template.actions_grid.fn = {
                             name: 'Edit',
                             icon: 'fas fa-edit',
                             callback: function( item, opts, event ){
-                                const cell = $grid.IGrid( 'getCellAtPosition', ev.pageX, ev.pageY );
+                                //console.log( ev );
+                                const left = ev.originalEvent.clientX;
+                                const top = ev.originalEvent.clientY;
+                                //console.log( 'left='+left+' top='+top );
+                                const cell = $grid.IGrid( 'getcellatposition', left, top );
+                                //console.log( cell );
                                 const row = cell ? $grid.IGrid( 'getrowdata', cell.row ) : null;
+                                //console.log( row );
                                 if( row ){
                                     fn.opeEdit( tab, row );
                                 }
@@ -94,39 +101,43 @@ Template.actions_grid.fn = {
     // contextual menu, delete operation
     opeDelete: function( tab, row ){
         //console.log( 'opeDelete tab='+tab+' row='+row.name );
-        const fn = Template.actions_grid.fn;
-        const msg = 'Are you sure you want to delete the \''+row.name+'\' action ?';
-        const $grid = fn.dict[tab].grid.get();
-        $grid.parent().append('<div class="dialog"></div>');
-        const $dialog = $('.actions-grid .dialog');
-        $dialog.text( msg );
-        $dialog.dialog({
-            buttons: [
-                {
-                    text: 'Delete',
-                    click: function(){
-                        fn.deleteRow( $grid, row );
-                        $( this ).dialog( 'close' );
-                }},
-                {
-                    text: 'Cancel',
-                    click: function(){
-                        $( this ).dialog( 'close' );
-                }}
-            ],
-            modal: true,
-            resizable: false,
-            title: 'Confirmation is requested',
-            width: 400
-    });
-},
+        if( tab && row ){
+            const fn = Template.actions_grid.fn;
+            const msg = 'Are you sure you want to delete the \''+row.name+'\' action ?';
+            const $grid = fn.dict[tab].grid.get();
+            $grid.parent().append('<div class="dialog"></div>');
+            const $dialog = $('.actions-grid .dialog');
+            $dialog.text( msg );
+            $dialog.dialog({
+                buttons: [
+                    {
+                        text: 'Delete',
+                        click: function(){
+                            fn.deleteRow( $grid, row );
+                            $( this ).dialog( 'close' );
+                    }},
+                    {
+                        text: 'Cancel',
+                        click: function(){
+                            $( this ).dialog( 'close' );
+                    }}
+                ],
+                modal: true,
+                resizable: false,
+                title: 'Confirmation is requested',
+                width: 400
+            });
+        }
+    },
     // contextual menu, edit operation
     opeEdit: function( tab, row ){
         //console.log( 'opeEdit tab='+tab+' row='+row.name );
-        const $grid = Template.actions_grid.fn.dict[tab].grid.get();
-        row.type = 'A';
-        Session.set( 'process.edit.obj', row );
-        $grid.IWindowed( 'showNew', 'editWindow' );
+        if( tab && row ){
+            const $grid = Template.actions_grid.fn.dict[tab].grid.get();
+            row.type = 'A';
+            Session.set( 'process.edit.obj', row );
+            $grid.IWindowed( 'showNew', 'editWindow' );
+        }
     }
 };
 
@@ -195,4 +206,20 @@ Template.actions_grid.onRendered( function(){
             }
         }
     });
+});
+
+Template.actions_grid.events({
+    'igrid-btnclick-edit .grid'( ev, instance, rowIndex ){
+        //console.log( arguments );
+        //console.log( rowIndex );
+        const tab = instance.$( ev.target ).data('tab');
+        const row = instance.$( ev.target ).IGrid( 'getrowdata', rowIndex );
+        Template.actions_grid.fn.opeEdit( tab, row );
+},
+    'igrid-btnclick-delete .grid'( ev, instance, rowIndex ){
+        //console.log( rowIndex );
+        const tab = instance.$( ev.target ).data('tab');
+        const row = instance.$( ev.target ).IGrid( 'getrowdata', rowIndex );
+        Template.actions_grid.fn.opeDelete( tab, row );
+    }
 });

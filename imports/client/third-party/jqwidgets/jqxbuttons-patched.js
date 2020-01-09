@@ -250,8 +250,10 @@ License: https://jqwidgets.com/license/
                     break
             }
             // pwi added theses lines
-            if( k.textImageRelation==='overlay' && !k.textPosition && !k.imgSrc ){
-                o.style.left = '';
+            if( k.field.value.match(/\bfa-/) && k.textImageRelation==='overlay' && !k.textPosition &&
+                !k.imgSrc && k.imgWidth == 16 && k.imgHeight == 16 && !k._text.offsetWidth && !k._text.offsetHeight ){
+                    o.style.left = '';
+                    o.style.top = '';
                 //console.log( o );
             }
         },

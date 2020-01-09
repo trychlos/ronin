@@ -108,7 +108,13 @@
 
    73 2020- 1- 7 have edit and delete buttons components
 
-   74
+   74 2020- 1- 8 have a data model on documents: provide classes via transform
+
+   75 2020- 1- 9 rewrite IGrid interface to have our own methods (better isolation from jqxGrid)
+
+   76 2020- 1- 9 rewrite ITabbed interface to have our own methods (better isolation from jqTabs)
+
+   77 2020- 1- 9 have ITree interface
 
 -----------------------------------------------------------------------
  Done
