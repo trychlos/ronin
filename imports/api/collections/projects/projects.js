@@ -39,15 +39,15 @@ Projects.schema = new SimpleSchema({
         optional: true
     },
     startDate: {
-        type: String,
+        type: Date,
         optional: true
     },
     dueDate: {
-        type: String,
+        type: Date,
         optional: true
     },
     doneDate: {
-        type: String,
+        type: Date,
         optional: true
     },
     parent: {

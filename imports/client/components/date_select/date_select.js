@@ -16,10 +16,15 @@ Template.date_select.fn = {
     },
     // set the default date
     //  converting ISO to our display format
+    //  NB: for historical reasons, date may be a string (ISO format) instead of a Date
+    //      but jQuery.datepicker doesn't well handle correctly strings
+    //      so force a Date conversion
+    //  See: ( Object.prototype.toString.call(d) === "[object Date]" && !isNaN(d.getTime())) aka isDate()
     setDate: function( selector, date ){
         const instance = Template.instance();
         if( instance.view.isRendered ){
-            instance.$(selector+' .js-date-select input').datepicker('setDate',date);
+            const d = date ? new Date( date ) : null;
+            instance.$(selector+' .js-date-select input').datepicker('setDate',d);
         }
     },
     // set an option

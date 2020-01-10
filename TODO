@@ -2,7 +2,7 @@
 
  Summary
  =======
- 
+
    Todo
    Done
 
@@ -100,6 +100,7 @@
    68 2020- 1- 5 factorize delete confirmation dialog
                   + title bar should be shown active
                   + fix icon
+      2020- 1- 9 + center in the parent window (defaulting to the screen)
 
    69 2020- 1- 5 review background-colors
                   tabs / grid headers / selected row / hover row / right-click row
@@ -115,6 +116,19 @@
    76 2020- 1- 9 rewrite ITabbed interface to have our own methods (better isolation from jqTabs)
 
    77 2020- 1- 9 have ITree interface
+
+   79 2020- 1- 9 actions_edit: firefox display calendar button is not ok
+                  chrome is ok
+
+   80 2020- 1- 9 projects_tree/actions_grid: split the subscriptions per tab
+                  with goal of gaining some perfs for each individual tab
+                  + same for done/not done
+
+   81 2020- 1- 9 action_edit/project_edit: changing anything should either invalidate
+                  the whole cursor, or be reported on the initial object
+                  so that reopening the window should display the previously set values
+
+   82
 
 -----------------------------------------------------------------------
  Done
@@ -247,6 +261,9 @@
 
    72 2020- 1- 6 have edit and delete buttons in IGrid
       2020- 1- 9 done
+
+   78 2020- 1- 9 actions_edit: date display is not ok
+      2020- 1-10 fixed by conversion to Date object
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
