@@ -13,8 +13,8 @@
  *  - 'navside': concerns the menu of the left side of the page, defaulting to false
  *  - 'navview': concerns the overview, defaulting to false
  *  +
- *  - 'actions': whether the item is managed by the 'actions' tabbed window, defaulting to false
- *  - 'setup': whether the item is managed by the 'setup' tabbed window, defaulting to false
+ *  - 'tabactions': whether the item is managed by the 'actions' tabbed window, defaulting to false
+ *  - 'tabsetup': whether the item is managed by the 'setup' tabbed window, defaulting to false
  *
  *  NB: see https://stackoverflow.com/questions/33611812/export-const-vs-export-default-in-es6
  */
@@ -49,7 +49,7 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
-                        setup: true
+                        tabsetup: true
                     },
                     {
                         id: 'cri',
@@ -64,7 +64,7 @@ export const gtd = {
                         router: 'setup.time.values',
                         navbar: true,
                         navside: true,
-                        setup: true
+                        tabsetup: true
                     },
                     {
                         id: 'energy',
@@ -73,7 +73,7 @@ export const gtd = {
                         router: 'setup.energy.values',
                         navbar: true,
                         navside: true,
-                        setup: true
+                        tabsetup: true
                     },
                     {
                         id: 'priority',
@@ -82,7 +82,7 @@ export const gtd = {
                         router: 'setup.priority.values',
                         navbar: true,
                         navside: true,
-                        setup: true
+                        tabsetup: true
                     },
                     {
                         id: 'status',
@@ -91,7 +91,7 @@ export const gtd = {
                         router: 'setup.action.status',
                         navbar: true,
                         navside: true,
-                        setup: true
+                        tabsetup: true
                     },
                     {
                         id: 'topics',
@@ -101,7 +101,7 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
-                        setup: true
+                        tabsetup: true
                     },
                     {
                         id: 'refs',
@@ -111,7 +111,7 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
-                        setup: true
+                        tabsetup: true
                     },
                     {
                         id: 'delegates',
@@ -121,7 +121,7 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
-                        setup: true
+                        tabsetup: true
                     },
                 ],
             },
@@ -223,7 +223,7 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
-                        actions: true
+                        tabactions: true
                     },
                     {
                         id: 'asa',
@@ -232,7 +232,7 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
-                        actions: true
+                        tabactions: true
                     },
                     {
                         id: 'sch',
@@ -241,7 +241,7 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
-                        actions: true
+                        tabactions: true
                     },
                     {
                         id: 'del',
@@ -250,7 +250,7 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
-                        actions: true
+                        tabactions: true
                     },
                     {
                         id: 'don',
@@ -259,7 +259,7 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
-                        actions: true
+                        tabactions: true
                     }
                 ]
             }
@@ -267,7 +267,7 @@ export const gtd = {
     },
     // return the list of items to be managed as a tabbed page in actions window
     actionsItems(){
-        return gtd.itemsBoolArray( 'actions' );
+        return gtd.itemsBoolArray( 'tabactions' );
     },
     byId: function( id ){
         return gtd._byId_rec( id, gtd.features());
@@ -342,8 +342,8 @@ export const gtd = {
         return label;
     },
     // return the list of items to be managed as a tabbed page in 'setup' window
-    //  these are marked as setup:true
+    //  these are marked as tabsetup:true
     setupItems(){
-        return gtd.itemsBoolArray( 'setup' );
+        return gtd.itemsBoolArray( 'tabsetup' );
     },
 };
