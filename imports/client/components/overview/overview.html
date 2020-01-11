@@ -2,7 +2,7 @@
     <div class="overview">
         <table>
             {{#each item in gtdFeatures}}
-                {{#if isVisible item 'view'}}
+                {{#if isVisible item 'navview'}}
                     <tr class="{{ item.id }}">
                         <td class="x-vcenter">
                             <div class="title">
@@ -15,7 +15,7 @@
                         <td>
                             <div class="items">
                                 {{#each child in item.children}}
-                                    {{#if isVisible child 'view'}}
+                                    {{#if isVisible child 'navview'}}
                                         {{{ subLink item child }}}
                                     {{/if}}
                                 {{/each}}

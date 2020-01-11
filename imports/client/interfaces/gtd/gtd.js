@@ -9,9 +9,9 @@
  *  - router (maybe): the router entry if this is an actionable item
  *  - children (maybe): one or more child items
  *  +
- *  - 'bar': concerns the menu bar of the top side of the page, defaulting to false
- *  - 'side': concerns the menu of the left side of the page, defaulting to false
- *  - 'view': concerns the overview, defaulting to false
+ *  - 'navbar': concerns the menu bar of the top side of the page, defaulting to false
+ *  - 'navside': concerns the menu of the left side of the page, defaulting to false
+ *  - 'navview': concerns the overview, defaulting to false
  *  +
  *  - 'actions': whether the item is managed by the 'actions' tabbed window, defaulting to false
  *  - 'setup': whether the item is managed by the 'setup' tabbed window, defaulting to false
@@ -26,14 +26,14 @@ export const gtd = {
                 label: 'Home',
                 longer: 'Overview',
                 router: 'home',
-                bar: true,
-                side: true
+                navbar: true,
+                navside: true
             },
             {
                 id: 'setup',
                 label: 'Setup',
-                side: true,
-                view: true,
+                navside: true,
+                navview: true,
                 children: [
                     /* this item for the sake of completeness as it is not used in our web version */
                     {
@@ -46,24 +46,24 @@ export const gtd = {
                         label: 'Contexts',
                         longer: 'Setup contexts',
                         router: 'setup.contexts',
-                        bar: true,
-                        side: true,
-                        view: true,
+                        navbar: true,
+                        navside: true,
+                        navview: true,
                         setup: true
                     },
                     {
                         id: 'cri',
                         label: 'Setup criteria',
                         //router: 'App.setup.cri',
-                        view: true
+                        navview: true
                     },
                     {
                         id: 'time',
                         label: 'Time values',
                         longer: 'Setup time values',
                         router: 'setup.time.values',
-                        bar: true,
-                        side: true,
+                        navbar: true,
+                        navside: true,
                         setup: true
                     },
                     {
@@ -71,8 +71,8 @@ export const gtd = {
                         label: 'Energy values',
                         longer: 'Setup energy values',
                         router: 'setup.energy.values',
-                        bar: true,
-                        side: true,
+                        navbar: true,
+                        navside: true,
                         setup: true
                     },
                     {
@@ -80,8 +80,8 @@ export const gtd = {
                         label: 'Priority values',
                         longer: 'Setup priority values',
                         router: 'setup.priority.values',
-                        bar: true,
-                        side: true,
+                        navbar: true,
+                        navside: true,
                         setup: true
                     },
                     {
@@ -89,8 +89,8 @@ export const gtd = {
                         label: 'Action status',
                         longer: 'Setup action status',
                         router: 'setup.action.status',
-                        bar: true,
-                        side: true,
+                        navbar: true,
+                        navside: true,
                         setup: true
                     },
                     {
@@ -98,9 +98,9 @@ export const gtd = {
                         label: 'Topics',
                         longer: 'Setup topics',
                         router: 'setup.topics',
-                        bar: true,
-                        side: true,
-                        view: true,
+                        navbar: true,
+                        navside: true,
+                        navview: true,
                         setup: true
                     },
                     {
@@ -108,9 +108,9 @@ export const gtd = {
                         label: 'Reference items',
                         longer: 'Setup reference items',
                         router: 'setup.ref.items',
-                        bar: true,
-                        side: true,
-                        view: true,
+                        navbar: true,
+                        navside: true,
+                        navview: true,
                         setup: true
                     },
                     {
@@ -118,9 +118,9 @@ export const gtd = {
                         label: 'Delegates',
                         longer: 'Setup delegates',
                         router: 'setup.delegates',
-                        bar: true,
-                        side: true,
-                        view: true,
+                        navbar: true,
+                        navside: true,
+                        navview: true,
                         setup: true
                     },
                 ],
@@ -129,16 +129,16 @@ export const gtd = {
                 id: 'collect',
                 label: 'Collect',
                 h3: 'Get things off your mind',
-                side: true,
-                view: true,
+                navside: true,
+                navview: true,
                 children: [
                     {
                         id: 'col',
                         label: 'Collect thoughts',
                         router: 'collect.thoughts',
-                        bar: true,
-                        side: true,
-                        view: true
+                        navbar: true,
+                        navside: true,
+                        navview: true
                     }
                 ],
             },
@@ -146,39 +146,39 @@ export const gtd = {
                 id: 'process',
                 label: 'Process',
                 h3: 'What is it? Is it actionable?',
-                side: true,
-                view: true,
+                navside: true,
+                navview: true,
                 children: [
                     {
                         id: 'pro',
                         label: 'Process thoughts',
                         router: 'process.thoughts',
-                        bar: true,
-                        side: true,
-                        view: true
+                        navbar: true,
+                        navside: true,
+                        navview: true
                     },
                     {
                         id: 'may',
                         label: 'Someday / Maybe',
-                        bar: true,
-                        side: true,
-                        view: true
+                        navbar: true,
+                        navside: true,
+                        navview: true
                     },
                     {
                         id: 'nep',
                         label: 'New project',
                         router: 'process.new.project',
-                        bar: true,
-                        side: true,
-                        view: true
+                        navbar: true,
+                        navside: true,
+                        navview: true
                     },
                     {
                         id: 'nea',
                         label: 'New action',
                         router: 'process.new.action',
-                        bar: true,
-                        side: true,
-                        view: true
+                        navbar: true,
+                        navside: true,
+                        navview: true
                     },
                 ],
             },
@@ -189,76 +189,76 @@ export const gtd = {
                     'Organize',
                     'Do'
                 ],
-                side: true,
-                view: true,
+                navside: true,
+                navview: true,
                 children: [
                     {
                         id: 'projects',
                         label: 'Projects',
                         router: 'review.projects',
-                        bar: true,
-                        side: true,
-                        view: true
+                        navbar: true,
+                        navside: true,
+                        navview: true
                     },
                     {
                         id: 'future',
                         label: 'Future projects',
                         router: 'review.future',
-                        bar: true,
-                        side: true,
-                        view: true
+                        navbar: true,
+                        navside: true,
+                        navview: true
                     },
                     {
                         id: 'actions',
                         label: 'Actions',
                         router: 'review.actions',
-                        bar: true,
-                        side: true,
-                        view: true
+                        navbar: true,
+                        navside: true,
+                        navview: true
                     },
                     {
                         id: 'ina',
                         label: 'Inactive',
                         router: 'review.inactive',
-                        bar: true,
-                        side: true,
-                        view: true,
+                        navbar: true,
+                        navside: true,
+                        navview: true,
                         actions: true
                     },
                     {
                         id: 'asa',
                         label: 'Do ASAP',
                         router: 'review.asap',
-                        bar: true,
-                        side: true,
-                        view: true,
+                        navbar: true,
+                        navside: true,
+                        navview: true,
                         actions: true
                     },
                     {
                         id: 'sch',
                         label: 'Scheduled',
                         router: 'review.scheduled',
-                        bar: true,
-                        side: true,
-                        view: true,
+                        navbar: true,
+                        navside: true,
+                        navview: true,
                         actions: true
                     },
                     {
                         id: 'del',
                         label: 'Delegated',
                         router: 'review.delegated',
-                        bar: true,
-                        side: true,
-                        view: true,
+                        navbar: true,
+                        navside: true,
+                        navview: true,
                         actions: true
                     },
                     {
                         id: 'don',
                         label: 'Done',
                         router: 'review.done',
-                        bar: true,
-                        side: true,
-                        view: true,
+                        navbar: true,
+                        navside: true,
+                        navview: true,
                         actions: true
                     }
                 ]
@@ -329,7 +329,7 @@ export const gtd = {
     },
     // returns the label to be used for this type of menu
     label: function( item, type ){
-        return ( type === 'side' && item.longer ) ? item.longer : item.label;
+        return ( type === 'navside' && item.longer ) ? item.longer : item.label;
     },
     labelById: function( type, id ){
         let label = '';

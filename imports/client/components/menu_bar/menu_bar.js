@@ -4,6 +4,7 @@
  *  Based on jQuery UI Menu widget.
  */
 import { Session } from 'meteor/session';
+import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
 import './menu_bar.html';
 
 Template.menu_bar.fn = {
@@ -15,7 +16,7 @@ Template.menu_bar.onRendered( function(){
 
 Template.menu_bar.helpers({
     gtdFeatures(){
-        return gtdFeatures();
+        return gtd.features();
     },
 });
 
