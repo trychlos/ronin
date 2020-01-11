@@ -27,7 +27,7 @@ Template.setup_tabs.onRendered( function(){
 });
 
 Template.setup_tabs.helpers({
-    gtdSetup(){
+    gtdItems(){
         return gtd.setupItems();
     },
     itTemplate( it ){

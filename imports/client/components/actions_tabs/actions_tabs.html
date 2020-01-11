@@ -2,13 +2,15 @@
     <div class="actions-tabs">
         <div class="actions-tabbed">
             <ul>
-                {{#each it in tabs}}
-                    <li data-itabbed="{{it.tab}}" data-pwi-iroutable-route="{{it.router}}"><a href="#{{it.tab}}">{{it.label}}</a></li>
+                {{#each it in gtdItems}}
+                    <li data-itabbed="{{it.id}}" data-pwi-iroutable-route="{{it.router}}">
+                        <a href="#{{it.id}}">{{it.label}}</a>
+                    </li>
                 {{/each}}
             </ul>
-            {{#each it in tabs}}
-                <div id="{{it.tab}}">
-                    {{> actions_grid tab=it.tab actions=(actions it.tab) }}
+            {{#each it in gtdItems}}
+                <div id="{{it.id}}">
+                    {{> actions_grid tab=it.id actions=(actions it.id) }}
                 </div>
             {{/each}}
         </div>

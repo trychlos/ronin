@@ -49,8 +49,8 @@ Template.overview.helpers({
     gtdFeatures(){
         return gtd.features();
     },
-    isVisible( type, item ){
-        return gtd.isVisible( type, item );
+    isVisible( item, type ){
+        return gtd.isVisible( item, type );
     },
     // returns the <a href='' id=''></a> link if the subs has a router entry
     //  o: first level of overview

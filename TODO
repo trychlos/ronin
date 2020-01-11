@@ -135,8 +135,6 @@
    86 2020- 1-11 projects_tree: no context menu on root nodes
                   (at least no Edit/Delete items)
 
-   87 2020- 1-11 actions_tabs: list of tabs should be read from gtd
-
    88
 
 -----------------------------------------------------------------------
@@ -286,6 +284,9 @@
 
    78 2020- 1- 9 actions_edit: date display is not ok
       2020- 1-10 fixed by conversion to Date object
+
+   87 2020- 1-11 actions_tabs: list of tabs should be read from gtd
+      2020- 1-11 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

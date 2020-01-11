@@ -1,23 +1,24 @@
 /*
  * 'menu_item' template.
  *  Display the item and its menu hierarchy.
+ *
  *  Parameters:
- *  - type: 'side'|'bar'
- *  - item: an item from gtdFeatures().
+ *  - item: an item from gtd.features()
+ *  - type: 'side'|'bar'.
  */
 import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
 import './menu_item.html';
 
 Template.menu_item.helpers({
-    isVisible( type, item ){
-        return gtd.isVisible( type, item );
+    isVisible( item, type ){
+        return gtd.isVisible( item, type );
     },
     // have a div, maybe an anchor, and the label
-    itemHtml( type, item ){
+    itemHtml( item, type ){
         let htmlBegin = '';
         let htmlEnd = '';
         htmlBegin += '<div';
-        let classes = gtd.classes( type, item );
+        let classes = gtd.classes( item, type );
         if( classes.length ){
             htmlBegin += ' class="'+classes.join(' ')+'"';
         }
@@ -27,7 +28,7 @@ Template.menu_item.helpers({
             htmlBegin += '<a href="#" data-router="'+item.router+'">';
             htmlEnd = '</a>'+htmlEnd;
         }
-        return htmlBegin+gtd.label( type, item )+htmlEnd;
+        return htmlBegin+gtd.label( item, type )+htmlEnd;
     },
     hasChildren( item ){
         return gtd.hasChildren( item );
