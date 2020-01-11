@@ -312,9 +312,6 @@ export const gtd = {
     hasChildren: function( item ){
         return item.children && item.children.length > 0 ;
     },
-    isEnabled: function( type, item ){
-        return item[type] === undefined ? true : item[type];
-    },
     // whether this item is displayed in this type of menu
     isVisible: function( item, type ){
         return item[type] !== undefined && item[type] === true;
