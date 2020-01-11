@@ -1,14 +1,14 @@
 /*
  * 'ITabbed' pseudo-interface.
  *  To be used by every tabbed window.
- * 
+ *
  *  We have chosen to use jQuery Tabs.
  *  jQuery Tabs relies on a specific HTML markup
  *  see API documentation https://api.jqueryui.com/tabs/.
- * 
+ *
  *  More, ITabbed expects that each <li> holds a 'data-itabbed'
  *  attribute, with the tab identifier as a value.
- * 
+ *
  *  Properties:
  *  - tab (optional) tab identifier
  *  + all jQuery Tabs options.
@@ -48,9 +48,9 @@ import '/imports/client/components/errors/errors.js'
         //  else setup default values
         let settings = {};
         if( self.hasClass( 'pwi-itabbed' )){
-            settings = Object.assign({}, opts );
+            settings = Object.assign( {}, opts );
         } else {
-            settings = Object.assign({}, $.fn.ITabbed.defaults );
+            settings = Object.assign( {}, $.fn.ITabbed.defaults );
             $.extend( settings, opts );
             self.addClass( 'pwi-itabbed' );
         }
@@ -63,10 +63,9 @@ import '/imports/client/components/errors/errors.js'
         }
         // events tracker
         self.on( 'tabsactivate', function( event, ui ){
-            const tab = $(ui.newTab).data('itabbed');
-            const item = gtd.byId( tab );
-            if( item && item.router ){
-                FlowRouter.go( item.router );
+            const route = $( ui.newTab ).data( 'pwi-iroutable-route' );
+            if( route ){
+                FlowRouter.go( route );
             }
         });
         return this;
@@ -96,5 +95,22 @@ import '/imports/client/components/errors/errors.js'
             idx += 1;
         });
         return tabs;
+    };
+    // public functions
+    //  this window receives the focus
+    //  change the route for reflecting the currently active tab
+    $.fn.ITabbed.focus = function( window ){
+        const tabs = _tabs( $( window ));
+        const tabbed = $( window ).find( '.pwi-itabbed' )[0];
+        if( tabbed ){
+            const active = $( tabbed ).tabs( 'option', 'active' );
+            const item = gtd.byId( tabs[active] );
+            if( item && item.router ){
+                FlowRouter.go( item.router );
+            }
+        } else {
+            throwError({ message:'Not an ITabbed window' });
+            console.log( window );
+        }
     };
 }( jQuery ));

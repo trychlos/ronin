@@ -3,7 +3,7 @@
         <div class="projects-tabbed">
             <ul>
                 {{#each it in counters}}
-                    <li data-itabbed="{{it.tabid}}"><a href="#{{it.tabid}}">{{it.value}}</a></li>
+                    <li data-itabbed="{{it.tabid}}" data-pwi-iroutable-route="review.{{it.tabid}}"><a href="#{{it.tabid}}">{{it.value}}</a></li>
                 {{/each}}
             </ul>
             {{#each it in counters}}

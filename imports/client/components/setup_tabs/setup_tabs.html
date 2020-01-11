@@ -3,7 +3,7 @@
         <div class="setup-tabbed">
             <ul>
                 {{#each it in gtdSetup}}
-                    <li data-itabbed="{{it.id}}"><a href="#{{it.id}}">{{it.label}}</a></li>
+                    <li data-itabbed="{{it.id}}" data-pwi-iroutable-route="{{it.router}}"><a href="#{{it.id}}">{{it.label}}</a></li>
                 {{/each}}
             </ul>
             {{#each it in gtdSetup}}

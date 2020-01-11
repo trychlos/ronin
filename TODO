@@ -49,9 +49,6 @@
 
    35 2019-12-31 on overview, minimize all
 
-   36 2019-12-31 closing a window should invalidate the corresponding route
-                  and activate the route of the newly active window
-
    39 2020- 1- 1 review the height allocation of the horizontal splitter
                   of the process window to be dynamic instead of being fixed
 
@@ -61,8 +58,6 @@
 
    42 2020- 1- 1 define a iSplitted interface
                   with isplitted.less from desktop.less
-
-   45 2020- 1- 2 update the route when activating another window
 
    50 2020- 1- 2 review simone min/restore/max window icons
                   have a tooltip + change icon
@@ -137,7 +132,12 @@
 
    85 2020- 1-11 root objects of projects_tree should be hard-coded object (as gtd)
 
-   86
+   86 2020- 1-11 projects_tree: no context menu on root nodes
+                  (at least no Edit/Delete items)
+
+   87 2020- 1-11 actions_tabs: list of tabs should be read from gtd
+
+   88
 
 -----------------------------------------------------------------------
  Done
@@ -210,6 +210,10 @@
    34 2019-12-27 date_select: ui-datepicker-calendar personalization does not work
       2019-12-27 fixed
 
+   36 2019-12-31 closing a window should invalidate the corresponding route
+                  and activate the route of the newly active window
+      2020- 1-11 done
+
    37 2019-12-31 rename setup_tab to setup_tabbed
                  rename process_dispatch to process_tabbed
                  harmonize the iTabbed div names
@@ -228,6 +232,9 @@
                   menu_side option Future projects changes the route but does
                   not activate the corresponding tab
       2020- 1- 2 fixed with this.autorun()
+
+   45 2020- 1- 2 update the route when activating another window
+      2020- 1-11 done
 
    46 2020- 1- 2 rename iWindowed to IWindowed
       2020- 1- 2 done

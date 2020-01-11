@@ -1,6 +1,7 @@
 /*
  * 'actionsWindow' window.
  *  This is the main component for actions and actions reviewing.
+ *  This is a tabbed window: routable informations are set at the tab level.
  */
 import '/imports/client/components/actions_tabs/actions_tabs.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';

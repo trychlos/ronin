@@ -1,7 +1,7 @@
 /*
  * 'actions_tabs' component.
  *  Display actions and single actions as tabs.
- * 
+ *
  *  Session variables:
  *  - actions.tab.name: the current tab.
  */
@@ -14,11 +14,11 @@ Template.actions_tabs.fn = {
     tabs: function(){
         return [
             // ina asa sch del don
-            { tab: 'ina', label: 'Inactive' },
-            { tab: 'asa', label: 'Do ASAP' },
-            { tab: 'sch', label: 'Scheduled' },
-            { tab: 'del', label: 'Delegated' },
-            { tab: 'don', label: 'Done' },
+            { tab: 'ina', label: 'Inactive',  router: 'review.inactive' },
+            { tab: 'asa', label: 'Do ASAP',   router: 'review.asap' },
+            { tab: 'sch', label: 'Scheduled', router: 'review.scheduled' },
+            { tab: 'del', label: 'Delegated', router: 'review.delegated' },
+            { tab: 'don', label: 'Done',      router: 'review.done' },
         ];
     }
 };

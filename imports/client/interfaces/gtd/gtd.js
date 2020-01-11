@@ -1,6 +1,7 @@
 /*
  * GettingThingsDone (C) by ThinkingRock features
  *  gtdFeatures() globally defines the menu and the options.
+ *
  *  Each item has:
  *  - id: a unique identifier
  *  - label: a rather short label suitable for horizontal menu

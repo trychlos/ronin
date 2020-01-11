@@ -9,27 +9,38 @@ import '/imports/client/components/overview/overview.js';
 import './desktop.html';
 
 Template.appDesktop.onRendered( function(){
-    g.taskbar.set(
-        $('.lyt-taskbar').taskbar({
-            //buttonsTooltips: true,
-            localization: {
-                en: {
-                    'group:collectWindow':  'Collect',
-                    'group:processWindow':  'Process',
-                    'group:reviewWindow':   'Review',
-                    'group:setupWindow':    'Setup'
-                }
-            },
-            minimizeAll: false,
-            viewportMargins: {
-                top   : [ g.barTopHeight, "correctNone" ],
-                left  : [ g.barSideWidth, "correctNone" ]
-            },
-            windowButtonsSortable: false,
-            windowsContainment: 'visible'
-        })
-    );
-    //console.log( 'desktop set taskbar='+taskbar );
+    const taskbar = $('.lyt-taskbar').taskbar({
+        //buttonsTooltips: true,
+        localization: {
+            en: {
+                'group:collectWindow':  'Collect',
+                'group:processWindow':  'Process',
+                'group:reviewWindow':   'Review',
+                'group:setupWindow':    'Setup'
+            }
+        },
+        minimizeAll: false,
+        viewportMargins: {
+            top   : [ g.barTopHeight, "correctNone" ],
+            left  : [ g.barSideWidth, "correctNone" ]
+        },
+        windowButtonsSortable: false,
+        windowsContainment: 'visible'
+    });
+    g.taskbar.set( taskbar );
+    //console.log( 'desktop set taskbar' );
+    //console.log( taskbar );
+    taskbar.on( 'taskbarbind', function( ev, ui ){
+        //console.log( 'taskbar bind '+ui.$window[0].baseURI );
+        //console.log( ev );
+        //console.log( ui );
+    });
+    // reset route when closing the last window
+    taskbar.on( 'taskbarunbind', function( ev, ui ){
+        if( ui.instance.windows().length === 0 ){
+            FlowRouter.go( 'home' );
+        }
+    });
 });
 
 Template.appDesktop.helpers({

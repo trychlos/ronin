@@ -3,16 +3,18 @@
  *  To be used by every non modal window.
  *  This (pseudo-)interface manages the currently opened windows
  *  and makes sure that opened identifiers are kept unique.
- * 
+ *
  *  Each window must hold its own 'id' identifier; our window manager will take
  *  care of opening at most one identifier simultaneously, thus maybe reusing
  *  an already opened window.
- * 
+ *
  *  Properties:
  *  - template: mandatory, the template name
  *  + all simone options
  */
 import '/imports/client/components/errors/errors.js'
+import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
+import '/imports/client/interfaces/itabbed/itabbed.js'
 
 ( function( $ ){
     $.fn.IWindowed = function(){
@@ -75,24 +77,29 @@ import '/imports/client/components/errors/errors.js'
         this.data( 'iwindowed', specs.template );
         _restoreSettings( this, specs.template );
         // events tracker
-        /* unable to attach an event */
         /*
-        this.on( 'focus', function( event, ui ){
-            console.log( 'IWindowed focus');
-            objDumpProps( event );
-            objDumpProps( ui );
+        this.on( 'windowcreate', function( event, ui ){ // not received
+            console.log( 'IWindowed create');
+            console.log( event );
+            console.log( ui );
+        });
+        this.on( 'windowclose', function( event, ui ){
+            console.log( 'IWindowed close');
+            console.log( event );
+            console.log( ui );
         });
         */
-        document.getElementById(g.rootId).addEventListener( 'focus', function( event, ui ){
-            console.log( 'IWindowed focus');
-            objDumpProps( event );
-            objDumpProps( ui );
+       this.on( 'windowfocus', function( event, ui ){
+        _onFocus( event, ui );
+        });
+        this.on( 'windowminimize', function( event, ui ){
+            _onMinimize( event, ui );
         });
         /*
-        document.getElementsByTagName('body')[0].addEventListener( 'focus', function( event, ui ){
-            console.log( 'IWindowed focus');
-            objDumpProps( event );
-            objDumpProps( ui );
+        this.on( 'windowmoveToTop', function( event, ui ){ // not received
+            console.log( 'IWindowed moveToTop');
+            console.log( event );
+            console.log( ui );
         });
         */
         return this;
@@ -117,6 +124,44 @@ import '/imports/client/components/errors/errors.js'
             obj.window('restore');
         }
         obj.window('moveToTop');
+    };
+    // the window receives the focus
+    //  update the current route
+    function _onFocus( event, ui ){
+        //console.log( 'focus '+ event.currentTarget.baseURI );
+        const mode = $( event.target ).data( 'pwi-iroutable-mode' );
+        if( mode === 'tabs' ){
+            $.fn.ITabbed.focus( event.target );
+        } else {
+            if( mode === 'window' ){
+                const route = $( event.target ).data( 'pwi-iroutable-route' );
+                if( route ){
+                    FlowRouter.go( route );
+                } else {
+                    console.log( 'IWindowed:onFocus() mode=window but no route is defined' );
+                }
+            } else {
+                console.log( 'IWindowed:onFocus() unknown mode='+mode);
+                //console.log( event );
+                //console.log( ui );
+            }
+        }
+    };
+    // the window is minimized
+    //  if all the windows are minimized, then reset the route
+    function _onMinimize( event, ui ){
+        const windows = ui.taskbar.windows();
+        let visible = 0;
+        for( let i=0 ; i<windows.length ; ++i ){
+            //console.log( windows[i] );
+            if( !$( windows[i] ).window( 'minimized' )){
+                visible += 1;
+            }
+        }
+        //console.log( 'windows.length='+windows.length+' visible='+visible );
+        if( !visible ){
+            FlowRouter.go( 'home' );
+        }
     };
     // restore size and position
     function _restoreSettings( obj, id ){

@@ -1,7 +1,7 @@
 /*
  * 'setup_tabs' component.
  *  Display a tab per reference table.
- * 
+ *
  *  Session variables:
  *  - setup.tab.name: the identifier of the active tab
  *      aka the identifier of the corresponding option in 'gtd' features.
@@ -19,7 +19,6 @@ import '/imports/client/interfaces/itabbed/itabbed.js';
 import './setup_tabs.html';
 
 Template.setup_tabs.onRendered( function(){
-    //console.log( 'setup_tabs.onRendered tab='+Session.get('setup.tab.name'));
     this.autorun(() => {
         $('.setup-tabbed').ITabbed({
             tab: Session.get('setup.tab.name')

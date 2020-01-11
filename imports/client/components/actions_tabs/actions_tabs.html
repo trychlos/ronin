@@ -3,7 +3,7 @@
         <div class="actions-tabbed">
             <ul>
                 {{#each it in tabs}}
-                    <li data-itabbed="{{it.tab}}"><a href="#{{it.tab}}">{{it.label}}</a></li>
+                    <li data-itabbed="{{it.tab}}" data-pwi-iroutable-route="{{it.router}}"><a href="#{{it.tab}}">{{it.label}}</a></li>
                 {{/each}}
             </ul>
             {{#each it in tabs}}
