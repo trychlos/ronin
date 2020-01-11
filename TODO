@@ -100,8 +100,6 @@
    69 2020- 1- 5 review background-colors
                   tabs / grid headers / selected row / hover row / right-click row
 
-   70 2020- 1- 5 projects_tree: have expand all / collapse all buttons
-
    73 2020- 1- 7 have edit and delete buttons components
       2020- 1-11  this would let us also homogeneize font color
 
@@ -266,6 +264,9 @@
 
    67 2020- 1- 5 have a IGrid
       2020- 1- 6 done
+
+   70 2020- 1- 5 projects_tree: have expand all / collapse all buttons
+      2020- 1-11 expand all button - collapse all is estimated useless
 
    71 2020- 1- 5 actions_grid: unable to get different columns per tab
       2020- 1- 6 fixed

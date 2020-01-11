@@ -235,6 +235,22 @@ Template.projects_tree.fn = {
             Template.projects_tree.fn._dumpTreeRec( $tree, node.children[i], prefix+' ' );
         }
     },
+    // expand the trere
+    expandAll: function( tab ){
+        const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
+        if( $tree ){
+            const root = $tree.tree('getNodeById','root');
+            Template.projects_tree.fn._expandAll_rec( $tree, root );
+        }
+    },
+    _expandAll_rec: function( $tree, node ){
+        if( node.children.length ){
+            $tree.tree( 'openNode', node )
+            for( let i=0 ; i<node.children.length ; ++i ){
+                Template.projects_tree.fn._expandAll_rec( $tree, node.children[i] );
+            }
+        }
+    },
     // returns the ad-hoc class for the item LI
     getItemClass: function( node ){
         return node && node.obj && node.obj.type === 'A' ?
@@ -585,6 +601,15 @@ Template.projects_tree.events({
         const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
         const checked = instance.$('.js-done' ).is(':checked');
         Template.projects_tree.fn.displayDone( tab, checked );
+    },
+    'click .js-expand'( ev, instance ){
+        const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
+        Template.projects_tree.fn.expandAll( tab );
+    },
+    'change .js-collapse'( ev, instance ){
+        const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
+        const checked = instance.$('.js-collapse' ).is(':checked');
+        console.log( tab+' collapse '+checked );
     },
     'click .js-dump'( ev, instance ){
         const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
