@@ -1,7 +1,7 @@
 /*
  * 'action_edit' component.
  *  Let the user edit an action.
- * 
+ *
  *  Parameters:
  *  - obj: the currently edited object.
  */
@@ -100,10 +100,12 @@ Template.action_edit.events({
                 newobj._id = id;
                 // if project has changed, then the previous tree should be updated (refreshed)
                 if( obj.project !== newobj.project ){
-                    Session.set( 'process.obsolete.obj',{ id:id, type:'A', changes: [
-                            { data:'project', value:obj.project }
+                    Session.set( 'process.obsolete.obj',{
+                        id:id, type:'A', changes: [
+                            { data:'project', oldvalue:obj.project }
                     ]});
                 }
+                $( document.body ).trigger( 'action-edit', { old:obj, new:newobj });
             } else {
                 newobj._id = Meteor.call('actions.insert', newobj, ( error ) => {
                     if( error ){

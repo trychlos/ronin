@@ -111,10 +111,6 @@
 
    74 2020- 1- 8 have a data model on documents: provide classes via transform
 
-   75 2020- 1- 9 rewrite IGrid interface to have our own methods (better isolation from jqxGrid)
-
-   76 2020- 1- 9 rewrite ITabbed interface to have our own methods (better isolation from jqTabs)
-
    77 2020- 1- 9 have ITree interface
 
    79 2020- 1- 9 actions_edit: firefox display calendar button is not ok
@@ -127,8 +123,13 @@
    81 2020- 1- 9 action_edit/project_edit: changing anything should either invalidate
                   the whole cursor, or be reported on the initial object
                   so that reopening the window should display the previously set values
+      2020- 1-11 as of date, both project_edit and action_edit publish a message on update
+                  + projects_tree handles this message (three times)
+                  todo: handle once / deal with update / same for actions_grid
 
-   82
+   82 2020- 1-11 review counters publications
+
+   83
 
 -----------------------------------------------------------------------
  Done
@@ -261,6 +262,12 @@
 
    72 2020- 1- 6 have edit and delete buttons in IGrid
       2020- 1- 9 done
+
+   75 2020- 1- 9 rewrite IGrid interface to have our own methods (better isolation from jqxGrid)
+      2020- 1-10 cancelled
+
+   76 2020- 1- 9 rewrite ITabbed interface to have our own methods (better isolation from jqTabs)
+      2020- 1-10 cancelled
 
    78 2020- 1- 9 actions_edit: date display is not ok
       2020- 1-10 fixed by conversion to Date object

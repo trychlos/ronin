@@ -2,7 +2,7 @@
  * 'projects_tree' component.
  *  Display and manage the projects hierarchy tree.
  *  A new tree is instanciated for each tab.
- * 
+ *
  *  Parameters:
  *  - label: the label to be displayed as the root node
  *  - tab: the identifier of the created instance (may not be the one currently shown).
@@ -298,6 +298,13 @@ Template.projects_tree.fn = {
             }
         }
     },
+    // a project or an action has been updated
+    // the old tab should be refreshed
+    onEdit: function( event, oldValue, newValue ){
+        console.log( 'projects_tree:onEdit' );
+        console.log( oldValue );
+        console.log( newValue );
+    },
     // contextual menu, delete operation
     opeDelete: function( tab, node ){
         if( node.id !== 'root' ){
@@ -403,14 +410,17 @@ Template.projects_tree.onCreated( function(){
     const tab = this.data.tab;
     if( tab ){
         Template.projects_tree.fn.dict[tab] = {
-            actionsHandle:  this.subscribe('actions.all'),
+            actionsHandle:  this.subscribe( 'actions.all' ),
             countersHandle: this.subscribe( 'counters.all' ),
-            projectsHandle: this.subscribe('projects.all'),
+            projectsHandle: this.subscribe( 'projects.all' ),
             countersGot:    new ReactiveVar( false ),
             projectsShown:  new ReactiveVar( false ),
             tree:           null,
             order:          new ReactiveVar( null )
         }
+        $( document.body ).on( 'project-edit action-edit', function( event, obj ){
+            Template.projects_tree.fn.onEdit( event, obj.old, obj.new );
+        });
     }
 });
 
@@ -512,7 +522,7 @@ Template.projects_tree.onRendered( function(){
                 //console.log( tab+': updating projects' );
                 if( tab !== 'actions' ){
                     const future = ( tab === 'future' );
-                    fn.addProjects( 
+                    fn.addProjects(
                         tab,
                         future,
                         Projects.find({ select_order: { $gt: 0 }, future: future }).fetch());
@@ -540,10 +550,10 @@ Template.projects_tree.onRendered( function(){
             for( var i=0 ; i<update.changes.length ; ++i ){
                 switch( update.changes[i].data ){
                     case 'future':
-                        fn.obsoleteFuture( update.changes[i].value, update.id );
+                        fn.obsoleteFuture( update.changes[i].oldvalue, update.id );
                         break;
                     case 'project':
-                        fn.obsoleteParent( update.changes[i].value, update.id );
+                        fn.obsoleteParent( update.changes[i].oldvalue, update.id );
                         break;
                 }
             }
@@ -563,7 +573,7 @@ Template.projects_tree.events({
         Template.projects_tree.fn.dumpTree( tab );
         Template.projects_tree.fn.dumpHtml( tab );
     },
-    // moving a mode means both reparenting and reordering it 
+    // moving a node means both reparenting and reordering it
     // note that we are refusing to move outside of the root node
     //  + we also refuse to drop an action inside another action
     'tree.move .projects-tree .tree'( ev ){
