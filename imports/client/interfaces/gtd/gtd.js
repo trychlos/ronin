@@ -6,6 +6,7 @@
  *  - id: a unique identifier
  *  - label: a rather short label suitable for horizontal menu
  *  - longer (maybe): a secondary label suitable for a vertical menu, defaults to 'label'
+ *  - tabtitle (maybe): a secondary label suitable for a tab, defaults to 'label'
  *  - router (maybe): the router entry if this is an actionable item
  *  - children (maybe): one or more child items
  *  +
@@ -14,6 +15,7 @@
  *  - 'navview': concerns the overview, defaulting to false
  *  +
  *  - 'tabactions': whether the item is managed by the 'actions' tabbed window, defaulting to false
+ *  - 'tabprojects': whether the item is managed by the 'projects' tabbed window, defaulting to false
  *  - 'tabsetup': whether the item is managed by the 'setup' tabbed window, defaulting to false
  *
  *  NB: see https://stackoverflow.com/questions/33611812/export-const-vs-export-default-in-es6
@@ -198,7 +200,9 @@ export const gtd = {
                         router: 'review.projects',
                         navbar: true,
                         navside: true,
-                        navview: true
+                        navview: true,
+                        tabprojects: true,
+                        tabsort: 1
                     },
                     {
                         id: 'future',
@@ -206,15 +210,20 @@ export const gtd = {
                         router: 'review.future',
                         navbar: true,
                         navside: true,
-                        navview: true
+                        navview: true,
+                        tabprojects: true,
+                        tabsort: 3
                     },
                     {
                         id: 'actions',
                         label: 'Actions',
+                        tabtitle: 'Single actions',
                         router: 'review.actions',
                         navbar: true,
                         navside: true,
-                        navview: true
+                        navview: true,
+                        tabprojects: true,
+                        tabsort: 2
                     },
                     {
                         id: 'ina',
@@ -266,6 +275,7 @@ export const gtd = {
         ];
     },
     // return the list of items to be managed as a tabbed page in actions window
+    //  these are marked as tabactions:true
     actionsItems(){
         return gtd.itemsBoolArray( 'tabactions' );
     },
@@ -340,6 +350,18 @@ export const gtd = {
             }
         }
         return label;
+    },
+    // return the label to be used for a tab
+    labelTab: function( item ){
+        return item.tabtitle ? item.tabtitle : item.label;
+    },
+    // return the list of items to be managed as a tabbed page in projects window
+    //  these are marked as tabprojects:true
+    projectsItems(){
+        return gtd.itemsBoolArray( 'tabprojects' ).sort( gtd._projectsItems_sort );
+    },
+    _projectsItems_sort( a, b ){
+        return a.tabsort < b.tabsort ? -1 : ( a.tabsort > b.tabsort ? 1 : 0 );
     },
     // return the list of items to be managed as a tabbed page in 'setup' window
     //  these are marked as tabsetup:true

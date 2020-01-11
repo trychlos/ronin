@@ -132,8 +132,6 @@
 
    84 2020- 1-11 manage logged-in user
 
-   85 2020- 1-11 root objects of projects_tree should be hard-coded object (as gtd)
-
    88
 
 -----------------------------------------------------------------------
@@ -283,6 +281,9 @@
 
    78 2020- 1- 9 actions_edit: date display is not ok
       2020- 1-10 fixed by conversion to Date object
+
+   85 2020- 1-11 root objects of projects_tree should be hard-coded object (as gtd)
+      2020- 1-11 done
 
    86 2020- 1-11 projects_tree: no context menu on root nodes
                   (at least no Edit/Delete items)

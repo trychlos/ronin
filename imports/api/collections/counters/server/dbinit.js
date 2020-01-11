@@ -5,10 +5,7 @@ import { Counters } from '../counters.js';
 Meteor.startup(() => {
     if( Counters.find().count() === 0 ){
         const data = [
-            { name: 'projects', nid: 1 },
-            { name: 'root', tabid: 'projects', value: 'Projects', nid: 1 },
-            { name: 'root', tabid: 'actions', value: 'Single actions', nid: 2 },
-            { name: 'root', tabid: 'future', value: 'Future projects', nid: 3 }
+            { name: 'projects', nid: 1 }
         ];
         data.forEach( d => {
             Counters.insert( d );
