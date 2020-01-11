@@ -450,7 +450,7 @@ Template.projects_tree.onRendered( function(){
         // define the context menu
         $tree.contextMenu({
             selector: 'li.jqtree_common span.jqtree-title',
-            build: function( $elt, ev ){
+            build: function( elt, ev ){
                 return {
                     items: {
                         edit: {
@@ -461,6 +461,11 @@ Template.projects_tree.onRendered( function(){
                                 if( node.id !== 'root' ){
                                     fn.opeEdit( tab, node );
                                 }
+                            },
+                            disabled: function( key, opts ){
+                                const li = $( this ).parents('li')[0];
+                                const node = $(li).data('node');
+                                return node.id === 'root';
                             }
                         },
                         delete: {
@@ -471,13 +476,26 @@ Template.projects_tree.onRendered( function(){
                                 if( node.id !== 'root' ){
                                     fn.opeDelete( tab, node );
                                 }
+                            },
+                            disabled: function( key, opts ){
+                                const li = $( this ).parents('li')[0];
+                                const node = $(li).data('node');
+                                return node.id === 'root';
                             }
                         }
                     },
                     autoHide: true,
                     // executed in the selector (triggering object) context
+                    //  do not open the edition context menu of root node
                     events: {
                         show: function( opts ){
+                            /*
+                            const li = $( this ).parents('li')[0];
+                            const node = $(li).data('node');
+                            if( node.id === 'root' ){
+                                return false;
+                            }
+                            */
                             this.addClass( 'contextmenu-showing' );
                         },
                         hide: function( opts ){

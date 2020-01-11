@@ -103,8 +103,10 @@
    70 2020- 1- 5 projects_tree: have expand all / collapse all buttons
 
    73 2020- 1- 7 have edit and delete buttons components
+      2020- 1-11  this would let us also homogeneize font color
 
    74 2020- 1- 8 have a data model on documents: provide classes via transform
+      2020- 1-11 it seems that the transform function does not oper on find() cursors :(
 
    77 2020- 1- 9 have ITree interface
 
@@ -131,9 +133,6 @@
    84 2020- 1-11 manage logged-in user
 
    85 2020- 1-11 root objects of projects_tree should be hard-coded object (as gtd)
-
-   86 2020- 1-11 projects_tree: no context menu on root nodes
-                  (at least no Edit/Delete items)
 
    88
 
@@ -284,6 +283,10 @@
 
    78 2020- 1- 9 actions_edit: date display is not ok
       2020- 1-10 fixed by conversion to Date object
+
+   86 2020- 1-11 projects_tree: no context menu on root nodes
+                  (at least no Edit/Delete items)
+      2020- 1-11 done
 
    87 2020- 1-11 actions_tabs: list of tabs should be read from gtd
       2020- 1-11 done
