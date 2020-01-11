@@ -8,6 +8,7 @@
     "@babel/runtime": "^7.7.6",
     "@fortawesome/fontawesome-free": "^5.12.0",
     "amplifyjs": "^1.1.2-beta.2",
+    "bcrypt": "^3.0.7",
     "jqgrid": "^4.6.4",
     "jqtree": "^1.4.12",
     "jquery-contextmenu": "^2.9.0",
