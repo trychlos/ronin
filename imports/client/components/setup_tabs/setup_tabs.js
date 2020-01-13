@@ -12,7 +12,6 @@ import '/imports/client/components/setup_delegates/setup_delegates.js';
 import '/imports/client/components/setup_energy/setup_energy.js';
 import '/imports/client/components/setup_priority/setup_priority.js';
 import '/imports/client/components/setup_refs/setup_refs.js';
-import '/imports/client/components/setup_status/setup_status.js';
 import '/imports/client/components/setup_time/setup_time.js';
 import '/imports/client/components/setup_topics/setup_topics.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';

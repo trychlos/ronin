@@ -1,12 +1,12 @@
 /*
  * 'action_status_select' component.
  *  Display a drop-down box to select an action status.
- * 
+ *
  *  Parameters:
- *  - 'selected=code' (optional) initial selected item's code.
+ *  - 'selected=id' (optional) initial selected status's identifier.
  */
 import { Meteor } from 'meteor/meteor';
-import { ActionStatus } from '/imports/api/collections/action_status/action_status.js';
+import { actionStatus } from '/imports/assets/action_status/action_status.js';
 import './action_status_select.html';
 
 Template.action_status_select.fn = {
@@ -25,17 +25,13 @@ Template.action_status_select.fn = {
     },
 };
 
-Template.action_status_select.onCreated( function(){
-    this.subscribe('action_status.all');
-});
-
 Template.action_status_select.helpers({
-    statusCursor(){
-        return ActionStatus.find();
+    statusList(){
+        return actionStatus.all();
     },
     statusSelected( current, selected ){
         var value = "";
-        if( selected && selected === current.code ){
+        if( selected && selected === current.id ){
             value = 'selected';
         }
         return value;

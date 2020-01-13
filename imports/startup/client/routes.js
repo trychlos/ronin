@@ -66,14 +66,6 @@ FlowRouter.route('/setup/priority', {
         BlazeLayout.render('appDesktop', { main: 'setupPage' });
     },
 });
-FlowRouter.route('/setup/status', {
-    name: 'setup.action.status',
-    action(){
-        Session.set('setup.tab.name','status');
-        Session.set('setup.action_status.obj',null);
-        BlazeLayout.render('appDesktop', { main: 'setupPage' });
-    },
-});
 FlowRouter.route('/setup/topics', {
     name: 'setup.topics',
     action(){

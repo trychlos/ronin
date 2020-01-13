@@ -32,9 +32,6 @@
 
    26 2019-12- 8 do not delete a context used by an action
 
-   27 2019-12- 8 do not delete an action status used by an action
-      2019-12-27 action_status should not be editable at all
-
    28 2019-12-15 review general layout, adding vertical and horizontal menus
       2020- 1- 2 running work: have a menu_side + a menu bar placeholder
                   + each principal theme has its own window
@@ -134,7 +131,7 @@
 
    88 2020- 1-12 action done : have a dark gray icon
 
-   89
+   90
 
 -----------------------------------------------------------------------
  Done
@@ -194,6 +191,9 @@
    24 2019-12- 7 process thoughts: the description of the current thought
                  doesn't take into account the lines
       2019-12-20 the scroll part no more displays the thought description
+
+   27 2019-12- 8 do not delete an action status used by an action
+      2019-12-27 action_status should not be editable at all
 
    31 2019-12-23 projects_tree: have a specific icon for actions
       2019-12-23 done
@@ -299,6 +299,9 @@
 
    87 2020- 1-11 actions_tabs: list of tabs should be read from gtd
       2020- 1-11 done
+
+   89 2020- 1-13 action_status should be hardcoded (as gtd)
+      2020- 1-13 done as actionStatus
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

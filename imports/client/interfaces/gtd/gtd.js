@@ -87,15 +87,6 @@ export const gtd = {
                         tabsetup: true
                     },
                     {
-                        id: 'status',
-                        label: 'Action status',
-                        longer: 'Setup action status',
-                        router: 'setup.action.status',
-                        navbar: true,
-                        navside: true,
-                        tabsetup: true
-                    },
-                    {
                         id: 'topics',
                         label: 'Topics',
                         longer: 'Setup topics',

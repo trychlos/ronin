@@ -10,6 +10,7 @@
 import { Actions } from '/imports/api/collections/actions/actions.js';
 import { Counters } from '/imports/api/collections/counters/counters.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
+import { actionStatus } from '/imports/assets/action_status/action_status.js';
 import '/imports/client/components/errors/errors.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import 'jqtree/tree.jquery.js';
@@ -384,7 +385,7 @@ Template.projects_tree.fn = {
             console.log( 'project_tree:setActivable for type='+node.obj.type );
         } else {
             const status = node.obj.status;
-            const activable = ( status !== 'ina' && status !== 'don' );
+            const activable = actionStatus.isActionable( status );
             //console.log( 'node '+node.name+' status='+status+' activable='+activable );
             Template.projects_tree.fn._setActivableRec( $tree, node, activable );
         }
