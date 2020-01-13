@@ -27,6 +27,9 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
                 case 'close':
                     _close( this, arguments );
                     break;
+                case 'minimizeAll':
+                    _minimizeAll();
+                    break;
                 case 'show':
                     _show( this, arguments );
                     break;
@@ -108,7 +111,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     //  (aka the parent of the div we are working with)
     function _className( id ){
         return 'pwi-'+id;
-    }
+    };
     // close the current window
     function _close( self ){
         //objDumpProps( self );
@@ -117,7 +120,17 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         } else {
             throwError({ message:'IWindowed: unable to close this window' });
         }
-    }
+    };
+    // minimize all windows
+    function _minimizeAll( self ){
+        const taskbar = g.taskbar.get();
+        if( taskbar ){
+            const windows = taskbar.taskbar( 'windows' );
+            for( let i=0 ; i<windows.length ; ++i ){
+                $( windows[i] ).window( 'minimize' );
+            }
+        }
+    };
     // activate a window, first restoring it if it was minimized
     function _moveToTop( obj ){
         if( obj.window('minimized')){

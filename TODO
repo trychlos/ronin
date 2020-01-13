@@ -47,8 +47,6 @@
    30 2019-12-23 projects_tree: projects/actions should have the color of
                  their attached topic
 
-   35 2019-12-31 on overview, minimize all
-
    39 2020- 1- 1 review the height allocation of the horizontal splitter
                   of the process window to be dynamic instead of being fixed
 
@@ -127,10 +125,16 @@
    83 2020- 1-11 be able to determine on which tree a project/action should be displayed
                   depending not only of its parent, but also of the parent of its parent
                   and so on
+                  - starting from any project, it is set in the 'future' tab as soon as it
+                     is marked as 'future' - all its children are kept attached to it
+                  - this is easy as long as the loading cursor is rightly ordered
+                     (root first, future first)
 
    84 2020- 1-11 manage logged-in user
 
-   88
+   88 2020- 1-12 action done : have a dark gray icon
+
+   89
 
 -----------------------------------------------------------------------
  Done
@@ -202,6 +206,9 @@
 
    34 2019-12-27 date_select: ui-datepicker-calendar personalization does not work
       2019-12-27 fixed
+
+   35 2019-12-31 on overview, minimize all
+      2020- 1-12 done
 
    36 2019-12-31 closing a window should invalidate the corresponding route
                   and activate the route of the newly active window
