@@ -1,3 +1,6 @@
+/*
+ * /imports/startup/client/routes.js
+ */
 import { Session } from 'meteor/session';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';

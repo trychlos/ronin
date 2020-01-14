@@ -114,7 +114,6 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     };
     // close the current window
     function _close( self ){
-        //objDumpProps( self );
         if( $(self).data('iwindowed' )){
             $(self).window('close');
         } else {

@@ -1,3 +1,6 @@
+/*
+ * /imports/startup/client/colorpicker-config.js
+ */
 
 miscSpectrum = function(){
     return {
@@ -38,13 +41,3 @@ miscSpectrum = function(){
         ]
     };
 };
-
-$.datepicker.setDefaults({
-    showOn: "both",
-    buttonText: '<span class="fas fa-calendar-alt x-font"></span>',
-    dateFormat: 'dd/mm/yy',
-    autoSize: true,
-    showWeek: true,
-    firstDay: 1,
-    duration: 'fast'
-});

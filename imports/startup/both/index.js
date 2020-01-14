@@ -1,7 +1,7 @@
 /*
- * Import modules used by both client and server through a single index entry point
- * e.g. useraccounts configuration file.
- * Import client startup through a single index entry point
+ * /imports/startup/both/index.js
+ *
+ *  Both server and client common initialization code.
  */
-import './collections.js';
+import './collections-config.js';
 import './misc.js';

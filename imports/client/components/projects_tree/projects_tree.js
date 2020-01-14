@@ -207,8 +207,8 @@ Template.projects_tree.fn = {
         }
     },
     _dumpHtmlLi: function( $li, prefix ){
-        console.log( prefix+$li.attr('class')+' ('+$li.data('node')+')');
-        objDumpProps( $li.data('node'));
+        console.log( prefix+$li.attr('class'));
+        console.log( $li.data('node'));
         const $ul = $li.children('ul');
         if( $ul && $ul.length ){
             for( let i=0; i<$ul.length; i++ ){
@@ -325,8 +325,6 @@ Template.projects_tree.fn = {
     // contextual menu, delete operation
     opeDelete: function( tab, node ){
         if( node.id !== 'root' ){
-            //console.log( tab+': about to delete '+node.name );
-            //objDumpProps( node );
             let msg = 'Are you sure you want to delete the \''+node.name+'\' ';
             msg += node.obj.type === 'A' ? 'action' : 'project';
             if( node.children.length > 0 ){
