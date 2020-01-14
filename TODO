@@ -85,8 +85,6 @@
    65 2020- 1- 5 homogeneize all table editions in setup to jqxGrid idem actions_grid
                   have both the edition icons and the context menu - same color
 
-   66 2020- 1- 5 action_status should be hard-coded object (as gtd)
-
    68 2020- 1- 5 factorize delete confirmation dialog
                   + title bar should be shown active
                   + fix icon
@@ -131,7 +129,9 @@
 
    88 2020- 1-12 action done : have a dark gray icon
 
-   90
+   90 2020- 1-14 move gtd to assets/
+
+   91 2020- 1-14 have a touch layout
 
 -----------------------------------------------------------------------
  Done
@@ -268,6 +268,9 @@
 
    58 2020- 1- 4 projects tree per tab: display or not done items
       2020- 1- 4 done
+
+   66 2020- 1- 5 action_status should be hard-coded object (as gtd)
+      2020- 1-13 done
 
    67 2020- 1- 5 have a IGrid
       2020- 1- 6 done

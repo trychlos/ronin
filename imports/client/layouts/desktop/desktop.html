@@ -1,8 +1,11 @@
 <template name="appDesktop">
     <div class="layout-desktop">
         <div class="lyt-bar">
-            <p>menu bar here</p>
+            <div class="menubar">
+                <p>menu bar here</p>
+            </div>
             {{>errors}}
+            {{> loginButtons align="right"}}
         </div>
         <div class="lyt-body">
             <div class="side">
