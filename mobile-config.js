@@ -22,19 +22,39 @@ App.icons({
 });
 */
 
-/*
 App.launchScreens({
-    'iphone_2x': 'splash/Default@2x~iphone.png',
-    'iphone5': 'splash/Default~iphone5.png',
-    // More screen sizes and platforms...
+    'iphone5': 'public/img/robot-penseur.png',
+    'iphone6': 'public/img/robot-penseur.png',
+    'iphone6p_portrait': 'public/img/robot-penseur.png',
+    'iphone6p_landscape': 'public/img/robot-penseur.png',
+    'iphoneX_portrait': 'public/img/robot-penseur.png',
+    'iphoneX_landscape': 'public/img/robot-penseur.png',
+    'ipad_portrait_2x': 'public/img/robot-penseur.png',
+    'ipad_landscape_2x': 'public/img/robot-penseur.png',
+    'iphone': 'public/img/robot-penseur.png',
+    'iphone_2x': 'public/img/robot-penseur.png',
+    'ipad_portrait': 'public/img/robot-penseur.png',
+    'ipad_landscape': 'public/img/robot-penseur.png',
+    'android_mdpi_portrait': 'public/img/robot-penseur.9.png',
+    'android_mdpi_landscape': 'public/img/robot-penseur.9.png',
+    'android_hdpi_portrait': 'public/img/robot-penseur.9.png',
+    'android_hdpi_landscape': 'public/img/robot-penseur.9.png',
+    'android_xhdpi_portrait': 'public/img/robot-penseur.9.png',
+    'android_xhdpi_landscape': 'public/img/robot-penseur.9.png',
+    'android_xxhdpi_portrait': 'public/img/robot-penseur.9.png',
+    'android_xxhdpi_landscape': 'public/img/robot-penseur.9.png',
+    'android_xxxhdpi_portrait': 'public/img/robot-penseur.9.png',
+    'android_xxxhdpi_landscape': 'public/img/robot-penseur.9.png'
 });
-*/
 
 // Set PhoneGap/Cordova preferences.
 App.setPreference( 'BackgroundColor', '0xff0000ff' );
 App.setPreference( 'HideKeyboardFormAccessoryBar', true );
 App.setPreference( 'Orientation', 'default' );
 App.setPreference( 'Orientation', 'all', 'ios' );
+
+// https://guide.meteor.com/mobile.html#domain-whitelisting
+App.accessRule('data:*', { type: 'navigation' });
 
 // Pass preferences for a particular PhoneGap/Cordova plugin.
 /*
