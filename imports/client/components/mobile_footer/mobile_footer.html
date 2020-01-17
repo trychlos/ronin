@@ -1,5 +1,5 @@
 <template name="mobile_footer">
-    <div class="mobile-footer container" role="navigation">
+    <div class="mobile-footer" role="navigation">
         <nav class="nav nav-pills nav-justified">
             {{#each it in gtdItems}}
                 <a class="js-item nav-item nav-link {{active it}}" data-toggle="pill" data-pwi-iroutable-route="{{it.router}}" href="#{{it.id}}">{{it.label}}</a>
