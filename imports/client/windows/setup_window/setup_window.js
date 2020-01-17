@@ -1,7 +1,7 @@
 /*
  * 'setupWindow' window.
  *  Embeds the tabbed 'setup_tab' component.
- * 
+ *
  *  NB: because the setup_tab is dynamically built from gtd.features(),
  *  we cannot subscribe from the window and pass the cursors to each tab.
  *  Instead, each tab is independant: subscribe to its own datas, and
@@ -13,7 +13,7 @@ import './setup_window.html';
 
 Template.setupWindow.onRendered( function(){
     this.autorun(() => {
-        if( g.taskbar.get()){
+        if( g[LYT_DESKTOP].taskbar.get()){
             $('div.setup-window').IWindowed({
                 template:   'setupWindow',
                 title:      'Setup'

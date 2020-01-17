@@ -21,13 +21,13 @@ Template.appDesktop.onRendered( function(){
         },
         minimizeAll: false,
         viewportMargins: {
-            top   : [ g.barTopHeight, "correctNone" ],
-            left  : [ g.barSideWidth, "correctNone" ]
+            top   : [ g[LYT_DESKTOP].barTopHeight, "correctNone" ],
+            left  : [ g[LYT_DESKTOP].barSideWidth, "correctNone" ]
         },
         windowButtonsSortable: false,
         windowsContainment: 'visible'
     });
-    g.taskbar.set( taskbar );
+    g[LYT_DESKTOP].taskbar.set( taskbar );
     //console.log( 'desktop set taskbar' );
     //console.log( taskbar );
     taskbar.on( 'taskbarbind', function( ev, ui ){
@@ -45,6 +45,6 @@ Template.appDesktop.onRendered( function(){
 
 Template.appDesktop.helpers({
     rootId(){
-        return g.rootId;
+        return g[LYT_DESKTOP].rootId;
     }
 });

@@ -1,9 +1,12 @@
+/*
 :root {
     --font-size: 13px;
     --font-family: sans-serif;
 }
+*/
 
 body {
+    /*
     font-family: var(--font-family);
     font-size: var(--font-size);
     padding: 0;
@@ -24,18 +27,35 @@ body {
         font-family: var(--font-family);
         font-size: var(--font-size);
     }
+    */
     /* do not ellipsize anything, but at least do not overlap */
-    p {
-        white-space: nowrap;
+    //p {
+    //    white-space: nowrap;
         /*width: 100%; */                  /* IE6 needs any width */
-        -o-text-overflow: ellipsis;    /* Opera < 11*/
-        text-overflow:    ellipsis;    /* IE, Safari (WebKit), Opera >= 11, FF > 6 */
-        /*overflow: hidden;*/              /* "overflow" value must be different from  visible"*/ 
+    //    -o-text-overflow: ellipsis;    /* Opera < 11*/
+    //    text-overflow:    ellipsis;    /* IE, Safari (WebKit), Opera >= 11, FF > 6 */
+        /*overflow: hidden;*/              /* "overflow" value must be different from  visible"*/
         /*overflow-x: hidden;*/
-    }
+    //}
+    /*
     ul {
         list-style-type: none;
     }
+    */
+
+    /* bootstrap 4.x */
+
+    .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+        >div {
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+        }
+    }
+
+    /* personalizations */
+
     .x-createdAt {
         font-size: 90%;
         font-style: italic;
@@ -83,4 +103,7 @@ body {
     .x-hidden {
         display: none;
     }
+    //#login-buttons {
+    //    margin-right: 1em;
+    //}
 }

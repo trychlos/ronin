@@ -36,6 +36,7 @@ export const gtd = {
                 label: 'Setup',
                 navside: true,
                 navview: true,
+                tabmobile: true,
                 children: [
                     /* this item for the sake of completeness as it is not used in our web version */
                     {
@@ -124,6 +125,7 @@ export const gtd = {
                 h3: 'Get things off your mind',
                 navside: true,
                 navview: true,
+                tabmobile: true,
                 children: [
                     {
                         id: 'col',
@@ -141,6 +143,7 @@ export const gtd = {
                 h3: 'What is it? Is it actionable?',
                 navside: true,
                 navview: true,
+                tabmobile: true,
                 children: [
                     {
                         id: 'pro',
@@ -184,6 +187,7 @@ export const gtd = {
                 ],
                 navside: true,
                 navview: true,
+                tabmobile: true,
                 children: [
                     {
                         id: 'projects',
@@ -342,6 +346,11 @@ export const gtd = {
     // return the label to be used for a tab
     labelTab: function( item ){
         return item.tabtitle ? item.tabtitle : item.label;
+    },
+    // return the list of items to be managed as a tabbed page in mobile layout
+    //  these are marked as tabmobile:true
+    mobileItems(){
+        return gtd.itemsBoolArray( 'tabmobile' );
     },
     // return the list of items to be managed as a tabbed page in projects window
     //  these are marked as tabprojects:true

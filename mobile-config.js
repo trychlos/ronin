@@ -8,7 +8,7 @@ App.info({
     id: 'org.trychlos.ronin',
     name: 'Ronin',
     description: 'Getting Things Done',
-    author: 'P. Wieser',
+    author: 'Pierre Wieser',
     email: 'pwieser@trychlos.org',
     website: 'https://www.trychlos.org'
 });

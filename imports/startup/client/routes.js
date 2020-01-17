@@ -7,6 +7,7 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 import '/imports/client/layouts/body/body.js';
 import '/imports/client/layouts/desktop/desktop.js';
+import '/imports/client/layouts/touchable/touchable.js';
 
 import '/imports/client/pages/actions_page/actions_page.js';
 import '/imports/client/pages/collect_page/collect_page.js';
@@ -17,11 +18,13 @@ import '/imports/client/pages/projects_page/projects_page.js';
 import '/imports/client/pages/setup_page/setup_page.js';
 import '/imports/client/pages/not_found/not_found.js';
 
+console.log( g );
+
 // Set up all routes in the app
 FlowRouter.route('/', {
     name: 'home',
     action(){
-        BlazeLayout.render('appDesktop', { main: 'empty' });
+        BlazeLayout.render( g.dev.layout, { main: 'empty' });
     },
 });
 /*
@@ -42,7 +45,7 @@ FlowRouter.route('/setup/contexts', {
     action(){
         Session.set('setup.tab.name','contexts');
         Session.set('setup.contexts.obj',null);
-        BlazeLayout.render('appDesktop', { main: 'setupPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/time', {
@@ -50,7 +53,7 @@ FlowRouter.route('/setup/time', {
     action(){
         Session.set('setup.tab.name','time');
         Session.set('setup.time_values.obj',null);
-        BlazeLayout.render('appDesktop', { main: 'setupPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/energy', {
@@ -58,7 +61,7 @@ FlowRouter.route('/setup/energy', {
     action(){
         Session.set('setup.tab.name','energy');
         Session.set('setup.energy_values.obj',null);
-        BlazeLayout.render('appDesktop', { main: 'setupPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/priority', {
@@ -66,7 +69,7 @@ FlowRouter.route('/setup/priority', {
     action(){
         Session.set('setup.tab.name','priority');
         Session.set('setup.priority_values.obj',null);
-        BlazeLayout.render('appDesktop', { main: 'setupPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/topics', {
@@ -74,34 +77,34 @@ FlowRouter.route('/setup/topics', {
     action(){
         Session.set('setup.tab.name','topics');
         Session.set('setup.topics.obj',null);
-        BlazeLayout.render('appDesktop', { main: 'setupPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/refs', {
     name: 'setup.ref.items',
     action(){
         Session.set('setup.tab.name','refs');
-        BlazeLayout.render('appDesktop', { main: 'setupPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/delegates', {
     name: 'setup.delegates',
     action(){
         Session.set('setup.tab.name','delegates');
-        BlazeLayout.render('appDesktop', { main: 'setupPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'setupPage' });
     },
 });
 FlowRouter.route('/collect', {
     name: 'collect.thoughts',
     action(){
         Session.set('setup.thoughts.obj',null);
-        BlazeLayout.render('appDesktop', { main: 'collectPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'collectPage' });
     },
 });
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
-        BlazeLayout.render('appDesktop', { main: 'processPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'processPage' });
     },
 });
 FlowRouter.route('/project/new', {
@@ -109,7 +112,7 @@ FlowRouter.route('/project/new', {
     action(){
         //console.log( "FlowRouter process.init.obj={ type:'P', name:'New project'}" );
         Session.set( 'process.edit.obj', { type:'P', name:'New project'});
-        BlazeLayout.render('appDesktop', { main: 'editPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'editPage' });
     },
 });
 FlowRouter.route('/action/new', {
@@ -117,63 +120,63 @@ FlowRouter.route('/action/new', {
     action(){
         //console.log( "FlowRouter process.init.obj={ type:'A', name:'New action'}" );
         Session.set( 'process.edit.obj', { type:'A', name:'New action'});
-        BlazeLayout.render('appDesktop', { main: 'editPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'editPage' });
     },
 });
 FlowRouter.route('/review/projects', {
     name: 'review.projects',
     action(){
         Session.set('projects.tab.name', 'projects' );
-        BlazeLayout.render('appDesktop', { main: 'projectsPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'projectsPage' });
     },
 });
 FlowRouter.route('/review/future', {
     name: 'review.future',
     action(){
         Session.set('projects.tab.name', 'future' );
-        BlazeLayout.render('appDesktop', { main: 'projectsPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'projectsPage' });
     },
 });
 FlowRouter.route('/review/actions', {
     name: 'review.actions',
     action(){
         Session.set('projects.tab.name', 'actions' );
-        BlazeLayout.render('appDesktop', { main: 'projectsPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'projectsPage' });
     },
 });
 FlowRouter.route('/review/inactive', {
     name: 'review.inactive',
     action(){
         Session.set('actions.tab.name', 'ina' );
-        BlazeLayout.render('appDesktop', { main: 'actionsPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'actionsPage' });
     },
 });
 FlowRouter.route('/review/asap', {
     name: 'review.asap',
     action(){
         Session.set('actions.tab.name', 'asa' );
-        BlazeLayout.render('appDesktop', { main: 'actionsPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'actionsPage' });
     },
 });
 FlowRouter.route('/review/scheduled', {
     name: 'review.scheduled',
     action(){
         Session.set('actions.tab.name', 'sch' );
-        BlazeLayout.render('appDesktop', { main: 'actionsPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'actionsPage' });
     },
 });
 FlowRouter.route('/review/delegated', {
     name: 'review.delegated',
     action(){
         Session.set('actions.tab.name', 'del' );
-        BlazeLayout.render('appDesktop', { main: 'actionsPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'actionsPage' });
     },
 });
 FlowRouter.route('/review/done', {
     name: 'review.done',
     action(){
         Session.set('actions.tab.name', 'don' );
-        BlazeLayout.render('appDesktop', { main: 'actionsPage' });
+        BlazeLayout.render( g.dev.layout, { main: 'actionsPage' });
     },
 });
 FlowRouter.notFound = {

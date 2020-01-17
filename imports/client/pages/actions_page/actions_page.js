@@ -8,7 +8,7 @@ import './actions_page.html';
 
 Template.actionsPage.onRendered( function(){
     this.autorun(() => {
-        if( g.taskbar.get()){
+        if( g[LYT_DESKTOP].taskbar.get()){
             $('.actions-page').IWindowed( 'show', 'actionsWindow' );
         }
     })

@@ -1,0 +1,9 @@
+<template name="mobile_footer">
+    <div class="mobile-footer">
+        <nav class="nav nav-pills nav-justified">
+            {{#each it in gtdItems}}
+                <a class="nav-item nav-link" data-pwi-iroutable-route="{{it.router}}" href="#">{{it.label}}</a>
+            {{/each}}
+        </nav>
+    </div>
+</template>

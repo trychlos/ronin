@@ -8,7 +8,7 @@ import './collect_page.html';
 
 Template.collectPage.onRendered( function(){
     this.autorun(() => {
-        if( g.taskbar.get()){
+        if( g[LYT_DESKTOP].taskbar.get()){
             $('.collect-page').IWindowed( 'show', 'collectWindow' );
         }
     })

@@ -3,14 +3,14 @@
  *  This is the main component for projects and actions edition.
  *  This window implements a dynamic template, depending of the actual type
  *  of the currently edited object.
- * 
+ *
  *  NB: several 'editWindow' windows may be simultaneously opened.
  *  This is realized by:
  *  - use a session variable in editPage to make it reactive
  *  - transform here the session variable in a reactive var attached to the
  *      template instance in order to have several windows with different
  *      objects.
- * 
+ *
  *  Session variables:
  *  - process.edit.obj: the current edited object.
  */
@@ -26,7 +26,7 @@ Template.editWindow.onCreated( function(){
 
 Template.editWindow.onRendered( function(){
     this.autorun(() => {
-        if( g.taskbar.get()){
+        if( g[LYT_DESKTOP].taskbar.get()){
             const obj = this.obj.get();
             let title = 'Edit ';
             title += obj && obj.type === 'A' ? 'action' : 'project';

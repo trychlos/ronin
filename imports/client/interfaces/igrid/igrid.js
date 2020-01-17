@@ -1,13 +1,13 @@
 /*
  * 'IGrid' pseudo-interface.
  *  To be used by every grid window.
- * 
+ *
  *  We have chosen to use jqWidget jqxGrid.
  *  See https://www.jqwidgets.com/jquery-widgets-documentation/documentation/jqxgrid/.
- * 
+ *
  *  More, IGrid expects that each <li> holds a 'data-igrid'
  *  attribute, with the tab identifier as a value.
- * 
+ *
  *  Arguments:
  *  - if first argument is a string, all arguments will be directly passed to
  *      jqxGrid (as is)
@@ -17,8 +17,6 @@
  *      > else, it is directly passed to jqxGrid (as is).
  */
 import '/imports/client/components/errors/errors.js'
-import '/imports/client/third-party/jqwidgets/jqx.base.css';
-import '/imports/client/third-party/jqwidgets/jqxcore.js';
 import '/imports/client/third-party/jqwidgets/jqxbuttons-patched.js';
 import '/imports/client/third-party/jqwidgets/jqxdata.js';
 import '/imports/client/third-party/jqwidgets/jqxdropdownlist.js';
@@ -67,7 +65,7 @@ import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
                 buttonclick: function( row, ev ){
                     //console.log( 'hey '+row );
                     $(ev.currentTarget).trigger( 'igrid-btnclick-edit', row );
-                }   
+                }
             });
             // add Delete button as last column
             arguments[0].columns.push({
@@ -81,7 +79,7 @@ import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
                 buttonclick: function( row, ev ){
                     //console.log( 'hey '+row );
                     $(ev.currentTarget).trigger( 'igrid-btnclick-delete', row );
-                }   
+                }
             });
             let settings = Object.assign( {}, arguments[0] )
             Object.assign( settings, {
@@ -90,12 +88,12 @@ import '/imports/client/third-party/jqwidgets/jqxscrollbar.js';
                 sortable: true,
                 width: '100%'
             });
-            
+
             $('div.igrid-edit-button').on( 'click', function( ev ){
                 console.log( 'click event' );
                 console.log( ev );
             });
-            
+
             //console.log( 'jqxGrid settings='+JSON.stringify( settings ));
             self.jqxGrid( settings );
             self.addClass( 'pwi-igrid' );

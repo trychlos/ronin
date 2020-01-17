@@ -1,6 +1,10 @@
 /*
  * 'menu_bar' template.
- *  Horizontal menu on the (top) side of the page.
+ *
+ *  Horizontal menu on a side of the page:
+ *  - desktop: on the top
+ *  - touchable: on the bottom.
+ *
  *  Based on jQuery UI Menu widget.
  */
 import { Session } from 'meteor/session';

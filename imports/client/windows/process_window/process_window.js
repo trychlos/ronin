@@ -1,7 +1,7 @@
 /*
  * 'processWindow' window.
  *  This is the main component of the thoughts processing.
- * 
+ *
  *  Session variables:
  *  - process.thoughts.num: number counted from 1 of the currently processed thought
  *  - process.thoughts.split: height of the top panel
@@ -13,8 +13,6 @@ import '/imports/client/components/process_scroll/process_scroll.js';
 import '/imports/client/components/process_tabs/process_tabs.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 /*
-import '/imports/client/third-party/jqwidgets/jqx.base.css';
-import '/imports/client/third-party/jqwidgets/jqxcore.js';
 import '/imports/client/third-party/jqwidgets/jqxbuttons-patched.js';
 import '/imports/client/third-party/jqwidgets/jqxsplitter.js';
 */
@@ -22,7 +20,7 @@ import './process_window.html';
 
 Template.processWindow.fn = {
     // this method is to be called after having removed a thought
-    //  in order to make sure a new thought is correctly loaded if 
+    //  in order to make sure a new thought is correctly loaded if
     //  appropriate
     // because the client side reactive var may not be yet updated
     //  the caller has to provide a photo of the vars before the
@@ -53,7 +51,7 @@ Template.processWindow.onCreated( function(){
 
 Template.processWindow.onRendered( function(){
     this.autorun(() => {
-        if( g.taskbar.get()){
+        if( g[LYT_DESKTOP].taskbar.get()){
             $('div.process-window').IWindowed({
                 template:   'processWindow',
                 title:      'Process thoughts'

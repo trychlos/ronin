@@ -8,7 +8,7 @@ import './setup_page.html';
 
 Template.setupPage.onRendered( function(){
     this.autorun(() => {
-        if( g.taskbar.get()){
+        if( g[LYT_DESKTOP].taskbar.get()){
             $('.setup-page').IWindowed( 'show', 'setupWindow' );
         }
     })

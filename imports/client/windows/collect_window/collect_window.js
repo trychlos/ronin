@@ -16,7 +16,7 @@ Template.collectWindow.onCreated( function(){
 
 Template.collectWindow.onRendered( function(){
     this.autorun(() => {
-        if( g.taskbar.get()){
+        if( g[LYT_DESKTOP].taskbar.get()){
             $('div.collect-window').IWindowed({
                 template:   'collectWindow',
                 title:      'Collect thoughts'

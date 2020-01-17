@@ -8,7 +8,7 @@ import './process_page.html';
 
 Template.processPage.onRendered( function(){
     this.autorun(() => {
-        if( g.taskbar.get()){
+        if( g[LYT_DESKTOP].taskbar.get()){
             $('.process-page').IWindowed( 'show', 'processWindow' );
         }
     })
