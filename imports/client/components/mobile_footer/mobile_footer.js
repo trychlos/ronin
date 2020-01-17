@@ -1,6 +1,10 @@
 /*
  * 'mobile_footer' component.
  *  Display a button fot each group of options, letting the user choose his page content.
+ *
+ *  Session variables:
+ *  - mobile.tab.name: the identifier of the active page
+ *      aka the identifier of the corresponding option in 'gtd' features.
  */
 import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
 //import '/imports/client/components/setup_contexts/setup_contexts.js';
@@ -14,14 +18,33 @@ import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
 import './mobile_footer.html';
 
 Template.mobile_footer.onRendered( function(){
-    //$( '.mobile-tabbed' ).ITabbed();
+    let page = Session.get('mobile.tab.name');
+    if( !page ){
+        page = 'collect';
+        Session.set( 'mobile.tab.name', page );
+    }
 });
 
 Template.mobile_footer.helpers({
+    active( it ){
+        const page = Session.get('mobile.tab.name');
+        return page === it.id ? 'active' : '';
+    },
     gtdItems(){
         return gtd.mobileItems();
     },
     itTemplate( it ){
         return 'setup_'+it.id;
+    }
+});
+
+Template.mobile_footer.events({
+    'click .js-item'( event, instance ){
+        //console.log( event );
+        const a = event.target.href.split( '/' );
+        const href = a[a.length-1].slice(1);
+        Session.set( 'mobile.tab.name', href );
+        //console.log( 'Set mobile.tab.name='+href );
+        return false;
     }
 });

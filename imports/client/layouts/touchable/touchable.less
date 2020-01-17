@@ -1,15 +1,42 @@
-div.layout-touchable {
-    .lyt-header {
-        background-color: #eeeeee;
-        .title {
-            margin-left: 1em;
-            font-weight: bold;
+html {
+    body {
+        div.layout-touchable {
+            @bar-height: 3rem;
+            min-height: 100vh;
+            max-height: 100vh;
+            .lyt-header {
+                position: fixed;
+                top: 0;
+                height: @bar-height;
+                line-height: @bar-height;
+                background-color: #eeeeee;
+                width: 100%;
+                .mobile-header {
+                    .title {
+                        margin-left: 1em;
+                        font-weight: bold;
+                    }
+                }
+            }
+            .lyt-body {
+                position: fixed;
+                top: @bar-height;
+                background-color: #eff8be;
+                .mobile-body {
+                    max-height: inherit;
+                }
+            }
+            .lyt-footer {
+                position: fixed;
+                bottom: 0;
+                height: @bar-height;
+                line-height: @bar-height;
+                width: 100%;
+                .nav-link {
+                    padding-top: 0;
+                    padding-bottom: 0;
+                }
+            }
         }
-    }
-    .lyt-body {
-        background-color: #eff8be;
-    }
-    .lyt-footer {
-        background-color: #c3f8f8;
     }
 }

@@ -37,8 +37,10 @@ export const gtd = {
                 navside: true,
                 navview: true,
                 tabmobile: true,
+                router: 'setup',
                 children: [
-                    /* this item for the sake of completeness as it is not used in our web version */
+                    /* this item for the sake of completeness as it is not used
+                     *    neither in the web nor in the mobile version */
                     {
                         id: 'dat',
                         label: 'Create data file',
@@ -126,6 +128,7 @@ export const gtd = {
                 navside: true,
                 navview: true,
                 tabmobile: true,
+                router: 'collect',
                 children: [
                     {
                         id: 'col',
@@ -144,6 +147,7 @@ export const gtd = {
                 navside: true,
                 navview: true,
                 tabmobile: true,
+                router: 'process',
                 children: [
                     {
                         id: 'pro',
@@ -188,6 +192,7 @@ export const gtd = {
                 navside: true,
                 navview: true,
                 tabmobile: true,
+                router: 'review',
                 children: [
                     {
                         id: 'projects',
