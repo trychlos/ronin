@@ -1,0 +1,19 @@
+<template name="layout_select">
+    <div class="layout-select">
+        <div class="dropdown">
+            <button
+                class="btn btn-info dropdown-toggle"
+                type="button"
+                data-toggle="dropdown"
+                id="dropdownLayoutMenuButton"
+                aria-haspopup="true"
+                aria-expanded="false">
+                    Layout
+            </button>
+            <div class="js-layout-select dropdown-menu" aria-labelledby="dropdownLayoutMenuButton">
+                <a class="dropdown-item" href="#" data-pwi-layout="{{desktopLayout}}">Desktop layout</a>
+                <a class="dropdown-item" href="#" data-pwi-layout="{{touchableLayout}}">Touchable device layout</a>
+            </div>
+        </div>
+    </div>
+</template>

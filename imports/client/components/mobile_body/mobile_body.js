@@ -20,7 +20,7 @@ Template.mobile_body.helpers({
         const page = Session.get('mobile.tab.name');
         if( page ){
             const template = 'mobile_'+page;
-            console.log( 'loading template='+template );
+            //console.log( 'loading template='+template );
             return template;
         }
     }

@@ -41,8 +41,9 @@ Template.mobile_footer.helpers({
 Template.mobile_footer.events({
     'click .js-item'( event, instance ){
         //console.log( event );
-        const a = event.target.href.split( '/' );
-        const href = a[a.length-1].slice(1);
+        const a = event.target.href.split( '#' );
+        const href = a[a.length-1];
+        //console.log( 'a='+event.target.href+' href='+href );
         Session.set( 'mobile.tab.name', href );
         //console.log( 'Set mobile.tab.name='+href );
         return false;

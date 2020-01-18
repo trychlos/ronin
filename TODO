@@ -133,6 +133,12 @@
 
    91 2020- 1-14 have a touch layout
 
+   92 2020- 1-18 do not let a project have itself as its own parent
+
+   93 2020- 1-18 check that project's parent hierarchy does not loop
+
+   94
+
 -----------------------------------------------------------------------
  Done
  ====
