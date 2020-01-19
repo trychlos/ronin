@@ -133,11 +133,18 @@
 
    91 2020- 1-14 have a touch layout
 
-   92 2020- 1-18 do not let a project have itself as its own parent
+   92 2020- 1-17 do not let a project have itself as its own parent
 
-   93 2020- 1-18 check that project's parent hierarchy does not loop
+   93 2020- 1-17 check that project's parent hierarchy does not loop
 
-   94
+   94 2020- 1-18 header_panel: menuButton display should be dynamic and
+                  associated with menu_side (have a media query)
+
+   95 2020- 1-18 header_panel: menubar display should be dynamic (have a media query)
+
+   96 2020- 1-19 header_panel: replace sign-in with a button (depending of the width)
+
+   97
 
 -----------------------------------------------------------------------
  Done

@@ -1,16 +1,11 @@
 <template name="layout_select">
     <div class="layout-select">
         <div class="dropdown">
-            <button
-                class="btn btn-info dropdown-toggle"
-                type="button"
-                data-toggle="dropdown"
-                id="dropdownLayoutMenuButton"
-                aria-haspopup="true"
-                aria-expanded="false">
-                    Layout
+            <button class="ui-button ui-corner-all dropdown-toggle" data-toggle="dropdown">
+                <span class="fas fa-cubes"></span>
+                <span class="text">Layout</span>
             </button>
-            <div class="js-layout-select dropdown-menu" aria-labelledby="dropdownLayoutMenuButton">
+            <div class="js-layout-select dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLayoutMenuButton">
                 <a class="dropdown-item" href="#" data-pwi-layout="{{desktopLayout}}">Desktop layout</a>
                 <a class="dropdown-item" href="#" data-pwi-layout="{{touchableLayout}}">Touchable device layout</a>
             </div>

@@ -1,16 +1,9 @@
 div.layout-touchable {
-    @bar-height: 3rem;
     min-height: 100vh;
     display: grid;
-    grid-template-rows: @bar-height auto @bar-height;
+    grid-template-rows: @topbar-height auto @bottombar-height;
     .lyt-header {
         background-color: @active-color-l50;
-        .mobile-header {
-            .title {
-                margin-left: 1em;
-                font-weight: bold;
-            }
-        }
     }
     .lyt-body {
         overflow-y: auto;

@@ -1,0 +1,30 @@
+<template name="header_panel">
+    <div class="header-panel d-flex justify-content-start align-items-center">
+
+        {{#if hasMenuButton}}
+            {{{ preSpacer }}}
+            {{> menu_button }}
+        {{/if}}
+
+        {{#if hasTitle}}
+            {{{ preSpacer }}}
+            <div class="title flex-grow-1">
+                Ronin
+            </div>
+        {{/if}}
+
+        {{#if hasMenuBar}}
+            {{{ preSpacer }}}
+            {{> menu_bar }}
+        {{/if}}
+
+        {{> errors }}
+
+        {{{ preSpacer }}}
+        {{> layout_select }}
+
+        {{{ preSpacer }}}
+        {{> loginButtons align="right" }}
+        <!-- {{> atForm }} -->
+    </div>
+</template>

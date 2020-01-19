@@ -4,6 +4,9 @@
 @active-color-l50: lighten( @active-color, 50% );
 @active-color-l75: lighten( @active-color, 75% );
 
+@topbar-height: 3rem;
+@bottombar-height: 3rem;
+
 body {
     /* bootstrap 4.4.x
      */
@@ -19,8 +22,47 @@ body {
         background-color: @active-color;
     }
 
-    /* personalizations
+    /* header-panel responsiveness
      */
+    .header-panel {
+        height: @topbar-height;
+        .menu-button {
+            .ui-button {
+                padding: 0.25em 0.5em;
+            }
+        }
+        .title {
+            font-weight: bold;
+        }
+        .layout-select {
+            .ui-button {
+                padding: 0.25em 0.5em;
+            }
+        }
+        .spacer {
+            margin-left: 0.5em;
+        }
+        @media( max-width: 640px ){
+            .title:after {
+                content: " rocks !";
+            }
+            .layout-select {
+                .text {
+                    display: none;
+                }
+            }
+        }
+        @media( min-width: 641px ){
+            .title:after {
+                content: " takes care of your thoughts";
+            }
+            .layout-select {
+                .text {
+                    display: inline;
+                }
+            }
+        }
+    }
     .x-createdAt {
         font-size: 90%;
         font-style: italic;

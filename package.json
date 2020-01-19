@@ -10,6 +10,7 @@
     "amplifyjs": "^1.1.2-beta.2",
     "bcrypt": "^3.0.7",
     "bootstrap": "^4.4.1",
+    "detect-it": "^3.0.5",
     "jqgrid": "^4.6.4",
     "jqtree": "^1.4.12",
     "jquery-contextmenu": "^2.9.0",

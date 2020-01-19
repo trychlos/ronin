@@ -2,3 +2,16 @@
 meteor build /tmp --architecture os.linux.x86_64
     scp /tmp/ronin.tar.gz www7:/home/ronin
     ssh www7 (systemctl stop ronin; cd /home/ronin; rm -f bundle; tar -xzvf ronin.tar.gz; chown -R ronin:ronin bundle; tmpd="$(date +'%y%m%d')"; mv bundle bundle-$tmpd; ln -s bundle-$tmpd bundle; systemctl start ronin)
+
++------------------+----------+---------------+-------------+------------+--------+
+|                  | Reactive | Survive       | Survive     | Content    | Scope  |
+|                  |          | hot code push | page reload |            |        |
++------------------+----------+---------------+-------------+------------+--------+
+| local storage	   | No       | Yes           | Yes         | EJSON-able | Local  |
++------------------+----------+---------------+-------------+------------+--------+
+| Session variable | Yes      | Yes           | No          | EJSON-able | Global |
++------------------+----------+---------------+-------------+------------+--------+
+| ReactiveVar      | Yes      | No            | ?           | any        | Local  |
++------------------+----------+---------------+-------------+------------+--------+
+| ReactiveDict     | Yes      | If named      | ?           | any        | Local  |
++------------------+----------+---------------+-------------+------------+--------+

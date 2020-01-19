@@ -13,9 +13,9 @@
  *  - Huawei Nova: 360x572 px
  *  - Sumsung S9:
  */
+import '/imports/client/components/header_panel/header_panel.js';
 import '/imports/client/components/mobile_body/mobile_body.js';
 import '/imports/client/components/mobile_footer/mobile_footer.js';
-import '/imports/client/components/mobile_header/mobile_header.js';
 import './touchable.html';
 
 Template.appTouchable.onRendered( function(){
