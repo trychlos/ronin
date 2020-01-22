@@ -144,7 +144,11 @@
 
    96 2020- 1-19 header_panel: replace sign-in with a button (depending of the width)
 
-   97
+   97 2020- 1-19 mobile: title does not change when orientation changes
+
+   98 2020- 1-19 mobile landscape: neither header nor footer are fixed
+
+   99
 
 -----------------------------------------------------------------------
  Done

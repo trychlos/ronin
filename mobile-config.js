@@ -7,6 +7,7 @@
 App.info({
     id: 'org.trychlos.ronin',
     name: 'Ronin',
+    version: '0.1',
     description: 'Getting Things Done',
     author: 'Pierre Wieser',
     email: 'pwieser@trychlos.org',
@@ -14,37 +15,35 @@ App.info({
 });
 
 // Set up resources such as icons and launch screens.
-/*
 App.icons({
-    'iphone_2x': 'icons/icon-60@2x.png',
-    'iphone_3x': 'icons/icon-60@3x.png',
-    // More screen sizes and platforms...
+    'iphone_2x': 'public/img/penseur1-96x96.png',
+    'iphone_3x': 'public/img/penseur1-96x96.png',
+    'android_xhdpi': 'public/img/penseur1-96x96.png'
 });
-*/
 
 App.launchScreens({
-    'iphone5': 'public/img/robot-penseur.png',
-    'iphone6': 'public/img/robot-penseur.png',
-    'iphone6p_portrait': 'public/img/robot-penseur.png',
-    'iphone6p_landscape': 'public/img/robot-penseur.png',
-    'iphoneX_portrait': 'public/img/robot-penseur.png',
-    'iphoneX_landscape': 'public/img/robot-penseur.png',
-    'ipad_portrait_2x': 'public/img/robot-penseur.png',
-    'ipad_landscape_2x': 'public/img/robot-penseur.png',
-    'iphone': 'public/img/robot-penseur.png',
-    'iphone_2x': 'public/img/robot-penseur.png',
-    'ipad_portrait': 'public/img/robot-penseur.png',
-    'ipad_landscape': 'public/img/robot-penseur.png',
-    'android_mdpi_portrait': 'public/img/robot-penseur.9.png',
-    'android_mdpi_landscape': 'public/img/robot-penseur.9.png',
-    'android_hdpi_portrait': 'public/img/robot-penseur.9.png',
-    'android_hdpi_landscape': 'public/img/robot-penseur.9.png',
-    'android_xhdpi_portrait': 'public/img/robot-penseur.9.png',
-    'android_xhdpi_landscape': 'public/img/robot-penseur.9.png',
-    'android_xxhdpi_portrait': 'public/img/robot-penseur.9.png',
-    'android_xxhdpi_landscape': 'public/img/robot-penseur.9.png',
-    'android_xxxhdpi_portrait': 'public/img/robot-penseur.9.png',
-    'android_xxxhdpi_landscape': 'public/img/robot-penseur.9.png'
+    'iphone5': 'public/img/penseur4.png',
+    'iphone6': 'public/img/penseur4.png',
+    'iphone6p_portrait': 'public/img/penseur4.png',
+    'iphone6p_landscape': 'public/img/penseur4.png',
+    'iphoneX_portrait': 'public/img/penseur4.png',
+    'iphoneX_landscape': 'public/img/penseur4.png',
+    'ipad_portrait_2x': 'public/img/penseur4.png',
+    'ipad_landscape_2x': 'public/img/penseur4.png',
+    'iphone': 'public/img/penseur4.png',
+    'iphone_2x': 'public/img/penseur4.png',
+    'ipad_portrait': 'public/img/penseur4.png',
+    'ipad_landscape': 'public/img/penseur4.png',
+    'android_mdpi_portrait': 'public/img/penseur4.9.png',
+    'android_mdpi_landscape': 'public/img/penseur4.9.png',
+    'android_hdpi_portrait': 'public/img/penseur4.9.png',
+    'android_hdpi_landscape': 'public/img/penseur4.9.png',
+    'android_xhdpi_portrait': 'public/img/penseur4.9.png',
+    'android_xhdpi_landscape': 'public/img/penseur4.9.png',
+    'android_xxhdpi_portrait': 'public/img/penseur4.9.png',
+    'android_xxhdpi_landscape': 'public/img/penseur4.9.png',
+    'android_xxxhdpi_portrait': 'public/img/penseur4.9.png',
+    'android_xxxhdpi_landscape': 'public/img/penseur4.9.png'
 });
 
 // Set PhoneGap/Cordova preferences.

@@ -11,6 +11,7 @@ import '/imports/client/layouts/touchable/touchable.js';
 
 import '/imports/client/pages/actions_page/actions_page.js';
 import '/imports/client/pages/collect_page/collect_page.js';
+import '/imports/client/pages/devel_page/devel_page.js';
 import '/imports/client/pages/edit_page/edit_page.js';
 import '/imports/client/pages/empty/empty.js';
 import '/imports/client/pages/process_page/process_page.js';
@@ -20,13 +21,17 @@ import '/imports/client/pages/not_found/not_found.js';
 
 console.log( g );
 
-// Set up all routes in the app
-FlowRouter.route('/', {
-    name: 'home',
+// A takes-all route for tests purpose
+/*
+FlowRouter.route('/*', {
+    name: 'all',
     action(){
-        BlazeLayout.render( g.run.layout.get(), { main: 'empty' });
+        BlazeLayout.render( 'appBody', { main: 'develPage' });
     },
 });
+*/
+
+// do we need this one ?
 /*
 FlowRouter.route('/setup/criterias', {
     name: 'App.setup.cri',
@@ -40,6 +45,14 @@ FlowRouter.route('/setup/criterias', {
     },
 });
 */
+
+// Set up all routes in the app
+FlowRouter.route('/', {
+    name: 'home',
+    action(){
+        BlazeLayout.render( g.run.layout.get(), { main: 'empty' });
+    },
+});
 FlowRouter.route('/setup/contexts', {
     name: 'setup.contexts',
     action(){

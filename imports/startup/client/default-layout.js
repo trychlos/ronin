@@ -16,7 +16,7 @@
  *
  *  More, inside of a web browser, routes must be handled. They may safely
  *  be ignored when running as a native mobile application (as a Cordova
- *  one actually).
+ *  one for example).
  *
  *  Last, the layout on a mobile device with a small width (a smartphone !)
  *  is fixed with a header, a scrollable content and a footer.
@@ -26,16 +26,17 @@ import detectIt from 'detect-it';
 
 // 'g' is our global, anywhere-available, variable, and exhibits:
 //
-//  - ronin: a local storage proxy
+//  - store: a local storage proxy
 //              layout: the last chosen layout
-//              mobile: the last viewed tab
+//              last: the last visited route name
+//              pages: the last viewed tab for the page
 //
 //  - detectIt: the result of the detectIt module
 //              https://www.npmjs.com/package/detect-it
 //
-//  - the runtime variables
+//  - run: the runtime variables
 //              automatically initialized from runtime detection
-//              overridable by the user.
+//              overridable by the user (mostly for development purpose).
 g = {
     store: amplify.store( 'ronin' ),
     detectIt: detectIt,
@@ -46,6 +47,7 @@ g = {
 };
 if( g.store === undefined ){
     g.store = {};
+    g.store.pages = {};
 }
 
 // touchable device (without mouse, maybe not Cordova)
@@ -66,14 +68,16 @@ g[LYT_DESKTOP] = {
 // layout initialization
 g.run.layout.set(
     g.store.layout === undefined
-        ? ( g.detectIt.hasMouse ? LYT_DESKTOP : LYT_TOUCH )
+        ? ( g.detectIt.primaryInput === 'mouse' ? LYT_DESKTOP : LYT_TOUCH )
         :   g.store.layout );
 
 // DEVELOPMENT SURCHARGE
-g.run.mobile = true;
-g.run.layout.set( LYT_TOUCH );
+//g.run.mobile = true;
+//g.run.layout.set( LYT_TOUCH );
 
-// set some suitable defaults if we do not handle routes
+// in a mobile application, routes are not displayed as they are in a web browser
+// but even if routes are not directly available to the user, they are still
+// handled under the hood
 const layout = g.run.layout.get();
 switch( layout ){
     case LYT_DESKTOP:

@@ -1,7 +1,11 @@
-#meteor build ../ronin.build --architecture os.linux.x86_64
-meteor build /tmp --architecture os.linux.x86_64
-    scp /tmp/ronin.tar.gz www7:/home/ronin
-    ssh www7 (systemctl stop ronin; cd /home/ronin; rm -f bundle; tar -xzvf ronin.tar.gz; chown -R ronin:ronin bundle; tmpd="$(date +'%y%m%d')"; mv bundle bundle-$tmpd; ln -s bundle-$tmpd bundle; systemctl start ronin)
+
+meteor run --settings config/settings.json
+
+meteor run android-device
+
+meteor build /tmp --architecture os.linux.x86_64 --server ronin.trychlos.org
+    scp /tmp/ronin.tar.gz www8:/home/ronin
+    ssh www8 'systemctl stop ronin; cd /home/ronin; rm -f bundle; tar -xzvf ronin.tar.gz; chown -R ronin:ronin bundle; tmpd="$(date +'%y%m%d')"; mv bundle bundle-$tmpd; ln -s bundle-$tmpd bundle; systemctl start ronin'
 
 +------------------+----------+---------------+-------------+------------+--------+
 |                  | Reactive | Survive       | Survive     | Content    | Scope  |
@@ -15,3 +19,14 @@ meteor build /tmp --architecture os.linux.x86_64
 +------------------+----------+---------------+-------------+------------+--------+
 | ReactiveDict     | Yes      | If named      | ?           | any        | Local  |
 +------------------+----------+---------------+-------------+------------+--------+
+
++---------+-----------+-----------+---------------+----------+----------------+-----------+
+|         | detectIt  | detecIt   | detectIt      | viewport | viewport       | mode      |
+|         | .hasMouse | .hasTouch | .primaryInput | .width   | .height        |           |
++---------+-----------+-----------+---------------+----------+----------------+-----------+
+| Nova    | true      | true      | touch         | 360      | 572            | portrait  |
+|         |           |           |               | 596      | 336            | landscape |
++---------+-----------+-----------+---------------+----------+----------------+-----------+
+| XPS13   | true      | false     | mouse         | 1600     | 802 on Firefox |           |
+|         |           |           |               |          | 805 on Chrome  |           |
++---------+-----------+-----------+---------------+----------+----------------+-----------+
