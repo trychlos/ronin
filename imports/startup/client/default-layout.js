@@ -14,22 +14,17 @@
  *  Contrarily, if no mouse is attached to the system, the layout must be
  *  page-based.
  *
- *  More, inside of a web browser, routes must be handled. They may safely
- *  be ignored when running as a native mobile application (as a Cordova
- *  one for example).
+ *  In a mobile (Cordova) application, routes are not displayed as they are in
+ *  a web browser, but even if routes are not directly available to the user,
+ *  they are still handled under the hood.
  *
- *  Last, the layout on a mobile device with a small width (a smartphone !)
- *  is fixed with a header, a scrollable content and a footer.
+ *  So:
+ *  - touch device: layout is page-based (header+scrollable content+footer)
+ *  - desktop(+mouse) device: layout is window-based, using Simone window manager.
  */
-import 'amplifyjs';
 import detectIt from 'detect-it';
 
 // 'g' is our global, anywhere-available, variable, and exhibits:
-//
-//  - store: a local storage proxy
-//              layout: the last chosen layout
-//              last: the last visited route name
-//              pages: the last viewed tab for the page
 //
 //  - detectIt: the result of the detectIt module
 //              https://www.npmjs.com/package/detect-it
@@ -38,17 +33,12 @@ import detectIt from 'detect-it';
 //              automatically initialized from runtime detection
 //              overridable by the user (mostly for development purpose).
 g = {
-    store: amplify.store( 'ronin' ),
     detectIt: detectIt,
     run: {
         mobile: Meteor.isCordova,
         layout: new ReactiveVar()
     }
 };
-if( g.store === undefined ){
-    g.store = {};
-    g.store.pages = {};
-}
 
 // touchable device (without mouse, maybe not Cordova)
 LYT_TOUCH = 'appTouchable';
@@ -66,37 +56,8 @@ g[LYT_DESKTOP] = {
 };
 
 // layout initialization
-g.run.layout.set(
-    g.store.layout === undefined
-        ? ( g.detectIt.primaryInput === 'mouse' ? LYT_DESKTOP : LYT_TOUCH )
-        :   g.store.layout );
+g.run.layout.set( g.detectIt.primaryInput === 'mouse' ? LYT_DESKTOP : LYT_TOUCH );
 
 // DEVELOPMENT SURCHARGE
-//g.run.mobile = true;
-//g.run.layout.set( LYT_TOUCH );
-
-// in a mobile application, routes are not displayed as they are in a web browser
-// but even if routes are not directly available to the user, they are still
-// handled under the hood
-const layout = g.run.layout.get();
-switch( layout ){
-    case LYT_DESKTOP:
-        break;
-    case LYT_TOUCH:
-        let tab = Session.get( 'mobile.tab.name' );
-        if( !tab ){
-            tab = g.store.mobile;
-            if( !tab ){
-                tab = 'collect';
-            }
-            Session.set( 'mobile.tab.name', 'collect' );
-        }
-        //FlowRouter.go( 'home' );
-        break;
-    default:
-        console.log( layout+': unknown layout' );
-}
-
-g.store.layout = layout;
-g.store.mobile = Session.get( 'mobile.tab.name' );
-amplify.store( 'ronin', g.store );
+g.run.mobile = true;
+g.run.layout.set( LYT_TOUCH );
