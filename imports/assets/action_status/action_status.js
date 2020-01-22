@@ -46,10 +46,10 @@ export const actionStatus = {
     },
     // whether this status qualifies an actionable action
     isActionable: function( item ){
-        return item.id == 'don';
+        return item.id === 'don';
     },
     // whether this status qualifies a terminated action
     isDone: function( item ){
-        return item.id == 'don';
+        return item.id === 'don';
     }
 };

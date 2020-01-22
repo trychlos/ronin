@@ -36,7 +36,8 @@ g = {
     detectIt: detectIt,
     run: {
         mobile: Meteor.isCordova,
-        layout: new ReactiveVar()
+        layout: new ReactiveVar( null ),
+        resized: new ReactiveVar( null )
     }
 };
 

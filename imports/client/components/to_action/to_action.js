@@ -1,7 +1,7 @@
 /*
  * 'to_action' component.
  *  Transform a thought into an action.
- * 
+ *
  *  Parameters:
  *  - thought: a cursor with the one thought to be transformed.
  */

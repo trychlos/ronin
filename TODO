@@ -148,7 +148,11 @@
 
    98 2020- 1-19 mobile landscape: neither header nor footer are fixed
 
-   99
+  100 2020- 1-22 merge thoughts, actions, projects in a single collection
+                  as they are fondamentally the same thing (and have many
+                  common attributes)
+
+  101
 
 -----------------------------------------------------------------------
  Done
@@ -322,6 +326,9 @@
 
    89 2020- 1-13 action_status should be hardcoded (as gtd)
       2020- 1-13 done as actionStatus
+
+   99 2020- 1-22 action_status should be an asset, nor a db collection
+      2020- 1-22 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

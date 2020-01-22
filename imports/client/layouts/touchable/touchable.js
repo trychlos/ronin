@@ -18,9 +18,24 @@ import '/imports/client/components/mobile_body/mobile_body.js';
 import '/imports/client/components/mobile_footer/mobile_footer.js';
 import './touchable.html';
 
+Template.appTouchable.onCreated( function(){
+    window.addEventListener( 'resize', function(){
+        g.run.resized.set( new Date());
+    });
+});
+
 Template.appTouchable.onRendered( function(){
-    let height = $(window).height();
-    height -= $( '.lyt-header' ).height();
-    height -= $( '.lyt-footer' ).height();
-    $('.lyt-body').css({ 'max-height': height+'px' });
+    this.autorun(() => {
+        const a = g.run.resized.get();
+        let height = $(window).height();
+        height -= $( '.lyt-header' ).height();
+        height -= $( '.lyt-footer' ).height();
+        $('.lyt-body').css({ 'max-height': height+'px' });
+    });
+});
+
+Template.appTouchable.helpers({
+    resized: function(){
+        return 'resized helper at '+g.run.resized.get();
+    }
 });
