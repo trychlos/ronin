@@ -15,14 +15,13 @@ Template.collectWindow.onCreated( function(){
 });
 
 Template.collectWindow.onRendered( function(){
-    this.autorun(() => {
-        if( g[LYT_DESKTOP].taskbar.get()){
-            $('div.collect-window').IWindowed({
-                template:   'collectWindow',
-                title:      'Collect thoughts'
-            });
-        }
-    });
+    // open the window if the manager has been intialized
+    if( g[LYT_DESKTOP].taskbar.get()){
+        $('div.collect-window').IWindowed({
+            template:   'collectWindow',
+            title:      'Collect thoughts'
+        });
+    }
 });
 
 Template.collectWindow.helpers({

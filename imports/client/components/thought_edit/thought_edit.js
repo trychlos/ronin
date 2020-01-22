@@ -11,6 +11,15 @@ import '/imports/client/components/topics_select/topics_select.js';
 import './thought_edit.html';
 
 Template.thought_edit.fn = {
+    dict: null,
+    // provides a unique id for the collapsable part
+    collapsableId: function(){
+        return '98e84c99-d2f3-4c54-96a3-b4d6ccf8b3f0';
+    },
+    // whether the edition is collapsed
+    isCollapsed: function(){
+        return Template.thought_edit.fn.dict.get( 'collapsed' );
+    },
     // initialize the edition area
     // this is needed when we cancel a current creation
     //  as this will not change the setup.thought.obj session variable
@@ -26,7 +35,25 @@ Template.thought_edit.fn = {
     }
 };
 
+Template.thought_edit.onCreated( function(){
+    const fn = Template.thought_edit.fn;
+    fn.dict = new ReactiveDict();
+    fn.dict.set( 'collapsed', false );
+});
+
+Template.thought_edit.onRendered( function(){
+    this.autorun(() => {
+        const fn = Template.thought_edit.fn;
+        const collapsed = fn.dict.get( 'collapsed' );
+        $('#'+fn.collapsableId()).collapse( collapsed ? 'hide' : 'show' );
+    });
+});
+
 Template.thought_edit.helpers({
+    // provides a unique id for the collapsable part
+    collapsableId(){
+        return Template.thought_edit.fn.collapsableId();
+    },
     colSpan(){
         return g.run.mobile ? 1 : 3;
     },
@@ -44,6 +71,14 @@ Template.thought_edit.helpers({
         const obj = Session.get('setup.thought.obj');
         return obj ? obj.name : '';
     },
+    // class helper: whether the 'down' button should be visible
+    showDown(){
+        return Template.thought_edit.fn.isCollapsed() ? 'x-inline' : 'x-hidden';
+    },
+    // class helper: whether the 'up' button should be visible
+    showUp(){
+        return Template.thought_edit.fn.isCollapsed() ? 'x-hidden' : '';
+    },
     submit(){
         return Session.get('setup.thought.obj') ? 'Update' : 'Create';
     },
@@ -57,6 +92,11 @@ Template.thought_edit.helpers({
 });
 
 Template.thought_edit.events({
+    'click .js-collapse'( event, instance ){
+        const fn = Template.thought_edit.fn;
+        const collapsed = fn.dict.get( 'collapsed' );
+        fn.dict.set( 'collapsed', !collapsed );
+    },
     'click .js-cancel'(event){
         event.preventDefault();
         if( !Session.get( 'setup.thought.obj' )){
