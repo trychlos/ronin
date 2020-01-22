@@ -13,7 +13,7 @@
  *  - tab (optional) tab identifier
  *  + all jQuery Tabs options.
  */
-import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
+import { gtd } from '/imports/assets/gtd/gtd.js';
 import '/imports/client/components/errors/errors.js'
 
 ( function( $ ){

@@ -6,7 +6,7 @@
  *  - setup.tab.name: the identifier of the active tab
  *      aka the identifier of the corresponding option in 'gtd' features.
  */
-import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
+import { gtd } from '/imports/assets/gtd/gtd.js';
 import '/imports/client/components/setup_contexts/setup_contexts.js';
 import '/imports/client/components/setup_delegates/setup_delegates.js';
 import '/imports/client/components/setup_energy/setup_energy.js';

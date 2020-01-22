@@ -8,7 +8,7 @@
  *  Based on jQuery UI Menu widget.
  */
 import { Session } from 'meteor/session';
-import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
+import { gtd } from '/imports/assets/gtd/gtd.js';
 import './menu_bar.html';
 
 Template.menu_bar.fn = {

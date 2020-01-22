@@ -129,8 +129,6 @@
 
    88 2020- 1-12 action done : have a dark gray icon
 
-   90 2020- 1-14 move gtd to assets/
-
    91 2020- 1-14 have a touch layout
 
    92 2020- 1-17 do not let a project have itself as its own parent
@@ -326,6 +324,9 @@
 
    89 2020- 1-13 action_status should be hardcoded (as gtd)
       2020- 1-13 done as actionStatus
+
+   90 2020- 1-14 move gtd to assets/
+      2020- 1-22 done
 
    99 2020- 1-22 action_status should be an asset, nor a db collection
       2020- 1-22 done

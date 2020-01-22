@@ -6,7 +6,7 @@
  *  - item: an item from gtd.features()
  *  - type: 'side'|'bar'.
  */
-import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
+import { gtd } from '/imports/assets/gtd/gtd.js';
 import './menu_item.html';
 
 Template.menu_item.helpers({

@@ -3,7 +3,7 @@
  *  This is the main component of the overview page.
  *  It is permanently displayed as a general active background.
  */
-import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
+import { gtd } from '/imports/assets/gtd/gtd.js';
 import './overview.html';
 
 Template.overview.fn = {

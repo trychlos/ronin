@@ -12,8 +12,8 @@
  *  - template: mandatory, the template name
  *  + all simone options
  */
+import { gtd } from '/imports/assets/gtd/gtd.js';
 import '/imports/client/components/errors/errors.js'
-import { gtd } from '/imports/client/interfaces/gtd/gtd.js';
 import '/imports/client/interfaces/itabbed/itabbed.js'
 
 ( function( $ ){
