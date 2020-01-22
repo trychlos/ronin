@@ -110,7 +110,8 @@ FlowRouter.route('/setup/delegates', {
 FlowRouter.route('/collect', {
     name: 'collect.thoughts',
     action(){
-        Session.set('setup.thoughts.obj',null);
+        Session.set( 'mobile.page', 'collect' );
+        Session.set( 'setup.thought.obj', null );
         BlazeLayout.render( g.run.layout.get(), { main: 'collectPage' });
     },
 });

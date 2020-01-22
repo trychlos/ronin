@@ -1,16 +1,17 @@
 /*
  * 'thoughts_list' component.
  *  Display the specified list of thoughts, giving a cursor (aka an array)
- * 
- *  Parms:
+ *
+ *  Parameters:
  *  - thoughts: the cursor (aka an array) to be displayed
+ *  - title: true|false whether to display the title
  *  - editable: whether the items are editable/deletable;
  *      apply to each and every item of the cursor as a whole;
  *      defaults to true
  *  - withDescription: whether to display the description of the thought;
  *      apply to each and every item of the cursor as a whole;
  *      defaults to false.
- * 
+ *
  *  NB: this component is used both as a reminder when collecting new thoughts,
  *      and as a dispatcher when processing thoughts.
  */

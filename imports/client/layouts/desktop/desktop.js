@@ -1,6 +1,9 @@
 /*
  * 'appDesktop' layout.
  *  Main layout for desktop clients.
+ *
+ *  Parameters:
+ *  - main: name of the template to be displayed (from routes.js)
  */
 import '/imports/client/components/errors/errors.js';
 import '/imports/client/components/menu_side/menu_side.js';

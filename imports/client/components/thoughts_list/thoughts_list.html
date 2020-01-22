@@ -1,5 +1,8 @@
 <template name="thoughts_list">
     <div class="thoughts-list">
+        {{#if title }}
+            <p class="x-h2">Thoughts list</p>
+        {{/if}}
         <table>
             {{#each it in thoughts}}
                 <tr class="item" id="thought_{{it._id}}">

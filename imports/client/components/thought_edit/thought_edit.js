@@ -2,7 +2,7 @@
  * 'thought_edit' component.
  *  Let the user enter a new thought (session/setup.thought.obj empty)
  *  or edit an existing one (session/setup.thought.obj already exists)/
- * 
+ *
  *  Session variable:
  *  - setup.thought.obj: the thought being edited.
  */
@@ -25,8 +25,11 @@ Template.thought_edit.fn = {
         }
     }
 };
-  
+
 Template.thought_edit.helpers({
+    colSpan(){
+        return g.run.mobile ? 1 : 3;
+    },
     descriptionPlaceholder(){
         return Session.get('setup.thought.obj') ? '' : 'Description of the new thought';
     },

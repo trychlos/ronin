@@ -3,7 +3,7 @@
  *  Display the page's content between the header and the footer.
  *
  *  Session variables:
- *  - mobile.tab.name: the identifier of the active page
+ *  - mobile.page: the identifier of the active page
  *      aka the identifier of the corresponding option in 'gtd' features.
  */
 import '/imports/client/components/mobile_collect/mobile_collect.js';

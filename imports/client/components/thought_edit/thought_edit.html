@@ -2,13 +2,11 @@
     <div class="thought-edit">
         <form class="js-edit">
             <div class="edit-header">
-                <p class="x-h2">{{title}}</p>
+                <p class="x-h2 {{hideIfMobile}}">{{title}}</p>
                 <button type="submit" class="btn-submit ui-corner-all ui-button">{{submit}}</button>
-                <a class="js-cancel btn-cancel" href="#">
-                    <div class="ui-state-default ui-corner-all" title="Cancel">
-                        <span class="fas fa-times x-font"></span>
-                    </div>
-                </a>
+                <button class="js-cancel btn-cancel ui-button ui-corner-all" title="Cancel">
+                    <span class="fas fa-times"></span>
+                </button>
             </div>
             <table class="edit-body">
                 <tr>
@@ -21,14 +19,16 @@
                             placeholder="{{namePlaceholder}}"
                             value="{{nameValue}}" />
                     </td>
+                </tr>
+                <tr>
                     <td class="x-hright"><p>Topic:</p></td>
                     <td>{{> topics_select selected=topic }}</td>
                 </tr>
                 <tr>
                     <td class="label x-hright x-vtop"><p>Description:</p></td>
-                    <td colspan="3">
+                    <td colspan="{{colSpan}}">
                         <textarea
-                            name="description" 
+                            name="description"
                             class="js-description x-w100"
                             rows="4"
                             placeholder="{{descriptionPlaceholder}}">{{descriptionValue}}</textarea>
