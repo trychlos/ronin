@@ -150,7 +150,22 @@
                   as they are fondamentally the same thing (and have many
                   common attributes)
 
-  101
+  101 2020- 1-23 get and display version from mobile.json
+
+  102 2020- 1-23 when changing touch to desktop layout and back, list grows
+                  (e.g. on collect page)
+
+  103 2020- 1-23 header_panel: most left button is not displayed on browser's tablet
+
+  104 2020- 1-23 mobile_footer bar is not visible without scrolling on browser's tablet
+                  (miss the url bar and the tabs heights)
+
+  105 2020- 1-23 should have infos display in the parameters menu to display
+                  detectIt data + display size
+
+  106 2020- 1-23 thoughts_list: have a badge with thoughts count
+
+  107
 
 -----------------------------------------------------------------------
  Done

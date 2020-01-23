@@ -1,29 +1,30 @@
 <template name="process_scroll">
     <div class="process-scroll">
-        <div class="inline">
-            <p class="x-h2">Run through each thought, one by one</p>
-            {{> thoughts_badge }}
+
+        <div class="title {{hideIfTouch}}">
+            <div class="d-flex justify-content-start align-items-center">
+                <p class="x-h2 flex-grow-1">Run through each thought, one by one</p>
+                {{> thoughts_badge }}
+            </div>
         </div>
+
         <table class="process">
             <tr>
                 <td class="icon">
-                    <a href="#" class="js-prev" title="Previous thought">
-                        <div class="ui-state-default ui-corner-all">
-                            <span class="fas fa-caret-left x-font"></span>
-                        </div>
-                    </a>
+                    <button class="js-prev ui-button ui-corner-all" title="Previous thought">
+                        <span class="fas fa-caret-left"></span>
+                    </button>
                 </td>
                 <td>
                     {{> thoughts_list thoughts=thought editable=false }}
                 </td>
                 <td class="icon">
-                    <a href="#" class="js-next" title="Next thought">
-                        <div class="ui-state-default ui-corner-all">
-                            <span class="fas fa-caret-right x-font"></span>
-                        </div>
-                    </a>
+                    <button class="js-next ui-button ui-corner-all" title="Next thought">
+                        <span class="fas fa-caret-right"></span>
+                    </button>
                 </td>
             </tr>
         </table>
+
     </div>
 </template>

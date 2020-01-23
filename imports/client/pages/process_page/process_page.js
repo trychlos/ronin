@@ -8,8 +8,15 @@ import './process_page.html';
 
 Template.processPage.onRendered( function(){
     this.autorun(() => {
-        if( g[LYT_DESKTOP].taskbar.get()){
-            $('.process-page').IWindowed( 'show', 'processWindow' );
+        switch( g.run.layout.get()){
+            case LYT_DESKTOP:
+                if( g[LYT_DESKTOP].taskbar.get()){
+                    $('.process-page').IWindowed( 'show', 'processWindow' );
+                }
+                break;
+            case LYT_TOUCH:
+                Blaze.render( Template.processWindow, document.getElementsByClassName('process-page')[0] );
+                break;
         }
     })
 });

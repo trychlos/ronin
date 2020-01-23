@@ -1,11 +1,15 @@
 
 meteor run --settings config/settings.json
 
-meteor run android-device
+meteor run --settings config/settings.json android-device
 
-meteor build /tmp --architecture os.linux.x86_64 --server ronin.trychlos.org
-    scp /tmp/ronin.tar.gz www8:/home/ronin
-    ssh www8 'systemctl stop ronin; cd /home/ronin; rm -f bundle; tar -xzvf ronin.tar.gz; chown -R ronin:ronin bundle; tmpd="$(date +'%y%m%d')"; mv bundle bundle-$tmpd; ln -s bundle-$tmpd bundle; systemctl start ronin'
+meteor build /tmp --server ronin.trychlos.org
+    scp /tmp/ronin.tar.gz www8:/tmp
+    ssh www8 'systemctl stop ronin && cd /home/ronin && rm -f bundle && tar -xzf /tmp/ronin.tar.gz && chown -R ronin:ronin bundle && tmpd="$(date +'%y%m%d')" && mv bundle bundle-$tmpd && ln -s bundle-$tmpd bundle && systemctl start ronin'
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ronin.trychlos.org
+
+~/data/Android/Sdk/build-tools/29.0.2/zipalign 4 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk /tmp/android/project/app/build/outputs/apk/release/ronin-v0.1.apk
 
 +------------------+----------+---------------+-------------+------------+--------+
 |                  | Reactive | Survive       | Survive     | Content    | Scope  |

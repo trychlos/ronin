@@ -19,9 +19,9 @@ import './mobile_footer.html';
 
 Template.mobile_footer.onRendered( function(){
     let page = Session.get('mobile.page');
+    console.log( 'mobile_footer.onRendered: mobile.page='+page );
     if( !page ){
-        page = 'collect';
-        Session.set( 'mobile.page', page );
+        Session.set( 'mobile.page', 'collect' );
     }
 });
 
@@ -32,9 +32,6 @@ Template.mobile_footer.helpers({
     },
     gtdItems(){
         return gtd.mobileItems();
-    },
-    itTemplate( it ){
-        return 'setup_'+it.id;
     }
 });
 
@@ -44,10 +41,12 @@ Template.mobile_footer.events({
         const a = event.target.href.split( '#' );
         const href = a[a.length-1];
         //console.log( 'a='+event.target.href+' href='+href );
+        console.log( 'set mobile.page='+href );
         Session.set( 'mobile.page', href );
         //console.log( 'Set mobile.tab.name='+href );
-        //console.log( 'route='+$(event.target).data('pwi-iroutable-route'));
-        FlowRouter.go( $(event.target).data('pwi-iroutable-route'));
+        const route = $(event.target).data( 'pwi-iroutable-route' );
+        //console.log( 'route='+route);
+        FlowRouter.go( route );
         return false;
     }
 });

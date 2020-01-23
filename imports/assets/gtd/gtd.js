@@ -128,7 +128,7 @@ export const gtd = {
                 navside: true,
                 navview: true,
                 tabmobile: true,
-                router: 'collect',
+                router: 'collect.thoughts',
                 children: [
                     {
                         id: 'col',
@@ -147,7 +147,7 @@ export const gtd = {
                 navside: true,
                 navview: true,
                 tabmobile: true,
-                router: 'process',
+                router: 'process.thoughts',
                 children: [
                     {
                         id: 'pro',

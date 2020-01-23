@@ -1,6 +1,11 @@
 /*
  * 'collectWindow' window.
  *  CRUD operations on thoughts.
+ *
+ *  This window is used both for desktop and touch layouts, with the same simple
+ *  internal layout:
+ *  - an edition part on the top, managed by the 'thought_edit' template,
+ *  - a list part on the bottom, managed by the 'thoughts_list' template.
  */
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';

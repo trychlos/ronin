@@ -2,6 +2,9 @@
  * 'appDesktop' layout.
  *  Main layout for desktop clients.
  *
+ *  This layout makes use of the Simone window manager to display each and
+ *  every pages (inside so-called windows).
+ *
  *  Parameters:
  *  - main: name of the template to be displayed (from routes.js)
  */

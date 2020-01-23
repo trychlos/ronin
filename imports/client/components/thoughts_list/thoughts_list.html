@@ -1,7 +1,7 @@
 <template name="thoughts_list">
     <div class="thoughts-list">
         {{#if title }}
-            <p class="x-h2 {{hideIfMobile}}">Thoughts list</p>
+            <p class="x-h2 {{hideIfTouch}}">Thoughts list</p>
         {{/if}}
         <table>
             {{#each it in thoughts}}

@@ -118,6 +118,7 @@ FlowRouter.route('/collect', {
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
+        Session.set( 'mobile.page', 'process' );
         BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
     },
 });

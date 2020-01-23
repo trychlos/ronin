@@ -5,8 +5,8 @@
  */
 
 // class helper
-Template.registerHelper( 'hideIfMobile', function(){
-    return g.run.mobile ? 'x-hidden':'';
+Template.registerHelper( 'hideIfTouch', function(){
+    return g.run.layout.get() === LYT_TOUCH ? 'x-hidden':'';
 });
 
 // template helper
