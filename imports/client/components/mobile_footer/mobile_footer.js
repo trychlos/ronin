@@ -3,7 +3,7 @@
  *  Display a button fot each group of options, letting the user choose his page content.
  *
  *  Session variables:
- *  - mobile.tab.name: the identifier of the active page
+ *  - mobile.page: the identifier of the active page
  *      aka the identifier of the corresponding option in 'gtd' features.
  */
 import { gtd } from '/imports/assets/gtd/gtd.js';
@@ -18,16 +18,16 @@ import { gtd } from '/imports/assets/gtd/gtd.js';
 import './mobile_footer.html';
 
 Template.mobile_footer.onRendered( function(){
-    let page = Session.get('mobile.tab.name');
+    let page = Session.get('mobile.page');
     if( !page ){
         page = 'collect';
-        Session.set( 'mobile.tab.name', page );
+        Session.set( 'mobile.page', page );
     }
 });
 
 Template.mobile_footer.helpers({
     active( it ){
-        const page = Session.get('mobile.tab.name');
+        const page = Session.get('mobile.page');
         return page === it.id ? 'active' : '';
     },
     gtdItems(){
@@ -44,8 +44,10 @@ Template.mobile_footer.events({
         const a = event.target.href.split( '#' );
         const href = a[a.length-1];
         //console.log( 'a='+event.target.href+' href='+href );
-        Session.set( 'mobile.tab.name', href );
+        Session.set( 'mobile.page', href );
         //console.log( 'Set mobile.tab.name='+href );
+        //console.log( 'route='+$(event.target).data('pwi-iroutable-route'));
+        FlowRouter.go( $(event.target).data('pwi-iroutable-route'));
         return false;
     }
 });

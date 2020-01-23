@@ -71,6 +71,10 @@ Template.thought_edit.helpers({
         const obj = Session.get('setup.thought.obj');
         return obj ? obj.name : '';
     },
+    // html helper: count of rows to be displayed for description field
+    rowsCount(){
+        return g.run.layout.get() === 'LYT_DESKTOP' ? 4 : 2;
+    },
     // class helper: whether the 'down' button should be visible
     showDown(){
         return Template.thought_edit.fn.isCollapsed() ? 'x-inline' : 'x-hidden';

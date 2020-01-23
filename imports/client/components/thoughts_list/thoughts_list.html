@@ -1,22 +1,20 @@
 <template name="thoughts_list">
     <div class="thoughts-list">
         {{#if title }}
-            <p class="x-h2">Thoughts list</p>
+            <p class="x-h2 {{hideIfMobile}}">Thoughts list</p>
         {{/if}}
         <table>
             {{#each it in thoughts}}
                 <tr class="item" id="thought_{{it._id}}">
                     <td class="icon-first">
                         {{#if isEditable editable}}
-                            <a class="js-update" id="{{ updateId it }}" href="#">
-                                <div class="ui-state-default ui-corner-all" title="Edit {{ it.name }}">
-                                    <span class="fas fa-edit x-font"></span>
-                                </div>
-                            </a>
+                            <button class="js-update ui-button ui-corner-all" data-thought="{{ it._id }}" title="Edit {{ it.name }}">
+                                <span class="fas fa-edit"></span>
+                            </button>
                         {{/if}}
                     </td>
                     <td class="x-w100">
-                        <table>
+                        <table class="{{lineHeight}}">
                             <tr>
                                 <td class="name"><p>{{ it.name }}</p></td>
                                 <td class="topic"><p>{{ topic_byId it.topic }}</p></td>
@@ -33,11 +31,9 @@
                     </td>
                     <td class="icon-last">
                         {{#if isEditable editable}}
-                            <a class="js-delete" id="{{ it._id }}" href="#">
-                                <div class="ui-state-default ui-corner-all" title="Delete {{it.name}}">
-                                    <span class="fas fa-trash x-font"></span>
-                                </div>
-                            </a>
+                            <button class="js-delete ui-button ui-corner-all" data-thought="{{ it._id }}" title="Delete {{it.name}}">
+                                <span class="fas fa-trash"></span>
+                            </button>
                         {{/if}}
                     </td>
                 </tr>

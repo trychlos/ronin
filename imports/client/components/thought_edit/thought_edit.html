@@ -1,7 +1,7 @@
 <template name="thought_edit">
     <div class="thought-edit">
-        <div class="collapse" id="{{collapsableId}}">
-            <form class="js-edit">
+        <form class="js-edit">
+            <div class="collapse" id="{{collapsableId}}">
                 <div class="edit-header">
                     <p class="x-h2 {{hideIfMobile}}">{{title}}</p>
                 </div>
@@ -18,7 +18,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="x-hright"><p>Topic:</p></td>
+                        <td class="label x-hright"><p>Topic:</p></td>
                         <td>{{> topics_select selected=topic }}</td>
                     </tr>
                     <tr>
@@ -27,29 +27,29 @@
                             <textarea
                                 name="description"
                                 class="js-description x-w100"
-                                rows="4"
+                                rows="{{rowsCount}}"
                                 placeholder="{{descriptionPlaceholder}}">{{descriptionValue}}</textarea>
                         </td>
                     </tr>
                 </table>
-            </form>
-        </div>
-        <div class="actions d-flex justify-content-start align-items-center">
-            <div class="flex-grow-1">
-                <button class="js-collapse ui-button ui-corner-all" data-toggle="collapse" data-target="#{{collapsableId}}">
-                    <div class="{{showUp}}">
-                        <span class="fas fa-angle-up"></span>
-                    </div>
-                    <div class="{{showDown}}">
-                        <span class="fas fa-angle-down"></span>
-                        <span class="text">Collect thoughts</span>
-                    </div>
+            </div>
+            <div class="actions d-flex justify-content-start align-items-center">
+                <div class="flex-grow-1">
+                    <button class="js-collapse ui-button ui-corner-all" data-toggle="collapse" data-target="#{{collapsableId}}">
+                        <div class="{{showUp}}">
+                            <span class="fas fa-angle-up"></span>
+                        </div>
+                        <div class="{{showDown}}">
+                            <span class="fas fa-angle-down"></span>
+                            <span class="text">Collect thoughts</span>
+                        </div>
+                    </button>
+                </div>
+                <button type="submit" class="btn-submit ui-corner-all ui-button {{showUp}}" title="Submit">{{submit}}</button>
+                <button class="js-cancel btn-cancel ui-button ui-corner-all {{showUp}}" title="Cancel">
+                    <span class="fas fa-times"></span>
                 </button>
             </div>
-            <button type="submit" class="btn-submit ui-corner-all ui-button {{showUp}}" title="Submit">{{submit}}</button>
-            <button class="js-cancel btn-cancel ui-button ui-corner-all {{showUp}}" title="Cancel">
-                <span class="fas fa-times"></span>
-            </button>
-        </div>
+        </form>
     </div>
 </template>

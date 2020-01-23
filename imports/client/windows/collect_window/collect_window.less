@@ -1,25 +1,38 @@
-.pwi-collectWindow {
-    div.collect-window {
-        .thought-edit {
-            .edit-header {
-                background-color: @collect-color-light;
-            }
-            .actions {
-                span.text {
-                    margin-left: 0.5em;
-                }
-            }
+div.collect-window {
+    .thought-edit {
+        padding-bottom: 0.25em;
+        border-bottom: 1px solid @border-color;
+        .edit-header {
+            background-color: @collect-color-light;
         }
-        .list {
-            p.x-h2 {
-                background-color: @collect-color-light;
+        .actions {
+            span.text {
+                margin-left: 0.5em;
             }
         }
     }
-    div.ui-widget-header.ui-state-active {
-        background: @collect-color;
-        border: darken( @collect-color, 25% );
-    }
+    .thoughts-list {
+        p.x-h2 {
+            background-color: @collect-color-light;
+        }
+        .ui-button {
+            padding: 0.25em 0.5em;
+        }
+        @media( max-width: 640px ){
+            td.x-createdAt {
+                display: none;
+            }
+        }
+        @media( min-width: 641px ){
+            td.x-createdAt {
+                display: inherit;
+            }
+        }
+}
+}
+div.ui-widget-header.ui-state-active {
+    background: @collect-color;
+    border: darken( @collect-color, 25% );
 }
 .simone-taskbar-window-button[data-group-name*='collectWindow'].ui-state-active {
     background-color: @collect-color;

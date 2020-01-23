@@ -19,12 +19,6 @@ import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import './thoughts_list.html';
 
-Template.thoughts_list.fn = {
-    pfxUpdate: function(){
-        return 'thoughts-list-update-';
-    }
-};
-
 Template.thoughts_list.helpers({
     topic_byId(id){
         const obj = id ? Topics.findOne({ _id:id }) : null;
@@ -36,30 +30,30 @@ Template.thoughts_list.helpers({
     isEditable(d){
         return d === undefined ? true : d;
     },
-    updateId(o){
-        return Template.thoughts_list.fn.pfxUpdate()+o._id;
-    },
+    lineHeight(){
+        return g.run.layout.get() === LYT_TOUCH ? 'x-trh3' : '';
+    }
 });
 
 Template.thoughts_list.events({
-    'click .js-delete'(event){
+    // target=[object SVGSVGElement] but may also be SVGPathElement
+    'click .js-delete'( event, instance ){
         event.preventDefault();
-        const target = event.target;        // target=[object SVGSVGElement] but may also be SVGPathElement
-        const anchor = $( target ).parents( 'a' )[0];
+        const button = $( event.target ).parents( 'button' )[0];
+        const id = $( button ).data( 'thought' );
         //console.log( "deleting id='"+anchor.id+"'");
-        Meteor.call('thoughts.remove', anchor.id, ( error ) => {
+        Meteor.call('thoughts.remove', id, ( error ) => {
             if( error ){
                 return throwError({ message: error.message });
             }
         });
         return false;
     },
-    'click .js-update'(event){
+    'click .js-update'( event, instance ){
         event.preventDefault();
-        const target = event.target;        // target=[object SVGSVGElement] but may also be SVGPathElement
-        const anchor = $( target ).parents( 'a' )[0];
-        const id = anchor.id.substring( Template.thoughts_list.fn.pfxUpdate().length );
-        var obj = Thoughts.findOne({ _id: id });
+        const button = $( event.target ).parents( 'button' )[0];
+        const id = $( button ).data( 'thought' );
+        const obj = Thoughts.findOne({ _id: id });
         if( !obj ){
             throwError({ message: 'Thought no more exists' });
         } else {
