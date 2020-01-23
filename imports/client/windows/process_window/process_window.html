@@ -1,12 +1,19 @@
 <template name="processWindow">
     <div class="process-window" data-pwi-iroutable-mode="window" data-pwi-iroutable-route="process.thoughts">
-        <!-- <div class="splitter"> -->
-            <div>
-                {{> process_scroll thought=thought_byNum }}
-            </div>
-            <div>
-                {{> process_tabs thought=thought_byNum }}
-            </div>
-        <!-- </div> -->
+
+        <div>
+            {{> process_scroll thought=thought_byNum }}
+        </div>
+
+        <!-- only displayed on small touchable devices -->
+        <div class="btn-assist">
+            <div class="pb-3"></div>
+            {{> process_buttons thought=thought_byNum}}
+        </div>
+
+        <div class="tab-assist">
+            {{> process_tabs thought=thought_byNum }}
+        </div>
+
     </div>
 </template>

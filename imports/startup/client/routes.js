@@ -200,14 +200,3 @@ FlowRouter.notFound = {
         BlazeLayout.render('appBody', { main: 'notFound' });
     },
 };
-
-const layout = g.run.layout.get();
-switch( layout ){
-    case LYT_DESKTOP:
-        break;
-    case LYT_TOUCH:
-        FlowRouter.go( 'collect.thoughts' );
-        break;
-    default:
-        console.log( layout+': unknown layout' );
-}

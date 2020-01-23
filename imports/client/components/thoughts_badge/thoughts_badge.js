@@ -13,7 +13,13 @@ Template.thoughts_badge.fn = {
         return Thoughts.find().count();
     }
 };
-  
+
+Template.thoughts_badge.onRendered( function(){
+    if( g.run.layout.get === LYT_DESKTOP ){
+        $( '.thoughts_badge span.inline' ).css( 'color', 'white' );
+    }
+});
+
 Template.thoughts_badge.helpers({
     thoughtNum(){
         let num = Session.get('process.thoughts.num');

@@ -17,17 +17,9 @@ import { gtd } from '/imports/assets/gtd/gtd.js';
 //import '/imports/client/interfaces/itabbed/itabbed.js';
 import './mobile_footer.html';
 
-Template.mobile_footer.onRendered( function(){
-    let page = Session.get('mobile.page');
-    console.log( 'mobile_footer.onRendered: mobile.page='+page );
-    if( !page ){
-        Session.set( 'mobile.page', 'collect' );
-    }
-});
-
 Template.mobile_footer.helpers({
     active( it ){
-        const page = Session.get('mobile.page');
+        const page = Session.get( 'mobile.page' );
         return page === it.id ? 'active' : '';
     },
     gtdItems(){
@@ -37,15 +29,7 @@ Template.mobile_footer.helpers({
 
 Template.mobile_footer.events({
     'click .js-item'( event, instance ){
-        //console.log( event );
-        const a = event.target.href.split( '#' );
-        const href = a[a.length-1];
-        //console.log( 'a='+event.target.href+' href='+href );
-        console.log( 'set mobile.page='+href );
-        Session.set( 'mobile.page', href );
-        //console.log( 'Set mobile.tab.name='+href );
-        const route = $(event.target).data( 'pwi-iroutable-route' );
-        //console.log( 'route='+route);
+        const route = $( event.target ).data( 'pwi-iroutable-route' );
         FlowRouter.go( route );
         return false;
     }

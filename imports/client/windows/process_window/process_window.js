@@ -25,6 +25,7 @@
 import { Actions } from '/imports/api/collections/actions/actions.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
+import '/imports/client/components/process_buttons/process_buttons.js';
 import '/imports/client/components/process_scroll/process_scroll.js';
 import '/imports/client/components/process_tabs/process_tabs.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';

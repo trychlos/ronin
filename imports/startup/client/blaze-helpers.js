@@ -5,13 +5,13 @@
  */
 
 // class helper
-Template.registerHelper( 'hideIfTouch', function(){
-    return g.run.layout.get() === LYT_TOUCH ? 'x-hidden':'';
+Template.registerHelper( 'hideIfDesktop', function(){
+    return g.run.layout.get() === LYT_DESKTOP ? 'x-hidden':'';
 });
 
-// template helper
-Template.registerHelper( 'isMobile', function(){
-    return g.run.mobile;
+// class helper
+Template.registerHelper( 'hideIfTouch', function(){
+    return g.run.layout.get() === LYT_TOUCH ? 'x-hidden':'';
 });
 
 // content helper

@@ -1,4 +1,20 @@
 div.process-window {
+    @media ( max-width: 800px ), ( max-height: 600px ){
+        .btn-assist {
+            display: inherit;
+        }
+        .tab-assist {
+            display: none;
+        }
+    }
+    @media ( min-width: 801px ) and ( min-height: 601px ){
+        .btn-assist {
+            display: none;
+        }
+        .tab-assist {
+            display: inherit;
+        }
+    }
     div.process-scroll {
         title {
             background-color: @process-color-light;
@@ -14,6 +30,14 @@ div.process-window {
                 text-align: center;
                 height: 2em;
             }
+        }
+    }
+    div.process-buttons {
+        border-top: 1px solid @border-color;
+        padding-top: 1em;
+        button {
+            margin: 1rem 0;
+            padding: 1rem;
         }
     }
     div.process-tabs {

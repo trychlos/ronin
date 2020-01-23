@@ -41,7 +41,7 @@ g = {
     }
 };
 
-// touchable device (without mouse, maybe not Cordova)
+// touchable device (without mouse, maybe not Cordova, e.g. a Chrome browser on a tablet)
 LYT_TOUCH = 'appTouchable';
 g[LYT_TOUCH] = {};
 
@@ -55,6 +55,12 @@ g[LYT_DESKTOP] = {
     rootId:         '25d211fe-06ba-4781-ae41-c5a20e66075d',
     taskbar:         new ReactiveVar( null )
 };
+
+// set a default page for the touchable layout
+const page = Session.get( 'mobile.page' );
+if( !page ){
+    Session.set( 'mobile.page', 'collect' );
+}
 
 // layout initialization
 g.run.layout.set( g.detectIt.primaryInput === 'mouse' ? LYT_DESKTOP : LYT_TOUCH );

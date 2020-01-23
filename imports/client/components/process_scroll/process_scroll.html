@@ -1,6 +1,12 @@
 <template name="process_scroll">
     <div class="process-scroll">
 
+        <div class="title {{hideIfDesktop}}">
+            <div class="d-flex justify-content-end align-items-center">
+                {{> thoughts_badge }}
+            </div>
+        </div>
+
         <div class="title {{hideIfTouch}}">
             <div class="d-flex justify-content-start align-items-center">
                 <p class="x-h2 flex-grow-1">Run through each thought, one by one</p>
@@ -8,23 +14,21 @@
             </div>
         </div>
 
-        <table class="process">
-            <tr>
-                <td class="icon">
-                    <button class="js-prev ui-button ui-corner-all" title="Previous thought">
-                        <span class="fas fa-caret-left"></span>
-                    </button>
-                </td>
-                <td>
-                    {{> thoughts_list thoughts=thought editable=false }}
-                </td>
-                <td class="icon">
-                    <button class="js-next ui-button ui-corner-all" title="Next thought">
-                        <span class="fas fa-caret-right"></span>
-                    </button>
-                </td>
-            </tr>
-        </table>
+        <div class="d-flex justify-content-start align-items-center">
+            <div class="icon-prev">
+                <button class="js-prev ui-button ui-corner-all" title="Previous thought">
+                    <span class="fas fa-caret-left"></span>
+                </button>
+            </div>
+            <div class="cursor flex-grow-1">
+                {{> thoughts_list thoughts=thought editable=false }}
+            </div>
+            <div class="icon-next">
+                <button class="js-next ui-button ui-corner-all" title="Next thought">
+                    <span class="fas fa-caret-right"></span>
+                </button>
+            </div>
+        </div>
 
     </div>
 </template>
