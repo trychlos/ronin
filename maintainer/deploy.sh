@@ -47,12 +47,12 @@ _ret=$?
 
 # server deployement
 [ $_ret -eq 0 ] &&
+    _tmpd="$(server_version)" &&
     execcmd "scp /tmp/ronin.tar.gz ${target}:/tmp" &&
     execssh "systemctl stop ronin" &&
     execssh "cd ${ronin} && rm -f bundle" &&
     execssh "cd ${ronin} && tar -xzf /tmp/ronin.tar.gz" &&
     execssh "cd ${ronin} && chown -R ronin:ronin bundle" &&
-    _tmpd="$(server_version)" &&
     execssh "cd ${ronin} && mv bundle bundle-${_tmpd}" &&
     execssh "cd ${ronin} && ln -s bundle-${_tmpd} bundle" &&
     execssh "systemctl start ronin" &&
@@ -62,7 +62,8 @@ _ret=$?
 # mobile apk preparation
 [ $_ret -eq 0 ] &&
     apk="/tmp/ronin-v${version}.apk" &&
-    execcmd "jarsigner -storepass abcdef -keystore ${rootdir}/.keystore -verbose -sigalg SHA1withRSA -digestalg SHA1 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ronin.trychlos.org" &&
+    execcmd "rm -f ${apk}" &&
+    execcmd "jarsigner -storepass abcdef -keystore ${projectdir}/.keystore -verbose -sigalg SHA1withRSA -digestalg SHA1 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ronin.trychlos.org" &&
     execcmd "${HOME}/data/Android/Sdk/build-tools/29.0.2/zipalign 4 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ${apk}" &&
     echo "APK prepared as ${apk}" &&
     echo "Please, do not forgive to increment the VERSION number."
