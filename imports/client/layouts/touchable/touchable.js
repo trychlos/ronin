@@ -31,7 +31,8 @@ Template.appTouchable.onCreated( function(){
 Template.appTouchable.onRendered( function(){
     this.autorun(() => {
         const a = g.run.resized.get();
-        let height = $(window).height();
+        //let height = $(window).height();
+        let height = $( '.layout-touchable' ).innerHeight();
         height -= $( '.lyt-header' ).height();
         height -= $( '.lyt-footer' ).height();
         $('.lyt-body').css({ 'max-height': height+'px' });

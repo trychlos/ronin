@@ -1,0 +1,18 @@
+[Unit]
+Description=Ronin
+After=local-fs.target network-online.target
+Requires=local-fs.target network-online.target
+
+[Service]
+User=ronin
+Group=ronin
+Type=forking
+ExecStart=/home/ronin/start.sh
+Restart=on-failure
+StartLimitInterval=30s
+StartLimitBurst=3
+TimeoutSec=60
+
+[Install]
+WantedBy=multi-user.target
+

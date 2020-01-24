@@ -9,7 +9,7 @@
 App.info({
     id: 'org.trychlos.ronin',
     name: 'Ronin',
-    version: '0.2',
+    version: '0.3.0',
     description: 'Getting Things Done',
     author: 'Pierre Wieser',
     email: 'pwieser@trychlos.org',
@@ -82,7 +82,7 @@ App.appendToConfig(`
 /*
  * According to https://cordova.apache.org/docs/en/latest/config_ref/images.html
  *  Only cordova v9.x is ready for Android adaptive icons
- *  As of 2020- 1-23, Meteor 1.9 is shipped with Cordova
+ *  As of 2020- 1-23, Meteor 1.9 is shipped with Cordova >7 but <9
  *
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml"

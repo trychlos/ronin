@@ -11,11 +11,37 @@
  *
  *  - from '/imports/startup/client', the client and UI specific code.
  *      See /imports/startup/client/index.js
+ *
+ *  Startup process:
+ *
+ *  /client/main.js (this file)
+ *   |
+ *   +- /imports/startup/both/index.js
+ *   |   |
+ *   |   +- ./collections-config.js             Collections configurations
+ *   |   +- ./misc.js                           Misceallenous functions
+ *   |
+ *   +- /imports/startup/both/index.js
+ *       |
+ *       +- import global client libs
+ *       |  |
+ *       |  +- jQuery UI js/css
+ *       |  +- popper
+ *       |  +- Bootstrap js/css
+ *       |  +- jQuery Context Menu js/css
+ *       |  +- Fontawesome js
+ *       |  +- jqxWidgets base.css/core.js
+ *       |  +- Simone js/css
+ *       |
+ *       +- ./colorpicker-config.js             Color-picker configuration
+ *       +- ./datepicker-config.js              Date-picker configuration
+ *       +- ./blaze-helpers.js                  Global Blaze helpers
+ *       +- ./default-layout.js                 Default layout computing
+ *       +- ./routes.js                         FlowRouter routes
+ *
+ *  Because an empty ('/') route is defined, the corresponding page is displayed
+ *  as soon as the route exists in the system.
  */
 
-// Two defined entry points:
-//  - first is shared with the server
-//  - second is UI-specific.
-//
 import '/imports/startup/both';
 import '/imports/startup/client';

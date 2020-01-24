@@ -18,9 +18,16 @@
  *  a web browser, but even if routes are not directly available to the user,
  *  they are still handled under the hood.
  *
- *  So:
- *  - touch device: layout is page-based (header+scrollable content+footer)
- *  - desktop(+mouse) device: layout is window-based, using Simone window manager.
+ *  So, we must deal with:
+ *
+ *  - Cordova simulation of a mobile application (smartphone/tablet)
+ *      > page-based layout (header+scrollable content+footer)
+ *
+ *  - web browser on a touch device: layout is page-based
+ *      > page-based layout
+ *
+ *  - desktop(+mouse) device: layout is window-based, .
+ *      > window-based layout (using Simone window manager)
  */
 import detectIt from 'detect-it';
 
