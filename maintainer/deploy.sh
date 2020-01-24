@@ -37,7 +37,7 @@ server_version(){
             _count=${_last:6:1}
         fi
     fi
-    _count=$((_count+1))
+    _count=$(( _count+1 ))
     echo "${_today}${_count}"
 }
 
