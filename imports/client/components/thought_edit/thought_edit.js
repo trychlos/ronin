@@ -5,6 +5,9 @@
  *
  *  Session variable:
  *  - setup.thought.obj: the thought being edited.
+ *
+ *  Parameters:
+ *  - display='panel' when running as a stand-alone dialog on a touch device.
  */
 import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import '/imports/client/components/topics_select/topics_select.js';
@@ -50,6 +53,12 @@ Template.thought_edit.onRendered( function(){
 });
 
 Template.thought_edit.helpers({
+    // the form is collapsable when displayed on a touch device, but not as a
+    //  stand-alone pane
+    collapsable( display ){
+        console.log( 'collapsable: display='+display );
+        return g.run.layout.get() === 'LYT_DESKTOP' ? false : ( display !== 'panel' );
+    },
     // provides a unique id for the collapsable part
     collapsableId(){
         return Template.thought_edit.fn.collapsableId();
@@ -73,7 +82,7 @@ Template.thought_edit.helpers({
     },
     // html helper: count of rows to be displayed for description field
     rowsCount(){
-        return g.run.layout.get() === 'LYT_DESKTOP' ? 4 : 2;
+        return 4; //g.run.layout.get() === 'LYT_DESKTOP' ? 4 : 2;
     },
     // class helper: whether the 'down' button should be visible
     showDown(){

@@ -10,6 +10,7 @@ import '/imports/client/layouts/desktop_layout/desktop_layout.js';
 import '/imports/client/layouts/touchable_layout/touchable_layout.js';
 
 import '/imports/client/pages/actions_page/actions_page.js';
+import '/imports/client/pages/collect_new/collect_new.js';
 import '/imports/client/pages/collect_page/collect_page.js';
 import '/imports/client/pages/devel_page/devel_page.js';
 import '/imports/client/pages/edit_page/edit_page.js';
@@ -108,11 +109,17 @@ FlowRouter.route('/setup/delegates', {
     },
 });
 FlowRouter.route('/collect', {
-    name: 'collect.thoughts',
+    name: 'collect',
     action(){
         Session.set( 'mobile.page', 'collect' );
         Session.set( 'setup.thought.obj', null );
         BlazeLayout.render( g.run.layout.get(), { main: 'collectPage' });
+    },
+});
+FlowRouter.route('/collect/new', {
+    name: 'collect.new',
+    action(){
+        BlazeLayout.render( g.run.layout.get(), { main: 'collectNew' });
     },
 });
 FlowRouter.route('/process', {
@@ -207,7 +214,7 @@ switch( layout ){
     case LYT_DESKTOP:
         break;
     case LYT_TOUCH:
-        FlowRouter.go( 'collect.thoughts' );
+        FlowRouter.go( 'collect' );
         break;
     default:
         console.log( layout+': unknown layout' );

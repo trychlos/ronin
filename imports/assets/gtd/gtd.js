@@ -128,12 +128,12 @@ export const gtd = {
                 navside: true,
                 navview: true,
                 tabmobile: true,
-                router: 'collect.thoughts',
+                router: 'collect',
                 children: [
                     {
                         id: 'col',
                         label: 'Collect thoughts',
-                        router: 'collect.thoughts',
+                        router: 'collect',
                         navbar: true,
                         navside: true,
                         navview: true

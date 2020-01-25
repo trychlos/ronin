@@ -35,15 +35,17 @@
             </div>
             <div class="actions d-flex justify-content-start align-items-center">
                 <div class="flex-grow-1">
-                    <button class="js-collapse ui-button ui-corner-all" data-toggle="collapse" data-target="#{{collapsableId}}">
-                        <div class="{{showUp}}">
-                            <span class="fas fa-angle-up"></span>
-                        </div>
-                        <div class="{{showDown}}">
-                            <span class="fas fa-angle-down"></span>
-                            <span class="text">Collect thoughts</span>
-                        </div>
-                    </button>
+                    {{#if collapsable display }}
+                        <button class="js-collapse ui-button ui-corner-all" data-toggle="collapse" data-target="#{{collapsableId}}">
+                            <div class="{{showUp}}">
+                                <span class="fas fa-angle-up"></span>
+                            </div>
+                            <div class="{{showDown}}">
+                                <span class="fas fa-angle-down"></span>
+                                <span class="text">Collect thoughts</span>
+                            </div>
+                        </button>
+                    {{/if}}
                 </div>
                 <button type="submit" class="btn-submit ui-corner-all ui-button {{showUp}}" title="Submit">{{submit}}</button>
                 <button class="js-cancel btn-cancel ui-button ui-corner-all {{showUp}}" title="Cancel">

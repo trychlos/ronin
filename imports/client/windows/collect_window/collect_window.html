@@ -1,13 +1,21 @@
 <template name="collectWindow">
-    <div class="collect-window" data-pwi-iroutable-mode="window" data-pwi-iroutable-route="collect.thoughts">
+    <div class="collect-window" data-pwi-iroutable-mode="window" data-pwi-iroutable-route="collect">
 
-        <div class="edit">
-            {{> thought_edit}}
-        </div>
+        {{#if isDesktopLayout}}
+            <div class="edit">
+                {{> thought_edit}}
+            </div>
+        {{/if}}
 
         <div class="list">
             {{> thoughts_list thoughts=thoughts title=true }}
         </div>
+
+        {{#if isTouchableLayout}}
+            <div class="js-new">
+                {{> plus_button }}
+            </div>
+        {{/if}}
 
     </div>
 </template>

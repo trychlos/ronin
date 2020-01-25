@@ -14,6 +14,18 @@ Template.registerHelper( 'hideIfTouch', function(){
     return g.run.layout.get() === LYT_TOUCH ? 'x-hidden':'';
 });
 
+// template helper
+Template.registerHelper( 'isDesktopLayout', function(){
+    //console.log( 'isDesktopLayout='+g.run.layout.get() === LYT_DESKTOP );
+    return g.run.layout.get() === LYT_DESKTOP;
+});
+
+// template helper
+Template.registerHelper( 'isTouchableLayout', function(){
+    //console.log( 'isTouchableLayout='+g.run.layout.get() === LYT_TOUCH );
+    return g.run.layout.get() === LYT_TOUCH;
+});
+
 // content helper
 Template.registerHelper( 'lastUpdated', function( obj ){
     if( obj ){

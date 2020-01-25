@@ -10,8 +10,14 @@ div.fhsf-parent {
     display: grid;
     grid-template-rows: @topbar-height auto @bottombar-height;
 
+    div.fhsf-header {
+        line-height: @topbar-height;
+    }
     div.fhsf-content {
         overflow-y: auto;
+    }
+    div.fhsf-footer {
+        margin: 0.25rem 0;
     }
 }
 
@@ -20,15 +26,9 @@ div.touchable-layout {
         background-color: @home-color;
         color: white;
     }
-    .lyt-body {
-        padding-top: 0.25rem;
-    }
     .lyt-footer {
-        .mobile-footer {
-            margin: 0.25rem 0;
-        }
         a {
-            color: @active-color-d25;
+            color: @active-color;
         }
         .active {
             background-color: @active-color;
