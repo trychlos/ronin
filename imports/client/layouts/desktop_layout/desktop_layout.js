@@ -1,5 +1,5 @@
 /*
- * 'appDesktop' layout.
+ * 'desktopLayout' layout.
  *  Main layout for desktop clients.
  *
  *  This layout makes use of the Simone window manager to display each and
@@ -12,9 +12,9 @@ import '/imports/client/components/errors/errors.js';
 import '/imports/client/components/menu_side/menu_side.js';
 import '/imports/client/components/menu_bar/menu_bar.js';
 import '/imports/client/components/overview/overview.js';
-import './desktop.html';
+import './desktop_layout.html';
 
-Template.appDesktop.onRendered( function(){
+Template.desktopLayout.onRendered( function(){
     const taskbar = $('.lyt-taskbar').taskbar({
         //buttonsTooltips: true,
         localization: {
@@ -49,7 +49,7 @@ Template.appDesktop.onRendered( function(){
     });
 });
 
-Template.appDesktop.helpers({
+Template.desktopLayout.helpers({
     rootId(){
         return g[LYT_DESKTOP].rootId;
     }

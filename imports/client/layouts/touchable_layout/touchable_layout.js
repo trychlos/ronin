@@ -1,5 +1,5 @@
 /*
- * 'appTouchable' layout.
+ * 'touchableLayout' layout.
  *  Main layout for touchable clients.
  *
  *  This is a fixed layout, with:
@@ -20,27 +20,29 @@
  */
 import '/imports/client/components/header_panel/header_panel.js';
 import '/imports/client/components/mobile_footer/mobile_footer.js';
-import './touchable.html';
+import './touchable_layout.html';
 
-Template.appTouchable.onCreated( function(){
+Template.touchableLayout.onCreated( function(){
     window.addEventListener( 'resize', function(){
-        g.run.resized.set( new Date());
+        g.run.resize.set( new Date());
     });
 });
 
-Template.appTouchable.onRendered( function(){
+/*
+Template.touchableLayout.onRendered( function(){
     this.autorun(() => {
-        const a = g.run.resized.get();
+        const a = g.run.resize.get();
         //let height = $(window).height();
-        let height = $( '.layout-touchable' ).innerHeight();
-        height -= $( '.lyt-header' ).height();
-        height -= $( '.lyt-footer' ).height();
+        let height = $( '.js-layout' ).innerHeight();
+        height -= $( '.js-header' ).height();
+        height -= $( '.js-footer' ).height();
         $('.lyt-body').css({ 'max-height': height+'px' });
     });
 });
+*/
 
-Template.appTouchable.helpers({
+Template.touchableLayout.helpers({
     resized: function(){
-        return 'resized helper at '+g.run.resized.get();
+        return 'resized helper run at '+g.run.resize.get();
     }
 });

@@ -1,0 +1,38 @@
+/*
+ * On mobile and touchable layouts, have a fixed header and an sticky footer
+ */
+div.fhsf-parent {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: @topbar-height auto @bottombar-height;
+
+    div.fhsf-content {
+        overflow-y: auto;
+    }
+}
+
+div.touchable-layout {
+    .lyt-header {
+        background-color: @home-color;
+        color: white;
+    }
+    .lyt-body {
+        padding-top: 0.25rem;
+    }
+    .lyt-footer {
+        .mobile-footer {
+            margin: 0.25rem 0;
+        }
+        a {
+            color: @active-color-d25;
+        }
+        .active {
+            background-color: @active-color;
+            color: white;
+        }
+    }
+}

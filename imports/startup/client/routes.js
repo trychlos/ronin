@@ -6,8 +6,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 import '/imports/client/layouts/body/body.js';
-import '/imports/client/layouts/desktop/desktop.js';
-import '/imports/client/layouts/touchable/touchable.js';
+import '/imports/client/layouts/desktop_layout/desktop_layout.js';
+import '/imports/client/layouts/touchable_layout/touchable_layout.js';
 
 import '/imports/client/pages/actions_page/actions_page.js';
 import '/imports/client/pages/collect_page/collect_page.js';
@@ -200,3 +200,16 @@ FlowRouter.notFound = {
         BlazeLayout.render('appBody', { main: 'notFound' });
     },
 };
+
+/*
+const layout = g.run.layout.get();
+switch( layout ){
+    case LYT_DESKTOP:
+        break;
+    case LYT_TOUCH:
+        FlowRouter.go( 'collect.thoughts' );
+        break;
+    default:
+        console.log( layout+': unknown layout' );
+}
+*/

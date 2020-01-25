@@ -1,11 +1,11 @@
-<template name="appDesktop">
-    <div class="layout-desktop">
+<template name="desktopLayout">
+    <div class="desktop-layout">
         <div class="lyt-bar">
             <div class="menubar">
                 <p>menu bar here</p>
             </div>
             {{>errors}}
-            {{> loginButtons align="right"}}
+            {{> loginButtons align="right" }}
         </div>
         <div class="lyt-body">
             <div class="lyt-side">
@@ -13,7 +13,7 @@
             </div>
             <div class="lyt-main">
                 {{> overview}}
-                {{> Template.dynamic template=main}}
+                {{> Template.dynamic template=main }}
             </div>
             <div id="{{rootId}}"></div>
         </div>

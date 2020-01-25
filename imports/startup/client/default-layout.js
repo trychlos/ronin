@@ -18,16 +18,26 @@
  *  a web browser, but even if routes are not directly available to the user,
  *  they are still handled under the hood.
  *
- *  So, we must deal with:
+ *  So, we must deal with three runtime environments:
  *
- *  - Cordova simulation of a mobile application (smartphone/tablet)
- *      > page-based layout (header+scrollable content+footer)
+ *  1. Cordova simulation of a mobile application
+ *  2. web browser on a touch device
  *
- *  - web browser on a touch device: layout is page-based
+ *      These two runtime environments are quite similar in that they are both
+ *      page-based. On our case, this means that they are all built around a
+ *      navbar header + some scrollable content + a sticky footer.
+ *
  *      > page-based layout
+ *      > layout='touchableLayout'
  *
- *  - desktop(+mouse) device: layout is window-based, .
+ *      Differences come only from the available display size which may range
+ *      from very small (smartphone) to very large (high-res tv). They are for
+ *      now resolved through CSS media queries. Some menu-driven layout changes
+ *      may be planned later depending of identified use cases.
+ *
+ *  3. web browser on a desktop (+mouse) device
  *      > window-based layout (using Simone window manager)
+ *      > layout='desktopLayout'.
  */
 import detectIt from 'detect-it';
 
@@ -44,17 +54,23 @@ g = {
     run: {
         mobile: Meteor.isCordova,
         layout: new ReactiveVar( null ),
-        resized: new ReactiveVar( null )
+        resize: new ReactiveVar( null )
     }
 };
 
-// touchable device (without mouse, maybe not Cordova, e.g. a Chrome browser on a tablet)
-LYT_TOUCH = 'appTouchable';
+// mobile device (without mouse, run through Cordova, not a browser)
+//  size from smartphone to the TV
+LYT_MOBILE = 'mobileLayout';
+g[LYT_MOBILE] = {};
+
+// touchable device (a browser without mouse, not Cordova)
+//  size from smartphone to the TV
+LYT_TOUCH = 'touchableLayout';
 g[LYT_TOUCH] = {};
 
 // desktop layout
 //  requires a mouse as it makes use of Simone window manager
-LYT_DESKTOP = 'appDesktop';
+LYT_DESKTOP = 'desktopLayout';
 g[LYT_DESKTOP] = {
     barSideWidth:   150,
     barTopHeight:    30,
@@ -63,7 +79,7 @@ g[LYT_DESKTOP] = {
     taskbar:         new ReactiveVar( null )
 };
 
-// set a default page for the touchable layout
+// set a default page for the touchable layouts
 const page = Session.get( 'mobile.page' );
 if( !page ){
     Session.set( 'mobile.page', 'collect' );
