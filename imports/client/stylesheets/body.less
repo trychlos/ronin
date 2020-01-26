@@ -19,17 +19,14 @@ body {
             font-size: 90%;
             font-style: italic;
         }
+        /* https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow */
+        .x-ellipsize p {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
         .x-hidden {
             display: none;
-        }
-        table.x-trh3>tr {
-            line-height: @tr-height;
-        }
-        .x-w50 {
-            width: 50%;
-        }
-        .x-w100 {
-            width: 100%;
         }
         @media ( max-width: 480px ){
             .x-hidew480 {
@@ -126,9 +123,6 @@ body {
         p {
             margin-top: 2px;
         }
-    }
-    .x-w50 {
-        width: 50%;
     }
     .x-wfit {
         width: fit-content;

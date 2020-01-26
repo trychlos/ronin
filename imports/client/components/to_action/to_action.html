@@ -4,13 +4,13 @@
             Transform the thought into an action.<br />
             This action may, or may not, be immediately actionable, delegatable, ...
         </p>
-        <table class="first x-w100">
+        <table class="first w-100">
             {{#each it in thought}}
                 <tr>
                     <td class="label x-hright"><p>Action:</p></td>
                     <td class="x-wfit"><input class="js-name" type="text" size="40" value="{{ it.name }}" /></td>
                     <td class="label x-hright"><p>Topic:</p></td>
-                    <td class="js-topic x-w50">
+                    <td class="js-topic w-50">
                         {{> topics_select selected=it.topic}}
                     </td>
                 </tr>
@@ -39,7 +39,7 @@
                 <tr>
                     <td class="label x-hright"><p>Status:</p></td>
                     <td colspan="3">
-                        <table class="inside x-w100">
+                        <table class="inside w-100">
                             <tr>
                                 <td class="js-status">{{> action_status_select}}</td>
                                 <td class="label x-hright"><p>Start date:</p></td>

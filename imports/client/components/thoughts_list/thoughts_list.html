@@ -3,6 +3,7 @@
         {{#if title }}
             <p class="x-h2 {{hideIfTouch}}">Thoughts list</p>
         {{/if}}
+        <!--
         <table>
             {{#each it in thoughts}}
                 <tr class="item" id="thought_{{it._id}}">
@@ -15,38 +16,45 @@
                             {{/if}}
                         </td>
                     {{/if}}
-                    <td class="x-w100">
+                    <td class="w-100">
                         <table class="{{lineHeight}}">
                             <tr>
-                                <td class="name x-w50"><p>{{ it.name }}</p></td>
+                                <td class="name w-50"><p>{{ it.name }}</p></td>
                                 <td class="topic"><p>{{ topic_byId it.topic }}</p></td>
                                 <td class="x-createdAt x-hidew480"><p>{{ lastUpdated it }}</p></td>
                             </tr>
-                            {{#if hasDescription withDescription}}
+                            <div class="collapse" id="collapse_{{ it._id }}">
                                 <tr>
                                     <td colspan="3" class="description x-hright">
                                         <p>{{it.description}}</p>
                                     </td>
                                 </tr>
-                            {{/if}}
+                            </div>
                         </table>
                     </td>
                     <td class="icon-last">
-                        {{#if isEditable editable}}
-                            {{#if isTouchableLayout}}
-                                <button class="js-bars ui-button ui-corner-all" data-thought="{{ it._id }}" title="Update {{it.name}}">
+                        {{#if isTouchableLayout}}
+                            <button
+                                class="js-bars ui-button ui-corner-all"
+                                data-toggle="collapse"
+                                data-target="#collapse_{{ it._id }}"
+                                data-thought="{{ it._id }}"
+                                title="Update {{it.name}}">
                                     <span class="fas fa-bars"></span>
-                                </button>
-                            {{else}}
-                                <button class="js-delete ui-button ui-corner-all" data-thought="{{ it._id }}" title="Delete {{it.name}}">
+                            </button>
+                        {{else}}
+                            <button
+                                class="js-delete ui-button ui-corner-all"
+                                data-thought="{{ it._id }}"
+                                title="Delete {{it.name}}">
                                     <span class="fas fa-trash"></span>
-                                </button>
-                            {{/if}}
+                            </button>
                         {{/if}}
                     </td>
                 </tr>
             {{/each}}
         </table>
+        -->
         <!-- try to use the Bootstrap grid layout model -->
         <!--
         <div class="container-fluid">
@@ -75,5 +83,12 @@
             {{/each}}
         </div>
         -->
+        <!-- have a flex model with cards -->
+        <div>
+            {{#each it in thoughts}}
+                {{> thoughts_list_item thought=it }}
+            {{/each}}
+        </div>
+
     </div>
 </template>

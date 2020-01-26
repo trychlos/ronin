@@ -1,33 +1,18 @@
 div.thoughts-list {
-    table {
-        width: 100%;
-    }
-    tr.item {
-        //p {
-        //    display: inline-block;
-        //}
-        td.icon-first {
-            padding-right: 0.2em;
-            width: min-content;
+    .thoughts-list-item {
+        margin: 0.125rem 0;
+        .padx025 {
+            padding: 0 0.25rem;
         }
-        td.icon-last {
-            padding-left: 0.2em;
-        }
-        /* https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow
-         * should work, but doesn't */
-        td p {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        td.name p {
+        .name p {
             font-weight: bold;
         }
-        td.x-createdAt {
-            width: 20%;
+        button {
+            margin: 0.25rem;
+            margin-right: 0;
         }
     }
-    .ui-state-default {
-        width: min-content;
+    .opened-card .title {
+        background-color: @home-color-l50;
     }
 }
