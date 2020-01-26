@@ -2,7 +2,7 @@
     <div class="thoughts-list-item card" id={{itemDivId}}>
 
         <div class="title x-ellipsize">
-            <div class="padx025 d-flex flex-row justify-content-start align-items-center">
+            <div class="x-px025 d-flex flex-row justify-content-start align-items-center">
                 <div class="name w-50">
                     <p>{{ thought.name }}</p>
                 </div>
@@ -24,8 +24,8 @@
             </div>
         </div>
 
-        <div class="padx025 collapse" id="{{collapsableId}}">
-            {{> thoughts_list_edit thought=thought }}
+        <div class="x-px025 collapse" id="{{collapsableId}}" data-parent=".thoughts-list">
+            {{> thoughts_list_card thought=thought }}
         </div>
 
     </div>

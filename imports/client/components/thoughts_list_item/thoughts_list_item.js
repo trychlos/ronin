@@ -3,13 +3,10 @@
  *  Display one item of a list of thoughts, giving a one-element thought
  *
  *  Parameters:
- *  - thought: the cursor (aka an array) to be displayed
- *
- *  NB: this component is used both as a reminder when collecting new thoughts,
- *      and as a dispatcher when processing thoughts.
+ *  - thought: the one-item cursor (aka an array) to be displayed
  */
 import { Topics } from '/imports/api/collections/topics/topics.js';
-import '/imports/client/components/thoughts_list_edit/thoughts_list_edit.js';
+import '/imports/client/components/thoughts_list_card/thoughts_list_card.js';
 import './thoughts_list_item.html';
 
 Template.thoughts_list_item.fn = {
@@ -27,11 +24,8 @@ Template.thoughts_list_item.onCreated( function(){
 
 Template.thoughts_list_item.onRendered( function(){
     this.autorun(() => {
-        const collapsed = this.collapsed.get();
         const divId = Template.thoughts_list_item.fn.itemDivId();
-        if( collapsed ){
-            $( '#'+divId ).removeClass( 'opened-card' );
-        } else {
+        if( !this.collapsed.get()){
             $( '#'+divId ).addClass( 'opened-card' );
         }
     });
@@ -57,8 +51,12 @@ Template.thoughts_list_item.helpers({
 });
 
 Template.thoughts_list_item.events({
-    'click .js-collapse'( ev, instance ){
-        const collapsed = instance.collapsed.get();
-        instance.collapsed.set( !collapsed );
+    'hide.bs.collapse'( event, instance ){
+        $( event.target ).trigger( 'show.bs.collapse.ronin' );
+        instance.collapsed.set( true );
+    },
+    'show.bs.collapse'( event, instance ){
+        $( event.target ).trigger( 'show.bs.collapse.ronin' );
+        instance.collapsed.set( false );
     }
 });

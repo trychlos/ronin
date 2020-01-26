@@ -34,6 +34,11 @@ Template.thoughts_list.helpers({
 });
 
 Template.thoughts_list.events({
+    // a collapsable item is opened
+    // close the previously opened item
+    'show.bs.collapse.ronin'( event, instance ){
+        $( '.thoughts-list-item' ).removeClass( 'opened-card' );
+    },
     // target=[object SVGSVGElement] but may also be SVGPathElement
     'click .js-delete'( event, instance ){
         event.preventDefault();
