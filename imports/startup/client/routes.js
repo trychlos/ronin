@@ -111,7 +111,7 @@ FlowRouter.route('/setup/delegates', {
 FlowRouter.route('/collect', {
     name: 'collect',
     action(){
-        Session.set( 'mobile.page', 'collect' );
+        Session.set( 'touch.route', 'collect' );
         Session.set( 'setup.thought.obj', null );
         BlazeLayout.render( g.run.layout.get(), { main: 'collectPage' });
     },
@@ -125,7 +125,7 @@ FlowRouter.route('/collect/new', {
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
-        Session.set( 'mobile.page', 'process' );
+        Session.set( 'touch.route', 'process' );
         BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
     },
 });

@@ -5,7 +5,7 @@
  *  Parameters:
  *  - thought: the thought to be edited.
  */
-import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import './thoughts_list_card.html';
 
 Template.thoughts_list_card.helpers({

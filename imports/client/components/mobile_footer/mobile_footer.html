@@ -2,7 +2,11 @@
     <div class="mobile-footer" role="navigation">
         <nav class="nav nav-pills nav-justified">
             {{#each it in gtdItems}}
-                <a class="js-item nav-item nav-link {{active it}}" data-toggle="pill" data-pwi-iroutable-route="{{it.router}}" href="#">{{it.label}}</a>
+                <a
+                    class="js-item nav-item nav-link {{active it}}"
+                    data-toggle="pill"
+                    data-pwi-iroutable-route="{{it.router}}"
+                    href="#">{{gtdLabel it}}</a>
             {{/each}}
         </nav>
     </div>

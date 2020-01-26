@@ -80,9 +80,9 @@ g[LYT_DESKTOP] = {
 };
 
 // set a default page for the touchable layouts
-const page = Session.get( 'mobile.page' );
+const page = Session.get( 'touch.route' );
 if( !page ){
-    Session.set( 'mobile.page', 'collect' );
+    Session.set( 'touch.route', 'collect' );
 }
 
 // layout initialization

@@ -12,7 +12,7 @@
  *  NB: this component is used both as a reminder when collecting new thoughts,
  *      and as a dispatcher when processing thoughts.
  */
-import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/thoughts_list_item/thoughts_list_item.js';
 import './thoughts_list.html';
 

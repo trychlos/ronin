@@ -3,7 +3,7 @@
  *  Display a button fot each group of options, letting the user choose his page content.
  *
  *  Session variables:
- *  - mobile.page: the identifier of the active page
+ *  - touch.route: the identifier of the active page
  *      aka the identifier of the corresponding option in 'gtd' features.
  */
 import { gtd } from '/imports/assets/gtd/gtd.js';
@@ -19,11 +19,14 @@ import './mobile_footer.html';
 
 Template.mobile_footer.helpers({
     active( it ){
-        const page = Session.get( 'mobile.page' );
-        return page === it.id ? 'active' : '';
+        const page = Session.get( 'touch.route' );
+        return page === it.router ? 'active' : '';
     },
     gtdItems(){
-        return gtd.mobileItems();
+        return gtd.touchItems();
+    },
+    gtdLabel( it ){
+        return gtd.touchLabel( it );
     }
 });
 

@@ -36,7 +36,8 @@ export const gtd = {
                 label: 'Setup',
                 navside: true,
                 navview: true,
-                tabmobile: true,
+                navtouch: true,
+                touchsort: 1,
                 router: 'setup',
                 children: [
                     /* this item for the sake of completeness as it is not used
@@ -127,8 +128,6 @@ export const gtd = {
                 h3: 'Get things off your mind',
                 navside: true,
                 navview: true,
-                tabmobile: true,
-                router: 'collect',
                 children: [
                     {
                         id: 'col',
@@ -137,6 +136,13 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true
+                    },
+                    {
+                        id: 'thoughts',
+                        label: 'Thoughts',
+                        router: 'collect',
+                        navtouch: true,
+                        touchsort: 2
                     }
                 ],
             },
@@ -146,7 +152,6 @@ export const gtd = {
                 h3: 'What is it? Is it actionable?',
                 navside: true,
                 navview: true,
-                tabmobile: true,
                 router: 'process.thoughts',
                 children: [
                     {
@@ -191,7 +196,6 @@ export const gtd = {
                 ],
                 navside: true,
                 navview: true,
-                tabmobile: true,
                 router: 'review',
                 children: [
                     {
@@ -201,6 +205,8 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
+                        navtouch: true,
+                        touchsort: 4,
                         tabprojects: true,
                         tabsort: 1
                     },
@@ -222,6 +228,8 @@ export const gtd = {
                         navbar: true,
                         navside: true,
                         navview: true,
+                        navtouch: true,
+                        touchsort: 3,
                         tabprojects: true,
                         tabsort: 2
                     },
@@ -353,9 +361,15 @@ export const gtd = {
         return item.tabtitle ? item.tabtitle : item.label;
     },
     // return the list of items to be managed as a tabbed page in mobile layout
-    //  these are marked as tabmobile:true
-    mobileItems(){
-        return gtd.itemsBoolArray( 'tabmobile' );
+    //  these are marked as navtouch:true
+    touchItems(){
+        return gtd.itemsBoolArray( 'navtouch' ).sort( gtd._touchItems_sort );
+    },
+    _touchItems_sort( a, b ){
+        return a.touchsort < b.touchsort ? -1 : ( a.touchsort > b.touchsort ? 1 : 0 );
+    },
+    touchLabel: function( item ){
+        return item.touchlabel ? item.touchlabel : item.label;
     },
     // return the list of items to be managed as a tabbed page in projects window
     //  these are marked as tabprojects:true
