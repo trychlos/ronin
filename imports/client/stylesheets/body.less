@@ -9,14 +9,24 @@ body {
             padding-right: 0.5rem;
         }
     }
-    /* all layouts should have their most parent div have this class */
-    .x-parent {
+    /* all layouts should have their topmost div have this class */
+    .x-topmost {
         p {
             margin-top: 0;
             margin-bottom: 0;
         }
+        .x-createdAt {
+            font-size: 90%;
+            font-style: italic;
+        }
         .x-hidden {
             display: none;
+        }
+        table.x-trh3>tr {
+            line-height: @tr-height;
+        }
+        .x-w100 {
+            width: 100%;
         }
     }
 
@@ -93,10 +103,6 @@ body {
             }
         }
     }
-    .x-createdAt {
-        font-size: 90%;
-        font-style: italic;
-    }
     .x-h2 {
         font-size: 1.1em;
         font-weight: bold;
@@ -119,9 +125,6 @@ body {
     .x-ptop1 {
         padding-top: 1em;
     }
-    table.x-trh3>tr {
-        line-height: @tr-height;
-    }
     .x-vcenter {
         vertical-align: middle;
     }
@@ -133,9 +136,6 @@ body {
     }
     .x-w50 {
         width: 50%;
-    }
-    .x-w100 {
-        width: 100%;
     }
     .x-wfit {
         width: fit-content;
