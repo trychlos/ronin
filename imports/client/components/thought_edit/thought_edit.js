@@ -56,7 +56,7 @@ Template.thought_edit.helpers({
     // the form is collapsable when displayed on a touch device, but not as a
     //  stand-alone pane
     collapsable( display ){
-        console.log( 'collapsable: display='+display );
+        //console.log( 'collapsable: display='+display );
         return g.run.layout.get() === 'LYT_DESKTOP' ? false : ( display !== 'panel' );
     },
     // provides a unique id for the collapsable part

@@ -16,6 +16,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './collect_window.html';
 
 Template.collectWindow.onCreated( function(){
+    //console.log( 'collectWindow:onCreated()' );
     this.subscribe('thoughts.all');
     this.subscribe('topics.all');
 });
@@ -41,4 +42,8 @@ Template.collectWindow.events({
         FlowRouter.go( 'collect.new' );
         return false;
     }
+});
+
+Template.collectWindow.onDestroyed( function(){
+    //console.log( 'collectWindow:onDestroyed()' );
 });

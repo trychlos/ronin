@@ -18,9 +18,9 @@
                     <td class="x-w100">
                         <table class="{{lineHeight}}">
                             <tr>
-                                <td class="name"><p>{{ it.name }}</p></td>
-                                <td class="x-topic"><p>{{ topic_byId it.topic }}</p></td>
-                                <td class="x-createdAt"><p>{{ lastUpdated it }}</p></td>
+                                <td class="name x-w50"><p>{{ it.name }}</p></td>
+                                <td class="topic"><p>{{ topic_byId it.topic }}</p></td>
+                                <td class="x-createdAt x-hidew480"><p>{{ lastUpdated it }}</p></td>
                             </tr>
                             {{#if hasDescription withDescription}}
                                 <tr>
@@ -47,5 +47,33 @@
                 </tr>
             {{/each}}
         </table>
+        <!-- try to use the Bootstrap grid layout model -->
+        <!--
+        <div class="container-fluid">
+            {{#each it in thoughts}}
+                <div class="row">
+                    <div class="{{colclassName}} x-name">{{ it.name }}</div>
+                    <div class="{{colclassTopic}} topic">{{ topic_byId it.topic }}</div>
+                    <div class="{{colclassCreatedAt}} x-createdAt x-hidew480">{{ lastUpdated it }}</div>
+                    {{#if isEditable editable}}
+                        <div class="col-1">
+                            {{#if isTouchableLayout}}
+                                <button class="js-bars ui-button ui-corner-all" data-thought="{{ it._id }}" title="Update {{it.name}}">
+                                    <span class="fas fa-bars"></span>
+                                </button>
+                            {{else}}
+                                <button class="js-delete ui-button ui-corner-all" data-thought="{{ it._id }}" title="Delete {{it.name}}">
+                                    <span class="fas fa-trash"></span>
+                                </button>
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="row">
+                    <div class="col x-description">{{it.description}}</div>
+                </div>
+            {{/each}}
+        </div>
+        -->
     </div>
 </template>

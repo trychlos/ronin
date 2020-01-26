@@ -3,9 +3,9 @@ div.thoughts-list {
         width: 100%;
     }
     tr.item {
-        p {
-            display: inline-block;
-        }
+        //p {
+        //    display: inline-block;
+        //}
         td.icon-first {
             padding-right: 0.2em;
             width: min-content;
@@ -13,11 +13,15 @@ div.thoughts-list {
         td.icon-last {
             padding-left: 0.2em;
         }
-        td.name {
-            width: 50%;
-            p {
-                font-weight: bold;
-            }
+        /* https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow
+         * should work, but doesn't */
+        td p {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        td.name p {
+            font-weight: bold;
         }
         td.x-createdAt {
             width: 20%;

@@ -20,6 +20,17 @@ import { Topics } from '/imports/api/collections/topics/topics.js';
 import './thoughts_list.html';
 
 Template.thoughts_list.helpers({
+    // on smartphone, only two columns are displayed -> 7-4-1
+    // on wider screens, three columns are displayed -> 5-3-3-1
+    colclassCreatedAt(){
+        return $(window).innerWidth()<481 ? 'x-hidew480' : 'col-3';
+    },
+    colclassName(){
+        return $(window).innerWidth()<481 ? 'col-6' : 'col-5';
+    },
+    colclassTopic(){
+        return $(window).innerWidth()<481 ? 'col-4' : 'col-3';
+    },
     topic_byId(id){
         const obj = id ? Topics.findOne({ _id:id }) : null;
         return obj ? obj.name : '';

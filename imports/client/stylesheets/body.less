@@ -25,8 +25,21 @@ body {
         table.x-trh3>tr {
             line-height: @tr-height;
         }
+        .x-w50 {
+            width: 50%;
+        }
         .x-w100 {
             width: 100%;
+        }
+        @media ( max-width: 480px ){
+            .x-hidew480 {
+                display: none;
+            }
+        }
+        @media( min-width: 481px ){
+            .x-hidew480 {
+                display: inherit;
+            }
         }
     }
 
@@ -80,26 +93,6 @@ body {
         .thoughts-list {    // component used throughout several layouts
             .ui-button {
                 padding: 0.25em 0.5em;
-            }
-            @media ( max-width: 540px ){
-                td.x-topic,
-                td.x-createdAt {
-                    display: none;
-                }
-            }
-            @media ( min-width: 541px ) and ( max-width: 720px ){
-                td.x-topic {
-                    display: inherit;
-                }
-                td.x-createdAt {
-                    display: none;
-                }
-            }
-            @media( min-width: 721px ){
-                td.x-topic,
-                td.x-createdAt {
-                    display: inherit;
-                }
             }
         }
     }
