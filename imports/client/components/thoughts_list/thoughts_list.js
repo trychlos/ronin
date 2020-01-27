@@ -60,7 +60,7 @@ Template.thoughts_list.events({
         if( !obj ){
             throwError({ message: 'Thought no more exists' });
         } else {
-            Session.set( 'setup.thought.obj', obj );
+            Session.set( 'collect.thought', obj );
         }
         return false;
     },

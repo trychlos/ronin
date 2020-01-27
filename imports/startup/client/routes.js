@@ -10,7 +10,7 @@ import '/imports/client/layouts/desktop_layout/desktop_layout.js';
 import '/imports/client/layouts/touchable_layout/touchable_layout.js';
 
 import '/imports/client/pages/actions_page/actions_page.js';
-import '/imports/client/pages/collect_new/collect_new.js';
+import '/imports/client/pages/collect_edit/collect_edit.js';
 import '/imports/client/pages/collect_page/collect_page.js';
 import '/imports/client/pages/devel_page/devel_page.js';
 import '/imports/client/pages/edit_page/edit_page.js';
@@ -112,14 +112,20 @@ FlowRouter.route('/collect', {
     name: 'collect',
     action(){
         Session.set( 'touch.route', 'collect' );
-        Session.set( 'setup.thought.obj', null );
+        Session.set( 'collect.thought', null );
         BlazeLayout.render( g.run.layout.get(), { main: 'collectPage' });
     },
 });
 FlowRouter.route('/collect/new', {
     name: 'collect.new',
     action(){
-        BlazeLayout.render( g.run.layout.get(), { main: 'collectNew' });
+        BlazeLayout.render( g.run.layout.get(), { main: 'collectEdit' });
+    },
+});
+FlowRouter.route('/collect/edit', {
+    name: 'collect.edit',
+    action(){
+        BlazeLayout.render( g.run.layout.get(), { main: 'collectEdit' });
     },
 });
 FlowRouter.route('/process', {

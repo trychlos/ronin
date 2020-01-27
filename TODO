@@ -167,7 +167,10 @@
 
   106 2020- 1-23 thoughts_list: have a badge with thoughts count
 
-  107
+  107 2020- 1-26 replace collect_new with collect_edit
+                  passing the object via collect.thought session variable
+
+  108
 
 -----------------------------------------------------------------------
  Done

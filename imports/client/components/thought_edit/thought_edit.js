@@ -1,10 +1,10 @@
 /*
  * 'thought_edit' component.
- *  Let the user enter a new thought (session/setup.thought.obj empty)
- *  or edit an existing one (session/setup.thought.obj already exists)/
+ *  Let the user enter a new thought (session/collect.thought empty)
+ *  or edit an existing one (session/collect.thought already exists)/
  *
  *  Session variable:
- *  - setup.thought.obj: the thought being edited.
+ *  - collect.thought: the thought being edited.
  *
  *  Parameters:
  *  - display='panel' when running as a stand-alone dialog on a touch device.
@@ -25,7 +25,7 @@ Template.thought_edit.fn = {
     },
     // initialize the edition area
     // this is needed when we cancel a current creation
-    //  as this will not change the setup.thought.obj session variable
+    //  as this will not change the collect.thought session variable
     //  no helper is triggered,
     //  and we have to manually reinit the fields
     initEditArea: function(){
@@ -67,17 +67,17 @@ Template.thought_edit.helpers({
         return g.run.mobile ? 1 : 3;
     },
     descriptionPlaceholder(){
-        return Session.get('setup.thought.obj') ? '' : 'Description of the new thought';
+        return Session.get('collect.thought') ? '' : 'Description of the new thought';
     },
     descriptionValue(){
-        const obj = Session.get('setup.thought.obj');
+        const obj = Session.get('collect.thought');
         return obj ? obj.description : '';
     },
     namePlaceholder(){
-        return Session.get('setup.thought.obj') ? '' : 'Type to add new thought';
+        return Session.get('collect.thought') ? '' : 'Type to add new thought';
     },
     nameValue(){
-        const obj = Session.get('setup.thought.obj');
+        const obj = Session.get('collect.thought');
         return obj ? obj.name : '';
     },
     // html helper: count of rows to be displayed for description field
@@ -93,13 +93,13 @@ Template.thought_edit.helpers({
         return Template.thought_edit.fn.isCollapsed() ? 'x-hidden' : '';
     },
     submit(){
-        return Session.get('setup.thought.obj') ? 'Update' : 'Create';
+        return Session.get('collect.thought') ? 'Update' : 'Create';
     },
     title(){
-        return Session.get('setup.thought.obj') ? 'Edit thought' : 'New thought';
+        return Session.get('collect.thought') ? 'Edit thought' : 'New thought';
     },
     topic(){
-        const obj = Session.get('setup.thought.obj');
+        const obj = Session.get('collect.thought');
         return obj ? obj.topic : null;
     }
 });
@@ -112,10 +112,10 @@ Template.thought_edit.events({
     },
     'click .js-cancel'(event){
         event.preventDefault();
-        if( !Session.get( 'setup.thought.obj' )){
-            Session.set( 'setup.thought.obj', 'x' );  // force re-rendering
+        if( !Session.get( 'collect.thought' )){
+            Session.set( 'collect.thought', 'x' );  // force re-rendering
         }
-        Session.set( 'setup.thought.obj', null );
+        Session.set( 'collect.thought', null );
         Template.thought_edit.fn.initEditArea();
     return false;
     },
@@ -125,7 +125,7 @@ Template.thought_edit.events({
         // a name is mandatory
         const name = instance.$('.js-name').val();
         if( name.length ){
-            const obj = Session.get( 'setup.thought.obj' );
+            const obj = Session.get( 'collect.thought' );
             const id = obj ? obj._id : null;
             var newobj = {
                 name: name,
@@ -154,9 +154,9 @@ Template.thought_edit.events({
                         return throwError({ message: error.message });
                     }
                 });
-                Session.set( 'setup.thought.obj', 'x' );  // force re-rendering
+                Session.set( 'collect.thought', 'x' );  // force re-rendering
             }
-            Session.set( 'setup.thought.obj', null );
+            Session.set( 'collect.thought', null );
             Template.thought_edit.fn.initEditArea();
         }
         return false;
