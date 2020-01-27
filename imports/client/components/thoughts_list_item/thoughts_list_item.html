@@ -19,7 +19,12 @@
                     data-thought="{{ thought._id }}"
                     aria-expanded="false"
                     title="Open {{thought.name}} details">
-                        <span class="fas fa-bars"></span>
+                        <span class="{{showDown}}">
+                            <span class="fas fa-angle-down"></span>
+                        </span>
+                        <span class="{{showUp}}">
+                            <span class="fas fa-angle-up"></span>
+                        </span>
                 </button>
             </div>
         </div>

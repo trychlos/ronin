@@ -3,30 +3,25 @@
  *  Display a button fot each group of options, letting the user choose his page content.
  *
  *  Session variables:
- *  - touch.route: the identifier of the active page
- *      aka the identifier of the corresponding option in 'gtd' features.
+ *  - paged.route: the identifier of the active page
+ *      aka the route name of the corresponding option in 'gtd' features.
  */
 import { gtd } from '/imports/assets/gtd/gtd.js';
-//import '/imports/client/components/setup_contexts/setup_contexts.js';
-//import '/imports/client/components/setup_delegates/setup_delegates.js';
-//import '/imports/client/components/setup_energy/setup_energy.js';
-//import '/imports/client/components/setup_priority/setup_priority.js';
-//import '/imports/client/components/setup_refs/setup_refs.js';
-//import '/imports/client/components/setup_time/setup_time.js';
-//import '/imports/client/components/setup_topics/setup_topics.js';
-//import '/imports/client/interfaces/itabbed/itabbed.js';
 import './mobile_footer.html';
 
 Template.mobile_footer.helpers({
     active( it ){
-        const page = Session.get( 'touch.route' );
-        return page === it.router ? 'active' : '';
+        const page = Session.get( 'paged.route' );
+        return page === gtd.route( it ) ? 'active' : '';
     },
     gtdItems(){
-        return gtd.touchItems();
+        return gtd.items( 'footer' );
     },
     gtdLabel( it ){
-        return gtd.touchLabel( it );
+        return gtd.label( it );
+    },
+    gtdRoute( it ){
+        return gtd.route( it );
     }
 });
 

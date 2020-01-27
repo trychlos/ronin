@@ -1,8 +1,12 @@
 <template name="thoughts_list">
     <div class="thoughts-list">
-        {{#if title }}
-            <p class="x-h2 {{hideIfTouch}}">Thoughts list</p>
+
+        {{#if isWindowLayout}}
+            {{#if title }}
+                <p class="x-h2">Thoughts list</p>
+            {{/if}}
         {{/if}}
+
         <!--
         <table>
             {{#each it in thoughts}}

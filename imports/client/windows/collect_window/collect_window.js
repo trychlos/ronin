@@ -22,7 +22,7 @@ Template.collectWindow.onCreated( function(){
 
 Template.collectWindow.onRendered( function(){
     // open the window if the manager has been intialized
-    if( g[LYT_DESKTOP].taskbar.get()){
+    if( g[LYT_WINDOW].taskbar.get()){
         $('div.collect-window').IWindowed({
             template:   'collectWindow',
             title:      'Collect thoughts'

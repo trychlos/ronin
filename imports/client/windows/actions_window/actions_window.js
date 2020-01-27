@@ -9,7 +9,7 @@ import './actions_window.html';
 
 Template.actionsWindow.onRendered( function(){
     this.autorun(() => {
-        if( g[LYT_DESKTOP].taskbar.get()){
+        if( g[LYT_WINDOW].taskbar.get()){
             $('div.actions-window').IWindowed({
                 template:   'actionsWindow',
                 group:      'reviewWindow',

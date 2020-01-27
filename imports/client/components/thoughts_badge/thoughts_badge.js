@@ -15,7 +15,7 @@ Template.thoughts_badge.fn = {
 };
 
 Template.thoughts_badge.onRendered( function(){
-    if( g.run.layout.get === LYT_DESKTOP ){
+    if( g.run.layout.get === LYT_WINDOW ){
         $( '.thoughts_badge span.inline' ).css( 'color', 'white' );
     }
 });

@@ -1,10 +1,13 @@
 /*
- * /imports/startup/client/default-layout.js
+ * /imports/startup/client/layout-config.js
  *
- *  Client UI initialization code.
- *  One more time: this is ONLY run at startup.
+ *  Client UI initialization code (this is ONLY run at startup).
  *
- *  Note that what is known as 'desktop' layout is mostly attached to the
+ *  Depending of the running device, we will run here:
+ *  - either a window-based layout, said 'windowLayout',
+ *  - or a page-base layout, said 'pageLayout'.
+ *
+ *  Note that what is known as 'window-based' layout is mostly attached to the
  *  presence of a mouse which let the user manages the displayed windows.
  *  This also usually means (and we'll assume) that:
  *  1. we are inside of a web browser
@@ -28,7 +31,7 @@
  *      navbar header + some scrollable content + a sticky footer.
  *
  *      > page-based layout
- *      > layout='touchableLayout'
+ *      > layout='pageLayout'
  *
  *      Differences come only from the available display size which may range
  *      from very small (smartphone) to very large (high-res tv). They are for
@@ -37,7 +40,7 @@
  *
  *  3. web browser on a desktop (+mouse) device
  *      > window-based layout (using Simone window manager)
- *      > layout='desktopLayout'.
+ *      > layout='windowLayout'.
  */
 import detectIt from 'detect-it';
 
@@ -58,20 +61,15 @@ g = {
     }
 };
 
-// mobile device (without mouse, run through Cordova, not a browser)
+// page-based layout, for a touchable device (a browser without mouse, or Cordova)
 //  size from smartphone to the TV
-LYT_MOBILE = 'mobileLayout';
-g[LYT_MOBILE] = {};
+LYT_PAGE = 'pageLayout';
+g[LYT_PAGE] = {};
 
-// touchable device (a browser without mouse, not Cordova)
-//  size from smartphone to the TV
-LYT_TOUCH = 'touchableLayout';
-g[LYT_TOUCH] = {};
-
-// desktop layout
+// window-based (aka desktop) layout
 //  requires a mouse as it makes use of Simone window manager
-LYT_DESKTOP = 'desktopLayout';
-g[LYT_DESKTOP] = {
+LYT_WINDOW = 'windowLayout';
+g[LYT_WINDOW] = {
     barSideWidth:   150,
     barTopHeight:    30,
     settingsPrefix: 'settings-',
@@ -79,15 +77,15 @@ g[LYT_DESKTOP] = {
     taskbar:         new ReactiveVar( null )
 };
 
-// set a default page for the touchable layouts
-const page = Session.get( 'touch.route' );
+// set a default page for the page-based layouts
+const page = Session.get( 'paged.route' );
 if( !page ){
-    Session.set( 'touch.route', 'collect' );
+    Session.set( 'paged.route', 'collect' );
 }
 
 // layout initialization
-g.run.layout.set( g.detectIt.primaryInput === 'mouse' ? LYT_DESKTOP : LYT_TOUCH );
+g.run.layout.set( g.detectIt.primaryInput === 'mouse' ? LYT_WINDOW : LYT_PAGE );
 
 // DEVELOPMENT SURCHARGE
 g.run.mobile = true;
-g.run.layout.set( LYT_TOUCH );
+g.run.layout.set( LYT_PAGE );

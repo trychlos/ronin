@@ -1,14 +1,19 @@
-<template name="touchableLayout">
-    <div class="touchable-layout container-fluid fhsf-parent x-topmost">
-        <div class="lyt-header fhsf-header">
+<template name="pageLayout">
+    <div class="page-layout container-fluid fhsf-parent x-topmost">
+
+        <div class="lyt-header fhsf-header x-px05">
             {{> header_panel }}
         </div>
-        <div class="lyt-body fhsf-content">
+
+        <div class="lyt-body fhsf-content x-px05">
             {{> Template.dynamic template=main}}
         </div>
+
         <div class="lyt-footer fhsf-footer">
             {{> mobile_footer }}
         </div>
+
         <div class="x-hidden">{{{ resized }}}</div>
+
     </div>
 </template>

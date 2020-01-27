@@ -67,7 +67,7 @@ Template.processWindow.onCreated( function(){
 
 Template.processWindow.onRendered( function(){
     // open the window if the manager has been intialized
-    if( g[LYT_DESKTOP].taskbar.get()){
+    if( g[LYT_WINDOW].taskbar.get()){
         $('div.process-window').IWindowed({
             template:   'processWindow',
             title:      'Process thoughts'

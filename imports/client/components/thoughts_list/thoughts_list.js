@@ -29,14 +29,14 @@ Template.thoughts_list.helpers({
         return $(window).innerWidth()<481 ? 'col-4' : 'col-3';
     },
     lineHeight(){
-        return g.run.layout.get() === LYT_TOUCH ? 'x-trh3' : '';
+        return g.run.layout.get() === LYT_PAGE ? 'x-trh3' : '';
     }
 });
 
 Template.thoughts_list.events({
     // a collapsable item is opened
     // close the previously opened item
-    'show.bs.collapse.ronin'( event, instance ){
+    'toggle.collapse.ronin'( event, instance ){
         $( '.thoughts-list-item' ).removeClass( 'opened-card' );
     },
     // target=[object SVGSVGElement] but may also be SVGPathElement

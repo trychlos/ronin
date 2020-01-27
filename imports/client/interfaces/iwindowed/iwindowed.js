@@ -72,10 +72,10 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             settings.widgetClass += ' '+_className( settings.group );
         }
         //console.log( specs.template+' creating with settings='+JSON.stringify( settings ));
-        settings.appendTo = '#'+g[LYT_DESKTOP].rootId;
+        settings.appendTo = '#'+g[LYT_WINDOW].rootId;
         settings.beforeClose = _beforeCloseEH;
         settings.close = _closeEH;
-        settings.taskbar = g[LYT_DESKTOP].taskbar.get();
+        settings.taskbar = g[LYT_WINDOW].taskbar.get();
         this.window( settings );
         this.data( 'iwindowed', specs.template );
         _restoreSettings( this, specs.template );
@@ -122,7 +122,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     };
     // minimize all windows
     function _minimizeAll( self ){
-        const taskbar = g[LYT_DESKTOP].taskbar.get();
+        const taskbar = g[LYT_WINDOW].taskbar.get();
         if( taskbar ){
             const windows = taskbar.taskbar( 'windows' );
             for( let i=0 ; i<windows.length ; ++i ){
@@ -206,7 +206,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     };
     // return the settings key when saving/restoring size and position
     function _settingsName( id ){
-        return g[LYT_DESKTOP].settingsPrefix+id;
+        return g[LYT_WINDOW].settingsPrefix+id;
     };
     // show a window, re-activating it or creating a new one
     // 0: name of the called method (show)
@@ -216,7 +216,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             throwError({ message: 'show expects 1 argument, '+( args.length-1 )+' found' });
         } else {
             //console.log( '_show searching for '+args[1] );
-            const windows = g[LYT_DESKTOP].taskbar.get().taskbar('windows');
+            const windows = g[LYT_WINDOW].taskbar.get().taskbar('windows');
             const searched = _className( args[1] );
             let found = false;
             for( var i=0 ; i<windows.length && !found ; ++i ){
@@ -231,7 +231,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             }
             if( !found ){
                 //console.log( args[1]+" didn't exist, creating" );
-                Blaze.render( Template[args[1]], document.getElementById( g[LYT_DESKTOP].rootId ));
+                Blaze.render( Template[args[1]], document.getElementById( g[LYT_WINDOW].rootId ));
             }
         }
     };
@@ -243,7 +243,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             throwError({ message: 'showNew expects 1 argument, '+( args.length-1 )+' found' });
         } else {
             //console.log( 'IWindowed.showNew '+args[1] );
-            Blaze.render( Template[args[1]], document.getElementById( g[LYT_DESKTOP].rootId ));
+            Blaze.render( Template[args[1]], document.getElementById( g[LYT_WINDOW].rootId ));
         }
     };
     function _beforeCloseEH( ev ){

@@ -5,25 +5,23 @@
  */
 
 // class helper
-Template.registerHelper( 'hideIfDesktop', function(){
-    return g.run.layout.get() === LYT_DESKTOP ? 'x-hidden':'';
+Template.registerHelper( 'hideIfPageLayout', function(){
+    return g.run.layout.get() === LYT_PAGE ? 'x-hidden':'';
 });
 
 // class helper
-Template.registerHelper( 'hideIfTouch', function(){
-    return g.run.layout.get() === LYT_TOUCH ? 'x-hidden':'';
+Template.registerHelper( 'hideIfWindowLayout', function(){
+    return g.run.layout.get() === LYT_WINDOW ? 'x-hidden':'';
 });
 
 // template helper
-Template.registerHelper( 'isDesktopLayout', function(){
-    //console.log( 'isDesktopLayout='+g.run.layout.get() === LYT_DESKTOP );
-    return g.run.layout.get() === LYT_DESKTOP;
+Template.registerHelper( 'isPageLayout', function(){
+    return g.run.layout.get() === LYT_PAGE;
 });
 
 // template helper
-Template.registerHelper( 'isTouchableLayout', function(){
-    //console.log( 'isTouchableLayout='+g.run.layout.get() === LYT_TOUCH );
-    return g.run.layout.get() === LYT_TOUCH;
+Template.registerHelper( 'isWindowLayout', function(){
+    return g.run.layout.get() === LYT_WINDOW;
 });
 
 // content helper

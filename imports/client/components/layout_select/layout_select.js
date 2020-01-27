@@ -9,10 +9,10 @@ import './layout_select.html';
 
 Template.layout_select.helpers({
     desktopLayout(){
-        return LYT_DESKTOP;
+        return LYT_WINDOW;
     },
     touchableLayout(){
-        return LYT_TOUCH;
+        return LYT_PAGE;
     }
 });
 

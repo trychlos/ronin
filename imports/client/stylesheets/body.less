@@ -2,12 +2,8 @@ body {
     /* bootstrap 4.4.x
      */
     .container-fluid {
-        padding-left: 0;
-        padding-right: 0;
-        >div {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-        }
+        padding: 0;
+        margin: 0;
     }
     /* all layouts should have their topmost div have this class */
     .x-topmost {
@@ -28,11 +24,24 @@ body {
         .x-hidden {
             display: none;
         }
+        .x-inline {
+            display: inline;
+        }
         .x-px025 {
-            padding: 0 0.25rem;
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+        }
+        .x-px05 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
         }
         .x-py025 {
-            padding: 0.25rem 0;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+        .x-py05 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
         @media ( max-width: 480px ){
             .x-hidew480 {
@@ -132,9 +141,6 @@ body {
     }
     .x-wfit {
         width: fit-content;
-    }
-    .x-inline {
-        display: inline;
     }
     //#login-buttons {
     //    margin-right: 1em;

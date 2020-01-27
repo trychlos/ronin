@@ -1,6 +1,6 @@
 /*
- * 'touchableLayout' layout.
- *  Main layout for touchable clients.
+ * 'pageLayout' layout.
+ *  Main layout for page-based clients (mobiles and generally all touchable devices).
  *
  *  This is a fixed layout, with:
  *  - a fixed header,
@@ -14,16 +14,16 @@
  */
 import '/imports/client/components/header_panel/header_panel.js';
 import '/imports/client/components/mobile_footer/mobile_footer.js';
-import './touchable_layout.html';
+import './page_layout.html';
 
-Template.touchableLayout.onCreated( function(){
+Template.pageLayout.onCreated( function(){
     window.addEventListener( 'resize', function(){
         g.run.resize.set( new Date());
     });
 });
 
 /*
-Template.touchableLayout.onRendered( function(){
+Template.pageLayout.onRendered( function(){
     this.autorun(() => {
         const a = g.run.resize.get();
         //let height = $(window).height();
@@ -35,7 +35,7 @@ Template.touchableLayout.onRendered( function(){
 });
 */
 
-Template.touchableLayout.helpers({
+Template.pageLayout.helpers({
     resized: function(){
         return 'resized helper run at '+g.run.resize.get();
     }

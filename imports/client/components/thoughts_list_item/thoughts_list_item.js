@@ -44,6 +44,14 @@ Template.thoughts_list_item.helpers({
     itemDivId(){
         return Template.thoughts_list_item.fn.itemDivId();
     },
+    showDown(){
+        const instance = Template.instance();
+        return instance.collapsed.get() ? 'x-inline' : 'x-hidden';
+    },
+    showUp(){
+        const instance = Template.instance();
+        return instance.collapsed.get() ? 'x-hidden' : 'x-inline';
+    },
     topic_byId( id ){
         const obj = id ? Topics.findOne({ _id:id }) : null;
         return obj ? obj.name : '';
@@ -51,12 +59,14 @@ Template.thoughts_list_item.helpers({
 });
 
 Template.thoughts_list_item.events({
+    // event.currentTarget = thoughts-list-item div
+    // event.target = collapsable div
     'hide.bs.collapse'( event, instance ){
-        $( event.target ).trigger( 'show.bs.collapse.ronin' );
+        $( event.target ).trigger( 'toggle.collapse.ronin' );
         instance.collapsed.set( true );
     },
     'show.bs.collapse'( event, instance ){
-        $( event.target ).trigger( 'show.bs.collapse.ronin' );
+        $( event.target ).trigger( 'toggle.collapse.ronin' );
         instance.collapsed.set( false );
     }
 });

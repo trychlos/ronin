@@ -9,12 +9,12 @@ import './process_page.html';
 Template.processPage.onRendered( function(){
     this.autorun(() => {
         switch( g.run.layout.get()){
-            case LYT_DESKTOP:
-                if( g[LYT_DESKTOP].taskbar.get()){
+            case LYT_WINDOW:
+                if( g[LYT_WINDOW].taskbar.get()){
                     $('.process-page').IWindowed( 'show', 'processWindow' );
                 }
                 break;
-            case LYT_TOUCH:
+            case LYT_PAGE:
                 Blaze.render( Template.processWindow, document.getElementsByClassName('process-page')[0] );
                 break;
         }

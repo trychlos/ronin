@@ -12,7 +12,7 @@ import './edit_page.html';
 
 Template.editPage.onRendered( function(){
     this.autorun(() => {
-        if( g[LYT_DESKTOP].taskbar.get() && Session.get('process.edit.obj')){
+        if( g[LYT_WINDOW].taskbar.get() && Session.get('process.edit.obj')){
             $('.edit-page').IWindowed( 'showNew', 'editWindow' );
         }
     })

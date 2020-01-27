@@ -4,6 +4,7 @@
  *
  *  Each item has:
  *  - id: a unique identifier
+ *      if this identifier is left undefined, the item will be silently ignored
  *  - label: as the name says
  *  - sublabel (maybe): a secondary label, whose display depends of the currently
  *      running menu
@@ -20,9 +21,14 @@
  *          projects
  *          setup
  *  where each entry may have following keys:
- *    - display (maybe): whether the idem is displayed in this menu, defaulting to false
+ *    - display (maybe): whether the idem is displayed in this menu, defaulting
+ *      to false
  *    - label (maybe): overrides the item label for this menu display
  *    - sort (maybe): the sort-order of this level of items, defaulting to 0
+ *
+ *  Please note that 'navs' and 'tabs' above are only distinguished for
+ *  convenience and structure clarity. They are both treated the same way,
+ *  and keys must be different (no same key in 'navs' and 'tabs').
  *
  *  + the item may have children items.
  *
@@ -496,11 +502,13 @@ export const gtd = {
             }
         ];
     },
+    /*
     // return the list of items to be managed as a tabbed page in actions window
     //  these are marked as tabactions:true
     actionsItems(){
         return gtd.itemsBoolArray( 'tabactions' );
     },
+    */
     byId: function( id ){
         return gtd._byId_rec( id, gtd.features());
     },
@@ -531,13 +539,21 @@ export const gtd = {
         }
         return classes;
     },
+    // returns the named sub-element from 'navs' or 'tabs' for this item, or null
+    getNavTab( name, item ){
+        return item.navs && item.navs[name]
+                ? item.navs[name]
+                : ( item.tabs && item.tabs[name] ? item.tabs[name] : null );
+    },
     hasChildren: function( item ){
         return item.children && item.children.length > 0 ;
     },
-    // whether this item is displayed in this type of menu
-    isVisible: function( item, type ){
-        return item[type] !== undefined && item[type] === true;
+    // whether this item is displayed in the named navigation menu
+    isVisible: function( name, item ){
+        const sub = gtd.getNavTab( name, item );
+        return sub ? sub.display === true : false;
     },
+    /*
     // returns an array of the items for which specified bool qualifier is set to true
     itemsBoolArray: function( qualifier ){
         let result = new Array();
@@ -556,10 +572,20 @@ export const gtd = {
         }
         return res;
     },
-    // returns the label to be used for this type of menu
-    label: function( item, type ){
-        return ( type === 'navside' && item.longer ) ? item.longer : item.label;
+    */
+    // returns the label associated with this item, or with one of its parent
+    // maybe an empty string
+    label: function( item ){
+        if( item.label ){
+            return item.label;
+        }
+        const parent = gtd.parent( item );
+        if( parent ){
+            return gtd.label( parent );
+        }
+        return '';
     },
+    /*
     labelById: function( type, id ){
         let label = '';
         if( id ){
@@ -574,11 +600,77 @@ export const gtd = {
     labelTab: function( item ){
         return item.tabtitle ? item.tabtitle : item.label;
     },
-    // return the list of items to be managed as a tabbed page in mobile layout
-    //  these are marked as navtouch:true
-    touchItems(){
-        return gtd.itemsBoolArray( 'navtouch' ).sort( gtd._touchItems_sort );
+    */
+    // returns the list of items to be managed in the named navigation menu
+    //  which may be defined inside of 'navs' or 'tabs'
+    // note that returned item may not have any route (should be displayed
+    //  as 'disabled' if displayed at all)
+    // maybe an empty array
+    items( name ){
+        let result = new Array();
+        return gtd._items_rec( name, result, gtd.features()).sort( gtd._items_sort( name ));
     },
+    _items_rec: function( name, res, inputArray ){
+        for( let i=0 ; i<inputArray.length ; ++i ){
+            const item = inputArray[i];
+            // must have an identifier
+            if( !item.id ){
+                continue;
+            }
+            if( gtd.isVisible( name, item )){
+                res.push( item );
+            }
+            if( gtd.hasChildren( item )){
+                gtd._items_rec( name, res, item.children );
+            }
+        }
+        return res;
+    },
+    _items_sort( name ){
+        return function( a, b ){
+            const a_sub = gtd.getNavTab( name, a );
+            const a_weight = a_sub ? ( a_sub.sort || 0 ) : 0;
+            const b_sub = gtd.getNavTab( name, b );
+            const b_weight = b_sub ? ( b_sub.sort || 0 ) : 0;
+            return a_weight < b_weight ? -1 : ( a_weight > b_weight ? 1 : 0 );
+        }
+    },
+    // returns the parent of this item, or null
+    parent( item ){
+        return gtd._parent_rec( item, null, gtd.features());
+    },
+    _parent_rec( item, candidate, inputArray ){
+        if( !item.id ){
+            return null;
+        }
+        for( let i=0 ; i<inputArray.length ; ++i ){
+            const it = inputArray[i];
+            // must have an identifier
+            if( !it.id ){
+                continue;
+            }
+            if( it.id === item.id ){
+                return candidate;
+            }
+            if( gtd.hasChildren( item )){
+                return gtd._parent_rec( item, it, item.children );
+            }
+        }
+        return null;
+    },
+    // returns the route name associated with this item, or with one of its parent
+    // maybe an empty string
+    route( item ){
+        if( item.route ){
+            return item.route;
+        }
+        const parent = gtd.parent( item );
+        if( parent ){
+            return gtd.route( parent );
+        }
+        return '';
+    },
+    /*
     _touchItems_sort( a, b ){
         return a.touchsort < b.touchsort ? -1 : ( a.touchsort > b.touchsort ? 1 : 0 );
     },
@@ -598,4 +690,5 @@ export const gtd = {
     setupItems(){
         return gtd.itemsBoolArray( 'tabsetup' );
     },
+    */
 };

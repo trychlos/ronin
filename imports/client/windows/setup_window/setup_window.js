@@ -13,7 +13,7 @@ import './setup_window.html';
 
 Template.setupWindow.onRendered( function(){
     this.autorun(() => {
-        if( g[LYT_DESKTOP].taskbar.get()){
+        if( g[LYT_WINDOW].taskbar.get()){
             $('div.setup-window').IWindowed({
                 template:   'setupWindow',
                 title:      'Setup'

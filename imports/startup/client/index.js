@@ -43,5 +43,5 @@ import './blaze-helpers.js';
 
 // compute the default layout
 //  maybe initializing a window manager if the desktop layout is chosen
-import './default-layout.js'
+import './layout-config.js'
 import './routes.js';

@@ -57,7 +57,7 @@ Template.thought_edit.helpers({
     //  stand-alone pane
     collapsable( display ){
         //console.log( 'collapsable: display='+display );
-        return g.run.layout.get() === 'LYT_DESKTOP' ? false : ( display !== 'panel' );
+        return g.run.layout.get() === 'LYT_WINDOW' ? false : ( display !== 'panel' );
     },
     // provides a unique id for the collapsable part
     collapsableId(){
@@ -82,7 +82,7 @@ Template.thought_edit.helpers({
     },
     // html helper: count of rows to be displayed for description field
     rowsCount(){
-        return 4; //g.run.layout.get() === 'LYT_DESKTOP' ? 4 : 2;
+        return 4; //g.run.layout.get() === 'LYT_WINDOW' ? 4 : 2;
     },
     // class helper: whether the 'down' button should be visible
     showDown(){

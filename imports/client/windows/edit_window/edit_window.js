@@ -26,7 +26,7 @@ Template.editWindow.onCreated( function(){
 
 Template.editWindow.onRendered( function(){
     this.autorun(() => {
-        if( g[LYT_DESKTOP].taskbar.get()){
+        if( g[LYT_WINDOW].taskbar.get()){
             const obj = this.obj.get();
             let title = 'Edit ';
             title += obj && obj.type === 'A' ? 'action' : 'project';

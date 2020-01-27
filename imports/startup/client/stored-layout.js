@@ -53,13 +53,13 @@ if( g.store === undefined ){
 }
 
 // touchable device (without mouse, maybe not Cordova)
-LYT_TOUCH = 'appTouchable';
-g[LYT_TOUCH] = {};
+LYT_PAGE = 'appTouchable';
+g[LYT_PAGE] = {};
 
 // desktop layout
 //  requires a mouse as it makes use of Simone window manager
-LYT_DESKTOP = 'appDesktop';
-g[LYT_DESKTOP] = {
+LYT_WINDOW = 'appDesktop';
+g[LYT_WINDOW] = {
     barSideWidth:   150,
     barTopHeight:    30,
     settingsPrefix: 'settings-',
@@ -70,21 +70,21 @@ g[LYT_DESKTOP] = {
 // layout initialization
 g.run.layout.set(
     g.store.layout === undefined
-        ? ( g.detectIt.primaryInput === 'mouse' ? LYT_DESKTOP : LYT_TOUCH )
+        ? ( g.detectIt.primaryInput === 'mouse' ? LYT_WINDOW : LYT_PAGE )
         :   g.store.layout );
 
 // DEVELOPMENT SURCHARGE
 //g.run.mobile = true;
-//g.run.layout.set( LYT_TOUCH );
+//g.run.layout.set( LYT_PAGE );
 
 // in a mobile application, routes are not displayed as they are in a web browser
 // but even if routes are not directly available to the user, they are still
 // handled under the hood
 const layout = g.run.layout.get();
 switch( layout ){
-    case LYT_DESKTOP:
+    case LYT_WINDOW:
         break;
-    case LYT_TOUCH:
+    case LYT_PAGE:
         let tab = Session.get( 'mobile.tab.name' );
         if( !tab ){
             tab = g.store.mobile;

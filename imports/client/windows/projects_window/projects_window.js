@@ -8,7 +8,7 @@ import './projects_window.html';
 
 Template.projectsWindow.onRendered( function(){
     this.autorun(() => {
-        if( g[LYT_DESKTOP].taskbar.get()){
+        if( g[LYT_WINDOW].taskbar.get()){
             $('div.projects-window').IWindowed({
                 template:   'projectsWindow',
                 group:      'reviewWindow',

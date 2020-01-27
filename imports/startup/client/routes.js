@@ -6,12 +6,12 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 import '/imports/client/layouts/body/body.js';
+import '/imports/client/layouts/page_layout/page_layout.js';
 import '/imports/client/layouts/desktop_layout/desktop_layout.js';
-import '/imports/client/layouts/touchable_layout/touchable_layout.js';
 
 import '/imports/client/pages/actions_page/actions_page.js';
 import '/imports/client/pages/collect_edit/collect_edit.js';
-import '/imports/client/pages/collect_page/collect_page.js';
+import '/imports/client/pages/collect_list/collect_list.js';
 import '/imports/client/pages/devel_page/devel_page.js';
 import '/imports/client/pages/edit_page/edit_page.js';
 import '/imports/client/pages/empty/empty.js';
@@ -111,17 +111,19 @@ FlowRouter.route('/setup/delegates', {
 FlowRouter.route('/collect', {
     name: 'collect',
     action(){
-        Session.set( 'touch.route', 'collect' );
+        Session.set( 'paged.route', 'collect' );
         Session.set( 'collect.thought', null );
-        BlazeLayout.render( g.run.layout.get(), { main: 'collectPage' });
+        BlazeLayout.render( g.run.layout.get(), { main: 'collectList' });
     },
 });
+/*
 FlowRouter.route('/collect/new', {
     name: 'collect.new',
     action(){
         BlazeLayout.render( g.run.layout.get(), { main: 'collectEdit' });
     },
 });
+*/
 FlowRouter.route('/collect/edit', {
     name: 'collect.edit',
     action(){
@@ -131,7 +133,7 @@ FlowRouter.route('/collect/edit', {
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
-        Session.set( 'touch.route', 'process' );
+        Session.set( 'paged.route', 'process' );
         BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
     },
 });
@@ -217,9 +219,9 @@ FlowRouter.notFound = {
 /*
 const layout = g.run.layout.get();
 switch( layout ){
-    case LYT_DESKTOP:
+    case LYT_WINDOW:
         break;
-    case LYT_TOUCH:
+    case LYT_PAGE:
         FlowRouter.go( 'collect' );
         break;
     default:
