@@ -4,19 +4,27 @@
  *
  *  Each item has:
  *  - id: a unique identifier
- *  - label: a rather short label suitable for horizontal menu
- *  - longer (maybe): a secondary label suitable for a vertical menu, defaults to 'label'
- *  - tabtitle (maybe): a secondary label suitable for a tab, defaults to 'label'
- *  - router (maybe): the router entry if this is an actionable item
- *  - children (maybe): one or more child items
- *  +
- *  - 'navbar': concerns the menu bar of the top side of the page, defaulting to false
- *  - 'navside': concerns the menu of the left side of the page, defaulting to false
- *  - 'navview': concerns the overview, defaulting to false
- *  +
- *  - 'tabactions': whether the item is managed by the 'actions' tabbed window, defaulting to false
- *  - 'tabprojects': whether the item is managed by the 'projects' tabbed window, defaulting to false
- *  - 'tabsetup': whether the item is managed by the 'setup' tabbed window, defaulting to false
+ *  - label: as the name says
+ *  - sublabel (maybe): a secondary label, whose display depends of the currently
+ *      running menu
+ *  - route (maybe): the router entry if this is an actionable item
+ *
+ *  + the item may have zero to several entries for each menu display:
+ *    > navs
+ *          footer
+ *          header
+ *          overview
+ *          side
+ *    > tabs
+ *          actions
+ *          projects
+ *          setup
+ *  where each entry may have following keys:
+ *    - display (maybe): whether the idem is displayed in this menu, defaulting to false
+ *    - label (maybe): overrides the item label for this menu display
+ *    - sort (maybe): the sort-order of this level of items, defaulting to 0
+ *
+ *  + the item may have children items.
  *
  *  NB: see https://stackoverflow.com/questions/33611812/export-const-vs-export-default-in-es6
  */
@@ -26,257 +34,463 @@ export const gtd = {
             {
                 id: 'home',
                 label: 'Home',
-                longer: 'Overview',
-                router: 'home',
-                navbar: true,
-                navside: true
+                route: 'home',
+                navs: {
+                    header: {
+                        display: true
+                    },
+                    side: {
+                        display: true,
+                        label: 'Overview'
+                    }
+                }
             },
             {
                 id: 'setup',
                 label: 'Setup',
-                navside: true,
-                navview: true,
-                navtouch: true,
-                touchsort: 1,
-                router: 'setup',
+                route: 'setup',
+                navs: {
+                    footer: {
+                        display: true,
+                        sort: 1
+                    },
+                    overview: {
+                        display: true
+                    },
+                    side: {
+                        display: true
+                    }
+                },
                 children: [
-                    /* this item for the sake of completeness as it is not used
-                     *    neither in the web nor in the mobile version */
+                    /* this item for the sake of completeness as it is not used here */
                     {
-                        id: 'dat',
                         label: 'Create data file',
-                        qualifier: 'disabled'
                     },
                     {
                         id: 'contexts',
                         label: 'Contexts',
-                        longer: 'Setup contexts',
-                        router: 'setup.contexts',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabsetup: true
+                        route: 'setup.contexts',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true,
+                                label: 'Setup contexts'
+                            }
+                        },
+                        tabs: {
+                            setup: {
+                                display: true
+                            }
+                        }
                     },
+                    /* this item for the sake of completeness as it is not used here */
                     {
-                        id: 'cri',
                         label: 'Setup criteria',
-                        //router: 'App.setup.cri',
-                        navview: true
                     },
                     {
                         id: 'time',
                         label: 'Time values',
-                        longer: 'Setup time values',
-                        router: 'setup.time.values',
-                        navbar: true,
-                        navside: true,
-                        tabsetup: true
+                        route: 'setup.time',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            side: {
+                                display: true,
+                                label: 'Setup time values'
+                            }
+                        },
+                        tabs: {
+                            setup: {
+                                display: true
+                            }
+                        }
                     },
                     {
                         id: 'energy',
                         label: 'Energy values',
-                        longer: 'Setup energy values',
-                        router: 'setup.energy.values',
-                        navbar: true,
-                        navside: true,
-                        tabsetup: true
+                        route: 'setup.energy',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            side: {
+                                display: true,
+                                label: 'Setup energy values'
+                            }
+                        },
+                        tabs: {
+                            setup: {
+                                display: true
+                            }
+                        }
                     },
                     {
                         id: 'priority',
                         label: 'Priority values',
-                        longer: 'Setup priority values',
-                        router: 'setup.priority.values',
-                        navbar: true,
-                        navside: true,
-                        tabsetup: true
+                        route: 'setup.priority',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            side: {
+                                display: true,
+                                label: 'Setup priority values'
+                            }
+                        },
+                        tabs: {
+                            setup: {
+                                display: true
+                            }
+                        }
                     },
                     {
                         id: 'topics',
                         label: 'Topics',
-                        longer: 'Setup topics',
-                        router: 'setup.topics',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabsetup: true
+                        route: 'setup.topics',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true,
+                                label: 'Setup topics'
+                            }
+                        },
+                        tabs: {
+                            setup: {
+                                display: true
+                            }
+                        }
                     },
                     {
                         id: 'refs',
                         label: 'Reference items',
-                        longer: 'Setup reference items',
-                        router: 'setup.ref.items',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabsetup: true
+                        route: 'setup.ref',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true,
+                                label: 'Setup reference items'
+                            }
+                        },
+                        tabs: {
+                            setup: {
+                                display: true
+                            }
+                        }
                     },
                     {
                         id: 'delegates',
                         label: 'Delegates',
-                        longer: 'Setup delegates',
-                        router: 'setup.delegates',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabsetup: true
+                        route: 'setup.delegates',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true,
+                                label: 'Setup delegates'
+                            }
+                        },
+                        tabs: {
+                            setup: {
+                                display: true
+                            }
+                        }
                     },
                 ],
             },
             {
                 id: 'collect',
                 label: 'Collect',
-                h3: 'Get things off your mind',
-                navside: true,
-                navview: true,
-                children: [
-                    {
-                        id: 'col',
-                        label: 'Collect thoughts',
-                        router: 'collect',
-                        navbar: true,
-                        navside: true,
-                        navview: true
+                route: 'collect',
+                navs: {
+                    header: {
+                        display: true
                     },
-                    {
-                        id: 'thoughts',
+                    footer: {
+                        display: true,
                         label: 'Thoughts',
-                        router: 'collect',
-                        navtouch: true,
-                        touchsort: 2
+                        sort: 2
+                    },
+                    overview: {
+                        display: true,
+                        sublabel: 'Get things off your mind'
+                    },
+                    side: {
+                        display: true,
+                        label: 'Collect thoughts'
                     }
-                ],
+                }
             },
             {
                 id: 'process',
-                label: 'Process',
-                h3: 'What is it? Is it actionable?',
-                navside: true,
-                navview: true,
-                router: 'process.thoughts',
+                label: 'Process thoughts',
+                route: 'process.thoughts',
+                navs: {
+                    header: {
+                        display: true,
+                        label: 'Process'
+                    },
+                    overview: {
+                        display: true,
+                        sublabel: 'What is it? Is it actionable?'
+                    },
+                    side: {
+                        display: true
+                    }
+                },
                 children: [
                     {
-                        id: 'pro',
-                        label: 'Process thoughts',
-                        router: 'process.thoughts',
-                        navbar: true,
-                        navside: true,
-                        navview: true
-                    },
-                    {
-                        id: 'may',
+                        id: 'maybe',
                         label: 'Someday / Maybe',
-                        navbar: true,
-                        navside: true,
-                        navview: true
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        }
                     },
                     {
-                        id: 'nep',
+                        id: 'new.project',
                         label: 'New project',
-                        router: 'process.new.project',
-                        navbar: true,
-                        navside: true,
-                        navview: true
+                        route: 'process.project.new',
+                        navs: {
+                            side: {
+                                display: true
+                            }
+                        }
                     },
                     {
-                        id: 'nea',
+                        id: 'new.action',
                         label: 'New action',
-                        router: 'process.new.action',
-                        navbar: true,
-                        navside: true,
-                        navview: true
+                        route: 'process.action.new',
+                        navs: {
+                            side: {
+                                display: true
+                            }
+                        }
                     },
                 ],
             },
             {
                 id: 'review',
                 label: 'Review',
-                h3: [
+                route: 'review',
+                sublabel: [
                     'Organize',
                     'Do'
                 ],
-                navside: true,
-                navview: true,
-                router: 'review',
+                navs: {
+                    overview: {
+                        display: true
+                    },
+                    side: {
+                        display: true
+                    }
+                },
                 children: [
                     {
                         id: 'projects',
                         label: 'Projects',
-                        router: 'review.projects',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        navtouch: true,
-                        touchsort: 4,
-                        tabprojects: true,
-                        tabsort: 1
+                        route: 'review.projects',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            footer: {
+                                display: true,
+                                sort: 4
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            projects: {
+                                display: true,
+                                sort: 1
+                            }
+                        }
                     },
                     {
                         id: 'future',
                         label: 'Future projects',
-                        router: 'review.future',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabprojects: true,
-                        tabsort: 3
+                        route: 'review.future',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            projects: {
+                                display: true,
+                                sort: 3
+                            }
+                        }
                     },
                     {
                         id: 'actions',
                         label: 'Actions',
-                        tabtitle: 'Single actions',
-                        router: 'review.actions',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        navtouch: true,
-                        touchsort: 3,
-                        tabprojects: true,
-                        tabsort: 2
+                        route: 'review.actions',
+                        navs: {
+                            footer: {
+                                display: true,
+                                sort: 3
+                            },
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            projects: {
+                                display: true,
+                                label: 'Single actions',
+                                sort: 2
+                            }
+                        }
                     },
                     {
-                        id: 'ina',
+                        id: 'inactive',
                         label: 'Inactive',
-                        router: 'review.inactive',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabactions: true
+                        route: 'review.inactive',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            actions: {
+                                display: true
+                            }
+                        }
                     },
                     {
-                        id: 'asa',
+                        id: 'asap',
                         label: 'Do ASAP',
-                        router: 'review.asap',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabactions: true
+                        route: 'review.asap',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            actions: {
+                                display: true
+                            }
+                        }
                     },
                     {
-                        id: 'sch',
+                        id: 'scheduled',
                         label: 'Scheduled',
-                        router: 'review.scheduled',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabactions: true
+                        route: 'review.scheduled',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            actions: {
+                                display: true
+                            }
+                        }
                     },
                     {
-                        id: 'del',
+                        id: 'delegated',
                         label: 'Delegated',
-                        router: 'review.delegated',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabactions: true
+                        route: 'review.delegated',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            actions: {
+                                display: true
+                            }
+                        }
                     },
                     {
-                        id: 'don',
+                        id: 'done',
                         label: 'Done',
-                        router: 'review.done',
-                        navbar: true,
-                        navside: true,
-                        navview: true,
-                        tabactions: true
+                        route: 'review.done',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            actions: {
+                                display: true
+                            }
+                        }
                     }
                 ]
             }
