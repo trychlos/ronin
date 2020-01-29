@@ -109,14 +109,14 @@ FlowRouter.route('/setup/delegates', {
 FlowRouter.route('/collect', {
     name: 'collect',
     action(){
-        Session.set( 'last.route', 'collect' );
+        Session.set( 'route.last', 'collect' );
         BlazeLayout.render( g.run.layout.get(), { page:'collectPage', window:'collectList' });
     },
 });
 FlowRouter.route('/collect/new', {
     name: 'collect.new',
     action(){
-        Session.set( 'last.route', 'collect' );
+        Session.set( 'route.last', 'collect' );
         Session.set( 'collect.thought', null );
         BlazeLayout.render( g.run.layout.get(), { page:'collectPage', window:'collectEdit' });
     },
@@ -124,14 +124,14 @@ FlowRouter.route('/collect/new', {
 FlowRouter.route('/collect/new', {
     name: 'collect.new',
     action(){
-        Session.set( 'last.route', 'collect' );
+        Session.set( 'route.last', 'collect' );
         BlazeLayout.render( g.run.layout.get(), { page:'collectPage', window:'collectEdit' });
     },
 });
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
-        Session.set( 'last.route', 'process' );
+        Session.set( 'route.last', 'process' );
         BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
     },
 });

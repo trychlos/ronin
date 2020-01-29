@@ -3,7 +3,7 @@
  *  Display a button fot each group of options, letting the user choose his page content.
  *
  *  Session variables:
- *  - last.route: the identifier of the active page
+ *  - route.last: the identifier of the active page
  *      aka the route name of the corresponding option in 'gtd' features.
  */
 import { gtd } from '/imports/assets/gtd/gtd.js';
@@ -11,7 +11,7 @@ import './mobile_footer.html';
 
 Template.mobile_footer.helpers({
     active( it ){
-        const page = Session.get( 'last.route' );
+        const page = Session.get( 'route.last' );
         return page === gtd.route( it ) ? 'active' : '';
     },
     gtdItems(){
