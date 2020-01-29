@@ -1,5 +1,5 @@
 /*
- * 'mobile_footer' component.
+ * 'footer_panel' component.
  *  Display a button fot each group of options, letting the user choose his page content.
  *
  *  Session variables:
@@ -7,9 +7,9 @@
  *      aka the route name of the corresponding option in 'gtd' features.
  */
 import { gtd } from '/imports/assets/gtd/gtd.js';
-import './mobile_footer.html';
+import './footer_panel.html';
 
-Template.mobile_footer.helpers({
+Template.footer_panel.helpers({
     active( it ){
         const page = Session.get( 'route.last' );
         return page === gtd.route( it ) ? 'active' : '';
@@ -25,7 +25,7 @@ Template.mobile_footer.helpers({
     }
 });
 
-Template.mobile_footer.events({
+Template.footer_panel.events({
     'click .js-item'( event, instance ){
         const route = $( event.target ).data( 'pwi-iroutable-route' );
         FlowRouter.go( route );
