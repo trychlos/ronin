@@ -7,21 +7,16 @@
  *  - collect.thought: the thought being edited.
  *
  *  Parameters:
- *  - display='panel' when running as a stand-alone dialog on a touch device.
+ *  - collapsable=true|false whether this component may be collapsed.
  */
-import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/topics_select/topics_select.js';
 import './thought_edit.html';
 
 Template.thought_edit.fn = {
-    dict: null,
     // provides a unique id for the collapsable part
     collapsableId: function(){
         return '98e84c99-d2f3-4c54-96a3-b4d6ccf8b3f0';
-    },
-    // whether the edition is collapsed
-    isCollapsed: function(){
-        return Template.thought_edit.fn.dict.get( 'collapsed' );
     },
     // initialize the edition area
     // this is needed when we cancel a current creation
@@ -39,26 +34,16 @@ Template.thought_edit.fn = {
 };
 
 Template.thought_edit.onCreated( function(){
-    const fn = Template.thought_edit.fn;
-    fn.dict = new ReactiveDict();
-    fn.dict.set( 'collapsed', false );
+    this.collapsed = new ReactiveVar( false );
 });
 
 Template.thought_edit.onRendered( function(){
     this.autorun(() => {
-        const fn = Template.thought_edit.fn;
-        const collapsed = fn.dict.get( 'collapsed' );
-        $('#'+fn.collapsableId()).collapse( collapsed ? 'hide' : 'show' );
+        $('#'+Template.thought_edit.fn.collapsableId()).collapse( this.collapsed.get() ? 'hide' : 'show' );
     });
 });
 
 Template.thought_edit.helpers({
-    // the form is collapsable when displayed on a touch device, but not as a
-    //  stand-alone pane
-    collapsable( display ){
-        //console.log( 'collapsable: display='+display );
-        return g.run.layout.get() === 'LYT_WINDOW' ? false : ( display !== 'panel' );
-    },
     // provides a unique id for the collapsable part
     collapsableId(){
         return Template.thought_edit.fn.collapsableId();
@@ -67,17 +52,17 @@ Template.thought_edit.helpers({
         return g.run.mobile ? 1 : 3;
     },
     descriptionPlaceholder(){
-        return Session.get('collect.thought') ? '' : 'Description of the new thought';
+        return Session.get( 'collect.thought' ) ? '' : 'Description of the new thought';
     },
     descriptionValue(){
-        const obj = Session.get('collect.thought');
+        const obj = Session.get( 'collect.thought' );
         return obj ? obj.description : '';
     },
     namePlaceholder(){
-        return Session.get('collect.thought') ? '' : 'Type to add new thought';
+        return Session.get( 'collect.thought' ) ? '' : 'Type to add new thought';
     },
     nameValue(){
-        const obj = Session.get('collect.thought');
+        const obj = Session.get( 'collect.thought' );
         return obj ? obj.name : '';
     },
     // html helper: count of rows to be displayed for description field
@@ -86,29 +71,28 @@ Template.thought_edit.helpers({
     },
     // class helper: whether the 'down' button should be visible
     showDown(){
-        return Template.thought_edit.fn.isCollapsed() ? 'x-inline' : 'x-hidden';
+        return Template.instance().collapsed.get() ? 'x-inline' : 'x-hidden';
     },
     // class helper: whether the 'up' button should be visible
     showUp(){
-        return Template.thought_edit.fn.isCollapsed() ? 'x-hidden' : '';
+        return Template.instance().collapsed.get() ? 'x-hidden' : '';
     },
     submit(){
-        return Session.get('collect.thought') ? 'Update' : 'Create';
+        return Session.get( 'collect.thought' ) ? 'Update' : 'Create';
     },
     title(){
-        return Session.get('collect.thought') ? 'Edit thought' : 'New thought';
+        return Session.get( 'collect.thought' ) ? 'Edit thought' : 'New thought';
     },
     topic(){
-        const obj = Session.get('collect.thought');
+        const obj = Session.get( 'collect.thought' );
         return obj ? obj.topic : null;
     }
 });
 
 Template.thought_edit.events({
     'click .js-collapse'( event, instance ){
-        const fn = Template.thought_edit.fn;
-        const collapsed = fn.dict.get( 'collapsed' );
-        fn.dict.set( 'collapsed', !collapsed );
+        const collapsed = instance.collapsed.get();
+        instance.collapsed.set( !collapsed );
     },
     'click .js-cancel'(event){
         event.preventDefault();
@@ -117,7 +101,7 @@ Template.thought_edit.events({
         }
         Session.set( 'collect.thought', null );
         Template.thought_edit.fn.initEditArea();
-    return false;
+        return false;
     },
    'submit .js-edit'(event, instance){
         event.preventDefault();
@@ -128,19 +112,20 @@ Template.thought_edit.events({
             const obj = Session.get( 'collect.thought' );
             const id = obj ? obj._id : null;
             var newobj = {
+                type: 'T',
                 name: name,
                 description: instance.$('.js-description').val(),
                 topic: Template.topics_select.fn.getSelected('')
             };
             try {
-                Thoughts.fn.check( id, newobj );
+                Articles.fn.check( id, newobj );
             } catch( e ){
                 return throwError({ message: e.message });
             }
             //console.log( 'submit.edit: Thoughts.fn.check() successful' );
             if( obj ){
                 // if nothing has changed, then does nothing
-                if( Thoughts.fn.equal( obj, newobj )){
+                if( Articles.fn.equal( obj, newobj )){
                     return false;
                 }
                 Meteor.call('thoughts.update', id, newobj, ( error ) => {

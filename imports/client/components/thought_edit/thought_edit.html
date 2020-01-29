@@ -1,8 +1,10 @@
 <template name="thought_edit">
     <div class="thought-edit">
+
         <form class="js-edit">
-            <div class="collapse" id="{{collapsableId}}">
-                <div class="edit-header {{hideIfTouch}}">
+
+            <div class="collapse show" id="{{collapsableId}}">
+                <div class="edit-header {{hideIfPageLayout}}">
                     <p class="x-h2">{{title}}</p>
                 </div>
                 <table class="edit-body">
@@ -33,10 +35,12 @@
                     </tr>
                 </table>
             </div>
+
             <div class="actions d-flex justify-content-start align-items-center">
                 <div class="flex-grow-1">
-                    {{#if collapsable display }}
-                        <button class="js-collapse ui-button ui-corner-all" data-toggle="collapse" data-target="#{{collapsableId}}">
+                    {{#if collapsable }}
+                        <button class="js-collapse ui-button ui-corner-all"
+                                data-toggle="collapse" data-target="#{{collapsableId}}">
                             <div class="{{showUp}}">
                                 <span class="fas fa-angle-up"></span>
                             </div>
@@ -47,11 +51,16 @@
                         </button>
                     {{/if}}
                 </div>
-                <button type="submit" class="btn-submit ui-corner-all ui-button {{showUp}}" title="Submit">{{submit}}</button>
+                <button class="btn-submit ui-corner-all ui-button {{showUp}}"
+                        type="submit" title="Submit">
+                    {{submit}}
+                </button>
                 <button class="js-cancel btn-cancel ui-button ui-corner-all {{showUp}}" title="Cancel">
-                    <span class="fas fa-times"></span>
+                    <!-- <span class="fas fa-times"></span> -->
+                    Cancel
                 </button>
             </div>
+
         </form>
     </div>
 </template>

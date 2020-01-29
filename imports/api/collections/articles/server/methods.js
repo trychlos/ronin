@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Thoughts } from '/imports/api/collections/thoughts/thoughts.js';
 import { Articles } from '../articles.js';
 
 Meteor.methods({
@@ -62,6 +61,20 @@ Meteor.methods({
             project: o.project,
             notes: o.notes
         }});
+    },
+    'thoughts.insert'( o ){
+        return Articles.insert({
+            type: o.type,
+            name: o.name,
+            topic: o.topic,
+            description: o.description
+        });
+    },
+    'thoughts.update'( id, o ){
+        return Articles.update( id, { $set: {
+            name: o.name,
+            description: o.description,
+            topic: o.topic
+        }});
     }
-  });
-
+});

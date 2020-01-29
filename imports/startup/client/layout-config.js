@@ -78,9 +78,9 @@ g[LYT_WINDOW] = {
 };
 
 // set a default page for the page-based layouts
-const page = Session.get( 'paged.route' );
+const page = Session.get( 'last.route' );
 if( !page ){
-    Session.set( 'paged.route', 'collect' );
+    Session.set( 'last.route', 'collect' );
 }
 
 // layout initialization

@@ -1,5 +1,5 @@
-<template name="collectWindow">
-    <div class="collect-window" data-pwi-iroutable-mode="window" data-pwi-iroutable-route="collect">
+<template name="collectList">
+    <div class="collect-list" data-pwi-iroutable-mode="window" data-pwi-iroutable-route="{{ group }}">
 
         {{#if isDesktopLayout}}
             <div class="edit">
@@ -7,7 +7,7 @@
             </div>
         {{/if}}
 
-        {{> Template.dynamic template=panel thoughts=thoughts title=true }}
+        {{> thoughts_list thoughts=thoughts title=true }}
 
         {{#if isPageLayout}}
             <div class="js-new">

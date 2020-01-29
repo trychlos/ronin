@@ -170,7 +170,13 @@
   107 2020- 1-26 replace collect_new with collect_edit
                   passing the object via collect.thought session variable
 
-  108
+  108 2020- 1-27 in page Layout, collectEdit is only used to run thoughtEdit
+                  see if they may be factorized ?
+
+  109 2020- 1-28 in windowLayout, pass the group to the IWindowed newly created window
+                  (idem what happens in pageLayout)
+
+  110
 
 -----------------------------------------------------------------------
  Done

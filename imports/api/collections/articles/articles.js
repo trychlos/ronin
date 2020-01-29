@@ -61,13 +61,21 @@ import { Mongo } from 'meteor/mongo';
 
 export const Articles = new Mongo.Collection( 'articles' );
 
+Articles.fn = {
+    types: [
+        'T',
+        'A',
+        'P'
+    ]
+};
+
 Articles.schema = new SimpleSchema({
     /* this is common to all articles
      * + thoughts only have these
      */
     type: {
         type: String,
-        allowedValues: [ 'T', 'A', 'P' ]
+        allowedValues: Articles.fn.types
     },
     name: {
         type: String
@@ -138,5 +146,30 @@ Articles.attachBehaviour( 'timestampable', {
 Articles.helpers({
 });
 
-Articles.fn = {
+Articles.fn.check = function( id, o ){
+    // type must be valid
+    if( !Articles.fn.types.includes( o.type )){
+        throw({ message:o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']' });
+    }
+    // must have a name
+    if( !o.name ){
+        throw({ message:'empty name' });
+    }
+    switch( o.type ){
+        case 'T':
+            break;
+        case 'A':
+            break;
+        case 'P':
+            break;
+    }
+};
+
+// check if two objects are the same
+// mainly used to prevent too many useless updates
+Articles.fn.equal = function( a,b ){
+    return
+        ( a.name === b.name ) &&
+        ( a.description === b.description ) &&
+        ( a.topic === b.topic );
 };

@@ -39,6 +39,7 @@ Template.thoughts_list.events({
     'toggle.collapse.ronin'( event, instance ){
         $( '.thoughts-list-item' ).removeClass( 'opened-card' );
     },
+    /*
     // target=[object SVGSVGElement] but may also be SVGPathElement
     'click .js-delete'( event, instance ){
         event.preventDefault();
@@ -64,4 +65,5 @@ Template.thoughts_list.events({
         }
         return false;
     },
+    */
 });

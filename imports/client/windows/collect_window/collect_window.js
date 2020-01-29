@@ -10,8 +10,6 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/plus_button/plus_button.js';
-import '/imports/client/components/thought_edit/thought_edit.js';
-import '/imports/client/components/thoughts_list/thoughts_list.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './collect_window.html';
 
@@ -31,6 +29,9 @@ Template.collectWindow.onRendered( function(){
 });
 
 Template.collectWindow.helpers({
+    panel(){
+        return Session.get( 'panel' );
+    },
     thoughts(){
         return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
     }
@@ -38,7 +39,8 @@ Template.collectWindow.helpers({
 
 Template.collectWindow.events({
     'click .js-new'( ev, instance ){
-        FlowRouter.go( 'collect.new' );
+        Session.set( 'collect.thought', null );
+        FlowRouter.go( 'collect.edit' );
         return false;
     }
 });
