@@ -55,13 +55,13 @@ Template.collectList.helpers({
 Template.collectList.events({
     // emitted from thoughts_list_item:
     //  close all items
-    'ronin.thoughts.list.card.collapse'( event, instance ){
+    'ronin.ui.thoughts.list.card.collapse'( event, instance ){
         //console.log( 'thoughts_list ronin.thoughts.list.card.collapse' );
         $( '.thoughts-list-item' ).removeClass( 'opened-card' );
         Session.set( 'collect.opened', null );
     },
     'click .js-new'( ev, instance ){
-        $( event.target ).trigger( 'ronin.thoughts.list.card.collapse' );
+        $( event.target ).trigger( 'ronin.ui.thoughts.list.card.collapse' );
         FlowRouter.go( 'collect.new' );
         return false;
     }

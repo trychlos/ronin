@@ -62,7 +62,7 @@ Template.thoughts_list_item.events({
     // event.currentTarget = thoughts-list-item div
     // event.target = collapsable div
     'hide.bs.collapse'( event, instance ){
-        $( event.target ).trigger( 'ronin.thoughts.list.card.collapse' );
+        $( event.target ).trigger( 'ronin.ui.thoughts.list.card.collapse' );
     },
     'shown.bs.collapse'( event, instance ){
         $( '#'+Template.thoughts_list_item.fn.itemDivId()).addClass( 'opened-card' );

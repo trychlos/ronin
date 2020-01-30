@@ -10,7 +10,6 @@
  *  - collapsable=true|false whether this component may be collapsed
  *      defaulting to false.
  */
-import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/topics_select/topics_select.js';
 import './thought_edit.html';
 
@@ -41,6 +40,22 @@ Template.thought_edit.onCreated( function(){
 Template.thought_edit.onRendered( function(){
     this.autorun(() => {
         $('#'+Template.thought_edit.fn.collapsableId()).collapse( this.collapsed.get() ? 'hide' : 'show' );
+    });
+    this.autorun(() => {
+        const status = Session.get( 'collect.dbope' );
+        switch( status ){
+            // successful update operation, leave the page
+            case DBOPE_LEAVE:
+                Session.set( 'header.title', null );
+                FlowRouter.go( 'collect' );
+                break;
+            // successful insert operation, stay in the page and reinitialize fields
+            case DBOPE_REINIT:
+                Template.thought_edit.fn.initEditArea();
+                Session.set( 'collect.thought', null );
+                break;
+        }
+        Session.set( 'collect.dbope', null );
     });
 });
 
@@ -103,54 +118,16 @@ Template.thought_edit.events({
         FlowRouter.go( 'collect' );
         return false;
     },
-   'submit .js-edit'(event, instance){
-        //event.preventDefault();
-        const target = event.target;            // target=[object HTMLFormElement]
-        // a name is mandatory
-        const name = instance.$('.js-name').val();
+   'submit .js-edit'( ev, instance ){
+        //const target = event.target;            // target=[object HTMLFormElement]
         const obj = Session.get( 'collect.thought' );
-        const id = obj ? obj._id : null;
-        var newobj = {
+        const newobj = {
             type: 'T',
-            name: name,
+            name: instance.$('.js-name').val(),
             description: instance.$('.js-description').val(),
             topic: Template.topics_select.fn.getSelected('')
         };
-        try {
-            Articles.fn.check( id, newobj );
-        } catch( e ){
-            throwError({ type:e.error, message: e.reason });
-            return false;
-        }
-        if( obj ){
-            // if nothing has changed, then does nothing
-            if( Articles.fn.equal( obj, newobj )){
-                return false;
-            }
-            Meteor.call('thoughts.update', id, newobj, ( e, result ) => {
-                if( e ){
-                    throwError({ type:e.error, message: e.reason });
-                    return false;
-                }
-                throwSuccess( 'Thought successfully updated' );
-            });
-        } else {
-            Meteor.call('thoughts.insert', newobj, ( e, result ) => {
-                if( e ){
-                    throwError({ type:e.error, message: e.reason });
-                    return false;
-                }
-                throwSuccess( 'Thought successfully inserted' );
-            });
-            Session.set( 'collect.thought', 'x' );  // force re-rendering
-        }
-        Session.set( 'collect.thought', null );
-        if( obj ){
-            Session.set( 'header.title', null );
-            FlowRouter.go( 'collect' );
-            return false;
-        }
-        Template.thought_edit.fn.initEditArea();
+        $( ev.target ).trigger( 'ronin.model.thought.update', newobj );
         return false;
     }
 });

@@ -1,12 +1,10 @@
 /*
  * 'thoughts_list_card' component.
- *  Open the thought card.
+ *  Open the 'thought' card.
  *
  *  Parameters:
  *  - thought: the thought to be edited.
  */
-import bootbox from 'bootbox/dist/bootbox.all.min.js';
-import { Articles } from '/imports/api/collections/articles/articles.js';
 import './thoughts_list_card.html';
 
 Template.thoughts_list_card.helpers({
@@ -19,6 +17,7 @@ Template.thoughts_list_card.helpers({
 
 Template.thoughts_list_card.events({
     'click .js-edit'( event, instance ){
+        //console.log( instance.data.thought );
         Session.set( 'collect.thought', instance.data.thought );
         FlowRouter.go( 'collect.edit' );
         return false;
@@ -33,20 +32,7 @@ Template.thoughts_list_card.events({
 
     },
     'click .js-delete'( event, instance ){
-        const thought = instance.data.thought;
-        bootbox.confirm(
-            'You are about to delete the "'+thought.name+'" thought.<br />'+
-            'Are you sure ?', function( ret ){
-                if( ret ){
-                    Meteor.call( 'thoughts.remove', thought._id, ( e, res ) => {
-                        if( e ){
-                            throwError({ type:e.error, message: e.reason });
-                            return false;
-                        }
-                        throwSuccess( 'Thought successfully deleted' );
-                    });
-                }
-            }
-        );
+        $( event.target ).trigger( 'ronin.model.thought.delete', instance.data.thought );
+        return false;
     }
 });

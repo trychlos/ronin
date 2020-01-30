@@ -16,9 +16,16 @@ throwError = function( o ){
 };
 
 throwSuccess = function( m ){
-    console.log( 'throwSuccess'+m );
     Messages.insert({
         type: 'success',
+        message: m
+    })
+};
+
+// general message
+throwMessage = function( o ){
+    Messages.insert({
+        type: o.type,
         message: m
     })
 };
@@ -31,7 +38,8 @@ Template.messageTmpl.helpers({
 
 Template.msgTmpl.helpers({
     msgClass: function( it ){
-        return it.type === 'success' ? 'alert-success' : 'alert-danger';
+        return it.type === 'success' ? 'alert-success' :
+            ( it.type === 'warning' ? 'alert-warning' : 'alert-danger' );
     },
     msgText: function( it ){
         return it.message;

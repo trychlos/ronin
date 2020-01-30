@@ -176,7 +176,7 @@
   109 2020- 1-28 in windowLayout, pass the group to the IWindowed newly created window
                   (idem what happens in pageLayout)
 
-  112
+  113
 
 -----------------------------------------------------------------------
  Done
@@ -362,6 +362,9 @@
 
   111 2020- 1-30 deprecate errors component in favor of message
       2020- 1-30 done
+
+  112 2020- 1-30 have the model code in a single place
+      2020- 1-30 moved to collectPage (+have to manage async code result...)
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
