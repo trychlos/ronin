@@ -1,0 +1,40 @@
+.process-action {
+    .to-action table {
+        margin: 0.5rem 0;
+    }
+    .to-action .actions {
+        border-top: 1px solid @border-color;
+    }
+
+    /* --- */
+    div.action-edit,
+    div.project-edit {
+        margin: 0.25em 0.5em;
+        fieldset {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+    }
+    div.edit-btns {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-top: 1px solid #bbbbbb;
+        padding-top: 0.5em;
+    }
+}
+div.ui-widget-header.ui-state-active {
+    background: @process-color;
+    border: darken( @process-color, 25% );
+}
+.simone-taskbar-window-button[data-group-name*='editWindow'].ui-state-active {
+    background-color: @process-color;
+    border: darken( @process-color, 25% );
+}
+.simone-taskbar-window-button[data-group-name*='editWindow']:hover,
+.simone-taskbar-window-button[data-group-name*='editWindow'].ui-state-active:hover {
+    background-color: lighten( @process-color, 25% );
+    border: @process-color;
+    color: white
+}

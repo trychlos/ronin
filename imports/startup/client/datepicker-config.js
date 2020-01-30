@@ -4,7 +4,7 @@
 
 $.datepicker.setDefaults({
     showOn: "both",
-    buttonText: '<span class="fas fa-calendar-alt x-font"></span>',
+    buttonText: '<span class="fas fa-calendar-alt"></span>',
     dateFormat: 'dd/mm/yy',
     autoSize: true,
     showWeek: true,

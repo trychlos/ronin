@@ -30,6 +30,7 @@ import '/imports/client/components/footer_panel/footer_panel.js';
 import '/imports/client/components/header_panel/header_panel.js';
 import '/imports/client/components/message/message.js';
 import '/imports/client/pages/collect_page/collect_page.js';
+import '/imports/client/pages/process_page/process_page.js';
 import './page_layout.html';
 
 Template.pageLayout.onCreated( function(){

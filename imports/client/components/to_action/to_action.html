@@ -1,22 +1,31 @@
 <template name="to_action">
     <div class="to-action">
-        <p>
-            Transform the thought into an action.<br />
-            This action may, or may not, be immediately actionable, delegatable, ...
-        </p>
+
+        {{#if isWindowLayout}}
+            <p>
+                Transform the thought into an action.<br />
+                This action may, or may not, be immediately actionable, delegatable, ...
+            </p>
+        {{/if}}
+
         <table class="first w-100">
-            {{#each it in thought}}
                 <tr>
                     <td class="label x-hright"><p>Action:</p></td>
-                    <td class="x-wfit"><input class="js-name" type="text" size="40" value="{{ it.name }}" /></td>
+                    <td>
+                        <input class="js-name w-100 form-control" type="text" value="{{ thought.name }}" />
+                    </td>
+                </tr>
+                <tr>
                     <td class="label x-hright"><p>Topic:</p></td>
-                    <td class="js-topic w-50">
-                        {{> topics_select selected=it.topic}}
+                    <td class="js-topic">
+                        {{> topics_select selected=thought.topic}}
                     </td>
                 </tr>
                 <tr>
                     <td class="label x-hright"><p>Successful outcome:</p></td>
-                    <td><input class="js-outcome" type="text" size="40" placeholder="Successful outcome" /></td>
+                    <td><input class="js-outcome w-100 form-control" type="text" size="40" placeholder="Successful outcome" /></td>
+                </tr>
+                <tr>
                     <td class="label x-hright"><p>Context:</p></td>
                     <td class="js-context">
                         {{> contexts_select}}
@@ -27,42 +36,45 @@
                     <td>
                         <textarea
                             name="description"
-                            class="js-description"
+                            class="js-description w-100 form-control"
                             placeholder="Description of the action"
-                            rows="4" cols="40">{{ it.description }}</textarea>
+                            rows="3" cols="40">{{ thought.description }}</textarea>
                     </td>
-                    <td class="label x-hright x-vtop"><p>Project:</p></td>
-                    <td class="js-project x-vtop">
+                </tr>
+                <tr>
+                    <td class="label x-hright"><p>Project:</p></td>
+                    <td class="js-project">
                         {{> projects_select}}
                     </td>
                 </tr>
                 <tr>
                     <td class="label x-hright"><p>Status:</p></td>
-                    <td colspan="3">
-                        <table class="inside w-100">
-                            <tr>
-                                <td class="js-status">{{> action_status_select}}</td>
-                                <td class="label x-hright"><p>Start date:</p></td>
-                                <td class="js-datestart" title="Start date">{{> date_select }}</td>
-                                <td class="label  x-hright"><p>Due date:</p></td>
-                                <td class="js-datedue" title="Due date">{{> date_select }}</td>
-                                <td class="label  x-hright"><p>Done date:</p></td>
-                                <td class="js-datedone" title="Done date">{{> date_select }}</td>
-                            </tr>
-                        </table>
-                    </td>
+                    <td class="js-status">{{> action_status_select}}</td>
                 </tr>
-                <tr class="x-hidden">
-                    <td colspan="4">
-                        <p id="to-action-thought-id">{{ it._id }}</p>
-                    </td>
+                <tr>
+                    <td class="label x-hright"><p>Start date:</p></td>
+                    <td class="js-datestart" title="Start date">{{> date_select }}</td>
                 </tr>
-            {{/each}}
-            <tr>
-                <td class="button x-hcenter x-ptop05" colspan="4">
-                    <button type="button" class="js-transform ui-corner-all ui-button ui-state-active">Transform</button>
-                </td>
-            </tr>
-        </table>
+                <tr>
+                    <td class="label  x-hright"><p>Due date:</p></td>
+                    <td class="js-datedue" title="Due date">{{> date_select }}</td>
+                </tr>
+                <tr>
+                    <td class="label  x-hright"><p>Done date:</p></td>
+                    <td class="js-datedone" title="Done date">{{> date_select }}</td>
+                </tr>
+            </table>
+
+        <div class="actions d-flex justify-content-start align-items-center">
+            <div class="flex-grow-1">
+                <button class="js-cancel btn-cancel ui-button ui-corner-all" title="Cancel">
+                    <span class="fas fa-times"></span>
+                </button>
+            </div>
+            <button class="js-transform ui-button ui-corner-all">
+                Transform
+            </button>
+        </div>
+
     </div>
 </template>

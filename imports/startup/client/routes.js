@@ -13,7 +13,6 @@ import '/imports/client/pages/actions_page/actions_page.js';
 import '/imports/client/pages/devel_page/devel_page.js';
 import '/imports/client/pages/edit_page/edit_page.js';
 import '/imports/client/pages/empty/empty.js';
-import '/imports/client/pages/process_page/process_page.js';
 import '/imports/client/pages/projects_page/projects_page.js';
 import '/imports/client/pages/setup_page/setup_page.js';
 import '/imports/client/pages/not_found/not_found.js';
@@ -138,6 +137,13 @@ FlowRouter.route('/process', {
         BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
     },
 });
+FlowRouter.route('/process/action', {
+    name: 'process.to.action',
+    action(){
+        Session.set( 'route.last', 'process' );
+        BlazeLayout.render( g.run.layout.get(), { group:'process', page:'processPage', window:'processAction' });
+    },
+});
 FlowRouter.route('/project/new', {
     name: 'process.new.project',
     action(){
@@ -147,11 +153,11 @@ FlowRouter.route('/project/new', {
     },
 });
 FlowRouter.route('/action/new', {
-    name: 'process.new.action',
+    name: 'process.action',
     action(){
         //console.log( "FlowRouter process.init.obj={ type:'A', name:'New action'}" );
         Session.set( 'process.edit.obj', { type:'A', name:'New action'});
-        BlazeLayout.render( g.run.layout.get(), { main: 'editPage' });
+        BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
     },
 });
 FlowRouter.route('/review/projects', {

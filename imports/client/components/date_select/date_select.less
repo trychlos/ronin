@@ -1,7 +1,4 @@
-div.date-select {
-    display: flex;
-}
-div.ui-datepicker {
+.ui-datepicker {
     table.ui-datepicker-calendar {
         .ui-datepicker-week-col {
             color: gray;
@@ -12,3 +9,32 @@ div.ui-datepicker {
         background-image: url('/jquery-ui/ui-icons_444444_256x240.png');
     }
 }
+button.ui-datepicker-trigger {
+    border-radius: 3px;
+    border: 1px solid #c5c5c5;
+    margin-left: 0.25rem;
+}
+/* override the prev/next icons
+ * see https://stackoverflow.com/questions/47460581/replace-jquery-datepicker-prev-and-next-icons-with-fontawesome-icons/47839664 */
+ /*
+.ui-datepicker-prev span,
+.ui-datepicker-next span {
+    background-image: none !important;
+}
+.ui-datepicker-prev::before,
+.ui-datepicker-next::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+.ui-datepicker-prev::before {
+    content: "\f104";   // angle-left
+}
+.ui-datepicker-next::before {
+    content: "\f105";   // angle-right
+}
+*/

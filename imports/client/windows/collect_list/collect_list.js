@@ -28,6 +28,8 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/plus_button/plus_button.js';
+import '/imports/client/components/thought_edit/thought_edit.js';
+import '/imports/client/components/thoughts_list/thoughts_list.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './collect_list.html';
 

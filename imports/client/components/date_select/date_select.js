@@ -1,6 +1,7 @@
 /*
  * 'date_select' component.
  *  Let the user select a date.
+ *
  *  Parameters:
  *  - date: date to be set (default is none).
  */

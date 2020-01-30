@@ -23,7 +23,9 @@ Template.thoughts_list_card.events({
         return false;
     },
     'click .js-action'( event, instance ){
-
+        Session.set( 'collect.thought', instance.data.thought );
+        FlowRouter.go( 'process.to.action' );
+        return false;
     },
     'click .js-project'( event, instance ){
 

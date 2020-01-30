@@ -1,7 +1,7 @@
 /*
  * 'collectPage' page.
  *  The main page for the 'collect' features group.
- *  This page, along with the corresponding window, must be layout-agnostic.
+ *  This page, along with the corresponding windows, must be layout-agnostic.
  *
  *  Via custom events, we manager here all insert/update/delete operations on
  *  thoughts:

@@ -292,7 +292,7 @@ export const gtd = {
                     {
                         id: 'new.action',
                         label: 'New action',
-                        route: 'process.action.new',
+                        route: 'process.to.action',
                         navs: {
                             side: {
                                 display: true

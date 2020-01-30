@@ -108,11 +108,11 @@ Template.thought_edit.helpers({
 });
 
 Template.thought_edit.events({
-    'click .js-collapse'( event, instance ){
+    'click .js-collapse'( ev, instance ){
         const collapsed = instance.collapsed.get();
         instance.collapsed.set( !collapsed );
     },
-    'click .js-cancel'(event){
+    'click .js-cancel'( ev, instance ){
         Session.set( 'collect.thought', null );
         Session.set( 'header.title', null );
         FlowRouter.go( 'collect' );

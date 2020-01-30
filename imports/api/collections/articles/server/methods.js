@@ -25,27 +25,34 @@ import { Articles } from '../articles.js';
 
 Meteor.methods({
     // create a new action starting from a thought
-    // the thought is deleted after successful action creation
-    'actions.fromThought'(o){
-        var actionId = null;
-        if( o.thought.id ){
-            actionId = Articles.insert({
-                name: o.action.name,
-                topic: o.action.topic,
-                context: o.action.context,
-                status: o.action.status,
-                outcome: o.action.outcome,
-                description: o.action.description,
-                startDate: o.action.start,
-                dueDate: o.action.due,
-                doneDate: o.action.done,
-                project: o.action.project
-            });
-            Meteor.call('thoughts.remove', o.thought.id );
-        } else {
-            console.log( 'actions.fromThought() thought id is empty' );
+    'actions.from.thought'( thought, action ){
+        if( thought.type !== 'T' ){
+            throw new Meteor.Error(
+                'articles.invalid_type',
+                 thought.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
+            );
         }
-        return actionId;
+        // canonic fields order (from ../articles.js)
+        const ret = Articles.update( thought._id, { $set: {
+            type: 'A',
+            name: action.name,
+            topic: action.topic,
+            description: action.description,
+            startDate: action.start,
+            dueDate: action.due,
+            doneDate: action.done,
+            parent: action.project,
+            status: action.status,
+            context: action.context,
+            outcome: action.outcome
+        }});
+        console.log( 'Articles.actions.from.thought("'+action.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.actions.from.thought',
+                'unable to transform "'+thought.name+'" into an action' );
+        }
+        return ret;
     },
     'actions.insert'( o ){
         return Articles.insert({

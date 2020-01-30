@@ -1,4 +1,9 @@
 <template name="processPage">
     <div class="process-page">
+
+        {{#if isPageLayout}}
+            {{> Template.dynamic template=window data=windowContext }}
+        {{/if}}
+
     </div>
 </template>
