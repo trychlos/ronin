@@ -153,11 +153,10 @@
                   have to replace all old collections with this new one
 
   101 2020- 1-23 get and display version from mobile.json
+      2020- 1-30 version 'yymmddn' is dynamically computed at deployement time
 
   102 2020- 1-23 when changing touch to desktop layout and back, list grows
                   (e.g. on collect page)
-
-  103 2020- 1-23 header_panel: most left button is not displayed on browser's tablet
 
   104 2020- 1-23 mobile_footer bar is not visible without scrolling on browser's tablet
                   (miss the url bar and the tabs heights)
@@ -166,12 +165,6 @@
                   detectIt data + display size
 
   106 2020- 1-23 thoughts_list: have a badge with thoughts count
-
-  107 2020- 1-26 replace collect_new with collect_edit
-                  passing the object via collect.thought session variable
-
-  108 2020- 1-27 in page Layout, collectEdit is only used to run thoughtEdit
-                  see if they may be factorized ?
 
   109 2020- 1-28 in windowLayout, pass the group to the IWindowed newly created window
                   (idem what happens in pageLayout)
@@ -356,6 +349,17 @@
 
    99 2020- 1-22 action_status should be an asset, nor a db collection
       2020- 1-22 done
+
+  103 2020- 1-23 header_panel: most left button is not displayed on browser's tablet
+      2020- 1-30 normal as the menu_side is expected to be displayed in this case
+
+  107 2020- 1-26 replace collect_new with collect_edit
+                  passing the object via collect.thought session variable
+      2020- 1-30 done: have two routes which make use of the same collectEdit window
+
+  108 2020- 1-27 in page Layout, collectEdit is only used to run thoughtEdit
+                  see if they may be factorized ?
+      2020- 1-30 no, as first in the window part and later is only a component
 
   110 2020- 1-30 add a ok message in page layout after update/create items
       2020- 1-30 done
