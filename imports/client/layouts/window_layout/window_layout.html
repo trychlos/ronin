@@ -1,5 +1,6 @@
-<template name="desktopLayout">
-    <div class="desktop-layout container-fluid x-topmost">
+<template name="windowLayout">
+    <div class="window-layout container-fluid x-topmost">
+
         <div class="lyt-bar">
             <div class="menubar">
                 <p>menu bar here</p>
@@ -7,6 +8,7 @@
             {{>errors}}
             {{> loginButtons align="right" }}
         </div>
+
         <div class="lyt-body">
             <div class="lyt-side">
                 {{> menu_side}}
@@ -17,6 +19,8 @@
             </div>
             <div id="{{rootId}}"></div>
         </div>
+
         <div class="lyt-taskbar"></div>
+
     </div>
 </template>

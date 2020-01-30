@@ -1,20 +1,30 @@
 /*
- * 'desktopLayout' layout.
- *  Main layout for desktop clients.
+ * 'windowLayout' layout.
+ *  Main layout for desktop (mouse-driven) clients.
  *
  *  This layout makes use of the Simone window manager to display each and
  *  every pages (inside so-called windows).
  *
- *  Parameters:
- *  - main: name of the template to be displayed (from routes.js)
+ *  Worflow:
+ *  [routes.js]
+ *      +-> windowLayout { group, page, window }
+ *
+ *  The layout receives three parameters from the route manager.
+ *  It consumes one of them to dynamically display the page template, and sends
+ *  the two others as a data context to this page (here, to display the window).
+ *
+ *  Route-provided parameters:
+ *  - 'group': the identifier of this features's group
+ *  - 'page': the name of the primary page
+ *  - 'window': the window to be run by this 'page' page.
  */
 import '/imports/client/components/message/message.js';
 import '/imports/client/components/menu_side/menu_side.js';
 import '/imports/client/components/menu_bar/menu_bar.js';
 import '/imports/client/components/overview/overview.js';
-import './desktop_layout.html';
+import './window_layout.html';
 
-Template.desktopLayout.onRendered( function(){
+Template.windowLayout.onRendered( function(){
     const taskbar = $('.lyt-taskbar').taskbar({
         //buttonsTooltips: true,
         localization: {
@@ -49,7 +59,7 @@ Template.desktopLayout.onRendered( function(){
     });
 });
 
-Template.desktopLayout.helpers({
+Template.windowLayout.helpers({
     rootId(){
         return g[LYT_WINDOW].rootId;
     }
