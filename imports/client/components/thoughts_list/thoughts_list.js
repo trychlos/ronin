@@ -34,13 +34,6 @@ Template.thoughts_list.helpers({
 });
 
 Template.thoughts_list.events({
-    // a collapsable item is opened
-    // close the previously opened item
-    'ronin.thoughts.list.card.collapse'( event, instance ){
-        console.log( 'thoughts_list ronin.thoughts.list.card.collapse' );
-        $( '.thoughts-list-item' ).removeClass( 'opened-card' );
-        Session.set( 'collect.opened', null );
-    },
     /*
     // target=[object SVGSVGElement] but may also be SVGPathElement
     'click .js-delete'( event, instance ){

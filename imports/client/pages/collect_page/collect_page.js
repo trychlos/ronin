@@ -1,15 +1,17 @@
 /*
  * 'collectPage' page.
  *  The main page for the 'collect' features group.
+ *  This page, along with the corresponding window, must be layout-agnostic.
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { main, window }
- *              +-> collectPage { window, group }
+ *      +-> pageLayout { group, page, window }
+ *              +-> collectPage { group, window }
  *
  *  Parameters:
+ *  - 'group': the identifier of this features's group
  *  - 'window': the window to be run
- *      here: might be collect_list, collect_edit.
+ *      here: might be collectList, collectEdit.
  *
  *  NB: template lifecycle.
  *      Even if we manually render the template with Blaze.render(), we have
@@ -39,7 +41,7 @@ Template.collectPage.onRendered( function(){
 Template.collectPage.helpers({
     windowContext(){
         return {
-            group: 'collect'
+            group: Template.instance().data.group
         }
     }
 });

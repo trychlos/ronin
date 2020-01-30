@@ -14,10 +14,16 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { main, window }
- *              +-> collectPage { window, group }
+ *      +-> pageLayout { group, page, window }
+ *              +-> collectPage { group, window }
  *                      +-> collectList { group }
+ *                              +-> thought_edit in window-based layout
+ *                              +-> thoughts_list
+ *                              +-> plus_button in page-based layout
  *                      +-> collectEdit { group }
+ *
+ *  Parameters:
+ *  - 'group': identifier of the features group.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
@@ -47,7 +53,15 @@ Template.collectList.helpers({
 });
 
 Template.collectList.events({
+    // emitted from thoughts_list_item:
+    //  close all items
+    'ronin.thoughts.list.card.collapse'( event, instance ){
+        //console.log( 'thoughts_list ronin.thoughts.list.card.collapse' );
+        $( '.thoughts-list-item' ).removeClass( 'opened-card' );
+        Session.set( 'collect.opened', null );
+    },
     'click .js-new'( ev, instance ){
+        $( event.target ).trigger( 'ronin.thoughts.list.card.collapse' );
         FlowRouter.go( 'collect.new' );
         return false;
     }

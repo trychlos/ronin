@@ -176,7 +176,9 @@
   109 2020- 1-28 in windowLayout, pass the group to the IWindowed newly created window
                   (idem what happens in pageLayout)
 
-  110
+  110 2020- 1-30 add a ok message in page layout after update/create items
+
+  111
 
 -----------------------------------------------------------------------
  Done

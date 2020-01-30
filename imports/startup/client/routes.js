@@ -111,7 +111,7 @@ FlowRouter.route('/collect', {
     action(){
         Session.set( 'route.last', 'collect' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { page:'collectPage', window:'collectList' });
+        BlazeLayout.render( g.run.layout.get(), { group:'collect', page:'collectPage', window:'collectList' });
     },
 });
 FlowRouter.route('/collect/new', {
@@ -120,7 +120,7 @@ FlowRouter.route('/collect/new', {
         Session.set( 'route.last', 'collect' );
         Session.set( 'collect.thought', null );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { page:'collectPage', window:'collectEdit' });
+        BlazeLayout.render( g.run.layout.get(), { group:'collect', page:'collectPage', window:'collectEdit' });
     },
 });
 FlowRouter.route('/collect/edit', {
@@ -128,7 +128,7 @@ FlowRouter.route('/collect/edit', {
     action(){
         Session.set( 'route.last', 'collect' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { page:'collectPage', window:'collectEdit' });
+        BlazeLayout.render( g.run.layout.get(), { group:'collect', page:'collectPage', window:'collectEdit' });
     },
 });
 FlowRouter.route('/process', {

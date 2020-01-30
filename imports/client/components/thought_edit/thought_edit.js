@@ -98,16 +98,9 @@ Template.thought_edit.events({
         instance.collapsed.set( !collapsed );
     },
     'click .js-cancel'(event){
-        /*
-        event.preventDefault();
-        if( !Session.get( 'collect.thought' )){
-            Session.set( 'collect.thought', 'x' );  // force re-rendering
-        }
-        */
         Session.set( 'collect.thought', null );
         Session.set( 'header.title', null );
         FlowRouter.go( 'collect' );
-        //Template.thought_edit.fn.initEditArea();
         return false;
     },
    'submit .js-edit'(event, instance){

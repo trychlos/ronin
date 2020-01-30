@@ -1,6 +1,7 @@
 /*
  * 'pageLayout' layout.
  *  Main layout for page-based clients (mobiles and generally all touchable devices).
+ *  This same layout is to be used for all features group.
  *
  *  This is a fixed layout, with:
  *  - a fixed header,
@@ -9,9 +10,14 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { main, window }
+ *      +-> pageLayout { group, page, window }
+ *
+ *  The layout receives three parameters from the route manager.
+ *  It consumes one of them to dynamically display the page template, and sends
+ *  the two others as a data context to this page (here, to display the window).
  *
  *  Route-provided parameters:
+ *  - 'group': the identifier of this features's group
  *  - 'page': the name of the primary page
  *  - 'window': the window to be run by this 'page' page.
  *
@@ -49,6 +55,7 @@ Template.pageLayout.helpers({
     //  just to be sure we are able to pass a complex data context
     pageContext(){
         return {
+            group: Template.instance().data.group,
             window: Template.instance().data.window
         }
     },

@@ -12,9 +12,7 @@
         {{/if}}
 
         <form class="js-edit">
-            <div class="d-flex flex-column justify-content-end">
 
-                <div class="flex-grow-1">
                     <div class="collapse show" id="{{collapsableId}}">
                         <table class="edit-body">
                             <tr>
@@ -44,13 +42,11 @@
                             </tr>
                         </table>
                     </div>
-                </div>
 
-                <div>
                     <div class="actions d-flex justify-content-start align-items-center">
                         <div class="flex-grow-1">
                             {{#if collapsable }}
-                                <button class="js-collapse ui-button ui-corner-all"
+                                <button class="js-collapse ui-button ui-corner-all collapse-button"
                                         data-toggle="collapse" data-target="#{{collapsableId}}">
                                     <div class="{{showUp}}">
                                         <span class="fas fa-angle-up"></span>
@@ -61,19 +57,17 @@
                                     </div>
                                 </button>
                             {{/if}}
+                            <button class="js-cancel btn-cancel ui-button ui-corner-all {{showUp}}" title="Cancel">
+                                <span class="fas fa-times"></span>
+                                <!-- Cancel -->
+                            </button>
                         </div>
                         <button class="btn-submit ui-corner-all ui-button {{showUp}}"
                                 type="submit" title="Submit">
                             {{submit}}
                         </button>
-                        <button class="js-cancel btn-cancel ui-button ui-corner-all {{showUp}}" title="Cancel">
-                            <!-- <span class="fas fa-times"></span> -->
-                            Cancel
-                        </button>
                     </div>
-                </div>
 
-            </div>
         </form>
     </div>
 </template>
