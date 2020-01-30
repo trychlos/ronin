@@ -4,6 +4,11 @@
  *
  *  Parameters:
  *  - thought: the one-item cursor (aka an array) to be displayed
+ *
+ *  Session variables:
+ *  - collect.thought: the thought object to be edited
+ *  - collect.opened: the thought identifier whose card is opened
+ *      so that we can open the card when coming back from the edition
  */
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/thoughts_list_card/thoughts_list_card.js';
@@ -18,17 +23,10 @@ Template.thoughts_list_item.fn = {
     }
 }
 
-Template.thoughts_list_item.onCreated( function(){
-    this.collapsed = new ReactiveVar( true );
-});
-
 Template.thoughts_list_item.onRendered( function(){
-    this.autorun(() => {
-        const divId = Template.thoughts_list_item.fn.itemDivId();
-        if( !this.collapsed.get()){
-            $( '#'+divId ).addClass( 'opened-card' );
-        }
-    });
+    if( Session.get( 'collect.opened' ) === this.data.thought._id ){
+        $( '#'+Template.thoughts_list_item.fn.collapsableId()).collapse( 'show' );
+    }
 });
 
 Template.thoughts_list_item.helpers({
@@ -45,12 +43,10 @@ Template.thoughts_list_item.helpers({
         return Template.thoughts_list_item.fn.itemDivId();
     },
     showDown(){
-        const instance = Template.instance();
-        return instance.collapsed.get() ? 'x-inline' : 'x-hidden';
+        return Session.get( 'collect.opened' ) === Template.instance().data.thought._id ? 'x-hidden' : 'x-inline';
     },
     showUp(){
-        const instance = Template.instance();
-        return instance.collapsed.get() ? 'x-hidden' : 'x-inline';
+        return Session.get( 'collect.opened' ) === Template.instance().data.thought._id ? 'x-inline' : 'x-hidden';
     },
     topic_byId( id ){
         const obj = id ? Topics.findOne({ _id:id }) : null;
@@ -58,15 +54,18 @@ Template.thoughts_list_item.helpers({
     }
 });
 
+// note that as of Bootstrap v4.4x, 'show' event is triggered *before* the 'hide' event
+//  though 'show' event is asynchronous, thus less reliable, at least is it triggered
+//  after the 'hide' due to the transition delay...
+//
 Template.thoughts_list_item.events({
     // event.currentTarget = thoughts-list-item div
     // event.target = collapsable div
     'hide.bs.collapse'( event, instance ){
-        $( event.target ).trigger( 'toggle.collapse.ronin' );
-        instance.collapsed.set( true );
+        $( event.target ).trigger( 'ronin.thoughts.list.card.collapse' );
     },
-    'show.bs.collapse'( event, instance ){
-        $( event.target ).trigger( 'toggle.collapse.ronin' );
-        instance.collapsed.set( false );
+    'shown.bs.collapse'( event, instance ){
+        $( '#'+Template.thoughts_list_item.fn.itemDivId()).addClass( 'opened-card' );
+        Session.set( 'collect.opened', instance.data.thought._id );
     }
 });

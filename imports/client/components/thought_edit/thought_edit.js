@@ -7,7 +7,8 @@
  *  - collect.thought: the thought being edited.
  *
  *  Parameters:
- *  - collapsable=true|false whether this component may be collapsed.
+ *  - collapsable=true|false whether this component may be collapsed
+ *      defaulting to false.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/topics_select/topics_select.js';
@@ -81,7 +82,9 @@ Template.thought_edit.helpers({
         return Session.get( 'collect.thought' ) ? 'Update' : 'Create';
     },
     title(){
-        return Session.get( 'collect.thought' ) ? 'Edit thought' : 'New thought';
+        const title = Session.get( 'collect.thought' ) ? 'Edit thought' : 'New thought';
+        Session.set( 'header.title', title );
+        return title;
     },
     topic(){
         const obj = Session.get( 'collect.thought' );
@@ -95,16 +98,20 @@ Template.thought_edit.events({
         instance.collapsed.set( !collapsed );
     },
     'click .js-cancel'(event){
+        /*
         event.preventDefault();
         if( !Session.get( 'collect.thought' )){
             Session.set( 'collect.thought', 'x' );  // force re-rendering
         }
+        */
         Session.set( 'collect.thought', null );
-        Template.thought_edit.fn.initEditArea();
+        Session.set( 'header.title', null );
+        FlowRouter.go( 'collect' );
+        //Template.thought_edit.fn.initEditArea();
         return false;
     },
    'submit .js-edit'(event, instance){
-        event.preventDefault();
+        //event.preventDefault();
         const target = event.target;            // target=[object HTMLFormElement]
         // a name is mandatory
         const name = instance.$('.js-name').val();
@@ -142,6 +149,11 @@ Template.thought_edit.events({
                 Session.set( 'collect.thought', 'x' );  // force re-rendering
             }
             Session.set( 'collect.thought', null );
+            if( obj ){
+                Session.set( 'header.title', null );
+                FlowRouter.go( 'collect' );
+                return false;
+            }
             Template.thought_edit.fn.initEditArea();
         }
         return false;

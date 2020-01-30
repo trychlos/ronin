@@ -110,6 +110,7 @@ FlowRouter.route('/collect', {
     name: 'collect',
     action(){
         Session.set( 'route.last', 'collect' );
+        Session.set( 'header.title', null );
         BlazeLayout.render( g.run.layout.get(), { page:'collectPage', window:'collectList' });
     },
 });
@@ -118,13 +119,15 @@ FlowRouter.route('/collect/new', {
     action(){
         Session.set( 'route.last', 'collect' );
         Session.set( 'collect.thought', null );
+        Session.set( 'header.title', null );
         BlazeLayout.render( g.run.layout.get(), { page:'collectPage', window:'collectEdit' });
     },
 });
-FlowRouter.route('/collect/new', {
-    name: 'collect.new',
+FlowRouter.route('/collect/edit', {
+    name: 'collect.edit',
     action(){
         Session.set( 'route.last', 'collect' );
+        Session.set( 'header.title', null );
         BlazeLayout.render( g.run.layout.get(), { page:'collectPage', window:'collectEdit' });
     },
 });
@@ -213,6 +216,11 @@ FlowRouter.notFound = {
         BlazeLayout.render('appBody', { main: 'notFound' });
     },
 };
+
+const route = Session.get( 'route.last' );
+if( route ){
+    FlowRouter.go( route );
+}
 
 /*
 const layout = g.run.layout.get();

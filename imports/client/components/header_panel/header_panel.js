@@ -46,5 +46,14 @@ Template.header_panel.helpers({
         }
         Template.instance().eltCount = 1+count;
         return spacer;
+    },
+    title(){
+        const last = g.run.resize.get();    // be reactive vs orientation change
+        const width = parseInt( $(window).innerWidth());
+        let title = Session.get( 'header.title' );
+        if( !title ){
+            title = 'Ronin '+( width <= 480 ? 'rocks!' : 'takes care of your thoughts' );
+        }
+        return title;
     }
 });

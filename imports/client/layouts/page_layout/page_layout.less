@@ -2,7 +2,7 @@
  * On mobile and touchable layouts, have a fixed header and an sticky footer.
  *  See https://medium.com/@andrejsabrickis/a-fullscreen-modal-with-fixed-header-footer-and-a-scrollable-content-1656845c8171
  */
-div.fhsf-parent {
+ div.fhsf-parent {
     position: fixed;
     left: 0;
     top: 0;
@@ -21,11 +21,19 @@ div.fhsf-parent {
         margin: 0.25rem 0;
     }
 }
-
 div.page-layout {
     .lyt-header {
         background-color: @home-color;
         color: white;
+        div.fhsf-header {
+            line-height: @topbar-height;
+        }
+        div.fhsf-content {
+            overflow-y: auto;
+        }
+        div.fhsf-footer {
+            margin: 0.25rem 0;
+        }
     }
     .lyt-footer {
         a {
