@@ -149,11 +149,17 @@ Articles.helpers({
 Articles.fn.check = function( id, o ){
     // type must be valid
     if( !Articles.fn.types.includes( o.type )){
-        throw({ message:o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']' });
+        throw new Meteor.Error(
+            'articles.invalid_type',
+             o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
+        );
     }
     // must have a name
     if( !o.name ){
-        throw({ message:'empty name' });
+        throw new Meteor.Error(
+            'articles.empty_name',
+            'mandatory name is empty'
+        );
     }
     switch( o.type ){
         case 'T':

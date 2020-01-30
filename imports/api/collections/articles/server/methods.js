@@ -1,3 +1,25 @@
+/*
+ *  Server side:
+ *      throw new Meteor.Error( errorTypeStr, errorMessageStr );
+ *
+ *  Received on client side:
+ *      Meteor.call( methodStr, methodParms, ( error, result ) => {
+ *                  if( error ){
+ *                      console.log( error );
+ *                      throwError( error );
+ *                      return false;
+ *                  }
+ *                  console.log( 'result='+result );
+ *      };
+ *
+ *  where 'error' = {
+ *      error: errorTypeStr,
+ *      errorType: 'Meteor.Error',
+ *      message: errorMessageStr [errorMYpeStr]
+ *      reason: errorMessageStr
+ *      details: undefined
+ *  }
+ */
 import { Meteor } from 'meteor/meteor';
 import { Articles } from '../articles.js';
 
@@ -62,34 +84,57 @@ Meteor.methods({
             notes: o.notes
         }});
     },
+    // insert returns the newly insert '_id' or throws an exception
     'thoughts.insert'( o ){
-        let ret = false;
-        if( o.type === 'T' ){
-            ret = Articles.insert({
-                type: o.type,
-                name: o.name,
-                topic: o.topic,
-                description: o.description
-            });
+        if( o.type !== 'T' ){
+            throw new Meteor.Error(
+                'articles.invalid_type',
+                 o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
+            );
         }
+        const ret = Articles.insert({
+            type: o.type,
+            name: o.name,
+            topic: o.topic,
+            description: o.description
+        });
         console.log( 'Articles.thoughts.insert("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.thoughts.insert',
+                'unable to insert "'+o.name+'" thought' );
+        }
         return ret;
     },
     'thoughts.remove'( id ){
         const ret = Articles.remove({ _id:id, type:'T' });
         console.log( 'Articles.thoughts.remove("'+id+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.thoughts.remove',
+                'unable to remove "'+id+'" thought' );
+        }
         return ret;
     },
+    // update returns true or throws an exception
     'thoughts.update'( id, o ){
-        let ret = false;
-        if( o.type === 'T' ){
-            ret = Articles.update( id, { $set: {
-                name: o.name,
-                description: o.description,
-                topic: o.topic
-            }});
+        if( o.type !== 'T' ){
+            throw new Meteor.Error(
+                'articles.invalid_type',
+                 o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
+            );
         }
+        const ret = Articles.update( id, { $set: {
+            name: o.name,
+            description: o.description,
+            topic: o.topic
+        }});
         console.log( 'Articles.thoughts.update("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.thoughts.update',
+                'unable to update "'+o.name+'" thought' );
+        }
         return ret;
     }
 });

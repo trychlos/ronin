@@ -108,47 +108,47 @@ Template.thought_edit.events({
         const target = event.target;            // target=[object HTMLFormElement]
         // a name is mandatory
         const name = instance.$('.js-name').val();
-        if( name.length ){
-            const obj = Session.get( 'collect.thought' );
-            const id = obj ? obj._id : null;
-            var newobj = {
-                type: 'T',
-                name: name,
-                description: instance.$('.js-description').val(),
-                topic: Template.topics_select.fn.getSelected('')
-            };
-            try {
-                Articles.fn.check( id, newobj );
-            } catch( e ){
-                return throwError({ message: e.message });
-            }
-            //console.log( 'submit.edit: Thoughts.fn.check() successful' );
-            if( obj ){
-                // if nothing has changed, then does nothing
-                if( Articles.fn.equal( obj, newobj )){
-                    return false;
-                }
-                Meteor.call('thoughts.update', id, newobj, ( error ) => {
-                    if( error ){
-                        return throwError({ message: error.message });
-                    }
-                });
-            } else {
-                Meteor.call('thoughts.insert', newobj, ( error ) => {
-                    if( error ){
-                        return throwError({ message: error.message });
-                    }
-                });
-                Session.set( 'collect.thought', 'x' );  // force re-rendering
-            }
-            Session.set( 'collect.thought', null );
-            if( obj ){
-                Session.set( 'header.title', null );
-                FlowRouter.go( 'collect' );
+        const obj = Session.get( 'collect.thought' );
+        const id = obj ? obj._id : null;
+        var newobj = {
+            type: 'T',
+            name: name,
+            description: instance.$('.js-description').val(),
+            topic: Template.topics_select.fn.getSelected('')
+        };
+        try {
+            Articles.fn.check( id, newobj );
+        } catch( e ){
+            throwError({ type:e.error, message: e.reason });
+            return false;
+        }
+        if( obj ){
+            // if nothing has changed, then does nothing
+            if( Articles.fn.equal( obj, newobj )){
                 return false;
             }
-            Template.thought_edit.fn.initEditArea();
+            Meteor.call('thoughts.update', id, newobj, ( e, result ) => {
+                if( e ){
+                    throwError({ type:e.error, message: e.reason });
+                    return false;
+                }
+            });
+        } else {
+            Meteor.call('thoughts.insert', newobj, ( e, result ) => {
+                if( e ){
+                    throwError({ type:e.error, message: e.reason });
+                    return false;
+                }
+            });
+            Session.set( 'collect.thought', 'x' );  // force re-rendering
         }
+        Session.set( 'collect.thought', null );
+        if( obj ){
+            Session.set( 'header.title', null );
+            FlowRouter.go( 'collect' );
+            return false;
+        }
+        Template.thought_edit.fn.initEditArea();
         return false;
     }
 });

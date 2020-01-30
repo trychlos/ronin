@@ -7,12 +7,12 @@ Errors = new Mongo.Collection( null );
 // type: a language-agnostic error code
 //       this may be catched by the code
 // message: the message to be displayed to the user
-throwError = function( obj ){
-    Errors.insert({ 
-        type: obj.type, 
-        message: obj.message
+throwError = function( o ){
+    Errors.insert({
+        type: o.type,
+        message: o.message
     })
-}
+};
 
 Template.errors.helpers({
     errors: function(){
