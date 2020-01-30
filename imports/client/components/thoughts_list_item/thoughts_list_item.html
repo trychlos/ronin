@@ -1,9 +1,13 @@
 <template name="thoughts_list_item">
     <div class="thoughts-list-item card" id={{itemDivId}}>
 
-        <div class="title x-ellipsize">
+        <a  class="title x-ellipsize"
+            href="#{{collapsableId}}"
+            data-toggle="collapse" data-thought="{{ thought._id }}">
+
             <div class="x-px025 d-flex flex-row justify-content-start align-items-center">
-                <div class="name w-50">
+
+                <div class="name {{className}}">
                     <p>{{ thought.name }}</p>
                 </div>
                 <div class="topic {{classTopic}}">
@@ -12,8 +16,9 @@
                 <div class="x-createdAt {{classCreatedAt}}">
                     <p>{{ lastUpdated thought }}</p>
                 </div>
+                <!--
                 <button
-                    class="js-collapse ui-button ui-corner-all"
+                    class="ui-button ui-corner-all"
                     data-toggle="collapse"
                     data-target="#{{collapsableId}}"
                     data-thought="{{ thought._id }}"
@@ -26,8 +31,10 @@
                             <span class="fas fa-angle-up"></span>
                         </span>
                 </button>
+                -->
             </div>
-        </div>
+
+        </a>
 
         <div class="x-px025 collapse" id="{{collapsableId}}" data-parent=".thoughts-list">
             {{> thoughts_list_card thought=thought }}

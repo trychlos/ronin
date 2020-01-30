@@ -31,10 +31,13 @@ Template.thoughts_list_item.onRendered( function(){
 
 Template.thoughts_list_item.helpers({
     classCreatedAt(){
-        return $(window).innerWidth() <= 480 ? 'x-hidew480' : 'w-25';
+        return $(window).innerWidth() <= 480 ? 'x-hidew480' : '';
+    },
+    className(){
+        return $(window).innerWidth() <= 480 ? 'x-w60' : 'w-50';
     },
     classTopic(){
-        return $(window).innerWidth() <= 480 ? 'w-50' : 'w-25';
+        return $(window).innerWidth() <= 480 ? '' : 'xw-30';
     },
     collapsableId(){
         return Template.thoughts_list_item.fn.collapsableId();

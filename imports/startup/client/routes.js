@@ -7,7 +7,7 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 import '/imports/client/layouts/body/body.js';
 import '/imports/client/layouts/page_layout/page_layout.js';
-import '/imports/client/layouts/desktop_layout/desktop_layout.js';
+import '/imports/client/layouts/window_layout/window_layout.js';
 
 import '/imports/client/pages/actions_page/actions_page.js';
 import '/imports/client/pages/devel_page/devel_page.js';
