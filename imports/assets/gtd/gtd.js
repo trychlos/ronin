@@ -226,15 +226,18 @@ export const gtd = {
             {
                 id: 'collect',
                 label: 'Collect',
-                route: 'collect',
+                route: {
+                    page: 'thoughts.list',
+                    window: 'collect'
+                },
                 navs: {
-                    header: {
-                        display: true
-                    },
                     footer: {
                         display: true,
                         label: 'Thoughts',
                         sort: 2
+                    },
+                    header: {
+                        display: true
                     },
                     overview: {
                         display: true,
@@ -249,7 +252,6 @@ export const gtd = {
             {
                 id: 'process',
                 label: 'Process thoughts',
-                route: 'process.thoughts',
                 navs: {
                     header: {
                         display: true,
@@ -268,9 +270,6 @@ export const gtd = {
                         id: 'maybe',
                         label: 'Someday / Maybe',
                         navs: {
-                            header: {
-                                display: true
-                            },
                             overview: {
                                 display: true
                             },
@@ -280,9 +279,21 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'new.project',
+                        id: 'tho-project',
+                        label: 'Transform into a project',
+                        route: {
+                            page: 'process.project',
+                            window: 'process'
+                        },
+                        navs: {
+                            footer: {
+                                group: 'collect'
+                            }
+                        }
+                    },
+                    {
+                        id: 'project',
                         label: 'New project',
-                        route: 'process.project.new',
                         navs: {
                             side: {
                                 display: true
@@ -290,16 +301,29 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'new.action',
+                        id: 'tho-action',
+                        label: 'Transform into an action',
+                        route: {
+                            page: 'process.action',
+                            window: 'process'
+                        },
+                        navs: {
+                            footer: {
+                                group: 'collect'
+                            }
+                        }
+                    },
+                    {
+                        id: 'action',
                         label: 'New action',
-                        route: 'process.to.action',
+                        route: 'action.new',
                         navs: {
                             side: {
                                 display: true
                             }
                         }
-                    },
-                ],
+                    }
+                ]
             },
             {
                 id: 'review',
