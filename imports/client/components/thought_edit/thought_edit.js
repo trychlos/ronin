@@ -150,5 +150,5 @@ Template.thought_edit.events({
             Template.thought_edit.fn.initEditArea();
         }
         return false;
-    },
+    }
 });

@@ -5,7 +5,9 @@
  *  Parameters:
  *  - thought: the thought to be edited.
  */
+import bootbox from 'bootbox/dist/bootbox.all.min.js';
 import { Articles } from '/imports/api/collections/articles/articles.js';
+//import '/imports/client/components/thought_delete/thought_delete.js';
 import './thoughts_list_card.html';
 
 Template.thoughts_list_card.helpers({
@@ -32,6 +34,19 @@ Template.thoughts_list_card.events({
 
     },
     'click .js-delete'( event, instance ){
-
+        //Session.set( 'collect.thought', instance.data.thought );
+        //Blaze.render( Template.thought_delete, document.body );
+        const thought = instance.data.thought;
+        bootbox.confirm(
+            'You are about to delete the "'+thought.name+'" thought<br />'+
+            'Are you sure ?', function( ret ){
+                if( ret ){
+                    Meteor.call( 'thoughts.remove', thought._id, ( error ) => {
+                        if( error ){
+                            return throwError({ message: error.message });
+                        }
+                    });
+                }
+            });
     }
 });

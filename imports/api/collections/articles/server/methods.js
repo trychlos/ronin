@@ -63,18 +63,33 @@ Meteor.methods({
         }});
     },
     'thoughts.insert'( o ){
-        return Articles.insert({
-            type: o.type,
-            name: o.name,
-            topic: o.topic,
-            description: o.description
-        });
+        let ret = false;
+        if( o.type === 'T' ){
+            ret = Articles.insert({
+                type: o.type,
+                name: o.name,
+                topic: o.topic,
+                description: o.description
+            });
+        }
+        console.log( 'Articles.thoughts.insert("'+o.name+'") returns '+ret );
+        return ret;
+    },
+    'thoughts.remove'( id ){
+        const ret = Articles.remove({ _id:id, type:'T' });
+        console.log( 'Articles.thoughts.remove("'+id+'") returns '+ret );
+        return ret;
     },
     'thoughts.update'( id, o ){
-        return Articles.update( id, { $set: {
-            name: o.name,
-            description: o.description,
-            topic: o.topic
-        }});
+        let ret = false;
+        if( o.type === 'T' ){
+            ret = Articles.update( id, { $set: {
+                name: o.name,
+                description: o.description,
+                topic: o.topic
+            }});
+        }
+        console.log( 'Articles.thoughts.update("'+o.name+'") returns '+ret );
+        return ret;
     }
 });

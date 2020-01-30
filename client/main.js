@@ -21,7 +21,7 @@
  *   |   +- ./collections-config.js             Collections configurations
  *   |   +- ./misc.js                           Misceallenous functions
  *   |
- *   +- /imports/startup/both/index.js
+ *   +- /imports/startup/client/index.js
  *       |
  *       +- import global client libs
  *       |  |
