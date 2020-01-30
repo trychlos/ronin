@@ -178,7 +178,7 @@
 
   110 2020- 1-30 add a ok message in page layout after update/create items
 
-  111
+  112
 
 -----------------------------------------------------------------------
  Done
@@ -358,6 +358,9 @@
 
    99 2020- 1-22 action_status should be an asset, nor a db collection
       2020- 1-22 done
+
+  111 2020- 1-30 deprecate errors component in favor of message
+      2020- 1-30 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

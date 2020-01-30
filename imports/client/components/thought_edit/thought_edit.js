@@ -132,6 +132,7 @@ Template.thought_edit.events({
                     throwError({ type:e.error, message: e.reason });
                     return false;
                 }
+                throwSuccess( 'Thought successfully updated' );
             });
         } else {
             Meteor.call('thoughts.insert', newobj, ( e, result ) => {
@@ -139,6 +140,7 @@ Template.thought_edit.events({
                     throwError({ type:e.error, message: e.reason });
                     return false;
                 }
+                throwSuccess( 'Thought successfully inserted' );
             });
             Session.set( 'collect.thought', 'x' );  // force re-rendering
         }

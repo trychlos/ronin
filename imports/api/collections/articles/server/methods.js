@@ -106,6 +106,7 @@ Meteor.methods({
         }
         return ret;
     },
+    // remove returns true or throws an exception
     'thoughts.remove'( id ){
         const ret = Articles.remove({ _id:id, type:'T' });
         console.log( 'Articles.thoughts.remove("'+id+'") returns '+ret );

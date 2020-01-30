@@ -14,7 +14,6 @@
  *
  *  A button let the user sign in / sign out.
  */
-import '/imports/client/components/errors/errors.js';
 import '/imports/client/components/layout_select/layout_select.js';
 import '/imports/client/components/menu_bar/menu_bar.js';
 import '/imports/client/components/menu_button/menu_button.js';

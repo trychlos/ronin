@@ -13,7 +13,6 @@
  *  + all simone options
  */
 import { gtd } from '/imports/assets/gtd/gtd.js';
-import '/imports/client/components/errors/errors.js'
 import '/imports/client/interfaces/itabbed/itabbed.js'
 
 ( function( $ ){

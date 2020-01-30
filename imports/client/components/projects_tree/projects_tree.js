@@ -11,7 +11,6 @@ import { Actions } from '/imports/api/collections/actions/actions.js';
 import { Counters } from '/imports/api/collections/counters/counters.js';
 import { Projects } from '/imports/api/collections/projects/projects.js';
 import { actionStatus } from '/imports/assets/action_status/action_status.js';
-import '/imports/client/components/errors/errors.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import 'jqtree/tree.jquery.js';
 import 'jqtree/jqtree.css';

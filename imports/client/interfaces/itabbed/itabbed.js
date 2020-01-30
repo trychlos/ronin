@@ -14,7 +14,6 @@
  *  + all jQuery Tabs options.
  */
 import { gtd } from '/imports/assets/gtd/gtd.js';
-import '/imports/client/components/errors/errors.js'
 
 ( function( $ ){
     $.fn.ITabbed = function(){

@@ -1,16 +1,21 @@
 <template name="pageLayout">
-    <div class="page-layout container-fluid fhsf-parent x-topmost">
+    <div class="page-layout container-fluid x-topmost">
 
-        <div class="lyt-header fhsf-header x-px05">
-            {{> header_panel }}
-        </div>
+        {{> messageTmpl }}
 
-        <div class="lyt-body fhsf-content x-px05">
-            {{> Template.dynamic template=page data=pageContext }}
-        </div>
+        <div class="fhsf-parent">
 
-        <div class="lyt-footer fhsf-footer">
-            {{> footer_panel }}
+            <div class="lyt-header fhsf-header x-px05">
+                {{> header_panel }}
+            </div>
+
+            <div class="lyt-body fhsf-content x-px05">
+                {{> Template.dynamic template=page data=pageContext }}
+            </div>
+
+            <div class="lyt-footer fhsf-footer">
+                {{> footer_panel }}
+            </div>
         </div>
 
         <div class="x-hidden">{{{ resized }}}</div>

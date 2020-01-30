@@ -32,33 +32,3 @@ Template.thoughts_list.helpers({
         return g.run.layout.get() === LYT_PAGE ? 'x-trh3' : '';
     }
 });
-
-Template.thoughts_list.events({
-    /*
-    // target=[object SVGSVGElement] but may also be SVGPathElement
-    'click .js-delete'( event, instance ){
-        event.preventDefault();
-        const button = $( event.target ).parents( 'button' )[0];
-        const id = $( button ).data( 'thought' );
-        //console.log( "deleting id='"+anchor.id+"'");
-        Meteor.call('thoughts.remove', id, ( error ) => {
-            if( error ){
-                return throwError({ message: error.message });
-            }
-        });
-        return false;
-    },
-    'click .js-update'( event, instance ){
-        event.preventDefault();
-        const button = $( event.target ).parents( 'button' )[0];
-        const id = $( button ).data( 'thought' );
-        const obj = Thoughts.findOne({ _id: id });
-        if( !obj ){
-            throwError({ message: 'Thought no more exists' });
-        } else {
-            Session.set( 'collect.thought', obj );
-        }
-        return false;
-    },
-    */
-});

@@ -16,7 +16,6 @@
  *          settings of a grid definition
  *      > else, it is directly passed to jqxGrid (as is).
  */
-import '/imports/client/components/errors/errors.js'
 import '/imports/client/third-party/jqwidgets/jqxbuttons-patched.js';
 import '/imports/client/third-party/jqwidgets/jqxdata.js';
 import '/imports/client/third-party/jqwidgets/jqxdropdownlist.js';

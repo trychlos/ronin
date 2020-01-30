@@ -8,7 +8,7 @@
  *  Parameters:
  *  - main: name of the template to be displayed (from routes.js)
  */
-import '/imports/client/components/errors/errors.js';
+import '/imports/client/components/message/message.js';
 import '/imports/client/components/menu_side/menu_side.js';
 import '/imports/client/components/menu_bar/menu_bar.js';
 import '/imports/client/components/overview/overview.js';
