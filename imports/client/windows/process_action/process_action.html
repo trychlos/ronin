@@ -1,22 +1,28 @@
 <template name="processAction">
-    <div class="process-action pwi-window">
+    <div class="process-action pwi-window wsf-parent">
 
-        {{#if isPageLayout}}
-            <div class="x-hidden">
-                {{title}}
-            </div>
-        {{/if}}
+        <div class="wsf-header">
+            {{#if isPageLayout}}
+                <div class="x-hidden">
+                    {{title}}
+                </div>
+            {{/if}}
 
-        {{#if isWindowLayout}}
-            <p>
-                Transform the thought into an action.<br />
-                This action may, or may not, be immediately actionable, delegatable, ...
-            </p>
-        {{/if}}
+            {{#if isWindowLayout}}
+                <p>
+                    Transform the thought into an action.<br />
+                    This action may, or may not, be immediately actionable, delegatable, ...
+                </p>
+            {{/if}}
+        </div>
 
-        {{> action_panel action=toAction }}
+        <div class="wsf-content">
+            {{> action_panel action=toAction }}
+        </div>
 
-        {{> collapse_buttons okLabel="Transform" }}
+        <div class="wsf-footer">
+            {{> collapse_buttons okLabel="Transform" }}
+        </div>
 
     </div>
 </template>

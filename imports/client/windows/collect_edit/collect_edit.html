@@ -1,19 +1,25 @@
 <template name="collectEdit">
-    <div class="collect-edit pwi-window">
+    <div class="collect-edit pwi-window wsf-parent">
 
-        {{#if isPageLayout}}
-            <div class="x-hidden">
-                {{title}}
-            </div>
-        {{else}}
-            <div class="edit-header">
-                <p class="x-h2">{{title}}</p>
-            </div>
-        {{/if}}
+        <div class="wsf-header">
+            {{#if isPageLayout}}
+                <div class="x-hidden">
+                    {{title}}
+                </div>
+            {{else}}
+                <div class="edit-header">
+                    <p class="x-h2">{{title}}</p>
+                </div>
+            {{/if}}
+        </div>
 
-        {{> thought_panel }}
+        <div class="wsf-content">
+            {{> thought_panel }}
+        </div>
 
-        {{> collapse_buttons okLabel=okLabel }}
+        <div class="wsf-footer">
+            {{> collapse_buttons okLabel=okLabel }}
+        </div>
 
     </div>
 </template>

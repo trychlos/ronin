@@ -50,6 +50,12 @@
                 </td>
             </tr>
             <tr>
+                <td class="label x-hright"><p>Project:</p></td>
+                <td class="js-project">
+                    {{> projects_select selected=project.parent }}
+                </td>
+            </tr>
+            <tr>
                 <td class="label x-hright">Future project:</td>
                 <td><input type="checkbox" class="js-future" {{isFuture project.future}} /></td>
             </tr>
