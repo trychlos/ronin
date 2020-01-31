@@ -1,7 +1,23 @@
 <template name="processProject">
     <div class="process-project pwi-window">
 
-        {{> to_project thought=thought }}
+        {{#if isPageLayout}}
+            <div class="x-hidden">
+                {{title}}
+            </div>
+        {{/if}}
+
+        {{#if isWindowLayout}}
+            <p>
+                Transform the thought into a project
+                because it will probably require several actions.<br />
+                As all project, this new one will be reorderable in the projects view.
+            </p>
+        {{/if}}
+
+        {{> project_panel project=toProject }}
+
+        {{> collapse_buttons okLabel="Transform" }}
 
     </div>
 </template>

@@ -38,10 +38,11 @@ Meteor.methods({
             name: action.name,
             topic: action.topic,
             description: action.description,
-            startDate: action.start,
-            dueDate: action.due,
-            doneDate: action.done,
-            parent: action.project,
+            notes: action.notes,
+            startDate: action.startDate,
+            dueDate: action.dueDate,
+            doneDate: action.doneDate,
+            parent: action.parent,
             status: action.status,
             context: action.context,
             outcome: action.outcome
@@ -54,6 +55,7 @@ Meteor.methods({
         }
         return ret;
     },
+    /*
     'actions.insert'( o ){
         return Articles.insert({
             name: o.name,
@@ -90,6 +92,39 @@ Meteor.methods({
             project: o.project,
             notes: o.notes
         }});
+    },
+    */
+    // create a new project from a thought
+    'projects.from.thought'( thought, project ){
+        if( thought.type !== 'T' ){
+            throw new Meteor.Error(
+                'articles.invalid_type',
+                 thought.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
+            );
+        }
+        // canonic fields order (from ../articles.js)
+        const ret = Articles.update( thought._id, { $set: {
+            type: 'P',
+            name: project.name,
+            topic: project.topic,
+            description: project.description,
+            notes: project.notes,
+            startDate: project.startDate,
+            dueDate: project.dueDate,
+            doneDate: project.doneDate,
+            parent: project.parent,
+            status: project.status,
+            future: project.future,
+            vision: project.vision,
+            brainstorm: project.brainstorm
+        }});
+        console.log( 'Articles.projects.from.thought("'+project.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.projects.from.thought',
+                'unable to transform "'+thought.name+'" into a project' );
+        }
+        return ret;
     },
     // insert returns the newly insert '_id' or throws an exception
     'thoughts.insert'( o ){

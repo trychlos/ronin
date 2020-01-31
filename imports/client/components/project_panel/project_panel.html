@@ -1,37 +1,32 @@
-<template name="to_project">
-    <div class="to-project">
-
-        {{#if isWindowLayout}}
-            <p>
-                Transform the thought into a project
-                because it will probably require several actions.<br />
-                As all project, this new one will be reorderable in the projects view.
-            </p>
-        {{/if}}
+<template name="project_panel">
+    <div class="project-panel">
 
         <table class="w-100">
             <tr>
                 <td class="label x-hright"><p>Project:</p></td>
                 <td class="data">
-                    <input class="js-name w-100 form-control" type="text" size="40" value="{{ thought.name }}" />
+                    <input class="js-name w-100 form-control"
+                            type="text" placeholder="Name" value="{{ project.name }}" />
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Topic:</p></td>
                 <td class="data js-topic">
-                    {{> topics_select selected=thought.topic}}
+                    {{> topics_select selected=project.topic}}
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Purpose:</p></td>
                 <td>
-                    <input class="js-purpose w-100 form-control" type="text" size="40" placeholder="Purpose" />
+                    <input class="js-purpose w-100 form-control"
+                            type="text" placeholder="Purpose" value="{{ project.purpose }}" />
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Vision:</p></td>
                 <td>
-                    <input class="js-vision w-100 form-control" type="text" size="40" placeholder="Vision" />
+                    <input class="js-vision w-100 form-control"
+                            type="text" size="40" placeholder="Vision" value="{{ project.vision }}" />
                 </td>
             </tr>
             <tr>
@@ -41,7 +36,7 @@
                         name="description"
                         class="js-description w-100 form-control"
                         placeholder="Description of the project"
-                        rows="4" cols="40">{{ thought.description }}</textarea>
+                        rows="3">{{ project.description }}</textarea>
                 </td>
             </tr>
             <tr>
@@ -51,37 +46,36 @@
                         name="brainstorm"
                         class="js-brainstorm w-100 form-control"
                         placeholder="Brainstorming"
-                        rows="4" cols="40"></textarea>
+                        rows="3">{{ project.brainstorm }}</textarea>
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright">Future project:</td>
-                <td><input type="checkbox" class="js-future form-control" /></td>
+                <td><input type="checkbox" class="js-future" {{isFuture project.future}} /></td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Start date:</p></td>
-                <td class="js-datestart" title="Start date">{{> date_select }}</td>
+                <td class="js-datestart" title="Start date">{{> date_select date=project.startDate }}</td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Due date:</p></td>
-                <td class="js-datedue" title="Due date">{{> date_select }}</td>
+                <td class="js-datedue" title="Due date">{{> date_select date=project.dueDate }}</td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Done date:</p></td>
-                <td class="js-datedone" title="Done date">{{> date_select }}</td>
+                <td class="js-datedone" title="Done date">{{> date_select date=project.doneDate }}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-vtop"><p>Notes:</p></td>
+                <td>
+                    <textarea
+                        name="notes"
+                        class="js-notes w-100 form-control"
+                        placeholder="Notes"
+                        rows="3">{{ project.notes }}</textarea>
+                </td>
             </tr>
         </table>
-
-        <div class="actions d-flex justify-content-start align-items-center">
-                <div class="flex-grow-1">
-                    <button class="js-cancel btn-cancel ui-button ui-corner-all" title="Cancel">
-                        <span class="fas fa-times"></span>
-                    </button>
-                </div>
-                <button class="js-transform ui-button ui-corner-all">
-                    Transform
-                </button>
-        </div>
 
     </div>
 </template>
