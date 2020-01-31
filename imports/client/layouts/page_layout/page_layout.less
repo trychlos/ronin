@@ -14,32 +14,36 @@ div.page-layout {
     .process-project {
         margin-top: 0.25rem;
     }
-    .collapse-buttons {
-        margin-top: 0.5rem;
-        padding-top: 0.5rem;
-        border-top: 1px solid @border-color;
-    }
-    /* edition pages wsf- */
     /*
+    .collapse-buttons {
+        //margin-top: 0.5rem;
+        //padding-top: 0.5rem;
+        //border-top: 1px solid @border-color;
+    }
+    */
+    /* edition pages wsf- */
     .wsf-parent {
         .wsf-header {
             display: hidden;
         }
         .wsf-content {
-            position: absolute;
+            position: fixed;
             top: @topbar-height;
             bottom: ( @bottombar-height + @bottombar-height );
             overflow-y: auto;
+            margin: 0.25rem 0;
+            padding-right: 0.5rem;
         }
         .wsf-footer {
-            margin: 0.25rem;
-            width: 90%;
-            position: absolute;
+            position :fixed;
             bottom: @bottombar-height;
-            line-height: @bottombar-height;
+            height: @bottombar-height;
+            width: 100%;
+            padding: 0.25rem 0;
+            padding-right: 1rem;
+            border-top: 1px solid @border-color;
         }
     }
-    */
     .lyt-footer {
         a {
             color: @active-color;
