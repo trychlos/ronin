@@ -1,26 +1,3 @@
-/*
- * On mobile and touchable layouts, have a fixed header and an sticky footer.
- *  See https://medium.com/@andrejsabrickis/a-fullscreen-modal-with-fixed-header-footer-and-a-scrollable-content-1656845c8171
- */
- div.fhsf-parent {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-rows: @topbar-height auto @bottombar-height;
-
-    div.fhsf-header {
-        line-height: @topbar-height;
-    }
-    div.fhsf-content {
-        overflow-y: auto;
-    }
-    div.fhsf-footer {
-        margin: 0.25rem 0;
-    }
-}
 div.page-layout {
     .lyt-header {
         background-color: @home-color;
@@ -30,6 +7,15 @@ div.page-layout {
             background-color: transparent;
             border-color: white;
         }
+    }
+    .collect-list,
+    .collect-edit {
+        margin-top: 0.25rem;
+    }
+    .collapse-buttons {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid @border-color;
     }
     .lyt-footer {
         a {

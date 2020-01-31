@@ -1,9 +1,38 @@
 body {
     /* bootstrap 4.4.x
      */
+    .container,
     .container-fluid {
         padding: 0;
         margin: 0;
+        margin-block-start: 0;
+        margin-block-end: 0;
+        padding-block-start: 0;
+        padding-block-end: 0;
+    }
+    /*
+     *  Fixed header - Sticky footer
+     *  On mobile and touchable layouts, have a fixed header and an sticky footer.
+     *  See https://medium.com/@andrejsabrickis/a-fullscreen-modal-with-fixed-header-footer-and-a-scrollable-content-1656845c8171
+     */
+    div.fhsf-parent {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: @topbar-height auto @bottombar-height;
+
+        div.fhsf-header {
+            line-height: @topbar-height;
+        }
+        div.fhsf-content {
+            overflow-y: auto;
+        }
+        div.fhsf-footer {
+            margin: 0.25rem 0;
+        }
     }
     /* all layouts should have their topmost div have this class */
     .x-topmost {
@@ -105,7 +134,7 @@ body {
             }
         }
     }
-    .lyt-body {
+    .lyt-content {
         .thoughts-list {    // component used throughout several layouts
             .ui-button {
                 padding: 0.25em 0.5em;

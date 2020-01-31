@@ -8,10 +8,40 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { main, window }
- *              +-> collectPage { window, group }
- *                      +-> collectList { group }
- *                      +-> collectEdit { group }
+ *      +-> pageLayout { gtd, page, window }
+ *              +-> collectPage { gtd, window }
+ *                      +-> collectList { gtd }
+ *                      |
+ *                      +-> collectEdit { gtd }
+ *                              +-> thought_panel
+ *                              +-> collapse_buttons
  */
-import '/imports/client/components/thought_edit/thought_edit.js';
+import '/imports/client/components/collapse_buttons/collapse_buttons.js';
+import '/imports/client/components/thought_panel/thought_panel.js';
 import './collect_edit.html';
+
+Template.collectEdit.helpers({
+    okLabel(){
+        const label = Session.get( 'collect.thought' ) ? 'Update' : 'Create';
+        return label;
+    },
+    title(){
+        const title = Session.get( 'collect.thought' ) ? 'Edit thought' : 'New thought';
+        Session.set( 'header.title', title );
+        return title;
+    }
+});
+
+Template.collectEdit.events({
+    'click .js-cancel'( ev, instance ){
+        Session.set( 'collect.thought', null );
+        Session.set( 'header.title', null );
+        FlowRouter.go( 'collect' );
+        return false;
+    },
+    'click .js-ok'( ev, instance ){
+        const obj = Template.thought_panel.fn.getContent();
+        $( ev.target ).trigger( 'ronin.model.thought.update', obj );
+        return false;
+    }
+});

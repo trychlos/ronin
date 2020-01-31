@@ -1,5 +1,18 @@
 <template name="processAction">
-    <div class="process-action">
+    <div class="process-action pwi-window">
+
+        {{#if isPageLayout}}
+            <div class="x-hidden">
+                {{title}}
+            </div>
+        {{/if}}
+
+        {{#if isWindowLayout}}
+            <p>
+                Transform the thought into an action.<br />
+                This action may, or may not, be immediately actionable, delegatable, ...
+            </p>
+        {{/if}}
 
         {{> to_action thought=thought }}
 

@@ -5,11 +5,11 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { group, page, window }
- *              +-> processPage { group, window }
+ *      +-> pageLayout { gtd, page, window }
+ *              +-> processPage { gtd, window }
  *
  *  Parameters:
- *  - 'group': the identifier of this features's group
+ *  - 'gtd': the identifier of this features's group item
  *  - 'window': the window to be run
  *      here: might be collectList, collectEdit.
  */
@@ -29,7 +29,7 @@ Template.processPage.onRendered( function(){
 Template.processPage.helpers({
     windowContext(){
         return {
-            group: Template.instance().data.group
+            gtd: Template.instance().data.gtd
         }
     }
 });
@@ -43,7 +43,6 @@ Template.processPage.events({
                 Session.set( 'process.dbope', DBOPE_ERROR );
             } else {
                 throwSuccess( 'Action successfully created' );
-                Session.set( 'collect.thought', null );
                 Session.set( 'process.dbope', DBOPE_LEAVE );
             }
         });

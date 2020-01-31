@@ -5,6 +5,11 @@
  *  This layout makes use of the Simone window manager to display each and
  *  every pages (inside so-called windows).
  *
+ *  - lyt-header    a fixed sticky header,
+ *  - lyt-sidenav   a navigation menu on the left side
+ *  - lyt-content   the content
+ *  - lyt-taskbar   the window manager taskbar.
+ *
  *  Worflow:
  *  [routes.js]
  *      +-> windowLayout { group, page, window }

@@ -24,11 +24,13 @@ Template.thoughts_list_card.events({
     },
     'click .js-action'( event, instance ){
         Session.set( 'collect.thought', instance.data.thought );
-        FlowRouter.go( 'process.to.action' );
+        FlowRouter.go( 'process.action' );
         return false;
     },
     'click .js-project'( event, instance ){
-
+        Session.set( 'collect.thought', instance.data.thought );
+        FlowRouter.go( 'process.project' );
+        return false;
     },
     'click .js-maybe'( event, instance ){
 

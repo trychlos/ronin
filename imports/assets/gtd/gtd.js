@@ -8,7 +8,15 @@
  *  - label: as the name says
  *  - sublabel (maybe): a secondary label, whose display depends of the currently
  *      running menu
- *  - route (maybe): the router entry if this is an actionable item
+ *  - route (maybe): the router entry name if this is an actionable item
+ *      there may be zero or one route name, or a route name different dependant
+ *      of the running layout.
+ *      NB: the same route may be triggered several times, from different places
+ *      in the menus. So the route name cannot be used to identify an item.
+ *      This is the item idenfier role.
+ *  - group (maybe): the item identifier to which this item should be attached.
+ *      As route, the groupe may be a single item, or a layout-dependant base.
+ *      Defaults to the parent item identifier.
  *
  *  + the item may have zero to several entries for each menu display:
  *    > navs
@@ -33,6 +41,11 @@
  *  + the item may have children items.
  *
  *  NB: see https://stackoverflow.com/questions/33611812/export-const-vs-export-default-in-es6
+ *
+ *  Session variables:
+ *  - 'gtd.last': in page-based layout, we require to always have an active item
+ *      in the footer navigation bar; keep here the last active GTD item identifier;
+ *      defaults to 'collect'.
  */
 export const gtd = {
     features: function(){
@@ -51,6 +64,9 @@ export const gtd = {
                     }
                 }
             },
+            /*
+             *  Setup features group
+             */
             {
                 id: 'setup',
                 label: 'Setup',
@@ -68,9 +84,8 @@ export const gtd = {
                     }
                 },
                 children: [
-                    /* this item for the sake of completeness as it is not used here */
                     {
-                        label: 'Create data file',
+                        label: 'Create data file',  // this item for the sake of completeness as it is not used here
                     },
                     {
                         id: 'contexts',
@@ -94,9 +109,8 @@ export const gtd = {
                             }
                         }
                     },
-                    /* this item for the sake of completeness as it is not used here */
                     {
-                        label: 'Setup criteria',
+                        label: 'Setup criteria',    // this item for the sake of completeness as it is not used here
                     },
                     {
                         id: 'time',
@@ -223,13 +237,16 @@ export const gtd = {
                     },
                 ],
             },
+            /*
+             *  Collect features group
+             *  Actually one single feature, at the heart of the thoughts collect
+             *  NB: page-base layout groups features depending of the targeted
+             *      collection; this one is labelled 'Thoughts'
+             */
             {
                 id: 'collect',
                 label: 'Collect',
-                route: {
-                    page: 'thoughts.list',
-                    window: 'collect'
-                },
+                route: 'collect',
                 navs: {
                     footer: {
                         display: true,
@@ -249,6 +266,10 @@ export const gtd = {
                     }
                 }
             },
+            /*
+             *  Process features group
+             *  NB: in page-based layout, some items are attached to the collect group.
+             */
             {
                 id: 'process',
                 label: 'Process thoughts',
@@ -281,14 +302,9 @@ export const gtd = {
                     {
                         id: 'tho-project',
                         label: 'Transform into a project',
-                        route: {
-                            page: 'process.project',
-                            window: 'process'
-                        },
-                        navs: {
-                            footer: {
-                                group: 'collect'
-                            }
+                        route: 'process.project',
+                        group: {
+                            pageLayout: 'collect'
                         }
                     },
                     {
@@ -303,14 +319,9 @@ export const gtd = {
                     {
                         id: 'tho-action',
                         label: 'Transform into an action',
-                        route: {
-                            page: 'process.action',
-                            window: 'process'
-                        },
-                        navs: {
-                            footer: {
-                                group: 'collect'
-                            }
+                        route: 'process.action',
+                        group: {
+                            pageLayout: 'collect'
                         }
                     },
                     {
@@ -577,26 +588,6 @@ export const gtd = {
         const sub = gtd.getNavTab( name, item );
         return sub ? sub.display === true : false;
     },
-    /*
-    // returns an array of the items for which specified bool qualifier is set to true
-    itemsBoolArray: function( qualifier ){
-        let result = new Array();
-        return gtd._itemsBoolArray_rec( result, qualifier, gtd.features());
-    },
-    _itemsBoolArray_rec: function( res, qualifier, array ){
-        for( let i=0 ; i<array.length ; ++i ){
-            const item = array[i];
-            //console.log( qualifier+': '+item.label+' visible='+gtd.isVisible( item, qualifier ));
-            if( gtd.isVisible( item, qualifier )){
-                res.push( item );
-            }
-            if( gtd.hasChildren( item )){
-                gtd._itemsBoolArray_rec( res, qualifier, item.children )
-            }
-        }
-        return res;
-    },
-    */
     // returns the label associated with this item, or with one of its parent
     // maybe an empty string
     label: function( item ){
@@ -609,24 +600,8 @@ export const gtd = {
         }
         return '';
     },
-    /*
-    labelById: function( type, id ){
-        let label = '';
-        if( id ){
-            const item = gtd.byId( id );
-            if( item ){
-                label = gtd.label( type, item );
-            }
-        }
-        return label;
-    },
-    // return the label to be used for a tab
-    labelTab: function( item ){
-        return item.tabtitle ? item.tabtitle : item.label;
-    },
-    */
     // returns the list of items to be managed in the named navigation menu
-    //  which may be defined inside of 'navs' or 'tabs'
+    //  which must be be defined inside of 'navs' or 'tabs'
     // note that returned item may not have any route (should be displayed
     //  as 'disabled' if displayed at all)
     // maybe an empty array
@@ -685,34 +660,23 @@ export const gtd = {
     // returns the route name associated with this item, or with one of its parent
     // maybe an empty string
     route( item ){
-        if( item.route ){
-            return item.route;
+        let route = item.route;
+        if( route ){
+            if( typeof route !== 'string' ){
+                route = null;
+                if( g && g.run && g.run.layout ){
+                    const layout = g.run.layout.get();
+                    route = item.route[layout];
+                }
+            }
+        }
+        if( route ){
+            return route;
         }
         const parent = gtd.parent( item );
         if( parent ){
             return gtd.route( parent );
         }
         return '';
-    },
-    /*
-    _touchItems_sort( a, b ){
-        return a.touchsort < b.touchsort ? -1 : ( a.touchsort > b.touchsort ? 1 : 0 );
-    },
-    touchLabel: function( item ){
-        return item.touchlabel ? item.touchlabel : item.label;
-    },
-    // return the list of items to be managed as a tabbed page in projects window
-    //  these are marked as tabprojects:true
-    projectsItems(){
-        return gtd.itemsBoolArray( 'tabprojects' ).sort( gtd._projectsItems_sort );
-    },
-    _projectsItems_sort( a, b ){
-        return a.tabsort < b.tabsort ? -1 : ( a.tabsort > b.tabsort ? 1 : 0 );
-    },
-    // return the list of items to be managed as a tabbed page in 'setup' window
-    //  these are marked as tabsetup:true
-    setupItems(){
-        return gtd.itemsBoolArray( 'tabsetup' );
-    },
-    */
+    }
 };

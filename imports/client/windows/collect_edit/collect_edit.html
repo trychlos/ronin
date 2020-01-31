@@ -1,7 +1,19 @@
 <template name="collectEdit">
-    <div class="collect-edit">
+    <div class="collect-edit pwi-window">
 
-        {{> thought_edit }}
+        {{#if isPageLayout}}
+            <div class="x-hidden">
+                {{title}}
+            </div>
+        {{else}}
+            <div class="edit-header">
+                <p class="x-h2">{{title}}</p>
+            </div>
+        {{/if}}
+
+        {{> thought_panel }}
+
+        {{> collapse_buttons okLabel=okLabel }}
 
     </div>
 </template>

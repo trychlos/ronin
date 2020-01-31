@@ -1,0 +1,38 @@
+<template name="collapse_buttons">
+    <div class="collapse-buttons">
+
+        <div class="d-flex justify-content-start align-items-center">
+            <div class="flex-grow-1">
+
+                {{#if collapsableSelector }}
+                    <button class="js-collapse ui-button ui-corner-all collapse-button"
+                            data-toggle="collapse" data-target="{{collapsableSelector}}">
+                        <div class="{{showUp}}">
+                            <span class="fas fa-angle-up"></span>
+                        </div>
+                        <div class="{{showDown}}">
+                            <span class="fas fa-angle-down"></span>
+                            <span class="text">{{collapsedLabel}}</span>
+                        </div>
+                    </button>
+                {{/if}}
+
+                <button class="js-cancel ui-button ui-corner-all {{showUp}}" title="Cancel">
+                    {{#if cancelLabel }}
+                        {{ cancelLabel }}
+                    {{else}}
+                        <span class="fas fa-times"></span>
+                    {{/if}}
+                </button>
+            </div>
+            <button class="js-ok ui-button ui-corner-all {{showUp}}" type="button" title="OK">
+                {{#if okLabel }}
+                    {{ okLabel }}
+                {{else}}
+                    OK
+                {{/if}}
+            </button>
+        </div>
+
+    </div>
+</template>

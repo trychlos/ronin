@@ -1,9 +1,10 @@
 <template name="collectList">
-    <div class="collect-list" data-pwi-iroutable-mode="window" data-pwi-iroutable-route="{{ group }}">
+    <div class="collect-list pwi-window"
+        data-pwi-iroutable-mode="window" data-pwi-iroutable-route="{{ group }}">
 
         {{#if isDesktopLayout}}
             <div class="edit">
-                {{> thought_edit}}
+                {{> thought_panel }}
             </div>
         {{/if}}
 

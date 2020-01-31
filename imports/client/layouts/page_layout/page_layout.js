@@ -4,20 +4,20 @@
  *  This same layout is to be used for all features group.
  *
  *  This is a fixed layout, with:
- *  - a fixed header,
- *  - a scrollable content,
- *  - a fixed footer.
+ *  - lyt-header    a fixed sticky header,
+ *  - lyt-content   a scrollable content,
+ *  - lyt-footer    a fixed sticky footer.
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { group, page, window }
+ *      +-> pageLayout { gtd, page, window }
  *
  *  The layout receives three parameters from the route manager.
  *  It consumes one of them to dynamically display the page template, and sends
  *  the two others as a data context to this page (here, to display the window).
  *
  *  Route-provided parameters:
- *  - 'group': the identifier of this features's group
+ *  - 'gtd': the identifier of this features's group item
  *  - 'page': the name of the primary page
  *  - 'window': the window to be run by this 'page' page.
  *
@@ -57,7 +57,7 @@ Template.pageLayout.helpers({
     //  just to be sure we are able to pass a complex data context
     pageContext(){
         return {
-            group: Template.instance().data.group,
+            gtd: Template.instance().data.gtd,
             window: Template.instance().data.window
         }
     },

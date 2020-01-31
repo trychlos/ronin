@@ -5,7 +5,6 @@
  *  Parameters:
  *  - thought: the to-be-transformed thought.
  */
-import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/action_status_select/action_status_select.js';
 import '/imports/client/components/contexts_select/contexts_select.js';
 import '/imports/client/components/date_select/date_select.js';
@@ -19,6 +18,8 @@ Template.to_action.onRendered( function(){
         switch( status ){
             // successful transformation operation, leave the page
             case DBOPE_LEAVE:
+                Session.set( 'header.title', null );
+                Session.set( 'collect.thought', null );
                 FlowRouter.go( 'collect' );
                 break;
             // all other cases, stay in the page

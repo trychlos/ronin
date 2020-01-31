@@ -1,0 +1,37 @@
+<template name="thought_panel">
+    <div class="thought-panel">
+
+        <form class="js-panel">
+            <div class="collapse show" id="{{collapsableId}}">
+                <table class="edit-body">
+                    <tr>
+                        <td class="label x-hright"><p>Thought:</p></td>
+                        <td class="w-100">
+                            <input
+                                name="name"
+                                class="js-name w-100 form-control"
+                                type="text"
+                                placeholder="{{namePlaceholder}}"
+                                value="{{nameValue}}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label x-hright"><p>Topic:</p></td>
+                        <td>{{> topics_select selected=topic }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label x-hright x-vtop"><p>Description:</p></td>
+                        <td>
+                            <textarea
+                                name="description"
+                                class="js-description w-100 form-control"
+                                rows="3"
+                                placeholder="{{descriptionPlaceholder}}">{{descriptionValue}}</textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+
+    </div>
+</template>

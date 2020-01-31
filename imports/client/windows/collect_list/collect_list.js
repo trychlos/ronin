@@ -14,22 +14,23 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { group, page, window }
- *              +-> collectPage { group, window }
- *                      +-> collectList { group }
- *                              +-> thought_edit in window-based layout
+ *      +-> pageLayout { gtd, page, window }
+ *              +-> collectPage { gtd, window }
+ *                      |
+ *                      +-> collectList { gtd }
+ *                              +-> thought_panel in window-based layout
  *                              +-> thoughts_list
  *                              +-> plus_button in page-based layout
- *                      +-> collectEdit { group }
+ *                      |
+ *                      +-> collectEdit { gtd }
  *
  *  Parameters:
- *  - 'group': identifier of the features group.
+ *  - 'gtd': identifier of the features group item.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
-import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/plus_button/plus_button.js';
-import '/imports/client/components/thought_edit/thought_edit.js';
 import '/imports/client/components/thoughts_list/thoughts_list.js';
+import '/imports/client/components/thought_panel/thought_panel.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './collect_list.html';
 

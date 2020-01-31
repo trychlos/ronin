@@ -77,10 +77,11 @@ g[LYT_WINDOW] = {
     taskbar:         new ReactiveVar( null )
 };
 
-// set a default page for the page-based layouts
-const page = Session.get( 'route.last' );
+// set a default route for the page-based layouts
+// NB: the 'gtd.last' holds the last active GTD group item identifier
+const page = Session.get( 'gtd.last' );
 if( !page ){
-    Session.set( 'route.last', 'collect' );
+    Session.set( 'gtd.last', 'collect' );
 }
 
 // layout initialization

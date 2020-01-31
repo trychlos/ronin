@@ -105,43 +105,50 @@ FlowRouter.route('/setup/delegates', {
         BlazeLayout.render( g.run.layout.get(), { main: 'setupPage' });
     },
 });
-FlowRouter.route('/collect', {
+FlowRouter.route( '/thoughts', {
     name: 'collect',
     action(){
-        Session.set( 'route.last', 'collect' );
+        Session.set( 'gtd.last', 'collect' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { group:'collect', page:'collectPage', window:'collectList' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'collectList' });
     },
 });
-FlowRouter.route('/collect/new', {
+FlowRouter.route( '/thoughts/new', {
     name: 'collect.new',
     action(){
-        Session.set( 'route.last', 'collect' );
+        Session.set( 'gtd.last', 'collect' );
         Session.set( 'collect.thought', null );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { group:'collect', page:'collectPage', window:'collectEdit' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'collectEdit' });
     },
 });
-FlowRouter.route('/collect/edit', {
+FlowRouter.route( '/thoughts/edit', {
     name: 'collect.edit',
     action(){
-        Session.set( 'route.last', 'collect' );
+        Session.set( 'gtd.last', 'collect' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { group:'collect', page:'collectPage', window:'collectEdit' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'collectEdit' });
     },
 });
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
-        Session.set( 'route.last', 'process' );
+        Session.set( 'gtd.last', 'process' );
         BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
     },
 });
-FlowRouter.route('/process/action', {
-    name: 'process.to.action',
+FlowRouter.route('/thoughts/action', {
+    name: 'process.action',
     action(){
-        Session.set( 'route.last', 'process' );
-        BlazeLayout.render( g.run.layout.get(), { group:'process', page:'processPage', window:'processAction' });
+        Session.set( 'gtd.last', 'collect' );
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'processPage', window:'processAction' });
+    },
+});
+FlowRouter.route('/thoughts/project', {
+    name: 'process.project',
+    action(){
+        Session.set( 'gtd.last', 'collect' );
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'processPage', window:'processProject' });
     },
 });
 FlowRouter.route('/project/new', {
@@ -153,7 +160,7 @@ FlowRouter.route('/project/new', {
     },
 });
 FlowRouter.route('/action/new', {
-    name: 'process.action',
+    name: 'action.new',
     action(){
         //console.log( "FlowRouter process.init.obj={ type:'A', name:'New action'}" );
         Session.set( 'process.edit.obj', { type:'A', name:'New action'});
@@ -223,20 +230,11 @@ FlowRouter.notFound = {
     },
 };
 
-const route = Session.get( 'route.last' );
-if( route ){
-    FlowRouter.go( route );
-}
-
-/*
+// in page-based layout, reactive the last known group at startup time
 const layout = g.run.layout.get();
-switch( layout ){
-    case LYT_WINDOW:
-        break;
-    case LYT_PAGE:
-        FlowRouter.go( 'collect' );
-        break;
-    default:
-        console.log( layout+': unknown layout' );
+if( layout === LYT_PAGE ){
+    const route = Session.get( 'gtd.last' );
+    if( route ){
+        FlowRouter.go( route );
+    }
 }
-*/
