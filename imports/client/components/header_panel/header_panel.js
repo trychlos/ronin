@@ -30,7 +30,7 @@ Template.header_panel.helpers({
     },
     // browser (with a title bar and an url) is assumed if not running Cordova
     hasTitle(){
-        return g.run.mobile;
+        return true; //g.run.mobile;
     },
     // set a spacer between each element
     //  elements count is set on the instance itself
