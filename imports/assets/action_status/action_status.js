@@ -17,7 +17,8 @@ export const actionStatus = {
         return [
             {
                 id: 'ina',
-                label: 'Inactive'
+                label: 'Inactive',
+                default: true
             },
             {
                 id: 'asa',
@@ -44,9 +45,13 @@ export const actionStatus = {
             }
         ];
     },
+    // returns the default action status
+    getDefault: function(){
+        return 'ina';
+    },
     // whether this status qualifies an actionable action
     isActionable: function( item ){
-        return item.id === 'don';
+        return item.actionable === true;
     },
     // whether this status qualifies a terminated action
     isDone: function( item ){

@@ -24,13 +24,13 @@ import { Meteor } from 'meteor/meteor';
 import { Articles } from '../articles.js';
 
 Meteor.methods({
+
     // action is said undone (back from done)
     //  must be called from Articles.fn.doneToggle()
     '_actions.done.clear'( o ){
         if( o.type !== 'A' ){
             throw new Meteor.Error(
-                'articles.invalid_type',
-                 o.type+': invalid type (expected "A")'
+                'articles.invalid_type', o.type+': invalid type ("A" expected)'
             );
         }
         const ret = Articles.update( o._id, { $set: {
@@ -40,18 +40,17 @@ Meteor.methods({
         console.log( 'Articles.actions.done.set("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
-                'articles.actions.done.set',
-                'unable to update "'+o.name+'" action' );
+                'articles.actions.done.set', 'unable to update "'+o.name+'" action' );
         }
         return ret;
     },
+
     // action is said done
     //  must be called from Articles.fn.doneToggle()
     '_actions.done.set'( o ){
         if( o.type !== 'A' ){
             throw new Meteor.Error(
-                'articles.invalid_type',
-                 o.type+': invalid type (expected "A")'
+                'articles.invalid_type', o.type+': invalid type ("A" expected)'
             );
         }
         const ret = Articles.update( o._id, { $set: {
@@ -67,13 +66,13 @@ Meteor.methods({
         }
         return ret;
     },
+
     // create a new action starting from a thought
     'actions.from.thought'( thought, action ){
         if( thought.type !== 'T' ){
             throw new Meteor.Error(
-                'articles.invalid_type',
-                 thought.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
-            );
+                'articles.invalid_type', o.type+': invalid type ("T" expected)'
+                );
         }
         // canonic fields order (from ../articles.js)
         const ret = Articles.update( thought._id, { $set: {
@@ -98,23 +97,37 @@ Meteor.methods({
         }
         return ret;
     },
-    /*
+
+    // insert a new action
     'actions.insert'( o ){
-        return Articles.insert({
+        if( o.type !== 'A' ){
+            throw new Meteor.Error(
+                'articles.invalid_type', o.type+': invalid type ("A" expected)'
+            );
+        }
+        const ret = Articles.insert({
+            type: o.type,
             name: o.name,
             topic: o.topic,
-            context: o.context,
-            status: o.status,
-            outcome: o.outcome,
             description: o.description,
+            notes: o.notes,
             startDate: o.startDate,
             dueDate: o.dueDate,
             doneDate: o.doneDate,
-            project: o.project,
-            notes: o.notes
+            parent: o.parent,
+            status: o.status,
+            context: o.context,
+            outcome: o.outcome
         });
+        console.log( 'Articles.actions.insert("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.actions.insert',
+                'unable to insert "'+o.name+'" action' );
+        }
+        return ret;
     },
-    */
+
     'actions.remove'( id ){
         console.log( 'articles.actions.remove id='+id );
         Articles.remove( id );
@@ -123,23 +136,38 @@ Meteor.methods({
     'actions.project'( id, project ){
         return Articles.update({ _id:id }, { $set: { project: project }});
     },
+    */
+
+    // update an existing action
     'actions.update'( id, o ){
-        return Articles.update({ _id:id }, { $set: {
+        if( o.type !== 'A' ){
+            throw new Meteor.Error(
+                'articles.invalid_type', o.type+': invalid type ("A" expected)'
+            );
+        }
+        const ret = Articles.update( id, { $set: {
             name: o.name,
             topic: o.topic,
-            context: o.context,
-            status: o.status,
-            outcome: o.outcome,
             description: o.description,
+            notes: o.notes,
             startDate: o.startDate,
             dueDate: o.dueDate,
             doneDate: o.doneDate,
-            project: o.project,
-            notes: o.notes
+            parent: o.parent,
+            status: o.status,
+            context: o.context,
+            outcome: o.outcome
         }});
+        console.log( 'Articles.actions.update("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.actions.update', 'unable to update "'+o.name+'" action' );
+        }
+        return ret;
     },
-    */
-   'articles.reparent'( o_id, parent_id ){
+
+    // change the parent of an action or a project
+    'articles.reparent'( o_id, parent_id ){
         const ret = Articles.update( o_id, { $set: {
             parent: parent_id
         }});
@@ -151,12 +179,12 @@ Meteor.methods({
         }
         return ret;
     },
+
     // create a new project from a thought
     'projects.from.thought'( thought, project ){
         if( thought.type !== 'T' ){
             throw new Meteor.Error(
-                'articles.invalid_type',
-                 thought.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
+                'articles.invalid_type', thought.type+': invalid type ("T" expected)'
             );
         }
         // canonic fields order (from ../articles.js)
@@ -183,10 +211,13 @@ Meteor.methods({
         }
         return ret;
     },
+
+    // delete a project
     'projects.remove'( id ){
         console.log( 'articles.projects.remove id='+id );
         Articles.remove( id );
     },
+
     // insert returns the newly insert '_id' or throws an exception
     'thoughts.insert'( o ){
         if( o.type !== 'T' ){
@@ -209,6 +240,7 @@ Meteor.methods({
         }
         return ret;
     },
+
     // remove returns true or throws an exception
     'thoughts.remove'( id ){
         const ret = Articles.remove({ _id:id, type:'T' });
@@ -220,18 +252,18 @@ Meteor.methods({
         }
         return ret;
     },
+
     // update returns true or throws an exception
     'thoughts.update'( id, o ){
         if( o.type !== 'T' ){
             throw new Meteor.Error(
-                'articles.invalid_type',
-                 o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
+                'articles.invalid_type', o.type+': invalid type ("T" expected)'
             );
         }
         const ret = Articles.update( id, { $set: {
             name: o.name,
-            description: o.description,
-            topic: o.topic
+            topic: o.topic,
+            description: o.description
         }});
         console.log( 'Articles.thoughts.update("'+o.name+'") returns '+ret );
         if( !ret ){

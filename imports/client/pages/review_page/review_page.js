@@ -26,8 +26,8 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
 import '/imports/assets/dbope_status/dbope_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
+import '/imports/client/windows/action_edit/action_edit.js';
 import '/imports/client/windows/actions_list/actions_list.js';
-//import '/imports/client/windows/action_edit/action_edit.js';
 import '/imports/client/windows/projects_list/projects_list.js';
 import './review_page.html';
 
@@ -84,7 +84,7 @@ Template.reviewPage.events({
         const obj = Session.get( 'review.action' );
         const id = obj ? obj._id : null;
         try {
-            Articles.fn.check( id, thought );
+            Articles.fn.check( id, action );
         } catch( e ){
             console.log( e );
             throwError({ type:e.error, message: e.reason });
@@ -107,7 +107,7 @@ Template.reviewPage.events({
                 }
             });
         } else {
-            Meteor.call('actions.insert', thought, ( e, res ) => {
+            Meteor.call('actions.insert', action, ( e, res ) => {
                 if( e ){
                     console.log( e );
                     throwError({ type:e.error, message: e.reason });

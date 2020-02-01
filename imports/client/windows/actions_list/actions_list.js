@@ -30,7 +30,7 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/plus_button/plus_button.js';
-//import '/imports/client/components/action_edit/action_edit.js';
+import '/imports/client/components/action_panel/action_panel.js';
 import '/imports/client/components/actions_list/actions_list.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_list.html';
@@ -67,6 +67,7 @@ Template.actionsList.events({
     },
     'click .js-new'( ev, instance ){
         $( event.target ).trigger( 'ronin.ui.actions.list.card.collapse' );
+        Session.set( 'review.action', null );
         FlowRouter.go( 'action.new' );
         return false;
     }

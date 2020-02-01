@@ -125,7 +125,6 @@ FlowRouter.route( '/thoughts/new', {
     action(){
         Session.set( 'gtd.last', 'collect' );
         Session.set( 'collect.thought', null );
-        Session.set( 'header.title', null );
         BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
     },
 });
@@ -133,7 +132,6 @@ FlowRouter.route( '/thoughts/edit', {
     name: 'collect.edit',
     action(){
         Session.set( 'gtd.last', 'collect' );
-        Session.set( 'header.title', null );
         BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
     },
 });
@@ -179,6 +177,7 @@ FlowRouter.route('/projects', {
     action(){
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
+        Session.set( 'header.title', null );
         BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectsList' });
     },
 });
@@ -187,6 +186,7 @@ FlowRouter.route('/projects/future', {
     action(){
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'future' );
+        Session.set( 'header.title', null );
         BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'projectsList' });
     },
 });
@@ -195,7 +195,24 @@ FlowRouter.route('/actions', {
     action(){
         Session.set( 'gtd.last', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
+        Session.set( 'header.title', null );
         BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'actionsList' });
+    },
+});
+FlowRouter.route('/actions/edit', {
+    name: 'action.edit',
+    action(){
+        Session.set( 'gtd.last', 'actions' );
+        Session.set( 'projects.tab.name', 'actions' );
+        BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'actionEdit' });
+    },
+});
+FlowRouter.route('/actions/new', {
+    name: 'action.new',
+    action(){
+        Session.set( 'gtd.last', 'actions' );
+        Session.set( 'projects.tab.name', 'actions' );
+        BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'actionEdit' });
     },
 });
 FlowRouter.route('/review/inactive', {

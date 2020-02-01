@@ -6,8 +6,8 @@
  *  - create a new action
  *  - edit an existing action.
  *
- *  Parameters:
- *  - action: the to-be-edited action.
+ *  Session variable:
+ *  - review.action: the object to be edited, may be null.
  */
 import '/imports/client/components/action_status_select/action_status_select.js';
 import '/imports/client/components/contexts_select/contexts_select.js';
@@ -33,21 +33,88 @@ Template.action_panel.fn = {
             doneDate: Template.date_select.fn.getDate( '.js-datedone' ),
             notes: instance.$('.js-notes').val()
         };
+    },
+    initEditArea: function(){
+        const instance = Template.instance();
+        if( instance.view.isRendered ){
+            instance.$('.js-name').val('');
+            Template.topics_select.fn.selectDefault();
+            instance.$('.js-outcome').val('');
+            Template.contexts_select.fn.selectDefault();
+            instance.$('.js-description').val('');
+            Template.projects_select.fn.unselect();
+            Template.action_status_select.fn.selectDefault();
+            instance.$('.js-datestart').val('');
+            instance.$('.js-datedue').val('');
+            instance.$('.js-datedone').val('');
+            instance.$('.js-notes').val('');
+        }
     }
 };
 
 Template.action_panel.onRendered( function(){
     this.autorun(() => {
-        const status = Session.get( 'process.dbope' );
+        const status = Session.get( 'review.dbope' );
         switch( status ){
-            // successful transformation operation, leave the page
+            // successful update, leave the page
             case DBOPE_LEAVE:
-                Session.set( 'header.title', null );
-                Session.set( 'collect.thought', null );
-                FlowRouter.go( 'collect' );
+                Session.set( 'review.action', null );
+                FlowRouter.go( 'review.actions' );
                 break;
-            // all other cases, stay in the page
+            // successful insert, reinit the page
+            case DBOPE_REINIT:
+                Session.set( 'review.action', null );
+                Template.action_panel.fn.initEditArea();
+                break;
+            // all other cases, stay in the page letting it unchanged
         }
-        Session.set( 'process.dbope', null );
+        Session.set( 'review.dbope', null );
     });
+});
+
+Template.action_panel.helpers({
+    valContext(){
+        const action = Session.get( 'review.action' );
+        return action ? action.context : '';
+    },
+    valDescription(){
+        const action = Session.get( 'review.action' );
+        return action ? action.description : '';
+    },
+    valDoneDate(){
+        const action = Session.get( 'review.action' );
+        return action ? action.doneDate : '';
+    },
+    valDueDate(){
+        const action = Session.get( 'review.action' );
+        return action ? action.dueDate : '';
+    },
+    valName(){
+        const action = Session.get( 'review.action' );
+        return action ? action.name : '';
+    },
+    valNotes(){
+        const action = Session.get( 'review.action' );
+        return action ? action.notes : '';
+    },
+    valOutcome(){
+        const action = Session.get( 'review.action' );
+        return action ? action.outcome : '';
+    },
+    valParent(){
+        const action = Session.get( 'review.action' );
+        return action ? action.parent : '';
+    },
+    valStartDate(){
+        const action = Session.get( 'review.action' );
+        return action ? action.startDate : '';
+    },
+    valStatus(){
+        const action = Session.get( 'review.action' );
+        return action ? action.status : '';
+    },
+    valTopic(){
+        const action = Session.get( 'review.action' );
+        return action ? action.topic : '';
+    }
 });

@@ -9,7 +9,7 @@
  *  into a single collection for MongoDB efficiency reasons.
  *
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
- *  |                | thought               | action                | project               | maybe                 |
+ *  |                 | thought               | action                | project               | maybe                 |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
  *  | type            | constant='T'          | constant='A'          | constant='P'          | constant='M'          |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
@@ -38,10 +38,10 @@
  *  | parent          |                       | opt                   | opt                   |                       |
  *  |                 |                       | no default            | no default            |                       |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
- *  | status (1)      |                       | mandatory             | opt                   |                       |
- *  |                 |                       | default='Inactive'    | no default            |                       |
+ *  | status          |                       | mandatory             |                       |                       |
+ *  |                 |                       | default='Inactive'    |                       |                       |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
- *  | last_status (2) |                       | opt                   |                       |                       |
+ *  | last_status (1) |                       | opt                   |                       |                       |
  *  |                 |                       | no default            |                       |                       |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
  *  | context         |                       | opt                   |                       |                       |
@@ -60,11 +60,7 @@
  *  |                 |                       |                       | no default            |                       |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
  *
- *  1. Action status is different from the project status:
- *      - action status is mandatory, taken from action_status limitative list
- *      - project status is optional, taken from project_status limitative list.
- *
- *  2. last_status of the action before done
+ *  1. last_status of the action before done
  *      defaulting to inactive.
  */
 import { Mongo } from 'meteor/mongo';
@@ -121,12 +117,12 @@ Articles.schema = new SimpleSchema({
         type: String,
         optional: true
     },
+    /* actions-specific
+     */
     status: {
         type: String,
         optional: true
     },
-    /* actions-specific
-     */
     last_status: {
         type: String,
         optional: true
@@ -143,7 +139,7 @@ Articles.schema = new SimpleSchema({
      */
     future: {
         type: Boolean,
-        defaultValue: false
+        optional: true
     },
     vision: {
         type: String,

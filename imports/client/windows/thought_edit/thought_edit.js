@@ -35,7 +35,6 @@ Template.thoughtEdit.helpers({
 Template.thoughtEdit.events({
     'click .js-cancel'( ev, instance ){
         Session.set( 'collect.thought', null );
-        Session.set( 'header.title', null );
         FlowRouter.go( 'collect' );
         return false;
     },

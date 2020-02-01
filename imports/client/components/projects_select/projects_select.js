@@ -23,6 +23,13 @@ Template.projects_select.fn = {
             }
         }
     },
+    // unselect
+    unselect: function(){
+        const instance = Template.instance();
+        if( instance.view.isRendered ){
+            instance.$('.js-project').val('');
+        }
+    }
 };
 
 Template.projects_select.onCreated( function(){

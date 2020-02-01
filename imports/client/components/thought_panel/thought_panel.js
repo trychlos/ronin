@@ -51,14 +51,13 @@ Template.thought_panel.onRendered( function(){
         switch( status ){
             // successful update operation, leave the page
             case DBOPE_LEAVE:
-                Session.set( 'header.title', null );
                 Session.set( 'collect.thought', null );
                 FlowRouter.go( 'collect' );
                 break;
             // successful insert operation, stay in the page and reinitialize fields
             case DBOPE_REINIT:
-                Template.thought_panel.fn.initEditArea();
                 Session.set( 'collect.thought', null );
+                Template.thought_panel.fn.initEditArea();
                 break;
         }
         Session.set( 'collect.dbope', null );

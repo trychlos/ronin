@@ -23,6 +23,16 @@ Template.action_status_select.fn = {
             instance.$( selector+' .js-status-select' ).val( value );
         }
     },
+    // reset the default value
+    selectDefault: function( selector ){
+        //console.log( 'setSelected '+value );
+        const instance = Template.instance();
+        if( instance.view.isRendered ){
+            const def = actionStatus.getDefault();
+            console.log( 'default='+def );
+            instance.$( selector+' .js-status-select' ).val( def );
+        }
+    },
 };
 
 Template.action_status_select.helpers({
