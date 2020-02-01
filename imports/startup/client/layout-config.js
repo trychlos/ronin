@@ -88,5 +88,5 @@ if( !page ){
 g.run.layout.set( g.detectIt.primaryInput === 'mouse' ? LYT_WINDOW : LYT_PAGE );
 
 // DEVELOPMENT SURCHARGE
-g.run.mobile = true;
-g.run.layout.set( LYT_PAGE );
+//g.run.mobile = true;
+//g.run.layout.set( LYT_PAGE );
