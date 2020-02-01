@@ -44,10 +44,10 @@ Template.processPage.events({
         Meteor.call( 'actions.from.thought', thought, action, ( e, res ) => {
             if( e ){
                 throwError({ type:e.error, message: e.reason });
-                Session.set( 'process.dbope', DBOPE_ERROR );
+                Session.set( 'review.dbope', DBOPE_ERROR );
             } else {
                 throwSuccess( 'Action successfully created' );
-                Session.set( 'process.dbope', DBOPE_LEAVE );
+                Session.set( 'review.dbope', DBOPE_LEAVE );
             }
         });
         return false;
@@ -59,10 +59,10 @@ Template.processPage.events({
         Meteor.call( 'projects.from.thought', thought, project, ( e, res ) => {
             if( e ){
                 throwError({ type:e.error, message: e.reason });
-                Session.set( 'process.dbope', DBOPE_ERROR );
+                Session.set( 'review.dbope', DBOPE_ERROR );
             } else {
                 throwSuccess( 'Project successfully created' );
-                Session.set( 'process.dbope', DBOPE_LEAVE );
+                Session.set( 'review.dbope', DBOPE_LEAVE );
             }
         });
         return false;

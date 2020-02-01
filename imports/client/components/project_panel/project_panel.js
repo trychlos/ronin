@@ -65,7 +65,7 @@ Template.project_panel.onRendered( function(){
             // successful update operation, leave the page
             case DBOPE_LEAVE:
                 Session.set( 'review.project', null );
-                const route = this.data.route || 'review.actions';
+                const route = this.data.route || 'review.projects';
                 FlowRouter.go( route );
                 break;
             // successful insert operation, stay in the page, reinitializing it
@@ -75,7 +75,7 @@ Template.project_panel.onRendered( function(){
                 break;
             // all other cases, stay in the page, letting it unchanged
         }
-        Session.set( 'process.dbope', null );
+        Session.set( 'review.dbope', null );
     });
 });
 
