@@ -143,14 +143,14 @@ FlowRouter.route('/thoughts/action', {
     name: 'process.action',
     action(){
         Session.set( 'gtd.last', 'collect' );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'processPage', window:'processAction' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'processPage', window:'actionProcess' });
     },
 });
 FlowRouter.route('/thoughts/project', {
     name: 'process.project',
     action(){
         Session.set( 'gtd.last', 'collect' );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'processPage', window:'processProject' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'processPage', window:'projectProcess' });
     },
 });
 FlowRouter.route('/project/new', {

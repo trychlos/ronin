@@ -1,5 +1,5 @@
-<template name="processProject">
-    <div class="process-project ronin-window wsf-parent {{#if isPageLayout }}x-mt025{{/if}}">
+<template name="actionProcess">
+    <div class="action-process ronin-window wsf-parent {{#if isPageLayout }}x-mt025{{/if}}">
 
         <div class="wsf-header">
             {{#if isPageLayout}}
@@ -10,15 +10,14 @@
 
             {{#if isWindowLayout}}
                 <p>
-                    Transform the thought into a project
-                    because it will probably require several actions.<br />
-                    As all project, this new one will be reorderable in the projects view.
+                    Transform the thought into an action.<br />
+                    This action may, or may not, be immediately actionable, delegatable, ...
                 </p>
             {{/if}}
         </div>
 
         <div class="wsf-content">
-            {{> project_panel project=toProject }}
+            {{> action_panel action=toAction }}
         </div>
 
         <div class="wsf-footer">

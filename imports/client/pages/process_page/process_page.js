@@ -14,8 +14,8 @@
  *      here: might be collectList, collectEdit.
  */
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
-import '/imports/client/windows/process_action/process_action.js';
-import '/imports/client/windows/process_project/process_project.js';
+import '/imports/client/windows/action_process/action_process.js';
+import '/imports/client/windows/project_process/project_process.js';
 import './process_page.html';
 
 Template.processPage.onRendered( function(){
