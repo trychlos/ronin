@@ -169,10 +169,9 @@
   109 2020- 1-28 in windowLayout, pass the group to the IWindowed newly created window
                   (idem what happens in pageLayout)
 
-  113 2020- 1-31 collectList and collectEdit windows should be renamed as
-                  thoughtsList and thoughtEdit
+  114 2020- 2- 1 fix wsf-footer display
 
-  114
+  115
 
 -----------------------------------------------------------------------
  Done
@@ -372,6 +371,10 @@
 
   112 2020- 1-30 have the model code in a single place
       2020- 1-30 moved to collectPage (+have to manage async code result...)
+
+  113 2020- 1-31 collectList and collectEdit windows should be renamed as
+                  thoughtsList and thoughtEdit
+      2020- 2- 1 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

@@ -1,5 +1,5 @@
 /*
- * 'collectEdit' window.
+ * 'thoughtEdit' window.
  *
  *  This page lets the user edit a thought.
  *
@@ -10,17 +10,17 @@
  *  [routes.js]
  *      +-> pageLayout { gtd, page, window }
  *              +-> collectPage { gtd, window }
- *                      +-> collectList { gtd }
+ *                      +-> thoughtsList { gtd }
  *                      |
- *                      +-> collectEdit { gtd }
+ *                      +-> thoughtEdit { gtd }
  *                              +-> thought_panel
  *                              +-> collapse_buttons
  */
 import '/imports/client/components/collapse_buttons/collapse_buttons.js';
 import '/imports/client/components/thought_panel/thought_panel.js';
-import './collect_edit.html';
+import './thought_edit.html';
 
-Template.collectEdit.helpers({
+Template.thoughtEdit.helpers({
     okLabel(){
         const label = Session.get( 'collect.thought' ) ? 'Update' : 'Create';
         return label;
@@ -32,7 +32,7 @@ Template.collectEdit.helpers({
     }
 });
 
-Template.collectEdit.events({
+Template.thoughtEdit.events({
     'click .js-cancel'( ev, instance ){
         Session.set( 'collect.thought', null );
         Session.set( 'header.title', null );

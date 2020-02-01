@@ -34,8 +34,8 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
 import '/imports/assets/dbope_status/dbope_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
-import '/imports/client/windows/collect_list/collect_list.js';
-import '/imports/client/windows/collect_edit/collect_edit.js';
+import '/imports/client/windows/thought_edit/thought_edit.js';
+import '/imports/client/windows/thoughts_list/thoughts_list.js';
 import './collect_page.html';
 
 Template.collectPage.onCreated( function(){

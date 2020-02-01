@@ -1,5 +1,5 @@
 /*
- * 'collectList' window.
+ * 'thoughtsList' window.
  *
  *  Display (at least) the list of thoughts.
  *  Each thought as buttons:
@@ -17,12 +17,12 @@
  *      +-> pageLayout { gtd, page, window }
  *              +-> collectPage { gtd, window }
  *                      |
- *                      +-> collectList { gtd }
+ *                      +-> thoughtsList { gtd }
  *                              +-> thought_panel in window-based layout
  *                              +-> thoughts_list
  *                              +-> plus_button in page-based layout
  *                      |
- *                      +-> collectEdit { gtd }
+ *                      +-> thoughtEdit { gtd }
  *
  *  Parameters:
  *  - 'gtd': identifier of the features group item.
@@ -32,14 +32,14 @@ import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/thoughts_list/thoughts_list.js';
 import '/imports/client/components/thought_panel/thought_panel.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
-import './collect_list.html';
+import './thoughts_list.html';
 
-Template.collectList.onCreated( function(){
+Template.thoughtsList.onCreated( function(){
     this.subscribe( 'articles.thoughts.all' );
     this.subscribe( 'topics.all' );
 });
 
-Template.collectList.onRendered( function(){
+Template.thoughtsList.onRendered( function(){
     // open the window if the manager has been intialized
     if( g[LYT_WINDOW].taskbar.get()){
         $('div.collect-window').IWindowed({
@@ -49,13 +49,13 @@ Template.collectList.onRendered( function(){
     }
 });
 
-Template.collectList.helpers({
+Template.thoughtsList.helpers({
     thoughts(){
         return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
     }
 });
 
-Template.collectList.events({
+Template.thoughtsList.events({
     // emitted from thoughts_list_item:
     //  close all items
     'ronin.ui.thoughts.list.card.collapse'( event, instance ){
@@ -70,6 +70,6 @@ Template.collectList.events({
     }
 });
 
-Template.collectList.onDestroyed( function(){
+Template.thoughtsList.onDestroyed( function(){
     //console.log( 'collectWindow:onDestroyed()' );
 });

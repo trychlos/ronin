@@ -112,7 +112,7 @@ FlowRouter.route( '/thoughts', {
     action(){
         Session.set( 'gtd.last', 'collect' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'collectList' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'thoughtsList' });
     },
 });
 FlowRouter.route( '/thoughts/new', {
@@ -121,7 +121,7 @@ FlowRouter.route( '/thoughts/new', {
         Session.set( 'gtd.last', 'collect' );
         Session.set( 'collect.thought', null );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'collectEdit' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
     },
 });
 FlowRouter.route( '/thoughts/edit', {
@@ -129,7 +129,7 @@ FlowRouter.route( '/thoughts/edit', {
     action(){
         Session.set( 'gtd.last', 'collect' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'collectEdit' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
     },
 });
 FlowRouter.route('/process', {
