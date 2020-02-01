@@ -24,13 +24,11 @@ execssh(){
 next_version(){
     _line="$(execssh "ls -l ${ronin}/bundle")"
     _last="$(echo ${_line} | awk '{ print $NF }' | sed -e 's|bundle-||')"
+	_last_date="$(echo ${_last:0:8})"
     _today="$(date +'%y.%m.%d')"
     _count=0
-    if [ ${#_last} -gt 6 ]; then
-        _prev=${_last:0:6}
-        if [ "${_prev}" == "${_today}" ]; then
-            _count=${_last:6:1}
-        fi
+    if [ "${_last_date}" == "${_today}" ]; then
+    	_count="$(echo ${_last} | awk -F. '{ print $NF }')"
     fi
     _count=$(( _count+1 ))
     echo "${_today}.${_count}"
@@ -65,3 +63,8 @@ _ret=$?
     execcmd "jarsigner -storepass abcdef -keystore ${projectdir}/.keystore -verbose -sigalg SHA1withRSA -digestalg SHA1 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ronin.trychlos.org" &&
     execcmd "${HOME}/data/Android/Sdk/build-tools/29.0.2/zipalign 4 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ${apk}" &&
     echo "APK prepared as ${apk}"
+
+# on successful release, commit the new mobile configuration
+execcmd "git add ${projectdir}/mobile-config.js" &&
+execcmd "git commit -m 'Deploy v${version} to integration platforms'"
+
