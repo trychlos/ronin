@@ -24,6 +24,49 @@ import { Meteor } from 'meteor/meteor';
 import { Articles } from '../articles.js';
 
 Meteor.methods({
+    // action is said undone (back from done)
+    //  must be called from Articles.fn.doneToggle()
+    '_actions.done.clear'( o ){
+        if( o.type !== 'A' ){
+            throw new Meteor.Error(
+                'articles.invalid_type',
+                 o.type+': invalid type (expected "A")'
+            );
+        }
+        const ret = Articles.update( o._id, { $set: {
+            doneDate: null,
+            status: o.status
+        }});
+        console.log( 'Articles.actions.done.set("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.actions.done.set',
+                'unable to update "'+o.name+'" action' );
+        }
+        return ret;
+    },
+    // action is said done
+    //  must be called from Articles.fn.doneToggle()
+    '_actions.done.set'( o ){
+        if( o.type !== 'A' ){
+            throw new Meteor.Error(
+                'articles.invalid_type',
+                 o.type+': invalid type (expected "A")'
+            );
+        }
+        const ret = Articles.update( o._id, { $set: {
+            doneDate: o.doneDate,
+            status: o.status,
+            last_status: o.last_status
+        }});
+        console.log( 'Articles.actions.done.set("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.actions.done.set',
+                'unable to update "'+o.name+'" action' );
+        }
+        return ret;
+    },
     // create a new action starting from a thought
     'actions.from.thought'( thought, action ){
         if( thought.type !== 'T' ){

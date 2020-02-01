@@ -15,9 +15,16 @@
                 <span class="fas fa-edit"></span>
             </button>
 
-            <button class="js-done ui-button ui-corner-all" title="Done">
+            <!--
+            <button class="js-done ui-button ui-corner-all {{doneClass}}" title="Done">
                 <span class="fas fa-check"></span>
             </button>
+            -->
+
+            <div class="x-lh15">
+                <input type="checkbox" class="js-done" {{checked}}>
+                <label>Done</label>
+            </div>
 
             <button class="js-delete ui-button ui-corner-all" title="Delete">
                 <span class="fas fa-trash"></span>
