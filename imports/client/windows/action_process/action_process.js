@@ -3,6 +3,10 @@
 
  *  A window to transform a thought into an action.
  *
+ *  Note that the 'action_panel' used component takes its data from the
+ * 'review.action' session variable. We have so to copy the provided thought
+ *  to this target variable.
+ *
  *  Worflow:
  *  [routes.js]
  *      +-> pageLayout { gtd, page, window }
@@ -15,7 +19,8 @@
  *                      +-> projectProcess { gtd }
  *
  *  Session variables:
- *  - collect.thought: the to-be-transformed thought.
+ *  - collect.thought: the to-be-transformed thought
+ *  - review.action: the candidate action.
  */
 import '/imports/client/components/action_panel/action_panel.js';
 import '/imports/client/components/collapse_buttons/collapse_buttons.js';
@@ -32,14 +37,14 @@ Template.actionProcess.onRendered( function(){
             });
         }
     });
+    this.autorun(() => {
+        let action = Object.assign({}, Session.get( 'collect.thought' ));
+        action.type = 'A';
+        Session.set( 'review.action', action );
+    });
 });
 
 Template.actionProcess.helpers({
-    toAction(){
-        let action = Object.assign({}, Session.get( 'collect.thought' ));
-        action.type = 'A';
-        return action;
-    },
     title(){
         const title = 'To an action';
         Session.set( 'header.title', title );

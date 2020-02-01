@@ -3,6 +3,10 @@
 
  *  A window to transform a thought into a project.
  *
+ *  Note that the 'project_panel' used component takes its data from the
+ * 'review.project' session variable. We have so to copy the provided thought
+ *  to this target variable.
+ *
  *  Worflow:
  *  [routes.js]
  *      +-> pageLayout { gtd, page, window }
@@ -15,7 +19,8 @@
  *                      +-> actionProcess { gtd }
  *
  *  Session variables:
- *  - collect.thought: the to-be-transformed thought.
+ *  - collect.thought: the to-be-transformed thought
+ *  - review.project: the candidate project.
  */
 import '/imports/client/components/project_panel/project_panel.js';
 import '/imports/client/components/collapse_buttons/collapse_buttons.js';
@@ -32,14 +37,14 @@ Template.projectProcess.onRendered( function(){
             });
         }
     });
+    this.autorun(() => {
+        let project = Object.assign({}, Session.get( 'collect.thought' ));
+        project.type = 'P';
+        Session.set( 'review.project', project );
+    });
 });
 
 Template.projectProcess.helpers({
-    toProject(){
-        let project = Object.assign({}, Session.get( 'collect.thought' ));
-        project.type = 'P';
-        return project;
-    },
     title(){
         const title = 'To a project';
         Session.set( 'header.title', title );
