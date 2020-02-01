@@ -9,13 +9,13 @@
  *  - sublabel (maybe): a secondary label, whose display depends of the currently
  *      running menu
  *  - route (maybe): the router entry name if this is an actionable item
- *      there may be zero or one route name, or a route name different dependant
- *      of the running layout.
+ *      there may be zero or one route name, or a route name dependant of the
+ *      running layout.
  *      NB: the same route may be triggered several times, from different places
  *      in the menus. So the route name cannot be used to identify an item.
  *      This is the item idenfier role.
  *  - group (maybe): the item identifier to which this item should be attached.
- *      As route, the groupe may be a single item, or a layout-dependant base.
+ *      As route, the group may be a single item, or layout-dependant.
  *      Defaults to the parent item identifier.
  *
  *  + the item may have zero to several entries for each menu display:
@@ -31,6 +31,7 @@
  *  where each entry may have following keys:
  *    - display (maybe): whether the idem is displayed in this menu, defaulting
  *      to false
+ *      As route, the display may be a single item, or layout-dependant.
  *    - label (maybe): overrides the item label for this menu display
  *    - sort (maybe): the sort-order of this level of items, defaulting to 0
  *
@@ -425,7 +426,9 @@ export const gtd = {
                         },
                         tabs: {
                             projects: {
-                                display: true,
+                                display: {
+                                    windowLayout: true
+                                },
                                 label: 'Single actions',
                                 sort: 2
                             }
@@ -589,7 +592,17 @@ export const gtd = {
     // whether this item is displayed in the named navigation menu
     isVisible: function( name, item ){
         const sub = gtd.getNavTab( name, item );
-        return sub ? sub.display === true : false;
+        let display = sub && sub.display;
+        if( display ){
+            if( typeof sub.display === 'object' ){
+                display = false;
+                if( g && g.run && g.run.layout ){
+                    const layout = g.run.layout.get();
+                    display = sub.display[layout] || false;
+                }
+            }
+        }
+        return display;
     },
     // returns the list of items to be managed in the named navigation menu
     //  which must be be defined inside of 'navs' or 'tabs'

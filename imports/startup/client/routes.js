@@ -49,6 +49,11 @@ FlowRouter.route('/setup/criterias', {
 // Set up all routes in the app
 FlowRouter.route('/', {
     name: 'home',
+    triggersEnter: [ function( context, redirect ){
+        if( g.run.layout.get() === LYT_TOUCH ){
+            redirect( '/thoughts' );
+        }
+    }],
     action(){
         BlazeLayout.render( g.run.layout.get(), { main: 'empty' });
     },
@@ -177,11 +182,12 @@ FlowRouter.route('/projects', {
         BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectsList' });
     },
 });
-FlowRouter.route('/review/future', {
+FlowRouter.route('/projects/future', {
     name: 'review.future',
     action(){
-        Session.set('projects.tab.name', 'future' );
-        BlazeLayout.render( g.run.layout.get(), { main: 'projectsPage' });
+        Session.set( 'gtd.last', 'projects' );
+        Session.set( 'projects.tab.name', 'future' );
+        BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'projectsList' });
     },
 });
 FlowRouter.route('/actions', {
