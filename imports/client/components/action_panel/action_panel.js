@@ -6,6 +6,12 @@
  *  - create a new action
  *  - edit an existing action.
  *
+ *  Parameters:
+ *  - route: the route to go back when leaving the panel
+ *      Rationale: this panel is used to:
+ *      > create/edit actions -> back to actionsList which is the default
+ *      > transform a thought into an action -> back to thoughtsList.
+ *
  *  Session variable:
  *  - review.action: the object to be edited, may be null.
  */
@@ -59,7 +65,8 @@ Template.action_panel.onRendered( function(){
             // successful update, leave the page
             case DBOPE_LEAVE:
                 Session.set( 'review.action', null );
-                FlowRouter.go( 'review.actions' );
+                const route = this.data.route || 'review.actions';
+                FlowRouter.go( route );
                 break;
             // successful insert, reinit the page
             case DBOPE_REINIT:

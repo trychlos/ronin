@@ -30,7 +30,7 @@ throwMessage = function( o ){
     })
 };
 
-Template.messageTmpl.helpers({
+Template.message.helpers({
     messages: function(){
         return Messages.find();
     }

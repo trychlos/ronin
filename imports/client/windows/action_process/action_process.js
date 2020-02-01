@@ -54,7 +54,6 @@ Template.actionProcess.helpers({
 
 Template.actionProcess.events({
     'click .js-cancel'( ev, instance ){
-        Session.set( 'header.title', null );
         Session.set( 'collect.thought', null );
         FlowRouter.go( 'collect' );
         return false;

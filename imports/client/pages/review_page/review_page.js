@@ -5,7 +5,8 @@
  *
  *  Via custom events, we manage here all insert/update/delete operations on
  *  actions:
- *  - the session variable 'review.action' holds the initial object
+ *  - the session variable 'review.action' (resp. review.project) holds the
+ *    initial object
  *  - the session variable 'review.dbope' holds the db operation result:
  *      0 - waiting for operation
  *      1 - operation error

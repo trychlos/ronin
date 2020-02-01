@@ -6,6 +6,12 @@
  *  - create a new project
  *  - edit an existing project.
  *
+ *  Parameters:
+ *  - route: the route to go back when leaving the panel
+ *      Rationale: this panel is used to:
+ *      > create/edit projects -> back to projectsList which is the default
+ *      > transform a thought into a project -> back to thoughtsList.
+ *
  *  Session variables:
  *  - review.project: the to-be-edited project.
  */
@@ -59,7 +65,8 @@ Template.project_panel.onRendered( function(){
             // successful update operation, leave the page
             case DBOPE_LEAVE:
                 Session.set( 'review.project', null );
-                FlowRouter.go( 'review.projects' );
+                const route = this.data.route || 'review.actions';
+                FlowRouter.go( route );
                 break;
             // successful insert operation, stay in the page, reinitializing it
             case DBOPE_REINIT:
