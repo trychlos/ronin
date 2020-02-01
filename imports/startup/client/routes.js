@@ -156,22 +156,6 @@ FlowRouter.route('/thoughts/project', {
         BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'processPage', window:'projectProcess' });
     },
 });
-FlowRouter.route('/project/new', {
-    name: 'process.new.project',
-    action(){
-        //console.log( "FlowRouter process.init.obj={ type:'P', name:'New project'}" );
-        Session.set( 'process.edit.obj', { type:'P', name:'New project'});
-        BlazeLayout.render( g.run.layout.get(), { main: 'editPage' });
-    },
-});
-FlowRouter.route('/action/new', {
-    name: 'action.new',
-    action(){
-        //console.log( "FlowRouter process.init.obj={ type:'A', name:'New action'}" );
-        Session.set( 'process.edit.obj', { type:'A', name:'New action'});
-        BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
-    },
-});
 FlowRouter.route('/projects', {
     name: 'review.projects',
     action(){
@@ -187,7 +171,23 @@ FlowRouter.route('/projects/future', {
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'future' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'projectsList' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectsList' });
+    },
+});
+FlowRouter.route('/projects/new', {
+    name: 'project.new',
+    action(){
+        Session.set( 'gtd.last', 'projects' );
+        Session.set( 'projects.tab.name', 'projects' );
+        BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectEdit' });
+    },
+});
+FlowRouter.route('/projects/edit', {
+    name: 'project.edit',
+    action(){
+        Session.set( 'gtd.last', 'projects' );
+        Session.set( 'projects.tab.name', 'projects' );
+        BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectEdit' });
     },
 });
 FlowRouter.route('/actions', {

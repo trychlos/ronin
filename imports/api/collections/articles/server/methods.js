@@ -128,15 +128,11 @@ Meteor.methods({
         return ret;
     },
 
+    // delete an action
     'actions.remove'( id ){
         console.log( 'articles.actions.remove id='+id );
         Articles.remove( id );
     },
-    /*
-    'actions.project'( id, project ){
-        return Articles.update({ _id:id }, { $set: { project: project }});
-    },
-    */
 
     // update an existing action
     'actions.update'( id, o ){
@@ -212,10 +208,68 @@ Meteor.methods({
         return ret;
     },
 
+    // insert a new project
+    'projects.insert'( o ){
+        if( o.type !== 'P' ){
+            throw new Meteor.Error(
+                'articles.invalid_type', o.type+': invalid type ("P" expected)'
+            );
+        }
+        const ret = Articles.insert({
+            type: o.type,
+            name: o.name,
+            topic: o.topic,
+            description: o.description,
+            notes: o.notes,
+            startDate: o.startDate,
+            dueDate: o.dueDate,
+            doneDate: o.doneDate,
+            parent: o.parent,
+            future: o.future,
+            vision: o.vision,
+            brainstorm: o.brainstorm
+        });
+        console.log( 'Articles.projects.insert("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.projects.insert',
+                'unable to insert "'+o.name+'" project' );
+        }
+        return ret;
+    },
+
     // delete a project
     'projects.remove'( id ){
         console.log( 'articles.projects.remove id='+id );
         Articles.remove( id );
+    },
+
+    // update an existing project
+    'projects.update'( id, o ){
+        if( o.type !== 'P' ){
+            throw new Meteor.Error(
+                'articles.invalid_type', o.type+': invalid type ("P" expected)'
+            );
+        }
+        const ret = Articles.update( id, { $set: {
+            name: o.name,
+            topic: o.topic,
+            description: o.description,
+            notes: o.notes,
+            startDate: o.startDate,
+            dueDate: o.dueDate,
+            doneDate: o.doneDate,
+            parent: o.parent,
+            future: o.future,
+            vision: o.vision,
+            brainstorm: o.brainstorm
+        }});
+        console.log( 'Articles.projects.update("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.projects.update', 'unable to update "'+o.name+'" project' );
+        }
+        return ret;
     },
 
     // insert returns the newly insert '_id' or throws an exception

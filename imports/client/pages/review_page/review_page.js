@@ -28,6 +28,7 @@ import '/imports/assets/dbope_status/dbope_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import '/imports/client/windows/action_edit/action_edit.js';
 import '/imports/client/windows/actions_list/actions_list.js';
+import '/imports/client/windows/project_edit/project_edit.js';
 import '/imports/client/windows/projects_list/projects_list.js';
 import './review_page.html';
 
@@ -115,6 +116,70 @@ Template.reviewPage.events({
                 } else {
                     throwSuccess( 'Action successfully inserted' );
                     Session.set( 'review.action', 'success' );  // force re-rendering
+                    Session.set( 'review.dbope', DBOPE_REINIT );
+                }
+            });
+        }
+        return false;
+    },
+    // delete the provided project
+    //  requiring a user confirmation
+    'ronin.model.project.delete'( ev, instance, project ){
+        bootbox.confirm(
+            'You are about to delete the "'+project.name+'" project.<br />'+
+            'Are you sure ?', function( ret ){
+                if( ret ){
+                    Meteor.call( 'projects.remove', action._id, ( e, res ) => {
+                        if( e ){
+                            throwError({ type:e.error, message: e.reason });
+                        } else {
+                            throwSuccess( 'Project successfully deleted' );
+                        }
+                    });
+                }
+            }
+        );
+        return false;
+    },
+    // insert or update the provided project
+    //  if a previous object already existed, then this is an update
+    //  the page will be left if this was an update *and* it has been successful
+    'ronin.model.project.update'( ev, instance, project ){
+        Session.set( 'review.dbope', DBOPE_WAIT );
+        const obj = Session.get( 'review.project' );
+        const id = obj ? obj._id : null;
+        try {
+            Articles.fn.check( id, project );
+        } catch( e ){
+            console.log( e );
+            throwError({ type:e.error, message: e.reason });
+            return false;
+        }
+        if( obj ){
+            // if nothing has changed, then does nothing
+            if( Articles.fn.equal( obj, project )){
+                throwMessage({ type:'warning', message:'Nothing changed' });
+                return false;
+            }
+            Meteor.call('projects.update', id, project, ( e, res ) => {
+                if( e ){
+                    console.log( e );
+                    throwError({ type:e.error, message: e.reason });
+                    Session.set( 'review.dbope', DBOPE_ERROR );
+                } else {
+                    throwSuccess( 'Project successfully updated' );
+                    Session.set( 'review.dbope', DBOPE_LEAVE );
+                }
+            });
+        } else {
+            Meteor.call('projects.insert', project, ( e, res ) => {
+                if( e ){
+                    console.log( e );
+                    throwError({ type:e.error, message: e.reason });
+                    Session.set( 'review.dbope', DBOPE_ERROR );
+                } else {
+                    throwSuccess( 'Project successfully inserted' );
+                    Session.set( 'review.project', 'success' );  // force re-rendering
                     Session.set( 'review.dbope', DBOPE_REINIT );
                 }
             });

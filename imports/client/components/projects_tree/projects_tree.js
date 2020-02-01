@@ -124,7 +124,7 @@ Template.projects_tree.fn = {
                     parent: project.parent,
                     obj: project
                 };
-                console.log( prefix+' adding '+node.obj.type+' '+node.obj.name );
+                // console.log( prefix+' adding '+node.obj.type+' '+node.obj.name );
                 Template.projects_tree.fn.addNode( $tree, node );
             }
         }

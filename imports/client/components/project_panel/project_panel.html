@@ -6,27 +6,27 @@
                 <td class="label x-hright"><p>Project:</p></td>
                 <td class="data">
                     <input class="js-name w-100 form-control"
-                            type="text" placeholder="Name" value="{{ project.name }}" />
+                            type="text" placeholder="Name" value="{{ valName }}" />
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Topic:</p></td>
                 <td class="data js-topic">
-                    {{> topics_select selected=project.topic}}
+                    {{> topics_select selected=valTopic}}
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Purpose:</p></td>
                 <td>
                     <input class="js-purpose w-100 form-control"
-                            type="text" placeholder="Purpose" value="{{ project.purpose }}" />
+                            type="text" placeholder="Purpose" value="{{ valPurpose }}" />
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Vision:</p></td>
                 <td>
                     <input class="js-vision w-100 form-control"
-                            type="text" size="40" placeholder="Vision" value="{{ project.vision }}" />
+                            type="text" size="40" placeholder="Vision" value="{{ valVision }}" />
                 </td>
             </tr>
             <tr>
@@ -36,7 +36,7 @@
                         name="description"
                         class="js-description w-100 form-control"
                         placeholder="Description of the project"
-                        rows="3">{{ project.description }}</textarea>
+                        rows="3">{{ valDescription }}</textarea>
                 </td>
             </tr>
             <tr>
@@ -46,30 +46,30 @@
                         name="brainstorm"
                         class="js-brainstorm w-100 form-control"
                         placeholder="Brainstorming"
-                        rows="3">{{ project.brainstorm }}</textarea>
+                        rows="3">{{ valBrainstorm }}</textarea>
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Project:</p></td>
                 <td class="js-project">
-                    {{> projects_select selected=project.parent }}
+                    {{> projects_select selected=valParent }}
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright">Future project:</td>
-                <td><input type="checkbox" class="js-future" {{isFuture project.future}} /></td>
+                <td><input type="checkbox" class="js-future" {{valFuture}} /></td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Start date:</p></td>
-                <td class="js-datestart" title="Start date">{{> date_select date=project.startDate }}</td>
+                <td class="js-datestart" title="Start date">{{> date_select date=valStartDate }}</td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Due date:</p></td>
-                <td class="js-datedue" title="Due date">{{> date_select date=project.dueDate }}</td>
+                <td class="js-datedue" title="Due date">{{> date_select date=valDueDate }}</td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Done date:</p></td>
-                <td class="js-datedone" title="Done date">{{> date_select date=project.doneDate }}</td>
+                <td class="js-datedone" title="Done date">{{> date_select date=valDoneDate }}</td>
             </tr>
             <tr>
                 <td class="label x-hright x-vtop"><p>Notes:</p></td>
@@ -78,7 +78,7 @@
                         name="notes"
                         class="js-notes w-100 form-control"
                         placeholder="Notes"
-                        rows="3">{{ project.notes }}</textarea>
+                        rows="3">{{ valNotes }}</textarea>
                 </td>
             </tr>
         </table>

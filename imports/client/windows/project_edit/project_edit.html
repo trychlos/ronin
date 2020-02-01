@@ -1,0 +1,25 @@
+<template name="projectEdit">
+    <div class="project-edit ronin-window wsf-parent {{#if isPageLayout }}x-mt025{{/if}}">
+
+        <div class="wsf-header">
+            {{#if isPageLayout}}
+                <div class="x-hidden">
+                    {{title}}
+                </div>
+            {{else}}
+                <div class="edit-header">
+                    <p class="x-h2">{{title}}</p>
+                </div>
+            {{/if}}
+        </div>
+
+        <div class="wsf-content">
+            {{> project_panel }}
+        </div>
+
+        <div class="wsf-footer">
+            {{> collapse_buttons okLabel=okLabel }}
+        </div>
+
+    </div>
+</template>

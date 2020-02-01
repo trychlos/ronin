@@ -30,8 +30,8 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/plus_button/plus_button.js';
-//import '/imports/client/components/action_edit/action_edit.js';
-//import '/imports/client/components/actions_list/actions_list.js';
+import '/imports/client/components/project_panel/project_panel.js';
+import '/imports/client/components/projects_tabs/projects_tabs.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './projects_list.html';
 
@@ -58,17 +58,9 @@ Template.projectsList.helpers({
 });
 
 Template.projectsList.events({
-    /*
-    // emitted from thoughts_list_item:
-    //  close all items
-    'ronin.ui.thoughts.list.card.collapse'( event, instance ){
-        //console.log( 'thoughts_list ronin.thoughts.list.card.collapse' );
-        $( '.thoughts-list-item' ).removeClass( 'opened-card' );
-        Session.set( 'collect.opened', null );
-    },
-    */
     'click .js-new'( ev, instance ){
         $( event.target ).trigger( 'ronin.ui.projects.list.card.collapse' );
+        Session.set( 'review.project', null );
         FlowRouter.go( 'project.new' );
         return false;
     }
