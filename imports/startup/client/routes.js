@@ -50,7 +50,7 @@ FlowRouter.route('/setup/criterias', {
 FlowRouter.route('/', {
     name: 'home',
     triggersEnter: [ function( context, redirect ){
-        if( g.run.layout.get() === LYT_TOUCH ){
+        if( g.run.layout.get() === LYT_PAGE ){
             redirect( '/thoughts' );
         }
     }],
