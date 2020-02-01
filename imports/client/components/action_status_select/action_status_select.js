@@ -29,7 +29,6 @@ Template.action_status_select.fn = {
         const instance = Template.instance();
         if( instance.view.isRendered ){
             const def = actionStatus.getDefault();
-            console.log( 'default='+def );
             instance.$( selector+' .js-status-select' ).val( def );
         }
     },
