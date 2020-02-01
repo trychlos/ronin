@@ -1,0 +1,11 @@
+<template name="actions_list">
+    <div class="actions-list">
+
+        <div>
+            {{#each it in actions}}
+                {{> actions_list_item action=it }}
+            {{/each}}
+        </div>
+
+    </div>
+</template>

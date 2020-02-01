@@ -169,7 +169,10 @@
   109 2020- 1-28 in windowLayout, pass the group to the IWindowed newly created window
                   (idem what happens in pageLayout)
 
-  113
+  113 2020- 1-31 collectList and collectEdit windows should be renamed as
+                  thoughtsList and thoughtEdit
+
+  114
 
 -----------------------------------------------------------------------
  Done

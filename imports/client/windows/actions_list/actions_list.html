@@ -1,14 +1,14 @@
-<template name="collectList">
-    <div class="collect-list pwi-window {{#if isPageLayout }}x-mt025{{/if}}"
+<template name="actionsList">
+    <div class="actions-list pwi-window {{#if isPageLayout }}x-mt025{{/if}}"
         data-pwi-iroutable-mode="window" data-pwi-iroutable-route="{{ group }}">
 
         {{#if isDesktopLayout}}
             <div class="edit">
-                {{> thought_panel }}
+                {{> action_panel }}
             </div>
         {{/if}}
 
-        {{> thoughts_list thoughts=thoughts title=true }}
+        {{> actions_list actions=actions }}
 
         {{#if isPageLayout}}
             <div class="js-new">

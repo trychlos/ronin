@@ -9,6 +9,10 @@ Meteor.publish( 'articles.actions.all', function(){
     return Articles.find({ type: 'A' });
 });
 
+Meteor.publish( 'articles.maybe.all', function(){
+    return Articles.find({ type: 'M' });
+});
+
 Meteor.publish( 'articles.projects.all', function(){
     return Articles.find({ type: 'P' });
 });

@@ -336,6 +336,9 @@ export const gtd = {
                     }
                 ]
             },
+            /*
+             *  Review features group
+             */
             {
                 id: 'review',
                 label: 'Review',

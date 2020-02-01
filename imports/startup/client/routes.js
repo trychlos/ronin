@@ -5,6 +5,8 @@ import { Session } from 'meteor/session';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
+import { gtd } from '/imports/assets/gtd/gtd.js';
+
 import '/imports/client/layouts/body/body.js';
 import '/imports/client/layouts/page_layout/page_layout.js';
 import '/imports/client/layouts/window_layout/window_layout.js';
@@ -181,11 +183,12 @@ FlowRouter.route('/review/future', {
         BlazeLayout.render( g.run.layout.get(), { main: 'projectsPage' });
     },
 });
-FlowRouter.route('/review/actions', {
+FlowRouter.route('/actions', {
     name: 'review.actions',
     action(){
+        Session.set( 'gtd.last', 'actions' );
         Session.set('projects.tab.name', 'actions' );
-        BlazeLayout.render( g.run.layout.get(), { main: 'projectsPage' });
+        BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'actionsList' });
     },
 });
 FlowRouter.route('/review/inactive', {
@@ -233,8 +236,14 @@ FlowRouter.notFound = {
 // in page-based layout, reactive the last known group at startup time
 const layout = g.run.layout.get();
 if( layout === LYT_PAGE ){
-    const route = Session.get( 'gtd.last' );
-    if( route ){
-        FlowRouter.go( route );
+    const id = Session.get( 'gtd.last' );
+    if( id ){
+        const item = gtd.byId( id );
+        if( item ){
+            const route = gtd.route( item );
+            if( route ){
+                FlowRouter.go( route );
+            }
+        }
     }
 }

@@ -1,12 +1,12 @@
 /*
- * 'collectPage' page.
- *  The main page for the 'collect' features group.
+ * 'reviewPage' page.
+ *  The main page for the 'review' features group.
  *  This page, along with the corresponding windows, must be layout-agnostic.
  *
  *  Via custom events, we manage here all insert/update/delete operations on
- *  thoughts:
- *  - the session variable 'collect.thought' holds the initial object
- *  - the session variable 'collect.dbope' holds the db operation result:
+ *  actions:
+ *  - the session variable 'review.action' holds the initial object
+ *  - the session variable 'review.dbope' holds the db operation result:
  *      0 - waiting for operation
  *      1 - operation error
  *      2 - success, leave the page (successful update only)
@@ -15,42 +15,34 @@
  *  Worflow:
  *  [routes.js]
  *      +-> pageLayout { gtd, page, window }
- *              +-> collectPage { gtd, window }
+ *              +-> reviewPage { gtd, window }
  *
  *  Parameters:
  *  - 'gtd': the identifier of this features's group item
  *  - 'window': the window to be run
- *      here: might be collectList, collectEdit.
- *
- *  NB: template lifecycle.
- *      Even if we manually render the template with Blaze.render(), we have
- *      checked that the created 'collectWindow' window was rightly destroyed
- *      on route change. This is done automagically by Meteor as the parent
- *      'collectPage' itself is also destroyed on route change.
- *      So, no need to keep trace of the returned View.
- *      http://blazejs.org/api/blaze.html#Blaze-render
+ *      here: might be actionsList, actionsEdit, projectsList, projectsEdit...
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
 import '/imports/assets/dbope_status/dbope_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
-import '/imports/client/windows/collect_list/collect_list.js';
-import '/imports/client/windows/collect_edit/collect_edit.js';
-import './collect_page.html';
+import '/imports/client/windows/actions_list/actions_list.js';
+//import '/imports/client/windows/action_edit/action_edit.js';
+import './review_page.html';
 
-Template.collectPage.onCreated( function(){
+Template.reviewPage.onCreated( function(){
     //console.log( this.data );
 });
 
-Template.collectPage.onRendered( function(){
+Template.reviewPage.onRendered( function(){
     this.autorun(() => {
         if( g.run.layout.get() === LYT_WINDOW && g[LYT_WINDOW].taskbar.get()){
-            $('.collect-page').IWindowed( 'show', this.data.window );
+            $('.review-page').IWindowed( 'show', this.data.window );
         }
     })
 });
 
-Template.collectPage.helpers({
+Template.reviewPage.helpers({
     windowContext(){
         return {
             gtd: Template.instance().data.gtd
@@ -58,19 +50,19 @@ Template.collectPage.helpers({
     }
 });
 
-Template.collectPage.events({
-    // delete the provided thought
+Template.reviewPage.events({
+    // delete the provided action
     //  requiring a user confirmation
-    'ronin.model.thought.delete'( ev, instance, thought ){
+    'ronin.model.action.delete'( ev, instance, action ){
         bootbox.confirm(
-            'You are about to delete the "'+thought.name+'" thought.<br />'+
+            'You are about to delete the "'+action.name+'" action.<br />'+
             'Are you sure ?', function( ret ){
                 if( ret ){
-                    Meteor.call( 'thoughts.remove', thought._id, ( e, res ) => {
+                    Meteor.call( 'actions.remove', action._id, ( e, res ) => {
                         if( e ){
                             throwError({ type:e.error, message: e.reason });
                         } else {
-                            throwSuccess( 'Thought successfully deleted' );
+                            throwSuccess( 'Action successfully deleted' );
                         }
                     });
                 }
@@ -78,12 +70,12 @@ Template.collectPage.events({
         );
         return false;
     },
-    // insert or update the provided thought
+    // insert or update the provided action
     //  if a previous object already existed, then this is an update
     //  the page will be left if this was an update *and* it has been successful
-    'ronin.model.thought.update'( ev, instance, thought ){
-        Session.set( 'collect.dbope', DBOPE_WAIT );
-        const obj = Session.get( 'collect.thought' );
+    'ronin.model.action.update'( ev, instance, action ){
+        Session.set( 'review.dbope', DBOPE_WAIT );
+        const obj = Session.get( 'review.action' );
         const id = obj ? obj._id : null;
         try {
             Articles.fn.check( id, thought );
@@ -94,30 +86,30 @@ Template.collectPage.events({
         }
         if( obj ){
             // if nothing has changed, then does nothing
-            if( Articles.fn.equal( obj, thought )){
+            if( Articles.fn.equal( obj, action )){
                 throwMessage({ type:'warning', message:'Nothing changed' });
                 return false;
             }
-            Meteor.call('thoughts.update', id, thought, ( e, res ) => {
+            Meteor.call('actions.update', id, action, ( e, res ) => {
                 if( e ){
                     console.log( e );
                     throwError({ type:e.error, message: e.reason });
-                    Session.set( 'collect.dbope', DBOPE_ERROR );
+                    Session.set( 'review.dbope', DBOPE_ERROR );
                 } else {
-                    throwSuccess( 'Thought successfully updated' );
-                    Session.set( 'collect.dbope', DBOPE_LEAVE );
+                    throwSuccess( 'Action successfully updated' );
+                    Session.set( 'review.dbope', DBOPE_LEAVE );
                 }
             });
         } else {
-            Meteor.call('thoughts.insert', thought, ( e, res ) => {
+            Meteor.call('actions.insert', thought, ( e, res ) => {
                 if( e ){
                     console.log( e );
                     throwError({ type:e.error, message: e.reason });
-                    Session.set( 'collect.dbope', DBOPE_ERROR );
+                    Session.set( 'review.dbope', DBOPE_ERROR );
                 } else {
-                    throwSuccess( 'Thought successfully inserted' );
-                    Session.set( 'collect.thought', 'success' );  // force re-rendering
-                    Session.set( 'collect.dbope', DBOPE_REINIT );
+                    throwSuccess( 'Action successfully inserted' );
+                    Session.set( 'review.action', 'success' );  // force re-rendering
+                    Session.set( 'review.dbope', DBOPE_REINIT );
                 }
             });
         }
