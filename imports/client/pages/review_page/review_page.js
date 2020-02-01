@@ -28,6 +28,7 @@ import '/imports/assets/dbope_status/dbope_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import '/imports/client/windows/actions_list/actions_list.js';
 //import '/imports/client/windows/action_edit/action_edit.js';
+import '/imports/client/windows/projects_list/projects_list.js';
 import './review_page.html';
 
 Template.reviewPage.onCreated( function(){

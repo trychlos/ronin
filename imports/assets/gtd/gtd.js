@@ -591,18 +591,6 @@ export const gtd = {
         const sub = gtd.getNavTab( name, item );
         return sub ? sub.display === true : false;
     },
-    // returns the label associated with this item, or with one of its parent
-    // maybe an empty string
-    label: function( item ){
-        if( item.label ){
-            return item.label;
-        }
-        const parent = gtd.parent( item );
-        if( parent ){
-            return gtd.label( parent );
-        }
-        return '';
-    },
     // returns the list of items to be managed in the named navigation menu
     //  which must be be defined inside of 'navs' or 'tabs'
     // note that returned item may not have any route (should be displayed
@@ -636,6 +624,27 @@ export const gtd = {
             const b_weight = b_sub ? ( b_sub.sort || 0 ) : 0;
             return a_weight < b_weight ? -1 : ( a_weight > b_weight ? 1 : 0 );
         }
+    },
+    // returns the label associated with this item, or with one of its parent
+    // maybe an empty string
+    label: function( item ){
+        if( item.label ){
+            return item.label;
+        }
+        const parent = gtd.parent( item );
+        if( parent ){
+            return gtd.label( parent );
+        }
+        return '';
+    },
+    // returns the label associated with this item, or with one of its parent
+    // maybe an empty string
+    labelNav: function( name, item ){
+        const sub = gtd.getNavTab( name, item );
+        if( sub && sub.label ){
+            return sub.label;
+        }
+        return gtd.label( item );
     },
     // returns the parent of this item, or null
     parent( item ){

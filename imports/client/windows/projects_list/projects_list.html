@@ -1,0 +1,20 @@
+<template name="projectsList">
+    <div class="projects-list ronin-window {{#if isPageLayout }}x-mt025{{/if}}"
+        data-pwi-iroutable-mode="window" data-pwi-iroutable-route="{{ group }}">
+
+        {{#if isDesktopLayout}}
+            <div class="edit">
+                {{> project_panel }}
+            </div>
+        {{/if}}
+
+        {{> projects_tabs }}
+
+        {{#if isPageLayout}}
+            <div class="js-new">
+                {{> plus_button }}
+            </div>
+        {{/if}}
+
+    </div>
+</template>

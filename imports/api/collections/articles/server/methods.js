@@ -71,10 +71,12 @@ Meteor.methods({
             notes: o.notes
         });
     },
+    */
     'actions.remove'( id ){
-        console.log( 'actions.remove id='+id );
-        Articles.remove(id);
+        console.log( 'articles.actions.remove id='+id );
+        Articles.remove( id );
     },
+    /*
     'actions.project'( id, project ){
         return Articles.update({ _id:id }, { $set: { project: project }});
     },
@@ -94,6 +96,18 @@ Meteor.methods({
         }});
     },
     */
+   'articles.reparent'( o_id, parent_id ){
+        const ret = Articles.update( o_id, { $set: {
+            parent: parent_id
+        }});
+        console.log( 'Articles.reparent("'+o_id+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.reparent',
+                'unable to reparent "'+o_id+'" article' );
+        }
+        return ret;
+    },
     // create a new project from a thought
     'projects.from.thought'( thought, project ){
         if( thought.type !== 'T' ){
@@ -114,7 +128,7 @@ Meteor.methods({
             doneDate: project.doneDate,
             parent: project.parent,
             status: project.status,
-            future: project.future,
+            future: project.future || false,
             vision: project.vision,
             brainstorm: project.brainstorm
         }});
@@ -125,6 +139,10 @@ Meteor.methods({
                 'unable to transform "'+thought.name+'" into a project' );
         }
         return ret;
+    },
+    'projects.remove'( id ){
+        console.log( 'articles.projects.remove id='+id );
+        Articles.remove( id );
     },
     // insert returns the newly insert '_id' or throws an exception
     'thoughts.insert'( o ){

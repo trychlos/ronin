@@ -1,5 +1,5 @@
 /*
- * 'actionsList' window.
+ * 'projectsList' window.
  *
  *  Display (at least) the list of actions.
  *  Each action as buttons:
@@ -16,12 +16,12 @@
  *      +-> pageLayout { gtd, page, window }
  *              +-> reviewPage { gtd, window }
  *                      |
- *                      +-> actionsList { gtd }
- *                              +-> action_panel in window-based layout
- *                              +-> actions_list
+ *                      +-> projectsList { gtd }
+ *                              +-> project_panel in window-based layout
+ *                              +-> projects_list
  *                              +-> plus_button in page-based layout
  *                      |
- *                      +-> actionEdit { gtd }
+ *                      +-> projectEdit { gtd }
  *
  *  Parameters:
  *  - 'gtd': identifier of the features group item.
@@ -31,43 +31,45 @@ import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/plus_button/plus_button.js';
 //import '/imports/client/components/action_edit/action_edit.js';
-import '/imports/client/components/actions_list/actions_list.js';
+//import '/imports/client/components/actions_list/actions_list.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
-import './actions_list.html';
+import './projects_list.html';
 
-Template.actionsList.onCreated( function(){
-    this.subscribe( 'articles.actions.all' );
+Template.projectsList.onCreated( function(){
+    this.subscribe( 'articles.projects.all' );
     this.subscribe( 'topics.all' );
     this.subscribe( 'contexts.all' );
 });
 
-Template.actionsList.onRendered( function(){
+Template.projectsList.onRendered( function(){
     // open the window if the manager has been intialized
     if( g[LYT_WINDOW].taskbar.get()){
         $('div.collect-window').IWindowed({
-            template:   'actionsList',
-            title:      'Review actions'
+            template:   'projectsList',
+            title:      'Review projects'
         });
     }
 });
 
-Template.actionsList.helpers({
-    actions(){
-        return Articles.find({ type:'A' }, { sort:{ createdAt: -1 }});
+Template.projectsList.helpers({
+    projects(){
+        return Articles.find({ type:'P' }, { sort:{ createdAt: -1 }});
     }
 });
 
-Template.actionsList.events({
-    // emitted from actions_list_item:
+Template.projectsList.events({
+    /*
+    // emitted from thoughts_list_item:
     //  close all items
-    'ronin.ui.actions.list.card.collapse'( event, instance ){
+    'ronin.ui.thoughts.list.card.collapse'( event, instance ){
         //console.log( 'thoughts_list ronin.thoughts.list.card.collapse' );
-        $( '.actions-list-item' ).removeClass( 'opened-card' );
-        Session.set( 'review.opened', null );
+        $( '.thoughts-list-item' ).removeClass( 'opened-card' );
+        Session.set( 'collect.opened', null );
     },
+    */
     'click .js-new'( ev, instance ){
-        $( event.target ).trigger( 'ronin.ui.actions.list.card.collapse' );
-        FlowRouter.go( 'action.new' );
+        $( event.target ).trigger( 'ronin.ui.projects.list.card.collapse' );
+        FlowRouter.go( 'project.new' );
         return false;
     }
 });

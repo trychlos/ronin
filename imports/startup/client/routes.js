@@ -169,11 +169,12 @@ FlowRouter.route('/action/new', {
         BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
     },
 });
-FlowRouter.route('/review/projects', {
+FlowRouter.route('/projects', {
     name: 'review.projects',
     action(){
-        Session.set('projects.tab.name', 'projects' );
-        BlazeLayout.render( g.run.layout.get(), { main: 'projectsPage' });
+        Session.set( 'gtd.last', 'projects' );
+        Session.set( 'projects.tab.name', 'projects' );
+        BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectsList' });
     },
 });
 FlowRouter.route('/review/future', {
@@ -187,7 +188,7 @@ FlowRouter.route('/actions', {
     name: 'review.actions',
     action(){
         Session.set( 'gtd.last', 'actions' );
-        Session.set('projects.tab.name', 'actions' );
+        Session.set( 'projects.tab.name', 'actions' );
         BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'actionsList' });
     },
 });

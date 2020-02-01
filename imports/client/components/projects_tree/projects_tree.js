@@ -7,9 +7,8 @@
  *  - label: the label to be displayed as the root node
  *  - tab: the identifier of the created instance (may not be the one currently shown).
  */
-import { Actions } from '/imports/api/collections/actions/actions.js';
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Counters } from '/imports/api/collections/counters/counters.js';
-import { Projects } from '/imports/api/collections/projects/projects.js';
 import { actionStatus } from '/imports/assets/action_status/action_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import 'jqtree/tree.jquery.js';
@@ -29,7 +28,7 @@ Template.projects_tree.fn = {
             console.log( tab+': addActions while $tree not built' );
             return;
         }
-        const pNone = Projects.findOne({ code: 'non' });
+        const pNone = Articles.findOne({ type:'P', code: 'non' });
         fetched.forEach( it => {
             //console.log( tab+': addActions '+it.name );
             let node = {
@@ -41,7 +40,7 @@ Template.projects_tree.fn = {
             // on projects tab, attach to each project their relative actions
             if( tab === 'projects' ){
                 if( it.project && it.project !== pNone._id ){
-                    const p = Projects.findOne({ _id: it.project });
+                    const p = Articles.findOne({ _id: it.project });
                     if( p && !p.future ){
                         node.parent = it.project;
                         const added = Template.projects_tree.fn.addNode( $tree, node );
@@ -57,7 +56,7 @@ Template.projects_tree.fn = {
             // last display on future tab the actions attached to a future project
             } else if( tab === 'future' ){
                 if( it.project && it.project !== pNone._id ){
-                    const p = Projects.findOne({ _id: it.project });
+                    const p = Articles.findOne({ _id: it.project });
                     if( p && p.future ){
                         node.parent = it.project;
                         const added = Template.projects_tree.fn.addNode( $tree, node );
@@ -98,24 +97,26 @@ Template.projects_tree.fn = {
     //  note that even if an order has been initially retrieved, fetched must still
     //  be explored for new items
     addProjects: function( tab, future, fetched ){
-        const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
+        //console.log( 'addProjects future='+future+' count='+fetched.length );
+        const fn = Template.projects_tree.fn;
+        const $tree = fn.dict[tab] ? fn.dict[tab].tree : null;
         if( !$tree ){
             console.log( tab+': addProjects while $tree not built' );
             return;
         }
-        const order = Template.projects_tree.fn.dict[tab].order.get();
+        const order = fn.dict[tab].order.get();
         if( order ){
             order.forEach( it => {
-                Template.projects_tree.fn._addProjectsRec( $tree, future, it, '>' );
+                fn._addProjectsRec( $tree, future, it, '>' );
             });
         }
         fetched.forEach( it => {
-            Template.projects_tree.fn._addProjectNode( $tree, future, it, '' );
+            fn._addProjectNode( $tree, future, it, '' );
         });
 },
     // add a project node
     _addProjectNode: function( $tree, future, project, prefix ){
-        if( project.future === future ){
+        if( project && ( future ? project.future : !project.future )){
             if( !$tree.tree( 'getNodeById', project._id )){
                 let node = {
                     id: project._id,
@@ -123,9 +124,8 @@ Template.projects_tree.fn = {
                     parent: project.parent,
                     obj: project
                 };
-                node.obj.type = 'P';
+                console.log( prefix+' adding '+node.obj.type+' '+node.obj.name );
                 Template.projects_tree.fn.addNode( $tree, node );
-                //console.log( prefix+' adding '+node.obj.type+' '+node.name );
             }
         }
     },
@@ -133,12 +133,13 @@ Template.projects_tree.fn = {
     //  note that the project's attributes must be revalidated regarding to the
     //  current tab as they may have been modified since last save
     _addProjectsRec: function( $tree, future, it, prefix ){
+        const fn = Template.projects_tree.fn;
         if( it.id !== 'root' && it.type === 'P' ){
-            Template.projects_tree.fn._addProjectNode( $tree, future, Projects.findOne({ _id:it.id }), prefix );
+            fn._addProjectNode( $tree, future, Articles.findOne({ _id:it.id }), prefix );
         }
         if( it.children ){
             it.children.forEach( child => {
-                Template.projects_tree.fn._addProjectsRec( $tree, future, child, prefix+'>' );
+                fn._addProjectsRec( $tree, future, child, prefix+'>' );
             });
         }
     },
@@ -155,7 +156,8 @@ Template.projects_tree.fn = {
         //console.log( 'Meteor.call '+method+' '+node.name );
         Meteor.call( method, node.obj._id, ( error ) => {
             if( error ){
-                return throwError({ message: error.message });
+                throwError({ message: error.message });
+                return;
             }
         });
         for( var i=0 ; i<node.children.length ; ++i ){
@@ -299,7 +301,7 @@ Template.projects_tree.fn = {
     //  - parent: previous parent
     //  - id: item id
     obsoleteParent: function( parent, id ){
-        const pNone = Projects.findOne({ code: 'non' });
+        const pNone = Articles.findOne({ type:'P', code: 'non' });
         const searched = parent && parent !== pNone._id ? parent : 'root';
         //console.log( 'obsoletedParent='+parent+' id='+id+' searched='+searched );
         const tabs = Object.keys( Template.projects_tree.fn.dict );
@@ -403,13 +405,14 @@ Template.projects_tree.fn = {
     },
     // insert the root node (type='R') of the tree
     setRootNode: function( tab, label ){
-        const $tree = Template.projects_tree.fn.dict[tab] ? Template.projects_tree.fn.dict[tab].tree : null;
+        const fn = Template.projects_tree.fn;
+        const $tree = fn.dict[tab] ? fn.dict[tab].tree : null;
         if( !$tree ){
             console.log( tab+': setRootNode while $tree not built' );
             return;
         }
         //console.log( tab+' setRootNode '+label );
-        Template.projects_tree.fn.addNode( $tree, {
+        fn.addNode( $tree, {
             id: 'root',
             name: label,
             obj: {
@@ -424,9 +427,9 @@ Template.projects_tree.onCreated( function(){
     const tab = this.data.tab;
     if( tab ){
         Template.projects_tree.fn.dict[tab] = {
-            actionsHandle:  this.subscribe( 'actions.all' ),
+            actionsHandle:  this.subscribe( 'articles.actions.all' ),
             countersHandle: this.subscribe( 'counters.all' ),
-            projectsHandle: this.subscribe( 'projects.all' ),
+            projectsHandle: this.subscribe( 'articles.projects.all' ),
             countersGot:    new ReactiveVar( false ),
             projectsShown:  new ReactiveVar( false ),
             tree:           null,
@@ -534,10 +537,10 @@ Template.projects_tree.onRendered( function(){
         const tab = this.data.tab;
         if( tab &&
             fn.dict[tab].countersHandle.ready()){
-                Meteor.call( 'counters.getValue', 'tree_'+tab, ( error, result ) => {
+                Meteor.call( 'counters.getValue', 'tree_'+tab, ( e, res ) => {
                     //console.log( tab+' json async callback '+result );
-                    if( result ){
-                        fn.dict[tab].order.set( JSON.parse( result ));
+                    if( res ){
+                        fn.dict[tab].order.set( JSON.parse( res ));
                     }
                 });
                 fn.dict[tab].countersGot.set( true );
@@ -554,10 +557,9 @@ Template.projects_tree.onRendered( function(){
                 //console.log( tab+': updating projects' );
                 if( tab !== 'actions' ){
                     const future = ( tab === 'future' );
-                    fn.addProjects(
-                        tab,
-                        future,
-                        Projects.find({ select_order: { $gt: 0 }, future: future }).fetch());
+                    let filter = { type:'P' };
+                    filter.future = future ? true : { $ne:true };
+                    fn.addProjects( tab, future, Articles.find( filter ).fetch());
                 }
                 fn.dict[tab].projectsShown.set( true );
         }
@@ -571,7 +573,7 @@ Template.projects_tree.onRendered( function(){
             fn.dict[tab].actionsHandle.ready() &&
             fn.dict[tab].projectsShown.get()){
                 //console.log( tab+': updating actions' );
-                fn.addActions( tab, Actions.find().fetch());
+                fn.addActions( tab, Articles.find({ type:'A' }).fetch());
         }
     });
     // on action or project update, the new status of the updated item is reactively
@@ -596,21 +598,21 @@ Template.projects_tree.onRendered( function(){
 
 Template.projects_tree.events({
     'change .js-done'( ev, instance ){
-        const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
+        const tab = $( ev.currentTarget ).parent('.actions').prev('.tree').data('tab');
         const checked = instance.$('.js-done' ).is(':checked');
         Template.projects_tree.fn.displayDone( tab, checked );
     },
     'click .js-expand'( ev, instance ){
-        const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
+        const tab = $( ev.currentTarget ).parent('.actions').prev('.tree').data('tab');
         Template.projects_tree.fn.expandAll( tab );
     },
     'change .js-collapse'( ev, instance ){
-        const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
+        const tab = $( ev.currentTarget ).parent('.actions').prev('.tree').data('tab');
         const checked = instance.$('.js-collapse' ).is(':checked');
         console.log( tab+' collapse '+checked );
     },
     'click .js-dump'( ev, instance ){
-        const tab = $( ev.currentTarget ).parent('.btns').prev('.tree').data('tab');
+        const tab = $( ev.currentTarget ).parent('.actions').prev('.tree').data('tab');
         Template.projects_tree.fn.dumpTree( tab );
         Template.projects_tree.fn.dumpHtml( tab );
     },
@@ -634,19 +636,20 @@ Template.projects_tree.events({
             return false;
         }
         const obj = ev.move_info.moved_node.obj;
-        const method = obj.type === 'A' ? 'actions.project' : 'projects.parent';
-        Meteor.call( method, obj._id, ev.move_info.target_node.id, ( error ) => {
-            if( error ){
-                return throwError({ message: error.message });
+        Meteor.call( 'articles.reparent', obj._id, ev.move_info.target_node.id, ( e ) => {
+            if( e ){
+                throwError({ message: e.message });
+                return false;
             }
         });
         ev.move_info.do_move();
         const $tree = $( ev.target );
         const tab = $tree.data( 'tab' );
         const json = Template.projects_tree.fn.jsonFilter( $tree.tree( 'toJson' ));
-        Meteor.call( 'counters.setValue', 'tree_'+tab, json, ( error ) => {
-            if( error ){
-                return throwError({ message: error.message });
+        Meteor.call( 'counters.setValue', 'tree_'+tab, json, ( e ) => {
+            if( e ){
+                throwError({ message: e.message });
+                return false;
             }
         });
     }

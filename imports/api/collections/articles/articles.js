@@ -133,7 +133,7 @@ Articles.schema = new SimpleSchema({
      */
     future: {
         type: Boolean,
-        optional: true
+        defaultValue: false
     },
     vision: {
         type: String,

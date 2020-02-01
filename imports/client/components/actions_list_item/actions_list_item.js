@@ -10,6 +10,7 @@
  *  - review.opened: the action identifier whose card is opened
  *      so that we can open the card when coming back from the edition
  */
+import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/actions_list_card/actions_list_card.js';
 import './actions_list_item.html';
 
@@ -45,10 +46,10 @@ Template.actions_list_item.helpers({
         return Template.actions_list_item.fn.itemDivId();
     },
     showDown(){
-        return Session.get( 'collect.opened' ) === Template.instance().data.action._id ? 'x-hidden' : 'x-inline';
+        return Session.get( 'review.opened' ) === Template.instance().data.action._id ? 'x-hidden' : 'x-inline';
     },
     showUp(){
-        return Session.get( 'collect.opened' ) === Template.instance().data.action._id ? 'x-inline' : 'x-hidden';
+        return Session.get( 'review.opened' ) === Template.instance().data.action._id ? 'x-inline' : 'x-hidden';
     },
     topic_byId( id ){
         const obj = id ? Topics.findOne({ _id:id }) : null;

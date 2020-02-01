@@ -12,15 +12,15 @@ import './projects_tabs.html';
 
 Template.projects_tabs.onRendered( function(){
     $('.projects-tabbed').ITabbed({
-        tab: Session.get('projects.tab.name')
+        tab: Session.get( 'projects.tab.name' )
     });
 });
 
 Template.projects_tabs.helpers({
     gtdItems(){
-        return gtd.projectsItems();
+        return gtd.items( 'projects' );
     },
     gtdLabel( item ){
-        return gtd.labelTab( item );
+        return gtd.labelNav( 'projects', item );
     }
 });
