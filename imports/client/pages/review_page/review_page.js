@@ -39,7 +39,7 @@ Template.reviewPage.onCreated( function(){
 
 Template.reviewPage.onRendered( function(){
     this.autorun(() => {
-        if( g.run.layout.get() === LYT_WINDOW && g[LYT_WINDOW].taskbar.get()){
+        if( g[LYT_WINDOW].taskbar.get()){
             $('.review-page').IWindowed( 'show', this.data.window );
         }
     })

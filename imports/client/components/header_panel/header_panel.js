@@ -46,10 +46,14 @@ Template.header_panel.helpers({
         Template.instance().eltCount = 1+count;
         return spacer;
     },
+    // only change title on the page-based layout
     title(){
+        let title = null;
         const last = g.run.resize.get();    // be reactive vs orientation change
         const width = parseInt( $(window).innerWidth());
-        let title = Session.get( 'header.title' );
+        if( g.run.layout.get() === LYT_PAGE ){
+            title = Session.get( 'header.title' );
+        }
         if( !title ){
             title = 'Ronin '+( width <= 480 ? 'rocks!' : 'takes care of your thoughts' );
         }

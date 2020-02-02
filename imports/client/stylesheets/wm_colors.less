@@ -5,6 +5,7 @@
 
 .ronin-iwm {
     .ui-dialog-titlebar {
+        border-radius: 3px 3px 0 0;
         padding: 0.35rem 0.5rem;
         button {
             font-size: 0;
@@ -13,7 +14,17 @@
             background-image: url('/jquery-ui/ui-icons_444444_256x240.png');
         }
     }
+    .ui-state-active span {
+        font-weight: bold;
+    }
+    .ui-widget-header {
+        font-weight: normal;
+    }
+    .ui-dialog-content {
+        padding: 0.25em 0 0 0;
+    }
 }
+
 .ronin-iwm-setup {
     .ui-widget-header.ui-state-active {
         background: @setup-color;

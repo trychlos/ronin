@@ -117,10 +117,21 @@ Template.appLayout.helpers({
     // data context to be passed to the page
     //  just to be sure we are able to pass a complex data context
     pageContext(){
-        return {
-            gtd: Template.instance().data.gtd(),
-            window: Template.instance().data.window()
+        const data = Template.instance().data;
+        let ret = {};
+        if( data ){
+            for( var key in data ){
+                if( data.hasOwnProperty( key )){
+                    if( typeof data[key] === 'function' ){
+                        ret[key] = data[key]();
+                    } else {
+                        ret[key] = data[key];
+                    }
+                }
+            }
         }
+        //console.log( ret );
+        return ret;
     },
     // page-base layout: just a place holder to be sure resizing is reactive
     pblResized(){

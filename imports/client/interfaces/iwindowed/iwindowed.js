@@ -76,7 +76,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         settings.beforeClose = _beforeCloseEH;
         settings.close = _closeEH;
         settings.taskbar = g[LYT_WINDOW].taskbar.get();
-        console.log( settings );
+        //console.log( settings );
         this.window( settings );
         this.data( 'ronin-iwm', specs.template );
         _restoreSettings( this, specs.template );

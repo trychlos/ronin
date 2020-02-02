@@ -242,7 +242,8 @@ export const gtd = {
                 label: 'Collect',
                 navs: {
                     overview: {
-                        display: true
+                        display: true,
+                        sublabel: 'Get things off your mind'
                     },
                     side: {
                         display: true,
@@ -250,8 +251,21 @@ export const gtd = {
                 },
                 children: [
                     {
-                        id: 'collect',
+                        id: 'thoughts-new',
                         label: 'Collect thoughts',
+                        route: 'collect.new',
+                        navs: {
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        }
+                    },
+                    {
+                        id: 'thoughts-list',
+                        label: 'List thoughts',
                         route: 'collect',
                         navs: {
                             footer: {
@@ -264,8 +278,7 @@ export const gtd = {
                                 label: 'Collect'
                             },
                             overview: {
-                                display: true,
-                                sublabel: 'Get things off your mind'
+                                display: true
                             },
                             side: {
                                 display: true,

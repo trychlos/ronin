@@ -18,7 +18,21 @@
  */
 import '/imports/client/components/collapse_buttons/collapse_buttons.js';
 import '/imports/client/components/thought_panel/thought_panel.js';
+import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thought_edit.html';
+
+Template.thoughtEdit.onRendered( function(){
+    // open the window if the manager has been initialized
+    this.autorun(() => {
+        if( g[LYT_WINDOW].taskbar.get()){
+            $( '.thoughtEdit' ).IWindowed({
+                group:      'collect',
+                template:   'thoughtEdit',
+                title:      'Collect thoughts'
+            });
+        }
+    })
+});
 
 Template.thoughtEdit.helpers({
     okLabel(){

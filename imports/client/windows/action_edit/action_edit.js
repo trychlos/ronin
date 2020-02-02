@@ -18,7 +18,21 @@
  */
 import '/imports/client/components/collapse_buttons/collapse_buttons.js';
 import '/imports/client/components/action_panel/action_panel.js';
+import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './action_edit.html';
+
+Template.actionEdit.onRendered( function(){
+    // open the window if the manager has been initialized
+    this.autorun(() => {
+        if( g[LYT_WINDOW].taskbar.get()){
+            $( '.actionEdit' ).IWindowed({
+                group:      'process',
+                template:   'actionEdit',
+                title:      'Edit action'
+            });
+        }
+    })
+});
 
 Template.actionEdit.helpers({
     okLabel(){
