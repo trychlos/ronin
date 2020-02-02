@@ -21,9 +21,9 @@ Template.projects_tabs.helpers({
         return gtd.items( 'projects' );
     },
     gtdLabel( item ){
-        return gtd.labelNav( 'projects', item );
+        return gtd.labelItem( 'projects', item );
     },
     gtdRoute( item ){
-        return gtd.route( item );
+        return gtd.routeItem( 'projects', item );
     }
 });

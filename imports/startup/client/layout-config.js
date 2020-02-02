@@ -4,8 +4,14 @@
  *  Client UI initialization code (this is ONLY run at startup).
  *
  *  Depending of the running device, we will run here:
- *  - either a window-based layout, said 'windowLayout',
- *  - or a page-base layout, said 'pageLayout'.
+ *  - either a window-based layout,
+ *  - or a page-base layout.
+ *
+ *  These two layouts are logical ones.
+ *  We keep a single one layout 'appLayout' template.
+ *  This template dynamically set a layout-dependant class on the topmost div:
+ *  - ronin-page-layout
+ *  - ronin-window-layout.
  *
  *  Note that what is known as 'window-based' layout is mostly attached to the
  *  presence of a mouse which let the user manages the displayed windows.
@@ -31,7 +37,6 @@
  *      navbar header + some scrollable content + a sticky footer.
  *
  *      > page-based layout
- *      > layout='pageLayout'
  *
  *      Differences come only from the available display size which may range
  *      from very small (smartphone) to very large (high-res tv). They are for
@@ -39,8 +44,7 @@
  *      may be planned later depending of identified use cases.
  *
  *  3. web browser on a desktop (+mouse) device
- *      > window-based layout (using Simone window manager)
- *      > layout='windowLayout'.
+ *      > window-based layout (using Simone window manager).
  */
 import detectIt from 'detect-it';
 

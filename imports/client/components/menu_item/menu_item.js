@@ -4,31 +4,31 @@
  *
  *  Parameters:
  *  - item: an item from gtd.features()
- *  - type: 'side'|'bar'.
+ *  - type: footer|header|overview|side (cf. gtd.js)
  */
 import { gtd } from '/imports/assets/gtd/gtd.js';
 import './menu_item.html';
 
 Template.menu_item.helpers({
-    isVisible( item, type ){
-        return gtd.isVisible( item, type );
+    isVisible( type, item ){
+        return gtd.isVisible( type, item );
     },
     // have a div, maybe an anchor, and the label
-    itemHtml( item, type ){
+    itemHtml( type, item ){
         let htmlBegin = '';
         let htmlEnd = '';
         htmlBegin += '<div';
-        let classes = gtd.classes( item, type );
+        let classes = gtd.classes( type, item );
         if( classes.length ){
             htmlBegin += ' class="'+classes.join(' ')+'"';
         }
         htmlBegin += '>';
         htmlEnd = '</div>'+htmlEnd;
-        if( item.router ){
-            htmlBegin += '<a href="#" data-router="'+item.router+'">';
+        if( gtd.routeItem( type, item )){
+            htmlBegin += '<a href="#" data-ronin-gtdid="'+item.id+'">';
             htmlEnd = '</a>'+htmlEnd;
         }
-        return htmlBegin+gtd.label( item, type )+htmlEnd;
+        return htmlBegin+gtd.labelItem( type, item )+htmlEnd;
     },
     hasChildren( item ){
         return gtd.hasChildren( item );
@@ -36,15 +36,13 @@ Template.menu_item.helpers({
 });
 
 Template.menu_item.events({
-    'click .menu-item a'(event, instance){
-        const target = event.target;
-        const router = target.dataset.router;
-        if( typeof router === 'undefined' ){
-            console.log( 'router is undefined' );
-            return true;
+    'click .menu-item a'( ev, instance ){
+        const id = $( ev.target ).data( 'ronin-gtdid' );
+        const name = instance.data.type;
+        const route = gtd.routeId( name, id );
+        if( route ){
+            FlowRouter.go( route );
         }
-        event.preventDefault();
-        FlowRouter.go( router );
         return false;
     },
 });

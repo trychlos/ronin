@@ -1,8 +1,10 @@
 <template name="menu_item">
     <div class="menu-item">
-        {{#if isVisible this.item this.type }}
+
+        {{#if isVisible this.type this.item }}
             <li>
-                {{{ itemHtml this.item this.type }}}
+                {{{ itemHtml this.type this.item }}}
+                <!--
                 {{#if hasChildren this.item}}
                     <ul>
                         {{#each child in this.item.children}}
@@ -10,7 +12,9 @@
                         {{/each}}
                     </ul>
                 {{/if}}
+                -->
             </li>
         {{/if}}
+
     </div>
 </template>

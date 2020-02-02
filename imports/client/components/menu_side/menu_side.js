@@ -9,6 +9,6 @@ import './menu_side.html';
 
 Template.menu_side.helpers({
     gtdFeatures(){
-        return gtd.features();
+        return gtd.items( 'side' );
     }
 });

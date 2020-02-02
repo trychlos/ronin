@@ -18,10 +18,10 @@ Template.footer_panel.helpers({
         return gtd.items( 'footer' );
     },
     gtdLabel( it ){
-        return gtd.label( it );
+        return gtd.labelItem( 'footer', it );
     },
     gtdRoute( it ){
-        return gtd.route( it );
+        return gtd.routeItem( 'footer', it );
     }
 });
 

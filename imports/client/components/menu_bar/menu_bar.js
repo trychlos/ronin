@@ -9,6 +9,7 @@
  */
 import { Session } from 'meteor/session';
 import { gtd } from '/imports/assets/gtd/gtd.js';
+import '/imports/client/components/menu_item/menu_item.js';
 import './menu_bar.html';
 
 Template.menu_bar.fn = {

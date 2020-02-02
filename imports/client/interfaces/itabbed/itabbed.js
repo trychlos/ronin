@@ -103,9 +103,9 @@ import { gtd } from '/imports/assets/gtd/gtd.js';
         const tabbed = $( window ).find( '.pwi-itabbed' )[0];
         if( tabbed ){
             const active = $( tabbed ).tabs( 'option', 'active' );
-            const item = gtd.byId( tabs[active] );
-            if( item && item.router ){
-                FlowRouter.go( item.router );
+            const route = gtd.routeId( active, tabs[active] );
+            if( route ){
+                FlowRouter.go( route );
             }
         } else {
             throwError({ message:'Not an ITabbed window' });

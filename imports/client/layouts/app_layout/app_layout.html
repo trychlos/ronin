@@ -1,0 +1,46 @@
+<template name="appLayout">
+    <div class="ronin-layout container-fluid x-topmost {{ currentLayout }}">
+
+        <div class="fhsf-parent">
+
+            <div class="lyt-header fhsf-header">
+                {{> header_panel }}
+            </div>
+
+            <div class="lyt-content fhsf-content">
+
+                {{#if isWindowLayout}}
+                    <div class="lyt-side">
+                        {{> menu_side}}
+                    </div>
+                {{/if}}
+
+                {{#if isWindowLayout }}
+                    {{> overview}}
+                {{/if}}
+
+                {{> Template.dynamic template=page data=pageContext }}
+
+            </div>
+
+            {{#if isPageLayout }}
+                <div class="lyt-footer fhsf-footer">
+                    {{> footer_panel }}
+                </div>
+            {{/if}}
+
+        </div>
+
+        {{#if isPageLayout }}
+            <div class="x-hidden">{{{ pblResized }}}</div>
+        {{else}}
+            {{#if isWindowLayout }}
+                <div id="{{ wblRootId }}"></div>
+                <div class="lyt-taskbar"></div>
+            {{/if}}
+        {{/if}}
+
+        {{> message }}
+
+    </div>
+</template>

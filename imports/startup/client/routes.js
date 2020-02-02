@@ -6,10 +6,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 import { gtd } from '/imports/assets/gtd/gtd.js';
-
-import '/imports/client/layouts/body/body.js';
-import '/imports/client/layouts/page_layout/page_layout.js';
-import '/imports/client/layouts/window_layout/window_layout.js';
+import '/imports/client/layouts/app_layout/app_layout.js';
 
 import '/imports/client/pages/actions_page/actions_page.js';
 import '/imports/client/pages/devel_page/devel_page.js';
@@ -55,7 +52,7 @@ FlowRouter.route('/', {
         }
     }],
     action(){
-        BlazeLayout.render( g.run.layout.get(), { main: 'empty' });
+        BlazeLayout.render( 'appLayout', { main: 'empty' });
     },
 });
 FlowRouter.route('/setup/contexts', {
@@ -63,7 +60,7 @@ FlowRouter.route('/setup/contexts', {
     action(){
         Session.set('setup.tab.name','contexts');
         Session.set('setup.contexts.obj',null);
-        BlazeLayout.render( g.run.layout.get(), { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/time', {
@@ -71,7 +68,7 @@ FlowRouter.route('/setup/time', {
     action(){
         Session.set('setup.tab.name','time');
         Session.set('setup.time_values.obj',null);
-        BlazeLayout.render( g.run.layout.get(), { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/energy', {
@@ -79,7 +76,7 @@ FlowRouter.route('/setup/energy', {
     action(){
         Session.set('setup.tab.name','energy');
         Session.set('setup.energy_values.obj',null);
-        BlazeLayout.render( g.run.layout.get(), { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/priority', {
@@ -87,7 +84,7 @@ FlowRouter.route('/setup/priority', {
     action(){
         Session.set('setup.tab.name','priority');
         Session.set('setup.priority_values.obj',null);
-        BlazeLayout.render( g.run.layout.get(), { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/topics', {
@@ -95,21 +92,21 @@ FlowRouter.route('/setup/topics', {
     action(){
         Session.set('setup.tab.name','topics');
         Session.set('setup.topics.obj',null);
-        BlazeLayout.render( g.run.layout.get(), { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/refs', {
     name: 'setup.ref.items',
     action(){
         Session.set('setup.tab.name','refs');
-        BlazeLayout.render( g.run.layout.get(), { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
     },
 });
 FlowRouter.route('/setup/delegates', {
     name: 'setup.delegates',
     action(){
         Session.set('setup.tab.name','delegates');
-        BlazeLayout.render( g.run.layout.get(), { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
     },
 });
 FlowRouter.route( '/thoughts', {
@@ -117,7 +114,7 @@ FlowRouter.route( '/thoughts', {
     action(){
         Session.set( 'gtd.last', 'collect' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'thoughtsList' });
+        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtsList' });
     },
 });
 FlowRouter.route( '/thoughts/new', {
@@ -125,35 +122,35 @@ FlowRouter.route( '/thoughts/new', {
     action(){
         Session.set( 'gtd.last', 'collect' );
         Session.set( 'collect.thought', null );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
     },
 });
 FlowRouter.route( '/thoughts/edit', {
     name: 'collect.edit',
     action(){
         Session.set( 'gtd.last', 'collect' );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
     },
 });
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
         Session.set( 'gtd.last', 'process' );
-        BlazeLayout.render( g.run.layout.get(), { main: 'processPage' });
+        BlazeLayout.render( 'appLayout', { main: 'processPage' });
     },
 });
 FlowRouter.route('/thoughts/action', {
     name: 'process.action',
     action(){
         Session.set( 'gtd.last', 'collect' );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'processPage', window:'actionProcess' });
+        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'processPage', window:'actionProcess' });
     },
 });
 FlowRouter.route('/thoughts/project', {
     name: 'process.project',
     action(){
         Session.set( 'gtd.last', 'collect' );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'collect', page:'processPage', window:'projectProcess' });
+        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'processPage', window:'projectProcess' });
     },
 });
 FlowRouter.route('/projects', {
@@ -162,7 +159,7 @@ FlowRouter.route('/projects', {
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectsList' });
+        BlazeLayout.render( 'appLayout', { gtd:'projects', page:'reviewPage', window:'projectsList' });
     },
 });
 FlowRouter.route('/projects/future', {
@@ -171,7 +168,7 @@ FlowRouter.route('/projects/future', {
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'future' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectsList' });
+        BlazeLayout.render( 'appLayout', { gtd:'projects', page:'reviewPage', window:'projectsList' });
     },
 });
 FlowRouter.route('/projects/new', {
@@ -179,7 +176,7 @@ FlowRouter.route('/projects/new', {
     action(){
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'projects', page:'reviewPage', window:'projectEdit' });
     },
 });
 FlowRouter.route('/projects/edit', {
@@ -187,7 +184,7 @@ FlowRouter.route('/projects/edit', {
     action(){
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'projects', page:'reviewPage', window:'projectEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'projects', page:'reviewPage', window:'projectEdit' });
     },
 });
 FlowRouter.route('/actions', {
@@ -196,7 +193,7 @@ FlowRouter.route('/actions', {
         Session.set( 'gtd.last', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'actionsList' });
+        BlazeLayout.render( 'appLayout', { gtd:'actions', page:'reviewPage', window:'actionsList' });
     },
 });
 FlowRouter.route('/actions/edit', {
@@ -204,7 +201,7 @@ FlowRouter.route('/actions/edit', {
     action(){
         Session.set( 'gtd.last', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'actionEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'actions', page:'reviewPage', window:'actionEdit' });
     },
 });
 FlowRouter.route('/actions/new', {
@@ -212,48 +209,48 @@ FlowRouter.route('/actions/new', {
     action(){
         Session.set( 'gtd.last', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
-        BlazeLayout.render( g.run.layout.get(), { gtd:'actions', page:'reviewPage', window:'actionEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'actions', page:'reviewPage', window:'actionEdit' });
     },
 });
 FlowRouter.route('/review/inactive', {
     name: 'review.inactive',
     action(){
         Session.set('actions.tab.name', 'ina' );
-        BlazeLayout.render( g.run.layout.get(), { main: 'actionsPage' });
+        BlazeLayout.render( 'appLayout', { main: 'actionsPage' });
     },
 });
 FlowRouter.route('/review/asap', {
     name: 'review.asap',
     action(){
         Session.set('actions.tab.name', 'asa' );
-        BlazeLayout.render( g.run.layout.get(), { main: 'actionsPage' });
+        BlazeLayout.render( 'appLayout', { main: 'actionsPage' });
     },
 });
 FlowRouter.route('/review/scheduled', {
     name: 'review.scheduled',
     action(){
         Session.set('actions.tab.name', 'sch' );
-        BlazeLayout.render( g.run.layout.get(), { main: 'actionsPage' });
+        BlazeLayout.render( 'appLayout', { main: 'actionsPage' });
     },
 });
 FlowRouter.route('/review/delegated', {
     name: 'review.delegated',
     action(){
         Session.set('actions.tab.name', 'del' );
-        BlazeLayout.render( g.run.layout.get(), { main: 'actionsPage' });
+        BlazeLayout.render( 'appLayout', { main: 'actionsPage' });
     },
 });
 FlowRouter.route('/review/done', {
     name: 'review.done',
     action(){
         Session.set('actions.tab.name', 'don' );
-        BlazeLayout.render( g.run.layout.get(), { main: 'actionsPage' });
+        BlazeLayout.render( 'appLayout', { main: 'actionsPage' });
     },
 });
 FlowRouter.notFound = {
     name: 'not.found',
     action(){
-        BlazeLayout.render('appBody', { main: 'notFound' });
+        BlazeLayout.render( 'appLayout', { page: 'notFound' });
     },
 };
 
@@ -261,13 +258,8 @@ FlowRouter.notFound = {
 const layout = g.run.layout.get();
 if( layout === LYT_PAGE ){
     const id = Session.get( 'gtd.last' );
-    if( id ){
-        const item = gtd.byId( id );
-        if( item ){
-            const route = gtd.route( item );
-            if( route ){
-                FlowRouter.go( route );
-            }
-        }
+    const route = gtd.routeId( 'footer', id );
+    if( route ){
+        FlowRouter.go( route );
     }
 }

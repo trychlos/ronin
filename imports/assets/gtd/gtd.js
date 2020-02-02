@@ -71,13 +71,13 @@ export const gtd = {
             {
                 id: 'setup',
                 label: 'Setup',
-                route: 'setup',
                 navs: {
                     footer: {
                         display: true,
                         sort: 1
                     },
                     overview: {
+                        route: 'setup',
                         display: true
                     },
                     side: {
@@ -245,27 +245,37 @@ export const gtd = {
              *      collection; this one is labelled 'Thoughts'
              */
             {
-                id: 'collect',
+                id: 'collect.parent',
                 label: 'Collect',
-                route: 'collect',
                 navs: {
-                    footer: {
-                        display: true,
-                        label: 'Thoughts',
-                        sort: 2
-                    },
-                    header: {
-                        display: true
-                    },
-                    overview: {
-                        display: true,
-                        sublabel: 'Get things off your mind'
-                    },
                     side: {
                         display: true,
-                        label: 'Collect thoughts'
                     }
-                }
+                },
+                children: [
+                    {
+                        id: 'collect',
+                        label: 'Collect thoughts',
+                        route: 'collect',
+                        navs: {
+                            footer: {
+                                display: true,
+                                label: 'Thoughts',
+                                sort: 2
+                            },
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true,
+                                sublabel: 'Get things off your mind'
+                            },
+                            side: {
+                                display: true,
+                            }
+                        }
+                    }
+                ]
             },
             /*
              *  Process features group
@@ -273,11 +283,10 @@ export const gtd = {
              */
             {
                 id: 'process',
-                label: 'Process thoughts',
+                label: 'Process',
                 navs: {
                     header: {
-                        display: true,
-                        label: 'Process'
+                        display: true
                     },
                     overview: {
                         display: true,
@@ -543,15 +552,10 @@ export const gtd = {
             }
         ];
     },
-    /*
-    // return the list of items to be managed as a tabbed page in actions window
-    //  these are marked as tabactions:true
-    actionsItems(){
-        return gtd.itemsBoolArray( 'tabactions' );
-    },
-    */
-    byId: function( id ){
-        return gtd._byId_rec( id, gtd.features());
+    // return the item whose id is specified
+    //  return null if id is empty or not found
+    _byId: function( id ){
+        return id ? gtd._byId_rec( id, gtd.features()) : null;
     },
     _byId_rec: function( id, array ){
         for( var i=0 ; i<array.length ; ++i ){
@@ -569,7 +573,7 @@ export const gtd = {
         return null;
     },
     // provides the CSS classes to be set for this item in a menu
-    classes: function( item, type ){
+    classes: function( name, item ){
         //console.log( 'classes: type='+type+' item='+JSON.stringify( item ));
         classes = [];
         if( item.qualifier === 'disabled' ){
@@ -581,7 +585,7 @@ export const gtd = {
         return classes;
     },
     // returns the named sub-element from 'navs' or 'tabs' for this item, or null
-    getNavTab( name, item ){
+    _getNavTab( name, item ){
         return item.navs && item.navs[name]
                 ? item.navs[name]
                 : ( item.tabs && item.tabs[name] ? item.tabs[name] : null );
@@ -591,7 +595,7 @@ export const gtd = {
     },
     // whether this item is displayed in the named navigation menu
     isVisible: function( name, item ){
-        const sub = gtd.getNavTab( name, item );
+        const sub = gtd._getNavTab( name, item );
         let display = sub && sub.display;
         if( display ){
             if( typeof sub.display === 'object' ){
@@ -631,36 +635,20 @@ export const gtd = {
     },
     _items_sort( name ){
         return function( a, b ){
-            const a_sub = gtd.getNavTab( name, a );
+            const a_sub = gtd._getNavTab( name, a );
             const a_weight = a_sub ? ( a_sub.sort || 0 ) : 0;
-            const b_sub = gtd.getNavTab( name, b );
+            const b_sub = gtd._getNavTab( name, b );
             const b_weight = b_sub ? ( b_sub.sort || 0 ) : 0;
             return a_weight < b_weight ? -1 : ( a_weight > b_weight ? 1 : 0 );
         }
     },
     // returns the label associated with this item, or with one of its parent
     // maybe an empty string
-    label: function( item ){
-        if( item.label ){
-            return item.label;
-        }
-        const parent = gtd.parent( item );
-        if( parent ){
-            return gtd.label( parent );
-        }
-        return '';
-    },
-    // returns the label associated with this item, or with one of its parent
-    // maybe an empty string
-    labelNav: function( name, item ){
-        const sub = gtd.getNavTab( name, item );
-        if( sub && sub.label ){
-            return sub.label;
-        }
-        return gtd.label( item );
+    labelItem: function( name, item ){
+        return gtd._search( name, item, 'label', true );
     },
     // returns the parent of this item, or null
-    parent( item ){
+    _parent( item ){
         return gtd._parent_rec( item, null, gtd.features());
     },
     _parent_rec( item, candidate, inputArray ){
@@ -668,40 +656,60 @@ export const gtd = {
             return null;
         }
         for( let i=0 ; i<inputArray.length ; ++i ){
-            const it = inputArray[i];
+            const child = inputArray[i];
             // must have an identifier
-            if( !it.id ){
+            if( !child.id ){
                 continue;
             }
-            if( it.id === item.id ){
+            if( child.id === item.id ){
                 return candidate;
             }
-            if( gtd.hasChildren( item )){
-                return gtd._parent_rec( item, it, item.children );
+            if( gtd.hasChildren( child )){
+                return gtd._parent_rec( item, child, child.children );
             }
         }
         return null;
     },
     // returns the route name associated with this item, or with one of its parent
     // maybe an empty string
-    route( item ){
-        let route = item.route;
-        if( route ){
-            if( typeof route !== 'string' ){
-                route = null;
-                if( g && g.run && g.run.layout ){
-                    const layout = g.run.layout.get();
-                    route = item.route[layout];
+    //  route should not depend of the running layout (but may depend of the current nav)
+    routeId( name, id ){
+        return gtd.routeItem( name, gtd._byId( id ));
+    },
+    routeItem( name, item ){
+        return gtd._search( name, item, 'route', false );
+    },
+    // returns the value of the searched key
+    //  which depends of the specified nav/tab
+    //  which may or not depend of the current layout
+    //  or null
+    _search( name, item, key, layout ){
+        if( !name || !item || !key ){
+            return null;
+        }
+        //console.log( 'name='+name+' item='+item.id+' key='+key+' layout='+layout );
+        const sub = gtd._getNavTab( name, item );
+        if( sub && sub[key] ){
+            //console.log( 'found sub[key]='+sub[key] );
+            if( typeof sub[key] !== 'string' ){
+                if( layout ){
+                    const current = g.run.layout.get();
+                    return sub[key][current];
+                } else {
+                    console.log( 'gtd: '+key+' is layout-dependant=false but is wrongly specified in gtd.js' );
+                    return null;
                 }
             }
+            return sub[key];
         }
-        if( route ){
-            return route;
+        if( item[key] ){
+            return item[key];
         }
-        const parent = gtd.parent( item );
+        const parent = gtd._parent( item );
         if( parent ){
-            return gtd.route( parent );
+            //console.log( 'found parent='+parent.id );
+            return gtd._search( name, parent, key, layout );
         }
-        return '';
+        return null;
     }
 };
