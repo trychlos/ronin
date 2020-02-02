@@ -13,30 +13,6 @@ body {
             text-decoration: none;
         }
     }
-    /*
-     *  Fixed header - Sticky footer
-     *  On mobile and touchable layouts, have a fixed header and an sticky footer.
-     *  See https://medium.com/@andrejsabrickis/a-fullscreen-modal-with-fixed-header-footer-and-a-scrollable-content-1656845c8171
-     */
-    div.fhsf-parent {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        display: grid;
-        grid-template-rows: @topbar-height auto @bottombar-height;
-
-        div.fhsf-header {
-            line-height: @topbar-height;
-        }
-        div.fhsf-content {
-            overflow-y: auto;
-        }
-        div.fhsf-footer {
-            margin: 0.25rem 0;
-        }
-    }
     /* header-panel responsiveness
      */
     .lyt-header,
@@ -100,6 +76,9 @@ body {
         .x-hidden {
             display: none;
         }
+        .x-hright {
+            text-align: right;
+        }
         .x-inline {
             display: inline;
         }
@@ -138,7 +117,7 @@ body {
                 margin-top: 0.5rem;
             }
         }
-            .x-w30 {
+        .x-w30 {
             width: 30%;
         }
         .x-w60 {
@@ -158,41 +137,10 @@ body {
     .message {
         .alert {
             position: absolute;
-            z-index: 9999;
+            z-index: 999;
             top: 1rem;
             right: 0px;
             line-height: 1.5rem;
         }
     }
-    .x-h2 {
-        font-size: 1.1em;
-        font-weight: bold;
-        color: white;
-        padding: 0.35em 0.5em;
-    }
-    .x-font {
-        padding: 4px 8px;
-        vertical-align: middle;
-    }
-    .x-hcenter {
-        text-align: center;
-    }
-    .x-hright {
-        text-align: right;
-    }
-    .x-ptop05 {
-        padding-top: 0.5em;
-    }
-    .x-ptop1 {
-        padding-top: 1em;
-    }
-    .x-vcenter {
-        vertical-align: middle;
-    }
-    .x-wfit {
-        width: fit-content;
-    }
-    //#login-buttons {
-    //    margin-right: 1em;
-    //}
 }

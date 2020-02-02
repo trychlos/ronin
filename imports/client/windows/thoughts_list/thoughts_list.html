@@ -1,6 +1,6 @@
 <template name="thoughtsList">
-    <div class="thoughts-list ronin-window {{#if isPageLayout }}x-mt025{{/if}}"
-        data-pwi-iroutable-mode="window" data-pwi-iroutable-route="{{ group }}">
+    <div class="thoughtsList ronin-window {{#if isPageLayout }}x-mt025{{/if}}"
+            data-pwi-iroutable-mode="window" data-pwi-iroutable-route="{{ group }}">
 
         {{#if isDesktopLayout}}
             <div class="edit">
@@ -8,7 +8,7 @@
             </div>
         {{/if}}
 
-        {{> thoughts_list thoughts=thoughts title=true }}
+        {{> thoughts_list thoughts=thoughts }}
 
         {{#if isPageLayout}}
             <div class="js-new">

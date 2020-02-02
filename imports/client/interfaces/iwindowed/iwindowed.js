@@ -62,6 +62,8 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             }
         });
         // create a new window, using global default values
+        //  we set on the window's widget a 'ronin-iwm-<template_name>' class
+        //  plus maybe a 'ronin-iwm-<group>' one if different of the template name
         let settings = Object.assign( {}, $.fn.IWindowed.defaults );
         $.extend( settings, opts );
         settings.widgetClass += ' '+_className( specs.template );
@@ -70,13 +72,13 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         } else {
             settings.widgetClass += ' '+_className( settings.group );
         }
-        //console.log( specs.template+' creating with settings='+JSON.stringify( settings ));
         settings.appendTo = '#'+g[LYT_WINDOW].rootId;
         settings.beforeClose = _beforeCloseEH;
         settings.close = _closeEH;
         settings.taskbar = g[LYT_WINDOW].taskbar.get();
+        console.log( settings );
         this.window( settings );
-        this.data( 'iwindowed', specs.template );
+        this.data( 'ronin-iwm', specs.template );
         _restoreSettings( this, specs.template );
         // events tracker
         /*
@@ -106,10 +108,11 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         */
         return this;
     };
-    // return the class name added to the widget
+    // return the name of the class added to the widget
     //  (aka the parent of the div we are working with)
+    //  to be kept close of $.fn.IWindowed.defaults.widgetClass
     function _className( id ){
-        return 'pwi-'+id;
+        return 'ronin-iwm-'+id;
     };
     // close the current window
     function _close( self ){
@@ -210,26 +213,24 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     // show a window, re-activating it or creating a new one
     // 0: name of the called method (show)
     // 1: template name to be rendered if not already exists
+    //  our wm-managed window's widgets hold a 'ronin-iwm-<template_name>' class
     function _show( self, args ){
         if( args.length != 2 ){
             throwError({ message: 'show expects 1 argument, '+( args.length-1 )+' found' });
         } else {
-            //console.log( '_show searching for '+args[1] );
             const windows = g[LYT_WINDOW].taskbar.get().taskbar('windows');
             const searched = _className( args[1] );
             let found = false;
             for( var i=0 ; i<windows.length && !found ; ++i ){
-                //console.log( 'i='+i+' window class='+$( windows[i] ).attr('class'));
                 const widget = $( windows[i] ).window('widget');
-                //console.log( 'i='+i+' widget class='+widget.attr('class'));
                 if( widget.hasClass( searched )){
                     found = true;
-                    //console.log( args[1]+' already exists, reusing' );
+                    //console.log( searched+' already exists, reusing' );
                     _moveToTop( $( windows[i] ));
                 }
             }
             if( !found ){
-                //console.log( args[1]+" didn't exist, creating" );
+                //console.log( searched+" didn't exist, creating" );
                 Blaze.render( Template[args[1]], document.getElementById( g[LYT_WINDOW].rootId ));
             }
         }
@@ -259,7 +260,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     };
     // default values, overridable by the user at global level
     $.fn.IWindowed.defaults = {
-        widgetClass:    'pwi-iwindowed',
+        widgetClass:    'ronin-iwm',
         icons: {
             close:      'ui-icon-close',
             minimize:   'ui-icon-minus'

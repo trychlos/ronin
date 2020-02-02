@@ -69,7 +69,7 @@ export const gtd = {
              *  Setup features group
              */
             {
-                id: 'setup',
+                id: 'setup-group',
                 label: 'Setup',
                 navs: {
                     footer: {
@@ -77,7 +77,6 @@ export const gtd = {
                         sort: 1
                     },
                     overview: {
-                        route: 'setup',
                         display: true
                     },
                     side: {
@@ -89,8 +88,11 @@ export const gtd = {
                         label: 'Create data file',  // this item for the sake of completeness as it is not used here
                     },
                     {
+                        label: 'Setup criteria',    // this item for the sake of completeness as it is not used here
+                    },
+                    {
                         id: 'contexts',
-                        label: 'Contexts',
+                        label: 'Setup contexts',
                         route: 'setup.contexts',
                         navs: {
                             header: {
@@ -100,8 +102,7 @@ export const gtd = {
                                 display: true
                             },
                             side: {
-                                display: true,
-                                label: 'Setup contexts'
+                                display: true
                             }
                         },
                         tabs: {
@@ -111,19 +112,15 @@ export const gtd = {
                         }
                     },
                     {
-                        label: 'Setup criteria',    // this item for the sake of completeness as it is not used here
-                    },
-                    {
                         id: 'time',
-                        label: 'Time values',
+                        label: 'Setup time values',
                         route: 'setup.time',
                         navs: {
                             header: {
                                 display: true
                             },
                             side: {
-                                display: true,
-                                label: 'Setup time values'
+                                display: true
                             }
                         },
                         tabs: {
@@ -134,15 +131,14 @@ export const gtd = {
                     },
                     {
                         id: 'energy',
-                        label: 'Energy values',
+                        label: 'Setup energy values',
                         route: 'setup.energy',
                         navs: {
                             header: {
                                 display: true
                             },
                             side: {
-                                display: true,
-                                label: 'Setup energy values'
+                                display: true
                             }
                         },
                         tabs: {
@@ -153,15 +149,14 @@ export const gtd = {
                     },
                     {
                         id: 'priority',
-                        label: 'Priority values',
+                        label: 'Setup priority values',
                         route: 'setup.priority',
                         navs: {
                             header: {
                                 display: true
                             },
                             side: {
-                                display: true,
-                                label: 'Setup priority values'
+                                display: true
                             }
                         },
                         tabs: {
@@ -172,7 +167,7 @@ export const gtd = {
                     },
                     {
                         id: 'topics',
-                        label: 'Topics',
+                        label: 'Setup topics',
                         route: 'setup.topics',
                         navs: {
                             header: {
@@ -182,8 +177,7 @@ export const gtd = {
                                 display: true
                             },
                             side: {
-                                display: true,
-                                label: 'Setup topics'
+                                display: true
                             }
                         },
                         tabs: {
@@ -194,7 +188,7 @@ export const gtd = {
                     },
                     {
                         id: 'refs',
-                        label: 'Reference items',
+                        label: 'Setup reference items',
                         route: 'setup.ref',
                         navs: {
                             header: {
@@ -204,8 +198,7 @@ export const gtd = {
                                 display: true
                             },
                             side: {
-                                display: true,
-                                label: 'Setup reference items'
+                                display: true
                             }
                         },
                         tabs: {
@@ -216,7 +209,7 @@ export const gtd = {
                     },
                     {
                         id: 'delegates',
-                        label: 'Delegates',
+                        label: 'Setup delegates',
                         route: 'setup.delegates',
                         navs: {
                             header: {
@@ -226,8 +219,7 @@ export const gtd = {
                                 display: true
                             },
                             side: {
-                                display: true,
-                                label: 'Setup delegates'
+                                display: true
                             }
                         },
                         tabs: {
@@ -239,15 +231,19 @@ export const gtd = {
                 ],
             },
             /*
-             *  Collect features group
-             *  Actually one single feature, at the heart of the thoughts collect
-             *  NB: page-base layout groups features depending of the targeted
-             *      collection; this one is labelled 'Thoughts'
+             *  Collect features group.
+             *  Actually one single feature, at the heart of the thoughts collect.
+             *  NB.1: needs one item and one child for 'side' navigation
+             *  NB.2: page-base layout groups features depending of the targeted
+             *          collection; this one is labelled 'Thoughts'
              */
             {
-                id: 'collect.parent',
+                id: 'collect-group',
                 label: 'Collect',
                 navs: {
+                    overview: {
+                        display: true
+                    },
                     side: {
                         display: true,
                     }
@@ -264,7 +260,8 @@ export const gtd = {
                                 sort: 2
                             },
                             header: {
-                                display: true
+                                display: true,
+                                label: 'Collect'
                             },
                             overview: {
                                 display: true,
@@ -282,7 +279,7 @@ export const gtd = {
              *  NB: in page-based layout, some items are attached to the collect group.
              */
             {
-                id: 'process',
+                id: 'process-group',
                 label: 'Process',
                 navs: {
                     header: {
@@ -297,6 +294,15 @@ export const gtd = {
                     }
                 },
                 children: [
+                    {
+                        id: 'process-thoughts',
+                        label: 'Process thoughts',
+                        navs: {
+                            overview: {
+                                display: true
+                            }
+                        }
+                    },
                     {
                         id: 'maybe',
                         label: 'Someday / Maybe',
@@ -350,7 +356,7 @@ export const gtd = {
              *  Review features group
              */
             {
-                id: 'review',
+                id: 'review-group',
                 label: 'Review',
                 route: 'review',
                 sublabel: [
@@ -589,6 +595,10 @@ export const gtd = {
         return item.navs && item.navs[name]
                 ? item.navs[name]
                 : ( item.tabs && item.tabs[name] ? item.tabs[name] : null );
+    },
+    // returns sublabel if it exists
+    getSubLabelItem( name, item ){
+        return gtd._search( name, item, 'sublabel', true );
     },
     hasChildren: function( item ){
         return item.children && item.children.length > 0 ;

@@ -44,7 +44,7 @@ Template.collectPage.onCreated( function(){
 
 Template.collectPage.onRendered( function(){
     this.autorun(() => {
-        if( g.run.layout.get() === LYT_WINDOW && g[LYT_WINDOW].taskbar.get()){
+        if( g[LYT_WINDOW].taskbar.get()){
             $('.collect-page').IWindowed( 'show', this.data.window );
         }
     })

@@ -19,7 +19,9 @@
                     {{> overview}}
                 {{/if}}
 
-                {{> Template.dynamic template=page data=pageContext }}
+                {{#if hasPage }}
+                    {{> Template.dynamic template=page data=pageContext }}
+                {{/if}}
 
             </div>
 

@@ -63,16 +63,17 @@ Template.pageLayout.onRendered( function(){
 
 Template.appLayout.onRendered( function(){
     this.autorun(() => {
-        if( g.run.layout.get() === 'LYT_WINDOW' ){
+        //console.log( 'appLayout:autorun layout='+g.run.layout.get());
+        if( g.run.layout.get() === LYT_WINDOW ){
             if( !g[LYT_WINDOW].taskbar.get()){
                 const taskbar = $('.lyt-taskbar').taskbar({
                     //buttonsTooltips: true,
                     localization: {
                         en: {
-                            'group:collectWindow':  'Collect',
-                            'group:processWindow':  'Process',
-                            'group:reviewWindow':   'Review',
-                            'group:setupWindow':    'Setup'
+                            'group:collect': 'Collect',
+                            'group:process': 'Process',
+                            'group:review':  'Review',
+                            'group:setup':   'Setup'
                         }
                     },
                     minimizeAll: false,
@@ -81,11 +82,14 @@ Template.appLayout.onRendered( function(){
                         left  : [ g[LYT_WINDOW].barSideWidth, "correctNone" ]
                     },
                     windowButtonsSortable: false,
-                    windowsContainment: 'visible'
+                    windowsContainment: 'visible',
+                    debug: {
+                        environment: true,
+                        options: true,
+                        localization: true
+                    }
                 });
-                g[LYT_WINDOW].taskbar.set( taskbar );
                 //console.log( 'desktop set taskbar' );
-                //console.log( taskbar );
                 taskbar.on( 'taskbarbind', function( ev, ui ){
                     //console.log( 'taskbar bind '+ui.$window[0].baseURI );
                     //console.log( ev );
@@ -97,18 +101,25 @@ Template.appLayout.onRendered( function(){
                         FlowRouter.go( 'home' );
                     }
                 });
+                //console.log( taskbar );
+                g[LYT_WINDOW].taskbar.set( taskbar );
             }
         }
     })
 });
 
 Template.appLayout.helpers({
+    // page may be empty (route is root)
+    hasPage(){
+        const data = Template.instance().data;
+        return data && data.page;
+    },
     // data context to be passed to the page
     //  just to be sure we are able to pass a complex data context
     pageContext(){
         return {
-            gtd: Template.instance().data.gtd,
-            window: Template.instance().data.window
+            gtd: Template.instance().data.gtd(),
+            window: Template.instance().data.window()
         }
     },
     // page-base layout: just a place holder to be sure resizing is reactive

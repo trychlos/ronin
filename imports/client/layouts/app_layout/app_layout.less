@@ -1,40 +1,17 @@
 div.ronin-layout {
-    .lyt-header {
-        background-color: @home-color;
-        color: white;
-        .ui-button {
-            color: white;
-            background-color: transparent;
-            border-color: white;
-        }
+    /* common page+window global layouts */
+    .fhsf-header {
+        line-height: @topbar-height;
+    }
+    .fhsf-content {
+        overflow-y: auto;
     }
     .lyt-side {
         height: 100%;
         padding-top: 0.5rem;
     }
-    /* edition pages wsf- */
-    .wsf-parent {
-        .wsf-header {
-            display: hidden;
-        }
-        .wsf-content {
-            position: fixed;
-            top: @topbar-height;
-            bottom: ( @bottombar-height + @bottombar-height );
-            overflow-y: auto;
-            margin: 0.25rem 0;
-            padding-right: 0.5rem;
-        }
-        .wsf-footer {
-            position :fixed;
-            bottom: @bottombar-height;
-            height: @bottombar-height;
-            width: 100%;
-            padding: 0.25rem 0;
-            padding-right: 1rem;
-            border-top: 1px solid @border-color;
-            //background-color:@home-color-l50;
-        }
+    .ronin-page {
+        width: 100%;
     }
     /* list cards */
     .x-card {
@@ -54,8 +31,18 @@ div.ronin-layout {
             padding: 0.25em 0.5em;
         }
     }
-    .x-card.opened-card .title {
+    .x-card.x-opened .title {
         background-color: @home-color-l50;
+    }
+    /* colors */
+    .lyt-header {
+        background-color: @home-color;
+        color: white;
+        .ui-button {
+            color: white;
+            background-color: transparent;
+            border-color: white;
+        }
     }
     .lyt-footer {
         a {
@@ -69,6 +56,49 @@ div.ronin-layout {
             .nav-link {
                 padding: 0.5rem 0.25rem;
             }
+        }
+    }
+}
+.ronin-lyt-page {
+    /*
+     *  Fixed header - Sticky footer
+     *  On mobile and touchable layouts, have a fixed header and an sticky footer.
+     *  See https://medium.com/@andrejsabrickis/a-fullscreen-modal-with-fixed-header-footer-and-a-scrollable-content-1656845c8171
+     */
+     div.fhsf-parent {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: @topbar-height auto @bottombar-height;
+        div.fhsf-footer {
+            margin: 0.25rem 0;
+        }
+    }
+    /* edition pages wsf-
+     *  no header - sticky footer just above the fhsf-footer */
+    .wsf-parent {
+        .wsf-header {
+            display: hidden;
+        }
+        .wsf-content {
+            position: fixed;
+            top: @topbar-height;
+            bottom: calc( @bottombar-height + @bottombar-height );
+            overflow-y: auto;
+            margin: 0.25rem 0;
+            padding-right: 0.5rem;
+        }
+        .wsf-footer {
+            position :fixed;
+            bottom: @bottombar-height;
+            height: @bottombar-height;
+            width: 100%;
+            padding: 0.25rem 0;
+            padding-right: 1rem;
+            border-top: 1px solid @border-color;
         }
     }
 }

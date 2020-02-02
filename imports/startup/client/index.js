@@ -5,14 +5,14 @@
  *  All third-party imports go here.
  */
 
-// jQuery UI widgets are made globally available in the application
-import 'jquery-ui-dist/jquery-ui.js';
-import 'jquery-ui-dist/jquery-ui.css';
-
 // bootstrap 4.x
 import 'popper.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
+
+// jQuery UI widgets are made globally available in the application
+import 'jquery-ui-dist/jquery-ui.js';
+import 'jquery-ui-dist/jquery-ui.css';
 
 // jQuery context menu
 //  https://swisnl.github.io/jQuery-contextMenu/

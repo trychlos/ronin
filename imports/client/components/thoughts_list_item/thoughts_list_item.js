@@ -64,11 +64,11 @@ Template.thoughts_list_item.helpers({
 Template.thoughts_list_item.events({
     // event.currentTarget = thoughts-list-item div
     // event.target = collapsable div
-    'hide.bs.collapse'( event, instance ){
-        $( event.target ).trigger( 'ronin.ui.thoughts.list.card.collapse' );
+    'hide.bs.collapse'( ev, instance ){
+        $( ev.target ).trigger( 'ronin.ui.thoughts.list.card.collapse' );
     },
-    'shown.bs.collapse'( event, instance ){
-        $( '#'+Template.thoughts_list_item.fn.itemDivId()).addClass( 'opened-card' );
+    'shown.bs.collapse'( ev, instance ){
+        $( '#'+Template.thoughts_list_item.fn.itemDivId()).addClass( 'x-opened' );
         Session.set( 'collect.opened', instance.data.thought._id );
     }
 });

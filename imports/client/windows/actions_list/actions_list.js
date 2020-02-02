@@ -62,7 +62,7 @@ Template.actionsList.events({
     //  close all items
     'ronin.ui.actions.list.card.collapse'( event, instance ){
         //console.log( 'thoughts_list ronin.thoughts.list.card.collapse' );
-        $( '.actions-list-item' ).removeClass( 'opened-card' );
+        $( '.actions-list-item' ).removeClass( 'x-opened' );
         Session.set( 'review.opened', null );
     },
     'click .js-new'( ev, instance ){

@@ -12,22 +12,20 @@ Template.overview.fn = {
     // - either just the label <p>label</p>
     // - or a 'a' link <a data-router='xxx' href='#'><p>label</p></a>
     //
-    routingBegin: function( o,s ){
-        return s.router ? "<a href='#'>" : "";
+    routingBegin: function( o,s,route ){
+        return route ? "<a href='#'>" : "";
     },
-    routingEnd: function( o,s ){
-        return s.router ? "</a>" : "";
+    routingEnd: function( o,s,route ){
+        return route ? "</a>" : "";
     },
-    routingPara: function( o,s ){
+    routingPara: function( o,s,route ){
         var str = "<p class='ui-corner-all";
-        if( s.qualifier ){
-            str += " "+s.qualifier;
-        }
+        str += gtd.classes( 'overview', s ) ;
         str += "'";
-        if( s.router ){
-            str += " data-router='"+s.router+"'";
+        if( route ){
+            str += " data-router='"+route+"'";
         }
-        str += ">"+s.label+"</p>";
+        str += ">"+gtd.labelItem( 'overview', s )+"</p>";
         return str;
     }
 };
@@ -35,13 +33,14 @@ Template.overview.fn = {
 Template.overview.helpers({
     displayH3( item ){
         let html = '';
-        if( item.h3 ){
-            if( Array.isArray( item.h3 )){
-                item.h3.forEach( label => {
-                    html += '<h3>'+label+'</h3>';
+        const label = gtd.getSubLabelItem( 'overview', item );
+        if( label ){
+            if( Array.isArray( label )){
+                label.forEach( str => {
+                    html += '<h3>'+str+'</h3>';
                 });
             } else {
-                html = '<h3>'+item.h3+'</h3>';
+                html = '<h3>'+label+'</h3>';
             }
         }
         return html;
@@ -49,16 +48,19 @@ Template.overview.helpers({
     gtdFeatures(){
         return gtd.features();
     },
-    isVisible( item, type ){
-        return gtd.isVisible( item, type );
+    gtdLabel( it ){
+        return gtd.labelItem( 'overview', it );
     },
-    // returns the <a href='' id=''></a> link if the subs has a router entry
+    isVisible( item ){
+        return gtd.isVisible( 'overview', item );
+    },
+    // returns the <a href='' id=''></a> link if the subs has a route entry
     //  o: first level of overview
     //  s: second level as subs
     subLink(o,s){
-        return Template.overview.fn.routingBegin(o,s)
-            + Template.overview.fn.routingPara(o,s)
-            + Template.overview.fn.routingEnd(o,s);
+        const fn = Template.overview.fn;
+        const route = gtd.routeItem( 'overview', s );
+        return fn.routingBegin(o,s,route) + fn.routingPara(o,s,route) + fn.routingEnd(o,s,route);
     }
 });
 

@@ -7,6 +7,7 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
 import { gtd } from '/imports/assets/gtd/gtd.js';
 import '/imports/client/layouts/app_layout/app_layout.js';
+import '/imports/client/layouts/test_layout/test_layout.js';
 
 import '/imports/client/pages/actions_page/actions_page.js';
 import '/imports/client/pages/devel_page/devel_page.js';
@@ -21,9 +22,9 @@ console.log( g );
 // A takes-all route for tests purpose
 /*
 FlowRouter.route('/*', {
-    name: 'all',
+    name: 'test',
     action(){
-        BlazeLayout.render( 'appBody', { main: 'develPage' });
+        BlazeLayout.render( 'testLayout', {});
     },
 });
 */
@@ -52,7 +53,7 @@ FlowRouter.route('/', {
         }
     }],
     action(){
-        BlazeLayout.render( 'appLayout', { main: 'empty' });
+        BlazeLayout.render( 'appLayout', {});
     },
 });
 FlowRouter.route('/setup/contexts', {
@@ -143,14 +144,14 @@ FlowRouter.route('/thoughts/action', {
     name: 'process.action',
     action(){
         Session.set( 'gtd.last', 'collect' );
-        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'processPage', window:'actionProcess' });
+        BlazeLayout.render( 'appLayout', { gtd:'process', page:'processPage', window:'actionProcess' });
     },
 });
 FlowRouter.route('/thoughts/project', {
     name: 'process.project',
     action(){
         Session.set( 'gtd.last', 'collect' );
-        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'processPage', window:'projectProcess' });
+        BlazeLayout.render( 'appLayout', { gtd:'process', page:'processPage', window:'projectProcess' });
     },
 });
 FlowRouter.route('/projects', {
@@ -159,7 +160,7 @@ FlowRouter.route('/projects', {
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( 'appLayout', { gtd:'projects', page:'reviewPage', window:'projectsList' });
+        BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'projectsList' });
     },
 });
 FlowRouter.route('/projects/future', {
@@ -168,7 +169,7 @@ FlowRouter.route('/projects/future', {
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'future' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( 'appLayout', { gtd:'projects', page:'reviewPage', window:'projectsList' });
+        BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'projectsList' });
     },
 });
 FlowRouter.route('/projects/new', {
@@ -176,7 +177,7 @@ FlowRouter.route('/projects/new', {
     action(){
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
-        BlazeLayout.render( 'appLayout', { gtd:'projects', page:'reviewPage', window:'projectEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'projectEdit' });
     },
 });
 FlowRouter.route('/projects/edit', {
@@ -184,7 +185,7 @@ FlowRouter.route('/projects/edit', {
     action(){
         Session.set( 'gtd.last', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
-        BlazeLayout.render( 'appLayout', { gtd:'projects', page:'reviewPage', window:'projectEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'projectEdit' });
     },
 });
 FlowRouter.route('/actions', {
@@ -193,15 +194,7 @@ FlowRouter.route('/actions', {
         Session.set( 'gtd.last', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( 'appLayout', { gtd:'actions', page:'reviewPage', window:'actionsList' });
-    },
-});
-FlowRouter.route('/actions/edit', {
-    name: 'action.edit',
-    action(){
-        Session.set( 'gtd.last', 'actions' );
-        Session.set( 'projects.tab.name', 'actions' );
-        BlazeLayout.render( 'appLayout', { gtd:'actions', page:'reviewPage', window:'actionEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'actionsList' });
     },
 });
 FlowRouter.route('/actions/new', {
@@ -209,7 +202,15 @@ FlowRouter.route('/actions/new', {
     action(){
         Session.set( 'gtd.last', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
-        BlazeLayout.render( 'appLayout', { gtd:'actions', page:'reviewPage', window:'actionEdit' });
+        BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'actionEdit' });
+    },
+});
+FlowRouter.route('/actions/edit', {
+    name: 'action.edit',
+    action(){
+        Session.set( 'gtd.last', 'actions' );
+        Session.set( 'projects.tab.name', 'actions' );
+        BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'actionEdit' });
     },
 });
 FlowRouter.route('/review/inactive', {

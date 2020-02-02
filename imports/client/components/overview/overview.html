@@ -1,21 +1,20 @@
 <template name="overview">
     <div class="overview">
+
         <table>
             {{#each item in gtdFeatures}}
-                {{#if isVisible item 'navview'}}
+                {{#if isVisible item }}
                     <tr class="{{ item.id }}">
-                        <td class="x-vcenter">
+                        <td>
                             <div class="title">
-                                <h2>{{ item.label }}</h2>
-                                {{#if item.h3}}
-                                    {{{ displayH3 item }}}
-                                {{/if}}
+                                <h2>{{ gtdLabel item }}</h2>
+                                {{{ displayH3 item }}}
                             </div>
                         </td>
                         <td>
                             <div class="items">
                                 {{#each child in item.children}}
-                                    {{#if isVisible child 'navview'}}
+                                    {{#if isVisible child }}
                                         {{{ subLink item child }}}
                                     {{/if}}
                                 {{/each}}
@@ -25,5 +24,6 @@
                 {{/if}}
             {{/each}}
         </table>
+
     </div>
 </template>

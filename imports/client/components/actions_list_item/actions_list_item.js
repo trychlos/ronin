@@ -68,7 +68,7 @@ Template.actions_list_item.events({
         $( event.target ).trigger( 'ronin.ui.actions.list.card.collapse' );
     },
     'shown.bs.collapse'( event, instance ){
-        $( '#'+Template.actions_list_item.fn.itemDivId()).addClass( 'opened-card' );
+        $( '#'+Template.actions_list_item.fn.itemDivId()).addClass( 'x-opened' );
         Session.set( 'review.opened', instance.data.action._id );
     }
 });
