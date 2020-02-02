@@ -1,35 +1,34 @@
 div.not-found {
-    width: 700px;
-    margin: 0 auto;
-    .not-found-image {
-        width: 25%;
-        float: left;
-    }
-    .not-found-title {
-        width: 70%;
-        float: right;
-        background: url(/img/bg-footer.svg);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        min-height: 400px;
+    width: 100%;
+    height:100%;
+    background: url(/img/404.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
         h1 {
             font-size: 30px;
+            font-weight: 900;
             color: #1f2128;
-            margin-bottom: 20px;
-            margin-top: 155px;
         }
-        a.gotohomepage {
+        a {
             background-color: #de4f4f;
             color: #fff;
-            width: 180px;
-            line-height: 40px;
-            display: block;
-            text-align: center;
             font-size: 14px;
             text-decoration: none;
             text-transform: uppercase;
-            height: 40px;
+            padding: 0.5rem 2rem;
         }
     }
 }

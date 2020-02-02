@@ -171,10 +171,8 @@
 
   114 2020- 2- 1 fix wsf-footer display
 
-  115 2020- 2- 1 project_tres: review contextual menu and libks to edit/delete
+  115 2020- 2- 1 projects_tree: review contextual menu and libks to edit/delete
                   in case of a page-based layout
-
-  117 2020- 2- 1 make the not_found page responsive
 
   118 2020- 2- 1 have a link on the web site to download the apk
 
@@ -387,6 +385,9 @@
 
   116 2020- 2- 1 merge body+page_layout+window_layout into a single body_layout layout
       2020- 2- 2 done to appLayout
+
+  117 2020- 2- 1 make the not_found page responsive
+      2020- 2- 2 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
