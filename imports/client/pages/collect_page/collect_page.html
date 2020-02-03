@@ -1,7 +1,9 @@
 <template name="collectPage">
     <div class="collect-page ronin-page">
 
-        {{> Template.dynamic template=window data=windowContext }}
+        {{#if isPageLayout}}
+            {{> Template.dynamic template=window }}
+        {{/if}}
 
     </div>
 </template>

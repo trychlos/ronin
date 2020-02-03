@@ -17,14 +17,9 @@
  *  [routes.js]
  *      +-> appLayout { gtd, page, window }
  *
- *  The layout receives three parameters from the route manager.
- *  It consumes one of them to dynamically display the page template, and sends
- *  the two others as a data context to the page (here, to display the window).
- *
- *  Route-provided parameters:
- *  - 'gtd': the identifier of this features's group item
- *  - 'page': the name of the primary page
- *  - 'window': the window to be run by this 'page' page.
+ *  All the parameters received from the route manager, which must at least
+ *  include 'page' and 'window' parameters, are stored in a (reactive) session
+ *  variable 'layout.context'.
  *
  *  IMPORTANT REMINDER:
  *      A touchable device may be small (e.g. a smartphone), or much bigger
@@ -116,22 +111,24 @@ Template.appLayout.helpers({
     },
     // data context to be passed to the page
     //  just to be sure we are able to pass a complex data context
-    pageContext(){
+    //  note that this data context wouldn't be reactive without the session var.
+    layoutContext(){
+        let context = Session.get( 'layout.context' );
         const data = Template.instance().data;
-        let ret = {};
+        context = {};
         if( data ){
             for( var key in data ){
                 if( data.hasOwnProperty( key )){
                     if( typeof data[key] === 'function' ){
-                        ret[key] = data[key]();
+                        context[key] = data[key]();
                     } else {
-                        ret[key] = data[key];
+                        context[key] = data[key];
                     }
                 }
             }
         }
-        //console.log( ret );
-        return ret;
+        Session.set( 'layout.context', context );
+        return context;
     },
     // page-base layout: just a place holder to be sure resizing is reactive
     pblResized(){

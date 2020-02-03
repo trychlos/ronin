@@ -15,12 +15,14 @@
  *  Worflow:
  *  [routes.js]
  *      +-> pageLayout { gtd, page, window }
- *              +-> collectPage { gtd, window }
+ *              +-> collectPage { gtd, page, window }
  *
  *  Parameters:
- *  - 'gtd': the identifier of this features's group item
- *  - 'window': the window to be run
- *      here: might be collectList, collectEdit.
+ *  - 'window': the window to be run (from routes.js)
+ *      here, maybe thoughtEdit, thoughtsList
+ *
+ *  Session variables:
+ *  - 'layout.context': the data passed from layout (from routes.js)
  *
  *  NB: template lifecycle.
  *      Even if we manually render the template with Blaze.render(), we have
@@ -44,18 +46,14 @@ Template.collectPage.onCreated( function(){
 
 Template.collectPage.onRendered( function(){
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
-            $('.collect-page').IWindowed( 'show', this.data.window );
+        const context = Session.get( 'layout.context' );
+        if( context.window && g[LYT_WINDOW].taskbar.get()){
+            $('.collect-page').IWindowed( 'show', context.window );
         }
     })
 });
 
 Template.collectPage.helpers({
-    windowContext(){
-        return {
-            gtd: Template.instance().data.gtd
-        }
-    }
 });
 
 Template.collectPage.events({

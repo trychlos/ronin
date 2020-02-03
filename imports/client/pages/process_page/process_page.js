@@ -6,12 +6,14 @@
  *  Worflow:
  *  [routes.js]
  *      +-> pageLayout { gtd, page, window }
- *              +-> processPage { gtd, window }
+ *              +-> processPage { gtd, page, window }
  *
  *  Parameters:
- *  - 'gtd': the identifier of this features's group item
- *  - 'window': the window to be run
- *      here: might be collectList, collectEdit.
+ *  - 'window': the window to be run (from routes.js)
+ *      here, maybe actionEdit, projectEdit
+ *
+ *  Session variables:
+ *  - 'layout.context': the data passed from layout (from routes.js)
  */
 import '/imports/assets/dbope_status/dbope_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
@@ -21,8 +23,9 @@ import './process_page.html';
 
 Template.processPage.onRendered( function(){
     this.autorun(() => {
-        if( g.run.layout.get() === LYT_WINDOW && g[LYT_WINDOW].taskbar.get()){
-            $('.process-page').IWindowed( 'show', 'processWindow' );
+        const context = Session.get( 'layout.context' );
+        if( context.window && g[LYT_WINDOW].taskbar.get()){
+            $('.process-page').IWindowed( 'show', context.window );
         }
     })
 });

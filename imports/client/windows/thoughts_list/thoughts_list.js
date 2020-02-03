@@ -35,18 +35,20 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
 Template.thoughtsList.onCreated( function(){
+    //console.log( 'thoughtsList.onCreated' );
     this.subscribe( 'articles.thoughts.all' );
     this.subscribe( 'topics.all' );
 });
 
 Template.thoughtsList.onRendered( function(){
+    //console.log( 'thoughtsList.onRendered' );
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             $( '.thoughtsList' ).IWindowed({
                 group:      'collect',
                 template:   'thoughtsList',
-                title:      'Collect thoughts'
+                title:      'List thoughts'
             });
         }
     })
@@ -67,5 +69,5 @@ Template.thoughtsList.events({
 });
 
 Template.thoughtsList.onDestroyed( function(){
-    //console.log( 'collectWindow:onDestroyed()' );
+    //console.log( 'thoughtsList.onDestroyed' );
 });

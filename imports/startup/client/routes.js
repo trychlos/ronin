@@ -113,6 +113,7 @@ FlowRouter.route('/setup/delegates', {
 FlowRouter.route( '/thoughts', {
     name: 'collect',
     action(){
+        //console.log( 'routing collect' );
         Session.set( 'gtd.last', 'collect' );
         Session.set( 'header.title', null );
         BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtsList' });
@@ -121,6 +122,7 @@ FlowRouter.route( '/thoughts', {
 FlowRouter.route( '/thoughts/new', {
     name: 'collect.new',
     action(){
+        //console.log( 'routing collect.new' );
         Session.set( 'gtd.last', 'collect' );
         Session.set( 'collect.thought', null );
         BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtEdit' });

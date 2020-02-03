@@ -21,7 +21,12 @@ import '/imports/client/components/thought_panel/thought_panel.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thought_edit.html';
 
+Template.thoughtEdit.onCreated( function(){
+    //console.log( 'thoughtEdit.onCreated' );
+});
+
 Template.thoughtEdit.onRendered( function(){
+    //console.log( 'thoughtEdit.onRendered' );
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
@@ -57,4 +62,8 @@ Template.thoughtEdit.events({
         $( ev.target ).trigger( 'ronin.model.thought.update', obj );
         return false;
     }
+});
+
+Template.thoughtEdit.onDestroyed( function(){
+    //console.log( 'thoughtEdit.onDestroyed' );
 });
