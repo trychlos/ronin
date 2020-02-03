@@ -180,8 +180,6 @@
 
   122 2020- 2- 3 page layout: Thoughts footer tab no more works
 
-  123 2020- 2- 3 window title is a bit too right (padding left should be 0.5rem)
-
   124 2020- 2- 3 rename pwi-iroutable-route and pwi-iroutable-mode vars
 
   125
@@ -401,6 +399,9 @@
   121 2020- 2- 3 window layout: resizing back the window no more works
                   note that there is no need for settingsPrefix to be in global gtd
                   this, plus the classname prefix, may be, in iwindowed defaults
+      2020- 2- 3 fixed
+
+  123 2020- 2- 3 window title is a bit too right (padding left should be 0.5rem)
       2020- 2- 3 fixed
 
 -----------------------------------------------------------------------

@@ -8,6 +8,21 @@
  *  care of opening at most one identifier simultaneously, thus maybe reusing
  *  an already opened window.
  *
+ *  Semantic:
+ *  - the 'widget' is created by Simone window manager, around our 'window'
+ *      and holds the titlebar, the min/max/restore/close buttons and the
+ *      margins
+ *  - the 'window' is the <div> we have applied the window() function on, and
+ *      on which we are working.
+ *
+ *  We set:
+ *  - on the widget, three classes:
+ *      > ronin-iwm
+ *      > ronin-iwt-<gtd_features_group>
+ *      > ronin-iwt-<window_template_name>
+ *  - on the window, one data attribute:
+ *      > ronin-iwm = <window_template_name>
+ *
  *  Properties:
  *  - template: mandatory, the template name
  *  + all simone options
