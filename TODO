@@ -178,13 +178,13 @@
 
   119 2020- 2- 1 have in the apk a function to detect and download a new version
 
-  121 2020- 2- 3 window layout: resizing back the window no more works
-
   122 2020- 2- 3 page layout: Thoughts footer tab no more works
 
   123 2020- 2- 3 window title is a bit too right (padding left should be 0.5rem)
 
-  124
+  124 2020- 2- 3 rename pwi-iroutable-route and pwi-iroutable-mode vars
+
+  125
 
 -----------------------------------------------------------------------
  Done
@@ -397,6 +397,11 @@
 
   120 2020- 2- 3 window layout: unable to open two windows of the same group
       2020- 2- 3 fixed by forcing the data context to be a reactive var
+
+  121 2020- 2- 3 window layout: resizing back the window no more works
+                  note that there is no need for settingsPrefix to be in global gtd
+                  this, plus the classname prefix, may be, in iwindowed defaults
+      2020- 2- 3 fixed
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

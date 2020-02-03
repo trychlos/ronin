@@ -76,7 +76,6 @@ LYT_WINDOW = 'windowLayout';
 g[LYT_WINDOW] = {
     barSideWidth:   150,
     barTopHeight:    30,
-    settingsPrefix: 'settings-',
     rootId:         '25d211fe-06ba-4781-ae41-c5a20e66075d',
     taskbar:         new ReactiveVar( null )
 };

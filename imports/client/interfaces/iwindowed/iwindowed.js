@@ -72,32 +72,28 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         } else {
             settings.widgetClass += ' '+_className( settings.group );
         }
-        settings.appendTo = '#'+g[LYT_WINDOW].rootId;
-        settings.beforeClose = _beforeCloseEH;
-        settings.close = _closeEH;
-        settings.taskbar = g[LYT_WINDOW].taskbar.get();
+        $.extend( settings, {
+            appendTo:     '#'+g[LYT_WINDOW].rootId,
+            beforeClose:  _beforeCloseEH,
+            close:        _closeEH,
+            taskbar:       g[LYT_WINDOW].taskbar.get()
+        });
         //console.log( settings );
         this.window( settings );
         this.data( 'ronin-iwm', specs.template );
         _restoreSettings( this, specs.template );
         // events tracker
-        /*
-        this.on( 'windowcreate', function( event, ui ){ // not received
-            console.log( 'IWindowed create');
-            console.log( event );
-            console.log( ui );
+        this.on( 'windowdragstop', function( event, ui ){
+            _onDragStop( event, ui );
         });
-        this.on( 'windowclose', function( event, ui ){
-            console.log( 'IWindowed close');
-            console.log( event );
-            console.log( ui );
-        });
-        */
-       this.on( 'windowfocus', function( event, ui ){
-        _onFocus( event, ui );
+        this.on( 'windowfocus', function( event, ui ){
+            _onFocus( event, ui );
         });
         this.on( 'windowminimize', function( event, ui ){
             _onMinimize( event, ui );
+        });
+        this.on( 'windowresizestop', function( event, ui ){
+            _onResizeStop( event, ui );
         });
         /*
         this.on( 'windowmoveToTop', function( event, ui ){ // not received
@@ -108,6 +104,9 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         */
         return this;
     };
+    function _beforeCloseEH( ev ){
+        _saveSettings( $( ev.target ), $( ev.target ).data( 'ronin-iwm' ));
+    };
     // return the name of the class added to the widget
     //  (aka the parent of the div we are working with)
     //  to be kept close of $.fn.IWindowed.defaults.widgetClass
@@ -116,11 +115,18 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     };
     // close the current window
     function _close( self ){
-        if( $(self).data('iwindowed' )){
+        if( $(self).data( 'ronin-iwm' )){
             $(self).window('close');
         } else {
             throwError({ message:'IWindowed: unable to close this window' });
         }
+    };
+    // the widget which encapsulates the window has been closed
+    //  but the div itself is still in the DOM
+    // $(ev.target) === ui.$window === jQuery object on which we have called window()
+    function _closeEH( ev, ui ){
+        //console.log( 'close event handler' );
+        $( ev.target ).remove();
     };
     // minimize all windows
     function _minimizeAll( self ){
@@ -139,16 +145,19 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         }
         obj.window('moveToTop');
     };
+    function _onDragStop( ev, ui ){
+        _saveSettings( $( ev.target ), $( ev.target ).data( 'ronin-iwm' ));
+    };
     // the window receives the focus
     //  update the current route
-    function _onFocus( event, ui ){
-        //console.log( 'focus '+ event.currentTarget.baseURI );
-        const mode = $( event.target ).data( 'pwi-iroutable-mode' );
+    function _onFocus( ev, ui ){
+        _saveSettings( $( ev.target ), $( ev.target ).data( 'ronin-iwm' ));
+        const mode = $( ev.target ).data( 'pwi-iroutable-mode' );
         if( mode === 'tabs' ){
-            $.fn.ITabbed.focus( event.target );
+            $.fn.ITabbed.focus( ev.target );
         } else {
             if( mode === 'window' ){
-                const route = $( event.target ).data( 'pwi-iroutable-route' );
+                const route = $( ev.target ).data( 'pwi-iroutable-route' );
                 if( route ){
                     FlowRouter.go( route );
                 } else {
@@ -163,7 +172,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     };
     // the window is minimized
     //  if all the windows are minimized, then reset the route
-    function _onMinimize( event, ui ){
+    function _onMinimize( ev, ui ){
         const windows = ui.taskbar.windows();
         let visible = 0;
         for( let i=0 ; i<windows.length ; ++i ){
@@ -177,12 +186,17 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             FlowRouter.go( 'home' );
         }
     };
+    // the window has been resize
+    function _onResizeStop( ev, ui ){
+        _saveSettings( $( ev.target ), $( ev.target ).data( 'ronin-iwm' ));
+    };
     // restore size and position
     function _restoreSettings( obj, id ){
         const storageName = _settingsName( id );
         if( localStorage[storageName] ){
             const settings = JSON.parse( localStorage[storageName] );
-            //console.log( id+' _restoreSettings '+settings );
+            //console.log( '_restoreSettings '+storageName );
+            //console.log( settings );
             obj.window( 'option', 'position', {
                 my: settings.my,
                 at: settings.at,
@@ -203,12 +217,14 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         settings.at = position.at;
         settings.my = position.my;
         const jsonSettings = JSON.stringify( settings );
-        localStorage[_settingsName( id )] = jsonSettings;
-        //console.log( id+' _saveSettings '+jsonSettings );
+        const storageName = _settingsName( id );
+        localStorage[storageName] = jsonSettings;
+        //console.log( '_saveSettings '+storageName );
+        //console.log( jsonSettings );
     };
     // return the settings key when saving/restoring size and position
     function _settingsName( id ){
-        return g[LYT_WINDOW].settingsPrefix+id;
+        return 'spSettings-'+id;
     };
     // show a window, re-activating it or creating a new one
     // 0: name of the called method (show)
@@ -245,18 +261,6 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             //console.log( 'IWindowed.showNew '+args[1] );
             Blaze.render( Template[args[1]], document.getElementById( g[LYT_WINDOW].rootId ));
         }
-    };
-    function _beforeCloseEH( ev ){
-        //console.log( '_beforeCloseEH $(ev.target) '+$(ev.target).attr('class'));
-        //console.log( '_beforeCloseEH $(this) '+$(this).attr('class'));
-        _saveSettings( $(ev.target), $(ev.target).data('iwindowed'));
-    };
-    // the widget which encapsulates the window has been closed
-    //  but the div itself is still in the DOM
-    // $(ev.target) === ui.$window === jQuery object on which we have called window()
-    function _closeEH( ev, ui ){
-        //console.log( 'close event handler' );
-        $(ev.target).remove();
     };
     // default values, overridable by the user at global level
     $.fn.IWindowed.defaults = {
