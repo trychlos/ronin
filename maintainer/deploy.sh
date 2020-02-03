@@ -66,5 +66,5 @@ _ret=$?
 
 # on successful release, commit the new mobile configuration
 execcmd "git add ${projectdir}/mobile-config.js" &&
-execcmd "git commit -m 'Deploy v${version} to integration platforms'"
-
+echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to integration platforms'" &&
+git commit -m "Deploy v${version} to integration platforms"
