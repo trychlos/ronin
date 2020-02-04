@@ -18,8 +18,8 @@
  *  We set:
  *  - on the widget, three classes:
  *      > ronin-iwm
- *      > ronin-iwt-<gtd_features_group>
- *      > ronin-iwt-<window_template_name>
+ *      > ronin-iwm-<gtd_features_group>
+ *      > ronin-iwm-<window_template_name>
  *  - on the window, one data attribute:
  *      > ronin-iwm = <window_template_name>
  *
@@ -95,7 +95,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         });
         //console.log( settings );
         this.window( settings );
-        this.data( 'ronin-iwm', specs.template );
+        _idSet( this, specs.template );
         _restoreSettings( this, specs.template );
         // events tracker
         this.on( 'windowdragstop', function( event, ui ){
@@ -120,7 +120,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         return this;
     };
     function _beforeCloseEH( ev ){
-        _saveSettings( $( ev.target ), $( ev.target ).data( 'ronin-iwm' ));
+        _saveSettings( $( ev.target ), _idGet( $( ev.target )));
     };
     // return the name of the class added to the widget
     //  (aka the parent of the div we are working with)
@@ -130,7 +130,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     };
     // close the current window
     function _close( self ){
-        if( $(self).data( 'ronin-iwm' )){
+        if( _idGet( $( self ))){
             $(self).window('close');
         } else {
             throwError({ message:'IWindowed: unable to close this window' });
@@ -161,12 +161,12 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         obj.window('moveToTop');
     };
     function _onDragStop( ev, ui ){
-        _saveSettings( $( ev.target ), $( ev.target ).data( 'ronin-iwm' ));
+        _saveSettings( $( ev.target ), _idGet( $( ev.target )));
     };
     // the window receives the focus
     //  update the current route
     function _onFocus( ev, ui ){
-        _saveSettings( $( ev.target ), $( ev.target ).data( 'ronin-iwm' ));
+        _saveSettings( $( ev.target ), _idGet( $( ev.target )));
         const mode = $( ev.target ).data( 'pwi-iroutable-mode' );
         if( mode === 'tabs' ){
             $.fn.ITabbed.focus( ev.target );
@@ -203,7 +203,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     };
     // the window has been resize
     function _onResizeStop( ev, ui ){
-        _saveSettings( $( ev.target ), $( ev.target ).data( 'ronin-iwm' ));
+        _saveSettings( $( ev.target ), _idGet( $( ev.target )));
     };
     // restore size and position
     function _restoreSettings( obj, id ){
@@ -276,6 +276,14 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             //console.log( 'IWindowed.showNew '+args[1] );
             Blaze.render( Template[args[1]], document.getElementById( g[LYT_WINDOW].rootId ));
         }
+    };
+    // returns the identifier set as a data attribute of the window
+    function _idGet( window ){
+        return window.data( 'ronin-iwmid' );
+    };
+    // setup the identifier of the window
+    function _idSet( window, id ){
+        window.data( 'ronin-iwmid', id );
     };
     // default values, overridable by the user at global level
     $.fn.IWindowed.defaults = {
