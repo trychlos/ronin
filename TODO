@@ -178,8 +178,6 @@
 
   119 2020- 2- 1 have in the apk a function to detect and download a new version
 
-  122 2020- 2- 3 page layout: Thoughts footer tab no more works
-
   124 2020- 2- 3 rename pwi-iroutable-route and pwi-iroutable-mode vars
                   pwi-iroutable-mode is used to identiy the situation where a window
                   embeds a tabbed display, and each tab exhibits its own route. When the
@@ -410,6 +408,9 @@
                   note that there is no need for settingsPrefix to be in global gtd
                   this, plus the classname prefix, may be, in iwindowed defaults
       2020- 2- 3 fixed
+
+  122 2020- 2- 3 page layout: Thoughts footer tab no more works
+      2020- 2- 4 fixed
 
   123 2020- 2- 3 window title is a bit too right (padding left should be 0.5rem)
       2020- 2- 3 fixed

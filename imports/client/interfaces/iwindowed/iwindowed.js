@@ -239,7 +239,11 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             obj.window( 'refreshPosition' );
         }
     };
-    // at creatin time, set the current route name as a window data attribute
+    // returns the last known route
+    function _routeGet( window ){
+        return $( window ).data( 'ronin-iwm-route' );
+    };
+    // at creation time, set the current route name as a window data attribute
     function _routeSet( window ){
         const route = FlowRouter.getRouteName();
         $( window ).data( 'ronin-iwm-route', route );

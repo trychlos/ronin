@@ -264,7 +264,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'thoughts-list',
+                        id: 'collect',
                         label: 'List thoughts',
                         route: 'collect',
                         navs: {
