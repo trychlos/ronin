@@ -181,6 +181,16 @@
   122 2020- 2- 3 page layout: Thoughts footer tab no more works
 
   124 2020- 2- 3 rename pwi-iroutable-route and pwi-iroutable-mode vars
+                  pwi-iroutable-mode is used to identiy the situation where a window
+                  embeds a tabbed display, and each tab exhibits its own route. When the
+                  window gains the focus, the route should be adapted to those of the
+                  currently active tab.
+                  1 there is no need for each window template to define itself its
+                  iroutable-mode; one may consider that 'window' is the default, meaning
+                  that the displayed route depends of the active window; and that the ITabbed
+                  interface may itself automatically set the 'tabs' data attribute at creation time
+                  2 but one could also systematically send a focus message to a ITabbed child if any
+                  (though this may be costly if there are many children without great added value)
 
   125
 

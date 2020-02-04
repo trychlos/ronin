@@ -20,8 +20,9 @@
  *      > ronin-iwm
  *      > ronin-iwm-<gtd_features_group>
  *      > ronin-iwm-<window_template_name>
- *  - on the window, one data attribute:
- *      > ronin-iwm = <window_template_name>
+ *  - on the window, two data attributes:
+ *      > ronin-iwm-id = <window_template_name>
+ *      > ronin-iwm-route = last known route name.
  *
  *  Properties:
  *  - template: mandatory, the template name
@@ -96,6 +97,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         //console.log( settings );
         this.window( settings );
         _idSet( this, specs.template );
+        _routeSet( this );
         _restoreSettings( this, specs.template );
         // events tracker
         this.on( 'windowdragstop', function( event, ui ){
@@ -143,6 +145,14 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         //console.log( 'close event handler' );
         $( ev.target ).remove();
     };
+    // returns the identifier set as a data attribute of the window
+    function _idGet( window ){
+        return window.data( 'ronin-iwm-id' );
+    };
+    // setup the identifier of the window
+    function _idSet( window, id ){
+        window.data( 'ronin-iwm-id', id );
+    };
     // minimize all windows
     function _minimizeAll( self ){
         const taskbar = g[LYT_WINDOW].taskbar.get();
@@ -167,6 +177,11 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     //  update the current route
     function _onFocus( ev, ui ){
         _saveSettings( $( ev.target ), _idGet( $( ev.target )));
+        const route = $( ev.target ).data( 'ronin-iwm-route' );
+        if( route ){
+            FlowRouter.go( route );
+        }
+        /*
         const mode = $( ev.target ).data( 'pwi-iroutable-mode' );
         if( mode === 'tabs' ){
             $.fn.ITabbed.focus( ev.target );
@@ -184,6 +199,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
                 //console.log( ui );
             }
         }
+        */
     };
     // the window is minimized
     //  if all the windows are minimized, then reset the route
@@ -222,6 +238,11 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             obj.window( 'option', 'height', settings.height );
             obj.window( 'refreshPosition' );
         }
+    };
+    // at creatin time, set the current route name as a window data attribute
+    function _routeSet( window ){
+        const route = FlowRouter.getRouteName();
+        $( window ).data( 'ronin-iwm-route', route );
     };
     // save size and position
     function _saveSettings( obj, id ){
@@ -276,14 +297,6 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             //console.log( 'IWindowed.showNew '+args[1] );
             Blaze.render( Template[args[1]], document.getElementById( g[LYT_WINDOW].rootId ));
         }
-    };
-    // returns the identifier set as a data attribute of the window
-    function _idGet( window ){
-        return window.data( 'ronin-iwmid' );
-    };
-    // setup the identifier of the window
-    function _idSet( window, id ){
-        window.data( 'ronin-iwmid', id );
     };
     // default values, overridable by the user at global level
     $.fn.IWindowed.defaults = {

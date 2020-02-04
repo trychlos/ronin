@@ -35,7 +35,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
 Template.thoughtsList.onCreated( function(){
-    //console.log( 'thoughtsList.onCreated' );
+    console.log( 'thoughtsList.onCreated' );
     this.subscribe( 'articles.thoughts.all' );
     this.subscribe( 'topics.all' );
 });
@@ -69,5 +69,5 @@ Template.thoughtsList.events({
 });
 
 Template.thoughtsList.onDestroyed( function(){
-    //console.log( 'thoughtsList.onDestroyed' );
+    console.log( 'thoughtsList.onDestroyed' );
 });

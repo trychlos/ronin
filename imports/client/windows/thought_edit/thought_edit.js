@@ -22,7 +22,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thought_edit.html';
 
 Template.thoughtEdit.onCreated( function(){
-    //console.log( 'thoughtEdit.onCreated' );
+    console.log( 'thoughtEdit.onCreated' );
 });
 
 Template.thoughtEdit.onRendered( function(){
@@ -65,5 +65,5 @@ Template.thoughtEdit.events({
 });
 
 Template.thoughtEdit.onDestroyed( function(){
-    //console.log( 'thoughtEdit.onDestroyed' );
+    console.log( 'thoughtEdit.onDestroyed' );
 });

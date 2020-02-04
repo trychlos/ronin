@@ -63,6 +63,8 @@ import { gtd } from '/imports/assets/gtd/gtd.js';
         // events tracker
         self.on( 'tabsactivate', function( event, ui ){
             const route = $( ui.newTab ).data( 'pwi-iroutable-route' );
+            const window = $( ui.newTab ).parents( [data-ronin-iwm-route] )[0];
+            console.log( window );
             if( route ){
                 FlowRouter.go( route );
             }
