@@ -46,9 +46,11 @@ Template.thoughtsList.onRendered( function(){
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             $( '.thoughtsList' ).IWindowed({
-                group:      'collect',
-                template:   'thoughtsList',
-                title:      'List thoughts'
+                template: 'thoughtsList',
+                simone: {
+                    group:  'collect',
+                    title:  'List thoughts'
+                }
             });
         }
     })

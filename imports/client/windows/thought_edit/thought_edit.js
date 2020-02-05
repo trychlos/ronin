@@ -31,9 +31,11 @@ Template.thoughtEdit.onRendered( function(){
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             $( '.thoughtEdit' ).IWindowed({
-                group:      'collect',
-                template:   'thoughtEdit',
-                title:      'Collect thoughts'
+                template: 'thoughtEdit',
+                simone: {
+                    group:  'collect',
+                    title:  'Collect thoughts'
+                }
             });
         }
     })

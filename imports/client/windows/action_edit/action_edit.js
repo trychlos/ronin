@@ -26,9 +26,11 @@ Template.actionEdit.onRendered( function(){
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             $( '.actionEdit' ).IWindowed({
-                group:      'process',
-                template:   'actionEdit',
-                title:      'Edit action'
+                template: 'actionEdit',
+                simone: {
+                    group:  'process',
+                    title:  'Edit action'
+                }
             });
         }
     })
