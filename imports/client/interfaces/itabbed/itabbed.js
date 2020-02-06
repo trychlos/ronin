@@ -12,105 +12,121 @@
  *  Properties:
  *  - tab (optional) tab identifier
  *  + all jQuery Tabs options.
+ *
+ *  From https://github.com/jquery-boilerplate/jquery-boilerplate/blob/master/src/jquery.boilerplate.js
  */
-import { gtd } from '/imports/assets/gtd/gtd.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 
-( function( $ ){
-    $.fn.ITabbed = function(){
-        if( !this.length ){
-            //throwError({ message: "no 'this' context here" });
-            return;
-        }
-        const self = this;
-        // are we calling a method on this interface ?
-        if( arguments.length > 0 && typeof arguments[0] === 'string' ){
-            const action = arguments[0];
-            /* deal with action */
-            return this;
-        }
-        const opts = arguments.length > 0 ? Object.assign({},arguments[0]) : {};
-        // split between specific and Tabs properties
-        //  Rationale: jqWidgets library refuse to work with extra props; jQuery not tested against
-        const specifics = [
-            'tab'
-        ];
-        let specs = {};
-        const keys = Object.keys( opts );
-        keys.forEach( key => {
-            if( specifics.includes( key )){
-                specs[key] = opts[key];
-                delete opts[key];
+;( function( $, window, document ){
+    "use strict";
+    const pluginName = "ITabbed";
+
+    // The actual plugin constructor
+    function Plugin( element, options ){
+        this.dom = element;
+        this.args = options;
+        this.init();
+    }
+
+    // Avoid Plugin.prototype conflicts
+    $.extend( Plugin.prototype, {
+        init: function(){
+            // this = {
+            //      dom         DOM callee element (not jQuery)
+            //      args = {
+            //          0: 'show',
+            //          1: 'thoughtEdit'
+            //      }
+            //  }
+            let argsCount = Object.keys( this.args ).length;
+            if( !argsCount ){
+                throwError({ message: 'ITabbed interface requires at least one argument' });
+                return;
             }
-        });
-        // set a 'pwi-itabbed' class on the root element
-        //  if this class is already there, so this is not the first initialization
-        //  else setup default values
-        let settings = {};
-        if( self.hasClass( 'pwi-itabbed' )){
-            settings = Object.assign( {}, opts );
-        } else {
-            settings = Object.assign( {}, $.fn.ITabbed.defaults );
-            $.extend( settings, opts );
-            self.addClass( 'pwi-itabbed' );
+            if( typeof this.args[0] === 'string' ){
+                switch( this.args[0] ){
+                    /*
+                    case 'close':
+                        this.close( argsCount );
+                        break;
+                        */
+                    default:
+                        throwError({ message:'ITabbed: unknown method: '+this.args[0] });
+                }
+                return;
+            }
+            if( argsCount != 1 || typeof this.args[0] !== 'object' ){
+                throwError({ message:'ITabbed: options object expected, not found' });
+                return;
+            }
+            this._create();
+        },
+        // we have asked to show a new tabbed panel: create it
+        _create: function(){
+            //console.log( this );
+            const args = this.args[0];
+            // we set on the window's widget a 'ronin-iwm-<template_name>' class
+            //  plus maybe a 'ronin-iwm-<group>' one if specified and different
+            //  of the template name
+            let settings = $.extend( true, {}, args, $.fn[pluginName].defaults );
+            // set a 'ronin-itabbed' class on the root element
+            $( this.dom ).addClass( 'ronnin-itabbed' );
+            //console.log( 'jqxTabs settings='+JSON.stringify( settings ));
+            $( this.dom ).tabs( settings.jquery );
+            // if defined, make sure the requested tab is activated
+            if( args.tab ){
+                $( this.dom ).tabs({ active: this._index( args.tab )});
+            }
+            // set event handlers
+            //  passing this to the handler, getting back in event.data
+            //  in the handler, this is the attached dom element
+            $( this.dom ).on( 'tabsactivate', this, function( ev, ui ){
+                const route = $( ui.newTab ).attr( 'data-ronin-itb-route' );
+                $( ui.newTab ).IWindowed( 'setRoute', route );
+            });
+            //console.log( $( this.dom ));
+        },
+        // return the index of the named tab
+        //  defaulting to the first tab
+        _index: function( name ){
+            const tabs = this._tabs();
+            for( let i=0 ; i<tabs.length ; ++i ){
+                if( name === tabs[i] ){
+                    return i;
+                }
+            }
+            return 0;
+        },
+        // return the array of tab identifiers (marked as 'data-itabbed')
+        //  NB: only works after first initialization
+        _tabs: function( element ){
+            //console.log( 'classes='+element.attr('class'));
+            let tabs = new Array();
+            let idx = 0;
+            $( this.dom ).find('li[role=tab]').each( function(){
+                const id = $( this ).attr('data-itabbed');
+                tabs.push( id ? id : idx );
+                idx += 1;
+            });
+            return tabs;
         }
-        //console.log( 'jqxTabs settings='+JSON.stringify( settings ));
-        self.tabs( settings );
-        // make sure the requested tab is activated
-        if( specs.tab ){
-            const idx = _index( self, specs.tab );
-            self.tabs({ active: idx });
-        }
-        // events tracker
-        self.on( 'tabsactivate', function( event, ui ){
-            const route = $( ui.newTab ).data( 'ronin-itb-route' );
-            $( ui.newTab ).IWindowed( 'setRoute', route );
+    });
+
+    $.fn[pluginName] = function(){
+        let args = arguments;
+        return this.each( function(){
+            new Plugin( this, args );
+            /*
+            if ( !$.data( this, 'ronin_plugin_' + pluginName )){
+                $.data( this, 'ronin_plugin_' + pluginName, new Plugin( this, args ));
+            }
+            */
         });
-        return this;
     };
+
     // default values, overridable by the user at global level
-    $.fn.ITabbed.defaults = {
-    };
-    // return the index of the named tab
-    function _index( element, name ){
-        const tabs = _tabs( element );
-        for( var i=0 ; i<tabs.length ; ++i ){
-            if( name === tabs[i] ){
-                return i;
-            }
-        }
-        return 0;
-    };
-    // return the array of tab identifiers (marked as 'data-itabbed')
-    //  NB: only works after first initialization
-    function _tabs( element ){
-        //console.log( 'classes='+element.attr('class'));
-        let tabs = new Array();
-        let idx = 0;
-        element.find('li[role=tab]').each( function(){
-            const id = $( this ).data('itabbed');
-            tabs.push( id ? id : idx );
-            idx += 1;
-        });
-        return tabs;
-    };
-    /*
-    // public functions
-    //  this window receives the focus
-    //  change the route for reflecting the currently active tab
-    $.fn.ITabbed.focus = function( window ){
-        const tabs = _tabs( $( window ));
-        const tabbed = $( window ).find( '.pwi-itabbed' )[0];
-        if( tabbed ){
-            const active = $( tabbed ).tabs( 'option', 'active' );
-            const route = gtd.routeId( active, tabs[active] );
-            if( route ){
-                FlowRouter.go( route );
-            }
-        } else {
-            throwError({ message:'Not an ITabbed window' });
-            console.log( window );
+    $.fn[pluginName].defaults = {
+        jquery: {
         }
     };
-    */
-}( jQuery ));
+})( jQuery, window, document );

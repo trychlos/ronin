@@ -4,7 +4,7 @@
             <ul>
                 {{#each it in gtdItems}}
                     <li data-itabbed="{{it.id}}" data-ronin-itb-route="{{gtdRoute it}}">
-                        <a href="#{{it.id}}">{{it.label}}</a>
+                        <a href="#{{it.id}}">{{gtdLabel it}}</a>
                     </li>
                 {{/each}}
             </ul>

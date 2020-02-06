@@ -29,6 +29,9 @@ Template.setup_tabs.helpers({
     gtdItems(){
         return gtd.items( 'setup' );
     },
+    gtdLabel( it ){
+        return gtd.labelItem( 'setup', it );
+    },
     gtdRoute( it ){
         return gtd.routeItem( 'setup', it );
     },

@@ -22,8 +22,8 @@
  *      > ronin-iwm-<gtd_features_group>
  *      > ronin-iwm-<window_template_name>
  *  - on the window, two data attributes:
- *      > ronin-iwm-id = <window_template_name>
- *      > ronin-iwm-route = last known route name.
+ *      > data-ronin-iwm-id = <window_template_name>
+ *      > data-ronin-iwm-route = last known route name.
  *
  *  ronin-iwm-<route> rationale
  *      In a window-based layout, we need to reactively adapt the current route
@@ -40,15 +40,9 @@
  *
  *  From https://github.com/jquery-boilerplate/jquery-boilerplate/blob/master/src/jquery.boilerplate.js
  */
-import { gtd } from '/imports/assets/gtd/gtd.js';
-import '/imports/client/interfaces/itabbed/itabbed.js'
-
 ;( function( $, window, document ){
     "use strict";
-    const pluginName = "IWindowed",
-        defaults = {
-            propertyName: "value"
-        };
+    const pluginName = "IWindowed";
 
     // The actual plugin constructor
     function Plugin( element, options ){
