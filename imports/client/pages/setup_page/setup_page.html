@@ -1,4 +1,9 @@
 <template name="setupPage">
-    <div class="setup-page">
+    <div class="setup-page ronin-page">
+
+        {{#if isPageLayout}}
+            {{> Template.dynamic template=window }}
+        {{/if}}
+
     </div>
 </template>

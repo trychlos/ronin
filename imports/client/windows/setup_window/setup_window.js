@@ -12,12 +12,16 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './setup_window.html';
 
 Template.setupWindow.onRendered( function(){
+    // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
-            $('div.setup-window').IWindowed({
-                template:   'setupWindow',
-                title:      'Setup'
+            $( '.setupWindow' ).IWindowed({
+                template: 'setupWindow',
+                simone: {
+                    group:  'setup',
+                    title:  'Setup'
+                }
             });
         }
-    });
+    })
 });

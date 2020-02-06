@@ -14,6 +14,7 @@
  *  + all jQuery Tabs options.
  */
 import { gtd } from '/imports/assets/gtd/gtd.js';
+import '/imports/client/interfaces/iwindowed/iwindowed.js';
 
 ( function( $ ){
     $.fn.ITabbed = function(){
@@ -62,12 +63,8 @@ import { gtd } from '/imports/assets/gtd/gtd.js';
         }
         // events tracker
         self.on( 'tabsactivate', function( event, ui ){
-            const route = $( ui.newTab ).data( 'pwi-iroutable-route' );
-            const window = $( ui.newTab ).parents( [data-ronin-iwm-route] )[0];
-            console.log( window );
-            if( route ){
-                FlowRouter.go( route );
-            }
+            const route = $( ui.newTab ).data( 'ronin-itb-route' );
+            $( ui.newTab ).IWindowed( 'setRoute', route );
         });
         return this;
     };
@@ -97,6 +94,7 @@ import { gtd } from '/imports/assets/gtd/gtd.js';
         });
         return tabs;
     };
+    /*
     // public functions
     //  this window receives the focus
     //  change the route for reflecting the currently active tab
@@ -114,4 +112,5 @@ import { gtd } from '/imports/assets/gtd/gtd.js';
             console.log( window );
         }
     };
+    */
 }( jQuery ));

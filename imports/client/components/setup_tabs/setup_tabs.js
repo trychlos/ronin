@@ -27,7 +27,10 @@ Template.setup_tabs.onRendered( function(){
 
 Template.setup_tabs.helpers({
     gtdItems(){
-        return gtd.setupItems();
+        return gtd.items( 'setup' );
+    },
+    gtdRoute( it ){
+        return gtd.routeItem( 'setup', it );
     },
     itTemplate( it ){
         return 'setup_'+it.id;

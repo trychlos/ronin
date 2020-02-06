@@ -25,6 +25,14 @@
  *      > ronin-iwm-id = <window_template_name>
  *      > ronin-iwm-route = last known route name.
  *
+ *  ronin-iwm-<route> rationale
+ *      In a window-based layout, we need to reactively adapt the current route
+ *      (aka URL) to the focused window.
+ *      Recording the current route at window creation, i.e. the route which has
+ *      led to this window, is a good default.
+ *      ITabbed windows should also adapt this window attribute when the tab is
+ *      switched by the user.
+ *
  *  Properties:
  *  - template: mandatory, the template name
  *      this is the default identifier
@@ -71,6 +79,9 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
                         break;
                     case 'minimizeAll':
                         this.minimizeAll( argsCount );
+                        break;
+                    case 'setRoute':
+                        this.setRoute( argsCount );
                         break;
                     case 'show':
                         this.show( argsCount );
@@ -124,9 +135,14 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             }
             //console.log( settings );
             $( this.dom ).window( settings.simone );
-            this._idSetAttribute();
+            // set some data- attributes on the window
+            //  we prefer data- attributes as set by attr() method as they are available
+            //  as standard jQuery selector, and visible in the console log
+            //  contrarily data() set the data inside of an invisible storage space
+            const id = this.args[0].template;
+            this._idSet( id );
             this._routeSet();
-            this._restoreSettings();
+            this._restoreSettings( id );
             // set event handlers
             //  passing this to the handler, getting back in event.data
             //  in the handler, this is the attached dom element
@@ -142,18 +158,15 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             $( this.dom ).on( 'windowresizestop', this, function( ev, ui ){
                 ev.data._onResizeStop( ev, ui );
             });
-        },
-        // returns the identifier of this window
-        _id: function(){
-            return this.args[0].template
+            //console.log( $( this.dom ));
         },
         // returns the identifier set as a data attribute of the window
-        _idGetAttribute: function(){
-            return $( this.dom ).data( 'ronin-iwm-id' );
+        _idGet: function(){
+            return $( this.dom ).attr( 'data-ronin-iwm-id' );
         },
         // setup the identifier of the window
-        _idSetAttribute: function(){
-            $( this.dom ).data( 'ronin-iwm-id', this._id());
+        _idSet: function( id ){
+            $( this.dom ).attr( 'data-ronin-iwm-id', id );
         },
         // activate a window, first restoring it if it was minimized
         _moveToTop: function( obj ){
@@ -173,7 +186,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             $( ev.target ).remove();
         },
         _onDragStop: function( ev, ui ){
-            console.log( '_onDragStop '+$( ev.target ).data( 'ronin-iwm-id' ));
+            //console.log( '_onDragStop '+$( ev.target ).data( 'ronin-iwm-id' ));
             this._saveSettings();
         },
         // the window receives the focus
@@ -204,12 +217,12 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             }
         },
         _onResizeStop: function( ev, ui ){
-            console.log( '_onResizeStop '+$( ev.target ).data( 'ronin-iwm-id' ));
+            //console.log( '_onResizeStop '+$( ev.target ).data( 'ronin-iwm-id' ));
             this._saveSettings();
         },
         // restore size and position
-        _restoreSettings: function(){
-            const storageName = this._settingsName();
+        _restoreSettings: function( id ){
+            const storageName = this._settingsName( id );
             if( localStorage[storageName] ){
                 const settings = JSON.parse( localStorage[storageName] );
                 const obj = $( this.dom );
@@ -228,15 +241,12 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
         },
         // returns the initial route name attached to this window
         _routeGet: function(){
-            return $( this.dom ).data( 'ronin-iwm-route' );
+            return $( this.dom ).attr( 'data-ronin-iwm-route' );
         },
         // at creation time, set the current route name as a window data attribute
         _routeSet: function(){
-            //const route = FlowRouter.getRouteName();
             const route = FlowRouter.current();
-            //console.log( this._idGetAttribute()+' _routeSet '+route.route.name );
-            //console.log( route );
-            $( this.dom ).data( 'ronin-iwm-route', route.route.name );
+            $( this.dom ).attr( 'data-ronin-iwm-route', route.route.name );
         },
         // save size and position
         _saveSettings: function(){
@@ -248,14 +258,14 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
             settings.at = position.at;
             settings.my = position.my;
             const jsonSettings = JSON.stringify( settings );
-            const storageName = this._settingsName( this._id());
+            const storageName = this._settingsName( this._idGet());
             localStorage[storageName] = jsonSettings;
             //console.log( '_saveSettings '+storageName );
             //console.log( jsonSettings );
         },
         // return the settings key when saving/restoring size and position
-        _settingsName: function(){
-            return 'spSettings-'+this._id();
+        _settingsName: function( id ){
+            return 'spSettings-'+id;
         },
         // close() method
         //  close the current window
@@ -280,6 +290,26 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
                     for( let i=0 ; i<windows.length ; ++i ){
                         $( windows[i] ).window( 'minimize' );
                     }
+                }
+            }
+        },
+        // setRoute() method
+        //  set a programmatic route
+        //  this.dom: the DOM element on which we have called the 'setRoute' method
+        //  (usually a tabbed page, but must at least be a child of the target window)
+        //  this.args[0]: name of the called method (setRoute)
+        //  this.args[1]: route name to be set
+        setRoute: function( argsCount ){
+            if( argsCount != 2 ){
+                throwError({ message: 'setRoute() expects 1 argument, '+( argsCount-1 )+' found' });
+            } else if( typeof this.args[1] !== 'string' ){
+                throwError({ message: 'setRoute() expects the route name as second argument, "'+this.args[1]+'" found' });
+            } else {
+                const route = this.args[1];
+                const list = $( this.dom ).parents( '[data-ronin-iwm-route]' );
+                if( list && list[0] ){
+                    $( list[0] ).attr( 'data-ronin-iwm-route', route );
+                    FlowRouter.go( route );
                 }
             }
         },
@@ -332,7 +362,7 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     $.fn[pluginName] = function(){
         let args = arguments;
         return this.each( function(){
-            const instance = new Plugin( this, args );
+            new Plugin( this, args );
             /*
             if ( !$.data( this, 'ronin_plugin_' + pluginName )){
                 $.data( this, 'ronin_plugin_' + pluginName, new Plugin( this, args ));

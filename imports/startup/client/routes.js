@@ -61,31 +61,31 @@ FlowRouter.route('/setup/contexts', {
     action(){
         Session.set('setup.tab.name','contexts');
         Session.set('setup.contexts.obj',null);
-        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
     },
 });
 FlowRouter.route('/setup/time', {
-    name: 'setup.time.values',
+    name: 'setup.time',
     action(){
         Session.set('setup.tab.name','time');
         Session.set('setup.time_values.obj',null);
-        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
     },
 });
 FlowRouter.route('/setup/energy', {
-    name: 'setup.energy.values',
+    name: 'setup.energy',
     action(){
         Session.set('setup.tab.name','energy');
         Session.set('setup.energy_values.obj',null);
-        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
     },
 });
 FlowRouter.route('/setup/priority', {
-    name: 'setup.priority.values',
+    name: 'setup.priority',
     action(){
         Session.set('setup.tab.name','priority');
         Session.set('setup.priority_values.obj',null);
-        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
     },
 });
 FlowRouter.route('/setup/topics', {
@@ -93,21 +93,21 @@ FlowRouter.route('/setup/topics', {
     action(){
         Session.set('setup.tab.name','topics');
         Session.set('setup.topics.obj',null);
-        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
     },
 });
 FlowRouter.route('/setup/refs', {
-    name: 'setup.ref.items',
+    name: 'setup.ref',
     action(){
         Session.set('setup.tab.name','refs');
-        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
     },
 });
 FlowRouter.route('/setup/delegates', {
     name: 'setup.delegates',
     action(){
         Session.set('setup.tab.name','delegates');
-        BlazeLayout.render( 'appLayout', { main: 'setupPage' });
+        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
     },
 });
 FlowRouter.route( '/thoughts', {
