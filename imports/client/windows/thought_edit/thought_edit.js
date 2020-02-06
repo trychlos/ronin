@@ -22,7 +22,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thought_edit.html';
 
 Template.thoughtEdit.onCreated( function(){
-    console.log( 'thoughtEdit.onCreated' );
+    //console.log( 'thoughtEdit.onCreated' );
 });
 
 Template.thoughtEdit.onRendered( function(){
