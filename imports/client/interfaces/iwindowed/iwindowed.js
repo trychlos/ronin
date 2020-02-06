@@ -46,15 +46,6 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
     function Plugin( element, options ){
         this.dom = element;
         this.args = options;
-        /*
-        // jQuery has an extend method which merges the contents of two or
-        // more objects, storing the result in the first object. The first object
-        // is generally empty as we don't want to alter the default options for
-        // future instances of the plugin
-        this.settings = $.extend( {}, defaults, options );
-        this._defaults = defaults;
-        this._name = pluginName;
-        */
         this.init();
     }
 
@@ -97,13 +88,6 @@ import '/imports/client/interfaces/itabbed/itabbed.js'
                 return;
             }
             this._create();
-            // Place initialization logic here
-            // You already have access to the DOM element and
-            // the options via the instance, e.g. this.element
-            // and this.settings
-            // you can add more functions like the one below and
-            // call them like the example below
-            //this.yourOtherFunction( "jQuery Boilerplate" );
         },
         // return the name of the class added to the widget
         //  (aka the parent of the div we are working with)
