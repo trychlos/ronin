@@ -34,3 +34,20 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 /tmp/android/project/app/
 | XPS13   | true      | false     | mouse         | 1600     | 802 on Firefox |           |
 |         |           |           |               |          | 805 on Chrome  |           |
 +---------+-----------+-----------+---------------+----------+----------------+-----------+
+
+gtd.js
+    Describes every item displayed in a navigation menu.
+    Each 'activable' item holds a route name.
+    The structure defines four features groups: Setup, Collect, Process and Review.
+
+routes.js
+    Describes all usable path
+    Note that while a GTD item have at most one route, a route may be addressed by
+    more than one gtd item. We do not force any strict equivalence between the two sets.
+
+pageLayout
+    Four features group are presented to the user (Setup, Thoughts, Actions, Projects).
+    In this layout, we must have one feature group activated at any time to not
+    present an empty screen to the user.
+    The chosen group is managed by the (reactive) gtd.group variable, which defaults
+    to 'collect' (which is routed to /thoughts thoughts list).

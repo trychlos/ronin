@@ -189,8 +189,13 @@
                   interface may itself automatically set the 'tabs' data attribute at creation time
                   2 but one could also systematically send a focus message to a ITabbed child if any
                   (though this may be costly if there are many children without great added value)
+      2020- 2- 6 pwi-iroutable-mode is removed
+                 pwi-iroutable-route is removed from setup
+                 have nonetheless to keep data-ronin-itb-route attribute for each tab
 
-  125
+  125 2020- 2- 6 auto generate routes.js from gtd.js
+
+  126
 
 -----------------------------------------------------------------------
  Done

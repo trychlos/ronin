@@ -44,7 +44,7 @@
  *  NB: see https://stackoverflow.com/questions/33611812/export-const-vs-export-default-in-es6
  *
  *  Session variables:
- *  - 'gtd.last': in page-based layout, we require to always have an active item
+ *  - 'gtd.group': in page-based layout, we require to always have an active item
  *      in the footer navigation bar; keep here the last active GTD item identifier;
  *      defaults to 'collect'.
  */

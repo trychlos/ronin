@@ -114,7 +114,7 @@ FlowRouter.route( '/thoughts', {
     name: 'collect',
     action(){
         //console.log( 'routing collect' );
-        Session.set( 'gtd.last', 'collect' );
+        Session.set( 'gtd.group', 'collect' );
         Session.set( 'header.title', null );
         BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtsList' });
     },
@@ -123,7 +123,7 @@ FlowRouter.route( '/thoughts/new', {
     name: 'collect.new',
     action(){
         //console.log( 'routing collect.new' );
-        Session.set( 'gtd.last', 'collect' );
+        Session.set( 'gtd.group', 'collect' );
         Session.set( 'collect.thought', null );
         BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
     },
@@ -131,35 +131,35 @@ FlowRouter.route( '/thoughts/new', {
 FlowRouter.route( '/thoughts/edit', {
     name: 'collect.edit',
     action(){
-        Session.set( 'gtd.last', 'collect' );
+        Session.set( 'gtd.group', 'collect' );
         BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
     },
 });
 FlowRouter.route('/process', {
     name: 'process.thoughts',
     action(){
-        Session.set( 'gtd.last', 'process' );
+        Session.set( 'gtd.group', 'process' );
         BlazeLayout.render( 'appLayout', { main: 'processPage' });
     },
 });
 FlowRouter.route('/thoughts/action', {
     name: 'process.action',
     action(){
-        Session.set( 'gtd.last', 'collect' );
+        Session.set( 'gtd.group', 'collect' );
         BlazeLayout.render( 'appLayout', { gtd:'process', page:'processPage', window:'actionProcess' });
     },
 });
 FlowRouter.route('/thoughts/project', {
     name: 'process.project',
     action(){
-        Session.set( 'gtd.last', 'collect' );
+        Session.set( 'gtd.group', 'collect' );
         BlazeLayout.render( 'appLayout', { gtd:'process', page:'processPage', window:'projectProcess' });
     },
 });
 FlowRouter.route('/projects', {
     name: 'review.projects',
     action(){
-        Session.set( 'gtd.last', 'projects' );
+        Session.set( 'gtd.group', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
         Session.set( 'header.title', null );
         BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'projectsList' });
@@ -168,7 +168,7 @@ FlowRouter.route('/projects', {
 FlowRouter.route('/projects/future', {
     name: 'review.future',
     action(){
-        Session.set( 'gtd.last', 'projects' );
+        Session.set( 'gtd.group', 'projects' );
         Session.set( 'projects.tab.name', 'future' );
         Session.set( 'header.title', null );
         BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'projectsList' });
@@ -177,7 +177,7 @@ FlowRouter.route('/projects/future', {
 FlowRouter.route('/projects/new', {
     name: 'project.new',
     action(){
-        Session.set( 'gtd.last', 'projects' );
+        Session.set( 'gtd.group', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
         BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'projectEdit' });
     },
@@ -185,7 +185,7 @@ FlowRouter.route('/projects/new', {
 FlowRouter.route('/projects/edit', {
     name: 'project.edit',
     action(){
-        Session.set( 'gtd.last', 'projects' );
+        Session.set( 'gtd.group', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
         BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'projectEdit' });
     },
@@ -193,7 +193,7 @@ FlowRouter.route('/projects/edit', {
 FlowRouter.route('/actions', {
     name: 'review.actions',
     action(){
-        Session.set( 'gtd.last', 'actions' );
+        Session.set( 'gtd.group', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
         Session.set( 'header.title', null );
         BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'actionsList' });
@@ -202,7 +202,7 @@ FlowRouter.route('/actions', {
 FlowRouter.route('/actions/new', {
     name: 'action.new',
     action(){
-        Session.set( 'gtd.last', 'actions' );
+        Session.set( 'gtd.group', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
         BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'actionEdit' });
     },
@@ -210,7 +210,7 @@ FlowRouter.route('/actions/new', {
 FlowRouter.route('/actions/edit', {
     name: 'action.edit',
     action(){
-        Session.set( 'gtd.last', 'actions' );
+        Session.set( 'gtd.group', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
         BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'actionEdit' });
     },
@@ -260,7 +260,7 @@ FlowRouter.notFound = {
 // in page-based layout, reactive the last known group at startup time
 const layout = g.run.layout.get();
 if( layout === LYT_PAGE ){
-    const id = Session.get( 'gtd.last' );
+    const id = Session.get( 'gtd.group' );
     const route = gtd.routeId( 'footer', id );
     if( route ){
         FlowRouter.go( route );
