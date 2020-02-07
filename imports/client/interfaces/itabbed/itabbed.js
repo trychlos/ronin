@@ -6,8 +6,14 @@
  *  jQuery Tabs relies on a specific HTML markup
  *  see API documentation https://api.jqueryui.com/tabs/.
  *
- *  More, ITabbed expects that each <li> holds a 'data-itabbed'
- *  attribute, with the tab identifier as a value.
+ *  A ITabbed-able page should be built as:
+ *  1. a <ul></ul> index section
+ *      where each <li> item must hold
+ *      > a 'data-itabbed' attribute which holds the item identifier
+ *      > a 'data-ronin-itb-route' attribute which holds the corresponding route name
+ *  2. the content of each item.
+ *
+ *  The ITabbed interface adds a 'ronin-itabbed' class to the callee element.
  *
  *  Properties:
  *  - tab (optional) tab identifier
@@ -65,12 +71,10 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
         _create: function(){
             //console.log( this );
             const args = this.args[0];
-            // we set on the window's widget a 'ronin-iwm-<template_name>' class
-            //  plus maybe a 'ronin-iwm-<group>' one if specified and different
-            //  of the template name
+            // we set on the widget a 'ronin-itabbed' class
             let settings = $.extend( true, {}, args, $.fn[pluginName].defaults );
             // set a 'ronin-itabbed' class on the root element
-            $( this.dom ).addClass( 'ronnin-itabbed' );
+            $( this.dom ).addClass( 'ronin-itabbed' );
             //console.log( 'jqxTabs settings='+JSON.stringify( settings ));
             $( this.dom ).tabs( settings.jquery );
             // if defined, make sure the requested tab is activated

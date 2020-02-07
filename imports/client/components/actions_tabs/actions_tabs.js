@@ -30,6 +30,12 @@ Template.actions_tabs.helpers({
         return Actions.find({ status:tab });
     },
     gtdItems(){
-        return gtd.actionsItems();
+        return gtd.items( 'actions' );
+    },
+    gtdLabel( it ){
+        return gtd.labelItem( 'actions', it );
+    },
+    gtdRoute( it ){
+        return gtd.routeItem( 'actions', it );
     }
 });

@@ -18,9 +18,11 @@
  *
  *  We set:
  *  - on the widget, three classes:
- *      > ronin-iwm
- *      > ronin-iwm-<gtd_features_group>
- *      > ronin-iwm-<window_template_name>
+ *      > ronin-iwm-widget
+ *      > ronin-iwm-<gtd_features_group> (aka setup, collect, process, review)
+ *      > ronin-iwm-<window_template_name> (e.g. thoughtsList, thoughtEdit, etc.)
+ *  - on the window, one class:
+ *      > ronin-iwm-window
  *  - on the window, two data attributes:
  *      > data-ronin-iwm-id = <window_template_name>
  *      > data-ronin-iwm-route = last known route name.
@@ -129,6 +131,7 @@
             }
             //console.log( settings );
             $( this.dom ).window( settings.simone );
+            $( this.dom ).addClass( 'ronin-iwm-window' );
             // set some data- attributes on the window
             //  we prefer data- attributes as set by attr() method as they are available
             //  as standard jQuery selector, and visible in the console log
@@ -368,7 +371,7 @@
     // default values, overridable by the user at global level
     $.fn[pluginName].defaults = {
         simone: {
-            widgetClass:    'ronin-iwm',
+            widgetClass:    'ronin-iwm-widget',
             icons: {
                 close:      'ui-icon-close',
                 minimize:   'ui-icon-minus'

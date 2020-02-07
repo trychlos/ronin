@@ -171,27 +171,12 @@
 
   114 2020- 2- 1 fix wsf-footer display
 
-  115 2020- 2- 1 projects_tree: review contextual menu and libks to edit/delete
+  115 2020- 2- 1 projects_tree: review contextual menu and edit/delete links
                   in case of a page-based layout
 
   118 2020- 2- 1 have a link on the web site to download the apk
 
   119 2020- 2- 1 have in the apk a function to detect and download a new version
-
-  124 2020- 2- 3 rename pwi-iroutable-route and pwi-iroutable-mode vars
-                  pwi-iroutable-mode is used to identiy the situation where a window
-                  embeds a tabbed display, and each tab exhibits its own route. When the
-                  window gains the focus, the route should be adapted to those of the
-                  currently active tab.
-                  1 there is no need for each window template to define itself its
-                  iroutable-mode; one may consider that 'window' is the default, meaning
-                  that the displayed route depends of the active window; and that the ITabbed
-                  interface may itself automatically set the 'tabs' data attribute at creation time
-                  2 but one could also systematically send a focus message to a ITabbed child if any
-                  (though this may be costly if there are many children without great added value)
-      2020- 2- 6 pwi-iroutable-mode is removed
-                 pwi-iroutable-route is removed from setup
-                 have nonetheless to keep data-ronin-itb-route attribute for each tab
 
   125 2020- 2- 6 auto generate routes.js from gtd.js
 
@@ -419,6 +404,22 @@
 
   123 2020- 2- 3 window title is a bit too right (padding left should be 0.5rem)
       2020- 2- 3 fixed
+
+  124 2020- 2- 3 rename pwi-iroutable-route and pwi-iroutable-mode vars
+                  pwi-iroutable-mode is used to identiy the situation where a window
+                  embeds a tabbed display, and each tab exhibits its own route. When the
+                  window gains the focus, the route should be adapted to those of the
+                  currently active tab.
+                  1 there is no need for each window template to define itself its
+                  iroutable-mode; one may consider that 'window' is the default, meaning
+                  that the displayed route depends of the active window; and that the ITabbed
+                  interface may itself automatically set the 'tabs' data attribute at creation time
+                  2 but one could also systematically send a focus message to a ITabbed child if any
+                  (though this may be costly if there are many children without great added value)
+      2020- 2- 6 pwi-iroutable-mode is removed
+                 pwi-iroutable-route is removed from setup
+                 have nonetheless to keep data-ronin-itb-route attribute for each tab
+                 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

@@ -1,29 +1,34 @@
-.ronin-itabbed {
-    @background-color:  #e8e8e8;
-    @border-color:      #aaaaaa;
-    .ui-dialog-content {
-        padding: 0.5em;
-    }
-    ul.ui-tabs-nav {
-        background-color: @background-color;
-        line-height: 0.8em;
+.ronin-iwm-window.ui-dialog-content {
+    padding: 0.25em;
+}
+.ronin-window {
+    .ronin-itabbed.ui-tabs {
+        @background-color:  #e8e8e8;
+        @border-color:      #aaaaaa;
+        ul.ui-tabs-nav {
+            background-color: @background-color;
+            line-height: 0.8em;
 
-        li[role=tab].ui-tabs-active {
-            border-color: @border-color;
-		    border-bottom: 1px solid white;
-		    background-color: white;
-            a {
-                color: black;
-                font-weight: normal;
+            li[role=tab].ui-tabs-active {
+                border-color: @border-color;
+                border-bottom: 1px solid white;
+                background-color: white;
+                a {
+                    color: black;
+                    font-weight: normal;
+                }
+            }
+            li[role=tab]:not(.ui-tabs-active) {
+                background: transparent;
+                border-color: transparent;
+            }
+            li[role=tab]:not(.ui-tabs-active):hover {
+                border-color: @border-color;
+                border-bottom: 1px solid @border-color;
             }
         }
-        li[role=tab]:not(.ui-tabs-active) {
-            background: transparent;
-            border-color: transparent;
-        }
-        li[role=tab]:not(.ui-tabs-active):hover {
-            border-color: @border-color;
-		    border-bottom: 1px solid @border-color;
+        .ui-tabs-panel {
+            padding: 0.25rem;
         }
     }
 }

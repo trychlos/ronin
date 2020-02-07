@@ -26,8 +26,8 @@ Template.footer_panel.helpers({
 });
 
 Template.footer_panel.events({
-    'click .js-item'( event, instance ){
-        const route = $( event.target ).data( 'pwi-iroutable-route' );
+    'click .js-item'( ev, instance ){
+        const route = $( ev.target ).attr( 'data-route' );
         FlowRouter.go( route );
         return false;
     }
