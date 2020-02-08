@@ -177,10 +177,16 @@
         },
         // add a flexbox div inside of the titlebar
         //  this let the application put buttons later inside of this div
+        //  + append inside of this titlebar all 'ronin-iwm-titlebadge' children
         _addTitlebarDiv: function(){
             const widget = this._widget( this.dom );
             const span = $( widget ).find( '.ui-dialog-titlebar.ui-widget-header span.ui-dialog-title' );
-            $( span ).after( '<div class="iwm-titlebar"></div>' );
+            $( span ).after( '<div class="ronin-iwm-titlebar"></div>' );
+            const bar = $( widget ).find( '.ronin-iwm-titlebar' )[0];
+            $( this.dom ).find( '.ronin-iwm-titlebadge' ).each( function( index, elt ){
+                $( elt ).detach();
+                $( bar ).append( elt );
+            });
         },
         // returns the identifier set as a data attribute of the window
         _idGet: function(){
@@ -310,7 +316,7 @@
             } else {
                 const selector = this.args[1];
                 const widget = $( this.dom ).parents( '.ronin-iwm-widget' )[0];
-                const titlebar = $( widget ).find( '.iwm-titlebar' );
+                const titlebar = $( widget ).find( '.ronin-iwm-titlebar' );
                 const content = $( this.dom ).find( selector ).detach();
                 $( titlebar ).append( content );
             }

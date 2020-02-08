@@ -1,11 +1,10 @@
 <template name="thoughtsList">
     <div class="thoughtsList {{#if isPageLayout }}x-mt025{{/if}}">
 
-        <!--
         {{#if isWindowLayout}}
-            <button class="js-new ui-button ui-corner-all">New</button>
+            <!-- <button class="js-new ui-button ui-corner-all">New</button> -->
+            {{> window_badge text=count }}
         {{/if}}
-        -->
 
         {{> thoughts_list thoughts=thoughts }}
 

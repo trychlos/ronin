@@ -31,6 +31,7 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/thought_panel/thought_panel.js';
 import '/imports/client/components/thoughts_list/thoughts_list.js';
+import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
@@ -82,6 +83,9 @@ Template.thoughtsList.onRendered( function(){
 Template.thoughtsList.helpers({
     thoughts(){
         return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
+    },
+    count(){
+        return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }}).count();
     }
 });
 
