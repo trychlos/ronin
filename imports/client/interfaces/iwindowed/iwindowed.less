@@ -45,6 +45,18 @@
     .ronin-iwm-window.ui-dialog-content {
         padding: 0.25em 0 0 0;
     }
+    .ui-dialog-buttonpane {
+        .ui-dialog-buttonset {
+            float: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            :first-child {
+                flex-grow: 1;
+            }
+        }
+    }
 }
 /*
  * window-based layout

@@ -143,6 +143,7 @@
             this._idSet( id );
             this._routeSet();
             this._addTitlebarDiv();
+            this._addButtonsetDiv();
             this._restoreSettings( id );
             // set event handlers
             //  passing this to the handler, getting back in event.data
@@ -160,6 +161,19 @@
                 ev.data._onResizeStop( ev, ui );
             });
             //console.log( $( this.dom ));
+        },
+        // add a div around the first button of the button pane
+        //  this let us have this first button pushed on the left, others being on the right
+        _addButtonsetDiv: function(){
+            const widget = this._widget( this.dom );
+            const set = $( widget ).find( '.ui-dialog-buttonset' );
+            if( set ){
+                const but = $( set ).find( 'button:first-child' ).detach();
+                if( but ){
+                    $( set ).prepend( '<div class="iwm-buttonset"></div>' )
+                    $( set ).find( '.iwm-buttonset' ).append( but );
+                }
+            }
         },
         // add a flexbox div inside of the titlebar
         //  this let the application put buttons later inside of this div

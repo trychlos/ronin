@@ -34,6 +34,12 @@ import '/imports/client/components/thoughts_list/thoughts_list.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
+Template.thoughtsList.fn = {
+    runNew: function(){
+        FlowRouter.go( 'collect.new' );
+    }
+};
+
 Template.thoughtsList.onCreated( function(){
     //console.log( 'thoughtsList.onCreated' );
     this.subscribe( 'articles.thoughts.all' );
@@ -48,11 +54,27 @@ Template.thoughtsList.onRendered( function(){
             $( '.thoughtsList' ).IWindowed({
                 template: 'thoughtsList',
                 simone: {
+                    buttons: [
+                        {
+                            text: "Close",
+                            click: function(){
+                                console.log( this );
+                                $( '.thoughtsList' ).IWindowed( 'close' );
+                            }
+                        },
+                        {
+                            text: "New",
+                            click: function(){
+                                console.log( this );
+                                Template.thoughtsList.fn.runNew();
+                            }
+                        }
+                    ],
                     group:  'collect',
                     title:  'List thoughts'
                 }
             });
-            $( '.thoughtsList' ).IWindowed( 'addButton', '.js-new' );
+            //$( '.thoughtsList' ).IWindowed( 'addButton', '.js-new' );
         }
     })
 });
@@ -65,8 +87,7 @@ Template.thoughtsList.helpers({
 
 Template.thoughtsList.events({
     'click .js-new'( ev, instance ){
-        $( ev.target ).trigger( 'ronin.ui.thoughts.list.card.collapse' );
-        FlowRouter.go( 'collect.new' );
+        Template.thoughtsList.fn.runNew();
         return false;
     }
 });
