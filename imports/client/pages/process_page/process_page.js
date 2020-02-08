@@ -21,6 +21,11 @@ import '/imports/client/windows/action_process/action_process.js';
 import '/imports/client/windows/project_process/project_process.js';
 import './process_page.html';
 
+Template.processPage.onCreated( function(){
+    //console.log( 'processPage.onCreated' );
+    //console.log( this.data );
+});
+
 Template.processPage.onRendered( function(){
     this.autorun(() => {
         const context = Session.get( 'layout.context' );
@@ -31,7 +36,9 @@ Template.processPage.onRendered( function(){
 });
 
 Template.processPage.helpers({
+    // datas passed from routes.js are available here in 'data' context
     windowContext(){
+        //console.log( Template.instance().data );
         return {
             gtd: Template.instance().data.gtd
         }
@@ -70,4 +77,8 @@ Template.processPage.events({
         });
         return false;
     }
+});
+
+Template.processPage.onDestroyed( function(){
+    //console.log( 'processPage.onDestroyed' );
 });

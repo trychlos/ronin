@@ -34,19 +34,23 @@ import '/imports/client/windows/projects_list/projects_list.js';
 import './review_page.html';
 
 Template.reviewPage.onCreated( function(){
+    //console.log( 'reviewPage.onCreated' );
     //console.log( this.data );
 });
 
 Template.reviewPage.onRendered( function(){
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
-            $('.review-page').IWindowed( 'show', this.data.window );
+        const context = Session.get( 'layout.context' );
+        if( context.window && g[LYT_WINDOW].taskbar.get()){
+            $('.review-page').IWindowed( 'show', context.window );
         }
     })
 });
 
 Template.reviewPage.helpers({
+    // datas passed from routes.js are available here in 'data' context
     windowContext(){
+        //console.log( Template.instance().data );
         return {
             gtd: Template.instance().data.gtd
         }
@@ -187,4 +191,8 @@ Template.reviewPage.events({
         }
         return false;
     }
+});
+
+Template.reviewPage.onDestroyed( function(){
+    //console.log( 'reviewPage.onDestroyed' );
 });

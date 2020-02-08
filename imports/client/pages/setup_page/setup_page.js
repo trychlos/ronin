@@ -18,6 +18,11 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import '/imports/client/windows/setup_window/setup_window.js';
 import './setup_page.html';
 
+Template.setupPage.onCreated( function(){
+    //console.log( 'setupPage.onCreated' );
+    //console.log( this.data );
+})
+
 Template.setupPage.onRendered( function(){
     this.autorun(() => {
         const context = Session.get( 'layout.context' );
@@ -26,3 +31,17 @@ Template.setupPage.onRendered( function(){
         }
     })
 });
+
+Template.setupPage.helpers({
+    // datas passed from routes.js are available here in 'data' context
+    windowContext(){
+        //console.log( Template.instance().data );
+        return {
+            gtd: Template.instance().data.gtd
+        }
+    }
+});
+
+Template.setupPage.onDestroyed( function(){
+    //console.log( 'setupPage.onDestroyed' );
+})

@@ -41,6 +41,7 @@ import '/imports/client/windows/thoughts_list/thoughts_list.js';
 import './collect_page.html';
 
 Template.collectPage.onCreated( function(){
+    //console.log( 'collectPage.onCreated' );
     //console.log( this.data );
 });
 
@@ -54,6 +55,13 @@ Template.collectPage.onRendered( function(){
 });
 
 Template.collectPage.helpers({
+    // datas passed from routes.js are available here in 'data' context
+    windowContext(){
+        //console.log( Template.instance().data );
+        return {
+            gtd: Template.instance().data.gtd
+        }
+    }
 });
 
 Template.collectPage.events({
@@ -121,4 +129,8 @@ Template.collectPage.events({
         }
         return false;
     }
+});
+
+Template.collectPage.onDestroyed( function(){
+    //console.log( 'collectPage.onDestroyed' );
 });

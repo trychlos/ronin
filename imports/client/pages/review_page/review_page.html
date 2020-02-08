@@ -2,7 +2,11 @@
     <div class="review-page ronin-page">
 
         {{#if isPageLayout}}
-            {{> Template.dynamic template=window data=windowContext }}
+            {{> Template.dynamic template=window }}
+        <!--
+        {{else}}
+            {{ windowContext }}
+        -->
         {{/if}}
 
     </div>
