@@ -162,6 +162,23 @@ Meteor.methods({
         return ret;
     },
 
+    // takes ownership of the article
+    'articles.ownership'( id ){
+        if( !this.userId ){
+            throw new Meteor.Error(
+                'articles.ownership', 'user must be logged-in'
+            );
+        }
+        const ret = Articles.update( id, { $set: { userId: this.userId }});
+        console.log( 'Articles.ownership("'+id+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.ownership',
+                'unable to take ownership of the "'+id+'" article' );
+        }
+        return ret;
+    },
+
     // change the parent of an action or a project
     'articles.reparent'( o_id, parent_id ){
         const ret = Articles.update( o_id, { $set: {

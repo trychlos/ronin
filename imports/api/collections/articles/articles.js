@@ -23,6 +23,9 @@
  *  | description     | opt                   | opt                   | opt                   | opt                   |
  *  |                 | no default            | no default            | no default            | no default            |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
+ *  | userId          | opt                   | opt                   | opt                   | opt                   |
+ *  |                 | no default            | no default            | no default            | no default            |
+ *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
  *  | notes           |                       | opt                   | opt                   |                       |
  *  |                 |                       | no default            | no default            |                       |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
@@ -95,6 +98,10 @@ Articles.schema = new SimpleSchema({
         type: String,
         optional: true
     },
+    userId: {
+        type: String,
+        optional: true
+    },
     /* this is common to actions and projects
      */
     notes: {
@@ -159,6 +166,17 @@ Articles.attachBehaviour( 'timestampable', {
 });
 
 Articles.helpers({
+    editableBy( userId ){
+        // unknown or not logged-in user: no edit permission
+        if( !userId ){
+            return false;
+        }
+        // document is not attached to any user: anyone may edit it
+        if( !this.userId ){
+            return true;
+        }
+        return this.userId === userId;
+    }
 });
 
 Articles.fn.check = function( id, o ){

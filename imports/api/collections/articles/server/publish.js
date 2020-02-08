@@ -18,5 +18,5 @@ Meteor.publish( 'articles.projects.all', function(){
 });
 
 Meteor.publish( 'articles.thoughts.all', function(){
-    return Articles.find({ type: 'T' });
+    return Articles.find({ type: 'T', $or: [{ userId:null }, { userId:this.userId }]});
 });

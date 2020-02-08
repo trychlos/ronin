@@ -37,9 +37,10 @@ import '/imports/client/third-party/simone/simone.min.js';
 import '/imports/client/third-party/simone/i18n/simone.min.custom.js';
 import '/imports/client/third-party/simone/simone.min.css';
 
+import './accounts-config.js';
+import './blaze-helpers.js';
 import './colorpicker-config.js';
 import './datepicker-config.js';
-import './blaze-helpers.js';
 
 // compute the default layout
 //  maybe initializing a window manager if the desktop layout is chosen

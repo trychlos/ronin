@@ -181,7 +181,10 @@
   126 2020- 2- 8 four main pages are identified for the four gtd features groups
                   what to do with other pages ?
 
-  127
+  127 2020- 2- 8 deploy.sh also copy last versions from maintainer/www-host/ronin.service
+                  and start.sh
+
+  128
 
 -----------------------------------------------------------------------
  Done

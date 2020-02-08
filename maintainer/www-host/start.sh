@@ -9,6 +9,6 @@
 	export MONGO_URL='mongodb://ronin:vikeZE3RPROko1qrjzB3@localhost:27017/ronin'
 	export ROOT_URL='http://ronin.trychlos.org'
 	export PORT=10249
-	#export MAIL_URL='smtp://user:password@mailhost:port/'
+	export MAIL_URL='smtp://mail.trychlos.org'
 	node main.js &
 
