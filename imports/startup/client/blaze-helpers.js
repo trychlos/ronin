@@ -33,6 +33,16 @@ Template.registerHelper( 'isWindowLayout', function(){
     return g.run.layout.get() === LYT_WINDOW;
 });
 
+// template helper
+Template.registerHelper( 'pageLayout', function(){
+    return LYT_PAGE;
+});
+
+// template helper
+Template.registerHelper( 'windowLayout', function(){
+    return LYT_WINDOW;
+});
+
 // content helper
 Template.registerHelper( 'lastUpdated', function( obj ){
     if( obj ){

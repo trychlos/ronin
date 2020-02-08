@@ -49,7 +49,7 @@
     // The actual plugin constructor
     function Plugin( element, options ){
         this.dom = element;
-        this.args = options;
+        this.args = options || {};
         this.init();
     }
 
@@ -64,12 +64,15 @@
             //      }
             //  }
             let argsCount = Object.keys( this.args ).length;
+            // if no argument, nothing to do, just return
             if( !argsCount ){
-                throwError({ message: 'IWindowed interface requires at least one argument' });
                 return;
             }
             if( typeof this.args[0] === 'string' ){
                 switch( this.args[0] ){
+                    case 'addButton':
+                        this.addButton( argsCount );
+                        break;
                     case 'close':
                         this.close( argsCount );
                         break;
@@ -139,6 +142,7 @@
             const id = this.args[0].template;
             this._idSet( id );
             this._routeSet();
+            this._addTitlebarDiv();
             this._restoreSettings( id );
             // set event handlers
             //  passing this to the handler, getting back in event.data
@@ -157,6 +161,13 @@
             });
             //console.log( $( this.dom ));
         },
+        // add a flexbox div inside of the titlebar
+        //  this let the application put buttons later inside of this div
+        _addTitlebarDiv: function(){
+            const widget = this._widget( this.dom );
+            const span = $( widget ).find( '.ui-dialog-titlebar.ui-widget-header span.ui-dialog-title' );
+            $( span ).after( '<div class="iwm-titlebar"></div>' );
+        },
         // returns the identifier set as a data attribute of the window
         _idGet: function(){
             return $( this.dom ).attr( 'data-ronin-iwm-id' );
@@ -172,14 +183,18 @@
             }
             obj.window('moveToTop');
         },
+        // event handler triggered from inside Simone window manager
+        //  this = the IWindowed DOM element
         _onBeforeClose: function( ev, ui ){
-            this._saveSettings();
+            const p = new Plugin( this );
+            p._saveSettings();
         },
+        // event handler triggered from inside Simone window manager
+        //  this = the IWindowed DOM element
         // the widget which encapsulates the window has been closed
         //  but the div itself is still in the DOM
         // $(ev.target) === ui.$window === jQuery object on which we have called window()
         _onClose: function( ev, ui ){
-            console.log( 'close event handler' );
             $( ev.target ).remove();
         },
         _onDragStop: function( ev, ui ){
@@ -263,6 +278,28 @@
         // return the settings key when saving/restoring size and position
         _settingsName: function( id ){
             return 'spSettings-'+id;
+        },
+        // return the widget, parent of 'this' window
+        _widget: function( window ){
+            return $( window ).parents( '.ronin-iwm-widget' )[0];
+        },
+        // addButton() method
+        //  must be applied on the window
+        //  adds a button on the right of the titlebar
+        //  expected args:
+        //  - selector to be installed
+        addButton: function( argsCount ){
+            if( argsCount != 2 ){
+                throwError({ message: 'addButton() expects two arguments, '+( argsCount-1 )+' found' });
+            } else if( !$( this.dom ).hasClass( 'ronin-iwm-window' )){
+                throwError({ message: 'addButton() must be invoked on the IWindowed element' });
+            } else {
+                const selector = this.args[1];
+                const widget = $( this.dom ).parents( '.ronin-iwm-widget' )[0];
+                const titlebar = $( widget ).find( '.iwm-titlebar' );
+                const content = $( this.dom ).find( selector ).detach();
+                $( titlebar ).append( content );
+            }
         },
         // close() method
         //  close the current window
@@ -371,11 +408,11 @@
     // default values, overridable by the user at global level
     $.fn[pluginName].defaults = {
         simone: {
-            widgetClass:    'ronin-iwm-widget',
             icons: {
                 close:      'ui-icon-close',
                 minimize:   'ui-icon-minus'
-            }
+            },
+            widgetClass:    'ronin-iwm-widget'
         }
     };
 })( jQuery, window, document );

@@ -52,6 +52,7 @@ Template.thoughtsList.onRendered( function(){
                     title:  'List thoughts'
                 }
             });
+            $( '.thoughtsList' ).IWindowed( 'addButton', '.js-new' );
         }
     })
 });

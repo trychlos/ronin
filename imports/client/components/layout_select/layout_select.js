@@ -8,12 +8,6 @@
 import './layout_select.html';
 
 Template.layout_select.helpers({
-    desktopLayout(){
-        return LYT_WINDOW;
-    },
-    touchableLayout(){
-        return LYT_PAGE;
-    }
 });
 
 Template.layout_select.events({

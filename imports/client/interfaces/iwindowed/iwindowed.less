@@ -2,7 +2,7 @@
  * window-based layout
  *  layout
  */
-.ronin-iwm-widget {
+.ronin-iwm-widget.ui-dialog {
     .ui-dialog-titlebar {
         border-radius: 3px 3px 0 0;
         padding-left: 0.5em;
@@ -20,11 +20,29 @@
         .ui-icon.simone-window-icon.undefined {
             display: none;
         }
+        .iwm-titlebar {
+            display: flex;
+            margin-right: 5rem;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .iwm-titlebar button {
+            font-size: 0.8rem;
+            padding: 0.1rem 0.5rem;
+            margin-right: 0.25rem;
+            //color: white;
+            //border: 1px solid white;
+            //background-color: transparent;
+        }
+        .iwm-titlebar button:hover {
+            color: white;
+            background-color: var( --blue );
+        }
     }
     .ui-dialog-titlebar.ui-state-active {
         font-weight: bold;
     }
-    .ui-dialog-content {
+    .ronin-iwm-window.ui-dialog-content {
         padding: 0.25em 0 0 0;
     }
 }

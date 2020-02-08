@@ -1,10 +1,8 @@
 <template name="thoughtsList">
     <div class="thoughtsList {{#if isPageLayout }}x-mt025{{/if}}">
 
-        {{#if isDesktopLayout}}
-            <div class="edit">
-                {{> thought_panel }}
-            </div>
+        {{#if isWindowLayout}}
+            <button class="js-new ui-button ui-corner-all">New</button>
         {{/if}}
 
         {{> thoughts_list thoughts=thoughts }}
