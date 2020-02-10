@@ -13,9 +13,14 @@
             {{> thought_panel }}
         </div>
 
+        {{#if isPageLayout}}
+        {{/if}}
         <div class="wsf-footer">
             {{> collapse_buttons okLabel=okLabel }}
         </div>
+        <div class="wsf-footer">
+                {{> collapse_buttons okLabel=okLabel }}
+            </div>
 
     </div>
 </template>

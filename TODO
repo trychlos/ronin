@@ -184,7 +184,33 @@
   127 2020- 2- 8 deploy.sh also copy last versions from maintainer/www-host/ronin.service
                   and start.sh
 
-  128
+  128 2020- 2- 8 thoughts ownershipTakeable button doesn't seem to be reactive
+
+  129 2020- 2- 8 publish actions and projects depending of the owner
+
+  130 2020- 2- 8 thoughts ownershipTakeable disabled button is not actually disabled
+
+  131 2020- 2- 8 thoughts ownershipTakeable ownership-owner should not let the
+                  button be clicked
+
+  132 2020- 2- 8 both pageLayout and windowLayout have a padding/margin of 0.25rem
+                  on top of the content below the header -> mutualize them
+
+  133 2020- 2- 9 window close button in the title bar has title='false'
+                  from simone.js, comes from this._i18n( 'close' )
+                  try to force the internationalization of the string
+
+  134 2020- 2- 9 in window mode, events do not bubble from collapse_buttons to
+                  the window (but should) - this is the reason for why we try
+                  to use the button pane, but callbacks do not hold Template.instance()
+
+  135 2020- 2- 9 because header_panel and footer_panel rely on fhsf- classes,
+                  the corresponding templates should be fhsf_ prefixed
+
+  136 2020- 2- 9 because collapse_buttons relies on wsf- classes, the template
+                  should be wsf_ prefixed
+
+  137
 
 -----------------------------------------------------------------------
  Done

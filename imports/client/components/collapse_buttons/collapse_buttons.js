@@ -45,8 +45,14 @@ Template.collapse_buttons.helpers({
 });
 
 Template.collapse_buttons.events({
+    'click .js-cancel'( ev, instance ){
+        //console.log( 'collapse_buttons.js-cancel' );
+    },
     'click .js-collapse'( ev, instance ){
         const collapsed = instance.collapsed.get();
         instance.collapsed.set( !collapsed );
+    },
+    'click .js-ok'( ev, instance ){
+        //console.log( 'collapse_buttons.js-ok' );
     }
 });

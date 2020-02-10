@@ -26,7 +26,7 @@ Template.project_panel.fn = {
         return {
             type: 'P',
             name: instance.$('.js-name').val(),
-            topic: Template.topics_select.fn.getSelected( '.js-topic' ),
+            topic: Template.topics_select.fn.getSelected( instance ),
             purpose: instance.$('.js-purpose').val(),
             vision: instance.$('.js-vision').val(),
             description: instance.$('.js-description').val(),

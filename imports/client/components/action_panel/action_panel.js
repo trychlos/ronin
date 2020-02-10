@@ -28,7 +28,7 @@ Template.action_panel.fn = {
         return {
             type: 'A',
             name: instance.$('.js-name').val(),
-            topic: Template.topics_select.fn.getSelected( '.js-topic' ),
+            topic: Template.topics_select.fn.getSelected( instance ),
             outcome: instance.$('.js-outcome').val(),
             context: Template.contexts_select.fn.getSelected( '.js-context' ),
             description: instance.$('.js-description').val(),

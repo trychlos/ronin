@@ -36,7 +36,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
 Template.thoughtsList.fn = {
-    runNew: function(){
+    actionNew: function(){
         FlowRouter.go( 'collect.new' );
     }
 };
@@ -59,15 +59,15 @@ Template.thoughtsList.onRendered( function(){
                         {
                             text: "Close",
                             click: function(){
-                                console.log( this );
+                                //console.log( this );
                                 $( '.thoughtsList' ).IWindowed( 'close' );
                             }
                         },
                         {
                             text: "New",
                             click: function(){
-                                console.log( this );
-                                Template.thoughtsList.fn.runNew();
+                                //console.log( this );
+                                Template.thoughtsList.fn.actionNew();
                             }
                         }
                     ],
@@ -91,9 +91,28 @@ Template.thoughtsList.helpers({
 
 Template.thoughtsList.events({
     'click .js-new'( ev, instance ){
-        Template.thoughtsList.fn.runNew();
+        Template.thoughtsList.fn.actionNew();
         return false;
-    }
+    },
+    // delete the provided thought
+    //  requiring a user confirmation
+    'ronin.model.thought.delete'( ev, instance, thought ){
+        bootbox.confirm(
+            'You are about to delete the "'+thought.name+'" thought.<br />'+
+            'Are you sure ?', function( ret ){
+                if( ret ){
+                    Meteor.call( 'thoughts.remove', thought._id, ( e, res ) => {
+                        if( e ){
+                            throwError({ type:e.error, message: e.reason });
+                        } else {
+                            throwSuccess( 'Thought successfully deleted' );
+                        }
+                    });
+                }
+            }
+        );
+        return false;
+    },
 });
 
 Template.thoughtsList.onDestroyed( function(){

@@ -41,7 +41,7 @@ import '/imports/client/windows/thoughts_list/thoughts_list.js';
 import './collect_page.html';
 
 Template.collectPage.onCreated( function(){
-    //console.log( 'collectPage.onCreated' );
+    console.log( 'collectPage.onCreated' );
     //console.log( this.data );
 });
 
@@ -49,7 +49,8 @@ Template.collectPage.onRendered( function(){
     this.autorun(() => {
         const context = Session.get( 'layout.context' );
         if( context.window && g[LYT_WINDOW].taskbar.get()){
-            $('.collect-page').IWindowed( 'show', context.window );
+            //$('.collect-page').IWindowed( 'show', context.window );
+            Blaze.render( Template.thoughtEdit, document.getElementById( g[LYT_WINDOW].rootId ));
         }
     })
 });
@@ -64,73 +65,6 @@ Template.collectPage.helpers({
     }
 });
 
-Template.collectPage.events({
-    // delete the provided thought
-    //  requiring a user confirmation
-    'ronin.model.thought.delete'( ev, instance, thought ){
-        bootbox.confirm(
-            'You are about to delete the "'+thought.name+'" thought.<br />'+
-            'Are you sure ?', function( ret ){
-                if( ret ){
-                    Meteor.call( 'thoughts.remove', thought._id, ( e, res ) => {
-                        if( e ){
-                            throwError({ type:e.error, message: e.reason });
-                        } else {
-                            throwSuccess( 'Thought successfully deleted' );
-                        }
-                    });
-                }
-            }
-        );
-        return false;
-    },
-    // insert or update the provided thought
-    //  if a previous object already existed, then this is an update
-    //  the page will be left if this was an update *and* it has been successful
-    'ronin.model.thought.update'( ev, instance, thought ){
-        Session.set( 'collect.dbope', DBOPE_WAIT );
-        const obj = Session.get( 'collect.thought' );
-        const id = obj ? obj._id : null;
-        try {
-            Articles.fn.check( id, thought );
-        } catch( e ){
-            console.log( e );
-            throwError({ type:e.error, message: e.reason });
-            return false;
-        }
-        if( obj ){
-            // if nothing has changed, then does nothing
-            if( Articles.fn.equal( obj, thought )){
-                throwMessage({ type:'warning', message:'Nothing changed' });
-                return false;
-            }
-            Meteor.call('thoughts.update', id, thought, ( e, res ) => {
-                if( e ){
-                    console.log( e );
-                    throwError({ type:e.error, message: e.reason });
-                    Session.set( 'collect.dbope', DBOPE_ERROR );
-                } else {
-                    throwSuccess( 'Thought successfully updated' );
-                    Session.set( 'collect.dbope', DBOPE_LEAVE );
-                }
-            });
-        } else {
-            Meteor.call('thoughts.insert', thought, ( e, res ) => {
-                if( e ){
-                    console.log( e );
-                    throwError({ type:e.error, message: e.reason });
-                    Session.set( 'collect.dbope', DBOPE_ERROR );
-                } else {
-                    throwSuccess( 'Thought successfully inserted' );
-                    Session.set( 'collect.thought', 'success' );  // force re-rendering
-                    Session.set( 'collect.dbope', DBOPE_REINIT );
-                }
-            });
-        }
-        return false;
-    }
-});
-
 Template.collectPage.onDestroyed( function(){
-    //console.log( 'collectPage.onDestroyed' );
+    console.log( 'collectPage.onDestroyed' );
 });

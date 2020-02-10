@@ -21,26 +21,30 @@ Template.thought_panel.fn = {
         return '98e84c99-d2f3-4c54-96a3-b4d6ccf8b3f0';
     },
     // returns an object which holds the form content
-    getContent: function(){
-        const instance = Template.instance();
+    getContent: function( instance ){
+        console.log( $( '.js-name' ));
+        console.log( instance.$( '.js-name' ));
         return {
             type: 'T',
             name: instance.$('.js-name').val(),
             description: instance.$('.js-description').val(),
-            topic: Template.topics_select.fn.getSelected('')
-        };
+            topic: Template.topics_select.fn.getSelected( instance )
+        }
     },
     // initialize the edition area
     // this is needed when we cancel a current creation
     //  as this will not change the collect.thought session variable
     //  no helper is triggered,
     //  and we have to manually reinit the fields
+    // NB: do not reinitialize the topic
+    //  Rationale: when entering several thoughts, it is probable that all
+    //  will be relative to a same topic, so try to gain some time
     initEditArea: function(){
         const instance = Template.instance();
         if( instance.view.isRendered ){
             instance.$('.js-name').val('');
             instance.$('.js-description').val('');
-            Template.topics_select.fn.selectDefault();
+            //Template.topics_select.fn.selectDefault();
         }
     }
 };

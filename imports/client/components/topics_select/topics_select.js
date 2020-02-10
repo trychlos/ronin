@@ -9,9 +9,8 @@ import './topics_select.html';
 
 Template.topics_select.fn = {
     // return the identifier of the selected topic
-    getSelected: function( selector ){
-        const instance = Template.instance();
-        return instance.$( selector+' .js-topic option:selected' ).val();
+    getSelected: function( instance ){
+        return instance.$( '.js-topic option:selected' ).val();
     },
     // select the default value
     selectDefault: function(){

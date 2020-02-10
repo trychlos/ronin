@@ -42,15 +42,39 @@
  *
  *  From https://github.com/jquery-boilerplate/jquery-boilerplate/blob/master/src/jquery.boilerplate.js
  */
+( function( $ ){
+    $.fn.IWindowed = function(){
+        this.each( function(){
+            //console.log( this ); // this is the DOM element on which the interface is called
+            $( this ).window();
+        });
+        return this;
+    };
+}( jQuery ));
+/*
 ;( function( $, window, document ){
     "use strict";
     const pluginName = "IWindowed";
 
+    $.fn[pluginName] = function(){
+        //console.log( this );  // this is the jQuery element on which the interface is called
+        this.each( function(){
+        });
+        return this;
+    }
+
+})( jQuery, window, document );
+*/
+
+    /*
+
     // The actual plugin constructor
-    function Plugin( element, options ){
-        this.dom = element;
-        this.args = options || {};
-        this.init();
+    class Plugin {
+        constructor(element, options) {
+            this.dom = element;
+            this.args = options || {};
+            this.init();
+        }
     }
 
     // Avoid Plugin.prototype conflicts
@@ -72,6 +96,9 @@
                 switch( this.args[0] ){
                     case 'addButton':
                         this.addButton( argsCount );
+                        break;
+                    case 'buttonLabel':
+                        this.buttonLabel( argsCount );
                         break;
                     case 'close':
                         this.close( argsCount );
@@ -166,14 +193,7 @@
         //  this let us have this first button pushed on the left, others being on the right
         _addButtonsetDiv: function(){
             const widget = this._widget( this.dom );
-            const set = $( widget ).find( '.ui-dialog-buttonset' );
-            if( set ){
-                const but = $( set ).find( 'button:first-child' ).detach();
-                if( but ){
-                    $( set ).prepend( '<div class="iwm-buttonset"></div>' )
-                    $( set ).find( '.iwm-buttonset' ).append( but );
-                }
-            }
+            $( widget ).find( '.ui-dialog-buttonset button' ).wrap( '<div></div>');
         },
         // add a flexbox div inside of the titlebar
         //  this let the application put buttons later inside of this div
@@ -321,12 +341,29 @@
                 $( titlebar ).append( content );
             }
         },
+        // buttonLabel() method
+        //  set the label of the specified button in the bottom buttonpane
+        //  - index from zero
+        //  - label
+        buttonLabel: function( argsCount ){
+            if( argsCount != 3 ){
+                throwError({ message: 'buttonLabel() expects three arguments, '+( argsCount-1 )+' found' });
+            } else if( !$( this.dom ).hasClass( 'ronin-iwm-window' )){
+                throwError({ message: 'buttonLabel() must be invoked on the IWindowed element' });
+            } else {
+                const widget = this._widget( this.dom );
+                const buttons = $( widget ).find( '.ui-dialog-buttonset button' );
+                const index = this.args[1];
+                const label = this.args[2];
+                $( buttons[index] ).html( label );
+            }
+        },
         // close() method
         //  close the current window
         close: function( argsCount ){
             if( argsCount != 1 ){
                 throwError({ message: 'close() doesn\'t expect any argument, '+this.args[1]+' found' });
-            } else if( this._idGetAttribute()){
+            } else if( this._idGet()){
                 $( this.dom ).window( 'close' );
             } else {
                 throwError({ message:'IWindowed: unable to close this window' });
@@ -413,15 +450,11 @@
         }
     });
 
-    $.fn[pluginName] = function(){
-        let args = arguments;
-        return this.each( function(){
             new Plugin( this, args );
-            /*
-            if ( !$.data( this, 'ronin_plugin_' + pluginName )){
-                $.data( this, 'ronin_plugin_' + pluginName, new Plugin( this, args ));
-            }
-            */
+
+            //if ( !$.data( this, 'ronin_plugin_' + pluginName )){
+            //    $.data( this, 'ronin_plugin_' + pluginName, new Plugin( this, args ));
+            //}
         });
     };
 
@@ -435,4 +468,4 @@
             widgetClass:    'ronin-iwm-widget'
         }
     };
-})( jQuery, window, document );
+*/
