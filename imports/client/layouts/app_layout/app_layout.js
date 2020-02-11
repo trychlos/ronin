@@ -57,6 +57,7 @@ Template.pageLayout.onRendered( function(){
 */
 
 Template.appLayout.onRendered( function(){
+    console.log( 'appLayout.onRendered' );
     this.autorun(() => {
         //console.log( 'appLayout:autorun layout='+g.run.layout.get());
         if( g.run.layout.get() === LYT_WINDOW ){
@@ -128,6 +129,9 @@ Template.appLayout.helpers({
             }
         }
         Session.set( 'layout.context', context );
+        console.log( 'publishing on /layout/context' );
+        console.log( context );
+        $.pubsub.publish( '/layout/context', context );
         return context;
     },
     // page-base layout: just a place holder to be sure resizing is reactive

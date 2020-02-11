@@ -15,6 +15,7 @@
     "jqgrid": "^4.6.4",
     "jqtree": "^1.4.12",
     "jquery-contextmenu": "^2.9.0",
+    "jquery-pubsub": "git+https://github.com/digitalxero/jquery-pubsub.git",
     "jquery-ui-dist": "^1.12.1",
     "meteor-node-stubs": "^1.0.0",
     "popper.js": "^1.16.0",

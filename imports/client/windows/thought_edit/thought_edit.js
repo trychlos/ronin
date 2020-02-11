@@ -88,11 +88,18 @@ Template.thoughtEdit.fn = {
 }
 
 Template.thoughtEdit.onCreated( function(){
+    console.log( 'thoughtEdit.onCreated' );
     this.windowed = new ReactiveVar( false );
+    const f = function( msg, data ){
+        console.log( 'pubsub cb: msg='+msg );
+        console.log( data );
+        console.log( arguments );
+    };
+    $.pubsub.subscribe( '/layout/context', f );
 });
 
 Template.thoughtEdit.onRendered( function(){
-    //console.log( 'thoughtEdit.onRendered' );
+    console.log( 'thoughtEdit.onRendered' );
     const self = this;
     // open the window if the manager has been initialized
     /*

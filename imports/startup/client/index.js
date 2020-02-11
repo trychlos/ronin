@@ -37,6 +37,10 @@ import '/imports/client/third-party/simone/simone.min.js';
 import '/imports/client/third-party/simone/i18n/simone.min.custom.js';
 import '/imports/client/third-party/simone/simone.min.css';
 
+// pub/sub paradigm (nonetheless far from a mqtt broker)
+//import '/imports/client/interfaces/pubsub/pubsub.js'; http://fuzzytolerance.info doesn't work oob
+import 'jquery-pubsub/dist/jquery.pubsub.min.js';
+
 import './accounts-config.js';
 import './blaze-helpers.js';
 import './colorpicker-config.js';
