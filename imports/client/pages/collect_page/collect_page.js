@@ -34,7 +34,7 @@
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
-import '/imports/assets/dbope_status/dbope_status.js';
+import '/imports/api/resources/dbope_status/dbope_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import '/imports/client/windows/shadow_window/shadow_window.js';
 import '/imports/client/windows/thought_edit/thought_edit.js';

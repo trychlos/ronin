@@ -5,7 +5,7 @@
  *  Session variables:
  *  - projects.tab.name: the current tab.
  */
-import { gtd } from '/imports/assets/gtd/gtd.js';
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/projects_tree/projects_tree.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './projects_tabs.html';

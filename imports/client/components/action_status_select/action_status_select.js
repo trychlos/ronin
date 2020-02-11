@@ -6,7 +6,7 @@
  *  - 'selected=id' (optional) initial selected status's identifier.
  */
 import { Meteor } from 'meteor/meteor';
-import { actionStatus } from '/imports/assets/action_status/action_status.js';
+import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
 import './action_status_select.html';
 
 Template.action_status_select.fn = {

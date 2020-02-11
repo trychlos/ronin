@@ -9,7 +9,7 @@
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Counters } from '/imports/api/collections/counters/counters.js';
-import { actionStatus } from '/imports/assets/action_status/action_status.js';
+import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import 'jqtree/tree.jquery.js';
 import 'jqtree/jqtree.css';

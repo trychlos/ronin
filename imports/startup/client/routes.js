@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 
-import { gtd } from '/imports/assets/gtd/gtd.js';
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/layouts/app_layout/app_layout.js';
 import '/imports/client/layouts/test_layout/test_layout.js';
 

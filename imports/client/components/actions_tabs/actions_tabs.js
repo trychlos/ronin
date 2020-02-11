@@ -6,7 +6,7 @@
  *  - actions.tab.name: the current tab.
  */
 import { Actions } from '/imports/api/collections/actions/actions.js';
-import { gtd } from '/imports/assets/gtd/gtd.js';
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/actions_grid/actions_grid.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './actions_tabs.html';

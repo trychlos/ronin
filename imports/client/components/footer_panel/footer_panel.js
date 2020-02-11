@@ -6,7 +6,7 @@
  *  - gtd.group: the identifier of the GTD item to be activated here
  *      (maybe not anything to do with the actual current route, indeed).
  */
-import { gtd } from '/imports/assets/gtd/gtd.js';
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import './footer_panel.html';
 
 Template.footer_panel.helpers({

@@ -51,3 +51,64 @@ pageLayout
     present an empty screen to the user.
     The chosen group is managed by the (reactive) gtd.group variable, which defaults
     to 'collect' (which is routed to /thoughts thoughts list).
+
+ronin directory tree
+====================
+    .
+    ├── client
+    │   ├── head.html
+    │   ├── main.js
+    │   └── main.less
+    ├── config
+    │   └── settings.json
+    ├── cordova-build-override
+    ├── imports
+    │   ├── api
+    │   │   └── collections
+    │   │       ├── accounts
+    │   │       ├── actions
+    │   │       ├── articles
+    │   │       ├── contexts
+    │   │       ├── counters
+    │   │       ├── energy_values
+    │   │       ├── priority_values
+    │   │       ├── projects
+    │   │       ├── thoughts
+    │   │       ├── time_values
+    │   │       └── topics
+    │   ├── assets
+    │   │   ├── action_status
+    │   │   ├── dbope_status
+    │   │   └── gtd
+    │   ├── client
+    │   │   ├── components
+    │   │   ├── interfaces
+    │   │   │   ├── igrid
+    │   │   │   ├── itabbed
+    │   │   │   └── iwindowed
+    │   │   ├── layouts
+    │   │   │   ├── app_layout
+    │   │   │   └── test_layout
+    │   │   ├── pages
+    │   │   ├── stylesheets
+    │   │   ├── third-party
+    │   │   └── windows
+    │   └── startup
+    │       ├── both
+    │       ├── client
+    │       └── server
+    ├── maintainer
+    ├── mobile-config.js
+    ├── node_modules
+    ├── packages
+    ├── private
+    │   └── README.md
+    ├── public
+    │   ├── img
+    │   ├── jquery-ui -> ../node_modules/jquery-ui-dist/images
+    │   └── jqwidgets -> ../imports/client/third-party/jqwidgets/images
+    ├── server
+    │   └── main.js
+    └── TODO
+
+	see also https://forums.meteor.com/t/whats-the-new-application-structure-for-1-7/44466/4

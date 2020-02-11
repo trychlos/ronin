@@ -15,7 +15,7 @@
  *  Session variables:
  *  - 'layout.context': the data passed from layout (from routes.js)
  */
-import '/imports/assets/dbope_status/dbope_status.js';
+import '/imports/api/resources/dbope_status/dbope_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import '/imports/client/windows/action_process/action_process.js';
 import '/imports/client/windows/project_process/project_process.js';

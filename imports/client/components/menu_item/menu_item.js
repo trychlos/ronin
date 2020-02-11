@@ -6,7 +6,7 @@
  *  - item: an item from gtd.features()
  *  - type: footer|header|overview|side (cf. gtd.js)
  */
-import { gtd } from '/imports/assets/gtd/gtd.js';
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import './menu_item.html';
 
 Template.menu_item.helpers({
