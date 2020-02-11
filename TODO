@@ -203,6 +203,7 @@
   134 2020- 2- 9 in window mode, events do not bubble from collapse_buttons to
                   the window (but should) - this is the reason for why we try
                   to use the button pane, but callbacks do not hold Template.instance()
+      2020- 2-11 use pub/sub paradigm instead
 
   135 2020- 2- 9 because header_panel and footer_panel rely on fhsf- classes,
                   the corresponding templates should be fhsf_ prefixed
@@ -210,7 +211,11 @@
   136 2020- 2- 9 because collapse_buttons relies on wsf- classes, the template
                   should be wsf_ prefixed
 
-  137
+  137 2020- 2-11 set mail-based new account enrollment rules
+
+  138 2020- 2-11 footer_panel have a margin left and right
+
+  139
 
 -----------------------------------------------------------------------
  Done

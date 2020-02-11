@@ -19,16 +19,19 @@ Template.footer_panel.helpers({
     },
     gtdLabel( it ){
         return gtd.labelItem( 'footer', it );
-    },
-    gtdRoute( it ){
-        return gtd.routeItem( 'footer', it );
     }
 });
 
 Template.footer_panel.events({
     'click .js-item'( ev, instance ){
-        const route = $( ev.target ).attr( 'data-route' );
-        FlowRouter.go( route );
+        const id = $( ev.target ).data( 'ronin-gtdid' );
+        const route = gtd.routeId( 'footer', id );
+        if( route ){
+            FlowRouter.go( route );
+            Session.set( 'gtd.id', id );
+        } else {
+            console.log( 'route is undefined' );
+        }
         return false;
     }
 });

@@ -47,6 +47,9 @@
  *  - 'gtd.group': in page-based layout, we require to always have an active item
  *      in the footer navigation bar; keep here the last active GTD item identifier;
  *      defaults to 'collect'.
+ *  - 'gtd.id': the last selected GTD item identifier on a navigation component
+ *      set when a route is defined; may be empty at startup.
+ *      As of date, there is no reinitialization use case.
  */
 export const gtd = {
     features: function(){

@@ -42,6 +42,9 @@ Template.menu_item.events({
         const route = gtd.routeId( name, id );
         if( route ){
             FlowRouter.go( route );
+            Session.set( 'gtd.id', id );
+        } else {
+            console.log( 'route is undefined' );
         }
         return false;
     },

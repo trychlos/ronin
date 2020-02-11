@@ -19,13 +19,11 @@ Template.overview.fn = {
         return route ? "</a>" : "";
     },
     routingPara: function( o,s,route ){
-        var str = "<p class='ui-corner-all";
+        var str = '<p class="ui-corner-all';
         str += gtd.classes( 'overview', s ) ;
-        str += "'";
-        if( route ){
-            str += " data-router='"+route+"'";
-        }
-        str += ">"+gtd.labelItem( 'overview', s )+"</p>";
+        str += '"';
+        str += ' data-ronin-gtdid="'+s.id+'"';
+        str += '>'+gtd.labelItem( 'overview', s )+'</p>';
         return str;
     }
 };
@@ -65,16 +63,16 @@ Template.overview.helpers({
 });
 
 Template.overview.events({
-    'click .overview .items'(event){
-        const target = event.target;
+    'click .overview .items'( ev, instance ){
         // target=[object HTMLParagraphElement]
-        const router = target.dataset.router;
-        if( typeof router === 'undefined' ){
-            console.log( 'router is undefined' );
-            return true;
+        const id = $( ev.target ).data( 'ronin-gtdid' );
+        const route = gtd.routeId( 'overview', id );
+        if( route ){
+            FlowRouter.go( route );
+            Session.set( 'gtd.id', id );
+        } else {
+            console.log( 'route is undefined' );
         }
-        event.preventDefault();
-        FlowRouter.go( router );
         return false;
     },
 });
