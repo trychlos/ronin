@@ -36,6 +36,7 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
 import '/imports/assets/dbope_status/dbope_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
+import '/imports/client/windows/shadow_window/shadow_window.js';
 import '/imports/client/windows/thought_edit/thought_edit.js';
 import '/imports/client/windows/thoughts_list/thoughts_list.js';
 import './collect_page.html';
@@ -46,13 +47,15 @@ Template.collectPage.onCreated( function(){
 });
 
 Template.collectPage.onRendered( function(){
+    /*
     this.autorun(() => {
         const context = Session.get( 'layout.context' );
         if( context.window && g[LYT_WINDOW].taskbar.get()){
-            //$('.collect-page').IWindowed( 'show', context.window );
-            Blaze.render( Template.thoughtEdit, document.getElementById( g[LYT_WINDOW].rootId ));
+            $('.collect-page').IWindowed.show( context.window );
+            //Blaze.render( Template.thoughtEdit, document.getElementById( g[LYT_WINDOW].rootId ));
         }
     })
+    */
 });
 
 Template.collectPage.helpers({

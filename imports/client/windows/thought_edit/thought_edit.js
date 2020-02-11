@@ -95,12 +95,10 @@ Template.thoughtEdit.onRendered( function(){
     //console.log( 'thoughtEdit.onRendered' );
     const self = this;
     // open the window if the manager has been initialized
+    /*
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
-            //$( '.thoughtEdit' ).IWindowed();
-            $( '.thoughtEdit' ).window();
-            /*
-            {
+            $( '.thoughtEdit' ).IWindowed({
                 template: 'thoughtEdit',
                 simone: {
                     buttons: [
@@ -124,7 +122,6 @@ Template.thoughtEdit.onRendered( function(){
                 }
             });
             this.windowed.set( true );
-            */
         }
     });
     this.autorun(() => {
@@ -133,14 +130,14 @@ Template.thoughtEdit.onRendered( function(){
             $( '.thoughtEdit' ).IWindowed( 'buttonLabel', 1, label );
         }
     })
-    $( '.thoughtEdit' ).on( 'ronin.update', function(){
-        console.log( 'on ronin.update' );
-    });
-    /*
-    $( '.js-ok' ).click( function(){
-        console.log( 'on js-ok click' );
-    });
     */
+    $( '.js-ok' ).click( function( ev ){
+        console.log( 'on js-ok click' );
+        $( ev.target ).trigger( 'ronin.thought.update' );
+    });
+    $( '.thoughtEdit' ).on( 'ronin.thought.update', function(){
+        console.log( 'on ronin.thought.update' );
+    });
 });
 
 Template.thoughtEdit.helpers({
@@ -159,23 +156,21 @@ Template.thoughtEdit.events({
     'click .js-cancel': function( ev, instance ){
         console.log( 'event js-cancel' );
         //Template.thoughtEdit.fn.actionClose();
-        //return false;
+        return false;
     },
     // collapse_buttons ok button
     'click .js-ok': function( ev, instance ){
         console.log( 'event js-ok' );
+        $( ev.target ).trigger( 'ronin.thought.update' );
         //Template.thoughtEdit.fn.actionUpdate( instance );
-        //return false;
+        return false;
     },
-    // collapse_buttons ok button
-    'click .wsf-footer': function( ev, instance ){
-        console.log( 'event wsf-footer' );
-        //Template.thoughtEdit.fn.actionUpdate( instance );
-        //return false;
+    'click .js-2cancel': function( ev, instance ){
+        console.log( 'event js-2cancel' );
     },
-    'ronin.update .thoughtEdit'( ev, instance ){
-        console.log( 'event ronin.update' );
-    }
+    'click .js-2update': function( ev, instance ){
+        console.log( 'event js-2update' );
+    },
 });
 
 Template.thoughtEdit.onDestroyed( function(){
