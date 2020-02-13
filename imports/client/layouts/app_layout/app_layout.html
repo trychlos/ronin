@@ -19,8 +19,8 @@
                     {{> overview}}
                 {{/if}}
 
-                {{#if hasPage }}
-                    {{> Template.dynamic template=page data=layoutContext }}
+                {{#if hasTemplate }}
+                    {{> Template.dynamic template=groupTemplate data=layoutContext }}
                 {{/if}}
 
             </div>

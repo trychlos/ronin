@@ -44,6 +44,15 @@ FlowRouter.route('/setup/criterias', {
 });
 */
 
+let blazeRender = function( name ){
+    const item = gtd.itemRoute( name );
+    BlazeLayout.render( 'appLayout', {
+        gtdid: item ? item.id : null,
+        group: gtd.groupItem( item ),
+        template:gtd.templateItem( item )
+    });
+}
+
 // Set up all routes in the app
 FlowRouter.route('/', {
     name: 'home',
@@ -113,19 +122,17 @@ FlowRouter.route('/setup/delegates', {
 FlowRouter.route( '/thoughts', {
     name: 'collect',
     action(){
-        //console.log( 'routing collect' );
-        Session.set( 'gtd.group', 'collect' );
+        Session.set( 'gtd.group', 'collect-group' );
         Session.set( 'header.title', null );
-        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtsList' });
+        blazeRender( this.name );
     },
 });
 FlowRouter.route( '/thoughts/new', {
     name: 'collect.new',
     action(){
-        //console.log( 'routing collect.new' );
-        Session.set( 'gtd.group', 'collect' );
+        Session.set( 'gtd.group', 'collect-group' );
         Session.set( 'collect.thought', null );
-        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
+        blazeRender( this.name );
     },
 });
 FlowRouter.route( '/thoughts/edit', {

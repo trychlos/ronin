@@ -46,10 +46,7 @@
  *  Session variables:
  *  - 'gtd.group': in page-based layout, we require to always have an active item
  *      in the footer navigation bar; keep here the last active GTD item identifier;
- *      defaults to 'collect'.
- *  - 'gtd.id': the last selected GTD item identifier on a navigation component
- *      set when a route is defined; may be empty at startup.
- *      As of date, there is no reinitialization use case.
+ *      defaults to 'collect-group'.
  */
 export const gtd = {
     features: function(){
@@ -74,6 +71,7 @@ export const gtd = {
             {
                 id: 'setup-group',
                 label: 'Setup',
+                group: 'setup',
                 navs: {
                     footer: {
                         display: true,
@@ -243,6 +241,7 @@ export const gtd = {
             {
                 id: 'collect-group',
                 label: 'Collect',
+                group: 'collectGroup',
                 navs: {
                     overview: {
                         display: true,
@@ -255,21 +254,15 @@ export const gtd = {
                 children: [
                     {
                         id: 'thoughts-new',
-                        label: 'Collect thoughts',
+                        label: 'Insert thoughts',
                         route: 'collect.new',
-                        navs: {
-                            overview: {
-                                display: true
-                            },
-                            side: {
-                                display: true
-                            }
-                        }
+                        template: 'thoughtEdit',
                     },
                     {
-                        id: 'collect',
-                        label: 'List thoughts',
+                        id: 'thoughts-list',
+                        label: 'Collect thoughts',
                         route: 'collect',
+                        template: 'thoughtsList',
                         navs: {
                             footer: {
                                 display: true,
@@ -284,7 +277,7 @@ export const gtd = {
                                 display: true
                             },
                             side: {
-                                display: true,
+                                display: true
                             }
                         }
                     }
@@ -297,6 +290,7 @@ export const gtd = {
             {
                 id: 'process-group',
                 label: 'Process',
+                group: 'process',
                 navs: {
                     header: {
                         display: true
@@ -375,6 +369,7 @@ export const gtd = {
                 id: 'review-group',
                 label: 'Review',
                 route: 'review',
+                group: 'review',
                 sublabel: [
                     'Organize',
                     'Do'
@@ -576,8 +571,15 @@ export const gtd = {
     },
     // return the item whose id is specified
     //  return null if id is empty or not found
+    _byId_cache: {},
     _byId: function( id ){
-        return id ? gtd._byId_rec( id, gtd.features()) : null;
+        if( !id ){
+            return null;
+        }
+        if( !( id in gtd._byId_cache )){
+            gtd._byId_cache[id] = gtd._byId_rec( id, gtd.features());
+        }
+        return gtd._byId_cache[id];
     },
     _byId_rec: function( id, array ){
         for( var i=0 ; i<array.length ; ++i ){
@@ -608,6 +610,9 @@ export const gtd = {
     },
     // returns the named sub-element from 'navs' or 'tabs' for this item, or null
     _getNavTab( name, item ){
+        if( !name || !item ){
+            return null;
+        }
         return item.navs && item.navs[name]
                 ? item.navs[name]
                 : ( item.tabs && item.tabs[name] ? item.tabs[name] : null );
@@ -615,6 +620,14 @@ export const gtd = {
     // returns sublabel if it exists
     getSubLabelItem( name, item ){
         return gtd._search( name, item, 'sublabel', true );
+    },
+    // returns the group associated with this item
+    //  group depend of the layout, but is nav agnostic
+    groupId( id ){
+        return gtd.groupItem( gtd._byId( id ));
+    },
+    groupItem( item ){
+        return gtd._search( null, item, 'group', true );
     },
     hasChildren: function( item ){
         return item.children && item.children.length > 0 ;
@@ -633,6 +646,25 @@ export const gtd = {
             }
         }
         return display;
+    },
+    // returns the GTD item which exhibits this route
+    itemRoute: function( route ){
+        return gtd._itemRoute_rec( route, gtd.features());
+    },
+    _itemRoute_rec: function( route, array ){
+        for( let i=0 ; i<array.length ; ++i ){
+            const item = array[i];
+            if( item.route === route ){
+                return item;
+            }
+            if( gtd.hasChildren( item )){
+                const it = gtd._itemRoute_rec( route, item.children );
+                if( it ){
+                    return it;
+                }
+            }
+        }
+        return null;
     },
     // returns the list of items to be managed in the named navigation menu
     //  which must be be defined inside of 'navs' or 'tabs'
@@ -670,12 +702,22 @@ export const gtd = {
     },
     // returns the label associated with this item, or with one of its parent
     // maybe an empty string
+    labelId: function( name, id ){
+        return gtd.labelItem( name, gtd._byId( id ));
+    },
     labelItem: function( name, item ){
         return gtd._search( name, item, 'label', true );
     },
     // returns the parent of this item, or null
+    _parent_cache: {},
     _parent( item ){
-        return gtd._parent_rec( item, null, gtd.features());
+        if( !item.id ){
+            return null;
+        }
+        if( !( item.id in gtd._parent_cache )){
+            gtd._parent_cache[item.id] = gtd._parent_rec( item, null, gtd.features());
+        }
+        return gtd._parent_cache[item.id];
     },
     _parent_rec( item, candidate, inputArray ){
         if( !item.id ){
@@ -687,11 +729,15 @@ export const gtd = {
             if( !child.id ){
                 continue;
             }
+            //console.log( 'searching for '+item.id+' parent, examining '+child.id );
             if( child.id === item.id ){
                 return candidate;
             }
             if( gtd.hasChildren( child )){
-                return gtd._parent_rec( item, child, child.children );
+                const ret = gtd._parent_rec( item, child, child.children );
+                if( ret ){
+                    return  ret;
+                }
             }
         }
         return null;
@@ -709,10 +755,12 @@ export const gtd = {
     //  which depends of the specified nav/tab
     //  which may or not depend of the current layout
     //  or null
+    // if 'name' is null, then does not search in navs nor tabs
     _search( name, item, key, layout ){
-        if( !name || !item || !key ){
+        if( !item || !key ){
             return null;
         }
+        //console.log( item );
         //console.log( 'name='+name+' item='+item.id+' key='+key+' layout='+layout );
         const sub = gtd._getNavTab( name, item );
         if( sub && sub[key] ){
@@ -737,5 +785,15 @@ export const gtd = {
             return gtd._search( name, parent, key, layout );
         }
         return null;
+    },
+    // returns the template name associated with this item, or with one of its
+    //  parent
+    //  maybe an empty string
+    //  template is expected to be both layout and navs/tabs agnostic
+    templateId( id ){
+        return gtd.templateItem( gtd._byId( id ));
+    },
+    templateItem( item ){
+        return gtd._search( null, item, 'template', false );
     }
 };

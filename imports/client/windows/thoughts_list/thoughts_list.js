@@ -28,6 +28,7 @@
  *  - 'gtd': identifier of the features group item.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/thought_panel/thought_panel.js';
 import '/imports/client/components/thoughts_list/thoughts_list.js';
@@ -42,42 +43,39 @@ Template.thoughtsList.fn = {
 };
 
 Template.thoughtsList.onCreated( function(){
-    //console.log( 'thoughtsList.onCreated' );
+    console.log( 'thoughtsList.onCreated' );
     this.subscribe( 'articles.thoughts.all' );
     this.subscribe( 'topics.all' );
 });
 
 Template.thoughtsList.onRendered( function(){
-    //console.log( 'thoughtsList.onRendered' );
-    // open the window if the manager has been initialized
+    console.log( 'thoughtsList.onRendered' );
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
+            const context = this.data;
             $( '.thoughtsList' ).IWindowed({
-                template: 'thoughtsList',
+                template: context.template,
                 simone: {
                     buttons: [
                         {
                             text: "Close",
                             click: function(){
-                                //console.log( this );
                                 $( '.thoughtsList' ).IWindowed( 'close' );
                             }
                         },
                         {
                             text: "New",
                             click: function(){
-                                //console.log( this );
                                 Template.thoughtsList.fn.actionNew();
                             }
                         }
                     ],
-                    group:  'collect',
-                    title:  'List thoughts'
+                    group:  context.group,
+                    title:  gtd.labelId( null, context.gtdid )
                 }
             });
-            //$( '.thoughtsList' ).IWindowed( 'addButton', '.js-new' );
         }
-    })
+    });
 });
 
 Template.thoughtsList.helpers({
@@ -90,6 +88,7 @@ Template.thoughtsList.helpers({
 });
 
 Template.thoughtsList.events({
+    // page layout
     'click .js-new'( ev, instance ){
         Template.thoughtsList.fn.actionNew();
         return false;

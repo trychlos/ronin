@@ -14,14 +14,10 @@
         </div>
 
         {{#if isPageLayout}}
+            <div class="wsf-footer">
+                {{> collapse_buttons okLabel=okLabel }}
+            </div>
         {{/if}}
-        <div class="edit-btns">
-            <button type="button" class="js-2update ui-corner-all ui-button">Update</button>
-            <button type="button" class="js-2cancel ui-corner-all ui-button">Cancel</button>
-        </div>
-        <div class="wsf-footer">
-            {{> collapse_buttons okLabel=okLabel }}
-        </div>
 
     </div>
 </template>

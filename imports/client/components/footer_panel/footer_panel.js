@@ -28,7 +28,6 @@ Template.footer_panel.events({
         const route = gtd.routeId( 'footer', id );
         if( route ){
             FlowRouter.go( route );
-            Session.set( 'gtd.id', id );
         } else {
             console.log( 'route is undefined' );
         }

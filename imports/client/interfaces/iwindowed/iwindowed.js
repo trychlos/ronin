@@ -17,12 +17,9 @@
  *      on which we are working.
  *
  *  We set:
- *  - on the widget, three classes:
+ *  - on the widget, two classes:
  *      > ronin-iwm-widget
  *      > ronin-iwm-<gtd_features_group> (aka setup, collect, process, review)
- *      > ronin-iwm-<window_template_name> (e.g. thoughtsList, thoughtEdit, etc.)
- *  - on the window, one class:
- *      > ronin-iwm-window
  *  - on the window, two data attributes:
  *      > data-ronin-iwm-id = <window_template_name>
  *      > data-ronin-iwm-route = last known route name.
@@ -87,12 +84,15 @@
                 this.settings.simone.group = this.args.template;
             }
             //console.log( settings );
+            if( Template[this.args.template].fn.wmButtons ){
+                const buttons = Template[this.args.template].fn.wmButtons();
+                $.extend( this.settings.simone, { buttons:buttons });
+            }
             this.$dom.window( this.settings.simone );
-            this.$dom.addClass( 'ronin-iwm-window' );
             // set some data- attributes on the window
             //  we prefer data- attributes as set by attr() method as they are available
-            //  as standard jQuery selector, and visible in the console log
-            //  contrarily data() set the data inside of an invisible storage space
+            //  as standard jQuery selector, and visible in the web inspector
+            //  contrarily data() sets the data inside of an invisible storage space
             const id = this.args.template;
             this._idSet( id );
             this._routeSet();
@@ -199,6 +199,20 @@
             }
         },
 
+        // public methods applied to the plugin
+        _methods(){
+            //console.log( '_methods' );
+            //console.log( this );
+            //console.log( arguments );
+            if( typeof arguments[0] === 'string' ){
+                switch( arguments[0] ){
+                    case 'close':
+                        this.close( Array.prototype.slice.call( arguments, 1 ));
+                        break;
+                }
+            }
+        },
+
         // event handler triggered from inside Simone window manager
         //  this = the IWindowed DOM element
         _onBeforeClose: function( ev, ui ){
@@ -280,6 +294,14 @@
         _settingsName: function( id ){
             return 'spSettings-'+id;
         },
+
+        // close() method
+        //  close the current window
+        close: function(){
+            //console.log( 'close' );
+            //console.log( this );
+            this.$dom.window( 'close' );
+        }
     });
 
     $.fn[pluginName] = function( o ){
@@ -292,7 +314,8 @@
             //console.log( plugin );
             if( plugin ){
                 console.log( 'reusing already initialized plugin' );
-                plugin.apply( this, opts );
+                //console.log( plugin );
+                myPlugin.prototype._methods.apply( plugin, [ opts ] );
             } else {
                 console.log( 'allocating new plugin instance' );
                 $.data( this, pluginName, new myPlugin( this, opts ));
@@ -319,6 +342,7 @@
     //  window creation
     //  Args:
     //  - template name
+    /*
     $.fn[pluginName].show = function( template ){
         //console.log( this );
         //console.log( myPlugin );
@@ -340,6 +364,7 @@
             }
         }
     };
+    */
 }( jQuery, window, document ));
 
 /*
@@ -365,9 +390,6 @@
                         break;
                     case 'buttonLabel':
                         this.buttonLabel( argsCount );
-                        break;
-                    case 'close':
-                        this.close( argsCount );
                         break;
                     case 'minimizeAll':
                         this.minimizeAll( argsCount );
@@ -436,17 +458,6 @@
                 const index = this.args[1];
                 const label = this.args[2];
                 $( buttons[index] ).html( label );
-            }
-        },
-        // close() method
-        //  close the current window
-        close: function( argsCount ){
-            if( argsCount != 1 ){
-                throwError({ message: 'close() doesn\'t expect any argument, '+this.args[1]+' found' });
-            } else if( this._idGet()){
-                $( this.dom ).window( 'close' );
-            } else {
-                throwError({ message:'IWindowed: unable to close this window' });
             }
         },
         // minimizeAll() method

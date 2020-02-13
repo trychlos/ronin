@@ -84,7 +84,7 @@ g[LYT_WINDOW] = {
 // NB: the 'gtd.group' holds the last active GTD group item identifier
 const page = Session.get( 'gtd.group' );
 if( !page ){
-    Session.set( 'gtd.group', 'collect' );
+    Session.set( 'gtd.group', 'collect-group' );
 }
 
 // layout initialization
