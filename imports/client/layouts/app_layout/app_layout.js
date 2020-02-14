@@ -24,6 +24,12 @@
  *       (e.g. a tablet or a tv). Page positionning must be made through media
  *       queries.
  *   2 - Helpers are called in the passed-in data context.
+ *
+ *  Session variables:
+ *  - 'layout.context': this is a copy of the data context passed in from routes.js
+ *      It let our layers (app, group, window) be reactive against route changes.
+ *      Caution: must only be used at rendering time, as it will be superseded
+ *      by later changes.
  */
 import '/imports/client/components/footer_panel/footer_panel.js';
 import '/imports/client/components/header_panel/header_panel.js';
@@ -131,6 +137,8 @@ Template.appLayout.helpers({
     layoutContext(){
         const context = Template.appLayout.fn.eval_rec( this );
         Session.set( 'layout.context', context );
+        console.log( 'appLayout:layoutContext' );
+        console.log( context );
         return context;
     },
     // template helper

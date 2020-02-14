@@ -14,18 +14,18 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { gtd, page, window }
- *              +-> collectPage { gtd, window }
+ *      +-> <app layout layer> { gtdid, group, template }
+ *              +-> <group layer> { gtdid, group, template }
  *                      |
- *                      +-> thoughtsList { gtd }
+ *                      +-> thoughtsList { gtdid, group, template }
  *                              +-> thought_panel in window-based layout
  *                              +-> thoughts_list
  *                              +-> plus_button in page-based layout
  *                      |
- *                      +-> thoughtEdit { gtd }
+ *                      +-> thoughtEdit { gtdid, group, template }
  *
  *  Parameters:
- *  - 'gtd': identifier of the features group item.
+ *  - 'data': the layout context built in appLayout, and passed in by group layer.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
@@ -38,6 +38,7 @@ import './thoughts_list.html';
 
 Template.thoughtsList.fn = {
     actionNew: function(){
+        console.log( 'thoughtsList.fn.actionNew' );
         FlowRouter.go( 'collect.new' );
     }
 };
@@ -53,7 +54,7 @@ Template.thoughtsList.onRendered( function(){
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             const context = this.data;
-            $( '.thoughtsList' ).IWindowed({
+            $( '.'+context.template ).IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [

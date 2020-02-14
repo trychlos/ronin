@@ -193,10 +193,6 @@
                 });
                 this._create();
             }
-            if( typeof arguments[0] === 'string' ){
-                switch( arguments[0] ){
-                }
-            }
         },
 
         // public methods applied to the plugin
@@ -311,7 +307,7 @@
             //console.log( this ); // this is the particular DOM element on which the interface will be applied
             // may or may not already been initialized
             let plugin = $.data( this, pluginName );
-            //console.log( plugin );
+            console.log( plugin );
             if( plugin ){
                 console.log( 'reusing already initialized plugin' );
                 //console.log( plugin );
@@ -342,29 +338,33 @@
     //  window creation
     //  Args:
     //  - template name
-    /*
-    $.fn[pluginName].show = function( template ){
+    $.fn[pluginName].show = ( template, data ) => {
         //console.log( this );
         //console.log( myPlugin );
         if( !template || typeof template !== 'string' ){
             console.log( 'show() expects the template name as single argument, "'+template+'" found' );
         } else {
-            const windows = g[LYT_WINDOW].taskbar.get().taskbar('windows');
+            const windows = g[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
             const searched = myPlugin.prototype._className( template );
             let found = false;
-            for( var i=0 ; i<windows.length && !found ; ++i ){
+            for( let i=0 ; i<windows.length && !found ; ++i ){
                 const widget = $( windows[i] ).window( 'widget' );
                 if( widget.hasClass( searched )){
-                    found = true;
-                    this._moveToTop( $( windows[i] ));
+                    let plugin = widget.data( pluginName );
+                    if( plugin ){
+                        plugin._moveToTop( $( windows[i] ));
+                        found = true;
+                    } else {
+                        console.log( 'template='+template+' found, but unable to get the plugin' );
+                    }
                 }
             }
             if( !found ){
-                Blaze.render( Template[template], document.getElementById( g[LYT_WINDOW].rootId ));
+                Blaze.renderWithData( Template[template], data, document.getElementById( g[LYT_WINDOW].rootId ));
             }
         }
     };
-    */
+
 }( jQuery, window, document ));
 
 /*

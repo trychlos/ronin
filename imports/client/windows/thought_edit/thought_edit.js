@@ -15,8 +15,13 @@
  *                      +-> thoughtEdit { gtd }
  *                              +-> thought_panel
  *                              +-> collapse_buttons
+ *
+ *  Parameters:
+ *  - 'data': the layout context built in appLayout, and passed in by group layer.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
+import '/imports/api/resources/dbope_status/dbope_status.js';
 import '/imports/client/components/collapse_buttons/collapse_buttons.js';
 import '/imports/client/components/thought_panel/thought_panel.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
@@ -102,11 +107,13 @@ Template.thoughtEdit.onRendered( function(){
     console.log( 'thoughtEdit.onRendered' );
     const self = this;
     // open the window if the manager has been initialized
-    /*
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
-            $( '.thoughtEdit' ).IWindowed({
-                template: 'thoughtEdit',
+            const context = this.data;
+            console.log( 'calling thoughtEdit.IWindowed creation' );
+            console.log( context );
+            $( '.'+context.template ).IWindowed({
+                template: context.template,
                 simone: {
                     buttons: [
                         {
@@ -124,8 +131,8 @@ Template.thoughtEdit.onRendered( function(){
                             }
                         }
                     ],
-                    group:  'collect',
-                    title:  'Collect thoughts'
+                    group:  context.group,
+                    title:  gtd.labelId( null, context.gtdid )
                 }
             });
             this.windowed.set( true );
@@ -133,11 +140,13 @@ Template.thoughtEdit.onRendered( function(){
     });
     this.autorun(() => {
         if( this.windowed.get()){
+            const context = this.data;
             const label = Template.thoughtEdit.fn.okLabel();
-            $( '.thoughtEdit' ).IWindowed( 'buttonLabel', 1, label );
+            console.log( 'calling thoughtEdit.IWindowed buttonLabel' );
+            console.log( context );
+            $( '.'+context.template ).IWindowed( 'buttonLabel', 1, label );
         }
     })
-    */
     $( '.js-ok' ).click( function( ev ){
         console.log( 'on js-ok click' );
         $( ev.target ).trigger( 'ronin.thought.update' );
