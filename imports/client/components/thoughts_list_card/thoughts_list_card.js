@@ -49,13 +49,7 @@ Template.thoughts_list_card.events({
         return false;
     },
     'click .js-ownership'( event, instance ){
-        Meteor.call( 'articles.ownership', instance.data.thought._id, ( e, res ) => {
-            if( e ){
-                throwError({ type:e.error, message: e.reason });
-            } else {
-                throwSuccess( 'Ownership successfully taken' );
-            }
-        });
+        $.pubsub.publish( 'ronin.model.thought.ownership', { thought: instance.data.thought });
         return false;
     },
     'click .js-action'( event, instance ){
@@ -72,7 +66,7 @@ Template.thoughts_list_card.events({
 
     },
     'click .js-delete'( event, instance ){
-        $( event.target ).trigger( 'ronin.model.thought.delete', instance.data.thought );
+        $.pubsub.publish( 'ronin.model.thought.delete', { thought: instance.data.thought });
         return false;
     }
 });

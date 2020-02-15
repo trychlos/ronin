@@ -93,26 +93,7 @@ Template.thoughtsList.events({
     'click .js-new'( ev, instance ){
         Template.thoughtsList.fn.actionNew();
         return false;
-    },
-    // delete the provided thought
-    //  requiring a user confirmation
-    'ronin.model.thought.delete'( ev, instance, thought ){
-        bootbox.confirm(
-            'You are about to delete the "'+thought.name+'" thought.<br />'+
-            'Are you sure ?', function( ret ){
-                if( ret ){
-                    Meteor.call( 'thoughts.remove', thought._id, ( e, res ) => {
-                        if( e ){
-                            throwError({ type:e.error, message: e.reason });
-                        } else {
-                            throwSuccess( 'Thought successfully deleted' );
-                        }
-                    });
-                }
-            }
-        );
-        return false;
-    },
+    }
 });
 
 Template.thoughtsList.onDestroyed( function(){

@@ -81,7 +81,7 @@ Template.project_edit.events({
             const id = obj ? obj._id : null;
             var newobj = {
                 name: name,
-                topic: Template.topics_select.fn.getSelected( '.js-topic' ),
+                topic: Template.topics_select.fn.getSelected(),
                 purpose: instance.$('.js-purpose').val(),
                 vision: instance.$('.js-vision').val(),
                 brainstorm: instance.$('.js-brainstorm').val(),

@@ -22,6 +22,9 @@
  *          (qualifies the presence of the window manager)
  *      > ronin-iwm-<gtd_features_group> (aka setup, collect, process, review)
  *          (titlebar coloring)
+ *  - on the window, one class:
+ *      > ronin-iwm-window
+ *          (identifies the window parent of a component)
  *  - on the window, two data attributes:
  *      > ronin-iwm-id = <window_template_name>
  *          (identifying already created window for the template)
@@ -87,6 +90,7 @@
             this.settings.simone.widgetClass += ' '+this._className( this.settings.simone.group );
             //console.log( settings );
             this.$dom.window( this.settings.simone );
+            this.$dom.addClass( 'ronin-iwm-window' );
             this.$widget = $( this.$dom.parents( '.ronin-iwm-widget' )[0] );
             // set some data- attributes on the window
             //  we prefer data- attributes as set by attr() method as they are available

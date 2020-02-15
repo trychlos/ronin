@@ -26,7 +26,7 @@ throwSuccess = function( m ){
 throwMessage = function( o ){
     Messages.insert({
         type: o.type,
-        message: m
+        message: o.message
     })
 };
 

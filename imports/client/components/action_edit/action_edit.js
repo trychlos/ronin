@@ -80,7 +80,7 @@ Template.action_edit.events({
             const id = obj ? obj._id : null;
             var newobj = {
                 name: name,
-                topic: Template.topics_select.fn.getSelected( '.js-topic' ),
+                topic: Template.topics_select.fn.getSelected(),
                 status: Template.action_status_select.fn.getSelected( '.js-status' ),
                 context: Template.contexts_select.fn.getSelected( '.js-context' ),
                 outcome: instance.$('.js-outcome').val(),

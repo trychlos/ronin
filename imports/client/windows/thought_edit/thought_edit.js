@@ -32,58 +32,15 @@ import './thought_edit.html';
 Template.thoughtEdit.fn = {
     // on close, go back to thoughtsList window
     actionClose: function(){
+        console.log( 'Template.thoughtEdit.fn.actionClose' );
         Session.set( 'collect.thought', null );
-        if( g.run.layout.get() === LYT_PAGE ){
-            FlowRouter.go( 'collect' );
-        }
-        if( g.run.layout.get() === LYT_WINDOW ){
-            $( '.thoughtEdit' ).IWindowed( 'close' );
-        }
-    },
-    // insert or update the provided thought
-    //  if a previous object already existed, then this is an update
-    //  the page is left if this was an update *and* it has been successful
-    actionUpdate: function( instance ){
-        Session.set( 'collect.dbope', DBOPE_WAIT );
-        const objEdit = Template.thought_panel.fn.getContent( instance );
-        console.log( objEdit );
-        const objOrig = Session.get( 'collect.thought' );
-        const id = objOrig ? objOrig._id : null;
-        try {
-            Articles.fn.check( id, objEdit );
-        } catch( e ){
-            console.log( e );
-            throwError({ type:e.error, message: e.reason });
-            return false;
-        }
-        if( objOrig ){
-            // if nothing has changed, then does nothing
-            if( Articles.fn.equal( objOrig, objEdit )){
-                throwMessage({ type:'warning', message:'Nothing changed' });
-                return false;
-            }
-            Meteor.call('thoughts.update', id, objEdit, ( e, res ) => {
-                if( e ){
-                    console.log( e );
-                    throwError({ type:e.error, message: e.reason });
-                    Session.set( 'collect.dbope', DBOPE_ERROR );
-                } else {
-                    throwSuccess( 'Thought successfully updated' );
-                    Session.set( 'collect.dbope', DBOPE_LEAVE );
-                }
-            });
-        } else {
-            Meteor.call('thoughts.insert', objEdit, ( e, res ) => {
-                if( e ){
-                    console.log( e );
-                    throwError({ type:e.error, message: e.reason });
-                    Session.set( 'collect.dbope', DBOPE_ERROR );
-                } else {
-                    throwSuccess( 'Thought successfully inserted' );
-                    Session.set( 'collect.thought', 'success' );  // force re-rendering
-                    Session.set( 'collect.dbope', DBOPE_REINIT );
-                }
-            });
+        switch( g.run.layout.get()){
+            case LYT_PAGE:
+                FlowRouter.go( 'collect' );
+                break;
+            case LYT_WINDOW:
+                $( '.thoughtEdit' ).IWindowed( 'close' );
+                break;
         }
     },
     okLabel: function(){
@@ -97,21 +54,14 @@ Template.thoughtEdit.fn = {
 Template.thoughtEdit.onCreated( function(){
     console.log( 'thoughtEdit.onCreated' );
     this.windowed = new ReactiveVar( false );
-    const f = function( msg, data ){
-        console.log( 'pubsub cb: msg='+msg );
-        console.log( data );
-        console.log( arguments );
-    };
-    $.pubsub.subscribe( '/layout/context', f );
 });
 
 Template.thoughtEdit.onRendered( function(){
     console.log( 'thoughtEdit.onRendered' );
-    const self = this;
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
-            const context = this.data;
+            const context = Template.currentData();
             console.log( 'calling thoughtEdit.IWindowed creation' );
             console.log( context );
             $( '.'+context.template ).IWindowed({
@@ -127,9 +77,10 @@ Template.thoughtEdit.onRendered( function(){
                         {
                             text: "OK",
                             click: function(){
-                                console.log( $( '.thoughtEdit' ));
-                                $( '.thoughtEdit' ).trigger( 'ronin.update' );
-                                //Template.thoughtEdit.fn.actionUpdate( self );
+                                $.pubsub.publish( 'ronin.model.thought.update', {
+                                    orig: Session.get( 'collect.thought' ),
+                                    edit: Template.thought_panel.fn.getContent()
+                                });
                             }
                         }
                     ],
@@ -142,20 +93,13 @@ Template.thoughtEdit.onRendered( function(){
     });
     this.autorun(() => {
         if( this.windowed.get()){
-            const context = this.data;
+            const context = Template.currentData();
             const label = Template.thoughtEdit.fn.okLabel();
-            console.log( 'calling thoughtEdit.IWindowed buttonLabel' );
-            console.log( context );
+            //console.log( 'calling thoughtEdit.IWindowed buttonLabel' );
+            //console.log( context );
             $( '.'+context.template ).IWindowed( 'buttonLabel', 1, label );
         }
     })
-    $( '.js-ok' ).click( function( ev ){
-        console.log( 'on js-ok click' );
-        $( ev.target ).trigger( 'ronin.thought.update' );
-    });
-    $( '.thoughtEdit' ).on( 'ronin.thought.update', function(){
-        console.log( 'on ronin.thought.update' );
-    });
 });
 
 Template.thoughtEdit.helpers({
@@ -172,23 +116,17 @@ Template.thoughtEdit.helpers({
 Template.thoughtEdit.events({
     // collapse_buttons cancel button
     'click .js-cancel': function( ev, instance ){
-        console.log( 'event js-cancel' );
-        //Template.thoughtEdit.fn.actionClose();
+        Template.thoughtEdit.fn.actionClose();
         return false;
     },
     // collapse_buttons ok button
     'click .js-ok': function( ev, instance ){
-        console.log( 'event js-ok' );
-        $( ev.target ).trigger( 'ronin.thought.update' );
-        //Template.thoughtEdit.fn.actionUpdate( instance );
+        $.pubsub.publish( 'ronin.model.thought.update', {
+            orig: Session.get( 'collect.thought' ),
+            edit: Template.thought_panel.fn.getContent()
+        });
         return false;
-    },
-    'click .js-2cancel': function( ev, instance ){
-        console.log( 'event js-2cancel' );
-    },
-    'click .js-2update': function( ev, instance ){
-        console.log( 'event js-2update' );
-    },
+    }
 });
 
 Template.thoughtEdit.onDestroyed( function(){

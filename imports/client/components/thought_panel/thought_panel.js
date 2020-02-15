@@ -13,6 +13,7 @@
  *      defaulting to false.
  */
 import '/imports/client/components/topics_select/topics_select.js';
+import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thought_panel.html';
 
 Template.thought_panel.fn = {
@@ -21,14 +22,12 @@ Template.thought_panel.fn = {
         return '98e84c99-d2f3-4c54-96a3-b4d6ccf8b3f0';
     },
     // returns an object which holds the form content
-    getContent: function( instance ){
-        console.log( $( '.js-name' ));
-        console.log( instance.$( '.js-name' ));
+    getContent: function(){
         return {
             type: 'T',
-            name: instance.$('.js-name').val(),
-            description: instance.$('.js-description').val(),
-            topic: Template.topics_select.fn.getSelected( instance )
+            name: $('.js-name').val(),
+            description: $('.js-description').val(),
+            topic: Template.topics_select.fn.getSelected()
         }
     },
     // initialize the edition area
@@ -56,6 +55,9 @@ Template.thought_panel.onRendered( function(){
             // successful update operation, leave the page
             case DBOPE_LEAVE:
                 Session.set( 'collect.thought', null );
+                if( g.run.layout.get() === LYT_WINDOW ){
+                    $( $( '.thought-panel' ).parents( '.ronin-iwm-window' )[0] ).IWindowed( 'close' );
+                }
                 FlowRouter.go( 'collect' );
                 break;
             // successful insert operation, stay in the page and reinitialize fields
