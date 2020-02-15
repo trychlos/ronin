@@ -38,7 +38,6 @@ import './thoughts_list.html';
 
 Template.thoughtsList.fn = {
     actionNew: function(){
-        console.log( 'thoughtsList.fn.actionNew' );
         FlowRouter.go( 'collect.new' );
     }
 };
@@ -80,11 +79,11 @@ Template.thoughtsList.onRendered( function(){
 });
 
 Template.thoughtsList.helpers({
-    thoughts(){
-        return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
-    },
     count(){
         return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }}).count();
+    },
+    thoughts(){
+        return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
     }
 });
 

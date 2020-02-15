@@ -26,7 +26,6 @@ Template.processGroup.onCreated( function(){
 Template.processGroup.onRendered( function(){
     console.log( 'processGroup.onRendered' );
     this.autorun(() => {
-        //const context = Session.get( 'layout.context' );
         const context = Template.currentData();
         if( context.template && g[LYT_WINDOW].taskbar.get()){
             $( 'body' ).IWindowed.show( context.template, context );
@@ -37,12 +36,10 @@ Template.processGroup.onRendered( function(){
 Template.processGroup.helpers({
     // template helper
     windowTemplate(){
-        //return Session.get( 'layout.context' ).template;
         return Template.currentData().template;
     },
     // template helper
     layoutContext(){
-        //return Session.get( 'layout.context' );
         return Template.currentData();
     }
 });
