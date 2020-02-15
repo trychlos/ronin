@@ -1,7 +1,7 @@
 /*
  * 'contexts_select' component.
  *  Display a drop-down box to select a context.
- * 
+ *
  *  Parameters:
  *  - 'selected=_id' (optional) set the initially selected value.
  */
@@ -11,18 +11,14 @@ import './contexts_select.html';
 
 Template.contexts_select.fn = {
     // return the identifier of the selected topic
-    getSelected: function( selector ){
-        const instance = Template.instance();
-        return instance.view.isRendered ? instance.$( selector+' .js-contexts-select option:selected').val() : null;
+    getSelected: function(){
+        return $( ' .js-contexts-select option:selected').val();
     },
     // select the default value
     selectDefault: function(){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            const obj = Contexts.findOne({ default: true });
-            if( obj ){
-                instance.$('.js-contexts-select').val( obj._id );
-            }
+        const obj = Contexts.findOne({ default: true });
+        if( obj ){
+            $('.js-contexts-select').val( obj._id );
         }
     },
 };

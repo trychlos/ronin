@@ -335,8 +335,9 @@ export const gtd = {
                         id: 'tho-project',
                         label: 'Transform into a project',
                         route: 'process.project',
+                        template: 'projectEdit',
                         group: {
-                            pageLayout: 'collect'
+                            pageLayout: 'collectGroup'
                         }
                     },
                     {
@@ -354,8 +355,9 @@ export const gtd = {
                         id: 'tho-action',
                         label: 'Transform into an action',
                         route: 'process.action',
+                        template: 'actionEdit',
                         group: {
-                            pageLayout: 'collect'
+                            pageLayout: 'collectGroup'
                         }
                     },
                     {
@@ -769,24 +771,19 @@ export const gtd = {
         if( !item || !key ){
             return null;
         }
+        let ret = null;
         //console.log( item );
         //console.log( 'name='+name+' item='+item.id+' key='+key+' layout='+layout );
         const sub = gtd._getNavTab( name, item );
-        if( sub && sub[key] ){
-            //console.log( 'found sub[key]='+sub[key] );
-            if( typeof sub[key] !== 'string' ){
-                if( layout ){
-                    const current = g.run.layout.get();
-                    return sub[key][current];
-                } else {
-                    console.log( 'gtd: '+key+' is layout-dependant=false but is wrongly specified in gtd.js' );
-                    return null;
-                }
+        if( sub ){
+            ret = gtd._search_sub( sub, key, layout );
+            if( ret ){
+                return ret;
             }
-            return sub[key];
         }
-        if( item[key] ){
-            return item[key];
+        ret = gtd._search_sub( item, key, layout );
+        if( ret ){
+            return ret;
         }
         const parent = gtd._parent( item );
         if( parent ){
@@ -794,6 +791,22 @@ export const gtd = {
             return gtd._search( name, parent, key, layout );
         }
         return null;
+    },
+    _search_sub( sub, key, layout ){
+        if( !sub || !key || !sub[key] ){
+            return null;
+        }
+        let ret = null;
+        if( typeof sub[key] !== 'string' ){
+            if( layout ){
+                ret = sub[key][g.run.layout.get()];
+            } else {
+                console.log( 'gtd: '+key+' is layout-dependant=false but is wrongly specified in gtd.js' );
+            }
+        } else {
+            ret = sub[key];
+        }
+        return ret;
     },
     // returns the template name associated with this item, or with one of its
     //  parent

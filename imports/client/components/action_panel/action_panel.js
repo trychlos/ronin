@@ -23,44 +23,40 @@ import '/imports/client/components/topics_select/topics_select.js';
 import './action_panel.html';
 
 Template.action_panel.fn = {
-    getContent: function(){
-        const instance = Template.instance();
+    getContent: function( $parent ){
         return {
             type: 'A',
-            name: instance.$('.js-name').val(),
+            name: $('.js-name').val(),
             topic: Template.topics_select.fn.getSelected(),
-            outcome: instance.$('.js-outcome').val(),
-            context: Template.contexts_select.fn.getSelected( '.js-context' ),
-            description: instance.$('.js-description').val(),
-            parent: Template.projects_select.fn.getSelected( '.js-project' ),
-            status: Template.action_status_select.fn.getSelected( '.js-status' ),
+            outcome: $('.js-outcome').val(),
+            context: Template.contexts_select.fn.getSelected(),
+            description: $('.js-description').val(),
+            parent: Template.projects_select.fn.getSelected(),
+            status: Template.action_status_select.fn.getSelected(),
             startDate: Template.date_select.fn.getDate( '.js-datestart' ),
             dueDate: Template.date_select.fn.getDate( '.js-datedue' ),
             doneDate: Template.date_select.fn.getDate( '.js-datedone' ),
-            notes: instance.$('.js-notes').val()
+            notes: $('.js-notes').val()
         };
     },
     initEditArea: function(){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            instance.$('.js-name').val('');
-            Template.topics_select.fn.selectDefault();
-            instance.$('.js-outcome').val('');
-            Template.contexts_select.fn.selectDefault();
-            instance.$('.js-description').val('');
-            Template.projects_select.fn.unselect();
-            Template.action_status_select.fn.selectDefault();
-            instance.$('.js-datestart').val('');
-            instance.$('.js-datedue').val('');
-            instance.$('.js-datedone').val('');
-            instance.$('.js-notes').val('');
-        }
+        $('.js-name').val('');
+        Template.topics_select.fn.selectDefault();
+        $('.js-outcome').val('');
+        Template.contexts_select.fn.selectDefault();
+        $('.js-description').val('');
+        Template.projects_select.fn.unselect();
+        Template.action_status_select.fn.selectDefault();
+        $('.js-datestart').val('');
+        $('.js-datedue').val('');
+        $('.js-datedone').val('');
+        $('.js-notes').val('');
     }
 };
 
 Template.action_panel.onRendered( function(){
     this.autorun(() => {
-        const status = Session.get( 'review.dbope' );
+        const status = Session.get( 'action.dbope' );
         switch( status ){
             // successful update, leave the page
             case DBOPE_LEAVE:
@@ -75,7 +71,7 @@ Template.action_panel.onRendered( function(){
                 break;
             // all other cases, stay in the page letting it unchanged
         }
-        Session.set( 'review.dbope', null );
+        Session.set( 'action.dbope', null );
     });
 });
 

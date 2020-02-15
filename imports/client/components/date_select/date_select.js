@@ -12,8 +12,7 @@ Template.date_select.fn = {
     // return the currently selected date in ISO format
     //  e.g. 'Sun Dec 22 2019 00:00:00 GMT+0100 (Central European Standard Time)'
     getDate: function( selector ){
-        const instance = Template.instance();
-        return instance.view.isRendered ? instance.$(selector+' .js-date-select input').datepicker('getDate') : null;
+        return $( selector+' .js-date-select input' ).datepicker( 'getDate' );
     },
     // set the default date
     //  converting ISO to our display format

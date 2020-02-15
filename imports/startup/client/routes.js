@@ -146,15 +146,15 @@ FlowRouter.route('/process', {
 FlowRouter.route('/thoughts/action', {
     name: 'process.action',
     action(){
-        Session.set( 'gtd.group', 'collect' );
-        BlazeLayout.render( 'appLayout', { gtd:'process', page:'processPage', window:'actionProcess' });
+        Session.set( 'gtd.group', 'collect-group' );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/thoughts/project', {
     name: 'process.project',
     action(){
-        Session.set( 'gtd.group', 'collect' );
-        BlazeLayout.render( 'appLayout', { gtd:'process', page:'processPage', window:'projectProcess' });
+        Session.set( 'gtd.group', 'collect-group' );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/projects', {

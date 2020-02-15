@@ -6,7 +6,7 @@
  *  - or edit an existing one (if session/collect.thought already exists).
  *
  *  Session variable:
- *  - collect.thought: the thought being edited.
+ *  - collect.thought: the thought being edited, may be null.
  *
  *  Parameters:
  *  - collapsable=true|false whether this component may be collapsed

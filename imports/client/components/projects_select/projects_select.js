@@ -9,26 +9,19 @@ import './projects_select.html';
 
 Template.projects_select.fn = {
     // return the identifier of the selected project
-    getSelected: function( selector ){
-        const instance = Template.instance();
-        return instance.$( selector+' .js-project option:selected' ).val();
+    getSelected: function(){
+        return $( '.js-projects-select option:selected' ).val();
     },
     // select the default value
     selectDefault: function(){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            const obj = Projects.findOne({ default: true });
-            if( obj ){
-                instance.$('.js-project').val( obj._id );
-            }
+        const obj = Projects.findOne({ default: true });
+        if( obj ){
+            $( '.js-projects-select' ).val( obj._id );
         }
     },
     // unselect
     unselect: function(){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            instance.$('.js-project').val('');
-        }
+        $( '.js-projects-select' ).val('');
     }
 };
 

@@ -44,9 +44,9 @@ Template.thoughtEdit.fn = {
         }
     },
     okLabel: function(){
-        return Template.thoughtEdit.fn.okLabelThought( Session.get( 'collect.thought' ));
+        return Template.thoughtEdit.fn.okLabelItem( Session.get( 'collect.thought' ));
     },
-    okLabelThought: function( it ){
+    okLabelItem: function( it ){
         return it ? 'Update' : 'Create';
     }
 }
@@ -95,8 +95,6 @@ Template.thoughtEdit.onRendered( function(){
         if( this.windowed.get()){
             const context = Template.currentData();
             const label = Template.thoughtEdit.fn.okLabel();
-            //console.log( 'calling thoughtEdit.IWindowed buttonLabel' );
-            //console.log( context );
             $( '.'+context.template ).IWindowed( 'buttonLabel', 1, label );
         }
     })

@@ -18,7 +18,6 @@
  *              +-> <group layer> { gtdid, group, template }
  *                      |
  *                      +-> thoughtsList { gtdid, group, template }
- *                              +-> thought_panel in window-based layout
  *                              +-> thoughts_list
  *                              +-> plus_button in page-based layout
  *                      |
@@ -30,7 +29,6 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
-import '/imports/client/components/thought_panel/thought_panel.js';
 import '/imports/client/components/thoughts_list/thoughts_list.js';
 import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
@@ -52,7 +50,7 @@ Template.thoughtsList.onRendered( function(){
     console.log( 'thoughtsList.onRendered' );
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
-            const context = this.data;
+            const context = Template.currentData();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
                 simone: {

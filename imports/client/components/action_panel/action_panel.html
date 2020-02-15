@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td class="label x-hright"><p>Context:</p></td>
-                <td class="js-context">
+                <td>
                     {{> contexts_select selected=valContext }}
                 </td>
             </tr>
@@ -40,13 +40,15 @@
             </tr>
             <tr>
                 <td class="label x-hright"><p>Project:</p></td>
-                <td class="js-project">
+                <td>
                     {{> projects_select selected=valParent }}
                 </td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Status:</p></td>
-                <td class="js-status">{{> action_status_select selected=valStatus }}</td>
+                <td>
+                    {{> action_status_select selected=valStatus }}
+                </td>
             </tr>
             <tr>
                 <td class="label x-hright"><p>Start date:</p></td>

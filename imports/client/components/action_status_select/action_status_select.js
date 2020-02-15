@@ -11,26 +11,17 @@ import './action_status_select.html';
 
 Template.action_status_select.fn = {
     // return the code associated to the selected action_status
-    getSelected: function( selector ){
-        const instance = Template.instance();
-        return instance.view.isRendered ? instance.$( selector+' .js-status-select option:selected').val() : null;
+    getSelected: function(){
+        return $( '.js-status-select option:selected' ).val();
     },
     // select a value
-    setSelected: function( selector, value ){
-        //console.log( 'setSelected '+value );
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            instance.$( selector+' .js-status-select' ).val( value );
-        }
+    setSelected: function( value ){
+        $( '.js-status-select' ).val( value );
     },
     // reset the default value
-    selectDefault: function( selector ){
-        //console.log( 'setSelected '+value );
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            const def = actionStatus.getDefault();
-            instance.$( selector+' .js-status-select' ).val( def );
-        }
+    selectDefault: function(){
+        const def = actionStatus.getDefault();
+        $( '.js-status-select' ).val( def );
     },
 };
 
