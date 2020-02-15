@@ -36,7 +36,8 @@ import '/imports/client/components/header_panel/header_panel.js';
 import '/imports/client/components/menu_side/menu_side.js';
 import '/imports/client/components/message/message.js';
 import '/imports/client/components/overview/overview.js';
-import '/imports/client/windows/window_layer/window_layer.js';
+import '/imports/client/groups/collect_group/collect_group.js';
+import '/imports/client/groups/process_group/process_group.js';
 import './app_layout.html';
 
 Template.appLayout.fn = {
@@ -88,9 +89,9 @@ Template.appLayout.onRendered( function(){
                     localization: {
                         en: {
                             'group:collectGroup': 'Collect',
-                            'group:process': 'Process',
-                            'group:review':  'Review',
-                            'group:setup':   'Setup'
+                            'group:processGroup': 'Process',
+                            'group:reviewGroup':  'Review',
+                            'group:setupGroup':   'Setup'
                         }
                     },
                     minimizeAll: false,
@@ -137,7 +138,7 @@ Template.appLayout.helpers({
     layoutContext(){
         const context = Template.appLayout.fn.eval_rec( this );
         Session.set( 'layout.context', context );
-        console.log( 'appLayout:layoutContext' );
+        console.log( 'appLayout:layoutContext :' );
         console.log( context );
         return context;
     },

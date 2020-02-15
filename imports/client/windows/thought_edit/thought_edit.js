@@ -8,13 +8,15 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { gtd, page, window }
- *              +-> collectPage { gtd, window }
- *                      +-> thoughtsList { gtd }
+ *      +-> <app layout layer> { gtdid, group, template }
+ *              +-> <group layer> { gtdid, group, template }
  *                      |
- *                      +-> thoughtEdit { gtd }
- *                              +-> thought_panel
- *                              +-> collapse_buttons
+ *                      +-> thoughtsList { gtdid, group, template }
+ *                              +-> thought_panel in window-based layout
+ *                              +-> thoughts_list
+ *                              +-> plus_button in page-based layout
+ *                      |
+ *                      +-> thoughtEdit { gtdid, group, template }
  *
  *  Parameters:
  *  - 'data': the layout context built in appLayout, and passed in by group layer.

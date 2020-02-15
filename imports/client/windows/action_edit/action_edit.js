@@ -8,14 +8,16 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { gtd, page, window }
- *              +-> reviewPage { gtd, window }
- *                      +-> actionsList { gtd }
+ *      +-> <app layout layer> { gtdid, group, template }
+ *              +-> <group layer> { gtdid, group, template }
  *                      |
- *                      +-> actionEdit { gtd }
- *                              +-> action_panel
- *                              +-> collapse_buttons
+ *                      +-> actionEdit { gtdid, group, template }
+ *                      |       +-> action_panel
+ *                      |       +-> collapse_buttons
+ *                      |
+ *                      +-> projectEdit { gtdid, group, template }
  */
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/collapse_buttons/collapse_buttons.js';
 import '/imports/client/components/action_panel/action_panel.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
@@ -25,11 +27,12 @@ Template.actionEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
-            $( '.actionEdit' ).IWindowed({
-                template: 'actionEdit',
+            const context = this.data;
+            $( '.'+context.template ).IWindowed({
+                template: context.template,
                 simone: {
-                    group:  'process',
-                    title:  'Edit action'
+                    group:  context.group,
+                    title:  gtd.labelId( null, context.gtdid )
                 }
             });
         }

@@ -8,17 +8,58 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { gtd, page, window }
- *              +-> reviewPage { gtd, window }
- *                      +-> projectsList { gtd }
+ *      +-> <app layout layer> { gtdid, group, template }
+ *              +-> <group layer> { gtdid, group, template }
  *                      |
- *                      +-> projectEdit { gtd }
- *                              +-> project_panel
- *                              +-> collapse_buttons
+ *                      +-> actionEdit { gtdid, group, template }
+ *                      |       +-> action_panel
+ *                      |       +-> collapse_buttons
+ *                      |
+ *                      +-> projectEdit { gtdid, group, template }
  */
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/collapse_buttons/collapse_buttons.js';
 import '/imports/client/components/project_panel/project_panel.js';
 import './project_edit.html';
+
+Template.projectEdit.onCreated( function(){
+    this.windowed = new ReactiveVar( false );
+});
+
+Template.projectEdit.onRendered( function(){
+    // open the window if the manager has been initialized
+    this.autorun(() => {
+        if( g[LYT_WINDOW].taskbar.get()){
+            const context = this.data;
+            console.log( 'calling thoughtEdit.IWindowed creation' );
+            console.log( context );
+            $( '.'+context.template ).IWindowed({
+                template: context.template,
+                simone: {
+                    buttons: [
+                        {
+                            text: "Close",
+                            click: function(){
+                                Template.thoughtEdit.fn.actionClose();
+                            }
+                        },
+                        {
+                            text: "OK",
+                            click: function(){
+                                console.log( $( '.thoughtEdit' ));
+                                $( '.thoughtEdit' ).trigger( 'ronin.update' );
+                                //Template.thoughtEdit.fn.actionUpdate( self );
+                            }
+                        }
+                    ],
+                    group:  context.group,
+                    title:  gtd.labelId( null, context.gtdid )
+                }
+            });
+            this.windowed.set( true );
+        }
+    });
+});
 
 Template.projectEdit.helpers({
     okLabel(){

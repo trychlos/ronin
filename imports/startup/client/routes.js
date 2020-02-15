@@ -9,12 +9,6 @@ import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/layouts/app_layout/app_layout.js';
 import '/imports/client/layouts/test_layout/test_layout.js';
 
-import '/imports/client/pages/actions_page/actions_page.js';
-import '/imports/client/pages/devel_page/devel_page.js';
-import '/imports/client/pages/edit_page/edit_page.js';
-import '/imports/client/pages/empty/empty.js';
-import '/imports/client/pages/projects_page/projects_page.js';
-import '/imports/client/pages/setup_page/setup_page.js';
 import '/imports/client/pages/not_found/not_found.js';
 
 console.log( g );
@@ -186,7 +180,7 @@ FlowRouter.route('/projects/new', {
     action(){
         Session.set( 'gtd.group', 'projects' );
         Session.set( 'projects.tab.name', 'projects' );
-        BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'projectEdit' });
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/projects/edit', {
@@ -211,7 +205,7 @@ FlowRouter.route('/actions/new', {
     action(){
         Session.set( 'gtd.group', 'actions' );
         Session.set( 'projects.tab.name', 'actions' );
-        BlazeLayout.render( 'appLayout', { gtd:'review', page:'reviewPage', window:'actionEdit' });
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions/edit', {

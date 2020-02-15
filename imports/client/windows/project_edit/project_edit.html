@@ -17,9 +17,11 @@
             {{> project_panel }}
         </div>
 
-        <div class="wsf-footer">
-            {{> collapse_buttons okLabel=okLabel }}
-        </div>
+        {{#if isPageLayout}}
+            <div class="wsf-footer">
+                {{> collapse_buttons okLabel=okLabel }}
+            </div>
+        {{/if}}
 
     </div>
 </template>

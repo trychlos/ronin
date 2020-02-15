@@ -199,6 +199,9 @@
             //console.log( arguments );
             if( typeof arguments[0] === 'string' ){
                 switch( arguments[0] ){
+                    case 'buttonLabel':
+                        this.buttonLabel( Array.prototype.slice.call( arguments, 1 ));
+                        break;
                     case 'close':
                         this.close( Array.prototype.slice.call( arguments, 1 ));
                         break;
@@ -301,6 +304,16 @@
             return 'spSettings-'+id;
         },
 
+        // buttonLabel() method
+        //  set the label of the specified button in the bottom buttonpane
+        //  - index from zero
+        //  - label
+        buttonLabel: function( index, label ){
+            const widget = this._widget( this.dom );
+            const buttons = $( widget ).find( '.ui-dialog-buttonset button' );
+            $( buttons[index] ).html( label );
+        },
+
         // close() method
         //  close the current window
         close: function(){
@@ -397,9 +410,6 @@
                     case 'addButton':
                         this.addButton( argsCount );
                         break;
-                    case 'buttonLabel':
-                        this.buttonLabel( argsCount );
-                        break;
                     case 'minimizeAll':
                         this.minimizeAll( argsCount );
                         break;
@@ -439,23 +449,6 @@
                 const titlebar = $( widget ).find( '.ronin-iwm-titlebar' );
                 const content = $( this.dom ).find( selector ).detach();
                 $( titlebar ).append( content );
-            }
-        },
-        // buttonLabel() method
-        //  set the label of the specified button in the bottom buttonpane
-        //  - index from zero
-        //  - label
-        buttonLabel: function( argsCount ){
-            if( argsCount != 3 ){
-                throwError({ message: 'buttonLabel() expects three arguments, '+( argsCount-1 )+' found' });
-            } else if( !$( this.dom ).hasClass( 'ronin-iwm-window' )){
-                throwError({ message: 'buttonLabel() must be invoked on the IWindowed element' });
-            } else {
-                const widget = this._widget( this.dom );
-                const buttons = $( widget ).find( '.ui-dialog-buttonset button' );
-                const index = this.args[1];
-                const label = this.args[2];
-                $( buttons[index] ).html( label );
             }
         },
         // minimizeAll() method

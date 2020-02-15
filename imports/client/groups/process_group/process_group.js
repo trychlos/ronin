@@ -1,5 +1,5 @@
 /*
- * 'collectGroup' group layer.
+ * 'processGroup' group layer.
  *
  *  Worflow:
  *  [routes.js]
@@ -15,16 +15,16 @@
  *      Caution: must only be used at rendering time, as it will be superseded
  *      by later changes.
  */
-import '/imports/client/windows/thought_edit/thought_edit.js';
-import '/imports/client/windows/thoughts_list/thoughts_list.js';
-import './collect_group.html';
+import '/imports/client/windows/project_edit/project_edit.js';
+import '/imports/client/windows/action_edit/action_edit.js';
+import './process_group.html';
 
-Template.collectGroup.onCreated( function(){
-    console.log( 'collectGroup.onCreated' );
+Template.processGroup.onCreated( function(){
+    console.log( 'processGroup.onCreated' );
 });
 
-Template.collectGroup.onRendered( function(){
-    console.log( 'collectGroup.onRendered' );
+Template.processGroup.onRendered( function(){
+    console.log( 'processGroup.onRendered' );
     this.autorun(() => {
         const context = Session.get( 'layout.context' );
         if( context.template && g[LYT_WINDOW].taskbar.get()){
@@ -33,7 +33,7 @@ Template.collectGroup.onRendered( function(){
     })
 });
 
-Template.collectGroup.helpers({
+Template.processGroup.helpers({
     // template helper
     windowTemplate(){
         return Session.get( 'layout.context' ).template;
@@ -44,6 +44,6 @@ Template.collectGroup.helpers({
     }
 });
 
-Template.collectGroup.onDestroyed( function(){
-    console.log( 'collectGroup.onDestroyed' );
+Template.processGroup.onDestroyed( function(){
+    console.log( 'processGroup.onDestroyed' );
 });

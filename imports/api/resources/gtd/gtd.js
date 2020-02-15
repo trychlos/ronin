@@ -290,7 +290,7 @@ export const gtd = {
             {
                 id: 'process-group',
                 label: 'Process',
-                group: 'process',
+                group: 'processGroup',
                 navs: {
                     header: {
                         display: true
@@ -334,13 +334,15 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'project',
+                        id: 'project-new',
                         label: 'New project',
                         navs: {
                             side: {
                                 display: true
                             }
-                        }
+                        },
+                        template: 'projectEdit',
+                        route: 'project.new'
                     },
                     {
                         id: 'tho-action',
@@ -351,14 +353,15 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'action',
+                        id: 'action-new',
                         label: 'New action',
-                        route: 'action.new',
                         navs: {
                             side: {
                                 display: true
                             }
-                        }
+                        },
+                        template: 'actionEdit',
+                        route: 'action.new'
                     }
                 ]
             },
