@@ -132,8 +132,8 @@ FlowRouter.route( '/thoughts/new', {
 FlowRouter.route( '/thoughts/edit', {
     name: 'collect.edit',
     action(){
-        Session.set( 'gtd.group', 'collect' );
-        BlazeLayout.render( 'appLayout', { gtd:'collect', page:'collectPage', window:'thoughtEdit' });
+        Session.set( 'gtd.group', 'collect-group' );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/process', {

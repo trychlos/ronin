@@ -259,6 +259,12 @@ export const gtd = {
                         template: 'thoughtEdit',
                     },
                     {
+                        id: 'thoughts-edit',
+                        label: 'Edit thought',
+                        route: 'collect.edit',
+                        template: 'thoughtEdit',
+                    },
+                    {
                         id: 'thoughts-list',
                         label: 'Collect thoughts',
                         route: 'collect',

@@ -15,9 +15,15 @@
                 <span class="fas fa-edit"></span>
             </button>
 
-            <button class="js-ownership ui-button ui-corner-all {{ ownershipTakeable thought }}" title="Take ownership">
-                <span class="fas fa-user-lock"></span>
-            </button>
+            {{#if isMine thought }}
+                <div class="ui-button ui-corner-all ownership-owned }}">
+                    <span class="fas fa-user-lock"></span>
+                </div>
+            {{else}}
+                <button class="js-ownership ui-button ui-corner-all" {{ takeable thought }} title="Take ownership">
+                    <span class="fas fa-user-lock"></span>
+                </button>
+            {{/if}}
 
             <button class="js-action ui-button ui-corner-all" title="Transform into an action">
                 <span class="fas fa-file-alt"></span>

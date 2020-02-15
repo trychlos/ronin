@@ -14,26 +14,30 @@ Template.thoughts_list_card.helpers({
     classCreatedAt(){
         return $(window).innerWidth() <= 480 ? '' : 'x-hidden';
     },
-    // class helper
+    // template helper
+    //  returns true if this article is owned by the user
+    isMine( art ){
+        const current = Meteor.userId();
+        return current && current === art.userId;
+    },
+    // template helper
     // if the article is not owned by anyone, then the logged-in user may take
     //  ownership of it
     //  We have so three states:
     //  - user is not logged in: button is disabled
     //  - user already has ownership of the article: button is displayed as green
     //  - the article does not yet belong to anyone: button is normal
-    ownershipTakeable( art ){
+    takeable( art ){
         const current = Meteor.userId();
         if( current ){
-            if( art.userId === current ){
-                return 'ownership-owned';
-            } else if( art.userId ){
+            if( art.userId ){
                 console.log( 'Ownership error with thought '+art._id );
-                return 'ownership-disabled'
+                return { disabled:"disabled" };
             } else {
-                return 'ownership-takeable';
+                return {};
             }
         } else {
-            return 'owernship-disabled';
+            return { disabled:"disabled" };
         }
     }
 });

@@ -54,6 +54,7 @@
         constructor( element, options ){
             this.dom = element;
             this.$dom = $( this.dom );
+            this.$widget = null;
             this.args = $.extend( {}, options || {} );
             this._init( options );
         }
@@ -86,6 +87,7 @@
             this.settings.simone.widgetClass += ' '+this._className( this.settings.simone.group );
             //console.log( settings );
             this.$dom.window( this.settings.simone );
+            this.$widget = $( this.$dom.parents( '.ronin-iwm-widget' )[0] );
             // set some data- attributes on the window
             //  we prefer data- attributes as set by attr() method as they are available
             //  as standard jQuery selector, and visible in the web inspector
@@ -100,16 +102,16 @@
             // set event handlers
             //  passing this to the handler, getting back in event.data
             //  in the handler, this is the attached dom element
-            $( this.dom ).on( 'windowdragstop', this, function( ev, ui ){
+            this.$dom.on( 'windowdragstop', this, function( ev, ui ){
                 ev.data._onDragStop( ev, ui );
             });
-            $( this.dom ).on( 'windowfocus', this, function( ev, ui ){
+            this.$dom.on( 'windowfocus', this, function( ev, ui ){
                 ev.data._onFocus( ev, ui );
             });
-            $( this.dom ).on( 'windowminimize', this, function( ev, ui ){
+            this.$dom.on( 'windowminimize', this, function( ev, ui ){
                 ev.data._onMinimize( ev, ui );
             });
-            $( this.dom ).on( 'windowresizestop', this, function( ev, ui ){
+            this.$dom.on( 'windowresizestop', this, function( ev, ui ){
                 ev.data._onResizeStop( ev, ui );
             });
             //console.log( $( this.dom ));
@@ -308,36 +310,39 @@
         //  set the label of the specified button in the bottom buttonpane
         //  - index from zero
         //  - label
-        buttonLabel: function( index, label ){
-            const widget = this._widget( this.dom );
-            const buttons = $( widget ).find( '.ui-dialog-buttonset button' );
-            $( buttons[index] ).html( label );
+        buttonLabel: function( args ){
+            const index = args[0];
+            const label = args[1];
+            //console.log( 'buttonLabel index='+index+' label='+label );
+            const buttons = this.$widget.find( '.ui-dialog-buttonset button' );
+            if( buttons ){
+                $( buttons[index] ).html( label );
+            } else {
+                console.log( 'buttonLabel: unable to find buttonPane' );
+            }
         },
 
         // close() method
         //  close the current window
         close: function(){
-            //console.log( 'close' );
-            //console.log( this );
             this.$dom.window( 'close' );
         }
     });
 
-    $.fn[pluginName] = function( o ){
+    $.fn[pluginName] = function(){
         //console.log( this );  // this is the jQuery element on which the interface is called
-        const opts = o;
+        const opts = Array.prototype.slice.call( arguments );
         this.each( function(){
             //console.log( this ); // this is the particular DOM element on which the interface will be applied
             // may or may not already been initialized
             let plugin = $.data( this, pluginName );
-            console.log( plugin );
+            //console.log( plugin );
             if( plugin ){
                 console.log( 'reusing already initialized plugin' );
-                //console.log( plugin );
-                myPlugin.prototype._methods.apply( plugin, [ opts ] );
+                myPlugin.prototype._methods.apply( plugin, opts );
             } else {
                 console.log( 'allocating new plugin instance' );
-                $.data( this, pluginName, new myPlugin( this, opts ));
+                $.data( this, pluginName, new myPlugin( this, opts[0] ));
             }
         });
         return this;
