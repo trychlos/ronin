@@ -19,10 +19,15 @@
  *  We set:
  *  - on the widget, two classes:
  *      > ronin-iwm-widget
+ *          (qualifies the presence of the window manager)
  *      > ronin-iwm-<gtd_features_group> (aka setup, collect, process, review)
+ *          (titlebar coloring)
  *  - on the window, two data attributes:
- *      > data-ronin-iwm-id = <window_template_name>
+ *      > ronin-iwm-id = <window_template_name>
+ *          (identifying already created window for the template)
+ *          (saving/restoring size and position)
  *      > data-ronin-iwm-route = last known route name.
+ *          (change route on focus change)
  *
  *  ronin-iwm-<route> rationale
  *      In a window-based layout, we need to reactively adapt the current route
@@ -75,19 +80,11 @@
             // we set on the window's widget a 'ronin-iwm-<template_name>' class
             //  plus maybe a 'ronin-iwm-<group>' one if specified and different
             //  of the template name
-            this.settings.simone.widgetClass += ' '+this._className( this.args.template );
-            if( this.args.simone.group ){
-                if( this.settings.simone.group !== this.args.template ){
-                    this.settings.simone.widgetClass += ' '+this._className( this.args.simone.group );
-                }
-            } else {
+            if( !this.args.simone.group ){
                 this.settings.simone.group = this.args.template;
             }
+            this.settings.simone.widgetClass += ' '+this._className( this.settings.simone.group );
             //console.log( settings );
-            if( Template[this.args.template].fn.wmButtons ){
-                const buttons = Template[this.args.template].fn.wmButtons();
-                $.extend( this.settings.simone, { buttons:buttons });
-            }
             this.$dom.window( this.settings.simone );
             // set some data- attributes on the window
             //  we prefer data- attributes as set by attr() method as they are available
@@ -170,13 +167,13 @@
         // returns the identifier set as a data attribute of the window
         //  this = plugin
         _idGet: function(){
-            return $( this.dom ).attr( 'data-ronin-iwm-id' );
+            return this.$dom.attr( 'data-ronin-iwm-id' );
         },
 
         // setup the identifier of the window
         //  this = plugin
         _idSet: function( id ){
-            $( this.dom ).attr( 'data-ronin-iwm-id', id );
+            this.$dom.attr( 'data-ronin-iwm-id', id );
         },
 
         // plugin initialization
@@ -207,6 +204,14 @@
                         break;
                 }
             }
+        },
+
+        // activate a window, first restoring it if it was minimized
+        _moveToTop: function(){
+            if( this.$dom.window( 'minimized' )){
+                this.$dom.window( 'restore' );
+            }
+            this.$dom.window( 'moveToTop' );
         },
 
         // event handler triggered from inside Simone window manager
@@ -264,11 +269,16 @@
             this._saveSettings();
         },
 
+        // returns the initial route name attached to this window
+        _routeGet: function(){
+            return this.$dom.attr( 'data-ronin-iwm-route' );
+        },
+
         // at creation time, set the current route name as a window data attribute
         //  this = plugin
         _routeSet: function(){
             const route = FlowRouter.current();
-            $( this.dom ).attr( 'data-ronin-iwm-route', route.route.name );
+            this.$dom.attr( 'data-ronin-iwm-route', route.route.name );
         },
 
         // save size and position
@@ -345,14 +355,13 @@
             console.log( 'show() expects the template name as single argument, "'+template+'" found' );
         } else {
             const windows = g[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
-            const searched = myPlugin.prototype._className( template );
             let found = false;
             for( let i=0 ; i<windows.length && !found ; ++i ){
-                const widget = $( windows[i] ).window( 'widget' );
-                if( widget.hasClass( searched )){
-                    let plugin = widget.data( pluginName );
+                const id = $( windows[i] ).attr( 'data-ronin-iwm-id' );
+                if( id === template ){
+                    let plugin = $( windows[i] ).data( pluginName );
                     if( plugin ){
-                        plugin._moveToTop( $( windows[i] ));
+                        plugin._moveToTop();
                         found = true;
                     } else {
                         console.log( 'template='+template+' found, but unable to get the plugin' );
@@ -413,17 +422,6 @@
                 return;
             }
             this._create();
-        },
-        // activate a window, first restoring it if it was minimized
-        _moveToTop: function( obj ){
-            if( obj.window('minimized')){
-                obj.window('restore');
-            }
-            obj.window('moveToTop');
-        },
-        // returns the initial route name attached to this window
-        _routeGet: function(){
-            return $( this.dom ).attr( 'data-ronin-iwm-route' );
         },
         // addButton() method
         //  must be applied on the window
