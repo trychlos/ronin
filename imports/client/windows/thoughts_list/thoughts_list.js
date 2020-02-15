@@ -60,6 +60,7 @@ Template.thoughtsList.onRendered( function(){
                         {
                             text: "Close",
                             click: function(){
+                                $.pubsub.publish( 'ronin.ui.thoughts.list.card.collapse-all' );
                                 $( '.thoughtsList' ).IWindowed( 'close' );
                             }
                         },

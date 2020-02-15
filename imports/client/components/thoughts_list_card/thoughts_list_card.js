@@ -17,8 +17,8 @@ Template.thoughts_list_card.fn = {
     //  - the article does not yet belong to anyone: button is normal
     takeable: function( article ){
         const current = Meteor.userId();
-        const takeable = ( current && current === article.userId );
-        return( takeable );
+        const takeable = ( current && !article.userId );
+        return takeable;
     }
 };
 

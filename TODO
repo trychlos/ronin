@@ -220,7 +220,13 @@
                   + the same will be true each time the user change manually the route
                   + the ame when we programatically change the route
 
-  140
+  140 2020- 2-15 on user sign-in, the displayed lists should be reactively updated
+
+  141 2020- 2-15 Thoughts check-list
+	               - is list rightly filtered on currently logged-in user ?
+	               - are all listed articled actually editable ? (generally speaking, yes)
+
+  142
 
 -----------------------------------------------------------------------
  Done
