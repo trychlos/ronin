@@ -25,14 +25,34 @@ import { Articles } from '../articles.js';
 
 Meteor.methods({
 
-    // action is said undone (back from done)
-    //  must be called from Articles.fn.doneToggle()
-    '_actions.done.clear'( o ){
-        if( o.type !== 'A' ){
+    // checks that the specified 'it' object is of the expected 'type'
+    _articles_check_type( it, type ){
+        if( it.type !== type ){
             throw new Meteor.Error(
-                'articles.invalid_type', o.type+': invalid type ("A" expected)'
+                'articles.invalid_type', art.type+': invalid type ("'+type+'" expected)'
             );
         }
+    },
+
+    // checks that the currently logged-in user is able to update the 'it' object
+    //  if user is not logged-in, only update un-owned objects
+    //  if user is logged-in, can update un-owned + its own objects
+    _articles_check_user( it ){
+        if( it.userId ){
+            if( !this.userId || this.userId !== it.userId ){
+                throw new Meteor.Error(
+                    'articles.unauthorized', 'you are not authorized to update this item'
+                );
+            }
+        }
+    },
+
+    // action is said undone (back from done)
+    //  must be called from Articles.fn.doneToggle()
+    //  update does not mean taking ownership
+    '_actions.done.clear'( o ){
+        Meteor.call( '_articles_check_type', o, 'A' );
+        Meteor.call( '_articles_check_user', o );
         const ret = Articles.update( o._id, { $set: {
             doneDate: null,
             status: o.status
@@ -47,12 +67,10 @@ Meteor.methods({
 
     // action is said done
     //  must be called from Articles.fn.doneToggle()
+    //  update does not mean taking ownership
     '_actions.done.set'( o ){
-        if( o.type !== 'A' ){
-            throw new Meteor.Error(
-                'articles.invalid_type', o.type+': invalid type ("A" expected)'
-            );
-        }
+        Meteor.call( '_articles_check_type', o, 'A' );
+        Meteor.call( '_articles_check_user', o );
         const ret = Articles.update( o._id, { $set: {
             doneDate: o.doneDate,
             status: o.status,
@@ -68,18 +86,17 @@ Meteor.methods({
     },
 
     // create a new action starting from a thought
+    //  the new action is owned by the currently logged-in user
     'actions.from.thought'( thought, action ){
-        if( thought.type !== 'T' ){
-            throw new Meteor.Error(
-                'articles.invalid_type', o.type+': invalid type ("T" expected)'
-                );
-        }
+        Meteor.call( '_articles_check_type', thought, 'T' );
+        Meteor.call( '_articles_check_user', thought );
         // canonic fields order (from ../articles.js)
         const ret = Articles.update( thought._id, { $set: {
             type: 'A',
             name: action.name,
             topic: action.topic,
             description: action.description,
+            userId: this.userId,
             notes: action.notes,
             startDate: action.startDate,
             dueDate: action.dueDate,
@@ -99,17 +116,16 @@ Meteor.methods({
     },
 
     // insert a new action
+    //  the new action is owned by the currently logged-in user
     'actions.insert'( o ){
-        if( o.type !== 'A' ){
-            throw new Meteor.Error(
-                'articles.invalid_type', o.type+': invalid type ("A" expected)'
-            );
-        }
+        Meteor.call( '_articles_check_type', o, 'A' );
+        Meteor.call( '_articles_check_user', o );
         const ret = Articles.insert({
             type: o.type,
             name: o.name,
             topic: o.topic,
             description: o.description,
+            userId: this.userId,
             notes: o.notes,
             startDate: o.startDate,
             dueDate: o.dueDate,
@@ -129,18 +145,18 @@ Meteor.methods({
     },
 
     // delete an action
-    'actions.remove'( id ){
-        console.log( 'articles.actions.remove id='+id );
-        Articles.remove( id );
+    'actions.remove'( o ){
+        Meteor.call( '_articles_check_type', o, 'A' );
+        Meteor.call( '_articles_check_user', o );
+        console.log( 'articles.actions.remove name='+o.name );
+        Articles.remove( o._id );
     },
 
     // update an existing action
+    //  update does not mean taking ownership
     'actions.update'( id, o ){
-        if( o.type !== 'A' ){
-            throw new Meteor.Error(
-                'articles.invalid_type', o.type+': invalid type ("A" expected)'
-            );
-        }
+        Meteor.call( '_articles_check_type', o, 'A' );
+        Meteor.call( '_articles_check_user', o );
         const ret = Articles.update( id, { $set: {
             name: o.name,
             topic: o.topic,
@@ -163,23 +179,32 @@ Meteor.methods({
     },
 
     // takes ownership of the article
-    'articles.ownership'( id ){
+    //  only applies to thoughts in development phase
+    'articles.ownership'( o ){
+        Meteor.call( '_articles_check_type', o, 'T' );
+        Meteor.call( '_articles_check_user', o );
+        if( o.userId ){
+            throw new Meteor.Error(
+                'articles.ownership', 'article is already owned by a user'
+            );
+        }
         if( !this.userId ){
             throw new Meteor.Error(
                 'articles.ownership', 'user must be logged-in'
             );
         }
-        const ret = Articles.update( id, { $set: { userId: this.userId }});
-        console.log( 'Articles.ownership("'+id+'") returns '+ret );
+        const ret = Articles.update( o._id, { $set: { userId: this.userId }});
+        console.log( 'Articles.ownership("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.ownership',
-                'unable to take ownership of the "'+id+'" article' );
+                'unable to take ownership of the "'+o.name+'" article' );
         }
         return ret;
     },
 
     // change the parent of an action or a project
+    //  update does not mean taking ownership
     'articles.reparent'( o_id, parent_id ){
         const ret = Articles.update( o_id, { $set: {
             parent: parent_id
@@ -194,18 +219,17 @@ Meteor.methods({
     },
 
     // create a new project from a thought
+    //  the new project is owned by the currently logged-in user
     'projects.from.thought'( thought, project ){
-        if( thought.type !== 'T' ){
-            throw new Meteor.Error(
-                'articles.invalid_type', thought.type+': invalid type ("T" expected)'
-            );
-        }
+        Meteor.call( '_articles_check_type', thought, 'T' );
+        Meteor.call( '_articles_check_user', thought );
         // canonic fields order (from ../articles.js)
         const ret = Articles.update( thought._id, { $set: {
             type: 'P',
             name: project.name,
             topic: project.topic,
             description: project.description,
+            userId: this.userId,
             notes: project.notes,
             startDate: project.startDate,
             dueDate: project.dueDate,
@@ -226,17 +250,16 @@ Meteor.methods({
     },
 
     // insert a new project
+    //  the new project is owned by the currently logged-in user
     'projects.insert'( o ){
-        if( o.type !== 'P' ){
-            throw new Meteor.Error(
-                'articles.invalid_type', o.type+': invalid type ("P" expected)'
-            );
-        }
+        Meteor.call( '_articles_check_type', o, 'P' );
+        Meteor.call( '_articles_check_user', o );
         const ret = Articles.insert({
             type: o.type,
             name: o.name,
             topic: o.topic,
             description: o.description,
+            userId: this.userId,
             notes: o.notes,
             startDate: o.startDate,
             dueDate: o.dueDate,
@@ -256,18 +279,18 @@ Meteor.methods({
     },
 
     // delete a project
-    'projects.remove'( id ){
-        console.log( 'articles.projects.remove id='+id );
-        Articles.remove( id );
+    'projects.remove'( o ){
+        Meteor.call( '_articles_check_type', o, 'P' );
+        Meteor.call( '_articles_check_user', o );
+        console.log( 'articles.projects.remove name='+o.name );
+        Articles.remove( o._id );
     },
 
     // update an existing project
+    //  update does not mean taking ownership
     'projects.update'( id, o ){
-        if( o.type !== 'P' ){
-            throw new Meteor.Error(
-                'articles.invalid_type', o.type+': invalid type ("P" expected)'
-            );
-        }
+        Meteor.call( '_articles_check_type', o, 'P' );
+        Meteor.call( '_articles_check_user', o );
         const ret = Articles.update( id, { $set: {
             name: o.name,
             topic: o.topic,
@@ -290,18 +313,16 @@ Meteor.methods({
     },
 
     // insert returns the newly insert '_id' or throws an exception
+    //  the new thought is owned by the currently logged-in user
     'thoughts.insert'( o ){
-        if( o.type !== 'T' ){
-            throw new Meteor.Error(
-                'articles.invalid_type',
-                 o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
-            );
-        }
+        Meteor.call( '_articles_check_type', o, 'T' );
+        Meteor.call( '_articles_check_user', o );
         const ret = Articles.insert({
             type: o.type,
             name: o.name,
             topic: o.topic,
-            description: o.description
+            description: o.description,
+            userId: this.userId
         });
         console.log( 'Articles.thoughts.insert("'+o.name+'") returns '+ret );
         if( !ret ){
@@ -313,24 +334,23 @@ Meteor.methods({
     },
 
     // remove returns true or throws an exception
-    'thoughts.remove'( id ){
-        const ret = Articles.remove({ _id:id, type:'T' });
-        console.log( 'Articles.thoughts.remove("'+id+'") returns '+ret );
+    'thoughts.remove'( o ){
+        Meteor.call( '_articles_check_type', o, 'T' );
+        Meteor.call( '_articles_check_user', o );
+        const ret = Articles.remove({ _id:o._id, type:'T' });
+        console.log( 'Articles.thoughts.remove("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.thoughts.remove',
-                'unable to remove "'+id+'" thought' );
+                'unable to remove "'+o.name+'" thought' );
         }
         return ret;
     },
 
     // update returns true or throws an exception
     'thoughts.update'( id, o ){
-        if( o.type !== 'T' ){
-            throw new Meteor.Error(
-                'articles.invalid_type', o.type+': invalid type ("T" expected)'
-            );
-        }
+        Meteor.call( '_articles_check_type', o, 'T' );
+        Meteor.call( '_articles_check_user', o );
         const ret = Articles.update( id, { $set: {
             name: o.name,
             topic: o.topic,

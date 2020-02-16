@@ -4,7 +4,7 @@
  *  maybe giving an initial value as 'selected=_id' parm.
  */
 import { Meteor } from 'meteor/meteor';
-import { Projects } from '/imports/api/collections/projects/projects.js';
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import './projects_select.html';
 
 Template.projects_select.fn = {
@@ -26,12 +26,12 @@ Template.projects_select.fn = {
 };
 
 Template.projects_select.onCreated( function(){
-    this.subscribe('projects.all');
+    this.subscribe( 'articles.projects.all' );
 });
 
 Template.projects_select.helpers({
     projects_cursor(){
-        return Projects.find({}, { sort:{ select_order:1, name:1 }});
+        return Articles.find({ type:'P' }, { sort:{ select_order:1, name:1 }});
     },
     // project is the id of the project to be selected
     project_selected( current, selected ){

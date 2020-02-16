@@ -44,7 +44,7 @@ Template.actionEdit.fn = {
                 FlowRouter.go( 'collect' );
                 break;
             case LYT_WINDOW:
-                $( '.actionEdit' ).IWindowed( 'close' );
+                $().IWindowed.close( '.actionEdit' );
                 break;
         }
     },

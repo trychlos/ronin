@@ -55,10 +55,14 @@ Template.thought_panel.onRendered( function(){
             // successful update operation, leave the page
             case DBOPE_LEAVE:
                 Session.set( 'collect.thought', null );
-                if( g.run.layout.get() === LYT_WINDOW ){
-                    $( $( '.thought-panel' ).parents( '.ronin-iwm-window' )[0] ).IWindowed( 'close' );
+                switch( g.run.layout.get()){
+                    case LYT_PAGE:
+                        FlowRouter.go( g.run.back );
+                        break;
+                    case LYT_WINDOW:
+                        $().IWindowed.close( '.thought-panel' );
+                        break;
                 }
-                FlowRouter.go( 'collect' );
                 break;
             // successful insert operation, stay in the page and reinitialize fields
             case DBOPE_REINIT:

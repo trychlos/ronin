@@ -363,6 +363,21 @@
         }
     };
 
+    // close() public method
+    //  close the current window
+    //  this method can be called on the current component and will close the
+    //   parent window
+    //  Rationale:
+    //  calling $( selector ).IWindowed( 'close' ) requires that selector be
+    //   exactly the window itself
+    //  instead of that, accepting $().IWindowed.close( selector ) let the user
+    //   require the closing from any child
+    //  Args:
+    //  - the selector to start with
+    $.fn[pluginName].close = ( selector ) => {
+        $( $( selector ).parents( '.ronin-iwm-window' )[0] ).IWindowed( 'close' )
+    };
+
     // show() public method
     //  show a window, re-activating it or creating a new one
     //  this method is to be called on the 'parent' of the to-be-created window

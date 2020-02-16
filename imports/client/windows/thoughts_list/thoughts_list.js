@@ -36,6 +36,7 @@ import './thoughts_list.html';
 
 Template.thoughtsList.fn = {
     actionNew: function(){
+        g.run.back = FlowRouter.current().route.name;
         FlowRouter.go( 'collect.new' );
     }
 };
@@ -59,7 +60,7 @@ Template.thoughtsList.onRendered( function(){
                             text: "Close",
                             click: function(){
                                 $.pubsub.publish( 'ronin.ui.thoughts.list.card.collapse-all' );
-                                $( '.thoughtsList' ).IWindowed( 'close' );
+                                $().IWindowed.close( '.'+context.template );
                             }
                         },
                         {

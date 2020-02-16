@@ -154,9 +154,9 @@ Template.projects_tree.fn = {
     _deleteNodeRec( $tree, node ){
         const method = node.obj.type === 'A' ? 'actions.remove' : 'projects.remove';
         //console.log( 'Meteor.call '+method+' '+node.name );
-        Meteor.call( method, node.obj._id, ( error ) => {
-            if( error ){
-                throwError({ message: error.message });
+        Meteor.call( method, node.obj, ( e ) => {
+            if( e ){
+                throwError({ message: e.message });
                 return;
             }
         });

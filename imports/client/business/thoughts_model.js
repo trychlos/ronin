@@ -12,7 +12,7 @@ $.pubsub.subscribe( 'ronin.model.thought.delete', ( msg, o ) => {
         'You are about to delete the "'+o.thought.name+'" thought.<br />'+
         'Are you sure ?', function( ret ){
             if( ret ){
-                Meteor.call( 'thoughts.remove', o.thought._id, ( e, res ) => {
+                Meteor.call( 'thoughts.remove', o.thought, ( e, res ) => {
                     if( e ){
                         throwError({ type:e.error, message:e.reason });
                     } else {
@@ -26,7 +26,7 @@ $.pubsub.subscribe( 'ronin.model.thought.delete', ( msg, o ) => {
 
 // take ownership of the tought
 $.pubsub.subscribe( 'ronin.model.thought.ownership', ( msg, o ) => {
-    Meteor.call( 'articles.ownership', o.thought._id, ( e, res ) => {
+    Meteor.call( 'articles.ownership', o.thought, ( e, res ) => {
         if( e ){
             throwError({ type:e.error, message:e.reason });
         } else {

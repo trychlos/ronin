@@ -55,7 +55,11 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
                 throwError({ type:e.error, message:e.reason });
                 Session.set( 'action.dbope', DBOPE_ERROR );
             } else {
-                throwSuccess( 'Action successfully updated' );
+                if( o.orig.type === 'T' ){
+                    throwSuccess( 'Thought successfully transformed' );
+                } else {
+                    throwSuccess( 'Action successfully updated' );
+                }
                 Session.set( 'action.dbope', DBOPE_LEAVE );
             }
         });

@@ -1,16 +1,16 @@
 /*
  * 'actions_grid' component.
  *  Display actions in a grid depending of their status.
- * 
+ *
  *  Parameters:
  *  - tab: the tab (aka the status) being displayed.
  *  - actions: the corresponding actions as a cursor.
- * 
+ *
  *  Session variables:
  *  - actions.tab.name: the current tab.
  */
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
-import { Projects } from '/imports/api/collections/projects/projects.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/interfaces/igrid/igrid.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
@@ -96,7 +96,7 @@ Template.actions_grid.fn = {
     },
     // delete the row in the grid, along with corresponding document server-side
     deleteRow: function( $grid, row ){
-        Meteor.call( 'actions.remove', row._id );
+        Meteor.call( 'actions.remove', row );
     },
     // contextual menu, delete operation
     opeDelete: function( tab, row ){

@@ -53,11 +53,13 @@ Template.thoughts_list_card.events({
         return false;
     },
     'click .js-action'( event, instance ){
+        g.run.back = FlowRouter.current().route.name;
         Session.set( 'review.action', instance.data.thought );
         FlowRouter.go( 'process.action' );
         return false;
     },
     'click .js-project'( event, instance ){
+        g.run.back = FlowRouter.current().route.name;
         Session.set( 'review.project', instance.data.thought );
         FlowRouter.go( 'process.project' );
         return false;

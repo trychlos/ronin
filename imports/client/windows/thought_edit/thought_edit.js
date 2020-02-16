@@ -39,7 +39,7 @@ Template.thoughtEdit.fn = {
                 FlowRouter.go( 'collect' );
                 break;
             case LYT_WINDOW:
-                $( '.thoughtEdit' ).IWindowed( 'close' );
+                $().IWindowed.close( '.thoughtEdit' );
                 break;
         }
     },
