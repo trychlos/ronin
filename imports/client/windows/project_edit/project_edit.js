@@ -3,9 +3,6 @@
  *
  *  This page lets the user edit a project.
  *
- *  Session variable:
- *  - review.project: the object to be edited, may be null.
- *
  *  Worflow:
  *  [routes.js]
  *      +-> <app layout layer> { gtdid, group, template }
@@ -16,23 +13,56 @@
  *                      |       +-> collapse_buttons
  *                      |
  *                      +-> projectEdit { gtdid, group, template }
+ *
+ *  Session variable:
+ *  - review.project: the object to be edited, may be null.
  */
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/collapse_buttons/collapse_buttons.js';
 import '/imports/client/components/project_panel/project_panel.js';
+import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './project_edit.html';
 
+Template.projectEdit.fn = {
+    actionClose(){
+        console.log( 'Template.projectEdit.fn.actionClose' );
+        Session.set( 'review.project', null );
+        switch( g.run.layout.get()){
+            case LYT_PAGE:
+                FlowRouter.go( g.run.back );
+                break;
+            case LYT_WINDOW:
+                $().IWindowed.close( '.projectEdit' );
+                break;
+        }
+    },
+    okLabel: function(){
+        return Template.projectEdit.fn.okLabelItem( Session.get( 'review.project' ));
+    },
+    okLabelItem: function( it ){
+        return it ? ( it.type === 'T' ? 'Transform' : 'Update' ) : 'Create';
+    }
+}
+
 Template.projectEdit.onCreated( function(){
-    this.windowed = new ReactiveVar( false );
+    console.log( 'projectEdit.onCreated' );
+    // this let us close a projectEdit window if the project has been
+    //  transformed in something else elsewhere
+    $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
+        console.log( 'projectEdit '+msg+' '+o._id );
+        const p = Session.get( 'review.project' );
+        if( p && p._id === o._id ){
+            Template.projectEdit.fn.actionClose();
+        }
+    });
 });
 
 Template.projectEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
-            const context = this.data;
-            console.log( 'calling thoughtEdit.IWindowed creation' );
-            console.log( context );
+            const context = Template.currentData();
+            const label = Template.projectEdit.fn.okLabel();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
                 simone: {
@@ -40,15 +70,16 @@ Template.projectEdit.onRendered( function(){
                         {
                             text: "Close",
                             click: function(){
-                                Template.thoughtEdit.fn.actionClose();
+                                Template.projectEdit.fn.actionClose();
                             }
                         },
                         {
-                            text: "OK",
+                            text: label,
                             click: function(){
-                                console.log( $( '.thoughtEdit' ));
-                                $( '.thoughtEdit' ).trigger( 'ronin.update' );
-                                //Template.thoughtEdit.fn.actionUpdate( self );
+                                $.pubsub.publish( 'ronin.model.project.update', {
+                                    orig: Session.get( 'review.project' ),
+                                    edit: Template.project_panel.fn.getContent()
+                                });
                             }
                         }
                     ],
@@ -56,15 +87,13 @@ Template.projectEdit.onRendered( function(){
                     title:  gtd.labelId( null, context.gtdid )
                 }
             });
-            this.windowed.set( true );
         }
     });
 });
 
 Template.projectEdit.helpers({
     okLabel(){
-        const label = Session.get( 'review.project' ) ? 'Update' : 'Create';
-        return label;
+        return Template.projectEdit.fn.okLabel();
     },
     title(){
         const title = Session.get( 'review.project' ) ? 'Edit project' : 'New project';
@@ -75,13 +104,14 @@ Template.projectEdit.helpers({
 
 Template.projectEdit.events({
     'click .js-cancel'( ev, instance ){
-        Session.set( 'review.project', null );
-        FlowRouter.go( 'review.projects' );
+        Template.projectEdit.fn.actionClose();
         return false;
     },
     'click .js-ok'( ev, instance ){
-        const obj = Template.project_panel.fn.getContent();
-        $( ev.target ).trigger( 'ronin.model.project.update', obj );
+        $.pubsub.publish( 'ronin.model.project.update', {
+            orig: Session.get( 'review.project' ),
+            edit: Template.project_panel.fn.getContent()
+        });
         return false;
     }
 });

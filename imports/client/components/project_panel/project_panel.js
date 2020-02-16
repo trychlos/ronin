@@ -22,60 +22,65 @@ import './project_panel.html';
 
 Template.project_panel.fn = {
     getContent: function(){
-        const instance = Template.instance();
         return {
             type: 'P',
-            name: instance.$('.js-name').val(),
+            name: $('.js-name').val(),
             topic: Template.topics_select.fn.getSelected(),
-            purpose: instance.$('.js-purpose').val(),
-            vision: instance.$('.js-vision').val(),
-            description: instance.$('.js-description').val(),
-            brainstorm: instance.$('.js-brainstorm').val(),
-            parent: Template.projects_select.fn.getSelected( '.js-project' ),
-            future: instance.$('.js-future').prop( 'checked' ),
+            purpose: $('.js-purpose').val(),
+            vision: $('.js-vision').val(),
+            description: $('.js-description').val(),
+            brainstorm: $('.js-brainstorm').val(),
+            parent: Template.projects_select.fn.getSelected(),
+            future: $('.js-future').prop( 'checked' ),
             startDate: Template.date_select.fn.getDate( '.js-datestart' ),
             dueDate: Template.date_select.fn.getDate( '.js-datedue' ),
             doneDate: Template.date_select.fn.getDate( '.js-datedone' ),
-            notes: instance.$('.js-notes').val()
+            notes: $('.js-notes').val()
         };
     },
     initEditArea: function(){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            instance.$('.js-name').val('');
-            Template.topics_select.fn.selectDefault();
-            instance.$('.js-purpose').val('');
-            instance.$('.js-vision').val('');
-            instance.$('.js-description').val('');
-            instance.$('.js-brainstorm').val('');
-            Template.projects_select.fn.unselect();
-            instance.$('.js-future').prop( 'checked', false ),
-            instance.$('.js-datestart').val('');
-            instance.$('.js-datedue').val('');
-            instance.$('.js-datedone').val('');
-            instance.$('.js-notes').val('');
-        }
+        $('.js-name').val('');
+        Template.topics_select.fn.selectDefault();
+        $('.js-purpose').val('');
+        $('.js-vision').val('');
+        $('.js-description').val('');
+        $('.js-brainstorm').val('');
+        Template.projects_select.fn.unselect();
+        $('.js-future').prop( 'checked', false ),
+        $('.js-datestart').val('');
+        $('.js-datedue').val('');
+        $('.js-datedone').val('');
+        $('.js-notes').val('');
     }
 };
 
 Template.project_panel.onRendered( function(){
     this.autorun(() => {
-        const status = Session.get( 'review.dbope' );
+        const status = Session.get( 'project.dbope' );
         switch( status ){
-            // successful update operation, leave the page
+            // successful update, leave the page
             case DBOPE_LEAVE:
-                Session.set( 'review.project', null );
-                const route = this.data.route || 'review.projects';
-                FlowRouter.go( route );
+                const project = Session.get( 'review.project' );
+                if( project ){
+                    $.pubsub.publish( 'ronin.model.reset', project._id );
+                }
+                switch( g.run.layout.get()){
+                    case LYT_PAGE:
+                        FlowRouter.go( g.run.back );
+                        break;
+                    case LYT_WINDOW:
+                        $().IWindowed.close( '.project-panel' );
+                        break;
+                }
                 break;
-            // successful insert operation, stay in the page, reinitializing it
+            // successful insert, reinit the page
             case DBOPE_REINIT:
-                Template.project_panel.fn.initEditArea();
                 Session.set( 'review.project', null );
+                Template.project_panel.fn.initEditArea();
                 break;
-            // all other cases, stay in the page, letting it unchanged
+            // all other cases, stay in the page letting it unchanged
         }
-        Session.set( 'review.dbope', null );
+        Session.set( 'project.dbope', null );
     });
 });
 
