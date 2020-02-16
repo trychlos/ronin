@@ -12,6 +12,7 @@ $.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
     console.log( 'thoughts_model '+msg+' '+id );
     const t = Session.get( 'thought.collect' );
     if( t && t._id === id ){
+        console.log( 'thoughts_model publish ronin.ui.close' );
         $.pubsub.publish( 'ronin.ui.close', t );
     }
 });

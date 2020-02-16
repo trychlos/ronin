@@ -53,7 +53,15 @@ Template.thoughtEdit.fn = {
 
 Template.thoughtEdit.onCreated( function(){
     console.log( 'thoughtEdit.onCreated' );
-    this.windowed = new ReactiveVar( false );
+    // this let us close a thoughtEdit window if the thought has been
+    //  transformed in something else elsewhere
+    $.pubsub.subscribe( 'ronin.ui.close', ( msg, o ) => {
+        console.log( 'thoughtEdit '+msg+' '+o._id );
+        const t = Session.get( 'collect.thought' );
+        if( t && t._id === o._id ){
+            Template.thoughtEdit.fn.actionClose();
+        }
+    });
 });
 
 Template.thoughtEdit.onRendered( function(){
@@ -62,8 +70,7 @@ Template.thoughtEdit.onRendered( function(){
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
-            console.log( 'calling thoughtEdit.IWindowed creation' );
-            console.log( context );
+            const label = Template.thoughtEdit.fn.okLabel();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
                 simone: {
@@ -75,7 +82,7 @@ Template.thoughtEdit.onRendered( function(){
                             }
                         },
                         {
-                            text: "OK",
+                            text: label,
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.thought.update', {
                                     orig: Session.get( 'collect.thought' ),
@@ -88,24 +95,7 @@ Template.thoughtEdit.onRendered( function(){
                     title:  gtd.labelId( null, context.gtdid )
                 }
             });
-            this.windowed.set( true );
         }
-    });
-    this.autorun(() => {
-        if( this.windowed.get()){
-            const context = Template.currentData();
-            const label = Template.thoughtEdit.fn.okLabel();
-            $( '.'+context.template ).IWindowed( 'buttonLabel', 1, label );
-        }
-    });
-    this.autorun(() => {
-        $.pubsub.subscribe( 'ronin.ui.close', ( msg, o ) => {
-            console.log( 'thoughtEdit '+msg+' '+o._id );
-            const t = Session.get( 'collect.thought' );
-            if( t && t._id === o._id ){
-                Template.thoughtEdit.fn.actionClose();
-            }
-        });
     });
 });
 

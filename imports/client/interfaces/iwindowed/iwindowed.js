@@ -73,6 +73,12 @@
             return 'ronin-iwm-'+id;
         },
 
+        // close the current window
+        _close: function(){
+            //console.log( this );
+            this.$dom.window( 'close' );
+        },
+
         // creating a new window
         //  this = plugin
         _create: function(){
@@ -205,11 +211,8 @@
             //console.log( arguments );
             if( typeof arguments[0] === 'string' ){
                 switch( arguments[0] ){
-                    case 'buttonLabel':
-                        this.buttonLabel( Array.prototype.slice.call( arguments, 1 ));
-                        break;
-                    case 'close':
-                        this.close( Array.prototype.slice.call( arguments, 1 ));
+                    case '_close':
+                        this._close( Array.prototype.slice.call( arguments, 1 ));
                         break;
                 }
             }
@@ -309,29 +312,6 @@
         _settingsName: function( id ){
             return 'spSettings-'+id;
         },
-
-        // buttonLabel() method
-        //  set the label of the specified button in the bottom buttonpane
-        //  - index from zero
-        //  - label
-        buttonLabel: function( args ){
-            const index = args[0];
-            const label = args[1];
-            //console.log( 'buttonLabel index='+index+' label='+label );
-            const buttons = this.$widget.find( '.ui-dialog-buttonset button' );
-            if( buttons ){
-                $( buttons[index] ).html( label );
-            } else {
-                console.log( 'buttonLabel: unable to find buttonPane' );
-            }
-        },
-
-        // close() method
-        //  close the current window
-        close: function(){
-            //console.log( this );
-            this.$dom.window( 'close' );
-        }
     });
 
     $.fn[pluginName] = function(){
@@ -384,7 +364,7 @@
             wnd = $( '#'+g[LYT_WINDOW].rootId+' '+selector+'.ronin-iwm-window' );
         }
         if( wnd && wnd.length ){
-            $( wnd[0] ).IWindowed( 'close' );
+            $( wnd[0] ).IWindowed( '_close' );
         } else {
             console.log( 'IWindowed.close() unable to find '+selector+'.ronin-iwm-window' );
         }
@@ -438,6 +418,26 @@
 }( jQuery, window, document ));
 
 /*
+                    case 'buttonLabel':
+                        this.buttonLabel( Array.prototype.slice.call( arguments, 1 ));
+                        break;
+
+        // buttonLabel() method
+        //  set the label of the specified button in the bottom buttonpane
+        //  - index from zero
+        //  - label
+        buttonLabel: function( args ){
+            const index = args[0];
+            const label = args[1];
+            //console.log( 'buttonLabel index='+index+' label='+label );
+            const buttons = this.$widget.find( '.ui-dialog-buttonset button' );
+            if( buttons ){
+                $( buttons[index] ).html( label );
+            } else {
+                console.log( 'buttonLabel: unable to find buttonPane' );
+            }
+        },
+
     // Avoid Plugin.prototype conflicts
     $.extend( Plugin.prototype, {
         init: function(){
@@ -448,11 +448,6 @@
             //          1: 'thoughtEdit'
             //      }
             //  }
-            let argsCount = Object.keys( this.args ).length;
-            // if no argument, nothing to do, just return
-            if( !argsCount ){
-                return;
-            }
             if( typeof this.args[0] === 'string' ){
                 switch( this.args[0] ){
                     case 'addButton':
@@ -533,10 +528,4 @@
             }
         }
     });
-
-            new Plugin( this, args );
-
-            //}
-        });
-    };
 */

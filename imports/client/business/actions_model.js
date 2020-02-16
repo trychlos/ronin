@@ -12,6 +12,7 @@ $.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
     console.log( 'actions_model '+msg+' '+id );
     const a = Session.get( 'review.action' );
     if( a && a._id === id ){
+        console.log( 'actions_model publish ronin.ui.close' );
         $.pubsub.publish( 'ronin.ui.close', a );
     }
 });

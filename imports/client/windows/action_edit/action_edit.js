@@ -57,7 +57,16 @@ Template.actionEdit.fn = {
 }
 
 Template.actionEdit.onCreated( function(){
-    this.windowed = new ReactiveVar( false );
+    console.log( 'actionEdit.onCreated' );
+    // this let us close an actionEdit window if the action has been
+    //  transformed in something else elsewhere
+    $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
+        console.log( 'actionEdit '+msg+' '+o._id );
+        const a = Session.get( 'review.action' );
+        if( a && a._id === o._id ){
+            Template.actionEdit.fn.actionClose();
+        }
+    });
 });
 
 Template.actionEdit.onRendered( function(){
@@ -65,6 +74,7 @@ Template.actionEdit.onRendered( function(){
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
+            const label = Template.actionEdit.fn.okLabel();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
                 simone: {
@@ -76,7 +86,7 @@ Template.actionEdit.onRendered( function(){
                             }
                         },
                         {
-                            text: "OK",
+                            text: label,
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.action.update', {
                                     orig: Session.get( 'review.action' ),
@@ -89,24 +99,7 @@ Template.actionEdit.onRendered( function(){
                     title:  gtd.labelId( null, context.gtdid )
                 }
             });
-            this.windowed.set( true );
         }
-    })
-    this.autorun(() => {
-        if( this.windowed.get()){
-            const context = Template.currentData();
-            const label = Template.actionEdit.fn.okLabel();
-            $( '.'+context.template ).IWindowed( 'buttonLabel', 1, label );
-        }
-    });
-    this.autorun(() => {
-        $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
-            console.log( 'actionEdit '+msg+' '+o._id );
-            const a = Session.get( 'review.action' );
-            if( a && a._id === o._id ){
-                Template.actionEdit.fn.actionClose();
-            }
-        });
     });
 });
 
