@@ -200,17 +200,7 @@
                   from simone.js, comes from this._i18n( 'close' )
                   try to force the internationalization of the string
 
-  136 2020- 2- 9 because collapse_buttons relies on wsf- classes, the template
-                  should be wsf_ prefixed
-
   137 2020- 2-11 set mail-based new account enrollment rules
-
-  138 2020- 2-11 footer_panel have a margin left and right
-
-  139 2020- 2-12 when entering the application with a route, gtd.id is not
-                  set and then we are unable to compute the template to be rendered
-                  + the same will be true each time the user change manually the route
-                  + the ame when we programatically change the route
 
   140 2020- 2-15 on user sign-in, the displayed lists should be reactively updated
 
@@ -471,6 +461,19 @@
   135 2020- 2- 9 because header_panel and footer_panel rely on fhsf- classes,
                   the corresponding templates should be fhsf_ prefixed
       2020- 2-16 done
+
+  136 2020- 2- 9 because collapse_buttons relies on wsf- classes, the template
+                  should be wsf_ prefixed
+      2020- 2-16 done
+
+  138 2020- 2-11 footer_panel have a margin left and right
+      2020- 2-16 done
+
+  139 2020- 2-12 when entering the application with a route, gtd.id is not
+                  set and then we are unable to compute the template to be rendered
+                  + the same will be true each time the user change manually the route
+                  + the same when we programatically change the route
+      2020- 2-16 should be fixed as of current version
 
   141 2020- 2-15 Thoughts check-list
 	               - is list rightly filtered on currently logged-in user ?
