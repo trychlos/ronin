@@ -179,9 +179,6 @@
                   what to do with other pages ?
       2020- 2- 8 pages are to be deprecated - replaced with four 'group' pages
 
-  127 2020- 2- 8 deploy.sh also copy last versions from maintainer/www-host/ronin.service
-                  and start.sh
-
   129 2020- 2- 8 publish actions and projects depending of the owner
 
   133 2020- 2- 9 window close button in the title bar has title='false'
@@ -196,7 +193,9 @@
 
   143 2020- 2-16 undefined fields are written as null in mongo db
 
-  144
+  144 2020- 2-16 rename groups/ to pages/ and xxxGroup to xxxPage (one more time!)
+
+  145
 
 -----------------------------------------------------------------------
  Done
@@ -443,6 +442,10 @@
                  pwi-iroutable-route is removed from setup
                  have nonetheless to keep data-ronin-itb-route attribute for each tab
                  done
+
+  127 2020- 2- 8 deploy.sh also copy last versions from maintainer/www-host/ronin.service
+                  and start.sh
+      2020- 2-16 done as v20.02.16.1
 
   128 2020- 2- 8 thoughts ownershipTakeable button doesn't seem to be reactive
       2020- 2-16 yes, it is

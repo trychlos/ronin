@@ -5,6 +5,10 @@ maintainerdir="$(cd ${0%/*}; pwd)"
 projectdir="${maintainerdir%/*}"
 target="www8"
 ronin="/home/ronin"
+service_src="${maintainerdir}/www-host/ronin.service"
+service_dest="/etc/systemd/system/"
+start_src="${maintainerdir}/www-host/start.sh"
+start_dest="${ronin}/"
 
 [ ! -f "${projectdir}/mobile-config.js" ] &&
     echo "This script must be run from project root dir" 1>&2 &&
@@ -52,6 +56,9 @@ _ret=$?
     execssh "cd ${ronin} && chown -R ronin:ronin bundle" &&
     execssh "cd ${ronin} && mv bundle bundle-${version}" &&
     execssh "cd ${ronin} && ln -s bundle-${version} bundle" &&
+    execcmd "scp ${service_src} ${target}:${service_dest}" &&
+    execssh "systemctl daemon-reload" &&
+    execcmd "scp ${start_src} ${target}:${start_dest}" &&
     execssh "systemctl start ronin" &&
     echo "Server deployed as v ${version}"
 _ret=$?
