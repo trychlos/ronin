@@ -5,6 +5,17 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
 
+// one of the windows/panels/components advertise that it has successfully
+//  updated the 'id' article, so that any window/panel/component which is
+//  opened on it should now be closed
+$.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
+    console.log( 'thoughts_model '+msg+' '+id );
+    const t = Session.get( 'thought.collect' );
+    if( t && t._id === id ){
+        $.pubsub.publish( 'ronin.ui.close', t );
+    }
+});
+
 // delete the provided thought
 //  requiring a user confirmation
 $.pubsub.subscribe( 'ronin.model.thought.delete', ( msg, o ) => {

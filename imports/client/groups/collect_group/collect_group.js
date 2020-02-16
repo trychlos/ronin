@@ -15,8 +15,6 @@
  *      Caution: must only be used at rendering time, as it will be superseded
  *      by later changes.
  */
-import '/imports/client/business/actions_model.js';
-import '/imports/client/business/thoughts_model.js';
 import '/imports/client/windows/thought_edit/thought_edit.js';
 import '/imports/client/windows/thoughts_list/thoughts_list.js';
 import './collect_group.html';

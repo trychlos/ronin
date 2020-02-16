@@ -36,7 +36,7 @@ Template.thoughtEdit.fn = {
         Session.set( 'collect.thought', null );
         switch( g.run.layout.get()){
             case LYT_PAGE:
-                FlowRouter.go( 'collect' );
+                FlowRouter.go( g.run.back );
                 break;
             case LYT_WINDOW:
                 $().IWindowed.close( '.thoughtEdit' );
@@ -97,7 +97,16 @@ Template.thoughtEdit.onRendered( function(){
             const label = Template.thoughtEdit.fn.okLabel();
             $( '.'+context.template ).IWindowed( 'buttonLabel', 1, label );
         }
-    })
+    });
+    this.autorun(() => {
+        $.pubsub.subscribe( 'ronin.ui.close', ( msg, o ) => {
+            console.log( 'thoughtEdit '+msg+' '+o._id );
+            const t = Session.get( 'collect.thought' );
+            if( t && t._id === o._id ){
+                Template.thoughtEdit.fn.actionClose();
+            }
+        });
+    });
 });
 
 Template.thoughtEdit.helpers({

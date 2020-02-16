@@ -54,7 +54,10 @@ Template.thought_panel.onRendered( function(){
         switch( status ){
             // successful update operation, leave the page
             case DBOPE_LEAVE:
-                Session.set( 'collect.thought', null );
+                const thought = Session.get( 'collect.thought' );
+                if( thought ){
+                    $.pubsub.publish( 'ronin.model.reset', thought._id );
+                }
                 switch( g.run.layout.get()){
                     case LYT_PAGE:
                         FlowRouter.go( g.run.back );

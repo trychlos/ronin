@@ -85,36 +85,6 @@ Meteor.methods({
         return ret;
     },
 
-    // create a new action starting from a thought
-    //  the new action is owned by the currently logged-in user
-    'actions.from.thought'( thought, action ){
-        Meteor.call( '_articles_check_type', thought, 'T' );
-        Meteor.call( '_articles_check_user', thought );
-        // canonic fields order (from ../articles.js)
-        const ret = Articles.update( thought._id, { $set: {
-            type: 'A',
-            name: action.name,
-            topic: action.topic,
-            description: action.description,
-            userId: this.userId,
-            notes: action.notes,
-            startDate: action.startDate,
-            dueDate: action.dueDate,
-            doneDate: action.doneDate,
-            parent: action.parent,
-            status: action.status,
-            context: action.context,
-            outcome: action.outcome
-        }});
-        console.log( 'Articles.actions.from.thought("'+action.name+'") returns '+ret );
-        if( !ret ){
-            throw new Meteor.Error(
-                'articles.actions.from.thought',
-                'unable to transform "'+thought.name+'" into an action' );
-        }
-        return ret;
-    },
-
     // insert a new action
     //  the new action is owned by the currently logged-in user
     'actions.insert'( o ){
@@ -153,14 +123,17 @@ Meteor.methods({
     },
 
     // update an existing action
+    //  or transform a thought into an action
     //  update does not mean taking ownership
     'actions.update'( id, o ){
         Meteor.call( '_articles_check_type', o, 'A' );
         Meteor.call( '_articles_check_user', o );
         const ret = Articles.update( id, { $set: {
+            type: o.type,
             name: o.name,
             topic: o.topic,
             description: o.description,
+            userId: this.userId,
             notes: o.notes,
             startDate: o.startDate,
             dueDate: o.dueDate,
@@ -214,37 +187,6 @@ Meteor.methods({
             throw new Meteor.Error(
                 'articles.reparent',
                 'unable to reparent "'+o_id+'" article' );
-        }
-        return ret;
-    },
-
-    // create a new project from a thought
-    //  the new project is owned by the currently logged-in user
-    'projects.from.thought'( thought, project ){
-        Meteor.call( '_articles_check_type', thought, 'T' );
-        Meteor.call( '_articles_check_user', thought );
-        // canonic fields order (from ../articles.js)
-        const ret = Articles.update( thought._id, { $set: {
-            type: 'P',
-            name: project.name,
-            topic: project.topic,
-            description: project.description,
-            userId: this.userId,
-            notes: project.notes,
-            startDate: project.startDate,
-            dueDate: project.dueDate,
-            doneDate: project.doneDate,
-            parent: project.parent,
-            status: project.status,
-            future: project.future || false,
-            vision: project.vision,
-            brainstorm: project.brainstorm
-        }});
-        console.log( 'Articles.projects.from.thought("'+project.name+'") returns '+ret );
-        if( !ret ){
-            throw new Meteor.Error(
-                'articles.projects.from.thought',
-                'unable to transform "'+thought.name+'" into a project' );
         }
         return ret;
     },

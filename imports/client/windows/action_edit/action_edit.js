@@ -41,7 +41,7 @@ Template.actionEdit.fn = {
         Session.set( 'review.action', null );
         switch( g.run.layout.get()){
             case LYT_PAGE:
-                FlowRouter.go( 'collect' );
+                FlowRouter.go( g.run.back );
                 break;
             case LYT_WINDOW:
                 $().IWindowed.close( '.actionEdit' );
@@ -80,7 +80,7 @@ Template.actionEdit.onRendered( function(){
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.action.update', {
                                     orig: Session.get( 'review.action' ),
-                                    edit: Template.action_panel.fn.getContent( $( '.'+context.template ))
+                                    edit: Template.action_panel.fn.getContent()
                                 });
                             }
                         }
@@ -98,6 +98,15 @@ Template.actionEdit.onRendered( function(){
             const label = Template.actionEdit.fn.okLabel();
             $( '.'+context.template ).IWindowed( 'buttonLabel', 1, label );
         }
+    });
+    this.autorun(() => {
+        $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
+            console.log( 'actionEdit '+msg+' '+o._id );
+            const a = Session.get( 'review.action' );
+            if( a && a._id === o._id ){
+                Template.actionEdit.fn.actionClose();
+            }
+        });
     });
 });
 

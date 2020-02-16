@@ -380,6 +380,9 @@
         if( !wnd || !wnd.length ){
             wnd = $( selector ).parents( '.ronin-iwm-window' );
         }
+        if( !wnd || !wnd.length ){
+            wnd = $( '#'+g[LYT_WINDOW].rootId+' '+selector+'.ronin-iwm-window' );
+        }
         if( wnd && wnd.length ){
             $( wnd[0] ).IWindowed( 'close' );
         } else {

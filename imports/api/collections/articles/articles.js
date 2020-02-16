@@ -231,7 +231,7 @@ Articles.fn.doneToggle = function( action ){
 // check if two objects are the same
 // mainly used to prevent too many useless updates
 Articles.fn.equal = function( a, b ){
-    function _equals( f, g ){
+    let _equals = ( f, g ) => {
         if( !f && !g ){
             return true;
         }
@@ -239,8 +239,9 @@ Articles.fn.equal = function( a, b ){
             return false;
         }
         return f === g;
-    }
-    return _equals( a.name, b.name ) &&
+    };
+    return _equals( a.type, b.type ) &&
+        _equals( a.name, b.name ) &&
         _equals( a.description, b.description ) &&
         _equals( a.topic, b.topic );
 };

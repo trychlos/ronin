@@ -226,7 +226,9 @@
 	               - is list rightly filtered on currently logged-in user ?
 	               - are all listed articled actually editable ? (generally speaking, yes)
 
-  142
+  142 2020- 2-16 project select default is 'a new project', but may be an action
+
+  143
 
 -----------------------------------------------------------------------
  Done

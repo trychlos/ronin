@@ -5,6 +5,17 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
 
+// one of the windows/panels/components advertise that it has successfully
+//  updated the 'id' article, so that any window/panel/component which is
+//  opened on it should now be closed
+$.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
+    console.log( 'actions_model '+msg+' '+id );
+    const a = Session.get( 'review.action' );
+    if( a && a._id === id ){
+        $.pubsub.publish( 'ronin.ui.close', a );
+    }
+});
+
 // delete the provided thought
 //  requiring a user confirmation
 /*
@@ -27,6 +38,7 @@ $.pubsub.subscribe( 'ronin.model.thought.delete', ( msg, o ) => {
 */
 
 // insert or update the provided action
+//  or transform a thought into an action
 //  if a previous object already existed, then this is an update
 //  the page is left if this was an update *and* it has been successful
 $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {

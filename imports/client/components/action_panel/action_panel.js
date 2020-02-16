@@ -23,7 +23,7 @@ import '/imports/client/components/topics_select/topics_select.js';
 import './action_panel.html';
 
 Template.action_panel.fn = {
-    getContent: function( $parent ){
+    getContent: function(){
         return {
             type: 'A',
             name: $('.js-name').val(),
@@ -60,9 +60,18 @@ Template.action_panel.onRendered( function(){
         switch( status ){
             // successful update, leave the page
             case DBOPE_LEAVE:
-                Session.set( 'review.action', null );
-                const route = this.data.route || 'review.actions';
-                FlowRouter.go( route );
+                const action = Session.get( 'review.action' );
+                if( action ){
+                    $.pubsub.publish( 'ronin.model.reset', action._id );
+                }
+                switch( g.run.layout.get()){
+                    case LYT_PAGE:
+                        FlowRouter.go( g.run.back );
+                        break;
+                    case LYT_WINDOW:
+                        $().IWindowed.close( '.action-panel' );
+                        break;
+                }
                 break;
             // successful insert, reinit the page
             case DBOPE_REINIT:

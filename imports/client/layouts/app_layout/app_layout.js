@@ -31,6 +31,9 @@
  *      Caution: must only be used at rendering time, as it will be superseded
  *      by later changes.
  */
+import '/imports/client/business/actions_model.js';
+import '/imports/client/business/thoughts_model.js';
+
 import '/imports/client/components/footer_panel/footer_panel.js';
 import '/imports/client/components/header_panel/header_panel.js';
 import '/imports/client/components/menu_side/menu_side.js';
