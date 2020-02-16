@@ -2,7 +2,7 @@
  * 'actionsList' window.
  *
  *  Display (at least) the list of actions.
- *  Each action as buttons:
+ *  Each action has buttons:
  *  - to update/delete the action
  *
  *  pageLayout:
@@ -13,42 +13,70 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { gtd, page, window }
- *              +-> reviewPage { gtd, window }
+ *      +-> <app layout layer> { gtdid, group, template }
+ *              +-> <group layer> { gtdid, group, template }
  *                      |
- *                      +-> actionsList { gtd }
- *                              +-> action_panel in window-based layout
- *                              +-> actions_list
+ *                      +-> thoughtsList { gtdid, group, template }
+ *                              +-> thoughts_list
  *                              +-> plus_button in page-based layout
  *                      |
- *                      +-> actionEdit { gtd }
+ *                      +-> thoughtEdit { gtdid, group, template }
  *
  *  Parameters:
- *  - 'gtd': identifier of the features group item.
+ *  - 'data': the layout context built in appLayout, and passed in by group layer.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
-import '/imports/client/components/action_panel/action_panel.js';
 import '/imports/client/components/actions_list/actions_list.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_list.html';
 
+Template.actionsList.fn = {
+    actionNew: function(){
+        g.run.back = FlowRouter.current().route.name;
+        FlowRouter.go( 'action.new' );
+    }
+};
+
 Template.actionsList.onCreated( function(){
+    console.log( 'actionsList.onCreated' );
     this.subscribe( 'articles.actions.all' );
     this.subscribe( 'topics.all' );
     this.subscribe( 'contexts.all' );
 });
 
 Template.actionsList.onRendered( function(){
-    // open the window if the manager has been intialized
-    if( g[LYT_WINDOW].taskbar.get()){
-        $('div.collect-window').IWindowed({
-            template:   'actionsList',
-            title:      'Review actions'
-        });
-    }
+    console.log( 'actionsList.onRendered' );
+    this.autorun(() => {
+        if( g[LYT_WINDOW].taskbar.get()){
+            const context = Template.currentData();
+            $( '.'+context.template ).IWindowed({
+                template: context.template,
+                simone: {
+                    buttons: [
+                        {
+                            text: "Close",
+                            click: function(){
+                                $.pubsub.publish( 'ronin.ui.actions.list.card.collapse-all' );
+                                $().IWindowed.close( '.'+context.template );
+                            }
+                        },
+                        {
+                            text: "New",
+                            click: function(){
+                                Template.actionsList.fn.actionNew();
+                            }
+                        }
+                    ],
+                    group:  context.group,
+                    title:  gtd.labelId( null, context.gtdid )
+                }
+            });
+        }
+    });
 });
 
 Template.actionsList.helpers({
@@ -58,17 +86,13 @@ Template.actionsList.helpers({
 });
 
 Template.actionsList.events({
-    // emitted from actions_list_item:
-    //  close all items
-    'ronin.ui.actions.list.card.collapse'( event, instance ){
-        //console.log( 'thoughts_list ronin.thoughts.list.card.collapse' );
-        $( '.actions-list-item' ).removeClass( 'x-opened' );
-        Session.set( 'review.opened', null );
-    },
+    // page layout
     'click .js-new'( ev, instance ){
-        $( event.target ).trigger( 'ronin.ui.actions.list.card.collapse' );
-        Session.set( 'review.action', null );
-        FlowRouter.go( 'action.new' );
+        Template.actionsList.fn.actionNew();
         return false;
     }
+});
+
+Template.actionsList.onDestroyed( function(){
+    console.log( 'actionsList.onDestroyed' );
 });

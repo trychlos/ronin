@@ -253,13 +253,13 @@ export const gtd = {
                 },
                 children: [
                     {
-                        id: 'thoughts-new',
+                        id: 'thought-new',
                         label: 'Insert thoughts',
                         route: 'collect.new',
                         template: 'thoughtEdit',
                     },
                     {
-                        id: 'thoughts-edit',
+                        id: 'thought-edit',
                         label: 'Edit thought',
                         route: 'collect.edit',
                         template: 'thoughtEdit',
@@ -332,7 +332,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'tho-project',
+                        id: 'thought-project',
                         label: 'Transform into a project',
                         route: 'process.project',
                         template: 'projectEdit',
@@ -352,7 +352,7 @@ export const gtd = {
                         route: 'project.new'
                     },
                     {
-                        id: 'tho-action',
+                        id: 'thought-action',
                         label: 'Transform into an action',
                         route: 'process.action',
                         template: 'actionEdit',

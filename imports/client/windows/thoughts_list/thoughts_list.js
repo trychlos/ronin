@@ -2,7 +2,7 @@
  * 'thoughtsList' window.
  *
  *  Display (at least) the list of thoughts.
- *  Each thought as buttons:
+ *  Each thought has buttons:
  *  - to create/update/delete the thought
  *  - or to transform it to action, project or maybe.
  *

@@ -13,42 +13,70 @@
  *
  *  Worflow:
  *  [routes.js]
- *      +-> pageLayout { gtd, page, window }
- *              +-> reviewPage { gtd, window }
+ *      +-> <app layout layer> { gtdid, group, template }
+ *              +-> <group layer> { gtdid, group, template }
  *                      |
- *                      +-> projectsList { gtd }
- *                              +-> project_panel in window-based layout
- *                              +-> projects_list
+ *                      +-> thoughtsList { gtdid, group, template }
+ *                              +-> thoughts_list
  *                              +-> plus_button in page-based layout
  *                      |
- *                      +-> projectEdit { gtd }
+ *                      +-> thoughtEdit { gtdid, group, template }
  *
  *  Parameters:
- *  - 'gtd': identifier of the features group item.
+ *  - 'data': the layout context built in appLayout, and passed in by group layer.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
+import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
-import '/imports/client/components/project_panel/project_panel.js';
 import '/imports/client/components/projects_tabs/projects_tabs.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './projects_list.html';
 
+Template.projectsList.fn = {
+    actionNew: function(){
+        g.run.back = FlowRouter.current().route.name;
+        FlowRouter.go( 'project.new' );
+    }
+};
+
 Template.projectsList.onCreated( function(){
+    console.log( 'projectsList.onCreated' );
     this.subscribe( 'articles.projects.all' );
     this.subscribe( 'topics.all' );
     this.subscribe( 'contexts.all' );
 });
 
 Template.projectsList.onRendered( function(){
-    // open the window if the manager has been intialized
-    if( g[LYT_WINDOW].taskbar.get()){
-        $('div.collect-window').IWindowed({
-            template:   'projectsList',
-            title:      'Review projects'
-        });
-    }
+    console.log( 'projectsList.onRendered' );
+    this.autorun(() => {
+        if( g[LYT_WINDOW].taskbar.get()){
+            const context = Template.currentData();
+            $( '.'+context.template ).IWindowed({
+                template: context.template,
+                simone: {
+                    buttons: [
+                        {
+                            text: "Close",
+                            click: function(){
+                                $.pubsub.publish( 'ronin.ui.projects.list.card.collapse-all' );
+                                $().IWindowed.close( '.'+context.template );
+                            }
+                        },
+                        {
+                            text: "New",
+                            click: function(){
+                                Template.projectsList.fn.actionNew();
+                            }
+                        }
+                    ],
+                    group:  context.group,
+                    title:  gtd.labelId( null, context.gtdid )
+                }
+            });
+        }
+    });
 });
 
 Template.projectsList.helpers({
@@ -58,10 +86,13 @@ Template.projectsList.helpers({
 });
 
 Template.projectsList.events({
+    // page layout
     'click .js-new'( ev, instance ){
-        $( event.target ).trigger( 'ronin.ui.projects.list.card.collapse' );
-        Session.set( 'review.project', null );
-        FlowRouter.go( 'project.new' );
+        Template.projectsList.fn.actionNew();
         return false;
     }
+});
+
+Template.projectsList.onDestroyed( function(){
+    console.log( 'projectsList.onDestroyed' );
 });
