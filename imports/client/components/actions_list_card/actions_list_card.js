@@ -21,6 +21,7 @@ Template.actions_list_card.helpers({
 Template.actions_list_card.events({
     'click .js-edit'( event, instance ){
         //console.log( instance.data.action );
+        g.run.back = FlowRouter.current().route.name;
         Session.set( 'review.action', instance.data.action );
         FlowRouter.go( 'action.edit' );
         return false;

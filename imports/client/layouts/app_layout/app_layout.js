@@ -13,7 +13,11 @@
  *
  *  On a window-based (LYT_WINDOW) layout:
  *  1. the 'ronin-window-layout' class is added to the topmost div
- *  2. in this layout, each page is opened in each detached 'window'.
+ *  2. this is a fixed layout, with detached windows:
+ *      - lyt-header    the same fixed sticky header than in LYT_PAGE layout,
+ *      - lyt-content   a full page, not designed for scroll, content,
+ *                      which contains 'side' and 'overview' navigation panels
+ *  3. in this layout, each page is opened in its own detached 'window'.
  *
  *  Worflow:
  *  [routes.js]
@@ -39,8 +43,11 @@ import '/imports/client/components/header_panel/header_panel.js';
 import '/imports/client/components/menu_side/menu_side.js';
 import '/imports/client/components/message/message.js';
 import '/imports/client/components/overview/overview.js';
+
 import '/imports/client/groups/collect_group/collect_group.js';
 import '/imports/client/groups/process_group/process_group.js';
+import '/imports/client/groups/review_group/review_group.js';
+import '/imports/client/groups/setup_group/setup_group.js';
 import './app_layout.html';
 
 Template.appLayout.fn = {
@@ -131,7 +138,7 @@ Template.appLayout.onRendered( function(){
 
 Template.appLayout.helpers({
     // in windowLayout, template may be undefined if route is /
-    // in pageLayout, there is always one (computed from gtd.group)
+    // in pageLayout, there is always one (computed from gtd.page)
     hasTemplate(){
         let data = Template.instance().data;
         return data.template;

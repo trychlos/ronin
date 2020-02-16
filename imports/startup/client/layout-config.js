@@ -82,10 +82,9 @@ g[LYT_WINDOW] = {
 };
 
 // set a default route for the page-based layouts
-// NB: the 'gtd.group' holds the last active GTD group item identifier
-const page = Session.get( 'gtd.group' );
+const page = Session.get( 'gtd.page' );
 if( !page ){
-    Session.set( 'gtd.group', 'collect-group' );
+    Session.set( 'gtd.page', 'thoughts-list' );
 }
 
 // layout initialization

@@ -13,47 +13,6 @@ body {
             text-decoration: none;
         }
     }
-    /* header-panel responsiveness
-     */
-    .lyt-header,
-    .lyt-content {
-        padding-left: @global-px;
-        padding-right: @global-px;
-    }
-    .lyt-header {
-        .header-panel {
-            .menu-button {
-                .ui-button {
-                    padding: 0.25em 0.5em;
-                }
-            }
-            .title {
-                font-weight: bold;
-            }
-            .layout-select {
-                .ui-button {
-                    padding: 0.25em 0.5em;
-                }
-            }
-            .spacer {
-                margin-left: 0.5em;
-            }
-            @media( max-width: 640px ){
-                .layout-select {
-                    .text {
-                        display: none;
-                    }
-                }
-            }
-            @media( min-width: 641px ){
-                .layout-select {
-                    .text {
-                        display: inline;
-                    }
-                }
-            }
-        }
-    }
     /* positionning utilities
      * all layouts should have their topmost div have this class
      */
@@ -61,6 +20,27 @@ body {
         p {
             margin-top: 0;
             margin-bottom: 0;
+        }
+        /* list cards */
+        .x-card {
+            margin: 0.125rem 0;
+            line-height: 2.5rem;
+            a {
+                color: inherit;
+            }
+            .name p {
+                font-weight: bold;
+            }
+            .title button {
+                margin: 0.25rem;
+                margin-right: 0;
+            }
+            .ui-button {
+                padding: 0.25em 0.5em;
+            }
+        }
+        .x-card.x-opened .title {
+            background-color: @home-color-l50;
         }
         .x-createdAt {
             font-size: 90%;

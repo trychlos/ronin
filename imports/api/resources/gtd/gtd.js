@@ -44,9 +44,10 @@
  *  NB: see https://stackoverflow.com/questions/33611812/export-const-vs-export-default-in-es6
  *
  *  Session variables:
- *  - 'gtd.group': in page-based layout, we require to always have an active item
- *      in the footer navigation bar; keep here the last active GTD item identifier;
- *      defaults to 'collect-group'.
+ *  - 'gtd.page': in page-based layout, we require to always have an active item
+ *      in the footer navigation bar;
+ *      so keep here a GTD item identifier to which we can tie the current active item;
+ *      defaults to 'thoughts-list'.
  */
 export const gtd = {
     features: function(){
@@ -267,7 +268,7 @@ export const gtd = {
                     {
                         id: 'thoughts-list',
                         label: 'Collect thoughts',
-                        route: 'collect',
+                        route: 'collect.list',
                         template: 'thoughtsList',
                         navs: {
                             footer: {
@@ -379,8 +380,7 @@ export const gtd = {
             {
                 id: 'review-group',
                 label: 'Review',
-                route: 'review',
-                group: 'review',
+                group: 'reviewGroup',
                 sublabel: [
                     'Organize',
                     'Do'
@@ -395,9 +395,10 @@ export const gtd = {
                 },
                 children: [
                     {
-                        id: 'projects',
+                        id: 'projects-list',
                         label: 'Projects',
                         route: 'review.projects',
+                        template: 'projectsList',
                         navs: {
                             header: {
                                 display: true
@@ -421,7 +422,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'future',
+                        id: 'projects-future',
                         label: 'Future projects',
                         route: 'review.future',
                         navs: {
@@ -443,9 +444,10 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'actions',
+                        id: 'actions-list',
                         label: 'Actions',
                         route: 'review.actions',
+                        template: 'actionsList',
                         navs: {
                             footer: {
                                 display: true,
@@ -472,7 +474,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'inactive',
+                        id: 'actions-inactive',
                         label: 'Inactive',
                         route: 'review.inactive',
                         navs: {
@@ -493,7 +495,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'asap',
+                        id: 'actions-asap',
                         label: 'Do ASAP',
                         route: 'review.asap',
                         navs: {
@@ -514,7 +516,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'scheduled',
+                        id: 'actions-scheduled',
                         label: 'Scheduled',
                         route: 'review.scheduled',
                         navs: {
@@ -535,7 +537,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'delegated',
+                        id: 'actions-delegated',
                         label: 'Delegated',
                         route: 'review.delegated',
                         navs: {
@@ -556,7 +558,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'done',
+                        id: 'actions-done',
                         label: 'Done',
                         route: 'review.done',
                         navs: {
@@ -575,6 +577,12 @@ export const gtd = {
                                 display: true
                             }
                         }
+                    },
+                    {
+                        id: 'action-edit',
+                        label: 'Edit action',
+                        template: 'actionEdit',
+                        route: 'action.edit'
                     }
                 ]
             }

@@ -222,10 +222,6 @@
 
   140 2020- 2-15 on user sign-in, the displayed lists should be reactively updated
 
-  141 2020- 2-15 Thoughts check-list
-	               - is list rightly filtered on currently logged-in user ?
-	               - are all listed articled actually editable ? (generally speaking, yes)
-
   142 2020- 2-16 project select default is 'a new project', but may be an action
 
   143
@@ -471,6 +467,11 @@
                  pwi-iroutable-route is removed from setup
                  have nonetheless to keep data-ronin-itb-route attribute for each tab
                  done
+
+  141 2020- 2-15 Thoughts check-list
+	               - is list rightly filtered on currently logged-in user ?
+	               - are all listed articled actually editable ? (generally speaking, yes)
+      2020- 2-16 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

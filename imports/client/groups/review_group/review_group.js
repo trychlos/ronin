@@ -15,8 +15,10 @@
  *      Caution: must only be used at rendering time, as it will be superseded
  *      by later changes.
  */
-import '/imports/client/windows/thought_edit/thought_edit.js';
-import '/imports/client/windows/thoughts_list/thoughts_list.js';
+import '/imports/client/windows/action_edit/action_edit.js';
+import '/imports/client/windows/actions_list/actions_list.js';
+import '/imports/client/windows/project_edit/project_edit.js';
+import '/imports/client/windows/projects_list/projects_list.js';
 import './review_group.html';
 
 Template.reviewGroup.onCreated( function(){

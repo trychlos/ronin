@@ -44,6 +44,7 @@ Template.thoughts_list_card.helpers({
 Template.thoughts_list_card.events({
     'click .js-edit'( event, instance ){
         //console.log( instance.data.thought );
+        g.run.back = FlowRouter.current().route.name;
         Session.set( 'collect.thought', instance.data.thought );
         FlowRouter.go( 'collect.edit' );
         return false;

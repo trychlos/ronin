@@ -1,47 +1,44 @@
 div.ronin-layout {
-    /* common page+window global layouts */
-    .fhsf-header {
-        line-height: @topbar-height;
+    .lyt-header,
+    .lyt-content,
+    .lyt-footer {
+        padding-left: @global-px;
+        padding-right: @global-px;
     }
-    .fhsf-content {
-        overflow-y: auto;
-    }
-    .lyt-side {
-        height: 100%;
-        padding-top: 0.5rem;
-    }
-    .ronin-group {
-        width: 100%;
-    }
-    /*
-    .ronin-window {
-        margin-top: 0.25rem;
-        padding-right: 0.25rem;
-    }
-    */
-    /* list cards */
-    .x-card {
-        margin: 0.125rem 0;
-        line-height: 2.5rem;
-        a {
-            color: inherit;
-        }
-        .name p {
-            font-weight: bold;
-        }
-        .title button {
-            margin: 0.25rem;
-            margin-right: 0;
-        }
-        .ui-button {
-            padding: 0.25em 0.5em;
-        }
-    }
-    .x-card.x-opened .title {
-        background-color: @home-color-l50;
-    }
-    /* colors */
     .lyt-header {
+        .header-panel {
+            .menu-button {
+                .ui-button {
+                    padding: 0.25em 0.5em;
+                }
+            }
+            .title {
+                font-weight: bold;
+            }
+            .layout-select {
+                .ui-button {
+                    padding: 0.25em 0.5em;
+                }
+            }
+            .spacer {
+                margin-left: 0.5em;
+            }
+            @media( max-width: 640px ){
+                .layout-select {
+                    .text {
+                        display: none;
+                    }
+                }
+            }
+            @media( min-width: 641px ){
+                .layout-select {
+                    .text {
+                        display: inline;
+                    }
+                }
+            }
+        }
+        /* colors */
         background-color: @home-color;
         color: white;
         .ui-button {
@@ -49,6 +46,46 @@ div.ronin-layout {
             background-color: transparent;
             border-color: white;
         }
+    }
+    .ronin-group {
+        width: 100%;
+    }
+    /* after the window itself, this is the highest common level for page and
+     *  window layouts
+     */
+    .ronin-wnd-content {
+        padding-right: 0.25rem;
+    }
+}
+/*
+ * pageLayout
+ */
+div.ronin-layout.ronin-lyt-page {
+    /*
+     *  Fixed header - Sticky footer
+     *  On mobile and touchable layouts, have a fixed header and an sticky footer.
+     *  See https://medium.com/@andrejsabrickis/a-fullscreen-modal-with-fixed-header-footer-and-a-scrollable-content-1656845c8171
+     */
+    div.fhsf-parent {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: @topbar-height auto @bottombar-height;
+        div.fhsf-footer {
+            margin: 0.25rem 0;
+        }
+    }
+    .fhsf-header {
+        line-height: @topbar-height;
+    }
+    .fhsf-content {
+        overflow-y: auto;
+    }
+    .fhsf-footer {
+        padding: 0 0.25rem;
     }
     .lyt-footer {
         a {
@@ -64,27 +101,10 @@ div.ronin-layout {
             }
         }
     }
-}
-.ronin-lyt-page {
     /*
-     *  Fixed header - Sticky footer
-     *  On mobile and touchable layouts, have a fixed header and an sticky footer.
-     *  See https://medium.com/@andrejsabrickis/a-fullscreen-modal-with-fixed-header-footer-and-a-scrollable-content-1656845c8171
+     * Edition pages wsf-
+     *  no header - sticky footer just above the fhsf-footer
      */
-     div.fhsf-parent {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        display: grid;
-        grid-template-rows: @topbar-height auto @bottombar-height;
-        div.fhsf-footer {
-            margin: 0.25rem 0;
-        }
-    }
-    /* edition pages wsf-
-     *  no header - sticky footer just above the fhsf-footer */
     .wsf-parent {
         .wsf-header {
             display: hidden;
@@ -106,5 +126,14 @@ div.ronin-layout {
             padding-right: 1rem;
             border-top: 1px solid @border-color;
         }
+    }
+}
+/*
+ * windowLayout
+ */
+div.ronin-layout.ronin-lyt-window {
+    .lyt-side {
+        height: 100%;
+        padding-top: 0.5rem;
     }
 }
