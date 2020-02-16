@@ -51,8 +51,13 @@ let blazeRender = ( name ) => {
 FlowRouter.route('/', {
     name: 'home',
     triggersEnter: [ function( context, redirect ){
-        if( g.run.layout.get() === LYT_PAGE ){
-            redirect( '/thoughts' );
+        switch( g.run.layout.get()){
+            case LYT_PAGE:
+                redirect( '/thoughts' );
+                break;
+            case LYT_WINDOW:
+                $().IWindowed.minimizeAll();
+                break;
         }
     }],
     action(){

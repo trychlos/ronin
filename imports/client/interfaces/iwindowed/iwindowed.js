@@ -387,6 +387,18 @@
         }
     };
 
+    // minimizeAll() public method
+    //  minimize all windows
+    $.fn[pluginName].minimizeAll = () => {
+        const taskbar = g[LYT_WINDOW].taskbar.get();
+        if( taskbar ){
+            const windows = taskbar.taskbar( 'windows' );
+            for( let i=0 ; i<windows.length ; ++i ){
+                $( windows[i] ).window( 'minimize' );
+            }
+        }
+    },
+
     // show() public method
     //  show a window, re-activating it or creating a new one
     //  this method is to be called on the 'parent' of the to-be-created window
@@ -482,21 +494,6 @@
                 const titlebar = $( widget ).find( '.ronin-iwm-titlebar' );
                 const content = $( this.dom ).find( selector ).detach();
                 $( titlebar ).append( content );
-            }
-        },
-        // minimizeAll() method
-        //  minimize all windows
-        minimizeAll: function(){
-            if( argsCount != 1 ){
-                throwError({ message: 'close() doesn\'t expect any argument, '+this.args[1]+' found' });
-            } else {
-                const taskbar = g[LYT_WINDOW].taskbar.get();
-                if( taskbar ){
-                    const windows = taskbar.taskbar( 'windows' );
-                    for( let i=0 ; i<windows.length ; ++i ){
-                        $( windows[i] ).window( 'minimize' );
-                    }
-                }
             }
         },
         // setRoute() method

@@ -30,7 +30,7 @@ Template.collectGroup.onRendered( function(){
     this.autorun(() => {
         const context = Template.currentData();
         if( context.template && g[LYT_WINDOW].taskbar.get()){
-            $( 'body' ).IWindowed.show( context.template, context );
+            $().IWindowed.show( context.template, context );
         }
     })
 });
