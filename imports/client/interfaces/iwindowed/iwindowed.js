@@ -329,6 +329,7 @@
         // close() method
         //  close the current window
         close: function(){
+            //console.log( this );
             this.$dom.window( 'close' );
         }
     });
@@ -375,7 +376,15 @@
     //  Args:
     //  - the selector to start with
     $.fn[pluginName].close = ( selector ) => {
-        $( $( selector ).parents( '.ronin-iwm-window' )[0] ).IWindowed( 'close' )
+        let wnd = $( selector+'.ronin-iwm-window' );
+        if( !wnd || !wnd.length ){
+            wnd = $( selector ).parents( '.ronin-iwm-window' );
+        }
+        if( wnd && wnd.length ){
+            $( wnd[0] ).IWindowed( 'close' );
+        } else {
+            console.log( 'IWindowed.close() unable to find '+selector+'.ronin-iwm-window' );
+        }
     };
 
     // show() public method

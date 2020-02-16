@@ -32,7 +32,7 @@ import './thought_edit.html';
 Template.thoughtEdit.fn = {
     // on close, go back to thoughtsList window
     actionClose: function(){
-        console.log( 'Template.thoughtEdit.fn.actionClose' );
+        //console.log( 'Template.thoughtEdit.fn.actionClose' );
         Session.set( 'collect.thought', null );
         switch( g.run.layout.get()){
             case LYT_PAGE:
