@@ -189,13 +189,15 @@
 
   140 2020- 2-15 on user sign-in, the displayed lists should be reactively updated
 
-  142 2020- 2-16 project select default is 'a new project', but may be an action
+  142 2020- 2-16 project select default placeholder is 'a new project', but may be an action
 
   143 2020- 2-16 undefined fields are written as null in mongo db
 
   144 2020- 2-16 rename groups/ to pages/ and xxxGroup to xxxPage (one more time!)
 
-  145
+  145 2020- 2-16 where does 'Default' topic come from ? (should be None)
+
+  146
 
 -----------------------------------------------------------------------
  Done

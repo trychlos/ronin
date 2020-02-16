@@ -450,6 +450,7 @@ export const gtd = {
                         template: 'actionsList',
                         navs: {
                             footer: {
+                                label: 'Actions',
                                 display: true,
                                 sort: 3
                             },
