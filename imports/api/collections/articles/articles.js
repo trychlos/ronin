@@ -235,10 +235,11 @@ Articles.fn.equal = function( a, b ){
         if( !f && !g ){
             return true;
         }
-        if(( f && !g ) || ( !f && g )){
-            return false;
+        const ret = (( f && !g ) || ( !f && g ) || ( f === g ));
+        if( !ret ){
+            console.log( '"'+f+'" !== "'+g+'"' );
         }
-        return f === g;
+        return ret;
     };
     let ret = _equals( a.type, b.type ) &&
         _equals( a.name, b.name ) &&
@@ -247,7 +248,7 @@ Articles.fn.equal = function( a, b ){
     if( ret ){
         switch( a.type ){
             case 'A':
-                ret &= _equals( a.notes, b.notes ) &&
+                ret = _equals( a.notes, b.notes ) &&
                         _equals( a.startDate, b.startDate ) &&
                         _equals( a.dueDate, b.dueDate ) &&
                         _equals( a.doneDate, b.doneDate ) &&
@@ -258,7 +259,7 @@ Articles.fn.equal = function( a, b ){
             case 'M':
                 break;
             case 'P':
-                    ret &= _equals( a.notes, b.notes ) &&
+                    ret = _equals( a.notes, b.notes ) &&
                     _equals( a.startDate, b.startDate ) &&
                     _equals( a.dueDate, b.dueDate ) &&
                     _equals( a.doneDate, b.doneDate ) &&
@@ -269,4 +270,5 @@ Articles.fn.equal = function( a, b ){
             break;
         }
     }
+    return ret;
 };

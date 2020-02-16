@@ -7,7 +7,7 @@
  *
  *  Session variables:
  *  - review.action: the action object to be edited
- *  - review.opened: the action identifier whose card is opened
+ *  - action.opened: the action identifier whose card is opened
  *      so that we can open the card when coming back from the edition
  */
 import { Topics } from '/imports/api/collections/topics/topics.js';
@@ -24,7 +24,7 @@ Template.actions_list_item.fn = {
 }
 
 Template.actions_list_item.onRendered( function(){
-    if( Session.get( 'review.opened' ) === this.data.action._id ){
+    if( Session.get( 'action.opened' ) === this.data.action._id ){
         $( '#'+Template.actions_list_item.fn.collapsableId()).collapse( 'show' );
     }
 });
@@ -46,10 +46,10 @@ Template.actions_list_item.helpers({
         return Template.actions_list_item.fn.itemDivId();
     },
     showDown(){
-        return Session.get( 'review.opened' ) === Template.instance().data.action._id ? 'x-hidden' : 'x-inline';
+        return Session.get( 'action.opened' ) === Template.instance().data.action._id ? 'x-hidden' : 'x-inline';
     },
     showUp(){
-        return Session.get( 'review.opened' ) === Template.instance().data.action._id ? 'x-inline' : 'x-hidden';
+        return Session.get( 'action.opened' ) === Template.instance().data.action._id ? 'x-inline' : 'x-hidden';
     },
     topic_byId( id ){
         const obj = id ? Topics.findOne({ _id:id }) : null;
@@ -64,11 +64,11 @@ Template.actions_list_item.helpers({
 Template.actions_list_item.events({
     // event.currentTarget = actions-list-item div
     // event.target = collapsable div
-    'hide.bs.collapse'( event, instance ){
-        $( event.target ).trigger( 'ronin.ui.actions.list.card.collapse' );
+    'hide.bs.collapse'( ev, instance ){
+        $.pubsub.publish( 'ronin.ui.actions.list.card.collapse-all' );
     },
     'shown.bs.collapse'( event, instance ){
         $( '#'+Template.actions_list_item.fn.itemDivId()).addClass( 'x-opened' );
-        Session.set( 'review.opened', instance.data.action._id );
+        Session.set( 'action.opened', instance.data.action._id );
     }
 });

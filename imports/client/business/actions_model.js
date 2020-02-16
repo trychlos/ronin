@@ -58,6 +58,7 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
     }
     if( o.orig ){
         // if nothing has changed, then does nothing
+        console.log( msg+' equal='+Articles.fn.equal( o.orig, o.edit ));
         if( Articles.fn.equal( o.orig, o.edit )){
             throwMessage({ type:'warning', message:'Nothing changed' });
             return false;

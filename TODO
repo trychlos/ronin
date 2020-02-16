@@ -200,14 +200,6 @@
                   from simone.js, comes from this._i18n( 'close' )
                   try to force the internationalization of the string
 
-  134 2020- 2- 9 in window mode, events do not bubble from collapse_buttons to
-                  the window (but should) - this is the reason for why we try
-                  to use the button pane, but callbacks do not hold Template.instance()
-      2020- 2-11 use pub/sub paradigm instead
-
-  135 2020- 2- 9 because header_panel and footer_panel rely on fhsf- classes,
-                  the corresponding templates should be fhsf_ prefixed
-
   136 2020- 2- 9 because collapse_buttons relies on wsf- classes, the template
                   should be wsf_ prefixed
 
@@ -224,7 +216,9 @@
 
   142 2020- 2-16 project select default is 'a new project', but may be an action
 
-  143
+  143 2020- 2-16 undefined fields are written as null in mongo db
+
+  144
 
 -----------------------------------------------------------------------
  Done
@@ -467,6 +461,16 @@
                  pwi-iroutable-route is removed from setup
                  have nonetheless to keep data-ronin-itb-route attribute for each tab
                  done
+
+  134 2020- 2- 9 in window mode, events do not bubble from collapse_buttons to
+                  the window (but should) - this is the reason for why we try
+                  to use the button pane, but callbacks do not hold Template.instance()
+      2020- 2-11 use pub/sub paradigm instead
+      2020- 2-11 this is ok and works well - be cautious to not overuse
+
+  135 2020- 2- 9 because header_panel and footer_panel rely on fhsf- classes,
+                  the corresponding templates should be fhsf_ prefixed
+      2020- 2-16 done
 
   141 2020- 2-15 Thoughts check-list
 	               - is list rightly filtered on currently logged-in user ?
