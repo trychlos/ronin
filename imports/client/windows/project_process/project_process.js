@@ -23,7 +23,7 @@
  *  - review.project: the candidate project.
  */
 import '/imports/client/components/project_panel/project_panel.js';
-import '/imports/client/components/collapse_buttons/collapse_buttons.js';
+import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './project_process.html';
 

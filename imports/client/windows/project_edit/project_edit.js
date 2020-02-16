@@ -10,7 +10,7 @@
  *                      |
  *                      +-> actionEdit { gtdid, group, template }
  *                      |       +-> action_panel
- *                      |       +-> collapse_buttons
+ *                      |       +-> wsf_collapse_buttons
  *                      |
  *                      +-> projectEdit { gtdid, group, template }
  *
@@ -18,7 +18,7 @@
  *  - review.project: the object to be edited, may be null.
  */
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
-import '/imports/client/components/collapse_buttons/collapse_buttons.js';
+import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/components/project_panel/project_panel.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './project_edit.html';

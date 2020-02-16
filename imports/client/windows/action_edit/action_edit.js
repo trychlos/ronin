@@ -21,7 +21,7 @@
  *                      |
  *                      +-> actionEdit { gtdid, group, template }
  *                      |       +-> action_panel
- *                      |       +-> collapse_buttons
+ *                      |       +-> wsf_collapse_buttons
  *                      |
  *                      +-> projectEdit { gtdid, group, template }
  *
@@ -30,7 +30,7 @@
  *      NB: the object may actually be a thought, when requiring for a transformation.
  */
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
-import '/imports/client/components/collapse_buttons/collapse_buttons.js';
+import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/components/action_panel/action_panel.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './action_edit.html';

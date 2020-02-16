@@ -24,7 +24,7 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/api/resources/dbope_status/dbope_status.js';
-import '/imports/client/components/collapse_buttons/collapse_buttons.js';
+import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/components/thought_panel/thought_panel.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thought_edit.html';
@@ -111,12 +111,12 @@ Template.thoughtEdit.helpers({
 });
 
 Template.thoughtEdit.events({
-    // collapse_buttons cancel button
+    // wsf_collapse_buttons cancel button
     'click .js-cancel': function( ev, instance ){
         Template.thoughtEdit.fn.actionClose();
         return false;
     },
-    // collapse_buttons ok button
+    // wsf_collapse_buttons ok button
     'click .js-ok': function( ev, instance ){
         $.pubsub.publish( 'ronin.model.thought.update', {
             orig: Session.get( 'collect.thought' ),

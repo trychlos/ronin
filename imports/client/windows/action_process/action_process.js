@@ -14,7 +14,7 @@
  *                      |
  *                      +-> actionProcess { gtd }
  *                              +-> action_panel
- *                              +-> collapse_buttons
+ *                              +-> wsf_collapse_buttons
  *                      |
  *                      +-> projectProcess { gtd }
  *
@@ -23,7 +23,7 @@
  *  - review.action: the candidate action.
  */
 import '/imports/client/components/action_panel/action_panel.js';
-import '/imports/client/components/collapse_buttons/collapse_buttons.js';
+import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './action_process.html';
 
