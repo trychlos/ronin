@@ -445,7 +445,7 @@ export const gtd = {
                     },
                     {
                         id: 'actions-list',
-                        label: 'Actions',
+                        label: 'Review actions',
                         route: 'review.actions',
                         template: 'actionsList',
                         navs: {

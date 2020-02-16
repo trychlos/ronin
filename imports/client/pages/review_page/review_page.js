@@ -79,7 +79,6 @@ Template.reviewPage.events({
     },
     // the action has been set as done
     'ronin.model.action.done.toggle'( ev, instance, action ){
-        Articles.fn.doneToggle( action );
         return false;
     },
     // insert or update the provided action

@@ -17,26 +17,29 @@ $.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
     }
 });
 
-// delete the provided thought
+// delete the provided action
 //  requiring a user confirmation
-/*
-$.pubsub.subscribe( 'ronin.model.thought.delete', ( msg, o ) => {
+$.pubsub.subscribe( 'ronin.model.action.delete', ( msg, o ) => {
     bootbox.confirm(
-        'You are about to delete the "'+o.thought.name+'" thought.<br />'+
+        'You are about to delete the "'+o.action.name+'" action.<br />'+
         'Are you sure ?', function( ret ){
             if( ret ){
-                Meteor.call( 'thoughts.remove', o.thought._id, ( e, res ) => {
+                Meteor.call( 'actions.remove', o.action, ( e, res ) => {
                     if( e ){
                         throwError({ type:e.error, message:e.reason });
                     } else {
-                        throwSuccess( 'Thought successfully deleted' );
+                        throwSuccess( 'Action successfully deleted' );
                     }
                 });
             }
         }
     );
 });
-*/
+
+// toggle the 'done' status of the provided action
+$.pubsub.subscribe( 'ronin.model.action.done.toggle', ( msg, o ) => {
+    Articles.fn.doneToggle( o.action );
+});
 
 // insert or update the provided action
 //  or transform a thought into an action

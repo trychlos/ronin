@@ -164,9 +164,6 @@
   105 2020- 1-23 should have infos display in the parameters menu to display
                   detectIt data + display size
 
-  109 2020- 1-28 in windowLayout, pass the group to the IWindowed newly created window
-                  (idem what happens in pageLayout)
-
   114 2020- 2- 1 fix wsf-footer display
 
   115 2020- 2- 1 projects_tree: review contextual menu and edit/delete links
@@ -180,21 +177,12 @@
 
   126 2020- 2- 8 four main pages are identified for the four gtd features groups
                   what to do with other pages ?
+      2020- 2- 8 pages are to be deprecated - replaced with four 'group' pages
 
   127 2020- 2- 8 deploy.sh also copy last versions from maintainer/www-host/ronin.service
                   and start.sh
 
-  128 2020- 2- 8 thoughts ownershipTakeable button doesn't seem to be reactive
-
   129 2020- 2- 8 publish actions and projects depending of the owner
-
-  130 2020- 2- 8 thoughts ownershipTakeable disabled button is not actually disabled
-
-  131 2020- 2- 8 thoughts ownershipTakeable ownership-owner should not let the
-                  button be clicked
-
-  132 2020- 2- 8 both pageLayout and windowLayout have a padding/margin of 0.25rem
-                  on top of the content below the header -> mutualize them
 
   133 2020- 2- 9 window close button in the title bar has title='false'
                   from simone.js, comes from this._i18n( 'close' )
@@ -403,6 +391,10 @@
                   see if they may be factorized ?
       2020- 1-30 no, as first in the window part and later is only a component
 
+  109 2020- 1-28 in windowLayout, pass the group to the IWindowed newly created window
+                  (idem what happens in pageLayout)
+      2020- 2-16 done
+
   110 2020- 1-30 add a ok message in page layout after update/create items
       2020- 1-30 done
 
@@ -451,6 +443,20 @@
                  pwi-iroutable-route is removed from setup
                  have nonetheless to keep data-ronin-itb-route attribute for each tab
                  done
+
+  128 2020- 2- 8 thoughts ownershipTakeable button doesn't seem to be reactive
+      2020- 2-16 yes, it is
+
+  130 2020- 2- 8 thoughts ownershipTakeable disabled button is not actually disabled
+      2020- 2-16 fixed
+
+  131 2020- 2- 8 thoughts ownershipTakeable ownership-owner should not let the
+                  button be clicked
+      2020- 2-16 fixed: button is disabled or just an icon
+
+  132 2020- 2- 8 both pageLayout and windowLayout have a padding/margin of 0.25rem
+                  on top of the content below the header -> mutualize them
+      2020- 2-16 both removed :)
 
   134 2020- 2- 9 in window mode, events do not bubble from collapse_buttons to
                   the window (but should) - this is the reason for why we try

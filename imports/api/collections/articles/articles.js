@@ -207,6 +207,7 @@ Articles.fn.check = function( id, o ){
 };
 
 // Toggle action done status + update database
+//  callable both from client and from server
 Articles.fn.doneToggle = function( action ){
     if( action.doneDate ){
         action.doneDate = null;
