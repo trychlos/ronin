@@ -70,7 +70,7 @@ Template.appLayout.fn = {
 };
 
 Template.appLayout.onCreated( function(){
-    console.log( 'appLayout.onCreated' );
+    //console.log( 'appLayout.onCreated' );
     window.addEventListener( 'resize', function(){
         g.run.resize.set( new Date());
     });
@@ -90,11 +90,11 @@ Template.pageLayout.onRendered( function(){
 */
 
 Template.appLayout.onRendered( function(){
-    console.log( 'appLayout.onRendered' );
+    //console.log( 'appLayout.onRendered' );
     this.autorun(() => {
         if( g.run.layout.get() === LYT_WINDOW ){
             if( !g[LYT_WINDOW].taskbar.get()){
-                console.log( 'appLayout:autorun layout='+g.run.layout.get());
+                //console.log( 'appLayout:autorun layout='+g.run.layout.get());
                 const taskbar = $('.lyt-taskbar').taskbar({
                     //buttonsTooltips: true,
                     localization: {
@@ -149,8 +149,8 @@ Template.appLayout.helpers({
     layoutContext(){
         const context = Template.appLayout.fn.eval_rec( this );
         Session.set( 'layout.context', context );
-        console.log( 'appLayout:layoutContext :' );
-        console.log( context );
+        //console.log( 'appLayout:layoutContext :' );
+        //console.log( context );
         return context;
     },
     // template helper
@@ -167,4 +167,8 @@ Template.appLayout.helpers({
     wblRootId(){
         return g[LYT_WINDOW].rootId;
     }
+});
+
+Template.appLayout.onDestroyed( function(){
+    //console.log( 'appLayout.onDestroyed' );
 });
