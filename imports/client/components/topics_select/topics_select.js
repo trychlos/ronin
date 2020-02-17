@@ -29,11 +29,11 @@ Template.topics_select.onCreated( function(){
 });
 
 Template.topics_select.helpers({
-    topics_cursor(){
+    topics(){
         return Topics.find();
     },
     // topic is the id of the topic to be selected
-    topic_selected( current, selected ){
+    selected( current, selected ){
         //console.log( 'topic_selected: topic='+topic+' current='+current.name+' (id='+current._id+')' );
         var value = "";
         if( selected && selected === current._id ){
