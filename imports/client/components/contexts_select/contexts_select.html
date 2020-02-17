@@ -2,8 +2,9 @@
     <div class="contexts-select">
 
         <select class="js-contexts-select w-100 form-control" name="context">
-            {{#each context in contextCursor}}
-                <option value="{{ context._id }}" {{contextSelected context selected}}>{{ context.name }}</option>
+            <option value="">None</option>
+            {{#each context in contexts}}
+                <option value="{{ context._id }}" {{selected context selected}}>{{ context.name }}</option>
             {{/each}}
         </select>
 

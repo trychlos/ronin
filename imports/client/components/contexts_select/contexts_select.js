@@ -28,10 +28,10 @@ Template.contexts_select.onCreated( function(){
 });
 
 Template.contexts_select.helpers({
-    contextCursor(){
+    contexts(){
         return Contexts.find();
     },
-    contextSelected( current, selected ){
+    selected( current, selected ){
         var value = "";
         if( selected && selected === current._id ){
             value = 'selected';
