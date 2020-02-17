@@ -30,11 +30,11 @@ Template.projects_select.onCreated( function(){
 });
 
 Template.projects_select.helpers({
-    projects_cursor(){
+    projects(){
         return Articles.find({ type:'P' }, { sort:{ select_order:1, name:1 }});
     },
     // project is the id of the project to be selected
-    project_selected( current, selected ){
+    selected( current, selected ){
         //console.log( 'project_selected: project='+project+' current='+current.name+' (id='+current._id+')' );
         var value = "";
         if( selected && selected === current._id ){

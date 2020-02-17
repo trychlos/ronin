@@ -197,13 +197,15 @@
 
   146 2020- 2-17 have a count on review action titlebar
 
-  147 2020- 2-17 transform thought to project: unable to validate
-
-  148 2020- 2-17 transform thought to project: there is no None project
-
   149 2020- 2-17 when adding description to a thought: nothing found as changed
 
-  150
+  150 2020- 2-17 articles.reparent() method: if new parent_id, should remove the field
+                  + check that new parent exists
+
+  151 2020- 2-17 topics_select: no need to have an initial record, just
+                  have the item into the html (cf. projects_select)
+
+  152
 
 -----------------------------------------------------------------------
  Done
@@ -499,6 +501,12 @@
 
   145 2020- 2-16 where does 'Default' topic come from ? (should be None)
       2020- 2-17 comes from the db
+
+  147 2020- 2-17 transform thought to project: unable to validate
+      2020- 2-17 fixed
+
+  148 2020- 2-17 transform thought to project: there is no None project
+      2020- 2-17 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
