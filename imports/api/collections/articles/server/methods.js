@@ -234,6 +234,7 @@ Meteor.methods({
         Meteor.call( '_articles_check_type', o, 'P' );
         Meteor.call( '_articles_check_user', o );
         const ret = Articles.update( id, { $set: {
+            type: o.type,
             name: o.name,
             topic: o.topic,
             description: o.description,

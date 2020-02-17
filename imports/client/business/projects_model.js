@@ -1,5 +1,5 @@
 /*
- * thoughts_model.js
+ * projects_model.js
  * To be imported at application layer level.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
@@ -9,26 +9,26 @@ import bootbox from 'bootbox/dist/bootbox.all.min.js';
 //  updated the 'id' article, so that any window/panel/component which is
 //  opened on it should now be closed
 $.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
-    console.log( 'thoughts_model '+msg+' '+id );
-    const it = Session.get( 'thought.collect' );
+    console.log( 'projects_model '+msg+' '+id );
+    const it = Session.get( 'review.project' );
     if( it && it._id === id ){
-        console.log( 'thoughts_model publish ronin.ui.close' );
+        console.log( 'projects_model publish ronin.ui.close' );
         $.pubsub.publish( 'ronin.ui.close', it );
     }
 });
 
-// delete the provided thought
+// delete the provided project
 //  requiring a user confirmation
-$.pubsub.subscribe( 'ronin.model.thought.delete', ( msg, o ) => {
+$.pubsub.subscribe( 'ronin.model.project.delete', ( msg, o ) => {
     bootbox.confirm(
-        'You are about to delete the "'+o.thought.name+'" thought.<br />'+
+        'You are about to delete the "'+o.project.name+'" project.<br />'+
         'Are you sure ?', function( ret ){
             if( ret ){
-                Meteor.call( 'thoughts.remove', o.thought, ( e, res ) => {
+                Meteor.call( 'projects.remove', o.project, ( e, res ) => {
                     if( e ){
                         throwError({ type:e.error, message:e.reason });
                     } else {
-                        throwSuccess( 'Thought successfully deleted' );
+                        throwSuccess( 'Project successfully deleted' );
                     }
                 });
             }
@@ -36,25 +36,16 @@ $.pubsub.subscribe( 'ronin.model.thought.delete', ( msg, o ) => {
     );
 });
 
-// take ownership of the tought
-$.pubsub.subscribe( 'ronin.model.thought.ownership', ( msg, o ) => {
-    Meteor.call( 'articles.ownership', o.thought, ( e, res ) => {
-        if( e ){
-            throwError({ type:e.error, message:e.reason });
-        } else {
-            throwSuccess( 'Ownership successfully taken' );
-        }
-    });
-});
-
-// insert or update the provided thought
+// insert or update the provided project
+//  or transform a thought into a project
 //  if a previous object already existed, then this is an update
 //  the page is left if this was an update *and* it has been successful
-$.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
+$.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
     //console.log( msg );
     //console.log( o.orig );
     //console.log( o.edit );
-    Session.set( 'collect.dbope', DBOPE_WAIT );
+    Session.set( 'project.dbope', DBOPE_WAIT );
+    o.edit.type = 'P';
     const id = o.orig ? o.orig._id : null;
     try {
         Articles.fn.check( id, o.edit );
@@ -65,30 +56,35 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
     }
     if( o.orig ){
         // if nothing has changed, then does nothing
+        console.log( msg+' equal='+Articles.fn.equal( o.orig, o.edit ));
         if( Articles.fn.equal( o.orig, o.edit )){
             throwMessage({ type:'warning', message:'Nothing changed' });
             return false;
         }
-        Meteor.call('thoughts.update', id, o.edit, ( e, res ) => {
+        Meteor.call('projects.update', id, o.edit, ( e, res ) => {
             if( e ){
                 console.log( e );
                 throwError({ type:e.error, message:e.reason });
-                Session.set( 'collect.dbope', DBOPE_ERROR );
+                Session.set( 'project.dbope', DBOPE_ERROR );
             } else {
-                throwSuccess( 'Thought successfully updated' );
-                Session.set( 'collect.dbope', DBOPE_LEAVE );
+                if( o.orig.type === 'T' ){
+                    throwSuccess( 'Thought successfully transformed' );
+                } else {
+                    throwSuccess( 'Project successfully updated' );
+                }
+                Session.set( 'project.dbope', DBOPE_LEAVE );
             }
         });
     } else {
-        Meteor.call('thoughts.insert', o.edit, ( e, res ) => {
+        Meteor.call('projects.insert', o.edit, ( e, res ) => {
             if( e ){
                 console.log( e );
                 throwError({ type:e.error, message:e.reason });
-                Session.set( 'collect.dbope', DBOPE_ERROR );
+                Session.set( 'project.dbope', DBOPE_ERROR );
             } else {
-                throwSuccess( 'Thought successfully inserted' );
-                Session.set( 'collect.thought', 'success' );  // force re-rendering
-                Session.set( 'collect.dbope', DBOPE_REINIT );
+                throwSuccess( 'Project successfully inserted' );
+                Session.set( 'review.project', 'success' );  // force re-rendering
+                Session.set( 'project.dbope', DBOPE_REINIT );
             }
         });
     }

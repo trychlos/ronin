@@ -36,6 +36,7 @@
  *      by later changes.
  */
 import '/imports/client/business/actions_model.js';
+import '/imports/client/business/projects_model.js';
 import '/imports/client/business/thoughts_model.js';
 
 import '/imports/client/components/fhsf_footer_panel/fhsf_footer_panel.js';

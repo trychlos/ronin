@@ -195,9 +195,15 @@
 
   144 2020- 2-16 rename groups/ to pages/ and xxxGroup to xxxPage (one more time!)
 
-  145 2020- 2-16 where does 'Default' topic come from ? (should be None)
+  146 2020- 2-17 have a count on review action titlebar
 
-  146
+  147 2020- 2-17 transform thought to project: unable to validate
+
+  148 2020- 2-17 transform thought to project: there is no None project
+
+  149 2020- 2-17 when adding description to a thought: nothing found as changed
+
+  150
 
 -----------------------------------------------------------------------
  Done
@@ -490,6 +496,9 @@
 	               - is list rightly filtered on currently logged-in user ?
 	               - are all listed articled actually editable ? (generally speaking, yes)
       2020- 2-16 done
+
+  145 2020- 2-16 where does 'Default' topic come from ? (should be None)
+      2020- 2-17 comes from the db
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

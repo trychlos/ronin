@@ -1,6 +1,6 @@
 /*
  * actions_model.js
- * To be imported at group layer level.
+ * To be imported at application layer level.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
@@ -10,10 +10,10 @@ import bootbox from 'bootbox/dist/bootbox.all.min.js';
 //  opened on it should now be closed
 $.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
     console.log( 'actions_model '+msg+' '+id );
-    const a = Session.get( 'review.action' );
-    if( a && a._id === id ){
+    const it = Session.get( 'review.action' );
+    if( it && it._id === id ){
         console.log( 'actions_model publish ronin.ui.close' );
-        $.pubsub.publish( 'ronin.ui.close', a );
+        $.pubsub.publish( 'ronin.ui.close', it );
     }
 });
 
