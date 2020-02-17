@@ -72,7 +72,7 @@ Template.projectsList.onRendered( function(){
                         }
                     ],
                     group:  context.group,
-                    title:  gtd.labelId( null, context.gtdid )
+                    title:  gtd.labelId( 'window', context.gtdid )
                 }
             });
         }

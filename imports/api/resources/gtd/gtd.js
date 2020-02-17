@@ -418,6 +418,9 @@ export const gtd = {
                             projects: {
                                 display: true,
                                 sort: 1
+                            },
+                            window: {
+                                label: 'Review projects'
                             }
                         }
                     },
@@ -445,7 +448,7 @@ export const gtd = {
                     },
                     {
                         id: 'actions-list',
-                        label: 'Review actions',
+                        label: 'Actions',
                         route: 'review.actions',
                         template: 'actionsList',
                         navs: {
@@ -471,6 +474,9 @@ export const gtd = {
                                 },
                                 label: 'Single actions',
                                 sort: 2
+                            },
+                            window: {
+                                label: 'Review actions'
                             }
                         }
                     },

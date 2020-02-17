@@ -284,15 +284,25 @@ Articles.fn.doneToggle = function( action ){
 // check if two objects are the same
 // mainly used to prevent too many useless updates
 Articles.fn.equal = function( a, b ){
-    let _equals = ( f, g ) => {
+    let _equalDates = ( c, d ) => {
+        return _equals( c, d, ( e, f ) => {
+            return moment( e ).isSame( f, 'day' );
+        })
+    };
+    let _equalStrs = ( c, d ) => {
+        return _equals( c, d, ( e, f ) => {
+            return e === f;
+        });
+    };
+    let _equals = ( c, d, cb ) => {
         let ret = true;
-        if( f ){
-            if( g ){
-                ret = ( f === g );
+        if( c ){
+            if( d ){
+                ret = cb( c, d );
             } else {
                 ret = false;
             }
-        } else if( g ){
+        } else if( d ){
             ret = false;
         }
         if( !ret ){
@@ -300,34 +310,34 @@ Articles.fn.equal = function( a, b ){
         }
         return ret;
     };
-    console.log( a );
-    console.log( b );
-    let ret = _equals( a.type, b.type ) &&
-        _equals( a.name, b.name ) &&
-        _equals( a.description, b.description ) &&
-        _equals( a.topic, b.topic );
+    //console.log( a );
+    //console.log( b );
+    let ret = _equalStrs( a.type, b.type ) &&
+        _equalStrs( a.name, b.name ) &&
+        _equalStrs( a.description, b.description ) &&
+        _equalStrs( a.topic, b.topic );
     if( ret ){
         switch( a.type ){
             case 'A':
-                ret = _equals( a.notes, b.notes ) &&
-                        _equals( a.startDate, b.startDate ) &&
-                        _equals( a.dueDate, b.dueDate ) &&
-                        _equals( a.doneDate, b.doneDate ) &&
-                        _equals( a.parent, b.parent ) &&
-                        _equals( a.status, b.status ) &&
-                        _equals( a.outcome, b.outcome );
+                ret = _equalStrs( a.notes, b.notes ) &&
+                        _equalDates( a.startDate, b.startDate ) &&
+                        _equalDates( a.dueDate, b.dueDate ) &&
+                        _equalDates( a.doneDate, b.doneDate ) &&
+                        _equalStrs( a.parent, b.parent ) &&
+                        _equalStrs( a.status, b.status ) &&
+                        _equalStrs( a.outcome, b.outcome );
                 break;
             case 'M':
                 break;
             case 'P':
-                    ret = _equals( a.notes, b.notes ) &&
-                    _equals( a.startDate, b.startDate ) &&
-                    _equals( a.dueDate, b.dueDate ) &&
-                    _equals( a.doneDate, b.doneDate ) &&
-                    _equals( a.parent, b.parent ) &&
-                    _equals( a.future, b.future ) &&
-                    _equals( a.vision, b.vision ) &&
-                    _equals( a.brainstorm, b.brainstorm );
+                    ret = _equalStrs( a.notes, b.notes ) &&
+                    _equalDates( a.startDate, b.startDate ) &&
+                    _equalDates( a.dueDate, b.dueDate ) &&
+                    _equalDates( a.doneDate, b.doneDate ) &&
+                    _equalStrs( a.parent, b.parent ) &&
+                    _equalStrs( a.future, b.future ) &&
+                    _equalStrs( a.vision, b.vision ) &&
+                    _equalStrs( a.brainstorm, b.brainstorm );
             break;
         }
     }
