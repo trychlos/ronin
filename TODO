@@ -194,8 +194,6 @@
   143 2020- 2-16 undefined fields are written as null in mongo db
       2020- 2-17 no more write empty fields (but maybe userId)
 
-  144 2020- 2-16 rename groups/ to pages/ and xxxGroup to xxxPage (one more time!)
-
   146 2020- 2-17 have a count on review action titlebar
 
   153
@@ -491,6 +489,9 @@
 	               - is list rightly filtered on currently logged-in user ?
 	               - are all listed articled actually editable ? (generally speaking, yes)
       2020- 2-16 done
+
+  144 2020- 2-16 rename groups/ to pages/ and xxxGroup to xxxPage (one more time!)
+      2020- 2-17 cancelled
 
   145 2020- 2-16 where does 'Default' topic come from ? (should be None)
       2020- 2-17 comes from the db
