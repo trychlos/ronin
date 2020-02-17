@@ -9,7 +9,7 @@ import bootbox from 'bootbox/dist/bootbox.all.min.js';
 //  updated the 'id' article, so that any window/panel/component which is
 //  opened on it should now be closed
 $.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
-    console.log( 'thoughts_model '+msg+' '+id );
+    //console.log( 'thoughts_model '+msg+' '+id );
     const it = Session.get( 'thought.collect' );
     if( it && it._id === id ){
         console.log( 'thoughts_model publish ronin.ui.close' );

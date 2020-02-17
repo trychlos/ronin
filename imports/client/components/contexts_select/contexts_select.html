@@ -4,7 +4,7 @@
         <select class="js-contexts-select w-100 form-control" name="context">
             <option value="">None</option>
             {{#each context in contexts}}
-                <option value="{{ context._id }}" {{selected context selected}}>{{ context.name }}</option>
+                <option value="{{ context._id }}" {{isSelected context selected}}>{{ context.name }}</option>
             {{/each}}
         </select>
 

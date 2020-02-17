@@ -28,15 +28,15 @@ Template.contexts_select.onCreated( function(){
 });
 
 Template.contexts_select.helpers({
-    contexts(){
-        return Contexts.find();
-    },
-    selected( current, selected ){
+    isSelected( current, selected ){
         var value = "";
         if( selected && selected === current._id ){
             value = 'selected';
         }
         return value;
+    },
+    contexts(){
+        return Contexts.find();
     }
 });
 

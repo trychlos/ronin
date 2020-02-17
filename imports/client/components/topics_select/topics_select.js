@@ -29,11 +29,8 @@ Template.topics_select.onCreated( function(){
 });
 
 Template.topics_select.helpers({
-    topics(){
-        return Topics.find();
-    },
     // topic is the id of the topic to be selected
-    selected( current, selected ){
+    isSelected( current, selected ){
         //console.log( 'topic_selected: topic='+topic+' current='+current.name+' (id='+current._id+')' );
         var value = "";
         if( selected && selected === current._id ){
@@ -41,5 +38,8 @@ Template.topics_select.helpers({
             //console.log( 'topic_selected: found topic='+current.name );
         }
         return value;
+    },
+    topics(){
+        return Topics.find();
     }
 });

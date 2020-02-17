@@ -300,8 +300,8 @@ Articles.fn.equal = function( a, b ){
         }
         return ret;
     };
-    //console.log( a );
-    //console.log( b );
+    console.log( a );
+    console.log( b );
     let ret = _equals( a.type, b.type ) &&
         _equals( a.name, b.name ) &&
         _equals( a.description, b.description ) &&

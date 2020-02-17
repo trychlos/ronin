@@ -30,11 +30,8 @@ Template.projects_select.onCreated( function(){
 });
 
 Template.projects_select.helpers({
-    projects(){
-        return Articles.find({ type:'P' }, { sort:{ select_order:1, name:1 }});
-    },
     // project is the id of the project to be selected
-    selected( current, selected ){
+    isSelected( current, selected ){
         //console.log( 'project_selected: project='+project+' current='+current.name+' (id='+current._id+')' );
         var value = "";
         if( selected && selected === current._id ){
@@ -42,5 +39,8 @@ Template.projects_select.helpers({
             //console.log( 'project_selected: found project='+current.name );
         }
         return value;
+    },
+    projects(){
+        return Articles.find({ type:'P' }, { sort:{ select_order:1, name:1 }});
     }
 });

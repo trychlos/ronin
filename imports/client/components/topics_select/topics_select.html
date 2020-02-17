@@ -2,9 +2,9 @@
     <div class="topics-select">
 
         <select class="js-topic w-100 form-control" name="topic">
-            <option value="">{{ topic.name }}</option>
+            <option value="">None</option>
             {{#each topic in topics}}
-                <option value="{{ topic._id }}" {{selected topic selected}}>{{ topic.name }}</option>
+                <option value="{{ topic._id }}" {{isSelected topic selected}}>{{ topic.name }}</option>
             {{/each}}
         </select>
 
