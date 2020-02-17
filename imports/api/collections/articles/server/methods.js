@@ -153,9 +153,18 @@ Meteor.methods({
     // change the parent of an action or a project
     //  update does not mean taking ownership
     'articles.reparent'( o_id, parent_id ){
-        const ret = Articles.update( o_id, { $set: {
-            parent: parent_id
-        }});
+        let ret = false;
+        if( parent_id ){
+            if( Articles.findOne({ _id:parent_id, type:'P' })){
+                ret = Articles.update( o_id, { $set: {
+                    parent: parent_id
+                }});
+            }
+        } else {
+            ret = Articles.update( o_id, { $unset: {
+                parent
+            }});
+        }
         console.log( 'Articles.reparent("'+o_id+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(

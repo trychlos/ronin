@@ -200,12 +200,9 @@
 
   149 2020- 2-17 when adding description to a thought: nothing found as changed
 
-  150 2020- 2-17 articles.reparent() method: if new parent_id, should remove the field
-                  + check that new parent exists
-
   153
 
------------------------------------------------------------------------
+==============================================================================
  Done
  ====
 
@@ -504,6 +501,10 @@
       2020- 2-17 fixed
 
   148 2020- 2-17 transform thought to project: there is no None project
+      2020- 2-17 done
+
+  150 2020- 2-17 articles.reparent() method: if new parent_id, should remove the field
+                  + check that new parent exists
       2020- 2-17 done
 
   151 2020- 2-17 topics_select: no need to have an initial record, just
