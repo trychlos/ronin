@@ -285,15 +285,23 @@ Articles.fn.doneToggle = function( action ){
 // mainly used to prevent too many useless updates
 Articles.fn.equal = function( a, b ){
     let _equals = ( f, g ) => {
-        if( !f && !g ){
-            return true;
+        let ret = true;
+        if( f ){
+            if( g ){
+                ret = ( f === g );
+            } else {
+                ret = false;
+            }
+        } else if( g ){
+            ret = false;
         }
-        const ret = (( f && !g ) || ( !f && g ) || ( f === g ));
         if( !ret ){
             console.log( '"'+f+'" !== "'+g+'"' );
         }
         return ret;
     };
+    //console.log( a );
+    //console.log( b );
     let ret = _equals( a.type, b.type ) &&
         _equals( a.name, b.name ) &&
         _equals( a.description, b.description ) &&
