@@ -206,6 +206,58 @@ Articles.fn.check = function( id, o ){
     }
 };
 
+// returns an object which contains all *set* fields
+Articles.fn.cleanup = function( o ){
+    let _set = ( dest, src, name ) => {
+        if( src[name] ){
+            dest[name] = src[name];
+        }
+    };
+    let ret = { type: o.type };
+    _set( ret, o, 'name' );
+    _set( ret, o, 'topic' );
+    _set( ret, o, 'description' );
+    o.userId = null;
+    if( Meteor.isServer ){
+        o.userId = this.userId;
+    }
+    if( Meteor.isClient ){
+        o.userId = Meteor.userId();
+    }
+    _set( ret, o, 'userId' );
+    // seems that we do not manage ourselves the userId
+    //console.log( o );
+    //console.log( ret );
+    switch( o.type ){
+        case 'A':
+            _set( ret, o, 'notes' );
+            _set( ret, o, 'startDate' );
+            _set( ret, o, 'dueDate' );
+            _set( ret, o, 'doneDate' );
+            _set( ret, o, 'parent' );
+            _set( ret, o, 'status' );
+            _set( ret, o, 'last_status' );
+            _set( ret, o, 'context' );
+            _set( ret, o, 'outcome' );
+            break;
+        case 'M':
+            break;
+        case 'P':
+            _set( ret, o, 'notes' );
+            _set( ret, o, 'startDate' );
+            _set( ret, o, 'dueDate' );
+            _set( ret, o, 'doneDate' );
+            _set( ret, o, 'parent' );
+            _set( ret, o, 'future' );
+            _set( ret, o, 'vision' );
+            _set( ret, o, 'brainstorm' );
+            break;
+        case 'T':
+            break;
+    }
+    return ret;
+};
+
 // Toggle action done status + update database
 //  callable both from client and from server
 Articles.fn.doneToggle = function( action ){

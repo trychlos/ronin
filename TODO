@@ -192,6 +192,7 @@
   142 2020- 2-16 project select default placeholder is 'a new project', but may be an action
 
   143 2020- 2-16 undefined fields are written as null in mongo db
+      2020- 2-17 no more write empty fields (but maybe userId)
 
   144 2020- 2-16 rename groups/ to pages/ and xxxGroup to xxxPage (one more time!)
 
@@ -205,7 +206,9 @@
   151 2020- 2-17 topics_select: no need to have an initial record, just
                   have the item into the html (cf. projects_select)
 
-  152
+  152 2020- 2-17 contexts_select: no need to have an initial record
+
+  153
 
 -----------------------------------------------------------------------
  Done

@@ -90,21 +90,8 @@ Meteor.methods({
     'actions.insert'( o ){
         Meteor.call( '_articles_check_type', o, 'A' );
         Meteor.call( '_articles_check_user', o );
-        const ret = Articles.insert({
-            type: o.type,
-            name: o.name,
-            topic: o.topic,
-            description: o.description,
-            userId: this.userId,
-            notes: o.notes,
-            startDate: o.startDate,
-            dueDate: o.dueDate,
-            doneDate: o.doneDate,
-            parent: o.parent,
-            status: o.status,
-            context: o.context,
-            outcome: o.outcome
-        });
+        const item = Articles.fn.cleanup( o );
+        const ret = Articles.insert( item );
         console.log( 'Articles.actions.insert("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -128,21 +115,8 @@ Meteor.methods({
     'actions.update'( id, o ){
         Meteor.call( '_articles_check_type', o, 'A' );
         Meteor.call( '_articles_check_user', o );
-        const ret = Articles.update( id, { $set: {
-            type: o.type,
-            name: o.name,
-            topic: o.topic,
-            description: o.description,
-            userId: this.userId,
-            notes: o.notes,
-            startDate: o.startDate,
-            dueDate: o.dueDate,
-            doneDate: o.doneDate,
-            parent: o.parent,
-            status: o.status,
-            context: o.context,
-            outcome: o.outcome
-        }});
+        const item = Articles.fn.cleanup( o );
+        const ret = Articles.update( id, { $set: item });
         console.log( 'Articles.actions.update("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -196,21 +170,8 @@ Meteor.methods({
     'projects.insert'( o ){
         Meteor.call( '_articles_check_type', o, 'P' );
         Meteor.call( '_articles_check_user', o );
-        const ret = Articles.insert({
-            type: o.type,
-            name: o.name,
-            topic: o.topic,
-            description: o.description,
-            userId: this.userId,
-            notes: o.notes,
-            startDate: o.startDate,
-            dueDate: o.dueDate,
-            doneDate: o.doneDate,
-            parent: o.parent,
-            future: o.future,
-            vision: o.vision,
-            brainstorm: o.brainstorm
-        });
+        const item = Articles.fn.cleanup( o );
+        const ret = Articles.insert( item );
         console.log( 'Articles.projects.insert("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -233,20 +194,8 @@ Meteor.methods({
     'projects.update'( id, o ){
         Meteor.call( '_articles_check_type', o, 'P' );
         Meteor.call( '_articles_check_user', o );
-        const ret = Articles.update( id, { $set: {
-            type: o.type,
-            name: o.name,
-            topic: o.topic,
-            description: o.description,
-            notes: o.notes,
-            startDate: o.startDate,
-            dueDate: o.dueDate,
-            doneDate: o.doneDate,
-            parent: o.parent,
-            future: o.future,
-            vision: o.vision,
-            brainstorm: o.brainstorm
-        }});
+        const item = Articles.fn.cleanup( o );
+        const ret = Articles.update( id, { $set: item });
         console.log( 'Articles.projects.update("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -260,13 +209,8 @@ Meteor.methods({
     'thoughts.insert'( o ){
         Meteor.call( '_articles_check_type', o, 'T' );
         Meteor.call( '_articles_check_user', o );
-        const ret = Articles.insert({
-            type: o.type,
-            name: o.name,
-            topic: o.topic,
-            description: o.description,
-            userId: this.userId
-        });
+        const item = Articles.fn.cleanup( o );
+        const ret = Articles.insert( item );
         console.log( 'Articles.thoughts.insert("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -294,11 +238,8 @@ Meteor.methods({
     'thoughts.update'( id, o ){
         Meteor.call( '_articles_check_type', o, 'T' );
         Meteor.call( '_articles_check_user', o );
-        const ret = Articles.update( id, { $set: {
-            name: o.name,
-            topic: o.topic,
-            description: o.description
-        }});
+        const item = Articles.fn.cleanup( o );
+        const ret = Articles.update( id, { $set: item });
         console.log( 'Articles.thoughts.update("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
