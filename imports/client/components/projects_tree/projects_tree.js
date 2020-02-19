@@ -28,7 +28,6 @@ Template.projects_tree.fn = {
             console.log( tab+': addActions while $tree not built' );
             return;
         }
-        const pNone = Articles.findOne({ type:'P', code: 'non' });
         fetched.forEach( it => {
             //console.log( tab+': addActions '+it.name );
             let node = {
@@ -36,29 +35,28 @@ Template.projects_tree.fn = {
                 name: it.name,
                 obj: it
             }
-            node.obj.type = 'A';
             // on projects tab, attach to each project their relative actions
-            if( tab === 'projects' ){
-                if( it.project && it.project !== pNone._id ){
-                    const p = Articles.findOne({ _id: it.project });
+            if( tab === 'projects-list' ){
+                if( it.parent ){
+                    const p = Articles.findOne({ _id:it.parent, type:'P' });
                     if( p && !p.future ){
-                        node.parent = it.project;
+                        node.parent = it.parent;
                         const added = Template.projects_tree.fn.addNode( $tree, node );
                         Template.projects_tree.fn.setActivable( $tree, added );
                     }
                 }
             // on actions tab, display actions without a project
-            } else if( tab === 'actions' ){
-                if( !it.project || it.project === pNone._id ){
+            } else if( tab === 'actions-list' ){
+                if( !it.parent ){
                     const added = Template.projects_tree.fn.addNode( $tree, node );
                     Template.projects_tree.fn.setActivable( $tree, added );
                 }
             // last display on future tab the actions attached to a future project
-            } else if( tab === 'future' ){
-                if( it.project && it.project !== pNone._id ){
-                    const p = Articles.findOne({ _id: it.project });
+            } else if( tab === 'projects-future' ){
+                if( it.parent ){
+                    const p = Articles.findOne({ _id:it.project, type:'P' });
                     if( p && p.future ){
-                        node.parent = it.project;
+                        node.parent = it.parent;
                         const added = Template.projects_tree.fn.addNode( $tree, node );
                         Template.projects_tree.fn.setActivable( $tree, added );
                     }
@@ -261,7 +259,7 @@ Template.projects_tree.fn = {
     },
     // returns the appliable icon
     getItemIcon: function( node ){
-        return node && node.obj && node.obj.type === 'A' ? 'fa-radiation-alt' : 'fa-folder-open';
+        return node && node.obj && node.obj.type === 'A' ? 'fa-file-alt' : 'fa-folder-open';
     },
     // transforms the JSON object returned by tree('toJson') by removing all but id's
     //  returns a JSON string
@@ -555,8 +553,8 @@ Template.projects_tree.onRendered( function(){
             fn.dict[tab].countersGot.get() &&
             fn.dict[tab].projectsHandle.ready()){
                 //console.log( tab+': updating projects' );
-                if( tab !== 'actions' ){
-                    const future = ( tab === 'future' );
+                if( tab !== 'actions-list' ){
+                    const future = ( tab === 'projects-:future' );
                     let filter = { type:'P' };
                     filter.future = future ? true : { $ne:true };
                     fn.addProjects( tab, future, Articles.find( filter ).fetch());

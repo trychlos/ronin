@@ -102,6 +102,7 @@
             //  we prefer data- attributes as set by attr() method as they are available
             //  as standard jQuery selector, and visible in the web inspector
             //  contrarily data() sets the data inside of an invisible storage space
+            //  see https://api.jquery.com/data/
             const id = this.args.template;
             this._idSet( id );
             this._routeSet();
@@ -382,6 +383,25 @@
         }
     },
 
+    // setRoute() public method
+    //  inside of a window, set an internal route as the 'data-ronin-iwm-route'
+    //  attribute for this window
+    //  Args:
+    //  - route name
+    $.fn[pluginName].setRoute = ( route ) => {
+        //console.log( this );
+        //console.log( myPlugin );
+        if( !route || typeof route !== 'string' ){
+            console.log( 'setRoute() expects the route name as single argument, "'+route+'" found' );
+        } else {
+            const list = $( this ).parents( '[data-ronin-iwm-route]' );
+            if( list && list[0] ){
+                $( list[0] ).attr( 'data-ronin-iwm-route', route );
+                FlowRouter.go( route );
+            }
+        }
+    };
+
     // show() public method
     //  show a window, re-activating it or creating a new one
     //  this method is to be called on the 'parent' of the to-be-created window
@@ -492,26 +512,6 @@
                 const titlebar = $( widget ).find( '.ronin-iwm-titlebar' );
                 const content = $( this.dom ).find( selector ).detach();
                 $( titlebar ).append( content );
-            }
-        },
-        // setRoute() method
-        //  set a programmatic route
-        //  this.dom: the DOM element on which we have called the 'setRoute' method
-        //  (usually a tabbed page, but must at least be a child of the target window)
-        //  this.args[0]: name of the called method (setRoute)
-        //  this.args[1]: route name to be set
-        setRoute: function( argsCount ){
-            if( argsCount != 2 ){
-                throwError({ message: 'setRoute() expects 1 argument, '+( argsCount-1 )+' found' });
-            } else if( typeof this.args[1] !== 'string' ){
-                throwError({ message: 'setRoute() expects the route name as second argument, "'+this.args[1]+'" found' });
-            } else {
-                const route = this.args[1];
-                const list = $( this.dom ).parents( '[data-ronin-iwm-route]' );
-                if( list && list[0] ){
-                    $( list[0] ).attr( 'data-ronin-iwm-route', route );
-                    FlowRouter.go( route );
-                }
             }
         },
         // showNew() method

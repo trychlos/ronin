@@ -161,7 +161,7 @@ FlowRouter.route('/projects', {
     name: 'review.projects',
     action(){
         Session.set( 'gtd.page', 'projects-list' );
-        Session.set( 'projects.tab.name', 'projects' );
+        Session.set( 'projects.tab.name', 'projects-list' );
         Session.set( 'header.title', null );
         blazeRender( this.name );
     },
@@ -169,7 +169,7 @@ FlowRouter.route('/projects', {
 FlowRouter.route('/projects/future', {
     name: 'review.future',
     action(){
-        Session.set( 'projects.tab.name', 'future' );
+        Session.set( 'projects.tab.name', 'projects-future' );
         Session.set( 'header.title', null );
         blazeRender( this.name );
     },
@@ -192,7 +192,7 @@ FlowRouter.route('/actions', {
     name: 'review.actions',
     action(){
         Session.set( 'gtd.page', 'actions-list' );
-        Session.set( 'projects.tab.name', 'actions' );
+        Session.set( 'projects.tab.name', 'actions-list' );
         Session.set( 'header.title', null );
         blazeRender( this.name );
     },

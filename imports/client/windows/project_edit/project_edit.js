@@ -25,7 +25,7 @@ import './project_edit.html';
 
 Template.projectEdit.fn = {
     actionClose(){
-        console.log( 'Template.projectEdit.fn.actionClose' );
+        //console.log( 'Template.projectEdit.fn.actionClose' );
         Session.set( 'review.project', null );
         switch( g.run.layout.get()){
             case LYT_PAGE:

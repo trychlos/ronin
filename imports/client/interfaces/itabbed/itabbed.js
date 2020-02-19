@@ -28,15 +28,18 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
     const pluginName = "ITabbed";
 
     // The actual plugin constructor
-    function Plugin( element, options ){
+    function myPlugin( element, options ){
         this.dom = element;
-        this.args = options;
-        this.init();
+        this.$dom = $( this.dom );
+        this.$widget = null;
+        this.args = $.extend( {}, options || {} );
+        this._init( options );
     }
 
-    // Avoid Plugin.prototype conflicts
-    $.extend( Plugin.prototype, {
-        init: function(){
+    // Avoid MyPlugin.prototype conflicts
+    $.extend( myPlugin.prototype, {
+        _init: function(){
+            //console.log( this );
             // this = {
             //      dom         DOM callee element (not jQuery)
             //      args = {
@@ -44,49 +47,28 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
             //          1: 'thoughtEdit'
             //      }
             //  }
-            let argsCount = Object.keys( this.args ).length;
-            if( !argsCount ){
-                throwError({ message: 'ITabbed interface requires at least one argument' });
-                return;
+            if( typeof this.args === 'object' ){
+                this._create();
             }
-            if( typeof this.args[0] === 'string' ){
-                switch( this.args[0] ){
-                    /*
-                    case 'close':
-                        this.close( argsCount );
-                        break;
-                        */
-                    default:
-                        throwError({ message:'ITabbed: unknown method: '+this.args[0] });
-                }
-                return;
-            }
-            if( argsCount != 1 || typeof this.args[0] !== 'object' ){
-                throwError({ message:'ITabbed: options object expected, not found' });
-                return;
-            }
-            this._create();
         },
         // we have asked to show a new tabbed panel: create it
         _create: function(){
             //console.log( this );
-            const args = this.args[0];
-            // we set on the widget a 'ronin-itabbed' class
-            let settings = $.extend( true, {}, args, $.fn[pluginName].defaults );
+            let settings = $.extend( true, {}, this.args, $.fn[pluginName].defaults );
             // set a 'ronin-itabbed' class on the root element
-            $( this.dom ).addClass( 'ronin-itabbed' );
-            //console.log( 'jqxTabs settings='+JSON.stringify( settings ));
-            $( this.dom ).tabs( settings.jquery );
+            this.$dom.addClass( 'ronin-itabbed' );
+            //console.log( settings );
+            this.$dom.tabs( settings.jquery );
             // if defined, make sure the requested tab is activated
-            if( args.tab ){
-                $( this.dom ).tabs({ active: this._index( args.tab )});
+            if( this.args.tab ){
+                this.$dom.tabs({ active: this._index( this.args.tab )});
             }
             // set event handlers
             //  passing this to the handler, getting back in event.data
             //  in the handler, this is the attached dom element
             $( this.dom ).on( 'tabsactivate', this, function( ev, ui ){
                 const route = $( ui.newTab ).attr( 'data-ronin-itb-route' );
-                $( ui.newTab ).IWindowed( 'setRoute', route );
+                $( ui.newTab ).IWindowed.setRoute( route );
             });
             //console.log( $( this.dom ));
         },
@@ -117,15 +99,23 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
     });
 
     $.fn[pluginName] = function(){
-        let args = arguments;
-        return this.each( function(){
-            new Plugin( this, args );
-            /*
-            if ( !$.data( this, 'ronin_plugin_' + pluginName )){
-                $.data( this, 'ronin_plugin_' + pluginName, new Plugin( this, args ));
+        //console.log( this );  // this is the jQuery element on which the interface is called
+        const opts = Array.prototype.slice.call( arguments );
+        //console.log( opts );
+        this.each( function(){
+            //console.log( this ); // this is the particular DOM element on which the interface will be applied
+            // may or may not already been initialized
+            let plugin = $.data( this, pluginName );
+            //console.log( plugin );
+            if( plugin ){
+                console.log( 'reusing already initialized plugin' );
+                myPlugin.prototype._methods.apply( plugin, opts );
+            } else {
+                console.log( 'allocating new plugin instance' );
+                $.data( this, pluginName, new myPlugin( this, opts[0] ));
             }
-            */
         });
+        return this;
     };
 
     // default values, overridable by the user at global level
