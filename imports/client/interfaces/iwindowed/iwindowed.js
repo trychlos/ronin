@@ -435,6 +435,12 @@
         }
     };
 
+    // showNew() public method
+    //  show unconditionally a new window, passing it the provided context
+    $.fn[pluginName].showNew = ( template, data ) => {
+        Blaze.renderWithData( Template[template], data, document.getElementById( g[LYT_WINDOW].rootId ));
+    };
+
 }( jQuery, window, document ));
 
 /*
@@ -514,18 +520,5 @@
                 $( titlebar ).append( content );
             }
         },
-        // showNew() method
-        //  show unconditionally a new window
-        showNew: function( argsCount ){
-            if( argsCount != 2 ){
-                throwError({ message: 'showNew() expects 1 argument, '+( argsCount-1 )+' found' });
-            } else if( typeof this.args[1] !== 'string' ){
-                throwError({ message: 'showNew() expects the template name as second argument, "'+this.args[1]+'" found' });
-            } else {
-                //console.log( 'IWindowed.showNew '+args[1] );
-                const tmplName = this.args[1];
-                Blaze.render( Template[tmplName], document.getElementById( g[LYT_WINDOW].rootId ));
-            }
-        }
     });
 */

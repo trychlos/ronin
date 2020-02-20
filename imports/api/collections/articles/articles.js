@@ -306,7 +306,7 @@ Articles.fn.equal = function( a, b ){
             ret = false;
         }
         if( !ret ){
-            console.log( '"'+f+'" !== "'+g+'"' );
+            console.log( '"'+c+'" !== "'+d+'"' );
         }
         return ret;
     };

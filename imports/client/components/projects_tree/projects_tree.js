@@ -360,8 +360,17 @@ Template.projects_tree.fn = {
         if( node.id !== 'root' ){
             //console.log( tab+': editing '+node.name );
             const $tree = Template.projects_tree.fn.dict[tab].tree;
-            Session.set( 'process.edit.obj', node.obj );
-            $tree.IWindowed( 'showNew', 'editWindow' );
+            switch( node.obj.type ){
+                case 'A':
+                    Session.set( 'review.action', node.obj );
+                    FlowRouter.go( 'action.edit' );
+                    break;
+                case 'P':
+                    Session.set( 'review.project', node.obj );
+                    //$tree.IWindowed.showNew( 'projectEdit' );
+                    FlowRouter.go( 'project.edit' );
+                    break;
+            }
         }
     },
     // Remove the node from the tab
