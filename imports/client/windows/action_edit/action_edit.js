@@ -2,7 +2,6 @@
  * 'actionEdit' window.
  *
  *  This page lets the user edit an action.
- *
  *  This very same window may be used:
  *
  *  - from the 'process' features group, to insert a new action
@@ -25,10 +24,10 @@
  *                      |
  *                      +-> projectEdit { gtdid, group, template }
  *
- *  Session variable:
- *  - review.action: the object to be edited, may be null.
- *      NB: the object may actually be a thought, when requiring for a transformation.
+ *  Variables:
+ *  - the action identifier to be edited is specified as the 'id' queryParams.
  */
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/components/action_panel/action_panel.js';
@@ -37,8 +36,7 @@ import './action_edit.html';
 
 Template.actionEdit.fn = {
     actionClose(){
-        console.log( 'Template.actionEdit.fn.actionClose' );
-        Session.set( 'review.action', null );
+        //console.log( 'Template.actionEdit.fn.actionClose' );
         switch( g.run.layout.get()){
             case LYT_PAGE:
                 FlowRouter.go( g.run.back );
@@ -49,7 +47,9 @@ Template.actionEdit.fn = {
         }
     },
     okLabel: function(){
-        return Template.actionEdit.fn.okLabelItem( Session.get( 'review.action' ));
+        const self = Template.instance();
+        const item = self.ronin.get( 'item' );
+        return Template.actionEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
         return it ? ( it.type === 'T' ? 'Transform' : 'Update' ) : 'Create';
@@ -57,19 +57,49 @@ Template.actionEdit.fn = {
 }
 
 Template.actionEdit.onCreated( function(){
-    console.log( 'actionEdit.onCreated' );
-    // this let us close an actionEdit window if the action has been
-    //  transformed in something else elsewhere
-    $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
-        console.log( 'actionEdit '+msg+' '+o._id );
-        const a = Session.get( 'review.action' );
-        if( a && a._id === o._id ){
-            Template.actionEdit.fn.actionClose();
-        }
-    });
+    this.subscribe( 'articles.actions.all' );
+    this.subscribe( 'articles.projects.all' );
+    this.subscribe( 'topics.all' );
+    this.subscribe( 'contexts.all' );
+
+    this.ronin = new ReactiveDict();
+    this.ronin.set( 'got', false );
 });
 
 Template.actionEdit.onRendered( function(){
+    const self = this;
+
+    // get the edited item
+    // the rest of the application will not work correctly
+    this.autorun(() => {
+        if( !self.ronin.get( 'got' )){
+            const id = FlowRouter.getQueryParam( 'id' );
+            if( id ){
+                const item = Articles.findOne({ _id:id });
+                if( item ){
+                    self.ronin.set( 'item', item );
+                    self.ronin.set( 'got', true );
+                }
+            } else {
+                self.ronin.set( 'got', true );
+            }
+        }
+    });
+
+    // this let us close an actionEdit window if the action has been
+    //  transformed in something else elsewhere
+    this.autorun(() => {
+        if( self.ronin.get( 'got' )){
+            $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
+                console.log( 'actionEdit '+msg+' '+o._id );
+                const item = self.ronin.get( 'item' );
+                if( item._id === o._id ){
+                    Template.actionEdit.fn.actionClose();
+                }
+            });
+        }
+    });
+
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
@@ -89,14 +119,14 @@ Template.actionEdit.onRendered( function(){
                             text: label,
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.action.update', {
-                                    orig: Session.get( 'review.action' ),
+                                    orig: self.ronin.get( 'item' ),
                                     edit: Template.action_panel.fn.getContent()
                                 });
                             }
                         }
                     ],
-                    group:  context.group,
-                    title:  gtd.labelId( null, context.gtdid )
+                    group: context.group,
+                    title: gtd.labelId( null, context.gtdid )
                 }
             });
         }
@@ -104,11 +134,17 @@ Template.actionEdit.onRendered( function(){
 });
 
 Template.actionEdit.helpers({
+    action(){
+        const self = Template.instance();
+        return self.ronin.get( 'item' );
+    },
     okLabel(){
         return Template.actionEdit.fn.okLabel();
     },
     title(){
-        const title = Session.get( 'review.action' ) ? 'Edit action' : 'New action';
+        const self = Template.instance();
+        const item = self.ronin.get( 'item' );
+        const title = item ? 'Edit action' : ( item.type === 'T' ? 'Transform thought' : 'New action' );
         Session.set( 'header.title', title );
         return title;
     }
@@ -121,7 +157,7 @@ Template.actionEdit.events({
     },
     'click .js-ok'( ev, instance ){
         $.pubsub.publish( 'ronin.model.action.update', {
-            orig: Session.get( 'review.action' ),
+            orig: instance.ronin.get( 'item' ),
             edit: Template.action_panel.fn.getContent()
         });
         return false;

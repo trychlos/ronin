@@ -362,8 +362,7 @@ Template.projects_tree.fn = {
             const $tree = Template.projects_tree.fn.dict[tab].tree;
             switch( node.obj.type ){
                 case 'A':
-                    Session.set( 'review.action', node.obj );
-                    FlowRouter.go( 'action.edit' );
+                    FlowRouter.go( 'action.edit', null, { id:node.obj._id });
                     break;
                 case 'P':
                     Session.set( 'review.project', node.obj );

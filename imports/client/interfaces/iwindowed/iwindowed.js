@@ -324,10 +324,10 @@
             let plugin = $.data( this, pluginName );
             //console.log( plugin );
             if( plugin ){
-                console.log( 'reusing already initialized plugin' );
+                //console.log( 'reusing already initialized plugin' );
                 myPlugin.prototype._methods.apply( plugin, opts );
             } else {
-                console.log( 'allocating new plugin instance' );
+                //console.log( 'allocating new plugin instance' );
                 $.data( this, pluginName, new myPlugin( this, opts[0] ));
             }
         });
@@ -412,20 +412,23 @@
     $.fn[pluginName].show = ( template, data ) => {
         //console.log( this );
         //console.log( myPlugin );
+        //console.log( data );
         if( !template || typeof template !== 'string' ){
             console.log( 'show() expects the template name as single argument, "'+template+'" found' );
         } else {
-            const windows = g[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
             let found = false;
-            for( let i=0 ; i<windows.length && !found ; ++i ){
-                const id = $( windows[i] ).attr( 'data-ronin-iwm-id' );
-                if( id === template ){
-                    let plugin = $( windows[i] ).data( pluginName );
-                    if( plugin ){
-                        plugin._moveToTop();
-                        found = true;
-                    } else {
-                        console.log( 'template='+template+' found, but unable to get the plugin' );
+            if( !data.multiple ){
+                const windows = g[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
+                for( let i=0 ; i<windows.length && !found ; ++i ){
+                    const id = $( windows[i] ).attr( 'data-ronin-iwm-id' );
+                    if( id === template ){
+                        let plugin = $( windows[i] ).data( pluginName );
+                        if( plugin ){
+                            plugin._moveToTop();
+                            found = true;
+                        } else {
+                            console.log( 'template='+template+' found, but unable to get the plugin' );
+                        }
                     }
                 }
             }

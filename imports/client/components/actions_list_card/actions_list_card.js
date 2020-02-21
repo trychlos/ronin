@@ -22,8 +22,7 @@ Template.actions_list_card.events({
     'click .js-edit'( ev, instance ){
         //console.log( instance.data.action );
         g.run.back = FlowRouter.current().route.name;
-        Session.set( 'review.action', instance.data.action );
-        FlowRouter.go( 'action.edit' );
+        FlowRouter.go( 'action.edit', null, { id:instance.data.action._id });
         return false;
     },
     'click .js-done'( ev, instance ){

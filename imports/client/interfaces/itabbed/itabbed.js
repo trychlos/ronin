@@ -108,10 +108,10 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
             let plugin = $.data( this, pluginName );
             //console.log( plugin );
             if( plugin ){
-                console.log( 'reusing already initialized plugin' );
+                //console.log( 'reusing already initialized plugin' );
                 myPlugin.prototype._methods.apply( plugin, opts );
             } else {
-                console.log( 'allocating new plugin instance' );
+                //console.log( 'allocating new plugin instance' );
                 $.data( this, pluginName, new myPlugin( this, opts[0] ));
             }
         });

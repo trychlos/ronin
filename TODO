@@ -195,7 +195,13 @@
   155 2020- 2-19 review projects: New always triggers new project
                   but should trigger new project or new action depending of the tab
 
-  156
+  156 2020- 2-21 always use ronin ReactiveDict
+
+  157 2020- 2-21 projects_tree replace the delete confirmation by the standard one
+
+  158 2020- 2-21 projects_tree list is not reactive to deletes
+
+  159
 
 ==============================================================================
  Done

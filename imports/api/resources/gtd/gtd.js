@@ -589,6 +589,7 @@ export const gtd = {
                         id: 'action-edit',
                         label: 'Edit action',
                         template: 'actionEdit',
+                        multiple: true,
                         route: 'action.edit'
                     }
                 ]

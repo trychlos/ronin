@@ -42,6 +42,7 @@ let blazeRender = ( name ) => {
     const item = gtd.itemRoute( name );
     BlazeLayout.render( 'appLayout', {
         gtdid: item ? item.id : null,
+        multiple: item ? item.multiple : false,
         group: gtd.groupItem( item ),
         template:gtd.templateItem( item )
     });

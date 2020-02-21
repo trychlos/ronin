@@ -12,9 +12,10 @@
  *      > create/edit actions -> back to actionsList which is the default
  *      > transform a thought into an action -> back to thoughtsList.
  *
- *  Session variable:
- *  - review.action: the object to be edited, may be null.
+ *  Parameters:
+ *  - item: the object to be edited, may be null.
  */
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/action_status_select/action_status_select.js';
 import '/imports/client/components/contexts_select/contexts_select.js';
 import '/imports/client/components/date_select/date_select.js';
@@ -55,14 +56,14 @@ Template.action_panel.fn = {
 };
 
 Template.action_panel.onRendered( function(){
+    const item = this.data.item;
     this.autorun(() => {
         const status = Session.get( 'action.dbope' );
         switch( status ){
             // successful update, leave the page
             case DBOPE_LEAVE:
-                const action = Session.get( 'review.action' );
-                if( action ){
-                    $.pubsub.publish( 'ronin.model.reset', action._id );
+                if( item ){
+                    $.pubsub.publish( 'ronin.model.reset', item._id );
                 }
                 switch( g.run.layout.get()){
                     case LYT_PAGE:
@@ -75,7 +76,6 @@ Template.action_panel.onRendered( function(){
                 break;
             // successful insert, reinit the page
             case DBOPE_REINIT:
-                Session.set( 'review.action', null );
                 Template.action_panel.fn.initEditArea();
                 break;
             // all other cases, stay in the page letting it unchanged
@@ -86,47 +86,36 @@ Template.action_panel.onRendered( function(){
 
 Template.action_panel.helpers({
     valContext(){
-        const action = Session.get( 'review.action' );
-        return action ? action.context : '';
+        return this.item ? this.item.context : '';
     },
     valDescription(){
-        const action = Session.get( 'review.action' );
-        return action ? action.description : '';
+        return this.item ? this.item.description : '';
     },
     valDoneDate(){
-        const action = Session.get( 'review.action' );
-        return action ? action.doneDate : '';
+        return this.item ? this.item.doneDate : '';
     },
     valDueDate(){
-        const action = Session.get( 'review.action' );
-        return action ? action.dueDate : '';
+        return this.item ? this.item.dueDate : '';
     },
     valName(){
-        const action = Session.get( 'review.action' );
-        return action ? action.name : '';
+        return this.item ? this.item.name : '';
     },
     valNotes(){
-        const action = Session.get( 'review.action' );
-        return action ? action.notes : '';
+        return this.item ? this.item.notes : '';
     },
     valOutcome(){
-        const action = Session.get( 'review.action' );
-        return action ? action.outcome : '';
+        return this.item ? this.item.outcome : '';
     },
     valParent(){
-        const action = Session.get( 'review.action' );
-        return action ? action.parent : '';
+        return this.item ? this.item.parent : '';
     },
     valStartDate(){
-        const action = Session.get( 'review.action' );
-        return action ? action.startDate : '';
+        return this.item ? this.item.startDate : '';
     },
     valStatus(){
-        const action = Session.get( 'review.action' );
-        return action ? action.status : '';
+        return this.item ? this.item.status : '';
     },
     valTopic(){
-        const action = Session.get( 'review.action' );
-        return action ? action.topic : '';
+        return this.item ? this.item.topic : '';
     }
 });
