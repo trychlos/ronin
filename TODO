@@ -88,8 +88,6 @@
                   + projects_tree handles this message (three times)
                   todo: handle once / deal with update / same for actions_grid
 
-   82 2020- 1-11 review counters publications
-
    83 2020- 1-11 be able to determine on which tree a project/action should be displayed
                   depending not only of its parent, but also of the parent of its parent
                   and so on
@@ -99,8 +97,6 @@
                      (root first, future first)
 
    84 2020- 1-11 manage logged-in user
-
-   88 2020- 1-12 action done : have a dark gray icon
 
    91 2020- 1-14 have a touch layout
 
@@ -370,6 +366,9 @@
    78 2020- 1- 9 actions_edit: date display is not ok
       2020- 1-10 fixed by conversion to Date object
 
+   82 2020- 1-11 review counters publications
+      2020- 2-21 obsolete
+
    85 2020- 1-11 root objects of projects_tree should be hard-coded object (as gtd)
       2020- 1-11 done
 
@@ -379,6 +378,9 @@
 
    87 2020- 1-11 actions_tabs: list of tabs should be read from gtd
       2020- 1-11 done
+
+   88 2020- 1-12 action done : have a dark gray icon
+      2020- 2-21 done
 
    89 2020- 1-13 action_status should be hardcoded (as gtd)
       2020- 1-13 done as actionStatus
