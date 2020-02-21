@@ -71,6 +71,22 @@
         }
     }
 }
+.simone-taskbar {
+    .simone-taskbar-window-group-menu > .ui-menu-item > .ui-button {
+        right: 0rem;
+    }
+    .simone-taskbar-window-close.ui-button {
+        padding: 0.15rem;
+        background-color: white;
+        color: gray;
+        .ui-icon {
+            background-image: url('/jquery-ui/ui-icons_444444_256x240.png');
+        }
+        .ui-icon-closethick {
+            background-position: -80px -128px;
+        }
+    }
+}
 /*
  * window-based layout
  *  gtd features group colors
@@ -79,7 +95,6 @@
     .ui-tabs-tab.ui-state-active,
     .ui-widget-header.ui-state-active {
         background: @setup-color;
-        //border: 1px solid darken( @setup-color, 25% );
         border: 0;
     }
 }
@@ -87,7 +102,6 @@
     .ui-tabs-tab.ui-state-active,
     .ui-widget-header.ui-state-active {
         background: @collect-color;
-        //border: 1px solid darken( @collect-color, 25% );
         border: 0;
     }
 }
@@ -95,7 +109,6 @@
     .ui-tabs-tab.ui-state-active,
     .ui-widget-header.ui-state-active {
         background: @process-color;
-        //border: 1px solid darken( @process-color, 25% );
         border: 0;
     }
 }
@@ -103,49 +116,101 @@
     .ui-tabs-tab.ui-state-active,
     .ui-widget-header.ui-state-active {
         background: @review-color;
-        //border: 1px solid darken( @review-color, 25% );
         border: 0;
     }
 }
-.simone-taskbar-container {
+.simone-taskbar {
+    .simone-taskbar-window-button[data-group-name*='Group']:hover,
+    .simone-taskbar-window-button[data-group-name*='Group'].ui-state-active:hover {
+        color: white
+    }
+    .simone-taskbar-window-group-menu[data-group-name*='Group'] {
+        .simone-taskbar-window-group-element-active {
+            a {
+                border: none;
+                width: -moz-available;
+            }
+            .simone-taskbar-window-close.ui-button:hover {
+                border-color: @app-color;
+                color: @app-color;  // doesn't work
+                background-color: white;
+            }
+        }
+    }
+
     .simone-taskbar-window-button[data-group-name*='setupGroup'].ui-state-active {
         background-color: @setup-color;
         border: darken( @setup-color, 25% );
     }
     .simone-taskbar-window-button[data-group-name*='setupGroup']:hover,
     .simone-taskbar-window-button[data-group-name*='setupGroup'].ui-state-active:hover {
-        background-color: lighten( @setup-color, 25% );
-        border: @setup-color;
-        color: white
+        background-color: darken( @setup-color, 10% );
     }
+    .simone-taskbar-window-group-menu[data-group-name*='setupGroup'] {
+        .simone-taskbar-window-close.ui-button {
+            border-color: darken( @setup-color, 25% );
+        }
+        .simone-taskbar-window-group-element-active {
+            a {
+                background-color: @setup-color;
+            }
+        }
+    }
+
     .simone-taskbar-window-button[data-group-name*='collectGroup'].ui-state-active {
         background-color: @collect-color;
         border: darken( @collect-color, 25% );
     }
     .simone-taskbar-window-button[data-group-name*='collectGroup']:hover,
     .simone-taskbar-window-button[data-group-name*='collectGroup'].ui-state-active:hover {
-        background-color: lighten( @collect-color, 25% );
-        border: @collect-color;
-        color: white
+        background-color: darken( @collect-color, 10% );
     }
+    .simone-taskbar-window-group-menu[data-group-name*='collectGroup'] {
+        .simone-taskbar-window-close.ui-button {
+            border-color: darken( @collect-color, 25% );
+        }
+        .simone-taskbar-window-group-element-active {
+            a {
+                background-color: @collect-color;
+            }
+        }
+    }
+
     .simone-taskbar-window-button[data-group-name*='processGroup'].ui-state-active {
         background-color: @process-color;
         border: darken( @process-color, 25% );
     }
     .simone-taskbar-window-button[data-group-name*='processGroup']:hover,
     .simone-taskbar-window-button[data-group-name*='processGroup'].ui-state-active:hover {
-        background-color: lighten( @process-color, 25% );
-        border: @process-color;
-        color: white
+        background-color: darken( @process-color, 10% );
     }
+    .simone-taskbar-window-group-menu[data-group-name*='processGroup'] {
+        .simone-taskbar-window-close.ui-button {
+            border-color: darken( @process-color, 25% );
+        }
+        .simone-taskbar-window-group-element-active {
+            a {
+                background-color: @process-color;
+            }
+        }
+    }
+
     .simone-taskbar-window-button[data-group-name*='reviewGroup'].ui-state-active {
         background-color: @review-color;
         border: darken( @review-color, 25% );
     }
     .simone-taskbar-window-button[data-group-name*='reviewGroup']:hover,
     .simone-taskbar-window-button[data-group-name*='reviewGroup'].ui-state-active:hover {
-        background-color: lighten( @review-color, 25% );
-        border: @review-color;
-        color: white
+        background-color: darken( @review-color, 10% );
+    }
+    .simone-taskbar-window-group-menu[data-group-name*='reviewGroup'] {
+        .simone-taskbar-window-close.ui-button {
+            border-color: darken( @review-color, 25% );
+        }
+        .simone-taskbar-window-group-element-active {
+            a {
+                background-color: @review-color;
+            }
+        }
     }
 }
