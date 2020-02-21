@@ -97,9 +97,9 @@ Template.projects_tree.fn = {
     //  note that even if an order has been initially retrieved, fetched must still
     //  be explored for new items
     addProjects: function( tab, future, fetched ){
-        //console.log( 'addProjects future='+future+' count='+fetched.length );
+        //console.log( 'addProjects tab='+tab+' future='+future+' count='+fetched.length );
         const fn = Template.projects_tree.fn;
-        const $tree = fn.dict2[tab] ? fn.dict2[tab].tree : null;
+        const $tree = Template.projects_tree.fn.dict2[tab] ? Template.projects_tree.fn.dict2[tab].tree : null;
         if( !$tree ){
             console.log( tab+': addProjects while $tree not built' );
             return;
@@ -124,7 +124,7 @@ Template.projects_tree.fn = {
                     parent: project.parent,
                     obj: project
                 };
-                // console.log( prefix+' adding '+node.obj.type+' '+node.obj.name );
+                //console.log( prefix+' adding '+node.obj.type+' '+node.obj.name+' future='+future );
                 Template.projects_tree.fn.addNode( $tree, node );
             }
         }
@@ -368,9 +368,7 @@ Template.projects_tree.fn = {
                     FlowRouter.go( 'action.edit', null, { id:node.obj._id });
                     break;
                 case 'P':
-                    Session.set( 'review.project', node.obj );
-                    //$tree.IWindowed.showNew( 'projectEdit' );
-                    FlowRouter.go( 'project.edit' );
+                    FlowRouter.go( 'project.edit', null, { id:node.obj._id });
                     break;
             }
         }
@@ -568,7 +566,7 @@ Template.projects_tree.onRendered( function(){
             fn.dict2[tab].projectsHandle.ready()){
                 //console.log( tab+': updating projects' );
                 if( tab !== 'actions-list' ){
-                    const future = ( tab === 'projects-:future' );
+                    const future = ( tab === 'projects-future' );
                     let filter = { type:'P' };
                     filter.future = future ? true : { $ne:true };
                     fn.addProjects( tab, future, Articles.find( filter ).fetch());

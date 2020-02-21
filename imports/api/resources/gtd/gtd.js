@@ -447,6 +447,13 @@ export const gtd = {
                         }
                     },
                     {
+                        id: 'project-edit',
+                        label: 'Edit project',
+                        template: 'projectEdit',
+                        multiple: true,
+                        route: 'project.edit'
+                    },
+                    {
                         id: 'actions-list',
                         label: 'Actions',
                         route: 'review.actions',

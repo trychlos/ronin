@@ -158,9 +158,10 @@
 
   158 2020- 2-21 projects_tree list is not reactive to deletes
 
-  159 2020- 2-21 projectEdit: use the same paradigm than in actionEdit
+  160 2020- 2-21 projectEdit/actionEdit: update projects_tree source when an
+                  item goes to another tree (resp. subtree)
 
-  160
+  161
 
 ==============================================================================
  Done
@@ -549,6 +550,9 @@
 
   152 2020- 2-17 contexts_select: no need to have an initial record
       2020- 2-17 done
+
+  159 2020- 2-21 projectEdit: use the same paradigm than in actionEdit
+      2020- 2-21 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

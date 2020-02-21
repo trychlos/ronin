@@ -2,6 +2,16 @@
  * 'projectEdit' window.
  *
  *  This page lets the user edit a project.
+ *  This very same window may be used:
+ *
+ *  - from the 'process' features group, to insert a new project
+ *      > page layout: this is tied to the 'projects' group
+ *
+ *  - from the 'collect' features group, to transform a thought into a project
+ *      > page layout: this is tied to the 'thoughts' group
+ *
+ *  - from the 'review' features group, to edit a project
+ *      > page layout: this is tied to the 'projects' group
  *
  *  Worflow:
  *  [routes.js]
@@ -14,9 +24,10 @@
  *                      |
  *                      +-> projectEdit { gtdid, group, template }
  *
- *  Session variable:
- *  - review.project: the object to be edited, may be null.
+ *  Variables:
+ *  - the action identifier to be edited is specified as the 'id' queryParams.
  */
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/components/project_panel/project_panel.js';
@@ -26,7 +37,6 @@ import './project_edit.html';
 Template.projectEdit.fn = {
     actionClose(){
         //console.log( 'Template.projectEdit.fn.actionClose' );
-        Session.set( 'review.project', null );
         switch( g.run.layout.get()){
             case LYT_PAGE:
                 FlowRouter.go( g.run.back );
@@ -37,7 +47,9 @@ Template.projectEdit.fn = {
         }
     },
     okLabel: function(){
-        return Template.projectEdit.fn.okLabelItem( Session.get( 'review.project' ));
+        const self = Template.instance();
+        const item = self.ronin.get( 'item' );
+        return Template.projectEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
         return it ? ( it.type === 'T' ? 'Transform' : 'Update' ) : 'Create';
@@ -46,18 +58,49 @@ Template.projectEdit.fn = {
 
 Template.projectEdit.onCreated( function(){
     console.log( 'projectEdit.onCreated' );
-    // this let us close a projectEdit window if the project has been
-    //  transformed in something else elsewhere
-    $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
-        console.log( 'projectEdit '+msg+' '+o._id );
-        const p = Session.get( 'review.project' );
-        if( p && p._id === o._id ){
-            Template.projectEdit.fn.actionClose();
-        }
-    });
+    this.subscribe( 'articles.actions.all' );
+    this.subscribe( 'articles.projects.all' );
+    this.subscribe( 'topics.all' );
+    this.subscribe( 'contexts.all' );
+
+    this.ronin = new ReactiveDict();
+    this.ronin.set( 'got', false );
 });
 
 Template.projectEdit.onRendered( function(){
+    const self = this;
+
+    // get the edited item
+    // the rest of the application will not work correctly
+    this.autorun(() => {
+        if( !self.ronin.get( 'got' )){
+            const id = FlowRouter.getQueryParam( 'id' );
+            if( id ){
+                const item = Articles.findOne({ _id:id });
+                if( item ){
+                    self.ronin.set( 'item', item );
+                    self.ronin.set( 'got', true );
+                }
+            } else {
+                self.ronin.set( 'got', true );
+            }
+        }
+    });
+
+    // this let us close a projectEdit window if the project has been
+    //  transformed in something else elsewhere
+    this.autorun(() => {
+        if( self.ronin.get( 'got' )){
+            $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
+                console.log( 'projectEdit '+msg+' '+o._id );
+                const item = self.ronin.get( 'item' );
+                if( item._id === o._id ){
+                    Template.projectEdit.fn.actionClose();
+                }
+            });
+        }
+    });
+
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
@@ -77,7 +120,7 @@ Template.projectEdit.onRendered( function(){
                             text: label,
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.project.update', {
-                                    orig: Session.get( 'review.project' ),
+                                    orig: self.ronin.get( 'item' ),
                                     edit: Template.project_panel.fn.getContent()
                                 });
                             }
@@ -92,11 +135,17 @@ Template.projectEdit.onRendered( function(){
 });
 
 Template.projectEdit.helpers({
+    project(){
+        const self = Template.instance();
+        return self.ronin.get( 'item' );
+    },
     okLabel(){
         return Template.projectEdit.fn.okLabel();
     },
     title(){
-        const title = Session.get( 'review.project' ) ? 'Edit project' : 'New project';
+        const self = Template.instance();
+        const item = self.ronin.get( 'item' );
+        const title = item ? 'Edit project' : ( item.type === 'T' ? 'Transform thought' : 'New project' );
         Session.set( 'header.title', title );
         return title;
     }
@@ -109,7 +158,7 @@ Template.projectEdit.events({
     },
     'click .js-ok'( ev, instance ){
         $.pubsub.publish( 'ronin.model.project.update', {
-            orig: Session.get( 'review.project' ),
+            orig: instance.ronin.get( 'item' ),
             edit: Template.project_panel.fn.getContent()
         });
         return false;

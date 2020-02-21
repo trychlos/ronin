@@ -12,9 +12,10 @@
  *      > create/edit projects -> back to projectsList which is the default
  *      > transform a thought into a project -> back to thoughtsList.
  *
- *  Session variables:
- *  - review.project: the to-be-edited project.
+ *  Parameters:
+ *  - item: the object to be edited, may be null.
  */
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/date_select/date_select.js';
 import '/imports/client/components/projects_select/projects_select.js';
 import '/imports/client/components/topics_select/topics_select.js';
@@ -55,14 +56,14 @@ Template.project_panel.fn = {
 };
 
 Template.project_panel.onRendered( function(){
+    const item = this.data.item;
     this.autorun(() => {
         const status = Session.get( 'project.dbope' );
         switch( status ){
             // successful update, leave the page
             case DBOPE_LEAVE:
-                const project = Session.get( 'review.project' );
-                if( project ){
-                    $.pubsub.publish( 'ronin.model.reset', project._id );
+                if( item ){
+                    $.pubsub.publish( 'ronin.model.reset', item._id );
                 }
                 switch( g.run.layout.get()){
                     case LYT_PAGE:
@@ -75,7 +76,6 @@ Template.project_panel.onRendered( function(){
                 break;
             // successful insert, reinit the page
             case DBOPE_REINIT:
-                Session.set( 'review.project', null );
                 Template.project_panel.fn.initEditArea();
                 break;
             // all other cases, stay in the page letting it unchanged
@@ -86,51 +86,39 @@ Template.project_panel.onRendered( function(){
 
 Template.project_panel.helpers({
     valBrainstorm(){
-        const project = Session.get( 'review.project' );
-        return project ? project.brainstorm : '';
+        return this.item ? this.item.brainstorm : '';
     },
     valDescription(){
-        const project = Session.get( 'review.project' );
-        return project ? project.description : '';
+        return this.item ? this.item.description : '';
     },
     valDoneDate(){
-        const project = Session.get( 'review.project' );
-        return project ? project.doneDate : '';
+        return this.item ? this.item.doneDate : '';
     },
     valDueDate(){
-        const project = Session.get( 'review.project' );
-        return project ? project.dueDate : '';
+        return this.item ? this.item.dueDate : '';
     },
     valFuture(){
-        const project = Session.get( 'review.project' );
-        return project && project.future ? 'checked' : '';
+        return this.item && this.item.future ? 'checked' : '';
     },
     valName(){
-        const project = Session.get( 'review.project' );
-        return project ? project.name : '';
+        return this.item ? this.item.name : '';
     },
     valNotes(){
-        const project = Session.get( 'review.project' );
-        return project ? project.notes : '';
+        return this.item ? this.item.notes : '';
     },
     valParent(){
-        const project = Session.get( 'review.project' );
-        return project ? project.parent : '';
+        return this.item ? this.item.parent : '';
     },
     valPurpose(){
-        const project = Session.get( 'review.project' );
-        return project ? project.purpose : '';
+        return this.item ? this.item.purpose : '';
     },
     valStartDate(){
-        const project = Session.get( 'review.project' );
-        return project ? project.startDate : '';
+        return this.item ? this.item.startDate : '';
     },
     valTopic(){
-        const project = Session.get( 'review.project' );
-        return project ? project.topic : '';
+        return this.item ? this.item.topic : '';
     },
     valVision(){
-        const project = Session.get( 'review.project' );
-        return project ? project.vision : '';
+        return this.item ? this.item.vision : '';
     }
 });
