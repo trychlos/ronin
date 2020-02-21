@@ -72,7 +72,7 @@ export const gtd = {
             {
                 id: 'setup-group',
                 label: 'Setup',
-                group: 'setup',
+                group: 'setupGroup',
                 navs: {
                     footer: {
                         display: true,

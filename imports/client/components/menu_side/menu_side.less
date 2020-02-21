@@ -30,5 +30,17 @@ div.menu-side {
             background-color: @active-color;
             color: white;
         }
+        li>div[data-ronin-group*='setupGroup']:not(.header-item):hover {
+            background-color: @setup-color;
+        }
+        li>div[data-ronin-group*='collectGroup']:not(.header-item):hover {
+            background-color: @collect-color;
+        }
+        li>div[data-ronin-group*='processGroup']:not(.header-item):hover {
+            background-color: @process-color;
+        }
+        li>div[data-ronin-group*='reviewGroup']:not(.header-item):hover {
+            background-color: @review-color;
+        }
     }
 }

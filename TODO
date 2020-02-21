@@ -98,8 +98,6 @@
 
    84 2020- 1-11 manage logged-in user
 
-   91 2020- 1-14 have a touch layout
-
    92 2020- 1-17 do not let a project have itself as its own parent
 
    93 2020- 1-17 check that project's parent hierarchy does not loop
@@ -108,12 +106,6 @@
                   associated with menu_side (have a media query)
 
    95 2020- 1-18 header_panel: menubar display should be dynamic (have a media query)
-
-   96 2020- 1-19 header_panel: replace sign-in with a button (depending of the width)
-
-   97 2020- 1-19 mobile: title does not change when orientation changes
-
-   98 2020- 1-19 mobile landscape: neither header nor footer are fixed
 
   100 2020- 1-22 merge thoughts, actions, projects in a single collection
                   as they are fondamentally the same thing (and have many
@@ -387,6 +379,18 @@
 
    90 2020- 1-14 move gtd to assets/
       2020- 1-22 done
+
+   91 2020- 1-14 have a touch layout
+      2020- 2-21 done
+
+   96 2020- 1-19 header_panel: replace sign-in with a button (depending of the width)
+      2020- 2-21 obsolete
+
+   97 2020- 1-19 mobile: title does not change when orientation changes
+      2020- 2-21 fixed
+
+   98 2020- 1-19 mobile landscape: neither header nor footer are fixed
+      2020- 2-21 fixed
 
    99 2020- 1-22 action_status should be an asset, nor a db collection
       2020- 1-22 done

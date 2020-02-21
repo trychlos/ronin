@@ -22,6 +22,7 @@ Template.menu_item.helpers({
         if( classes.length ){
             htmlBegin += ' class="'+classes.join(' ')+'"';
         }
+        htmlBegin += ' data-ronin-group="'+gtd.groupId( item.id )+'"';
         htmlBegin += '>';
         htmlEnd = '</div>'+htmlEnd;
         if( gtd.routeItem( type, item )){
