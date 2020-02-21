@@ -45,16 +45,24 @@ export const actionStatus = {
             }
         ];
     },
+    // returns the item for this id
+    _byId: function( id ){
+        const all = actionStatus.all();
+        for( let i=0 ; i<all.length ; ++i ){
+            if( all[i].id === id ){
+                return all[i];
+            }
+        }
+        console.log( 'actionStatus='+id+' not found' );
+        return null;
+    },
     // returns the default action status
     getDefault: function(){
         return 'ina';
     },
     // whether this status qualifies an actionable action
-    isActionable: function( item ){
-        return item.actionable === true;
-    },
-    // whether this status qualifies a terminated action
-    isDone: function( item ){
-        return item.id === 'don';
+    isActionable: function( id ){
+        const item = actionStatus._byId( id );
+        return item ? item.actionable === true : false;
     }
 };
