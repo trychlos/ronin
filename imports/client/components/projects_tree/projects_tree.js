@@ -20,6 +20,7 @@ Template.projects_tree.fn = {
     //  actionsHandle, projectsHandle: data subscription handles
     //  tree: the root tree node
     //  projectsShown: a reactive var true when projects have been shown
+    //  actionsShown: a reactive var true when actions have been shown
     dict: {},
     // add actions in each tab
     addActions: function( tab, fetched ){
@@ -438,6 +439,7 @@ Template.projects_tree.onCreated( function(){
             projectsHandle: this.subscribe( 'articles.projects.all' ),
             countersGot:    new ReactiveVar( false ),
             projectsShown:  new ReactiveVar( false ),
+            actionsShown:   new ReactiveVar( false ),
             tree:           null,
             order:          new ReactiveVar( null )
         }
@@ -580,6 +582,15 @@ Template.projects_tree.onRendered( function(){
             fn.dict[tab].projectsShown.get()){
                 //console.log( tab+': updating actions' );
                 fn.addActions( tab, Articles.find({ type:'A' }).fetch());
+                fn.dict[tab].actionsShown.set( true );
+        }
+    });
+    // expand every tab tree
+    this.autorun(() => {
+        const tab = this.data.tab;
+        if( tab &&
+            fn.dict[tab].actionsShown.get()){
+            Template.projects_tree.fn.expandAll( tab );
         }
     });
     // on action or project update, the new status of the updated item is reactively

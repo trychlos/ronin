@@ -39,9 +39,6 @@
    53 2020- 1- 3 when opening several window with the same template
                   (editWindow typically), shift each new window from the previous
 
-   57 2020- 1- 4 projects_tree: set node opened at creation
-                  caution: the behavior is slightly altered when jqtree.css is loaded
-
    59 2020- 1- 4 save #58 (projects tree display done per tab) in user settings
 
    60 2020- 1- 4 topics color should be user settings
@@ -167,13 +164,15 @@
   155 2020- 2-19 review projects: New always triggers new project
                   but should trigger new project or new action depending of the tab
 
-  156 2020- 2-21 always use ronin ReactiveDict
+  156 2020- 2-21 use ronin ReactiveDict everywhere we have a reactive var
 
-  157 2020- 2-21 projects_tree replace the delete confirmation by the standard one
+  157 2020- 2-21 projects_tree: replace the delete confirmation by the standard one
 
   158 2020- 2-21 projects_tree list is not reactive to deletes
 
-  159
+  159 2020- 2-21 projectEdit: use the same paradigm than in actionEdit
+
+  160
 
 ==============================================================================
  Done
@@ -339,6 +338,10 @@
    56 2020- 1- 3 action/project delete
                   requires a confirmation dialog
       2020- 1- 3 done
+
+   57 2020- 1- 4 projects_tree: set node opened at creation
+                  caution: the behavior is slightly altered when jqtree.css is loaded
+      2020- 2-21 done
 
    58 2020- 1- 4 projects tree per tab: display or not done items
       2020- 1- 4 done
