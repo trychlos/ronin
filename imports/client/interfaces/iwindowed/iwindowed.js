@@ -108,6 +108,7 @@
             this._routeSet();
             this._createSetWidget();
             this._createSetTitlebarDiv();
+            this._createSetTitleButtons();
             this._createSetButtonpaneDiv();
             this._createRestoreSettings( id );
             // set event handlers
@@ -119,11 +120,17 @@
             this.$dom.on( 'windowfocus', this, function( ev, ui ){
                 ev.data._onFocus( ev, ui );
             });
+            this.$dom.on( 'windowmaximize', this, function( ev, ui ){
+                ev.data._onMaximize( ev, ui );
+            });
             this.$dom.on( 'windowminimize', this, function( ev, ui ){
                 ev.data._onMinimize( ev, ui );
             });
             this.$dom.on( 'windowresizestop', this, function( ev, ui ){
                 ev.data._onResizeStop( ev, ui );
+            });
+            this.$dom.on( 'windowrestore', this, function( ev, ui ){
+                ev.data._onRestore( ev, ui );
             });
             //console.log( $( this.dom ));
         },
@@ -165,6 +172,16 @@
                 $( elt ).detach();
                 $( bar ).append( elt );
             });
+        },
+
+        // set the title of the minimize/maximize/close buttons
+        //  this = plugin
+        _createSetTitleButtons: function(){
+            const close = this.$widget.find( '.ui-dialog-titlebar > .ui-button[data-button-order="0"]' );
+            close.prop( 'title', 'Close' );
+            this._setRestoreButtonTitle();
+            const min = this.$widget.find( '.ui-dialog-titlebar > .ui-button[data-button-order="2"]' );
+            min.prop( 'title', 'Minimize' );
         },
 
         // return the widget, parent of 'this' window
@@ -260,6 +277,12 @@
            return false;
         },
 
+        // the window is maximized
+        //  update the corresponding button title
+        _onMaximize: function( ev, ui ){
+            this._setRestoreButtonTitle();
+        },
+
         // the window is minimized
         //  if all the windows are minimized, then reset the route
         _onMinimize: function( ev, ui ){
@@ -275,6 +298,12 @@
             if( !visible ){
                 FlowRouter.go( 'home' );
             }
+        },
+
+        // the window is restored
+        //  update the corresponding button title
+        _onRestore: function( ev, ui ){
+            this._setRestoreButtonTitle();
         },
 
         _onResizeStop: function( ev, ui ){
@@ -307,6 +336,12 @@
             localStorage[storageName] = jsonSettings;
             //console.log( '_saveSettings '+storageName );
             //console.log( jsonSettings );
+        },
+
+        _setRestoreButtonTitle: function( id ){
+            const maximized = this.$dom.window( 'maximized' );
+            const max = this.$widget.find( '.ui-dialog-titlebar > .ui-button[data-button-order="1"]' );
+            max.prop( 'title', maximized ? 'Restore' : 'Maximize' );
         },
 
         // return the settings key when saving/restoring size and position
