@@ -57,7 +57,7 @@ Template.projectEdit.fn = {
 }
 
 Template.projectEdit.onCreated( function(){
-    console.log( 'projectEdit.onCreated' );
+    //console.log( 'projectEdit.onCreated' );
     this.subscribe( 'articles.actions.all' );
     this.subscribe( 'articles.projects.all' );
     this.subscribe( 'topics.all' );

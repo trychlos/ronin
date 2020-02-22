@@ -16,20 +16,166 @@ import 'jqtree/jqtree.css';
 import './projects_tree.html';
 
 Template.projects_tree.fn = {
-    // dict handles a key per tab, with data as:
-    //  actionsHandle, projectsHandle: data subscription handles
-    //  tree: the root tree node
-    //  projectsShown: a reactive var true when projects have been shown
-    //  actionsShown: a reactive var true when actions have been shown
-    dict: {},
-    dict2: {},
-    // add actions in each tab
-    addActions: function( tab, fetched ){
-        const $tree = Template.projects_tree.fn.dict2[tab] ? Template.projects_tree.fn.dict2[tab].tree : null;
-        if( !$tree ){
-            console.log( tab+': addActions while $tree not built' );
+    // the tree is built by successive steps
+    steps: {
+        tree_built:     1,
+        counters_got:   2,
+        projects_shown: 3,
+        actions_shown:  4,
+        expanded:       5
+    },
+    // context menu
+    _cm_createMenu: function( $tree, tab ){
+        const fn = Template.projects_tree.fn;
+        $tree.contextMenu({
+            selector: 'li.jqtree_common span.jqtree-title',
+            build: function( elt, ev ){
+                return {
+                    items: {
+                        edit: {
+                            name: 'Edit',
+                            icon: 'fas fa-edit',
+                            callback: function( item, opts, event ){
+                                const node = $( $( opts.$trigger ).parents('li')[0] ).data( 'node' );
+                                if( !fn.nodeIsRoot( node )){
+                                    fn._cm_edit( $tree, node );
+                                }
+                            },
+                            disabled: function( key, opts ){
+                                const node = $( $( this ).parents('li')[0] ).data( 'node' );
+                                return fn.nodeIsRoot( node );
+                            }
+                        },
+                        delete: {
+                            name: 'Delete',
+                            icon: 'fas fa-trash-alt',
+                            callback: function( item, opts, event ){
+                                const node = $( $( opts.$trigger ).parents('li')[0] ).data( 'node' );
+                                if( !fn.nodeIsRoot( node )){
+                                    fn._cm_delete( $tree, node );
+                                }
+                            },
+                            disabled: function( key, opts ){
+                                const node = $( $( this ).parents('li')[0] ).data( 'node' );
+                                return fn.nodeIsRoot( node );
+                            }
+                        }
+                    },
+                    autoHide: true,
+                    events: {
+                        show: function( opts ){
+                            this.addClass( 'contextmenu-showing' );
+                        },
+                        hide: function( opts ){
+                            this.removeClass( 'contextmenu-showing' );
+                        }
+                    },
+                    position: function( opts, x, y ){
+                        opts.$menu.position({
+                            my: 'left top',
+                            at: 'right bottom',
+                            of: ev
+                        });
+                    }
+                }
+            }
+        });
+    },
+    // contextual menu, delete operation
+    _cm_delete: function( $tree, node ){
+        const fn = Template.projects_tree.fn;
+        if( !fn.nodeIsRoot( node )){
+            msg = node.obj.type === 'A' ? 'ronin.model.action.delete' : 'ronin.model.project.delete';
+            $.pubsub.publish( msg, node.obj );
+        }
+    },
+    // contextual menu, edit operation
+    _cm_edit: function( $tree, node ){
+        const fn = Template.projects_tree.fn;
+        if( !fn.nodeIsRoot( node )){
+            switch( node.obj.type ){
+                case 'A':
+                    FlowRouter.go( 'action.edit', null, { id:node.obj._id });
+                    break;
+                case 'P':
+                    FlowRouter.go( 'project.edit', null, { id:node.obj._id });
+                    break;
+            }
+        }
+    },
+
+    // low-level tree functions
+    _llt_addNode: function( $tree, node ){
+        const fn = Template.projects_tree.fn;
+        if( fn.nodeIsRoot( node )){
+            $tree.tree( 'appendNode', node );
             return;
         }
+        const exists = $tree.tree( 'getNodeById', node.id );
+        if( exists ){
+            $tree.tree( 'updateNode', exists, node )
+            return exists;
+        }
+        let parentNode = null;
+        if( node.parent ){
+            parentNode = $tree.tree( 'getNodeById', node.parent );
+        }
+        if( !parentNode ){
+            parentNode = $tree.tree( 'getNodeById', 'root' );
+        }
+        $tree.tree( 'appendNode', node, parentNode );
+        return $tree.tree( 'getNodeById', node.id );
+    },
+    // called once from onRendered()
+    _llt_createTree: function( $tree, tab ){
+        const fn = Template.projects_tree.fn;
+        $tree.data( 'tab', tab );
+        $tree.tree({
+            autoOpen: true,
+            dragAndDrop: true,
+            saveState: 'ronin-projects-tree-'+tab,
+            //closedIcon: $('<i class="fas fa-plus"></i>'),
+            //openedIcon: $('<i class="fas fa-minus"></i>'),
+            onCreateLi: function( node, $li, isSelected ){
+                // Add 'icon' span before title
+                const icon = fn._llt_itemIcon( node );
+                const classe = fn._llt_itemClass( node );
+                $li.find('.jqtree-title').before('<span class="fas '+icon+' icon"></span>');
+                $li.addClass( classe );
+            }
+        });
+    },
+    // empty the tree
+    _llt_empty: function( $tree ){
+        const root = $tree.tree( 'getTree' );
+        const label = root.name;
+        $tree.tree( 'loadData', [] );
+        Template.projects_tree.fn._llt_setRoot( $tree, label );
+    },
+    // returns the ad-hoc class for the item LI
+    _llt_itemClass: function( node ){
+        return node && node.obj && node.obj.type === 'A' ?
+            ( node.obj.status === 'don' ? 'rev-status-done' :
+                ( actionStatus.isActionable( node.obj.status ) ? 'rev-status-activable' : '' )) : '';
+    },
+    // returns the applicable icon
+    _llt_itemIcon: function( node ){
+        return node && node.obj && node.obj.type === 'A' ? 'fa-file-alt' : 'fa-folder-open';
+    },
+    // insert the root node (type='R') of the tree
+    _llt_setRoot: function( $tree, label ){
+        Template.projects_tree.fn._llt_addNode( $tree, {
+            id: 'root',
+            name: label,
+            obj: {
+                type: 'R'
+            }
+        });
+    },
+
+    // add actions in each tab
+    addActions: function( $tree, order, fetched ){
+        const tab = $tree.data( 'tab' );
         fetched.forEach( it => {
             //console.log( tab+': addActions '+it.name );
             let node = {
@@ -43,14 +189,14 @@ Template.projects_tree.fn = {
                     const p = Articles.findOne({ _id:it.parent, type:'P' });
                     if( p && !p.future ){
                         node.parent = it.parent;
-                        const added = Template.projects_tree.fn.addNode( $tree, node );
+                        const added = Template.projects_tree.fn._llt_addNode( $tree, node );
                         Template.projects_tree.fn.setActivable( $tree, added );
                     }
                 }
             // on actions tab, display actions without a project
             } else if( tab === 'actions-list' ){
                 if( !it.parent ){
-                    const added = Template.projects_tree.fn.addNode( $tree, node );
+                    const added = Template.projects_tree.fn._llt_addNode( $tree, node );
                     Template.projects_tree.fn.setActivable( $tree, added );
                 }
             // last display on future tab the actions attached to a future project
@@ -59,7 +205,7 @@ Template.projects_tree.fn = {
                     const p = Articles.findOne({ _id:it.project, type:'P' });
                     if( p && p.future ){
                         node.parent = it.parent;
-                        const added = Template.projects_tree.fn.addNode( $tree, node );
+                        const added = Template.projects_tree.fn._llt_addNode( $tree, node );
                         Template.projects_tree.fn.setActivable( $tree, added );
                     }
                 }
@@ -68,43 +214,11 @@ Template.projects_tree.fn = {
             }
         });
     },
-    addNode: function( $tree, node ){
-        if( node.id === 'root' ){
-            //console.log( 'appending root node' );
-            $tree.tree( 'appendNode', node );
-            return;
-        }
-        const existing = $tree.tree( 'getNodeById', node.id );
-        if( existing ){
-            $tree.tree( 'updateNode', existing, node )
-            return existing;
-        }
-        let parentNode = null;
-        //console.log( 'node='+node.name+' parent='+node.parent );
-        if( node.parent ){
-            parentNode = $tree.tree( 'getNodeById', node.parent );
-            //console.log( 'found parent='+parentNode );
-        }
-        if( !parentNode ){
-            parentNode = $tree.tree( 'getNodeById', 'root' );
-        }
-        //console.log( 'appending node id='+node.id+' parent='+parentNode );
-        $tree.tree( 'appendNode', node, parentNode );
-        //console.log( tab+' addNode '+node.name );
-        return $tree.tree( 'getNodeById', node.id );
-    },
     // add the projects in projects and future tabs
     //  note that even if an order has been initially retrieved, fetched must still
     //  be explored for new items
-    addProjects: function( tab, future, fetched ){
-        //console.log( 'addProjects tab='+tab+' future='+future+' count='+fetched.length );
+    addProjects: function( $tree, order, future, fetched ){
         const fn = Template.projects_tree.fn;
-        const $tree = Template.projects_tree.fn.dict2[tab] ? Template.projects_tree.fn.dict2[tab].tree : null;
-        if( !$tree ){
-            console.log( tab+': addProjects while $tree not built' );
-            return;
-        }
-        const order = fn.dict2[tab].order.get();
         if( order ){
             order.forEach( it => {
                 fn._addProjectsRec( $tree, future, it, '>' );
@@ -113,7 +227,7 @@ Template.projects_tree.fn = {
         fetched.forEach( it => {
             fn._addProjectNode( $tree, future, it, '' );
         });
-},
+    },
     // add a project node
     _addProjectNode: function( $tree, future, project, prefix ){
         if( project && ( future ? project.future : !project.future )){
@@ -125,7 +239,7 @@ Template.projects_tree.fn = {
                     obj: project
                 };
                 //console.log( prefix+' adding '+node.obj.type+' '+node.obj.name+' future='+future );
-                Template.projects_tree.fn.addNode( $tree, node );
+                Template.projects_tree.fn._llt_addNode( $tree, node );
             }
         }
     },
@@ -143,27 +257,7 @@ Template.projects_tree.fn = {
             });
         }
     },
-    // delete a node, both in the server side and in the tree
-    //  and recursively for each child
-    //  NB deleting a hierarchy actually means a recursion for deletion in the sgbd
-    //  but only the deletion of the only parent relatively to the DOM
-    deleteNode( $tree, node ){
-        Template.projects_tree.fn._deleteNodeRec( $tree, node );
-        $tree.tree( 'removeNode', node );
-    },
-    _deleteNodeRec( $tree, node ){
-        const method = node.obj.type === 'A' ? 'actions.remove' : 'projects.remove';
-        //console.log( 'Meteor.call '+method+' '+node.name );
-        Meteor.call( method, node.obj, ( e ) => {
-            if( e ){
-                throwError({ message: e.message });
-                return;
-            }
-        });
-        for( var i=0 ; i<node.children.length ; ++i ){
-            Template.projects_tree.fn._deleteNodeRec( $tree, node.children[i] );
-        }
-    },
+
     // display done items (or not)
     displayDone: function( tab, display ){
         const $tree = Template.projects_tree.fn.dict2[tab] ? Template.projects_tree.fn.dict2[tab].tree : null;
@@ -238,13 +332,10 @@ Template.projects_tree.fn = {
             Template.projects_tree.fn._dumpTreeRec( $tree, node.children[i], prefix+' ' );
         }
     },
-    // expand the trere
-    expandAll: function( tab ){
-        const $tree = Template.projects_tree.fn.dict2[tab] ? Template.projects_tree.fn.dict2[tab].tree : null;
-        if( $tree ){
-            const root = $tree.tree('getNodeById','root');
-            Template.projects_tree.fn._expandAll_rec( $tree, root );
-        }
+    // expand the tree
+    expandAll: function( $tree ){
+        const root = $tree.tree( 'getNodeById', 'root' );
+        Template.projects_tree.fn._expandAll_rec( $tree, root );
     },
     _expandAll_rec: function( $tree, node ){
         if( node.children.length ){
@@ -253,16 +344,6 @@ Template.projects_tree.fn = {
                 Template.projects_tree.fn._expandAll_rec( $tree, node.children[i] );
             }
         }
-    },
-    // returns the ad-hoc class for the item LI
-    getItemClass: function( node ){
-        return node && node.obj && node.obj.type === 'A' ?
-            ( node.obj.status === 'don' ? 'rev-status-done' :
-                ( actionStatus.isActionable( node.obj.status ) ? 'rev-status-activable' : '' )) : '';
-    },
-    // returns the appliable icon
-    getItemIcon: function( node ){
-        return node && node.obj && node.obj.type === 'A' ? 'fa-file-alt' : 'fa-folder-open';
     },
     // transforms the JSON object returned by tree('toJson') by removing all but id's
     //  returns a JSON string
@@ -284,94 +365,8 @@ Template.projects_tree.fn = {
         }
         return obj;
     },
-    // An item has been changed so that is must be moved from one tree to another
-    //  Though the Meteor reactivity takes care of inserting into the target tree
-    //  we have to take care ourselves of removing from old tree
-    //  Here, the 'future' status of a project has been switched.
-    //  - future: previous value
-    //  - id: project id (because only project has this flag)
-    obsoleteFuture: function( future, id ){
-        const tab = future ? 'future' : 'projects';
-        const $tree =  Template.projects_tree.fn.dict2[tab].tree;
-        const node = $tree.tree( 'getNodeById', id );
-        if( node ){
-            $tree.tree( 'removeNode', node );
-        }
-    },
-    // An item (action or project) has been reparented
-    //  - parent: previous parent
-    //  - id: item id
-    obsoleteParent: function( parent, id ){
-        const pNone = Articles.findOne({ type:'P', code: 'non' });
-        const searched = parent && parent !== pNone._id ? parent : 'root';
-        //console.log( 'obsoletedParent='+parent+' id='+id+' searched='+searched );
-        const tabs = Object.keys( Template.projects_tree.fn.dict2 );
-        for( var i=0 ; i<tabs.length ; ++i ){
-            const $tree = Template.projects_tree.fn.dict2[tabs[i]].tree;
-            const node = $tree.tree( 'getNodeById', searched );
-            if( node ){
-                const child = $tree.tree( 'getNodeById', id );
-                if( child ){
-                    $tree.tree( 'removeNode', child );
-                }
-            }
-        }
-    },
-    // a project or an action has been updated
-    // the old tab should be refreshed
-    onEdit: function( event, oldValue, newValue ){
-        console.log( 'projects_tree:onEdit' );
-        console.log( oldValue );
-        console.log( newValue );
-    },
-    // contextual menu, delete operation
-    opeDelete: function( tab, node ){
-        if( node.id !== 'root' ){
-            let msg = 'Are you sure you want to delete the \''+node.name+'\' ';
-            msg += node.obj.type === 'A' ? 'action' : 'project';
-            if( node.children.length > 0 ){
-                msg += ', and all its children';
-            }
-            msg += ' ?';
-            const $tree = Template.projects_tree.fn.dict2[tab].tree;
-            $tree.parent().append('<div class="dialog"></div>');
-            const $dialog = $('.projects-tree .dialog');
-            $dialog.text( msg );
-            $dialog.dialog({
-                buttons: [
-                    {
-                        text: 'Delete',
-                        click: function(){
-                            Template.projects_tree.fn.deleteNode( $tree, node );
-                            $( this ).dialog( 'close' );
-                    }},
-                    {
-                        text: 'Cancel',
-                        click: function(){
-                            $( this ).dialog( 'close' );
-                    }}
-                ],
-                modal: true,
-                resizable: false,
-                title: 'Confirmation is requested',
-                width: 400
-            });
-        }
-    },
-    // contextual menu, edit operation
-    opeEdit: function( tab, node ){
-        if( node.id !== 'root' ){
-            //console.log( tab+': editing '+node.name );
-            const $tree = Template.projects_tree.fn.dict2[tab].tree;
-            switch( node.obj.type ){
-                case 'A':
-                    FlowRouter.go( 'action.edit', null, { id:node.obj._id });
-                    break;
-                case 'P':
-                    FlowRouter.go( 'project.edit', null, { id:node.obj._id });
-                    break;
-            }
-        }
+    nodeIsRoot: function( node ){
+        return node.id === 'root';
     },
     // Remove the node from the tab
     removeTabNode: function( tab, node ){
@@ -409,209 +404,126 @@ Template.projects_tree.fn = {
         if( node.parent ){
             Template.projects_tree.fn._setActivableRec( $tree, node.parent, activable );
         }
-    },
-    // insert the root node (type='R') of the tree
-    setRootNode: function( tab, label ){
-        const fn = Template.projects_tree.fn;
-        const $tree = fn.dict2[tab] ? fn.dict2[tab].tree : null;
-        if( !$tree ){
-            console.log( tab+': setRootNode while $tree not built' );
-            return;
-        }
-        //console.log( tab+' setRootNode '+label );
-        fn.addNode( $tree, {
-            id: 'root',
-            name: label,
-            obj: {
-                type: 'R'
-            }
-        });
     }
 };
 
+// each tab will have have more or less the same things to do, whether it displays
+//  mainly actions or projects - so each tab has to subscribe to both actions and
+//  projects
 Template.projects_tree.onCreated( function(){
-    // initialize our internal data for this tab
     const tab = this.data.tab;
-    const fn = Template.projects_tree.fn;
     if( tab ){
-        fn.dict[tab] = new ReactiveDict();
-        fn.dict2[tab] = {
-            actionsHandle:  this.subscribe( 'articles.actions.all' ),
-            countersHandle: this.subscribe( 'counters.all' ),
-            projectsHandle: this.subscribe( 'articles.projects.all' ),
-            countersGot:    new ReactiveVar( false ),
-            projectsShown:  new ReactiveVar( false ),
-            actionsShown:   new ReactiveVar( false ),
-            tree:           null,
-            order:          new ReactiveVar( null )
-        }
-        $( document.body ).on( 'project-edit action-edit', function( event, obj ){
-            fn.onEdit( event, obj.old, obj.new );
-        });
+        this.ronin = new ReactiveDict();
+        this.ronin.set( 'tab', tab );
+        this.ronin.set( 'order', null );
+        this.ronin.set( 'step', 0 );
+        this.ronin_handles = {
+            actions: this.subscribe( 'articles.actions.all' ),
+            counters: this.subscribe( 'counters.all' ),
+            projects: this.subscribe( 'articles.projects.all' )
+        };
     }
 });
 
+// the instance is rendered
+//  we have tab from data context already stored in our reactive dict
 Template.projects_tree.onRendered( function(){
     const fn = Template.projects_tree.fn;
-    // create the tree for this tab and display the root node
     const tab = this.data.tab;
-    if( tab ){
-        const $tree = this.$('.projects-tree .tree');
-        $tree.data('tab',tab);
-        $tree.tree({
-            autoOpen: true,
-            dragAndDrop: true,
-            saveState: 'ronin-projects-tree-'+tab,
-            //closedIcon: $('<i class="fas fa-plus"></i>'),
-            //openedIcon: $('<i class="fas fa-minus"></i>'),
-            onCreateLi: function( node, $li, isSelected ){
-                // Add 'icon' span before title
-                const icon = fn.getItemIcon( node );
-                const classe = fn.getItemClass( node );
-                $li.find('.jqtree-title').before('<span class="fas '+icon+' icon"></span>');
-                $li.addClass( classe );
-            }
-        });
-        fn.dict2[tab].tree = $tree;
-        fn.setRootNode( tab, this.data.label );
-        // define the context menu
-        $tree.contextMenu({
-            selector: 'li.jqtree_common span.jqtree-title',
-            build: function( elt, ev ){
-                return {
-                    items: {
-                        edit: {
-                            name: 'Edit',
-                            icon: 'fas fa-edit',
-                            callback: function( item, opts, event ){
-                                const node = $( $(opts.$trigger).parents('li')[0] ).data('node');
-                                if( node.id !== 'root' ){
-                                    fn.opeEdit( tab, node );
-                                }
-                            },
-                            disabled: function( key, opts ){
-                                const li = $( this ).parents('li')[0];
-                                const node = $(li).data('node');
-                                return node.id === 'root';
-                            }
-                        },
-                        delete: {
-                            name: 'Delete',
-                            icon: 'fas fa-trash-alt',
-                            callback: function( item, opts, event ){
-                                const node = $( $(opts.$trigger).parents('li')[0] ).data('node');
-                                if( node.id !== 'root' ){
-                                    fn.opeDelete( tab, node );
-                                }
-                            },
-                            disabled: function( key, opts ){
-                                const li = $( this ).parents('li')[0];
-                                const node = $(li).data('node');
-                                return node.id === 'root';
-                            }
-                        }
-                    },
-                    autoHide: true,
-                    // executed in the selector (triggering object) context
-                    //  do not open the edition context menu of root node
-                    events: {
-                        show: function( opts ){
-                            /*
-                            const li = $( this ).parents('li')[0];
-                            const node = $(li).data('node');
-                            if( node.id === 'root' ){
-                                return false;
-                            }
-                            */
-                            this.addClass( 'contextmenu-showing' );
-                        },
-                        hide: function( opts ){
-                            this.removeClass( 'contextmenu-showing' );
-                        }
-                    },
-                    position: function( opts, x, y ){
-                        opts.$menu.position({
-                            my: 'left top',
-                            at: 'right bottom',
-                            of: ev
-                        });
-                    }
-                }
-            }
-        });
+    const self = this;
+    let $tree = null;
+
+    // create the tree for this tab and display the root node
+    //  identifies in each tree to which tab it is attached
+    if( tab === this.ronin.get( 'tab' )){
+        // create the tree
+        //  install the root node
+        //  install the context menu
+        $tree = this.$( '.projects-tree .tree' );
+        fn._llt_createTree( $tree, tab );
+        fn._llt_setRoot( $tree, this.data.label );
+        fn._cm_createMenu( $tree, tab );
+        this.ronin.set( 'step', fn.steps.tree_built );
+
         // display done defaults to true
         this.$('.js-done').prop('checked', true );
     }
+
     // get the initial tree ordering when counters are here
+    //  this is a prereq to be able to display projects and actions
     this.autorun(() => {
-        const tab = this.data.tab;
-        if( tab &&
-            fn.dict2[tab].countersHandle.ready()){
-                Meteor.call( 'counters.getValue', 'tree_'+tab, ( e, res ) => {
-                    //console.log( tab+' json async callback '+result );
-                    if( res ){
-                        fn.dict2[tab].order.set( JSON.parse( res ));
-                    }
-                });
-                fn.dict2[tab].countersGot.set( true );
+        const step = self.ronin.get( 'step' );
+        if( step >= fn.steps.tree_built && step < fn.steps.counters_got && self.ronin_handles.counters.ready()){
+            Meteor.call( 'counters.getValue', 'tree_'+tab, ( e, res ) => {
+                if( res ){
+                    self.ronin.set( 'order', JSON.parse( res ));
+                }
+            });
+            self.ronin.set( 'step', fn.steps.counters_got );
         }
     });
+
     // display projects when they are available
-    //  the method takes care of displaying them depending of the current tab
-    //  also update the projects
+    //  this requires a built tree, and the display ordering from counters
     this.autorun(() => {
-        const tab = this.data.tab;
-        if( tab &&
-            fn.dict2[tab].countersGot.get() &&
-            fn.dict2[tab].projectsHandle.ready()){
-                //console.log( tab+': updating projects' );
-                if( tab !== 'actions-list' ){
+        const step = self.ronin.get( 'step' );
+        if( step >= fn.steps.counters_got && step < fn.steps.projects_shown ){
+            if( tab === 'actions-list' ){
+                self.ronin.set( 'step', fn.steps.projects_shown ); // nothing to do here
+            } else {
+                if( self.ronin_handles.projects.ready()){
+                    const ordering = self.ronin.get( 'order' ); // may be empty
                     const future = ( tab === 'projects-future' );
                     let filter = { type:'P' };
                     filter.future = future ? true : { $ne:true };
-                    fn.addProjects( tab, future, Articles.find( filter ).fetch());
-                }
-                fn.dict2[tab].projectsShown.set( true );
-        }
-    });
-    // display actions when they are available and the projects have been shown
-    //  the method takes care of displaying them depending of the current tab
-    //  idem: update the actions
-    this.autorun(() => {
-        const tab = this.data.tab;
-        if( tab &&
-            fn.dict2[tab].actionsHandle.ready() &&
-            fn.dict2[tab].projectsShown.get()){
-                //console.log( tab+': updating actions' );
-                fn.addActions( tab, Articles.find({ type:'A' }).fetch());
-                fn.dict2[tab].actionsShown.set( true );
-        }
-    });
-    // expand every tab tree
-    this.autorun(() => {
-        const tab = this.data.tab;
-        if( tab &&
-            fn.dict2[tab].actionsShown.get()){
-            Template.projects_tree.fn.expandAll( tab );
-        }
-    });
-    // on action or project update, the new status of the updated item is reactively
-    //  updated on the ad-hoc tree. Contrarily, the old status must be manually removed
-    this.autorun(() => {
-        const update = Session.get( 'process.obsolete.obj' );
-        if( update && update.changes ){
-            for( var i=0 ; i<update.changes.length ; ++i ){
-                switch( update.changes[i].data ){
-                    case 'future':
-                        fn.obsoleteFuture( update.changes[i].oldvalue, update.id );
-                        break;
-                    case 'project':
-                        fn.obsoleteParent( update.changes[i].oldvalue, update.id );
-                        break;
+                    fn.addProjects( $tree, ordering, future, Articles.find( filter ).fetch());
+                    self.ronin.set( 'step', fn.steps.projects_shown );
                 }
             }
         }
-        Session.set( 'process.obsolete.obj', null );
+    });
+
+    // display actions when they are available and the projects have been shown
+    //  projects having been shown implies that other prereqs are ok
+    this.autorun(() => {
+        const step = self.ronin.get( 'step' );
+        if( step >= fn.steps.projects_shown && step < fn.steps.actions_shown && self.ronin_handles.actions.ready()){
+            const ordering = self.ronin.get( 'order' ); // may befn.steps.actions_shown empty
+            fn.addActions( $tree, ordering, Articles.find({ type:'A' }).fetch());
+            self.ronin.set( 'step', fn.steps.actions_shown );
+        }
+    });
+
+    // expand the tree at the end
+    this.autorun(() => {
+        const step = self.ronin.get( 'step' );
+        if( step >= fn.steps.actions_shown && step < fn.steps.expanded ){
+            fn.expandAll( $tree );
+            self.ronin.set( 'step', fn.steps.expanded );
+        }
+    });
+
+    // it happends that the tree hierarchy does not react well to certains changes,
+    //  and notably:
+    //  - change of the project of an action: the origin project is not updated
+    //  - idem for the parent of a project
+    //  - change of the future status of a project: the origin tab is not updated
+    //  we so subscribe to the corresponding messages, and act accordingly
+    $.pubsub.subscribe( 'ronin.ui.item.updated', ( msg, o ) => {
+        if( $tree && o.orig ){
+            if((( o.edit.type === 'A' || o.edit.type === 'P' ) && ( o.orig.parent !== o.edit.parent )) ||
+                ( o.edit.type === 'P' && o.orig.future !== o.edit.future )){
+
+                Template.projects_tree.fn._llt_empty( $tree );
+                self.ronin.set( 'step', fn.steps.tree_built );
+            }
+        }
+    });
+    $.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
+        if( $tree ){
+            Template.projects_tree.fn._llt_empty( $tree );
+            self.ronin.set( 'step', fn.steps.tree_built );
+        }
     });
 });
 
@@ -622,8 +534,8 @@ Template.projects_tree.events({
         Template.projects_tree.fn.displayDone( tab, checked );
     },
     'click .js-expand'( ev, instance ){
-        const tab = $( ev.currentTarget ).parent('.actions').prev('.tree').data('tab');
-        Template.projects_tree.fn.expandAll( tab );
+        const $tree = $( $( ev.currentTarget ).parents('.projects-tree')[0] ).find( '.tree' );
+        Template.projects_tree.fn.expandAll( $tree );
     },
     'change .js-collapse'( ev, instance ){
         const tab = $( ev.currentTarget ).parent('.actions').prev('.tree').data('tab');

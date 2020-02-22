@@ -42,14 +42,14 @@ Template.projectsList.fn = {
 };
 
 Template.projectsList.onCreated( function(){
-    console.log( 'projectsList.onCreated' );
+    //console.log( 'projectsList.onCreated' );
     this.subscribe( 'articles.projects.all' );
     this.subscribe( 'topics.all' );
     this.subscribe( 'contexts.all' );
 });
 
 Template.projectsList.onRendered( function(){
-    console.log( 'projectsList.onRendered' );
+    //console.log( 'projectsList.onRendered' );
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();

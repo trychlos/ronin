@@ -21,14 +21,15 @@ $.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
 //  requiring a user confirmation
 $.pubsub.subscribe( 'ronin.model.project.delete', ( msg, o ) => {
     bootbox.confirm(
-        'You are about to delete the "'+o.project.name+'" project.<br />'+
+        'You are about to delete the "'+o.name+'" project.<br />'+
         'Are you sure ?', function( ret ){
             if( ret ){
-                Meteor.call( 'projects.remove', o.project, ( e, res ) => {
+                Meteor.call( 'projects.remove', o, ( e, res ) => {
                     if( e ){
                         throwError({ type:e.error, message:e.reason });
                     } else {
                         throwSuccess( 'Project successfully deleted' );
+                        $.pubsub.publish( 'ronin.ui.item.deleted', o );
                     }
                 });
             }
@@ -72,6 +73,7 @@ $.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
                 } else {
                     throwSuccess( 'Project successfully updated' );
                 }
+                $.pubsub.publish( 'ronin.ui.item.updated', o );
                 Session.set( 'project.dbope', DBOPE_LEAVE );
             }
         });
@@ -83,7 +85,6 @@ $.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
                 Session.set( 'project.dbope', DBOPE_ERROR );
             } else {
                 throwSuccess( 'Project successfully inserted' );
-                Session.set( 'review.project', 'success' );  // force re-rendering
                 Session.set( 'project.dbope', DBOPE_REINIT );
             }
         });

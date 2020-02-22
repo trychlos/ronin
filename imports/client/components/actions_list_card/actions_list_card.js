@@ -30,7 +30,7 @@ Template.actions_list_card.events({
         return false;
     },
     'click .js-delete'( ev, instance ){
-        $.pubsub.publish( 'ronin.model.action.delete', { action: instance.data.action });
+        $.pubsub.publish( 'ronin.model.action.delete', instance.data.action );
         return false;
     }
 });

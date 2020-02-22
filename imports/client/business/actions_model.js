@@ -21,14 +21,15 @@ $.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
 //  requiring a user confirmation
 $.pubsub.subscribe( 'ronin.model.action.delete', ( msg, o ) => {
     bootbox.confirm(
-        'You are about to delete the "'+o.action.name+'" action.<br />'+
+        'You are about to delete the "'+o.name+'" action.<br />'+
         'Are you sure ?', function( ret ){
             if( ret ){
-                Meteor.call( 'actions.remove', o.action, ( e, res ) => {
+                Meteor.call( 'actions.remove', o, ( e, res ) => {
                     if( e ){
                         throwError({ type:e.error, message:e.reason });
                     } else {
                         throwSuccess( 'Action successfully deleted' );
+                        $.pubsub.publish( 'ronin.ui.item.deleted', o );
                     }
                 });
             }
@@ -77,6 +78,7 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
                 } else {
                     throwSuccess( 'Action successfully updated' );
                 }
+                $.pubsub.publish( 'ronin.ui.item.updated', o );
                 Session.set( 'action.dbope', DBOPE_LEAVE );
             }
         });
