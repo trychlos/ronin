@@ -1,17 +1,27 @@
 .projects-tree {
     .tree {
-        .jqtree-element {
-            align-items: center;
-        }
-        .jqtree-element>svg {
-            width: 1.125rem;
-        }
         ul.jqtree-tree .jqtree-title,
-        ul.jqtree-tree .jqtree-title.jqtree-title-folder {
-            margin-left: 0.5rem;
+        ul.jqtree-tree ul.jqtree_common {
+            margin-left: 0;
         }
-        li.jqtree-folder ul[role=group] {
-            margin-left: 1.625rem;
+        ul.jqtree-tree {
+            margin-left: 1.5rem;    // toggler width = 1.5rem
+            .jqtree-toggler {
+                margin-left: -1.5rem;
+                color: lighten( @review-color, 10%);
+            }
+            .jqtree-element[role=presentation] {
+                align-items: center;
+            }
+            .jqtree-element>svg {
+                width: 1.125rem;
+            }
+            .jqtree-title {
+                padding-left: 0.5rem;
+            }
+            li.jqtree-folder ul[role=group] {
+                padding-left: 1.5rem;
+            }
         }
     }
 }
