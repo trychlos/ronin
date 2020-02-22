@@ -91,7 +91,7 @@ Meteor.methods({
         Meteor.call( '_articles_check_type', o, 'A' );
         Meteor.call( '_articles_check_user', o );
         const item = Articles.fn.cleanup( o );
-        const ret = Articles.insert( item );
+        const ret = Articles.insert( item.set );
         console.log( 'Articles.actions.insert("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -116,7 +116,7 @@ Meteor.methods({
         Meteor.call( '_articles_check_type', o, 'A' );
         Meteor.call( '_articles_check_user', o );
         const item = Articles.fn.cleanup( o );
-        const ret = Articles.update( id, { $set: item });
+        const ret = Articles.update( id, { $set:item.set, $unset:item.unset });
         console.log( 'Articles.actions.update("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -180,7 +180,7 @@ Meteor.methods({
         Meteor.call( '_articles_check_type', o, 'P' );
         Meteor.call( '_articles_check_user', o );
         const item = Articles.fn.cleanup( o );
-        const ret = Articles.insert( item );
+        const ret = Articles.insert( item.set );
         console.log( 'Articles.projects.insert("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -204,7 +204,8 @@ Meteor.methods({
         Meteor.call( '_articles_check_type', o, 'P' );
         Meteor.call( '_articles_check_user', o );
         const item = Articles.fn.cleanup( o );
-        const ret = Articles.update( id, { $set: item });
+        console.log( item );
+        const ret = Articles.update( id, { $set:item.set, $unset:item.unset });
         console.log( 'Articles.projects.update("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -219,7 +220,7 @@ Meteor.methods({
         Meteor.call( '_articles_check_type', o, 'T' );
         Meteor.call( '_articles_check_user', o );
         const item = Articles.fn.cleanup( o );
-        const ret = Articles.insert( item );
+        const ret = Articles.insert( item.set );
         console.log( 'Articles.thoughts.insert("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
@@ -248,7 +249,7 @@ Meteor.methods({
         Meteor.call( '_articles_check_type', o, 'T' );
         Meteor.call( '_articles_check_user', o );
         const item = Articles.fn.cleanup( o );
-        const ret = Articles.update( id, { $set: item });
+        const ret = Articles.update( id, { $set:item.set, $unset:item.unset });
         console.log( 'Articles.thoughts.update("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(

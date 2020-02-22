@@ -155,6 +155,10 @@ Articles.schema = new SimpleSchema({
     brainstorm: {
         type: String,
         optional: true
+    },
+    xxxxxx: {   // unused key to be sure we always have something to unset
+        type: String,
+        optional: true
     }
 });
 
@@ -181,7 +185,7 @@ Articles.helpers({
 
 Articles.fn.check = function( id, o ){
     // type must be valid
-    if( !Articles.fn.types.includes( o.type )){
+    if( !o || !o.type || !Articles.fn.types.includes( o.type )){
         throw new Meteor.Error(
             'articles.invalid_type',
              o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
@@ -194,6 +198,24 @@ Articles.fn.check = function( id, o ){
             'mandatory name is empty'
         );
     }
+    // must be editable by this user
+    //  anyone may edit unowned documents
+    let userId = null;
+    if( Meteor.isServer ){
+        userId = this.userId;
+    }
+    if( Meteor.isClient ){
+        userId = Meteor.userId();
+    }
+    if( o.userId ){
+        if( userId !== o.userId ){
+            throw new Meteor.Error(
+                'articles.unauthorized',
+                'you are not allowed to edit this document'
+            );
+        }
+    }
+    // plus item dependancies
     switch( o.type ){
         case 'T':
             break;
@@ -206,14 +228,24 @@ Articles.fn.check = function( id, o ){
     }
 };
 
-// returns an object which contains all *set* fields
+// returns an object which contains:
+//  - a 'set' collection with all *set* fields
+//  - an 'unset' collection with all *unset* fields
 Articles.fn.cleanup = function( o ){
     let _set = ( dest, src, name ) => {
         if( src[name] ){
-            dest[name] = src[name];
+            dest.set[name] = src[name];
+        } else {
+            dest.unset[name] = '';
         }
     };
-    let ret = { type: o.type };
+    if( !o || !o.type || !Articles.fn.types.includes( o.type )){
+        throw new Meteor.Error(
+            'articles.invalid_type',
+             o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
+        );
+    }
+    let ret = { set:{ type: o.type }, unset:{}};
     _set( ret, o, 'name' );
     _set( ret, o, 'topic' );
     _set( ret, o, 'description' );
@@ -254,6 +286,13 @@ Articles.fn.cleanup = function( o ){
             break;
         case 'T':
             break;
+    }
+    // makes sure neither set nor unset are empty
+    if( !ret.set.length ){
+        ret.set['name'] = o.name;
+    }
+    if( !ret.unset.length ){
+        ret.unset['xxxxxx'] = '';
     }
     return ret;
 };
