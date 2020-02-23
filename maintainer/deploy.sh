@@ -42,7 +42,7 @@ next_version(){
 # pwi 2020- 2-23 also update the private/config/public/version.json configuration file
 version="$(next_version)"
 sed -i -e "s|^\(\s*version\s*:\s*\).*$|\1'$version',|" "${projectdir}/mobile-config.js"
-sed -e "s|[0-9\.]\+|$version|" "${projectdir}/private/config/public/version.json"
+sed -i -e "s|[0-9\.]\+|$version|" "${projectdir}/private/config/public/version.json"
 echo "Deploying v ${version}..."
 
 # build server+mobile versions
