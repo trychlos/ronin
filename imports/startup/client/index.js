@@ -45,6 +45,7 @@ import './accounts-config.js';
 import './blaze-helpers.js';
 import './colorpicker-config.js';
 import './datepicker-config.js';
+import './version-config.js';
 
 // compute the default layout
 //  maybe initializing a window manager if the desktop layout is chosen

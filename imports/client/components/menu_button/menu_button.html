@@ -1,7 +1,12 @@
 <template name="menu_button">
     <div class="menu-button">
-        <button class="ui-button ui-corner-all">
-            <span class="fas fa-cog"></span>
-        </button>
+        <div class="dropdown">
+            <button class="js-settings ui-button ui-corner-all dropdown-toggle" data-toggle="dropdown">
+                <span class="fas fa-cog"></span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="js-about dropdown-item" href="#">About...</a>
+            </div>
+        </div>
     </div>
 </template>

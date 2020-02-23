@@ -22,11 +22,11 @@ import '/imports/client/windows/projects_list/projects_list.js';
 import './review_group.html';
 
 Template.reviewGroup.onCreated( function(){
-    console.log( 'reviewGroup.onCreated' );
+    //console.log( 'reviewGroup.onCreated' );
 });
 
 Template.reviewGroup.onRendered( function(){
-    console.log( 'reviewGroup.onRendered' );
+    //console.log( 'reviewGroup.onRendered' );
     this.autorun(() => {
         const context = Template.currentData();
         if( context.template && g[LYT_WINDOW].taskbar.get()){
@@ -47,5 +47,5 @@ Template.reviewGroup.helpers({
 });
 
 Template.reviewGroup.onDestroyed( function(){
-    console.log( 'reviewGroup.onDestroyed' );
+    //console.log( 'reviewGroup.onDestroyed' );
 });

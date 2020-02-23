@@ -1,0 +1,9 @@
+{
+	"comment": "see https://atmospherejs.com/4commerce/env-settings",
+	"persistent_session": {
+		"default_method": "persistent"
+	},
+	"ronin": {
+		"key": "value"
+	}
+}

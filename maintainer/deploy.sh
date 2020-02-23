@@ -39,8 +39,10 @@ next_version(){
 }
 
 # compute the current version and update the mobile configuration accordingly
+# pwi 2020- 2-23 also update the private/config/public/version.json configuration file
 version="$(next_version)"
 sed -i -e "s|^\(\s*version\s*:\s*\).*$|\1'$version',|" "${projectdir}/mobile-config.js"
+sed -e "s|[0-9\.]\+|$version|" "${projectdir}/private/config/public/version.json"
 echo "Deploying v ${version}..."
 
 # build server+mobile versions
@@ -72,6 +74,6 @@ _ret=$?
     echo "APK prepared as ${apk}"
 
 # on successful release, commit the new mobile configuration
-execcmd "git add ${projectdir}/mobile-config.js" &&
+execcmd "git add ${projectdir}/mobile-config.js ${projectdir}/private/config/public/version.json" &&
 echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to integration platforms'" &&
 git commit -m "Deploy v${version} to integration platforms"

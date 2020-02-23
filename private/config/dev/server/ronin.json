@@ -1,0 +1,14 @@
+{
+	"ronin":  {
+		"server_example": {
+			"colors": [
+				{ "name": "app", "value": "#999999" },
+				{ "name": "collect", "value": "#89ba68" },
+				{ "name": "process", "value": "#ed8743" },
+				{ "name": "review", "value": "#5a9ad5" },
+				{ "name": "retup", "value": "#a56c89" }
+			]
+		}
+	}
+}
+

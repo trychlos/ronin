@@ -154,7 +154,9 @@
 
   156 2020- 2-21 use ronin ReactiveDict everywhere we have a reactive var
 
-  161
+  161 2020- 2-23 env-settings 1.2.0_4 "dev" settings are not available on the server
+
+  162
 
 ==============================================================================
  Done

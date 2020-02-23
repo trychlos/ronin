@@ -259,9 +259,7 @@ Template.projects_tree.fn = {
     },
 
     // display done items (or not)
-    displayDone: function( tab, display ){
-        const $tree = Template.projects_tree.fn.dict2[tab] ? Template.projects_tree.fn.dict2[tab].tree : null;
-        //console.log( 'tab='+tab+' display='+display+' tree='+$tree );
+    displayDone: function( $tree, display ){
         if( $tree ){
             const $ul = $tree.children('ul:first-child');
             //console.log( tab+' displayDone '+display );
@@ -295,8 +293,7 @@ Template.projects_tree.fn = {
         }
     },
     // dump the tree by HTML elements
-    dumpHtml: function( tab ){
-        const $tree = Template.projects_tree.fn.dict2[tab] ? Template.projects_tree.fn.dict2[tab].tree : null;
+    dumpHtml: function( $tree ){
         if( $tree ){
             const $ul = $tree.children('ul:first-child');
             Template.projects_tree.fn._dumpHtmlUl( $ul, '' );
@@ -319,8 +316,7 @@ Template.projects_tree.fn = {
         }
     },
     // dump the tree by nodes
-    dumpTree: function( tab ){
-        const $tree = Template.projects_tree.fn.dict2[tab] ? Template.projects_tree.fn.dict2[tab].tree : null;
+    dumpTree: function( $tree ){
         if( $tree ){
             const root = $tree.tree('getNodeById','root');
             Template.projects_tree.fn._dumpTreeRec( $tree, root, '' );
@@ -367,18 +363,6 @@ Template.projects_tree.fn = {
     },
     nodeIsRoot: function( node ){
         return node.id === 'root';
-    },
-    // Remove the node from the tab
-    removeTabNode: function( tab, node ){
-        const $tree = Template.projects_tree.fn.dict2[tab].tree;
-        Template.projects_tree.fn.removeTreeNode( $tree, node );
-    },
-    // Remove the node from the tree
-    removeTreeNode: function( $tree, node ){
-        $tree.tree( 'removeNode', node );
-        for( var i=0 ; i<node.children.length ; ++i ){
-            Template.projects_tree.fn.removeTreeNode( $tree, node.children[i] );
-        }
     },
     // if $node is activable, then propagate to the up hierarchy
     setActivable: function( $tree, node ){
@@ -529,9 +513,9 @@ Template.projects_tree.onRendered( function(){
 
 Template.projects_tree.events({
     'change .js-done'( ev, instance ){
-        const tab = $( $( ev.currentTarget ).parents('.projects-tree')[0] ).find('.tree').data('tab');
+        const $tree = $( $( ev.currentTarget ).parents('.projects-tree')[0] ).find( '.tree' );
         const checked = instance.$('.js-done' ).is(':checked');
-        Template.projects_tree.fn.displayDone( tab, checked );
+        Template.projects_tree.fn.displayDone( $tree, checked );
     },
     'click .js-expand'( ev, instance ){
         const $tree = $( $( ev.currentTarget ).parents('.projects-tree')[0] ).find( '.tree' );
@@ -543,9 +527,9 @@ Template.projects_tree.events({
         console.log( tab+' collapse '+checked );
     },
     'click .js-dump'( ev, instance ){
-        const tab = $( ev.currentTarget ).parent('.actions').prev('.tree').data('tab');
-        Template.projects_tree.fn.dumpTree( tab );
-        Template.projects_tree.fn.dumpHtml( tab );
+        const $tree = $( $( ev.currentTarget ).parents('.projects-tree')[0] ).find( '.tree' );
+        Template.projects_tree.fn.dumpTree( $tree );
+        Template.projects_tree.fn.dumpHtml( $tree );
     },
     // moving a node means both reparenting and reordering it
     // note that we are refusing to move outside of the root node

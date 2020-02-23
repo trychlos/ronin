@@ -1,3 +1,4 @@
+import '/imports/api/collections/accounts/server';
 import '/imports/api/collections/articles/server';
 import '/imports/api/collections/contexts/server';
 import '/imports/api/collections/counters/server';
