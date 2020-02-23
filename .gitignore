@@ -1,3 +1,6 @@
 .meteor
 .vscode
+imports/unused
 node_modules/
+packages/jqwidgets*
+packages/simone*

@@ -62,9 +62,8 @@ div.ronin-layout {
  * pageLayout
  */
 div.ronin-layout.ronin-lyt-page {
-    @app-color: #c19400;
     .lyt-header {
-        background-color: @app-color;
+        background-color: @page-color;
     }
     /*
      *  Fixed header - Sticky footer
@@ -91,10 +90,10 @@ div.ronin-layout.ronin-lyt-page {
     }
     .lyt-footer {
         a {
-            color: @active-color;
+            color: @page-color;
         }
         .active {
-            background-color: @active-color;
+            background-color: @page-color;
             color: white;
         }
         @media ( max-width: 380px ){
