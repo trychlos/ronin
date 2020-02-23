@@ -93,6 +93,7 @@ Template.projects_tree.fn = {
     _cm_edit: function( $tree, node ){
         const fn = Template.projects_tree.fn;
         if( !fn.nodeIsRoot( node )){
+            g.run.back = FlowRouter.current().route.name;
             switch( node.obj.type ){
                 case 'A':
                     FlowRouter.go( 'action.edit', null, { id:node.obj._id });
