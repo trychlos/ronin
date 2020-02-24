@@ -20,11 +20,11 @@ import '/imports/client/windows/action_edit/action_edit.js';
 import './process_group.html';
 
 Template.processGroup.onCreated( function(){
-    console.log( 'processGroup.onCreated' );
+    //console.log( 'processGroup.onCreated' );
 });
 
 Template.processGroup.onRendered( function(){
-    console.log( 'processGroup.onRendered' );
+    //console.log( 'processGroup.onRendered' );
     this.autorun(() => {
         const context = Template.currentData();
         if( context.template && g[LYT_WINDOW].taskbar.get()){
@@ -45,5 +45,5 @@ Template.processGroup.helpers({
 });
 
 Template.processGroup.onDestroyed( function(){
-    console.log( 'processGroup.onDestroyed' );
+    //console.log( 'processGroup.onDestroyed' );
 });

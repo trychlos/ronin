@@ -20,11 +20,11 @@ import '/imports/client/windows/thoughts_list/thoughts_list.js';
 import './setup_group.html';
 
 Template.setupGroup.onCreated( function(){
-    console.log( 'setupGroup.onCreated' );
+    //console.log( 'setupGroup.onCreated' );
 });
 
 Template.setupGroup.onRendered( function(){
-    console.log( 'setupGroup.onRendered' );
+    //console.log( 'setupGroup.onRendered' );
     this.autorun(() => {
         const context = Template.currentData();
         if( context.template && g[LYT_WINDOW].taskbar.get()){
@@ -45,5 +45,5 @@ Template.setupGroup.helpers({
 });
 
 Template.setupGroup.onDestroyed( function(){
-    console.log( 'setupGroup.onDestroyed' );
+    //console.log( 'setupGroup.onDestroyed' );
 });
