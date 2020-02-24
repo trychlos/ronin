@@ -164,11 +164,9 @@
 
   164 2020- 2-24 None topic is not displayed in cards items
 
-  165 2020- 2-24 page layout: context menu doesn't work
+  165 2020- 2-24 page layout: context menu doesn't work => do not account for it
 
   166 2020- 2-24 on mobile (page layout), projects tree does not display root nodes
-
-  167 2020- 2-24 integration db has a hardcoded 'None' topic
 
   168
 
@@ -572,6 +570,9 @@
   160 2020- 2-21 projectEdit/actionEdit: update projects_tree source when an
                   item goes to another tree (resp. subtree)
       2020- 2-22 done
+
+  167 2020- 2-24 integration db has a hardcoded 'None' topic
+      2020- 2-24 fixed
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

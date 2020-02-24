@@ -155,13 +155,37 @@ Template.projects_tree.fn = {
     },
     // returns the ad-hoc class for the item LI
     _llt_itemClass: function( node ){
-        return node && node.obj && node.obj.type === 'A' ?
-            ( node.obj.status === 'don' ? 'rev-status-done' :
-                ( actionStatus.isActionable( node.obj.status ) ? 'rev-status-activable' : '' )) : '';
+        let classe = '';
+        if( node && node.obj ){
+            switch( node.obj.type ){
+                case 'A':
+                    classe = node.obj.status === 'don' ? 'rev-status-done' :
+                        ( actionStatus.isActionable( node.obj.status ) ? 'rev-status-activable' : '' );
+                    break;
+                case 'R':
+                    classe = 'rev-node-root';
+                    break;
+            }
+        }
+        return classe;
     },
     // returns the applicable icon
     _llt_itemIcon: function( node ){
-        return node && node.obj && node.obj.type === 'A' ? 'fa-file-alt' : 'fa-folder-open';
+        let icon = 'fa-spinner';
+        if( node && node.obj ){
+            switch( node.obj.type ){
+                case 'A':
+                    icon = 'fa-file-alt';
+                    break;
+                case 'P':
+                    icon = 'fa-folder-open';
+                    break;
+                case 'R':
+                    icon = 'fa-compress-arrows-alt';
+                    break;
+            }
+        }
+        return icon;
     },
     // insert the root node (type='R') of the tree
     _llt_setRoot: function( $tree, label ){
