@@ -43,6 +43,15 @@ Template.thoughtEdit.fn = {
                 break;
         }
     },
+    // an item has been deleted or has been transformed
+    //  should we close this window ?
+    forClose: function( msg, o ){
+        console.log( 'thoughtEdit '+msg+' '+o._id );
+        const item = Session.get( 'collect.thought' );
+        if( item && item._id === o._id ){
+            Template.thoughtEdit.fn.actionClose();
+        }
+    },
     okLabel: function(){
         return Template.thoughtEdit.fn.okLabelItem( Session.get( 'collect.thought' ));
     },
@@ -52,20 +61,11 @@ Template.thoughtEdit.fn = {
 }
 
 Template.thoughtEdit.onCreated( function(){
-    console.log( 'thoughtEdit.onCreated' );
-    // this let us close a thoughtEdit window if the thought has been
-    //  transformed in something else elsewhere
-    $.pubsub.subscribe( 'ronin.ui.close', ( msg, o ) => {
-        console.log( 'thoughtEdit '+msg+' '+o._id );
-        const t = Session.get( 'collect.thought' );
-        if( t && t._id === o._id ){
-            Template.thoughtEdit.fn.actionClose();
-        }
-    });
+    //console.log( 'thoughtEdit.onCreated' );
 });
 
 Template.thoughtEdit.onRendered( function(){
-    console.log( 'thoughtEdit.onRendered' );
+    //console.log( 'thoughtEdit.onRendered' );
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
@@ -97,6 +97,15 @@ Template.thoughtEdit.onRendered( function(){
             });
         }
     });
+
+    // this let us close a thoughtEdit window if the thought has been
+    //  transformed in something else elsewhere
+    $.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
+        Template.thoughtEdit.fn.forClose( msg, o );
+    });
+    $.pubsub.subscribe( 'ronin.ui.item.transformed', ( msg, o ) => {
+        Template.thoughtEdit.fn.forClose( msg, o );
+    });
 });
 
 Template.thoughtEdit.helpers({
@@ -127,5 +136,5 @@ Template.thoughtEdit.events({
 });
 
 Template.thoughtEdit.onDestroyed( function(){
-    console.log( 'thoughtEdit.onDestroyed' );
+    //console.log( 'thoughtEdit.onDestroyed' );
 });

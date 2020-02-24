@@ -138,7 +138,7 @@
 
   137 2020- 2-11 set mail-based new account enrollment rules
 
-  140 2020- 2-15 on user sign-in, the displayed lists should be reactively updated
+  140 2020- 2-15 on user sign-in/sign-out, the displayed lists should be reactively updated
 
   143 2020- 2-16 undefined fields are written as null in mongo db
       2020- 2-17 no more write empty fields (but maybe userId)
@@ -156,7 +156,21 @@
 
   161 2020- 2-23 env-settings 1.2.0_4 "dev" settings are not available on the server
 
-  162
+  162 2020- 2-24 a new thought while logged-in in not owned by the current user (but should)
+
+  163 2020- 2-24 several lines of description in the cards take too much interval
+                  between lines
+                  + should interpret the '\n' char
+
+  164 2020- 2-24 None topic is not displayed in cards items
+
+  165 2020- 2-24 page layout: context menu doesn't work
+
+  166 2020- 2-24 on mobile (page layout), projects tree does not display root nodes
+
+  167 2020- 2-24 integration db has a hardcoded 'None' topic
+
+  168
 
 ==============================================================================
  Done

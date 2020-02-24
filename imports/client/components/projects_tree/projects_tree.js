@@ -490,7 +490,7 @@ Template.projects_tree.onRendered( function(){
 
     // it happends that the tree hierarchy does not react well to certains changes,
     //  and notably:
-    //  - change of the project of an action: the origin project is not updated
+    //  - change of the parent of an action: the origin project is not updated
     //  - idem for the parent of a project
     //  - change of the future status of a project: the origin tab is not updated
     //  we so subscribe to the corresponding messages, and act accordingly

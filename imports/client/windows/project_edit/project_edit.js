@@ -35,7 +35,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './project_edit.html';
 
 Template.projectEdit.fn = {
-    actionClose(){
+    actionClose: function(){
         //console.log( 'Template.projectEdit.fn.actionClose' );
         switch( g.run.layout.get()){
             case LYT_PAGE:
@@ -44,6 +44,18 @@ Template.projectEdit.fn = {
             case LYT_WINDOW:
                 $().IWindowed.close( '.projectEdit' );
                 break;
+        }
+    },
+    // this let us close a projectEdit window if the project has been
+    //  transformed in something else elsewhere
+    forClose: function( msg, o ){
+        const self = Template.instance();
+        if( self.ronin.get( 'got' )){
+            console.log( 'projectEdit '+msg+' '+o._id );
+            const item = self.ronin.get( 'item' );
+            if( item._id === o._id ){
+                Template.projectEdit.fn.actionClose();
+            }
         }
     },
     okLabel: function(){
@@ -87,20 +99,6 @@ Template.projectEdit.onRendered( function(){
         }
     });
 
-    // this let us close a projectEdit window if the project has been
-    //  transformed in something else elsewhere
-    this.autorun(() => {
-        if( self.ronin.get( 'got' )){
-            $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
-                console.log( 'projectEdit '+msg+' '+o._id );
-                const item = self.ronin.get( 'item' );
-                if( item._id === o._id ){
-                    Template.projectEdit.fn.actionClose();
-                }
-            });
-        }
-    });
-
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
@@ -132,6 +130,15 @@ Template.projectEdit.onRendered( function(){
             });
         }
     });
+
+    // this let us close a projectEdit window if the item has been
+    //  transformed in something else elsewhere
+    $.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
+        Template.projectEdit.fn.forClose( msg, o );
+    });
+    $.pubsub.subscribe( 'ronin.ui.item.transformed', ( msg, o ) => {
+        Template.projectEdit.fn.forClose( msg, o );
+    });
 });
 
 Template.projectEdit.helpers({
@@ -145,7 +152,7 @@ Template.projectEdit.helpers({
     title(){
         const self = Template.instance();
         const item = self.ronin.get( 'item' );
-        const title = item ? 'Edit project' : ( item.type === 'T' ? 'Transform thought' : 'New project' );
+        const title = item ? ( item.type === 'T' ? 'Transform thought' : 'Edit project' ) : 'New project';
         Session.set( 'header.title', title );
         return title;
     }

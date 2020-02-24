@@ -5,18 +5,6 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
 
-// one of the windows/panels/components advertise that it has successfully
-//  updated the 'id' article, so that any window/panel/component which is
-//  opened on it should now be closed
-$.pubsub.subscribe( 'ronin.model.reset', ( msg, id ) => {
-    //console.log( 'actions_model '+msg+' '+id );
-    const it = Session.get( 'review.action' );
-    if( it && it._id === id ){
-        //console.log( 'actions_model publish ronin.ui.close' );
-        $.pubsub.publish( 'ronin.ui.close', it );
-    }
-});
-
 // delete the provided action
 //  requiring a user confirmation
 $.pubsub.subscribe( 'ronin.model.action.delete', ( msg, o ) => {
@@ -75,6 +63,7 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
             } else {
                 if( o.orig.type === 'T' ){
                     throwSuccess( 'Thought successfully transformed' );
+                    $.pubsub.publish( 'ronin.ui.item.transformed', o.orig );
                 } else {
                     throwSuccess( 'Action successfully updated' );
                 }
@@ -90,7 +79,6 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
                 Session.set( 'action.dbope', DBOPE_ERROR );
             } else {
                 throwSuccess( 'Action successfully inserted' );
-                Session.set( 'review.action', 'success' );  // force re-rendering
                 Session.set( 'action.dbope', DBOPE_REINIT );
             }
         });

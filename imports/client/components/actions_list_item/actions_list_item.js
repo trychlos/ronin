@@ -6,7 +6,6 @@
  *  - action: the one-item cursor (aka an array) to be displayed
  *
  *  Session variables:
- *  - review.action: the action object to be edited
  *  - action.opened: the action identifier whose card is opened
  *      so that we can open the card when coming back from the edition
  */

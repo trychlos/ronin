@@ -55,14 +55,12 @@ Template.thoughts_list_card.events({
     },
     'click .js-action'( event, instance ){
         g.run.back = FlowRouter.current().route.name;
-        Session.set( 'review.action', instance.data.thought );
-        FlowRouter.go( 'process.action' );
+        FlowRouter.go( 'process.action', null, { id:instance.data.thought._id });
         return false;
     },
     'click .js-project'( event, instance ){
         g.run.back = FlowRouter.current().route.name;
-        Session.set( 'review.project', instance.data.thought );
-        FlowRouter.go( 'process.project' );
+        FlowRouter.go( 'process.project', null, { id:instance.data.thought._id });
         return false;
     },
     'click .js-maybe'( event, instance ){

@@ -25,7 +25,8 @@
  *                      +-> projectEdit { gtdid, group, template }
  *
  *  Variables:
- *  - the action identifier to be edited is specified as the 'id' queryParams.
+ *  - the item identifier to be edited is specified as the 'id' queryParams;
+ *      may be a thought or an action.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
@@ -35,7 +36,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './action_edit.html';
 
 Template.actionEdit.fn = {
-    actionClose(){
+    actionClose: function(){
         //console.log( 'Template.actionEdit.fn.actionClose' );
         switch( g.run.layout.get()){
             case LYT_PAGE:
@@ -44,6 +45,18 @@ Template.actionEdit.fn = {
             case LYT_WINDOW:
                 $().IWindowed.close( '.actionEdit' );
                 break;
+        }
+    },
+    // this let us close an actionEdit window if the action has been
+    //  transformed in something else elsewhere
+    forClose: function( msg, o ){
+        const self = Template.instance();
+        if( self.ronin.get( 'got' )){
+            console.log( 'actionEdit '+msg+' '+o._id );
+            const item = self.ronin.get( 'item' );
+            if( item._id === o._id ){
+                Template.actionEdit.fn.actionClose();
+            }
         }
     },
     okLabel: function(){
@@ -86,20 +99,6 @@ Template.actionEdit.onRendered( function(){
         }
     });
 
-    // this let us close an actionEdit window if the action has been
-    //  transformed in something else elsewhere
-    this.autorun(() => {
-        if( self.ronin.get( 'got' )){
-            $.pubsub.subscribe( 'ronin.ui.action.close', ( msg, o ) => {
-                console.log( 'actionEdit '+msg+' '+o._id );
-                const item = self.ronin.get( 'item' );
-                if( item._id === o._id ){
-                    Template.actionEdit.fn.actionClose();
-                }
-            });
-        }
-    });
-
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
@@ -131,6 +130,15 @@ Template.actionEdit.onRendered( function(){
             });
         }
     });
+
+    // this let us close a thoughtEdit window if the thought has been
+    //  transformed in something else elsewhere
+    $.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
+        Template.actionEdit.fn.forClose( msg, o );
+    });
+    $.pubsub.subscribe( 'ronin.ui.item.transformed', ( msg, o ) => {
+        Template.actionEdit.fn.forClose( msg, o );
+    });
 });
 
 Template.actionEdit.helpers({
@@ -144,7 +152,7 @@ Template.actionEdit.helpers({
     title(){
         const self = Template.instance();
         const item = self.ronin.get( 'item' );
-        const title = item ? 'Edit action' : ( item.type === 'T' ? 'Transform thought' : 'New action' );
+        const title = item ? ( item.type === 'T' ? 'Transform thought' : 'Edit action' ) : 'New action';
         Session.set( 'header.title', title );
         return title;
     }
