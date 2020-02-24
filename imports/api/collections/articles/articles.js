@@ -249,17 +249,7 @@ Articles.fn.cleanup = function( o ){
     _set( ret, o, 'name' );
     _set( ret, o, 'topic' );
     _set( ret, o, 'description' );
-    o.userId = null;
-    if( Meteor.isServer ){
-        o.userId = this.userId;
-    }
-    if( Meteor.isClient ){
-        o.userId = Meteor.userId();
-    }
     _set( ret, o, 'userId' );
-    // seems that we do not manage ourselves the userId
-    //console.log( o );
-    //console.log( ret );
     switch( o.type ){
         case 'A':
             _set( ret, o, 'notes' );

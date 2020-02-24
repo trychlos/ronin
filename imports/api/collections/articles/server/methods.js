@@ -90,6 +90,7 @@ Meteor.methods({
     'actions.insert'( o ){
         Meteor.call( '_articles_check_type', o, 'A' );
         Meteor.call( '_articles_check_user', o );
+        o.userId = Meteor.userId();
         const item = Articles.fn.cleanup( o );
         const ret = Articles.insert( item.set );
         console.log( 'Articles.actions.insert("'+o.name+'") returns '+ret );
@@ -179,6 +180,7 @@ Meteor.methods({
     'projects.insert'( o ){
         Meteor.call( '_articles_check_type', o, 'P' );
         Meteor.call( '_articles_check_user', o );
+        o.userId = Meteor.userId();
         const item = Articles.fn.cleanup( o );
         const ret = Articles.insert( item.set );
         console.log( 'Articles.projects.insert("'+o.name+'") returns '+ret );
@@ -219,6 +221,7 @@ Meteor.methods({
     'thoughts.insert'( o ){
         Meteor.call( '_articles_check_type', o, 'T' );
         Meteor.call( '_articles_check_user', o );
+        o.userId = Meteor.userId();
         const item = Articles.fn.cleanup( o );
         const ret = Articles.insert( item.set );
         console.log( 'Articles.thoughts.insert("'+o.name+'") returns '+ret );
