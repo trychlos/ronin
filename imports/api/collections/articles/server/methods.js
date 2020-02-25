@@ -129,7 +129,7 @@ Meteor.methods({
     // takes ownership of the article
     //  only applies to thoughts in development phase
     'articles.ownership'( o ){
-        Meteor.call( '_articles_check_type', o, 'T' );
+        //Meteor.call( '_articles_check_type', o, ['A','T'] );
         Meteor.call( '_articles_check_user', o );
         if( o.userId ){
             throw new Meteor.Error(

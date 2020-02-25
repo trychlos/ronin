@@ -25,17 +25,6 @@ $.pubsub.subscribe( 'ronin.model.thought.delete', ( msg, o ) => {
     );
 });
 
-// take ownership of the tought
-$.pubsub.subscribe( 'ronin.model.thought.ownership', ( msg, o ) => {
-    Meteor.call( 'articles.ownership', o.thought, ( e, res ) => {
-        if( e ){
-            throwError({ type:e.error, message:e.reason });
-        } else {
-            throwSuccess( 'Ownership successfully taken' );
-        }
-    });
-});
-
 // insert or update the provided thought
 //  if a previous object already existed, then this is an update
 //  the page is left if this was an update *and* it has been successful

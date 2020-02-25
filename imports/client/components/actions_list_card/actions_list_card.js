@@ -5,6 +5,7 @@
  *  Parameters:
  *  - action: the action to be edited.
  */
+import '/imports/client/components/ownership_button/ownership_button.js';
 import './actions_list_card.html';
 
 Template.actions_list_card.helpers({

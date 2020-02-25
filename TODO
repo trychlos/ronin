@@ -140,8 +140,6 @@
 
   146 2020- 2-17 have a count on review action titlebar
 
-  153 2020- 2-17 take ownership of an action
-
   154 2020- 2-17 transform an action into a project
 
   155 2020- 2-19 review projects: New always triggers new project
@@ -151,9 +149,6 @@
 
   161 2020- 2-23 env-settings 1.2.0_4 "dev" settings are not available on the server
 
-  162 2020- 2-24 a new thought while logged-in in not owned by the current user (but should)
-      2020- 2-24 thought ok
-
   163 2020- 2-24 several lines of description in the cards take too much interval
                   between lines
                   + should interpret the '\n' char
@@ -161,8 +156,6 @@
   164 2020- 2-24 None topic is not displayed in cards items
 
   165 2020- 2-24 page layout: context menu doesn't work => do not account for it
-
-  166 2020- 2-24 on mobile (page layout), projects tree does not display root nodes
 
   168
 
@@ -562,6 +555,9 @@
   152 2020- 2-17 contexts_select: no need to have an initial record
       2020- 2-17 done
 
+  153 2020- 2-17 take ownership of an action
+      2020- 2-25 done
+
   157 2020- 2-21 projects_tree: replace the delete confirmation by the standard one
       2020- 2-22 done
 
@@ -574,6 +570,13 @@
   160 2020- 2-21 projectEdit/actionEdit: update projects_tree source when an
                   item goes to another tree (resp. subtree)
       2020- 2-22 done
+
+  162 2020- 2-24 a new thought while logged-in in not owned by the current user (but should)
+      2020- 2-24 thought ok
+      2020- 2-25 fixed
+
+  166 2020- 2-24 on mobile (page layout), projects tree does not display root nodes
+      2020- 2-25 fixed in v20.02.25.1
 
   167 2020- 2-24 integration db has a hardcoded 'None' topic
       2020- 2-24 fixed

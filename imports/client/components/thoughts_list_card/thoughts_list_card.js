@@ -6,6 +6,7 @@
  *  - thought: the thought to be edited.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import '/imports/client/components/ownership_button/ownership_button.js';
 import './thoughts_list_card.html';
 
 Template.thoughts_list_card.fn = {

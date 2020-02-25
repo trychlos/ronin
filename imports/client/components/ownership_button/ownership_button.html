@@ -1,0 +1,15 @@
+<template name="ownership_button">
+    <div class="ownership-button">
+
+        {{#if isMine item }}
+            <div class="ui-button ui-corner-all ui-state-disabled ownership-owned">
+                <span class="fas fa-user-lock"></span>
+            </div>
+        {{else}}
+            <button class="js-ownership ui-button ui-corner-all {{ takeable item }}" title="Take ownership">
+                <span class="fas fa-user-lock"></span>
+            </button>
+        {{/if}}
+
+    </div>
+</template>

@@ -1,6 +1,10 @@
 <template name="actionsList">
     <div class="actionsList wsf-parent ronin-window">
 
+        {{#if isWindowLayout}}
+            {{> window_badge text=count }}
+        {{/if}}
+
         {{#if isDesktopLayout}}
             <div class="edit">
                 {{> action_panel }}

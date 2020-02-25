@@ -31,6 +31,7 @@ import { Topics } from '/imports/api/collections/topics/topics.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/actions_list/actions_list.js';
+import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_list.html';
 
@@ -42,14 +43,14 @@ Template.actionsList.fn = {
 };
 
 Template.actionsList.onCreated( function(){
-    console.log( 'actionsList.onCreated' );
+    //console.log( 'actionsList.onCreated' );
     this.subscribe( 'articles.actions.all' );
     this.subscribe( 'topics.all' );
     this.subscribe( 'contexts.all' );
 });
 
 Template.actionsList.onRendered( function(){
-    console.log( 'actionsList.onRendered' );
+    //console.log( 'actionsList.onRendered' );
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
@@ -82,6 +83,9 @@ Template.actionsList.onRendered( function(){
 Template.actionsList.helpers({
     actions(){
         return Articles.find({ type:'A' }, { sort:{ createdAt: -1 }});
+    },
+    count(){
+        return Articles.find({ type:'A' }).count();
     }
 });
 
@@ -94,5 +98,5 @@ Template.actionsList.events({
 });
 
 Template.actionsList.onDestroyed( function(){
-    console.log( 'actionsList.onDestroyed' );
+    //console.log( 'actionsList.onDestroyed' );
 });
