@@ -1,8 +1,8 @@
 <template name="projects_select">
     <div class="projects-select">
 
-        <select class="js-projects-select w-100 form-control" name="project">
-            <option value="">None</option>
+        <select class="js-select w-100 form-control" name="project">
+            <option value="none">None</option>
             {{#each project in projects}}
                 <option value="{{ project._id }}" {{isSelected project selected}}>{{ project.name }}</option>
             {{/each}}

@@ -23,10 +23,11 @@ Template.thought_panel.fn = {
     },
     // returns an object which holds the form content
     getContent: function(){
+        const $this = $( '.thought-panel' );
         return {
             type: 'T',
-            name: $('.js-name').val(),
-            description: $('.js-description').val(),
+            name: $this.find('.js-name').val(),
+            description: $this.find('.js-description').val(),
             topic: Template.topics_select.fn.getSelected()
         }
     },

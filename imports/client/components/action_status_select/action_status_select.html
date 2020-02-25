@@ -1,7 +1,7 @@
 <template name="action_status_select">
-    <div class="status-select">
+    <div class="action-status-select">
 
-        <select class="js-status-select w-100 form-control" name="status">
+        <select class="js-select w-100 form-control" name="status">
             {{#each status in statusList}}
                 <option value="{{ status.id }}" {{statusSelected status selected}}>{{ status.label }}</option>
             {{/each}}

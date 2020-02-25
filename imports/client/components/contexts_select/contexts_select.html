@@ -1,8 +1,8 @@
 <template name="contexts_select">
     <div class="contexts-select">
 
-        <select class="js-contexts-select w-100 form-control" name="context">
-            <option value="">None</option>
+        <select class="js-select w-100 form-control" name="context">
+            <option value="none">None</option>
             {{#each context in contexts}}
                 <option value="{{ context._id }}" {{isSelected context selected}}>{{ context.name }}</option>
             {{/each}}

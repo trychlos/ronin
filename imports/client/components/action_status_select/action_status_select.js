@@ -12,16 +12,16 @@ import './action_status_select.html';
 Template.action_status_select.fn = {
     // return the code associated to the selected action_status
     getSelected: function(){
-        return $( '.js-status-select option:selected' ).val();
+        return $( '.action-status-select .js-select option:selected' ).val();
     },
     // select a value
     setSelected: function( value ){
-        $( '.js-status-select' ).val( value );
+        $( '.action-status-select .js-select' ).val( value );
     },
     // reset the default value
     selectDefault: function(){
         const def = actionStatus.getDefault();
-        $( '.js-status-select' ).val( def );
+        $( '.action-status-select .js-select' ).val( def );
     },
 };
 

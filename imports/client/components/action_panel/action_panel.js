@@ -25,13 +25,14 @@ import './action_panel.html';
 
 Template.action_panel.fn = {
     getContent: function(){
-        return {
+        const $this = $( '.action-panel' );
+        const o = {
             type: 'A',
-            name: $('.js-name').val(),
+            name: $this.find('.js-name').val(),
             topic: Template.topics_select.fn.getSelected(),
-            outcome: $('.js-outcome').val(),
+            outcome: $this.find('.js-outcome').val(),
             context: Template.contexts_select.fn.getSelected(),
-            description: $('.js-description').val(),
+            description: $this.find('.js-description').val(),
             parent: Template.projects_select.fn.getSelected(),
             status: Template.action_status_select.fn.getSelected(),
             startDate: Template.date_select.fn.getDate( '.js-datestart' ),
@@ -39,6 +40,8 @@ Template.action_panel.fn = {
             doneDate: Template.date_select.fn.getDate( '.js-datedone' ),
             notes: $('.js-notes').val()
         };
+        //console.log( o );
+        return o;
     },
     initEditArea: function(){
         $('.js-name').val('');
@@ -46,7 +49,7 @@ Template.action_panel.fn = {
         $('.js-outcome').val('');
         Template.contexts_select.fn.selectDefault();
         $('.js-description').val('');
-        Template.projects_select.fn.unselect();
+        Template.projects_select.fn.selectDefault();
         Template.action_status_select.fn.selectDefault();
         $('.js-datestart').val('');
         $('.js-datedue').val('');

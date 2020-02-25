@@ -31,10 +31,8 @@ $.pubsub.subscribe( 'ronin.model.project.delete', ( msg, o ) => {
 //  the page is left if this was an update *and* it has been successful
 $.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
     //console.log( msg );
-    //console.log( o.orig );
-    //console.log( o.edit );
+    //console.log( o );
     Session.set( 'project.dbope', DBOPE_WAIT );
-    o.edit.type = 'P';
     const id = o.orig ? o.orig._id : null;
     try {
         Articles.fn.check( id, o.edit );
@@ -46,6 +44,7 @@ $.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
     if( o.orig ){
         // if nothing has changed, then does nothing
         //console.log( msg+' equal='+Articles.fn.equal( o.orig, o.edit ));
+        o.edit.userId = o.orig.userId;
         if( Articles.fn.equal( o.orig, o.edit )){
             throwMessage({ type:'warning', message:'Nothing changed' });
             return false;

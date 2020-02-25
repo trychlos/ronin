@@ -10,18 +10,12 @@ import './topics_select.html';
 Template.topics_select.fn = {
     // return the identifier of the selected topic
     getSelected: function(){
-        return $( '.js-topic option:selected' ).val();
+        return $( '.topics-select .js-topic option:selected' ).val();
     },
     // select the default value
     selectDefault: function(){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            const obj = Topics.findOne({ default: true });
-            if( obj ){
-                instance.$('.js-topic').val( obj._id );
-            }
-        }
-    },
+        $('.topics-select .js-topic').val( 'none' );
+    }
 };
 
 Template.topics_select.onCreated( function(){

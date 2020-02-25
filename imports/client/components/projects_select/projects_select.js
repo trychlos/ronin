@@ -10,18 +10,11 @@ import './projects_select.html';
 Template.projects_select.fn = {
     // return the identifier of the selected project
     getSelected: function(){
-        return $( '.js-projects-select option:selected' ).val();
+        return $( '.projects-select .js-select option:selected' ).val();
     },
     // select the default value
     selectDefault: function(){
-        const obj = Projects.findOne({ default: true });
-        if( obj ){
-            $( '.js-projects-select' ).val( obj._id );
-        }
-    },
-    // unselect
-    unselect: function(){
-        $( '.js-projects-select' ).val('');
+        $( '.projects-select .js-select' ).val( 'none' );
     }
 };
 

@@ -157,6 +157,7 @@
   161 2020- 2-23 env-settings 1.2.0_4 "dev" settings are not available on the server
 
   162 2020- 2-24 a new thought while logged-in in not owned by the current user (but should)
+      2020- 2-24 thought ok
 
   163 2020- 2-24 several lines of description in the cards take too much interval
                   between lines

@@ -23,21 +23,24 @@ import './project_panel.html';
 
 Template.project_panel.fn = {
     getContent: function(){
-        return {
+        const $this = $( '.project-panel' );
+        const o = {
             type: 'P',
-            name: $('.js-name').val(),
+            name: $this.find('.js-name').val(),
             topic: Template.topics_select.fn.getSelected(),
-            purpose: $('.js-purpose').val(),
-            vision: $('.js-vision').val(),
-            description: $('.js-description').val(),
-            brainstorm: $('.js-brainstorm').val(),
+            purpose: $this.find('.js-purpose').val(),
+            vision: $this.find('.js-vision').val(),
+            description: $this.find('.js-description').val(),
+            brainstorm: $this.find('.js-brainstorm').val(),
             parent: Template.projects_select.fn.getSelected(),
-            future: $('.js-future').prop( 'checked' ),
+            future: $this.find('.js-future').prop( 'checked' ),
             startDate: Template.date_select.fn.getDate( '.js-datestart' ),
             dueDate: Template.date_select.fn.getDate( '.js-datedue' ),
             doneDate: Template.date_select.fn.getDate( '.js-datedone' ),
-            notes: $('.js-notes').val()
+            notes: $this.find('.js-notes').val()
         };
+        //console.log( o );
+        return o;
     },
     initEditArea: function(){
         $('.js-name').val('');
@@ -46,7 +49,7 @@ Template.project_panel.fn = {
         $('.js-vision').val('');
         $('.js-description').val('');
         $('.js-brainstorm').val('');
-        Template.projects_select.fn.unselect();
+        Template.projects_select.fn.selectDefault();
         $('.js-future').prop( 'checked', false ),
         $('.js-datestart').val('');
         $('.js-datedue').val('');

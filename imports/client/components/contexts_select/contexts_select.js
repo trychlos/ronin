@@ -12,15 +12,12 @@ import './contexts_select.html';
 Template.contexts_select.fn = {
     // return the identifier of the selected topic
     getSelected: function(){
-        return $( ' .js-contexts-select option:selected').val();
+        return $( '.contexts-select .js-select option:selected').val();
     },
     // select the default value
     selectDefault: function(){
-        const obj = Contexts.findOne({ default: true });
-        if( obj ){
-            $('.js-contexts-select').val( obj._id );
-        }
-    },
+        $('.contexts-select .js-select').val( 'none' );
+    }
 };
 
 Template.contexts_select.onCreated( function(){
