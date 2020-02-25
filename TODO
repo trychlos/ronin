@@ -138,9 +138,6 @@
 
   137 2020- 2-11 set mail-based new account enrollment rules
 
-  140 2020- 2-15 on user sign-in/sign-out, the displayed lists should be reactively updated
-      2020- 2-25 thoughtsList is OK - projectsList is OK
-
   146 2020- 2-17 have a count on review action titlebar
 
   153 2020- 2-17 take ownership of an action
@@ -522,6 +519,10 @@
                   + the same will be true each time the user change manually the route
                   + the same when we programatically change the route
       2020- 2-16 should be fixed as of current version
+
+  140 2020- 2-15 on user sign-in/sign-out, the displayed lists should be reactively updated
+      2020- 2-25 thoughtsList is OK - projectsList is OK - actionsList is OK
+      2020- 2-25 done
 
   141 2020- 2-15 Thoughts check-list
 	               - is list rightly filtered on currently logged-in user ?
