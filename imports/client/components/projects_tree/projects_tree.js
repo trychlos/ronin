@@ -148,10 +148,11 @@ Template.projects_tree.fn = {
     },
     // empty the tree
     _llt_empty: function( $tree ){
-        const root = $tree.tree( 'getTree' );
-        const label = root.name;
+        const tree = $tree.tree( 'getTree' );
+        const root = tree.children[0];
+        const name = root.name;
         $tree.tree( 'loadData', [] );
-        Template.projects_tree.fn._llt_setRoot( $tree, label );
+        Template.projects_tree.fn._llt_setRoot( $tree, name );
     },
     // returns the ad-hoc class for the item LI
     _llt_itemClass: function( node ){
@@ -426,6 +427,7 @@ Template.projects_tree.onCreated( function(){
         this.ronin.set( 'tab', tab );
         this.ronin.set( 'order', null );
         this.ronin.set( 'step', 0 );
+        this.ronin.set( 'userId', Meteor.userId());
         this.ronin_handles = {
             actions: this.subscribe( 'articles.actions.all' ),
             counters: this.subscribe( 'counters.all' ),
@@ -509,6 +511,16 @@ Template.projects_tree.onRendered( function(){
         if( step >= fn.steps.actions_shown && step < fn.steps.expanded ){
             fn.expandAll( $tree );
             self.ronin.set( 'step', fn.steps.expanded );
+        }
+    });
+
+    // rebuild the tree on signin/signout
+    this.autorun(() => {
+        const current = Meteor.userId();
+        if( current !== self.ronin.get( 'userId' )){
+            self.ronin.set( 'userId', current );
+            Template.projects_tree.fn._llt_empty( $tree );
+            self.ronin.set( 'step', fn.steps.tree_built );
         }
     });
 

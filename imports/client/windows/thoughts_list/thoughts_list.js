@@ -42,13 +42,13 @@ Template.thoughtsList.fn = {
 };
 
 Template.thoughtsList.onCreated( function(){
-    console.log( 'thoughtsList.onCreated' );
+    //console.log( 'thoughtsList.onCreated' );
     this.subscribe( 'articles.thoughts.all' );
     this.subscribe( 'topics.all' );
 });
 
 Template.thoughtsList.onRendered( function(){
-    console.log( 'thoughtsList.onRendered' );
+    //console.log( 'thoughtsList.onRendered' );
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
@@ -96,5 +96,5 @@ Template.thoughtsList.events({
 });
 
 Template.thoughtsList.onDestroyed( function(){
-    console.log( 'thoughtsList.onDestroyed' );
+    //console.log( 'thoughtsList.onDestroyed' );
 });
