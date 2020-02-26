@@ -140,8 +140,6 @@
 
   146 2020- 2-17 have a count on review action titlebar
 
-  154 2020- 2-17 transform an action into a project
-
   155 2020- 2-19 review projects: New always triggers new project
                   but should trigger new project or new action depending of the tab
 
@@ -157,7 +155,11 @@
 
   165 2020- 2-24 page layout: context menu doesn't work => do not account for it
 
-  168
+  168 2020- 2-26 actions_list_card: done seems to default to 'checked'
+
+  169 2020- 2-26 item edition (thought, action, project) should rather be cancellable than closable
+
+  170
 
 ==============================================================================
  Done
@@ -557,6 +559,9 @@
 
   153 2020- 2-17 take ownership of an action
       2020- 2-25 done
+
+  154 2020- 2-17 transform an action into a project
+      2020- 2-26 done
 
   157 2020- 2-21 projects_tree: replace the delete confirmation by the standard one
       2020- 2-22 done

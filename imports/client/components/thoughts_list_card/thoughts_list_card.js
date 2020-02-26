@@ -7,6 +7,7 @@
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/ownership_button/ownership_button.js';
+import '/imports/client/components/project_button/project_button.js';
 import './thoughts_list_card.html';
 
 Template.thoughts_list_card.fn = {
@@ -50,18 +51,9 @@ Template.thoughts_list_card.events({
         FlowRouter.go( 'collect.edit' );
         return false;
     },
-    'click .js-ownership'( event, instance ){
-        $.pubsub.publish( 'ronin.model.thought.ownership', { thought: instance.data.thought });
-        return false;
-    },
     'click .js-action'( event, instance ){
         g.run.back = FlowRouter.current().route.name;
         FlowRouter.go( 'process.action', null, { id:instance.data.thought._id });
-        return false;
-    },
-    'click .js-project'( event, instance ){
-        g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'process.project', null, { id:instance.data.thought._id });
         return false;
     },
     'click .js-maybe'( event, instance ){

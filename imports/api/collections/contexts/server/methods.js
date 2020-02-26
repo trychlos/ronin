@@ -3,6 +3,11 @@ import { Meteor } from 'meteor/meteor';
 import { Contexts } from '../contexts.js';
 
 Meteor.methods({
+    'contexts.get'( id ){
+        const o = Contexts.findOne({ _id:id });
+        console.log( o );
+        return o;
+    },
     'contexts.insert'( obj ){
         return Contexts.insert({
             name: obj.name,

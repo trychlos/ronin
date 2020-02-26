@@ -334,9 +334,9 @@ Articles.fn.equal = function( a, b ){
         } else if( d ){
             ret = false;
         }
-        if( !ret ){
-            console.log( '"'+c+'" !== "'+d+'"' );
-        }
+        //if( !ret ){
+        //    console.log( '"'+c+'" !== "'+d+'"' );
+        //}
         return ret;
     };
     //console.log( a );

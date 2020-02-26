@@ -64,5 +64,9 @@ export const actionStatus = {
     isActionable: function( id ){
         const item = actionStatus._byId( id );
         return item ? item.actionable === true : false;
+    },
+    labelById: function( id ){
+        const item = actionStatus._byId( id );
+        return item ? item.label : '';
     }
 };

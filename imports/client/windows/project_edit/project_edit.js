@@ -28,9 +28,11 @@
  *  - the action identifier to be edited is specified as the 'id' queryParams.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import { Contexts } from '/imports/api/collections/contexts/contexts.js';
+import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
-import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/components/project_panel/project_panel.js';
+import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './project_edit.html';
 
@@ -44,6 +46,32 @@ Template.projectEdit.fn = {
             case LYT_WINDOW:
                 $().IWindowed.close( '.projectEdit' );
                 break;
+        }
+    },
+    // convert from action
+    convertFromAction: function( item ){
+        if( item.type === 'A' ){
+            if( item.notes ){
+                item.notes += '\n';
+            } else {
+                item.notes = '';
+            }
+            item.notes += 'Status: '+actionStatus.labelById( item.status );
+            item.status = null;
+            item.last_status = null;
+            if( item.context ){
+                const context = Contexts.findOne({ _id:item.context });
+                if( context ){
+                    item.notes += '\n';
+                    item.notes += 'Context: '+context.name;
+                }
+                item.context = null;
+            }
+            if( item.outcome ){
+                item.notes += '\n';
+                item.notes += 'Outcome: '+item.outcome;
+                item.outcome = null;
+            }
         }
     },
     // this let us close a projectEdit window if the project has been
@@ -64,7 +92,7 @@ Template.projectEdit.fn = {
         return Template.projectEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
-        return it ? ( it.type === 'T' ? 'Transform' : 'Update' ) : 'Create';
+        return it ? ( it.type === 'T' || it.type === 'A' ? 'Transform' : 'Update' ) : 'Create';
     }
 }
 
@@ -83,13 +111,15 @@ Template.projectEdit.onRendered( function(){
     const self = this;
 
     // get the edited item
-    // the rest of the application will not work correctly
     this.autorun(() => {
         if( !self.ronin.get( 'got' )){
             const id = FlowRouter.getQueryParam( 'id' );
             if( id ){
                 const item = Articles.findOne({ _id:id });
                 if( item ){
+                    if( item.type === 'A' ){
+                        Template.projectEdit.fn.convertFromAction( item );
+                    }
                     self.ronin.set( 'item', item );
                     self.ronin.set( 'got', true );
                 }
@@ -152,7 +182,9 @@ Template.projectEdit.helpers({
     title(){
         const self = Template.instance();
         const item = self.ronin.get( 'item' );
-        const title = item ? ( item.type === 'T' ? 'Transform thought' : 'Edit project' ) : 'New project';
+        const title = item ?
+            ( item.type === 'T' ? 'Transform thought' :
+            ( item.type === 'A' ? 'Trasnform action' : 'Edit project' )) : 'New project';
         Session.set( 'header.title', title );
         return title;
     }
