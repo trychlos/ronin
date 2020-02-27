@@ -467,9 +467,6 @@ export const gtd = {
                             header: {
                                 display: true
                             },
-                            overview: {
-                                display: true
-                            },
                             side: {
                                 display: true
                             }
@@ -491,6 +488,7 @@ export const gtd = {
                         id: 'actions-inactive',
                         label: 'Inactive',
                         route: 'review.inactive',
+                        status: 'ina',
                         navs: {
                             header: {
                                 display: true
@@ -512,6 +510,7 @@ export const gtd = {
                         id: 'actions-asap',
                         label: 'Do ASAP',
                         route: 'review.asap',
+                        status: 'asa',
                         navs: {
                             header: {
                                 display: true
@@ -533,6 +532,7 @@ export const gtd = {
                         id: 'actions-scheduled',
                         label: 'Scheduled',
                         route: 'review.scheduled',
+                        status: 'sch',
                         navs: {
                             header: {
                                 display: true
@@ -554,6 +554,29 @@ export const gtd = {
                         id: 'actions-delegated',
                         label: 'Delegated',
                         route: 'review.delegated',
+                        status: 'del',
+                        navs: {
+                            header: {
+                                display: true
+                            },
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            actions: {
+                                display: true
+                            }
+                        }
+                    },
+                    {
+                        id: 'actions-wait',
+                        label: 'Waiting',
+                        route: 'review.waiting',
+                        status: 'wai',
                         navs: {
                             header: {
                                 display: true
@@ -575,6 +598,7 @@ export const gtd = {
                         id: 'actions-done',
                         label: 'Done',
                         route: 'review.done',
+                        status: 'don',
                         navs: {
                             header: {
                                 display: true
@@ -830,6 +854,10 @@ export const gtd = {
             ret = sub[key];
         }
         return ret;
+    },
+    // returns the status attached to the item
+    statusItem( item ){
+        return gtd._search( null, item, 'status', false );
     },
     // returns the template name associated with this item, or with one of its
     //  parent

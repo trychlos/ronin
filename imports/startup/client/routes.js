@@ -215,35 +215,42 @@ FlowRouter.route('/actions/edit', {
 FlowRouter.route('/review/inactive', {
     name: 'review.inactive',
     action(){
-        Session.set('actions.tab.name', 'ina' );
+        Session.set('actions.tab.name', 'actions-inactive' );
         blazeRender( this.name );
     },
 });
 FlowRouter.route('/review/asap', {
     name: 'review.asap',
     action(){
-        Session.set('actions.tab.name', 'asa' );
+        Session.set('actions.tab.name', 'actions-asap' );
         blazeRender( this.name );
     },
 });
 FlowRouter.route('/review/scheduled', {
     name: 'review.scheduled',
     action(){
-        Session.set('actions.tab.name', 'sch' );
+        Session.set('actions.tab.name', 'actions-scheduled' );
         blazeRender( this.name );
     },
 });
 FlowRouter.route('/review/delegated', {
     name: 'review.delegated',
     action(){
-        Session.set('actions.tab.name', 'del' );
+        Session.set('actions.tab.name', 'actions-delegated' );
+        blazeRender( this.name );
+    },
+});
+FlowRouter.route('/review/waiting', {
+    name: 'review.waiting',
+    action(){
+        Session.set('actions.tab.name', 'actions-wait' );
         blazeRender( this.name );
     },
 });
 FlowRouter.route('/review/done', {
     name: 'review.done',
     action(){
-        Session.set('actions.tab.name', 'don' );
+        Session.set('actions.tab.name', 'actions-done' );
         blazeRender( this.name );
     },
 });

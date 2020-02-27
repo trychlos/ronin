@@ -25,61 +25,65 @@ Template.projects_tree.fn = {
         expanded:       5
     },
     // context menu
+    //  note that this context menu is not available in a touchable device
+    //  so do not event try to display it
     _cm_createMenu: function( $tree, tab ){
-        const fn = Template.projects_tree.fn;
-        $tree.contextMenu({
-            selector: 'li.jqtree_common span.jqtree-title',
-            build: function( elt, ev ){
-                return {
-                    items: {
-                        edit: {
-                            name: 'Edit',
-                            icon: 'fas fa-edit',
-                            callback: function( item, opts, event ){
-                                const node = $( $( opts.$trigger ).parents('li')[0] ).data( 'node' );
-                                if( !fn.nodeIsRoot( node )){
-                                    fn._cm_edit( $tree, node );
+        if( g.run.layout.get() === LYT_WINDOW ){
+            const fn = Template.projects_tree.fn;
+            $tree.contextMenu({
+                selector: 'li.jqtree_common span.jqtree-title',
+                build: function( elt, ev ){
+                    return {
+                        items: {
+                            edit: {
+                                name: 'Edit',
+                                icon: 'fas fa-edit',
+                                callback: function( item, opts, event ){
+                                    const node = $( $( opts.$trigger ).parents('li')[0] ).data( 'node' );
+                                    if( !fn.nodeIsRoot( node )){
+                                        fn._cm_edit( $tree, node );
+                                    }
+                                },
+                                disabled: function( key, opts ){
+                                    const node = $( $( this ).parents('li')[0] ).data( 'node' );
+                                    return fn.nodeIsRoot( node );
                                 }
                             },
-                            disabled: function( key, opts ){
-                                const node = $( $( this ).parents('li')[0] ).data( 'node' );
-                                return fn.nodeIsRoot( node );
-                            }
-                        },
-                        delete: {
-                            name: 'Delete',
-                            icon: 'fas fa-trash-alt',
-                            callback: function( item, opts, event ){
-                                const node = $( $( opts.$trigger ).parents('li')[0] ).data( 'node' );
-                                if( !fn.nodeIsRoot( node )){
-                                    fn._cm_delete( $tree, node );
+                            delete: {
+                                name: 'Delete',
+                                icon: 'fas fa-trash-alt',
+                                callback: function( item, opts, event ){
+                                    const node = $( $( opts.$trigger ).parents('li')[0] ).data( 'node' );
+                                    if( !fn.nodeIsRoot( node )){
+                                        fn._cm_delete( $tree, node );
+                                    }
+                                },
+                                disabled: function( key, opts ){
+                                    const node = $( $( this ).parents('li')[0] ).data( 'node' );
+                                    return fn.nodeIsRoot( node );
                                 }
-                            },
-                            disabled: function( key, opts ){
-                                const node = $( $( this ).parents('li')[0] ).data( 'node' );
-                                return fn.nodeIsRoot( node );
                             }
-                        }
-                    },
-                    autoHide: true,
-                    events: {
-                        show: function( opts ){
-                            this.addClass( 'contextmenu-showing' );
                         },
-                        hide: function( opts ){
-                            this.removeClass( 'contextmenu-showing' );
+                        autoHide: true,
+                        events: {
+                            show: function( opts ){
+                                this.addClass( 'contextmenu-showing' );
+                            },
+                            hide: function( opts ){
+                                this.removeClass( 'contextmenu-showing' );
+                            }
+                        },
+                        position: function( opts, x, y ){
+                            opts.$menu.position({
+                                my: 'left top',
+                                at: 'right bottom',
+                                of: ev
+                            });
                         }
-                    },
-                    position: function( opts, x, y ){
-                        opts.$menu.position({
-                            my: 'left top',
-                            at: 'right bottom',
-                            of: ev
-                        });
                     }
                 }
-            }
-        });
+            });
+        }
     },
     // contextual menu, delete operation
     _cm_delete: function( $tree, node ){

@@ -1,4 +1,7 @@
-.pwi-igrid {
+.jqx-grid.pwi-igrid {
+    .jqx-grid-header {
+        height: 2rem;
+    }
     .contextmenu-showing .jqx-grid-cell {
         background-color: @context-item-bg-color;
     }
@@ -6,7 +9,21 @@
         top: 5px;
         left: 7px;
     }
-    /*  background-color doesn't work
+    .jqx-widget-header,
+    .jqx-widget-content {
+        font-size: 1rem;
+    }
+    .jqx-button {
+        cursor: pointer;
+    }
+    .jqx-button.jqx-fill-state-normal {
+        background-color: #ededed;
+    }
+    .jqx-button.jqx-fill-state-normal .btn-disabled {
+        color: #ededed;
+        background-color: white;
+    }
+/*  background-color doesn't work
     div.jqx-grid-header {
         background-color: @review-color-l25;
         color: white;

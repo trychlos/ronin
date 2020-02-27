@@ -3,17 +3,11 @@
 
         {{#if isWindowLayout}}
             {{> window_badge text=count }}
+            {{> actions_tabs actions=actions }}
         {{/if}}
-
-        {{#if isDesktopLayout}}
-            <div class="edit">
-                {{> action_panel }}
-            </div>
-        {{/if}}
-
-        {{> actions_list actions=actions }}
 
         {{#if isPageLayout}}
+            {{> actions_list actions=actions }}
             <div class="js-new">
                 {{> plus_button }}
             </div>

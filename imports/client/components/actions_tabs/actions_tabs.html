@@ -1,5 +1,6 @@
 <template name="actions_tabs">
     <div class="actions-tabs">
+
         <div class="actions-tabbed">
             <ul>
                 {{#each it in gtdItems}}
@@ -10,9 +11,10 @@
             </ul>
             {{#each it in gtdItems}}
                 <div id="{{it.id}}">
-                    {{> actions_grid tab=it.id actions=(actions it.id) }}
+                    {{> actions_grid tab=it.id actions=(actions it) }}
                 </div>
             {{/each}}
         </div>
+
     </div>
 </template>
