@@ -11,7 +11,7 @@ import './actions_list_card.html';
 
 Template.actions_list_card.helpers({
     checked(){
-        return moment( Template.instance().data.action.doneDate ).isValid() ? 'checked' : '';
+        return this.action.doneDate && moment( this.action.doneDate ).isValid() ? 'checked' : '';
     },
     // if the window is not wide enough to display the update date in the header,
     //  then display it now
