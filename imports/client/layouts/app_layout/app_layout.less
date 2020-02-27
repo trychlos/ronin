@@ -56,15 +56,15 @@ div.ronin-layout {
      */
     .ronin-wnd-content {
         padding-right: 0.25rem;
+        .x-card.x-opened .title {
+            background-color: lighten( @app-color, 50% );
+        }
     }
 }
 /*
  * pageLayout
  */
 div.ronin-layout.ronin-lyt-page {
-    .lyt-header {
-        background-color: @page-color;
-    }
     /*
      *  Fixed header - Sticky footer
      *  On mobile and touchable layouts, have a fixed header and an sticky footer.
@@ -128,6 +128,15 @@ div.ronin-layout.ronin-lyt-page {
             border-top: 1px solid @border-color;
         }
     }
+    /*
+     * page-specific colors
+     */
+     .lyt-header {
+        background-color: @page-color;
+    }
+    .x-card.x-opened .title {
+        background-color: lighten( @page-color, 50% );
+    }
 }
 /*
  * windowLayout
@@ -137,4 +146,7 @@ div.ronin-layout.ronin-lyt-window {
         height: 100%;
         padding-top: 0.5rem;
     }
+    /*
+     * window-specific colors
+     */
 }

@@ -157,9 +157,11 @@
 
   168 2020- 2-26 actions_list_card: done seems to default to 'checked'
 
-  169 2020- 2-26 item edition (thought, action, project) should rather be cancellable than closable
+  170 2020- 2-27 opened card in windowLayout: no more background
+                  the right stylesheet applies, but the color is wrongly computed
+                  (pageLayout is ok)
 
-  170
+  171
 
 ==============================================================================
  Done
@@ -585,6 +587,9 @@
 
   167 2020- 2-24 integration db has a hardcoded 'None' topic
       2020- 2-24 fixed
+
+  169 2020- 2-26 item edition (thought, action, project) should rather be cancellable than closable
+      2020- 2-27 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

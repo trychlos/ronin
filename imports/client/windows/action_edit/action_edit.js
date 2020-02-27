@@ -109,7 +109,7 @@ Template.actionEdit.onRendered( function(){
                 simone: {
                     buttons: [
                         {
-                            text: "Close",
+                            text: "Cancel",
                             click: function(){
                                 Template.actionEdit.fn.actionClose();
                             }

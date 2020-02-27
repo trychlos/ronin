@@ -76,7 +76,7 @@ Template.thoughtEdit.onRendered( function(){
                 simone: {
                     buttons: [
                         {
-                            text: "Close",
+                            text: "Cancel",
                             click: function(){
                                 Template.thoughtEdit.fn.actionClose();
                             }
