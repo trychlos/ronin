@@ -14,7 +14,8 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
-import '/imports/client/interfaces/igrid/igrid.js';
+import '/imports/client/components/ownership_button/ownership_button.js';
+import '/imports/client/components/project_button/project_button.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_grid.html';
 
@@ -184,13 +185,14 @@ Template.actions_grid.onRendered( function(){
     const data = Template.currentData();
     const self = this;
     let $grid = null;
-
     // create the grid
     if( data && data.tab ){
+        /*
         $grid = $('#'+data.tab+' .grid');
         $grid.data( 'tab', data.tab );
         fn.defineGrid( $grid );
         fn.defineMenu( $grid );
+        */
     }
     // wait for all subscriptions are ready
     this.autorun(() => {
@@ -222,6 +224,34 @@ Template.actions_grid.onRendered( function(){
             });
         }
     });
+});
+
+Template.actions_grid.helpers({
+    getContext( it ){
+        const context = Contexts.findOne({ _id: it.context });
+        return context ? context.name : '';
+    },
+    getCreated( it ){
+        return moment( it.createdAt ).format('DD/MM/GGGG');
+    },
+    getDone( it ){
+        return moment( it.doneDate ).format('DD/MM/GGGG');
+    },
+    getName( it ){
+        return it.name;
+    },
+    getParent( it ){
+        const parent = Articles.findOne({ _id: it.parent });
+        return parent ? parent.name : '';
+    },
+    getTopic( it ){
+        const topic = Topics.findOne({ _id: it.topic });
+        return topic ? topic.name : '';
+    },
+    // whether we are displaying the 'done' tab
+    isDoneTab(){
+        return this.tab === 'actions-done';
+    }
 });
 
 Template.actions_grid.events({

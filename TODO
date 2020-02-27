@@ -159,7 +159,15 @@
 
   171 2020- 2-27 ownership_button: replace Template.thoughts_list.takeable()
 
-  172
+  172 2020- 2-27 have edit_button (thoughts_list_card, actions_list_card, actions_grid)
+
+  173 2020- 2-27 have action_button (thoughts_list_card)
+
+  174 2020- 2-27 have delete_button (thoughts_list_card, actions_list_card, actions_grid)
+
+  175 2020- 2-27 have maybe_button (thoughts_list_card)
+
+  176
 
 ==============================================================================
  Done

@@ -1,5 +1,47 @@
 <template name="actions_grid">
     <div class="actions-grid">
+
+        <!-- jqxGrid
         <div class="grid"></div>
+        -->
+
+        <!-- bootgrid -->
+        <table class="ronin-bootgrid">
+            <thead>
+                <tr>
+                    <th data-column-id="btn-edit"></th>
+                    <th data-column-id="btn-ownership"></th>
+                    <th data-column-id="btn-project"></th>
+                    <th data-column-id="name">Name</th>
+                    <th data-column-id="topic">Topic</th>
+                    <th data-column-id="context">Context</th>
+                    <th data-column-id="parent">Project</th>
+                    <th data-column-id="created">Created</th>
+                    {{#if isDoneTab }}
+                        <th data-column-id="done">Done</th>
+                    {{/if}}
+                    <th data-column-id="btn-delete"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each it in actions}}
+                    <tr>
+                        <td></td>
+                        <td>{{> ownership_button item=it }}</td>
+                        <td>{{> project_button item=it }}</td>
+                        <td>{{ getName it }}</td>
+                        <td>{{ getTopic it }}</td>
+                        <td>{{ getContext it }}</td>
+                        <td>{{ getParent it }}</td>
+                        <td>{{ getCreated it }}</td>
+                        {{#if isDoneTab }}
+                            <td>{{ getDone it }}</td>
+                        {{/if}}
+                        <td></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
     </div>
 </template>
