@@ -6,6 +6,7 @@
  *  - thought: the thought to be edited.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import '/imports/client/components/action_button/action_button.js';
 import '/imports/client/components/delete_button/delete_button.js';
 import '/imports/client/components/maybe_button/maybe_button.js';
 import '/imports/client/components/ownership_button/ownership_button.js';
@@ -51,11 +52,6 @@ Template.thoughts_list_card.events({
         g.run.back = FlowRouter.current().route.name;
         Session.set( 'collect.thought', instance.data.thought );
         FlowRouter.go( 'collect.edit' );
-        return false;
-    },
-    'click .js-action'( event, instance ){
-        g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'process.action', null, { id:instance.data.thought._id });
         return false;
     }
 });
