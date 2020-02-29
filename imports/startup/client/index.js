@@ -45,6 +45,11 @@ import 'jquery-bootgrid/dist/jquery.bootgrid.fa.js';
 import 'jquery-bootgrid/dist/jquery.bootgrid.css';
 */
 
+// https://spin.js.org/
+// https://github.com/fgnass/spin.js
+import 'spin.js/spin.css';
+import { Spinner } from 'spin.js';
+
 // pub/sub paradigm (nonetheless far from an actual mqtt broker)
 //import '/imports/client/interfaces/pubsub/pubsub.js'; http://fuzzytolerance.info doesn't work oob
 import 'jquery-pubsub/dist/jquery.pubsub.min.js';

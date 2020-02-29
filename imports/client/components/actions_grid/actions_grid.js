@@ -181,20 +181,6 @@ Template.actions_grid.fn = {
     */
 };
 
-Template.actions_grid.onCreated( function(){
-    // initialize our internal data for this tab
-    const data = Template.currentData();
-    if( data && data.tab ){
-        this.ronin = new ReactiveDict();
-        this.ronin.set( 'ready', false );
-        this.ronin_handles = [
-            this.subscribe( 'contexts.all' ),
-            this.subscribe( 'articles.projects.all' ),
-            this.subscribe( 'topics.all' )
-        ]
-    }
-});
-
 Template.actions_grid.onRendered( function(){
     const fn = Template.actions_grid.fn;
     const data = Template.currentData();
@@ -208,7 +194,6 @@ Template.actions_grid.onRendered( function(){
         fn.defineGrid( $grid );
         fn.defineMenu( $grid );
     }
-    */
     // wait for all subscriptions are ready
     this.autorun(() => {
         if( self.ronin ){
@@ -223,7 +208,6 @@ Template.actions_grid.onRendered( function(){
         }
     });
     // when actions are ready, populate the grid
-    /*
     this.autorun(() => {
         if( self.ronin && self.ronin.get( 'ready' ) && $grid ){
             $grid.IGrid( 'clear' );

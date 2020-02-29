@@ -35,6 +35,7 @@ import '/imports/client/components/actions_tabs/actions_tabs.js';
 import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_list.html';
+import { Spinner } from 'spin.js';
 
 Template.actionsList.fn = {
     actionNew: function(){
@@ -45,13 +46,27 @@ Template.actionsList.fn = {
 
 Template.actionsList.onCreated( function(){
     //console.log( 'actionsList.onCreated' );
-    this.subscribe( 'articles.actions.all' );
-    this.subscribe( 'topics.all' );
-    this.subscribe( 'contexts.all' );
+    this.ronin = new ReactiveDict();
+    this.ronin.set( 'actions', false );
+    this.ronin.set( 'projects', false );
+    this.ronin.set( 'topics', false );
+    this.ronin.set( 'contexts', false );
+    this.ronin.set( 'subscriptions_ready', false );
+    this.ronin_handles = {
+        actions: this.subscribe( 'articles.actions.all' ),
+        projects: this.subscribe( 'articles.projects.all' ),
+        topics: this.subscribe( 'topics.all' ),
+        contexts: this.subscribe( 'contexts.all' ),
+    }
 });
 
 Template.actionsList.onRendered( function(){
     //console.log( 'actionsList.onRendered' );
+    const self = this;
+
+    // create a new spinner, attaching it to the document, and starting it
+    self.ronin_spinner = new Spinner().spin( document.getElementsByTagName( 'body' )[0] );
+
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
@@ -77,6 +92,40 @@ Template.actionsList.onRendered( function(){
                     title:  gtd.labelId( 'window', context.gtdid )
                 }
             });
+        }
+    });
+
+    // wait for subscriptions
+    this.autorun(() => {
+        if( self.ronin_handles.actions.ready()){
+            self.ronin.set( 'actions', true );
+        }
+    });
+    this.autorun(() => {
+        if( self.ronin_handles.projects.ready()){
+            self.ronin.set( 'projects', true );
+        }
+    });
+    this.autorun(() => {
+        if( self.ronin_handles.topics.ready()){
+            self.ronin.set( 'topics', true );
+        }
+    });
+    this.autorun(() => {
+        if( self.ronin_handles.contexts.ready()){
+            self.ronin.set( 'contexts', true );
+        }
+    });
+
+    // at the end, stop the spinner
+    this.autorun(() => {
+        if( self.ronin.get( 'actions' ) && self.ronin.get( 'projects' ) && self.ronin.get( 'topics' ) && self.ronin.get( 'contexts' )){
+            self.ronin.set( 'subscriptions_ready', true );
+        }
+    });
+    this.autorun(() => {
+        if( self.ronin.get( 'subscriptions_ready' )){
+            self.ronin_spinner.stop();
         }
     });
 });

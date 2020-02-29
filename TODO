@@ -155,8 +155,6 @@
 
   171 2020- 2-27 ownership_button: replace Template.thoughts_list.takeable()
 
-  172 2020- 2-27 have edit_button (thoughts_list_card, actions_list_card, actions_grid)
-
   176 2020- 2-28 in actions tabs, the counter should reflect the current tab content
 
   177 2020- 2-29 project delete seems to not work + re-attach children
@@ -601,6 +599,9 @@
                   the right stylesheet applies, but the color is wrongly computed
                   (pageLayout is ok)
       2020- 2-29 fixed
+
+  172 2020- 2-27 have edit_button (thoughts_list_card, actions_list_card, actions_grid)
+      2020- 2-29 done
 
   173 2020- 2-27 have action_button (thoughts_list_card)
       2020- 2-29 done

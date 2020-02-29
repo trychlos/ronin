@@ -14,17 +14,9 @@ import '/imports/client/components/actions_grid/actions_grid.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './actions_tabs.html';
 
-Template.actions_tabs.onCreated( function(){
-    this.handle = this.subscribe( 'articles.actions.all' );
-});
-
 Template.actions_tabs.onRendered( function(){
-    this.autorun(() => {
-        if( this.handle.ready()){
-            $('.actions-tabbed').ITabbed({
-                tab: Session.get('actions.tab.name')
-            });
-        }
+    $('.actions-tabbed').ITabbed({
+        tab: Session.get('actions.tab.name')
     });
 });
 
