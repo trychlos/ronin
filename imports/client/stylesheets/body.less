@@ -53,6 +53,11 @@ body {
         .x-grid {
             white-space: nowrap;
             width: 100%;
+            tbody {
+                tr:nth-child(2n+1){
+                    background-color: lighten( @app-color, 35% );
+                }
+            }
         }
         .x-hidden {
             display: none;
