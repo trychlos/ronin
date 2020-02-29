@@ -6,6 +6,7 @@
  *  - thought: the thought to be edited.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import '/imports/client/components/delete_button/delete_button.js';
 import '/imports/client/components/maybe_button/maybe_button.js';
 import '/imports/client/components/ownership_button/ownership_button.js';
 import '/imports/client/components/project_button/project_button.js';
@@ -55,13 +56,6 @@ Template.thoughts_list_card.events({
     'click .js-action'( event, instance ){
         g.run.back = FlowRouter.current().route.name;
         FlowRouter.go( 'process.action', null, { id:instance.data.thought._id });
-        return false;
-    },
-    'click .js-maybe'( event, instance ){
-
-    },
-    'click .js-delete'( event, instance ){
-        $.pubsub.publish( 'ronin.model.thought.delete', { thought: instance.data.thought });
         return false;
     }
 });

@@ -3,27 +3,6 @@
  * To be imported at application layer level.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
-import bootbox from 'bootbox/dist/bootbox.all.min.js';
-
-// delete the provided thought
-//  requiring a user confirmation
-$.pubsub.subscribe( 'ronin.model.thought.delete', ( msg, o ) => {
-    bootbox.confirm(
-        'You are about to delete the "'+o.thought.name+'" thought.<br />'+
-        'Are you sure ?', function( ret ){
-            if( ret ){
-                Meteor.call( 'thoughts.remove', o.thought, ( e, res ) => {
-                    if( e ){
-                        throwError({ type:e.error, message:e.reason });
-                    } else {
-                        throwSuccess( 'Thought successfully deleted' );
-                        $.pubsub.publish( 'ronin.ui.item.deleted', o );
-                    }
-                });
-            }
-        }
-    );
-});
 
 // insert or update the provided thought
 //  if a previous object already existed, then this is an update

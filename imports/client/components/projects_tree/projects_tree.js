@@ -89,8 +89,7 @@ Template.projects_tree.fn = {
     _cm_delete: function( $tree, node ){
         const fn = Template.projects_tree.fn;
         if( !fn.nodeIsRoot( node )){
-            msg = node.obj.type === 'A' ? 'ronin.model.action.delete' : 'ronin.model.project.delete';
-            $.pubsub.publish( msg, node.obj );
+            $.pubsub.publish( 'ronin.model.article.delete', node.obj );
         }
     },
     // contextual menu, edit operation

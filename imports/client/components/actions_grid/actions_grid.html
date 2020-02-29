@@ -32,7 +32,7 @@
                         {{#if isDoneTab }}
                             <td>{{ getDone it }}</td>
                         {{/if}}
-                        <td></td>
+                        <td>{{> delete_button item=it }}</td>
                     </tr>
                 {{/each}}
             </tbody>

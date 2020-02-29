@@ -5,6 +5,7 @@
  *  Parameters:
  *  - action: the action to be edited.
  */
+import '/imports/client/components/delete_button/delete_button.js';
 import '/imports/client/components/ownership_button/ownership_button.js';
 import '/imports/client/components/project_button/project_button.js';
 import './actions_list_card.html';
@@ -29,10 +30,6 @@ Template.actions_list_card.events({
     },
     'click .js-done'( ev, instance ){
         $.pubsub.publish( 'ronin.model.action.done.toggle', { action: instance.data.action });
-        return false;
-    },
-    'click .js-delete'( ev, instance ){
-        $.pubsub.publish( 'ronin.model.action.delete', instance.data.action );
         return false;
     }
 });

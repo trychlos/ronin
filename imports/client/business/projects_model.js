@@ -3,27 +3,6 @@
  * To be imported at application layer level.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
-import bootbox from 'bootbox/dist/bootbox.all.min.js';
-
-// delete the provided project
-//  requiring a user confirmation
-$.pubsub.subscribe( 'ronin.model.project.delete', ( msg, o ) => {
-    bootbox.confirm(
-        'You are about to delete the "'+o.name+'" project.<br />'+
-        'Are you sure ?', function( ret ){
-            if( ret ){
-                Meteor.call( 'projects.remove', o, ( e, res ) => {
-                    if( e ){
-                        throwError({ type:e.error, message:e.reason });
-                    } else {
-                        throwSuccess( 'Project successfully deleted' );
-                        $.pubsub.publish( 'ronin.ui.item.deleted', o );
-                    }
-                });
-            }
-        }
-    );
-});
 
 // insert or update the provided project
 //  or transform a thought into a project

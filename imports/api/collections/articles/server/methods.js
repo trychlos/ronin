@@ -102,14 +102,6 @@ Meteor.methods({
         return ret;
     },
 
-    // delete an action
-    'actions.remove'( o ){
-        Meteor.call( '_articles_check_type', o, 'A' );
-        Meteor.call( '_articles_check_user', o );
-        console.log( 'articles.actions.remove name='+o.name );
-        Articles.remove( o._id );
-    },
-
     // update an existing action
     //  or transform a thought into an action
     //  update does not mean taking ownership
@@ -147,6 +139,19 @@ Meteor.methods({
             throw new Meteor.Error(
                 'articles.ownership',
                 'unable to take ownership of the "'+o.name+'" article' );
+        }
+        return ret;
+    },
+
+    // delete an article
+    'articles.remove'( o ){
+        Meteor.call( '_articles_check_user', o );
+        const ret = Articles.remove( o._id );
+        console.log( 'Articles.remove("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.remove',
+                'unable to remove "'+o.name+'" item' );
         }
         return ret;
     },
@@ -192,14 +197,6 @@ Meteor.methods({
         return ret;
     },
 
-    // delete a project
-    'projects.remove'( o ){
-        Meteor.call( '_articles_check_type', o, 'P' );
-        Meteor.call( '_articles_check_user', o );
-        console.log( 'articles.projects.remove name='+o.name );
-        Articles.remove( o._id );
-    },
-
     // update an existing project
     //  update does not mean taking ownership
     'projects.update'( id, o ){
@@ -229,20 +226,6 @@ Meteor.methods({
             throw new Meteor.Error(
                 'articles.thoughts.insert',
                 'unable to insert "'+o.name+'" thought' );
-        }
-        return ret;
-    },
-
-    // remove returns true or throws an exception
-    'thoughts.remove'( o ){
-        Meteor.call( '_articles_check_type', o, 'T' );
-        Meteor.call( '_articles_check_user', o );
-        const ret = Articles.remove({ _id:o._id, type:'T' });
-        console.log( 'Articles.thoughts.remove("'+o.name+'") returns '+ret );
-        if( !ret ){
-            throw new Meteor.Error(
-                'articles.thoughts.remove',
-                'unable to remove "'+o.name+'" thought' );
         }
         return ret;
     },

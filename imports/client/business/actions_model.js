@@ -3,27 +3,6 @@
  * To be imported at application layer level.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
-import bootbox from 'bootbox/dist/bootbox.all.min.js';
-
-// delete the provided action
-//  requiring a user confirmation
-$.pubsub.subscribe( 'ronin.model.action.delete', ( msg, o ) => {
-    bootbox.confirm(
-        'You are about to delete the "'+o.name+'" action.<br />'+
-        'Are you sure ?', function( ret ){
-            if( ret ){
-                Meteor.call( 'actions.remove', o, ( e, res ) => {
-                    if( e ){
-                        throwError({ type:e.error, message:e.reason });
-                    } else {
-                        throwSuccess( 'Action successfully deleted' );
-                        $.pubsub.publish( 'ronin.ui.item.deleted', o );
-                    }
-                });
-            }
-        }
-    );
-});
 
 // toggle the 'done' status of the provided action
 $.pubsub.subscribe( 'ronin.model.action.done.toggle', ( msg, o ) => {
