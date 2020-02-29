@@ -39,10 +39,13 @@ import '/imports/client/third-party/simone/simone.min.css';
 
 // jQuery-bootgrid
 //  http://www.jquery-bootgrid.com/
+/*
 import 'jquery-bootgrid/dist/jquery.bootgrid.min.js';
-import 'jquery-bootgrid/dist/jquery.bootgrid.min.css';
+import 'jquery-bootgrid/dist/jquery.bootgrid.fa.js';
+import 'jquery-bootgrid/dist/jquery.bootgrid.css';
+*/
 
-// pub/sub paradigm (nonetheless far from a mqtt broker)
+// pub/sub paradigm (nonetheless far from an actual mqtt broker)
 //import '/imports/client/interfaces/pubsub/pubsub.js'; http://fuzzytolerance.info doesn't work oob
 import 'jquery-pubsub/dist/jquery.pubsub.min.js';
 

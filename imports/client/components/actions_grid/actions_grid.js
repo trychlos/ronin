@@ -4,6 +4,15 @@
  *
  *  NB: this actionsGrid is only displayed in windowLayout mode.
  *
+ *  NB: most of the found grid jQuery plugins work by managing all their datas
+ *  inside of JS code, i.e. without any HTML tag. This prevent us to use any
+ *  template. In particular, we cannot use ownership_button, project_button,
+ *  and so on.
+ *  This is the case for jqxGrid, Bootgrid, pqGrid...
+ *  Others plugins are obsolete (do not comply with our new jQuery/Bootstrap
+ *  versions).
+ *  => so get stuck with a standard table here.
+ *
  *  Parameters:
  *  - tab: the tab (aka the status) being displayed.
  *  - actions: the corresponding actions as a cursor.
@@ -20,6 +29,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_grid.html';
 
 Template.actions_grid.fn = {
+    // jqxGrid definition
+    /*
     defineGrid: function( $grid ){
         let columns = [
             // IGrid pushes first 'edit' and last 'delete' button columns
@@ -62,6 +73,7 @@ Template.actions_grid.fn = {
         }
         $grid.IGrid({ columns: columns });
     },
+    // jqxGrid context menu
     // define a context menu on the rows
     // note that event passed to callback functions are the click on the menu item
     //  and note the click which opened the menu - so stay with build event.
@@ -164,6 +176,7 @@ Template.actions_grid.fn = {
         Session.set( 'process.edit.obj', row );
         $grid.IWindowed( 'showNew', 'editWindow' );
     }
+    */
 };
 
 Template.actions_grid.onCreated( function(){
@@ -184,16 +197,16 @@ Template.actions_grid.onRendered( function(){
     const fn = Template.actions_grid.fn;
     const data = Template.currentData();
     const self = this;
-    let $grid = null;
+    let $grid = $( 'table.js-grid' );
     // create the grid
+    /*
     if( data && data.tab ){
-        /*
         $grid = $('#'+data.tab+' .grid');
         $grid.data( 'tab', data.tab );
         fn.defineGrid( $grid );
         fn.defineMenu( $grid );
-        */
     }
+    */
     // wait for all subscriptions are ready
     this.autorun(() => {
         if( self.ronin ){
@@ -208,6 +221,7 @@ Template.actions_grid.onRendered( function(){
         }
     });
     // when actions are ready, populate the grid
+    /*
     this.autorun(() => {
         if( self.ronin && self.ronin.get( 'ready' ) && $grid ){
             $grid.IGrid( 'clear' );
@@ -224,6 +238,7 @@ Template.actions_grid.onRendered( function(){
             });
         }
     });
+    */
 });
 
 Template.actions_grid.helpers({
@@ -255,25 +270,25 @@ Template.actions_grid.helpers({
 });
 
 Template.actions_grid.events({
-    'igrid-btnclick-delete .grid'( ev, instance, rowIndex ){
+    'igrid-btnclick-delete .js-grid'( ev, instance, rowIndex ){
         //console.log( rowIndex );
         const $grid = instance.$( ev.target );
         const row = $grid.IGrid( 'getrowdata', rowIndex );
         Template.actions_grid.fn.opeDelete( $grid, row );
     },
-    'igrid-btnclick-edit .grid'( ev, instance, rowIndex ){
+    'igrid-btnclick-edit .jsgrid'( ev, instance, rowIndex ){
         //console.log( arguments );
         //console.log( rowIndex );
         const $grid = instance.$( ev.target );
         const row = $grid.IGrid( 'getrowdata', rowIndex );
         Template.actions_grid.fn.opeEdit( $grid, row );
     },
-    'igrid-btnclick-ownership .grid'( ev, instance, rowIndex ){
+    'igrid-btnclick-ownership .js-grid'( ev, instance, rowIndex ){
         const $grid = instance.$( ev.target );
         const row = $grid.IGrid( 'getrowdata', rowIndex );
         //Template.actions_grid.fn.opeDelete( $grid, row );
     },
-    'igrid-btnclick-project .grid'( ev, instance, rowIndex ){
+    'igrid-btnclick-project .js-grid'( ev, instance, rowIndex ){
         const $grid = instance.$( ev.target );
         const row = $grid.IGrid( 'getrowdata', rowIndex );
         //Template.actions_grid.fn.opeDelete( $grid, row );
