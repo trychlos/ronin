@@ -6,19 +6,21 @@
  *  Parameters:
  *  - item: the article.
  */
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import './ownership_button.html';
 
 Template.ownership_button.helpers({
     // template helper
     //  returns true if this article is owned by the user
     isMine( art ){
-        const current = Meteor.userId();
-        return current && current === art.userId;
+        const status = Articles.fn.isTakeable( art );
+        return status === 'HAS';
     },
     // class helper
+    //  disable the button is the ownership cannot be taken
     takeable( art ){
-        const takeable = Template.thoughts_list_card.fn.takeable( art );
-        return takeable ? '' : 'ui-state-disabled';
+        const status = Articles.fn.isTakeable( art );
+        return status === 'CAN' ? '' : 'ui-state-disabled';
     }
 });
 

@@ -372,3 +372,27 @@ Articles.fn.equal = function( a, b ){
     }
     return ret;
 };
+
+// Rationale: if the article is not owned by anyone, then the currently logged-in
+//  user may take ownership of it.
+//  We have so four states:
+//  - there is no user currently logged in: no ownership can be taken
+//  - user already has ownership of the article: taking ownership is not relevant
+//  - the article does not yet belong to anyone: ownership could be taken
+//  - the article belongs to someone else: taking ownership is forbidden.
+Articles.fn.takeable = {
+    'NOT': 'no user is logged-in; no ownership can be taken',
+    'HAS': 'logged-in user already has ownserhip of the item',
+    'CAN': 'item does not belong to anyone, ownership can be taken',
+    'FOR': 'item belongs to someone else, taking ownship is forbidden'
+};
+Articles.fn.isTakeable = function( item ){
+    const current = Meteor.userId();
+    if( !current ){
+        return 'NOT';
+    }
+    if( item.userId === current ){
+        return 'HAS';
+    }
+    return item.userId ? 'FOR' : 'CAN';
+}
