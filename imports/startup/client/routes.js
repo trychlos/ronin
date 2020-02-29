@@ -135,7 +135,7 @@ FlowRouter.route( '/thoughts/new', {
     },
 });
 FlowRouter.route( '/thoughts/edit', {
-    name: 'collect.edit',
+    name: 'thought.edit',
     action(){
         blazeRender( this.name );
     },

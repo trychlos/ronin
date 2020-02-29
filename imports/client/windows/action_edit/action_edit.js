@@ -51,7 +51,7 @@ Template.actionEdit.fn = {
     //  transformed in something else elsewhere
     forClose: function( msg, o ){
         const self = Template.instance();
-        if( self.ronin.get( 'got' )){
+        if( self && self.ronin.get( 'got' )){
             console.log( 'actionEdit '+msg+' '+o._id );
             const item = self.ronin.get( 'item' );
             if( item._id === o._id ){

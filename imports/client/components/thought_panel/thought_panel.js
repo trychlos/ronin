@@ -5,12 +5,10 @@
  *  - enter a new thought (if session/collect.thought is empty)
  *  - or edit an existing one (if session/collect.thought already exists).
  *
- *  Session variable:
- *  - collect.thought: the thought being edited, may be null.
- *
  *  Parameters:
  *  - collapsable=true|false whether this component may be collapsed
  *      defaulting to false.
+ *  - item: the thought being edited, may be null.
  */
 import '/imports/client/components/topics_select/topics_select.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
@@ -50,14 +48,15 @@ Template.thought_panel.fn = {
 };
 
 Template.thought_panel.onRendered( function(){
+    const item = this.data.item;
+
     this.autorun(() => {
         const status = Session.get( 'collect.dbope' );
         switch( status ){
             // successful update operation, leave the page
             case DBOPE_LEAVE:
-                const thought = Session.get( 'collect.thought' );
-                if( thought ){
-                    $.pubsub.publish( 'ronin.model.reset', thought._id );
+                if( item ){
+                    $.pubsub.publish( 'ronin.model.reset', item._id );
                 }
                 switch( g.run.layout.get()){
                     case LYT_PAGE:
@@ -70,7 +69,6 @@ Template.thought_panel.onRendered( function(){
                 break;
             // successful insert operation, stay in the page and reinitialize fields
             case DBOPE_REINIT:
-                Session.set( 'collect.thought', null );
                 Template.thought_panel.fn.initEditArea();
                 break;
         }
@@ -84,21 +82,18 @@ Template.thought_panel.helpers({
         return Template.thought_panel.fn.collapsableId();
     },
     descriptionPlaceholder(){
-        return Session.get( 'collect.thought' ) ? '' : 'Description of the new thought';
+        return this.item ? '' : 'Description of the new thought';
     },
     descriptionValue(){
-        const obj = Session.get( 'collect.thought' );
-        return obj ? obj.description : '';
+        return this.item ? this.item.description : '';
     },
     namePlaceholder(){
-        return Session.get( 'collect.thought' ) ? '' : 'Type to add new thought';
+        return this.item ? '' : 'Type to add new thought';
     },
     nameValue(){
-        const obj = Session.get( 'collect.thought' );
-        return obj ? obj.name : '';
+        return this.item ? this.item.name : '';
     },
     topic(){
-        const obj = Session.get( 'collect.thought' );
-        return obj ? obj.topic : null;
+        return this.item ? this.item.topic : null;
     }
 });

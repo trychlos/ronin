@@ -11,10 +11,7 @@
 
         <div class="d-flex flex-row justify-content-between align-items-center">
 
-            <button class="js-edit ui-button ui-corner-all" title="Edit">
-                <span class="fas fa-edit"></span>
-            </button>
-
+            {{> edit_button item=action }}
             {{> ownership_button item=action }}
 
             <div class="x-lh15">

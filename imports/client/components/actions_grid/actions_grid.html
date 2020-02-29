@@ -21,7 +21,7 @@
             <tbody>
                 {{#each it in actions}}
                     <tr>
-                        <td></td>
+                        <td>{{> edit_button item=it }}</td>
                         <td>{{> ownership_button item=it }}</td>
                         <td>{{> project_button item=it }}</td>
                         <td>{{ getName it }}</td>

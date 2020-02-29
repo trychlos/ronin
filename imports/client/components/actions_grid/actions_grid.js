@@ -24,6 +24,7 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/delete_button/delete_button.js';
+import '/imports/client/components/edit_button/edit_button.js';
 import '/imports/client/components/ownership_button/ownership_button.js';
 import '/imports/client/components/project_button/project_button.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';

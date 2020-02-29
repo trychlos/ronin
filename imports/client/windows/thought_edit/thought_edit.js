@@ -3,9 +3,6 @@
  *
  *  This page lets the user edit a thought.
  *
- *  Session variable:
- *  - collect.thought: the object to be edited, may be null.
- *
  *  Worflow:
  *  [routes.js]
  *      +-> <app layout layer> { gtdid, group, template }
@@ -20,6 +17,9 @@
  *
  *  Parameters:
  *  - 'data': the layout context built in appLayout, and passed in by group layer.
+ *
+ *  Variables:
+ *  - the item identifier to be edited is specified as the 'id' queryParams.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
@@ -46,14 +46,19 @@ Template.thoughtEdit.fn = {
     // an item has been deleted or has been transformed
     //  should we close this window ?
     forClose: function( msg, o ){
-        console.log( 'thoughtEdit '+msg+' '+o._id );
-        const item = Session.get( 'collect.thought' );
-        if( item && item._id === o._id ){
-            Template.thoughtEdit.fn.actionClose();
+        const self = Template.instance();
+        if( self.ronin.get( 'got' )){
+            console.log( 'thoughtEdit '+msg+' '+o._id );
+            const item = self.ronin.get( 'item' );
+            if( item._id === o._id ){
+                Template.thoughtEdit.fn.actionClose();
+            }
         }
     },
     okLabel: function(){
-        return Template.thoughtEdit.fn.okLabelItem( Session.get( 'collect.thought' ));
+        const self = Template.instance();
+        const item = self.ronin.get( 'item' );
+        return Template.thoughtEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
         return it ? 'Update' : 'Create';
@@ -62,15 +67,39 @@ Template.thoughtEdit.fn = {
 
 Template.thoughtEdit.onCreated( function(){
     //console.log( 'thoughtEdit.onCreated' );
+    this.subscribe( 'articles.thoughts.all' );
+    this.subscribe( 'topics.all' );
+
+    this.ronin = new ReactiveDict();
+    this.ronin.set( 'got', false );
 });
 
 Template.thoughtEdit.onRendered( function(){
     //console.log( 'thoughtEdit.onRendered' );
+    const self = this;
+    const fn = Template.thoughtEdit.fn;
+
+    // get the edited item
+    this.autorun(() => {
+        if( !self.ronin.get( 'got' )){
+            const id = FlowRouter.getQueryParam( 'id' );
+            if( id ){
+                const item = Articles.findOne({ _id:id });
+                if( item ){
+                    self.ronin.set( 'item', item );
+                    self.ronin.set( 'got', true );
+                }
+            } else {
+                self.ronin.set( 'got', true );
+            }
+        }
+    });
+
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
-            const label = Template.thoughtEdit.fn.okLabel();
+            const label = fn.okLabel();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
                 simone: {
@@ -78,14 +107,14 @@ Template.thoughtEdit.onRendered( function(){
                         {
                             text: "Cancel",
                             click: function(){
-                                Template.thoughtEdit.fn.actionClose();
+                                fn.actionClose();
                             }
                         },
                         {
                             text: label,
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.thought.update', {
-                                    orig: Session.get( 'collect.thought' ),
+                                    orig: self.ronin.get( 'item' ),
                                     edit: Template.thought_panel.fn.getContent()
                                 });
                             }
@@ -112,8 +141,14 @@ Template.thoughtEdit.helpers({
     okLabel(){
         return Template.thoughtEdit.fn.okLabel();
     },
+    thought(){
+        const self = Template.instance();
+        return self.ronin.get( 'item' );
+    },
     title(){
-        const title = Session.get( 'collect.thought' ) ? 'Edit thought' : 'New thought';
+        const self = Template.instance();
+        const item = self.ronin.get( 'item' );
+        const title = item ? 'Edit thought' : 'New thought';
         Session.set( 'header.title', title );
         return title;
     }
@@ -128,7 +163,7 @@ Template.thoughtEdit.events({
     // wsf_collapse_buttons ok button
     'click .js-ok': function( ev, instance ){
         $.pubsub.publish( 'ronin.model.thought.update', {
-            orig: Session.get( 'collect.thought' ),
+            orig: instance.ronin.get( 'item' ),
             edit: Template.thought_panel.fn.getContent()
         });
         return false;

@@ -8,6 +8,7 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/action_button/action_button.js';
 import '/imports/client/components/delete_button/delete_button.js';
+import '/imports/client/components/edit_button/edit_button.js';
 import '/imports/client/components/maybe_button/maybe_button.js';
 import '/imports/client/components/ownership_button/ownership_button.js';
 import '/imports/client/components/project_button/project_button.js';

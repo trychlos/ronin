@@ -6,6 +6,7 @@
  *  - action: the action to be edited.
  */
 import '/imports/client/components/delete_button/delete_button.js';
+import '/imports/client/components/edit_button/edit_button.js';
 import '/imports/client/components/ownership_button/ownership_button.js';
 import '/imports/client/components/project_button/project_button.js';
 import './actions_list_card.html';
@@ -22,12 +23,6 @@ Template.actions_list_card.helpers({
 });
 
 Template.actions_list_card.events({
-    'click .js-edit'( ev, instance ){
-        //console.log( instance.data.action );
-        g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'action.edit', null, { id:instance.data.action._id });
-        return false;
-    },
     'click .js-done'( ev, instance ){
         $.pubsub.publish( 'ronin.model.action.done.toggle', { action: instance.data.action });
         return false;
