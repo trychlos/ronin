@@ -5,7 +5,10 @@
  *
  *  Parameters:
  *  - label: the label to be displayed as the root node
- *  - tab: the identifier of the created instance (may not be the one currently shown).
+ *  - tab: the identifier of the created instance (may not be the one currently shown),
+ *  - projects: the projects cursor,
+ *  - actions: the actions cursor,
+ *  - counters: the counters cursor.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Counters } from '/imports/api/collections/counters/counters.js';
@@ -22,7 +25,8 @@ Template.projects_tree.fn = {
         counters_got:   2,
         projects_shown: 3,
         actions_shown:  4,
-        expanded:       5
+        expanded:       5,
+        ended:          9
     },
     // context menu
     //  note that this context menu is not available in a touchable device
@@ -109,6 +113,7 @@ Template.projects_tree.fn = {
     },
 
     // low-level tree functions
+    // returns the node
     _llt_addNode: function( $tree, node ){
         const fn = Template.projects_tree.fn;
         if( fn.nodeIsRoot( node )){
@@ -203,6 +208,7 @@ Template.projects_tree.fn = {
     },
 
     // add actions in each tab
+    //  all actions with a parent are passed to projects tab - orphan actions are not detected
     addActions: function( $tree, order, fetched ){
         const tab = $tree.data( 'tab' );
         fetched.forEach( it => {
@@ -247,6 +253,7 @@ Template.projects_tree.fn = {
     //  note that even if an order has been initially retrieved, fetched must still
     //  be explored for new items
     addProjects: function( $tree, order, future, fetched ){
+        //console.log( $tree.tree( 'getNodeById', 'root' ));
         const fn = Template.projects_tree.fn;
         if( order ){
             order.forEach( it => {
@@ -259,6 +266,7 @@ Template.projects_tree.fn = {
     },
     // add a project node
     _addProjectNode: function( $tree, future, project, prefix ){
+        const fn = Template.projects_tree.fn;
         if( project && ( future ? project.future : !project.future )){
             if( !$tree.tree( 'getNodeById', project._id )){
                 let node = {
@@ -268,7 +276,7 @@ Template.projects_tree.fn = {
                     obj: project
                 };
                 //console.log( prefix+' adding '+node.obj.type+' '+node.obj.name+' future='+future );
-                Template.projects_tree.fn._llt_addNode( $tree, node );
+                fn._llt_addNode( $tree, node );
             }
         }
     },
@@ -421,77 +429,66 @@ Template.projects_tree.fn = {
 };
 
 // each tab will have have more or less the same things to do, whether it displays
-//  mainly actions or projects - so each tab has to subscribe to both actions and
-//  projects
+//  mainly actions or projects - so each tab has to deal with both actions and
+//  projects subscriptions
 Template.projects_tree.onCreated( function(){
-    const tab = this.data.tab;
-    if( tab ){
-        this.ronin = new ReactiveDict();
-        this.ronin.set( 'tab', tab );
-        this.ronin.set( 'order', null );
-        this.ronin.set( 'step', 0 );
-        this.ronin.set( 'userId', Meteor.userId());
-        this.ronin_handles = {
-            actions: this.subscribe( 'articles.actions.all' ),
+    this.ronin = {
+        tab: this.data.tab,
+        dict: new ReactiveDict(),
+        handles: {
             counters: this.subscribe( 'counters.all' ),
-            projects: this.subscribe( 'articles.projects.all' )
-        };
-    }
+            projects: this.subscribe( 'articles.projects.all' ),
+            actions: this.subscribe( 'articles.actions.all' )
+        }
+    };
+    this.ronin.dict.set( 'order', null );
+    this.ronin.dict.set( 'step', 0 );
+    this.ronin.dict.set( 'userId', Meteor.userId());
 });
 
 // the instance is rendered
-//  we have tab from data context already stored in our reactive dict
+//  we have tab from data context already stored in our object
 Template.projects_tree.onRendered( function(){
     const fn = Template.projects_tree.fn;
-    const tab = this.data.tab;
     const self = this;
-    let $tree = null;
 
     // create the tree for this tab and display the root node
     //  identifies in each tree to which tab it is attached
-    if( tab === this.ronin.get( 'tab' )){
-        // create the tree
-        //  install the root node
-        //  install the context menu
-        $tree = this.$( '.projects-tree .tree' );
-        fn._llt_createTree( $tree, tab );
-        fn._llt_setRoot( $tree, this.data.label );
-        fn._cm_createMenu( $tree, tab );
-        this.ronin.set( 'step', fn.steps.tree_built );
+    const $tree = this.$( '.projects-tree .tree' );
+    fn._llt_createTree( $tree, this.ronin.tab );
+    fn._llt_setRoot( $tree, this.data.label );
+    fn._cm_createMenu( $tree, this.ronin.tab );
+    this.ronin.dict.set( 'step', fn.steps.tree_built );
 
-        // display done defaults to true
-        this.$('.js-done').prop('checked', true );
-    }
+    // display done defaults to true
+    this.$('.js-done').prop( 'checked', true );
 
     // get the initial tree ordering when counters are here
     //  this is a prereq to be able to display projects and actions
     this.autorun(() => {
-        const step = self.ronin.get( 'step' );
-        if( step >= fn.steps.tree_built && step < fn.steps.counters_got && self.ronin_handles.counters.ready()){
-            Meteor.call( 'counters.getValue', 'tree_'+tab, ( e, res ) => {
-                if( res ){
-                    self.ronin.set( 'order', JSON.parse( res ));
-                }
-            });
-            self.ronin.set( 'step', fn.steps.counters_got );
+        const step = self.ronin.dict.get( 'step' );
+        if( step >= fn.steps.tree_built && step < fn.steps.counters_got && self.ronin.handles.counters.ready()){
+            const counters = Counters.findOne({ name:'tree-'+self.ronin.tab });
+            self.ronin.dict.set( 'order', counters ? JSON.parse( counters.value ) : null );
+            self.ronin.dict.set( 'step', fn.steps.counters_got );
         }
     });
 
-    // display projects when they are available
+    // display projects from the passed-in cursor
     //  this requires a built tree, and the display ordering from counters
     this.autorun(() => {
-        const step = self.ronin.get( 'step' );
+        const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.counters_got && step < fn.steps.projects_shown ){
-            if( tab === 'actions-list' ){
-                self.ronin.set( 'step', fn.steps.projects_shown ); // nothing to do here
+            if( self.ronin.tab === 'actions-list' ){
+                self.ronin.dict.set( 'step', fn.steps.projects_shown ); // nothing to do here
             } else {
-                if( self.ronin_handles.projects.ready()){
-                    const ordering = self.ronin.get( 'order' ); // may be empty
-                    const future = ( tab === 'projects-future' );
+                if( self.ronin.handles.projects.ready()){
+                    const ordering = self.ronin.dict.get( 'order' ); // may be empty
+                    const future = ( self.ronin.tab === 'projects-future' );
                     let filter = { type:'P' };
-                    filter.future = future ? true : { $ne:true };
+                    filter.future = future ? true : { $ne: true };
                     fn.addProjects( $tree, ordering, future, Articles.find( filter ).fetch());
-                    self.ronin.set( 'step', fn.steps.projects_shown );
+                    self.ronin.dict.set( 'step', fn.steps.projects_shown );
                 }
             }
         }
@@ -500,30 +497,41 @@ Template.projects_tree.onRendered( function(){
     // display actions when they are available and the projects have been shown
     //  projects having been shown implies that other prereqs are ok
     this.autorun(() => {
-        const step = self.ronin.get( 'step' );
-        if( step >= fn.steps.projects_shown && step < fn.steps.actions_shown && self.ronin_handles.actions.ready()){
-            const ordering = self.ronin.get( 'order' ); // may befn.steps.actions_shown empty
-            fn.addActions( $tree, ordering, Articles.find({ type:'A' }).fetch());
-            self.ronin.set( 'step', fn.steps.actions_shown );
+        const step = self.ronin.dict.get( 'step' );
+        if( step >= fn.steps.projects_shown && step < fn.steps.actions_shown && self.ronin.handles.actions.ready()){
+            const ordering = self.ronin.dict.get( 'order' ); // may be empty
+            let filter = { type:'A' };
+            filter.parent = self.ronin.tab === 'actions-list' ? null : { $ne:null };
+            fn.addActions( $tree, ordering, Articles.find( filter ).fetch());
+            self.ronin.dict.set( 'step', fn.steps.actions_shown );
         }
     });
 
     // expand the tree at the end
     this.autorun(() => {
-        const step = self.ronin.get( 'step' );
+        const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.actions_shown && step < fn.steps.expanded ){
             fn.expandAll( $tree );
-            self.ronin.set( 'step', fn.steps.expanded );
+            self.ronin.dict.set( 'step', fn.steps.expanded );
+        }
+    });
+
+    // send the termination message
+    this.autorun(() => {
+        const step = self.ronin.dict.get( 'step' );
+        if( step >= fn.steps.expanded && step < fn.steps.ended ){
+            $tree.trigger( 'projects-tree-built', self.ronin.tab );
+            self.ronin.dict.set( 'step', fn.steps.ended );
         }
     });
 
     // rebuild the tree on signin/signout
     this.autorun(() => {
         const current = Meteor.userId();
-        if( current !== self.ronin.get( 'userId' )){
-            self.ronin.set( 'userId', current );
-            Template.projects_tree.fn._llt_empty( $tree );
-            self.ronin.set( 'step', fn.steps.tree_built );
+        if( current !== self.ronin.dict.get( 'userId' )){
+            self.ronin.dict.set( 'userId', current );
+            fn._llt_empty( $tree );
+            self.ronin.dict.set( 'step', fn.steps.tree_built );
         }
     });
 
@@ -538,15 +546,15 @@ Template.projects_tree.onRendered( function(){
             if((( o.edit.type === 'A' || o.edit.type === 'P' ) && ( o.orig.parent !== o.edit.parent )) ||
                 ( o.edit.type === 'P' && o.orig.future !== o.edit.future )){
 
-                Template.projects_tree.fn._llt_empty( $tree );
-                self.ronin.set( 'step', fn.steps.tree_built );
+                fn._llt_empty( $tree );
+                self.ronin.dict.set( 'step', fn.steps.tree_built );
             }
         }
     });
     $.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
         if( $tree ){
-            Template.projects_tree.fn._llt_empty( $tree );
-            self.ronin.set( 'step', fn.steps.tree_built );
+            fn._llt_empty( $tree );
+            self.ronin.dict.set( 'step', fn.steps.tree_built );
         }
     });
 });
@@ -601,7 +609,7 @@ Template.projects_tree.events({
         const $tree = $( ev.target );
         const tab = $tree.data( 'tab' );
         const json = Template.projects_tree.fn.jsonFilter( $tree.tree( 'toJson' ));
-        Meteor.call( 'counters.setValue', 'tree_'+tab, json, ( e ) => {
+        Meteor.call( 'counters.setValue', 'tree-'+tab, json, ( e ) => {
             if( e ){
                 throwError({ message: e.message });
                 return false;

@@ -157,7 +157,11 @@
 
   177 2020- 2-29 project delete seems to not work + re-attach children
 
-  178
+  178 2020- 3- 1 tabbed windows (actions/projects) are not reflected in the route
+
+  179 2020- 3- 1 thoughtsList spinner: should be attached to the widget
+
+  180
 
 ==============================================================================
  Done

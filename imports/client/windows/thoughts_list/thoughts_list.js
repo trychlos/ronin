@@ -26,6 +26,7 @@
  *  Parameters:
  *  - 'data': the layout context built in appLayout, and passed in by group layer.
  */
+import { Spinner } from 'spin.js';
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
@@ -43,12 +44,26 @@ Template.thoughtsList.fn = {
 
 Template.thoughtsList.onCreated( function(){
     //console.log( 'thoughtsList.onCreated' );
-    this.subscribe( 'articles.thoughts.all' );
-    this.subscribe( 'topics.all' );
+    this.ronin = {
+        dict: new ReactiveDict(),
+        handles: [
+            this.subscribe( 'articles.thoughts.all' ),
+            this.subscribe( 'topics.all' )
+        ],
+        spinner: null
+    };
+    this.ronin.dict.set( 'subscriptions_ready', false );
 });
 
 Template.thoughtsList.onRendered( function(){
     //console.log( 'thoughtsList.onRendered' );
+    const self = this;
+
+    // create a new spinner, attaching it to the document, and starting it
+    //self.ronin.spinner = new Spinner().spin( document.getElementsByClassName( 'thoughtsList' )[0] );
+    self.ronin.spinner = new Spinner().spin( document.getElementsByTagName( 'body' )[0] );
+
+    // create the window
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
@@ -76,6 +91,22 @@ Template.thoughtsList.onRendered( function(){
             });
         }
     });
+
+    // wait for subscriptions are ready
+    this.autorun(() => {
+        let ready = true;
+        self.ronin.handles.forEach( h => {
+            ready = ready && h.ready();
+        });
+        self.ronin.dict.set( 'subscriptions_ready', ready );
+    });
+
+    // stop the spinner when subscriptions are ready
+    this.autorun(() => {
+        if( self.ronin.dict.get( 'subscriptions_ready' )){
+            self.ronin.spinner.stop();
+        }
+    });
 });
 
 Template.thoughtsList.helpers({
@@ -93,8 +124,4 @@ Template.thoughtsList.events({
         Template.thoughtsList.fn.actionNew();
         return false;
     }
-});
-
-Template.thoughtsList.onDestroyed( function(){
-    //console.log( 'thoughtsList.onDestroyed' );
 });

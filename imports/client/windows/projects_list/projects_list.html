@@ -1,12 +1,6 @@
 <template name="projectsList">
     <div class="projectsList wsf-parent ronin-window">
 
-        {{#if isDesktopLayout}}
-            <div class="edit">
-                {{> project_panel }}
-            </div>
-        {{/if}}
-
         {{> projects_tabs }}
 
         {{#if isPageLayout}}
