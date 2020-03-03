@@ -72,10 +72,16 @@ _ret=$?
     execcmd "jarsigner -storepass abcdef -keystore ${projectdir}/.keystore -verbose -sigalg SHA1withRSA -digestalg SHA1 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ronin.trychlos.org" &&
     execcmd "${HOME}/data/Android/Sdk/build-tools/29.0.2/zipalign 4 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ${apk}" &&
     echo "APK prepared as ${apk}"
+_ret=$?
 
 # on successful release, commit the new mobile configuration
-execcmd "git add ${projectdir}/mobile-config.js ${projectdir}/private/config/public/version.json" &&
-echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to integration platforms'" &&
-git commit -m "Deploy v${version} to integration platforms" &&
-echo "$(date '+%Y%m%d-%H%M%S') git tag -am 'Releasing v${version}' ${version}" &&
-git tag -am "Releasing v${version}" ${version}
+[ $_ret -eq 0 ] &&
+	execcmd "git add ${projectdir}/mobile-config.js ${projectdir}/private/config/public/version.json" &&
+	echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to integration platforms'" &&
+	git commit -m "Deploy v${version} to integration platforms" &&
+	echo "$(date '+%Y%m%d-%H%M%S') git tag -am 'Releasing v${version}' ${version}" &&
+	git tag -am "Releasing v${version}" ${version}
+_ret=$?
+
+exit ${_ret}
+
