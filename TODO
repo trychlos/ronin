@@ -159,8 +159,6 @@
 
   178 2020- 3- 1 tabbed windows (actions/projects) are not reflected in the route
 
-  179 2020- 3- 1 thoughtsList spinner: should be attached to the widget
-
   180
 
 ==============================================================================
@@ -616,6 +614,9 @@
 
   175 2020- 2-27 have maybe_button (thoughts_list_card)
       2020- 2-29 done
+
+  179 2020- 3- 1 thoughtsList spinner: should be attached to the widget
+      2020- 3- 3 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

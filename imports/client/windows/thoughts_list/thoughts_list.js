@@ -52,16 +52,13 @@ Template.thoughtsList.onCreated( function(){
         ],
         spinner: null
     };
+    this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
     this.ronin.dict.set( 'subscriptions_ready', false );
 });
 
 Template.thoughtsList.onRendered( function(){
     //console.log( 'thoughtsList.onRendered' );
     const self = this;
-
-    // create a new spinner, attaching it to the document, and starting it
-    //self.ronin.spinner = new Spinner().spin( document.getElementsByClassName( 'thoughtsList' )[0] );
-    self.ronin.spinner = new Spinner().spin( document.getElementsByTagName( 'body' )[0] );
 
     // create the window
     this.autorun(() => {
@@ -89,6 +86,22 @@ Template.thoughtsList.onRendered( function(){
                     title:  gtd.labelId( null, context.gtdid )
                 }
             });
+            self.ronin.dict.set( 'window_ready', true );
+        }
+    });
+
+    // create a new spinner as soon as the window is ready
+    this.autorun(() => {
+        if( self.ronin.dict.get( 'window_ready' )){
+            let $parent = null;
+            if( g.run.layout.get() === LYT_PAGE ){
+                $parent = $( '.thoughtsList' );
+            } else {
+                $parent = $( '.thoughtsList' ).window( 'widget' );
+            }
+            if( $parent ){
+                self.ronin.spinner = new Spinner().spin( $parent[0] );
+            }
         }
     });
 
@@ -103,7 +116,7 @@ Template.thoughtsList.onRendered( function(){
 
     // stop the spinner when subscriptions are ready
     this.autorun(() => {
-        if( self.ronin.dict.get( 'subscriptions_ready' )){
+        if( self.ronin.dict.get( 'subscriptions_ready' ) && self.ronin.spinner ){
             self.ronin.spinner.stop();
         }
     });
