@@ -68,7 +68,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
             //  in the handler, this is the attached dom element
             $( this.dom ).on( 'tabsactivate', this, function( ev, ui ){
                 const route = $( ui.newTab ).attr( 'data-ronin-itb-route' );
-                $( ui.newTab ).IWindowed.setRoute( route );
+                $( this.dom ).IWindowed.setRoute( ui.newTab, route );
             });
             //console.log( $( this.dom ));
         },

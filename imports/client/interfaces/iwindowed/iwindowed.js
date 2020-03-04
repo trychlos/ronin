@@ -423,13 +423,14 @@
     //  attribute for this window
     //  Args:
     //  - route name
-    $.fn[pluginName].setRoute = ( route ) => {
-        //console.log( this );
+    $.fn[pluginName].setRoute = ( selector, route ) => {
+        //console.log( this ); // undefined
         //console.log( myPlugin );
         if( !route || typeof route !== 'string' ){
             console.log( 'setRoute() expects the route name as single argument, "'+route+'" found' );
         } else {
-            const list = $( this ).parents( '[data-ronin-iwm-route]' );
+            //console.log( 'setRoute '+route );
+            const list = $( selector ).parents( '.ronin-iwm-window' );
             if( list && list[0] ){
                 $( list[0] ).attr( 'data-ronin-iwm-route', route );
                 FlowRouter.go( route );

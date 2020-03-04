@@ -178,14 +178,12 @@ FlowRouter.route('/projects/future', {
 FlowRouter.route('/projects/new', {
     name: 'project.new',
     action(){
-        Session.set( 'projects.tab.name', 'projects' );
         blazeRender( this.name );
     },
 });
 FlowRouter.route('/projects/edit', {
     name: 'project.edit',
     action(){
-        Session.set( 'projects.tab.name', 'projects' );
         blazeRender( this.name );
     },
 });

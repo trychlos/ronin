@@ -157,8 +157,6 @@
 
   177 2020- 2-29 project delete seems to not work + re-attach children
 
-  178 2020- 3- 1 tabbed windows (actions/projects) are not reflected in the route
-
   180
 
 ==============================================================================
@@ -614,6 +612,9 @@
 
   175 2020- 2-27 have maybe_button (thoughts_list_card)
       2020- 2-29 done
+
+  178 2020- 3- 1 tabbed windows (actions/projects) are not reflected in the route
+      2020- 3- 4 fixed
 
   179 2020- 3- 1 thoughtsList spinner: should be attached to the widget
       2020- 3- 3 done
