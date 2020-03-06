@@ -62,6 +62,8 @@ g = {
         mobile: Meteor.isCordova,
         layout: new ReactiveVar( null ),
         resize: new ReactiveVar( null ),
+        width: new ReactiveVar( $( window ).width()),
+        height: new ReactiveVar( $( window ).height()),
         back: null
     }
 };

@@ -449,6 +449,7 @@ Template.projects_tree.onCreated( function(){
 // the instance is rendered
 //  we have tab from data context already stored in our object
 Template.projects_tree.onRendered( function(){
+    //console.log( 'projects_tree.onRendered '+this.data.tab );
     const fn = Template.projects_tree.fn;
     const self = this;
 

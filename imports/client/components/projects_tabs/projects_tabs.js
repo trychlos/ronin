@@ -16,6 +16,13 @@ import '/imports/client/components/projects_tree/projects_tree.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './projects_tabs.html';
 
+Template.projects_tabs.fn = {
+    alwaysVisible: [
+        'gtd-review-projects-current',
+        'gtd-review-projects-future'
+    ]
+};
+
 Template.projects_tabs.onCreated( function(){
     this.ronin = {
         dict:  new ReactiveDict(),
@@ -43,6 +50,18 @@ Template.projects_tabs.helpers({
     gtdRoute( item ){
         return gtd.routeItem( 'projects', item );
     },
+    // class helper
+    // limiting to two tabs in pageLayout if width < 480
+    isVisible( item ){
+        let visible = '';
+        if( g.run.layout.get() === LYT_PAGE && g.run.width.get() < 480 ){
+            const fn = Template.projects_tabs.fn;
+            if( !fn.alwaysVisible.includes( item.id )){
+                visible = 'x-hidden';
+            }
+        }
+        return visible;
+    }
 });
 
 Template.projects_tabs.events({

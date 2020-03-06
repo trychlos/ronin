@@ -3,13 +3,13 @@
         <div class="projects-tabbed">
             <ul>
                 {{#each it in gtdItems}}
-                    <li data-itabbed="{{ it.id }}" data-ronin-itb-route="{{ gtdRoute it }}">
+                    <li data-itabbed="{{ it.id }}" data-ronin-itb-route="{{ gtdRoute it }}" class="{{isVisible it}}">
                         <a href="#{{ it.id }}">{{ gtdLabel it }}</a>
                     </li>
                 {{/each}}
             </ul>
             {{#each it in gtdItems}}
-                <div id="{{ it.id }}">
+                <div id="{{ it.id }}" class="{{isVisible it}}">
                     {{> projects_tree tab=it.id label=(gtdLabel it) }}
                 </div>
             {{/each}}

@@ -176,6 +176,7 @@ FlowRouter.route('/actions/thought', {
 FlowRouter.route('/projects', {
     name: 'rt.projects',
     action(){
+        Session.set( 'page.group', 'gtd-review-projects' );
         if( !Session.get( 'projects.tab.name' )){
             Session.set( 'projects.tab.name', 'gtd-review-projects-current' );
         }
@@ -218,6 +219,7 @@ FlowRouter.route('/projects/edit', {
 FlowRouter.route('/actions', {
     name: 'rt.actions',
     action(){
+        Session.set( 'page.group', 'gtd-review-actions' );
         if( !Session.get( 'actions.tab.name' )){
             Session.set( 'actions.tab.name', 'gtd-review-actions-inactive' );
         }

@@ -67,14 +67,18 @@ Template.appLayout.fn = {
             }
         }
         return res;
+    },
+    updateSize(){
+        g.run.resize.set( new Date());
+        g.run.width.set( $( window ).width());
+        g.run.height.set( $( window ).height());
     }
 };
 
 Template.appLayout.onCreated( function(){
     //console.log( 'appLayout.onCreated' );
-    window.addEventListener( 'resize', function(){
-        g.run.resize.set( new Date());
-    });
+    const fn = Template.appLayout.fn;
+    window.addEventListener( 'resize', fn.updateSize );
 });
 
 /*
