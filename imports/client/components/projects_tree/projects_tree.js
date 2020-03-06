@@ -103,10 +103,10 @@ Template.projects_tree.fn = {
             g.run.back = FlowRouter.current().route.name;
             switch( node.obj.type ){
                 case 'A':
-                    FlowRouter.go( 'action.edit', null, { id:node.obj._id });
+                    FlowRouter.go( 'rt.actions.edit', null, { id:node.obj._id });
                     break;
                 case 'P':
-                    FlowRouter.go( 'project.edit', null, { id:node.obj._id });
+                    FlowRouter.go( 'rt.projects.edit', null, { id:node.obj._id });
                     break;
             }
         }
@@ -219,7 +219,7 @@ Template.projects_tree.fn = {
                 obj: it
             }
             // on projects tab, attach to each project their relative actions
-            if( tab === 'projects-list' ){
+            if( tab === 'gtd-review-projects-current' ){
                 if( it.parent ){
                     const p = Articles.findOne({ _id:it.parent, type:'P' });
                     if( p && !p.future ){
@@ -229,13 +229,13 @@ Template.projects_tree.fn = {
                     }
                 }
             // on actions tab, display actions without a project
-            } else if( tab === 'actions-list' ){
+            } else if( tab === 'gtd-review-projects-single' ){
                 if( !it.parent ){
                     const added = Template.projects_tree.fn._llt_addNode( $tree, node );
                     Template.projects_tree.fn.setActivable( $tree, added );
                 }
             // last display on future tab the actions attached to a future project
-            } else if( tab === 'projects-future' ){
+            } else if( tab === 'gtd-review-projects-future' ){
                 if( it.parent ){
                     const p = Articles.findOne({ _id:it.project, type:'P' });
                     if( p && p.future ){
@@ -479,12 +479,12 @@ Template.projects_tree.onRendered( function(){
     this.autorun(() => {
         const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.counters_got && step < fn.steps.projects_shown ){
-            if( self.ronin.tab === 'actions-list' ){
+            if( self.ronin.tab === 'gtd-review-projects-single' ){
                 self.ronin.dict.set( 'step', fn.steps.projects_shown ); // nothing to do here
             } else {
                 if( self.ronin.handles.projects.ready()){
                     const ordering = self.ronin.dict.get( 'order' ); // may be empty
-                    const future = ( self.ronin.tab === 'projects-future' );
+                    const future = ( self.ronin.tab === 'gtd-review-projects-future' );
                     let filter = { type:'P' };
                     filter.future = future ? true : { $ne: true };
                     fn.addProjects( $tree, ordering, future, Articles.find( filter ).fetch());
@@ -501,7 +501,7 @@ Template.projects_tree.onRendered( function(){
         if( step >= fn.steps.projects_shown && step < fn.steps.actions_shown && self.ronin.handles.actions.ready()){
             const ordering = self.ronin.dict.get( 'order' ); // may be empty
             let filter = { type:'A' };
-            filter.parent = self.ronin.tab === 'actions-list' ? null : { $ne:null };
+            filter.parent = self.ronin.tab === 'gtd-review-projects-single' ? null : { $ne:null };
             fn.addActions( $tree, ordering, Articles.find( filter ).fetch());
             self.ronin.dict.set( 'step', fn.steps.actions_shown );
         }

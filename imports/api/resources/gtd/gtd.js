@@ -44,22 +44,19 @@
  *  NB: see https://stackoverflow.com/questions/33611812/export-const-vs-export-default-in-es6
  *
  *  Session variables:
- *  - 'gtd.page': in page-based layout, we require to always have an active item
+ *  - 'page.group': in page-based layout, we require to always have an active item
  *      in the footer navigation bar;
  *      so keep here a GTD item identifier to which we can tie the current active item;
- *      defaults to 'thoughts-list'.
+ *      defaults to 'gtd-collect-thoughts-list'.
  */
 export const gtd = {
     features: function(){
         return [
             {
-                id: 'home',
+                id: 'gtd-home',
                 label: 'Home',
-                route: 'home',
+                route: 'rt.home',
                 navs: {
-                    header: {
-                        display: true
-                    },
                     side: {
                         display: true,
                         label: 'Overview'
@@ -240,7 +237,7 @@ export const gtd = {
              *          collection; this one is labelled 'Thoughts'
              */
             {
-                id: 'collect-group',
+                id: 'gtd-collect-group',
                 label: 'Collect',
                 group: 'collectGroup',
                 navs: {
@@ -254,31 +251,15 @@ export const gtd = {
                 },
                 children: [
                     {
-                        id: 'thought-new',
-                        label: 'Insert thoughts',
-                        route: 'collect.new',
-                        template: 'thoughtEdit',
-                    },
-                    {
-                        id: 'thought-edit',
-                        label: 'Edit thought',
-                        route: 'thought.edit',
-                        template: 'thoughtEdit',
-                    },
-                    {
-                        id: 'thoughts-list',
+                        id: 'gtd-collect-thoughts-list',
                         label: 'Collect thoughts',
-                        route: 'collect.list',
+                        route: 'rt.thoughts.list',
                         template: 'thoughtsList',
                         navs: {
                             footer: {
                                 display: true,
                                 label: 'Thoughts',
                                 sort: 2
-                            },
-                            header: {
-                                display: true,
-                                label: 'Collect'
                             },
                             overview: {
                                 display: true
@@ -287,6 +268,18 @@ export const gtd = {
                                 display: true
                             }
                         }
+                    },
+                    {
+                        id: 'gtd-collect-thoughts-edit',
+                        label: 'Edit thought',
+                        route: 'rt.thoughts.edit',
+                        template: 'thoughtEdit',
+                    },
+                    {
+                        id: 'gtd-collect-thoughts-new',
+                        label: 'Insert thoughts',
+                        route: 'rt.thoughts.new',
+                        template: 'thoughtEdit',
                     }
                 ]
             },
@@ -295,13 +288,10 @@ export const gtd = {
              *  NB: in page-based layout, some items are attached to the collect group.
              */
             {
-                id: 'process-group',
+                id: 'gtd-process-group',
                 label: 'Process',
                 group: 'processGroup',
                 navs: {
-                    header: {
-                        display: true
-                    },
                     overview: {
                         display: true,
                         sublabel: 'What is it? Is it actionable?'
@@ -312,7 +302,7 @@ export const gtd = {
                 },
                 children: [
                     {
-                        id: 'process-thoughts',
+                        id: 'gtd-process-thoughts',
                         label: 'Process thoughts',
                         navs: {
                             overview: {
@@ -321,7 +311,29 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'maybe',
+                        id: 'gtd-process-project-new',
+                        label: 'New project',
+                        template: 'projectEdit',
+                        route: 'rt.projects.new',
+                        navs: {
+                            side: {
+                                display: true
+                            }
+                        }
+                    },
+                    {
+                        id: 'gtd-process-action-new',
+                        label: 'New action',
+                        template: 'actionEdit',
+                        route: 'rt.actions.new',
+                        navs: {
+                            side: {
+                                display: true
+                            }
+                        }
+                    },
+                    {
+                        id: 'gtd-process-maybe-new',
                         label: 'Someday / Maybe',
                         navs: {
                             overview: {
@@ -333,44 +345,26 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'thought-project',
+                        id: 'gtd-process-thought-project',
                         label: 'Transform into a project',
-                        route: 'process.project',
+                        route: 'rt.projects.thought',
                         template: 'projectEdit',
                         group: {
                             pageLayout: 'collectGroup'
                         }
                     },
                     {
-                        id: 'project-new',
-                        label: 'New project',
-                        navs: {
-                            side: {
-                                display: true
-                            }
-                        },
-                        template: 'projectEdit',
-                        route: 'project.new'
-                    },
-                    {
-                        id: 'thought-action',
+                        id: 'gtd-process-thought-action',
                         label: 'Transform into an action',
-                        route: 'process.action',
+                        route: 'rt.actions.thought',
                         template: 'actionEdit',
                         group: {
                             pageLayout: 'collectGroup'
                         }
                     },
                     {
-                        id: 'action-new',
-                        label: 'New action',
-                        navs: {
-                            side: {
-                                display: true
-                            }
-                        },
-                        template: 'actionEdit',
-                        route: 'action.new'
+                        id: 'gtd-process-thought-maybe',
+                        label: 'Transform into someday/maybe',
                     }
                 ]
             },
@@ -378,7 +372,7 @@ export const gtd = {
              *  Review features group
              */
             {
-                id: 'review-group',
+                id: 'gtd-review-group',
                 label: 'Review',
                 group: 'reviewGroup',
                 sublabel: [
@@ -395,18 +389,31 @@ export const gtd = {
                 },
                 children: [
                     {
-                        id: 'projects-list',
+                        id: 'gtd-review-projects',
                         label: 'Projects',
-                        route: 'review.projects',
+                        route: 'rt.projects',
                         template: 'projectsList',
                         navs: {
-                            header: {
-                                display: true
-                            },
                             footer: {
                                 display: true,
                                 sort: 4
                             },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            window: {
+                                label: 'Review projects'
+                            }
+                        }
+                    },
+                    {
+                        id: 'gtd-review-projects-current',
+                        label: 'Current projects',
+                        route: 'rt.projects.current',
+                        template: 'projectsList',
+                        navs: {
                             overview: {
                                 display: true
                             },
@@ -418,20 +425,35 @@ export const gtd = {
                             projects: {
                                 display: true,
                                 sort: 1
-                            },
-                            window: {
-                                label: 'Review projects'
                             }
                         }
                     },
                     {
-                        id: 'projects-future',
-                        label: 'Future projects',
-                        route: 'review.future',
+                        id: 'gtd-review-projects-single',
+                        label: 'Single actions',
+                        route: 'rt.projects.single',
+                        template: 'projectsList',
                         navs: {
-                            header: {
+                            overview: {
                                 display: true
                             },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            projects: {
+                                display: true,
+                                sort: 2
+                            }
+                        }
+                    },
+                    {
+                        id: 'gtd-review-projects-future',
+                        label: 'Future projects',
+                        route: 'rt.projects.future',
+                        template: 'projectsList',
+                        navs: {
                             overview: {
                                 display: true
                             },
@@ -447,52 +469,39 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'project-edit',
+                        id: 'gtd-review-projects-edit',
                         label: 'Edit project',
                         template: 'projectEdit',
                         multiple: true,
-                        route: 'project.edit'
+                        route: 'rt.projects.edit'
                     },
                     {
-                        id: 'actions-list',
+                        id: 'gtd-review-actions',
                         label: 'Actions',
-                        route: 'review.actions',
+                        route: 'rt.actions',
                         template: 'actionsList',
                         navs: {
                             footer: {
-                                label: 'Actions',
                                 display: true,
                                 sort: 3
-                            },
-                            header: {
-                                display: true
                             },
                             side: {
                                 display: true
                             }
                         },
                         tabs: {
-                            projects: {
-                                display: {
-                                    windowLayout: true
-                                },
-                                label: 'Single actions',
-                                sort: 2
-                            },
                             window: {
                                 label: 'Review actions'
                             }
                         }
                     },
                     {
-                        id: 'actions-inactive',
+                        id: 'gtd-review-actions-inactive',
                         label: 'Inactive',
-                        route: 'review.inactive',
+                        route: 'rt.actions.inactive',
+                        template: 'actionsList',
                         status: 'ina',
                         navs: {
-                            header: {
-                                display: true
-                            },
                             overview: {
                                 display: true
                             },
@@ -507,14 +516,12 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'actions-asap',
+                        id: 'gtd-review-actions-asap',
                         label: 'Do ASAP',
-                        route: 'review.asap',
+                        route: 'rt.actions.asap',
+                        template: 'actionsList',
                         status: 'asa',
                         navs: {
-                            header: {
-                                display: true
-                            },
                             overview: {
                                 display: true
                             },
@@ -529,36 +536,12 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'actions-scheduled',
-                        label: 'Scheduled',
-                        route: 'review.scheduled',
-                        status: 'sch',
-                        navs: {
-                            header: {
-                                display: true
-                            },
-                            overview: {
-                                display: true
-                            },
-                            side: {
-                                display: true
-                            }
-                        },
-                        tabs: {
-                            actions: {
-                                display: true
-                            }
-                        }
-                    },
-                    {
-                        id: 'actions-delegated',
+                        id: 'gtd-review-actions-delegated',
                         label: 'Delegated',
-                        route: 'review.delegated',
+                        route: 'rt.actions.delegated',
+                        template: 'actionsList',
                         status: 'del',
                         navs: {
-                            header: {
-                                display: true
-                            },
                             overview: {
                                 display: true
                             },
@@ -573,14 +556,32 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'actions-wait',
+                        id: 'gtd-review-actions-scheduled',
+                        label: 'Scheduled',
+                        route: 'rt.actions.scheduled',
+                        template: 'actionsList',
+                        status: 'sch',
+                        navs: {
+                            overview: {
+                                display: true
+                            },
+                            side: {
+                                display: true
+                            }
+                        },
+                        tabs: {
+                            actions: {
+                                display: true
+                            }
+                        }
+                    },
+                    {
+                        id: 'gtd-review-actions-wait',
                         label: 'Waiting',
-                        route: 'review.waiting',
+                        route: 'rt.actions.waiting',
+                        template: 'actionsList',
                         status: 'wai',
                         navs: {
-                            header: {
-                                display: true
-                            },
                             overview: {
                                 display: true
                             },
@@ -595,14 +596,12 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'actions-done',
+                        id: 'gtd-review-actions-done',
                         label: 'Done',
-                        route: 'review.done',
+                        route: 'rt.actions.done',
+                        template: 'actionsList',
                         status: 'don',
                         navs: {
-                            header: {
-                                display: true
-                            },
                             overview: {
                                 display: true
                             },
@@ -617,11 +616,11 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'action-edit',
+                        id: 'gtd-review-actions-edit',
                         label: 'Edit action',
                         template: 'actionEdit',
                         multiple: true,
-                        route: 'action.edit'
+                        route: 'rt.actions.edit'
                     }
                 ]
             }
@@ -704,6 +703,10 @@ export const gtd = {
             }
         }
         return display;
+    },
+    // returns the GTD item which exhibits this id
+    itemId: function( id ){
+        return gtd._byId( id );
     },
     // returns the GTD item which exhibits this route
     itemRoute: function( route ){

@@ -106,7 +106,6 @@ Template.appLayout.onRendered( function(){
                             'group:setupGroup':   'Setup'
                         }
                     },
-                    minimizeAll: false,
                     viewportMargins: {
                         top   : [ g[LYT_WINDOW].barTopHeight, "correctNone" ],
                         left  : [ g[LYT_WINDOW].barSideWidth, "correctNone" ]
@@ -128,7 +127,7 @@ Template.appLayout.onRendered( function(){
                 // reset route when closing the last window
                 taskbar.on( 'taskbarunbind', function( ev, ui ){
                     if( ui.instance.windows().length === 0 ){
-                        FlowRouter.go( 'home' );
+                        FlowRouter.go( 'rt.home' );
                     }
                 });
                 //console.log( taskbar );
@@ -140,7 +139,7 @@ Template.appLayout.onRendered( function(){
 
 Template.appLayout.helpers({
     // in windowLayout, template may be undefined if route is /
-    // in pageLayout, there is always one (computed from gtd.page)
+    // in pageLayout, there is always one (computed from page.group)
     hasTemplate(){
         let data = Template.instance().data;
         return data.template;

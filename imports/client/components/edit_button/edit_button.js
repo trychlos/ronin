@@ -15,13 +15,13 @@ Template.edit_button.events({
         if( item ){
             switch( item.type ){
                 case 'A':
-                    route = 'action.edit';
+                    route = 'rt.actions.edit';
                     break;
                 case 'P':
-                    route = 'project.edit';
+                    route = 'rt.projects.edit';
                     break;
                 case 'T':
-                    route = 'thought.edit';
+                    route = 'rt.thoughts.edit';
                     break;
             };
         }

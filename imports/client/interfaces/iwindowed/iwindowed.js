@@ -296,7 +296,7 @@
             }
             //console.log( 'windows.length='+windows.length+' visible='+visible );
             if( !visible ){
-                FlowRouter.go( 'home' );
+                FlowRouter.go( 'rt.home' );
             }
         },
 

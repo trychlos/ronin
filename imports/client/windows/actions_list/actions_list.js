@@ -40,7 +40,7 @@ import './actions_list.html';
 Template.actionsList.fn = {
     actionNew: function(){
         g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'action.new' );
+        FlowRouter.go( 'rt.actions.new' );
     }
 };
 

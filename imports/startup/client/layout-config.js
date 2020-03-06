@@ -82,9 +82,9 @@ g[LYT_WINDOW] = {
 };
 
 // set a default route for the page-based layouts
-const page = Session.get( 'gtd.page' );
+const page = Session.get( 'page.group' );
 if( !page ){
-    Session.set( 'gtd.page', 'thoughts-list' );
+    Session.set( 'page.group', 'gtd-collect-thoughts-list' );
 }
 
 // layout initialization

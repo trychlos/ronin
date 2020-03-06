@@ -157,7 +157,11 @@
 
   177 2020- 2-29 project delete seems to not work + re-attach children
 
-  180
+  180 2020- 3- 5 review thought_panel.less
+
+  181 2020- 3- 5 review collect.thought session variable usage vs id queryParam
+
+  182
 
 ==============================================================================
  Done

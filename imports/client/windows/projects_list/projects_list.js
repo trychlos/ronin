@@ -39,7 +39,7 @@ import './projects_list.html';
 Template.projectsList.fn = {
     actionNew: function(){
         g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'project.new' );
+        FlowRouter.go( 'rt.projects.new' );
     }
 };
 

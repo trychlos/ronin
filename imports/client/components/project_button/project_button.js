@@ -15,7 +15,7 @@ import './project_button.html';
 Template.project_button.events({
     'click .js-project'( event, instance ){
         g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'process.project', null, { id:instance.data.item._id });
+        FlowRouter.go( 'rt.projects.thought', null, { id:instance.data.item._id });
         return false;
     }
 });

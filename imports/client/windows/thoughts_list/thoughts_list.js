@@ -38,7 +38,7 @@ import './thoughts_list.html';
 Template.thoughtsList.fn = {
     actionNew: function(){
         g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'collect.new' );
+        FlowRouter.go( 'rt.thoughts.new' );
     }
 };
 
