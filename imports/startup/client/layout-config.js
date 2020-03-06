@@ -85,7 +85,7 @@ g[LYT_WINDOW] = {
 
 // set a default route for the page-based layouts
 const page = Session.get( 'page.group' );
-if( !page ){
+if( !page || !page.startsWith( 'gtd-' )){
     Session.set( 'page.group', 'gtd-collect-thoughts-list' );
 }
 

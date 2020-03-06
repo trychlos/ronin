@@ -177,7 +177,8 @@ FlowRouter.route('/projects', {
     name: 'rt.projects',
     action(){
         Session.set( 'page.group', 'gtd-review-projects' );
-        if( !Session.get( 'projects.tab.name' )){
+        const tab = Session.get( 'projects.tab.name' );
+        if( !tab || !tab.startsWith( 'gtd-' )){
             Session.set( 'projects.tab.name', 'gtd-review-projects-current' );
         }
         blazeRenderId( Session.get( 'projects.tab.name' ));
@@ -220,7 +221,8 @@ FlowRouter.route('/actions', {
     name: 'rt.actions',
     action(){
         Session.set( 'page.group', 'gtd-review-actions' );
-        if( !Session.get( 'actions.tab.name' )){
+        const tab = Session.get( 'actions.tab.name' );
+        if( !tab || !tab.startsWith( 'gtd-' )){
             Session.set( 'actions.tab.name', 'gtd-review-actions-inactive' );
         }
         blazeRenderId( Session.get( 'actions.tab.name' ));
