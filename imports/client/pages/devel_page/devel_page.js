@@ -25,6 +25,6 @@ Template.develPage.helpers({
         return 'detectIt primaryInput='+g.detectIt.primaryInput;
     },
     resolution(){
-        return 'Resolution is w='+$(window).width()+' h='+$(window).height();
+        return 'Resolution is w='+g.run.width.get()+' h='+g.run.height.get();
     }
 });

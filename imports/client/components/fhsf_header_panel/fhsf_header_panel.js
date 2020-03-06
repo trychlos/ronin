@@ -21,12 +21,12 @@ import './fhsf_header_panel.html';
 
 Template.fhsf_header_panel.helpers({
     hasMenuBar(){
-        return $(window).width() > 750;
+        return g.run.width.get() > 750;
     },
     // menu_side is 150px width, should not use more than 20% of the viewport
     // so, minimal width to have always shown side menu is 750
     hasMenuButton(){
-        return true; //$(window).width() < 750;
+        return true; // window.width < 750;
     },
     // browser (with a title bar and an url) is assumed if not running Cordova
     hasTitle(){
