@@ -38,23 +38,14 @@ FlowRouter.route('/setup/criterias', {
 });
 */
 
-let blazeRenderId = ( id ) => {
-    const item = gtd.itemId( id );
-    blazeRenderItem( item );
-}
-
-let blazeRenderItem = ( item ) => {
+let blazeRenderRoute = ( name ) => {
+    const item = gtd.itemRoute( name );
     BlazeLayout.render( 'appLayout', {
         gtdid: item ? item.id : null,
         multiple: item ? item.multiple : false,
         group: gtd.groupItem( item ),
         template:gtd.templateItem( item )
     });
-}
-
-let blazeRenderRoute = ( name ) => {
-    const item = gtd.itemRoute( name );
-    blazeRenderItem( item );
 }
 
 // Set up all routes in the app
@@ -175,14 +166,13 @@ FlowRouter.route('/actions/thought', {
 });
 FlowRouter.route('/projects', {
     name: 'rt.projects',
-    action(){
-        Session.set( 'page.group', 'gtd-review-projects' );
-        const tab = Session.get( 'projects.tab.name' );
+    triggersEnter: [ function( context, redirect ){
+        let tab = Session.get( 'projects.tab.name' );
         if( !tab || !tab.startsWith( 'gtd-' )){
-            Session.set( 'projects.tab.name', 'gtd-review-projects-current' );
+            tab = 'gtd-review-projects-current';
         }
-        blazeRenderId( Session.get( 'projects.tab.name' ));
-    }
+        redirect( FlowRouter.path( gtd.routeId( null, tab )));
+    }],
 });
 FlowRouter.route('/projects/current', {
     name: 'rt.projects.current',
@@ -219,14 +209,13 @@ FlowRouter.route('/projects/edit', {
 });
 FlowRouter.route('/actions', {
     name: 'rt.actions',
-    action(){
-        Session.set( 'page.group', 'gtd-review-actions' );
-        const tab = Session.get( 'actions.tab.name' );
+    triggersEnter: [ function( context, redirect ){
+        let tab = Session.get( 'actions.tab.name' );
         if( !tab || !tab.startsWith( 'gtd-' )){
-            Session.set( 'actions.tab.name', 'gtd-review-actions-inactive' );
+            tab = 'gtd-review-actions-inactive';
         }
-        blazeRenderId( Session.get( 'actions.tab.name' ));
-    }
+        redirect( FlowRouter.path( gtd.routeId( null, tab )));
+    }],
 });
 FlowRouter.route('/actions/inactive', {
     name: 'rt.actions.inactive',
