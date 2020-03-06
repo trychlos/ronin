@@ -390,27 +390,25 @@ export const gtd = {
                 children: [
                     {
                         id: 'gtd-review-projects',
-                        label: 'Projects',
+                        label: 'Review projects',
                         route: 'rt.projects',
                         template: 'projectsList',
                         navs: {
                             footer: {
+                                label: {
+                                    pageLayout: 'Projects'
+                                },
                                 display: true,
                                 sort: 4
                             },
                             side: {
                                 display: true
                             }
-                        },
-                        tabs: {
-                            window: {
-                                label: 'Review projects'
-                            }
                         }
                     },
                     {
                         id: 'gtd-review-projects-current',
-                        label: 'Current projects',
+                        label: 'Current',
                         route: 'rt.projects.current',
                         template: 'projectsList',
                         navs: {
@@ -450,7 +448,7 @@ export const gtd = {
                     },
                     {
                         id: 'gtd-review-projects-future',
-                        label: 'Future projects',
+                        label: 'Future',
                         route: 'rt.projects.future',
                         template: 'projectsList',
                         navs: {
@@ -477,21 +475,19 @@ export const gtd = {
                     },
                     {
                         id: 'gtd-review-actions',
-                        label: 'Actions',
+                        label: 'Review actions',
                         route: 'rt.actions',
                         template: 'actionsList',
                         navs: {
                             footer: {
+                                label: {
+                                    pageLayout: 'Actions'
+                                },
                                 display: true,
                                 sort: 3
                             },
                             side: {
                                 display: true
-                            }
-                        },
-                        tabs: {
-                            window: {
-                                label: 'Review actions'
                             }
                         }
                     },

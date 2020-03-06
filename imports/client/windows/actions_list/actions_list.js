@@ -89,7 +89,7 @@ Template.actionsList.onRendered( function(){
                         }
                     ],
                     group:  context.group,
-                    title:  gtd.labelId( 'window', context.gtdid )
+                    title:  'Review actions'
                 }
             });
         }

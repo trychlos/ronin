@@ -78,7 +78,7 @@ Template.projectsList.onRendered( function(){
                         }
                     ],
                     group:  context.group,
-                    title:  gtd.labelId( 'window', context.gtdid )
+                    title:  'Review projects'
                 }
             });
             self.ronin.dict.set( 'window_ready', true );
