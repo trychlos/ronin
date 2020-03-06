@@ -83,6 +83,15 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
             }
             return 0;
         },
+        // re-calling an already initialized plugin
+        _methods: function( opts ){
+            //console.log( opts );
+            if( typeof opts === 'object' ){
+                if( opts.tab ){
+                    this.$dom.tabs({ active: this._index( opts.tab )});
+                }
+            }
+        },
         // return the array of tab identifiers (marked as 'data-itabbed')
         //  NB: only works after first initialization
         _tabs: function( element ){

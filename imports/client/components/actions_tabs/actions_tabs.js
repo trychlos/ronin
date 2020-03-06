@@ -15,9 +15,11 @@ import '/imports/client/interfaces/itabbed/itabbed.js';
 import './actions_tabs.html';
 
 Template.actions_tabs.onRendered( function(){
-    $('.actions-tabbed').ITabbed({
-        tab: Session.get('actions.tab.name')
-    });
+    this.autorun(() => {
+        $( '.actions-tabbed' ).ITabbed({
+            tab: Session.get('actions.tab.name')
+        });
+    })
 });
 
 Template.actions_tabs.helpers({

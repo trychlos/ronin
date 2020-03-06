@@ -32,8 +32,10 @@ Template.projects_tabs.onCreated( function(){
 });
 
 Template.projects_tabs.onRendered( function(){
-    $('.projects-tabbed').ITabbed({
-        tab: Session.get( 'projects.tab.name' )
+    this.autorun(() => {
+        $( '.projects-tabbed' ).ITabbed({
+            tab: Session.get( 'projects.tab.name' )
+        });
     });
 });
 
@@ -51,7 +53,7 @@ Template.projects_tabs.helpers({
         return gtd.routeItem( 'projects', item );
     },
     // class helper
-    // limiting to two tabs in pageLayout if width < 480
+    //  limiting to two tabs in pageLayout if width < 480
     isVisible( item ){
         let visible = '';
         if( g.run.layout.get() === LYT_PAGE && g.run.width.get() < 480 ){

@@ -572,7 +572,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'gtd-review-actions-wait',
+                        id: 'gtd-review-actions-waiting',
                         label: 'Waiting',
                         route: 'rt.actions.waiting',
                         template: 'actionsList',
