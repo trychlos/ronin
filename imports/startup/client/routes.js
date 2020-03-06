@@ -38,7 +38,7 @@ FlowRouter.route('/setup/criterias', {
 });
 */
 
-let blazeRenderRoute = ( name ) => {
+let blazeRender = ( name ) => {
     const item = gtd.itemRoute( name );
     BlazeLayout.render( 'appLayout', {
         gtdid: item ? item.id : null,
@@ -119,49 +119,56 @@ FlowRouter.route('/setup/delegates', {
         BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
     },
 });
+FlowRouter.route('/setup/device', {
+    name: 'rt.setup.device',
+    action(){
+        Session.set( 'page.group', 'gtd-setup-group' );
+        blazeRender( this.name );
+    },
+});
 FlowRouter.route( '/thoughts', {
     name: 'rt.thoughts.list',
     action(){
         Session.set( 'page.group', 'gtd-collect-thoughts-list' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route( '/thoughts/edit', {
     name: 'rt.thoughts.edit',
     action(){
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route( '/thoughts/new', {
     name: 'rt.thoughts.new',
     action(){
         Session.set( 'collect.thought', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/projects/new', {
     name: 'rt.projects.new',
     action(){
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions/new', {
     name: 'rt.actions.new',
     action(){
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/projects/thought', {
     name: 'rt.projects.thought',
     action(){
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions/thought', {
     name: 'rt.actions.thought',
     action(){
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/projects', {
@@ -180,7 +187,7 @@ FlowRouter.route('/projects/current', {
         Session.set( 'page.group', 'gtd-review-projects' );
         Session.set( 'projects.tab.name', 'gtd-review-projects-current' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/projects/single', {
@@ -189,7 +196,7 @@ FlowRouter.route('/projects/single', {
         Session.set( 'page.group', 'gtd-review-projects' );
         Session.set( 'projects.tab.name', 'gtd-review-projects-single' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/projects/future', {
@@ -198,13 +205,13 @@ FlowRouter.route('/projects/future', {
         Session.set( 'page.group', 'gtd-review-projects' );
         Session.set( 'projects.tab.name', 'gtd-review-projects-future' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/projects/edit', {
     name: 'rt.projects.edit',
     action(){
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions', {
@@ -223,7 +230,7 @@ FlowRouter.route('/actions/inactive', {
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-inactive' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions/asap', {
@@ -232,7 +239,7 @@ FlowRouter.route('/actions/asap', {
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-asap' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions/delegated', {
@@ -241,7 +248,7 @@ FlowRouter.route('/actions/delegated', {
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-delegated' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions/scheduled', {
@@ -250,7 +257,7 @@ FlowRouter.route('/actions/scheduled', {
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-scheduled' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions/waiting', {
@@ -259,7 +266,7 @@ FlowRouter.route('/actions/waiting', {
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-waiting' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions/done', {
@@ -268,20 +275,20 @@ FlowRouter.route('/actions/done', {
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-done' );
         Session.set( 'header.title', null );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/actions/edit', {
     name: 'rt.actions.edit',
     action(){
         Session.set( 'projects.tab.name', 'actions' );
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 });
 FlowRouter.notFound = {
     name: 'not.found',
     action(){
-        blazeRenderRoute( this.name );
+        blazeRender( this.name );
     },
 };
 

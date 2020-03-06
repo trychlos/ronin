@@ -9,7 +9,11 @@ import './menu_button.html';
 Template.menu_button.events({
     'click .js-about'( ev, instance ){
         bootbox.alert({
-            message: 'Ronin version '+Meteor.settings.public.ronin.version
+            message: 'Ronin version '+Meteor.settings.public.ronin.version,
+            closeButton: false
         });
+    },
+    'click .js-device'( ev, instance ){
+        FlowRouter.go( 'rt.setup.device' );
     }
 });

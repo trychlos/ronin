@@ -107,23 +107,11 @@
 
    95 2020- 1-18 header_panel: menubar display should be dynamic (have a media query)
 
-  100 2020- 1-22 merge thoughts, actions, projects in a single collection
-                  as they are fondamentally the same thing (and have many
-                  common attributes)
-      2020- 1-26 articles collection is created
-                  have to replace all old collections with this new one
-
-  101 2020- 1-23 get and display version from mobile.json
-      2020- 1-30 version 'yymmddn' is dynamically computed at deployement time
-
   102 2020- 1-23 when changing touch to desktop layout and back, list grows
                   (e.g. on collect page)
 
   104 2020- 1-23 mobile_footer bar is not visible without scrolling on browser's tablet
                   (miss the url bar and the tabs heights)
-
-  105 2020- 1-23 should have infos display in the parameters menu to display
-                  detectIt data + display size
 
   114 2020- 2- 1 fix wsf-footer display
 
@@ -154,6 +142,7 @@
   165 2020- 2-24 page layout: context menu doesn't work => do not account for it
 
   176 2020- 2-28 in actions tabs, the counter should reflect the current tab content
+      2020- 3- 6 idem in projects tabs
 
   177 2020- 2-29 project delete seems to not work + re-attach children
 
@@ -396,8 +385,23 @@
    99 2020- 1-22 action_status should be an asset, nor a db collection
       2020- 1-22 done
 
+  100 2020- 1-22 merge thoughts, actions, projects in a single collection
+                  as they are fondamentally the same thing (and have many
+                  common attributes)
+      2020- 1-26 articles collection is created
+                  have to replace all old collections with this new one
+      2020- 3- 6 done
+
+  101 2020- 1-23 get and display version from mobile.json
+      2020- 1-30 version 'yymmddn' is dynamically computed at deployement time
+      2020- 3- 6 done in gear menu
+
   103 2020- 1-23 header_panel: most left button is not displayed on browser's tablet
       2020- 1-30 normal as the menu_side is expected to be displayed in this case
+
+  105 2020- 1-23 should have infos display in the parameters menu to display
+                  detectIt data + display size
+      2020- 3- 6 done
 
   106 2020- 1-23 thoughts_list: have a badge with thoughts count
       2020- 2- 8 done

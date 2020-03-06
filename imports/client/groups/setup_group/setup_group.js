@@ -15,8 +15,7 @@
  *      Caution: must only be used at rendering time, as it will be superseded
  *      by later changes.
  */
-import '/imports/client/windows/thought_edit/thought_edit.js';
-import '/imports/client/windows/thoughts_list/thoughts_list.js';
+import '/imports/client/windows/device_window/device_window.js';
 import './setup_group.html';
 
 Template.setupGroup.onCreated( function(){

@@ -67,7 +67,7 @@ export const gtd = {
              *  Setup features group
              */
             {
-                id: 'setup-group',
+                id: 'gtd-setup-group',
                 label: 'Setup',
                 group: 'setupGroup',
                 navs: {
@@ -227,6 +227,12 @@ export const gtd = {
                             }
                         }
                     },
+                    {
+                        id: 'gtd-setup-device',
+                        label: 'Device informations',
+                        route: 'rt.setup.device',
+                        template: 'deviceWindow'
+                    }
                 ],
             },
             /*
