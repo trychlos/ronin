@@ -56,16 +56,13 @@ Template.actionsList.onCreated( function(){
         ],
         spinner: null
     };
+    this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
     this.ronin.dict.set( 'subscriptions_ready', false );
 });
 
 Template.actionsList.onRendered( function(){
     //console.log( 'actionsList.onRendered' );
     const self = this;
-
-    // create a new spinner, attaching it to the document, and starting it
-    //self.ronin.spinner = new Spinner().spin( document.getElementsByClassName( 'actionsList' )[0] );
-    self.ronin.spinner = new Spinner().spin( document.getElementsByTagName( 'body' )[0] );
 
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
@@ -92,6 +89,22 @@ Template.actionsList.onRendered( function(){
                     title:  'Review actions'
                 }
             });
+            self.ronin.dict.set( 'window_ready', true );
+        }
+    });
+
+    // create the spinner as soon as the window is ready
+    this.autorun(() => {
+        if( self.ronin.dict.get( 'window_ready' )){
+            let $parent = null;
+            if( g.run.layout.get() === LYT_PAGE ){
+                $parent = $( '.actionsList' );
+            } else {
+                $parent = $( '.actionsList' ).window( 'widget' );
+            }
+            if( $parent ){
+                self.ronin.spinner = new Spinner().spin( $parent[0] );
+            }
         }
     });
 
