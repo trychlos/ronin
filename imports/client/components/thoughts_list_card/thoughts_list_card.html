@@ -1,15 +1,13 @@
 <template name="thoughts_list_card">
     <div class="thoughts-list-card x-py025">
 
-        <div class="description">
-            <p>{{thought.description}}</p>
-        </div>
+        <div class="description">{{thought.description}}</div>
 
         <div class="x-createdAt {{classCreatedAt}}">
             <p>{{ lastUpdated thought }}</p>
         </div>
 
-        <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="actions d-flex flex-row justify-content-between align-items-center">
 
             {{> edit_button item=thought }}
             {{> ownership_button item=thought }}

@@ -117,6 +117,7 @@
 
   115 2020- 2- 1 projects_tree: review contextual menu and edit/delete links
                   in case of a page-based layout
+      2020- 2-24 page layout: context menu doesn't work => do not account for it
 
   118 2020- 2- 1 have a link on the web site to download the apk
 
@@ -129,17 +130,9 @@
   155 2020- 2-19 review projects: New always triggers new project
                   but should trigger new project or new action depending of the tab
 
-  156 2020- 2-21 use ronin ReactiveDict everywhere we have a reactive var
-
   161 2020- 2-23 env-settings 1.2.0_4 "dev" settings are not available on the server
 
-  163 2020- 2-24 several lines of description in the cards take too much interval
-                  between lines
-                  + should interpret the '\n' char
-
   164 2020- 2-24 None topic is not displayed in cards items
-
-  165 2020- 2-24 page layout: context menu doesn't work => do not account for it
 
   176 2020- 2-28 in actions tabs, the counter should reflect the current tab content
       2020- 3- 6 idem in projects tabs
@@ -572,6 +565,9 @@
   154 2020- 2-17 transform an action into a project
       2020- 2-26 done
 
+  156 2020- 2-21 use ronin ReactiveDict everywhere we have a reactive var
+      2020- 3- 6 this is rather a coding decision than an actual todo -> closed
+
   157 2020- 2-21 projects_tree: replace the delete confirmation by the standard one
       2020- 2-22 done
 
@@ -588,6 +584,14 @@
   162 2020- 2-24 a new thought while logged-in in not owned by the current user (but should)
       2020- 2-24 thought ok
       2020- 2-25 fixed
+
+  163 2020- 2-24 several lines of description in the cards take too much interval
+                  between lines
+                  + should interpret the '\n' char
+      2020- 3- 6 done
+
+  165 2020- 2-24 page layout: context menu doesn't work => do not account for it
+      2020- 3- 6 merged with #115
 
   166 2020- 2-24 on mobile (page layout), projects tree does not display root nodes
       2020- 2-25 fixed in v20.02.25.1

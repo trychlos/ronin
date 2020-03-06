@@ -1,15 +1,13 @@
 <template name="actions_list_card">
     <div class="actions-list-card x-py025">
 
-        <div class="description">
-            <p>{{action.description}}</p>
-        </div>
+        <div class="description">{{action.description}}</div>
 
         <div class="x-createdAt {{classCreatedAt}}">
             <p>{{ lastUpdated action }}</p>
         </div>
 
-        <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="actions d-flex flex-row justify-content-between align-items-center">
 
             {{> edit_button item=action }}
             {{> ownership_button item=action }}
