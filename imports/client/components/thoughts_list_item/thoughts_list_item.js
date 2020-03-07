@@ -6,7 +6,6 @@
  *  - thought: the one-item cursor (aka an array) to be displayed
  *
  *  Session variables:
- *  - collect.thought: the thought object to be edited
  *  - collect.opened: the thought identifier whose card is opened
  *      so that we can open the card when coming back from the edition
  */

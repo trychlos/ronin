@@ -33,7 +33,6 @@ Template.thoughtEdit.fn = {
     // on close, go back to thoughtsList window
     actionClose: function(){
         //console.log( 'Template.thoughtEdit.fn.actionClose' );
-        Session.set( 'collect.thought', null );
         switch( g.run.layout.get()){
             case LYT_PAGE:
                 FlowRouter.go( g.run.back );

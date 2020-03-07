@@ -2,8 +2,8 @@
  * 'thought_panel' component.
  *
  *  A collapsable panel which let the user:
- *  - enter a new thought (if session/collect.thought is empty)
- *  - or edit an existing one (if session/collect.thought already exists).
+ *  - enter a new thought (if data/item is null or empty)
+ *  - or edit an existing one (if data/item is set).
  *
  *  Parameters:
  *  - collapsable=true|false whether this component may be collapsed
@@ -30,10 +30,6 @@ Template.thought_panel.fn = {
         }
     },
     // initialize the edition area
-    // this is needed when we cancel a current creation
-    //  as this will not change the collect.thought session variable
-    //  no helper is triggered,
-    //  and we have to manually reinit the fields
     // NB: do not reinitialize the topic
     //  Rationale: when entering several thoughts, it is probable that all
     //  will be relative to a same topic, so try to gain some time

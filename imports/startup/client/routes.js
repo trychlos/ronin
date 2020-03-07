@@ -143,7 +143,6 @@ FlowRouter.route( '/thoughts/edit', {
 FlowRouter.route( '/thoughts/new', {
     name: 'rt.thoughts.new',
     action(){
-        Session.set( 'collect.thought', null );
         blazeRender( this.name );
     },
 });

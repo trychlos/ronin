@@ -45,7 +45,6 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
                 Session.set( 'collect.dbope', DBOPE_ERROR );
             } else {
                 throwSuccess( 'Thought successfully inserted' );
-                Session.set( 'collect.thought', 'success' );  // force re-rendering
                 Session.set( 'collect.dbope', DBOPE_REINIT );
             }
         });
