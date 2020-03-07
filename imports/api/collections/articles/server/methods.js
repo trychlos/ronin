@@ -160,14 +160,22 @@ Meteor.methods({
     },
 
     // delete an article
+    //  children are updated to a null/none parent
     'articles.remove'( o ){
         Meteor.call( '_articles_check_user', o );
-        const ret = Articles.remove( o._id );
+        let ret = Articles.remove( o._id );
         console.log( 'Articles.remove("'+o.name+'") returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.remove',
                 'unable to remove "'+o.name+'" item' );
+        }
+        ret = Articles.update({ parent:o._id }, { $unset: { parent:'' }});
+        console.log( 'Articles.update.children("'+o.name+'") returns '+ret );
+        if( !ret ){
+            throw new Meteor.Error(
+                'articles.remove.update.children',
+                'unable to update "'+o.name+'" children' );
         }
         return ret;
     },
