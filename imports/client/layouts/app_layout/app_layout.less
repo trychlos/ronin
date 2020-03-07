@@ -34,6 +34,8 @@ div.ronin-layout.ronin-lyt-page {
      *  Fixed header - Sticky footer
      *  On mobile and touchable layouts, have a fixed header and an sticky footer.
      *  See https://medium.com/@andrejsabrickis/a-fullscreen-modal-with-fixed-header-footer-and-a-scrollable-content-1656845c8171
+     *
+     *  NB: fhsf- classes are meant to be used on pageLayout only
      */
     div.fhsf-parent {
         position: fixed;
@@ -49,23 +51,6 @@ div.ronin-layout.ronin-lyt-page {
     }
     .fhsf-content {
         overflow-y: auto;
-    }
-    .fhsf-footer {
-        padding: 0 @global-px;
-    }
-    .lyt-footer {
-        a {
-            color: @page-color;
-        }
-        .active {
-            background-color: @page-color;
-            color: white;
-        }
-        @media ( max-width: 380px ){
-            .nav-link {
-                padding: 0.5rem 0.25rem;
-            }
-        }
     }
     /*
      * Edition pages wsf-
