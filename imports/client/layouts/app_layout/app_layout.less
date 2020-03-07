@@ -7,42 +7,8 @@ div.ronin-layout {
     }
     .lyt-header {
         line-height: @topbar-height;
-        .header-panel {
-            .menu-button {
-                .ui-button {
-                    padding: 0.25em 0.5em;
-                }
-            }
-            .title {
-                font-weight: bold;
-            }
-            .layout-select {
-                .ui-button {
-                    padding: 0.25em 0.5em;
-                }
-            }
-            .spacer {
-                margin-left: 0.5em;
-            }
-            .dropdown-menu {
-                line-height: 1.5rem;
-            }
-            @media( max-width: 640px ){
-                .layout-select {
-                    .text {
-                        display: none;
-                    }
-                }
-            }
-            @media( min-width: 641px ){
-                .layout-select {
-                    .text {
-                        display: inline;
-                    }
-                }
-            }
-        }
-        /* colors */
+        /* windowLayout colors
+            will be overriden below for pageLayout */
         background-color: @app-color;
         color: white;
         .ui-button {
@@ -55,10 +21,9 @@ div.ronin-layout {
         width: 100%;
     }
     /* after the window itself, this is the highest common level for page and
-     *  window layouts
-     */
+        window layouts */
     .ronin-wnd-content {
-        padding-right: 0.25rem;
+        padding: 0.25rem 0.25rem 0.25rem 0;
     }
 }
 /*
@@ -115,8 +80,7 @@ div.ronin-layout.ronin-lyt-page {
             top: @topbar-height;
             bottom: calc( @bottombar-height + @bottombar-height );
             overflow-y: auto;
-            margin: 0.25rem 0;
-            padding-right: 0.5rem;
+            //padding-right: 0.5rem;
         }
         .wsf-footer {
             position :fixed;
@@ -131,7 +95,7 @@ div.ronin-layout.ronin-lyt-page {
     /*
      * page-specific colors
      */
-     .lyt-header {
+    .lyt-header {
         background-color: @page-color;
     }
     .x-card.x-opened .title {

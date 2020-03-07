@@ -41,7 +41,7 @@ import '/imports/client/business/projects_model.js';
 import '/imports/client/business/thoughts_model.js';
 
 import '/imports/client/components/fhsf_footer_panel/fhsf_footer_panel.js';
-import '/imports/client/components/fhsf_header_panel/fhsf_header_panel.js';
+import '/imports/client/components/lyt_header_panel/lyt_header_panel.js';
 import '/imports/client/components/menu_side/menu_side.js';
 import '/imports/client/components/message/message.js';
 import '/imports/client/components/overview/overview.js';

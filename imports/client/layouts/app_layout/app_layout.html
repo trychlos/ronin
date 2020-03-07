@@ -1,10 +1,11 @@
 <template name="appLayout">
     <div class="ronin-layout container-fluid x-topmost {{ currentLayout }}">
 
-        <div class="fhsf-parent">
+        <!-- fhsf- classes are meant to be used on pageLayout only -->
+        <div class="lyt-parent fhsf-parent">
 
             <div class="lyt-header fhsf-header">
-                {{> fhsf_header_panel }}
+                {{> lyt_header_panel }}
             </div>
 
             <div class="lyt-content fhsf-content d-flex flex-row">
@@ -35,11 +36,11 @@
 
         {{#if isPageLayout }}
             <div class="x-hidden">{{{ pblResized }}}</div>
-        {{else}}
-            {{#if isWindowLayout }}
-                <div id="{{ wblRootId }}"></div>
-                <div class="lyt-taskbar"></div>
-            {{/if}}
+        {{/if}}
+
+        {{#if isWindowLayout }}
+            <div id="{{ wblRootId }}"></div>
+            <div class="lyt-taskbar"></div>
         {{/if}}
 
         {{> message }}

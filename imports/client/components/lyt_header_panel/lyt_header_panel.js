@@ -1,5 +1,5 @@
 /*
- * 'fhsf_header_panel' component.
+ * 'lyt_header_panel' component.
  *  Display a navigation bar on top of the pages.
  *
  *  If the display is wide enough, the menu is displayed on the left side.
@@ -17,9 +17,9 @@
 import '/imports/client/components/layout_select/layout_select.js';
 import '/imports/client/components/menu_bar/menu_bar.js';
 import '/imports/client/components/menu_button/menu_button.js';
-import './fhsf_header_panel.html';
+import './lyt_header_panel.html';
 
-Template.fhsf_header_panel.helpers({
+Template.lyt_header_panel.helpers({
     hasMenuBar(){
         return g.run.width.get() > 750;
     },
