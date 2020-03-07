@@ -37,7 +37,7 @@ div.ronin-layout.ronin-lyt-page {
      *
      *  NB: fhsf- classes are meant to be used on pageLayout only
      */
-    div.fhsf-parent {
+    .fhsf-parent {
         position: fixed;
         left: 0;
         top: 0;
@@ -45,12 +45,12 @@ div.ronin-layout.ronin-lyt-page {
         height: 100%;
         display: grid;
         grid-template-rows: @topbar-height auto @bottombar-height;
-        div.fhsf-footer {
+        .fhsf-content {
+            overflow-y: auto;
+        }
+        .fhsf-footer {
             margin: 0.25rem 0;
         }
-    }
-    .fhsf-content {
-        overflow-y: auto;
     }
     /*
      * Edition pages wsf-
@@ -65,7 +65,7 @@ div.ronin-layout.ronin-lyt-page {
             top: @topbar-height;
             bottom: calc( @bottombar-height + @bottombar-height );
             overflow-y: auto;
-            //padding-right: 0.5rem;
+            padding-right: 0.5rem;
         }
         .wsf-footer {
             position :fixed;
