@@ -130,10 +130,9 @@
 
   164 2020- 2-24 None topic is not displayed in cards items
 
-  176 2020- 2-28 in actions tabs, the counter should reflect the current tab content
-      2020- 3- 6 idem in projects tabs
+  182 2020- 3- 6 have a counter in projects tabs
 
-  182
+  183
 
 ==============================================================================
  Done
@@ -619,6 +618,9 @@
 
   175 2020- 2-27 have maybe_button (thoughts_list_card)
       2020- 2-29 done
+
+  176 2020- 2-28 in actions tabs, the counter should reflect the current tab content
+      2020- 3- 7 done
 
   177 2020- 2-29 project delete seems to not work + re-attach children
       2020- 3- 7 delete project is ok in windowLayout

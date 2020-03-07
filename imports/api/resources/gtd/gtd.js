@@ -861,6 +861,9 @@ export const gtd = {
         return ret;
     },
     // returns the status attached to the item
+    statusId( id ){
+        return gtd.statusItem( gtd._byId( id ));
+    },
     statusItem( item ){
         return gtd._search( null, item, 'status', false );
     },

@@ -1,8 +1,18 @@
 import { Meteor } from 'meteor/meteor';
+import { ReactiveAggregate } from 'meteor/tunguska:reactive-aggregate';
 import { Articles } from '../articles.js';
 
 Meteor.publish( 'articles.actions.all', function(){
     return Articles.find({ type: 'A', $or: [{ userId:null }, { userId:Meteor.userId()}]});
+});
+
+Meteor.publish( 'articles.actions.status.count', function(){
+    ReactiveAggregate( this, Articles, [
+        { $match: { type:'A' }},
+        { $group: { _id:'$status', count: { $sum:1 }}}
+    ], {
+        clientCollection: 'actionsStatus'
+    });
 });
 
 Meteor.publish( 'articles.maybe.all', function(){

@@ -251,7 +251,7 @@ Template.actions_grid.helpers({
     },
     // whether we are displaying the 'done' tab
     isDoneTab(){
-        return this.tab === 'actions-done';
+        return this.tab === 'gtd-review-actions-done';
     }
 });
 
