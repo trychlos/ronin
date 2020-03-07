@@ -37,8 +37,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './project_edit.html';
 
 Template.projectEdit.fn = {
-    actionClose: function(){
-        //console.log( 'Template.projectEdit.fn.actionClose' );
+    doClose: function(){
+        //console.log( 'Template.projectEdit.fn.doClose' );
         switch( g.run.layout.get()){
             case LYT_PAGE:
                 FlowRouter.go( g.run.back );
@@ -78,17 +78,17 @@ Template.projectEdit.fn = {
     //  transformed in something else elsewhere
     forClose: function( msg, o ){
         const self = Template.instance();
-        if( self.ronin.get( 'got' )){
+        if( self.ronin.dict.get( 'got' )){
             console.log( 'projectEdit '+msg+' '+o._id );
-            const item = self.ronin.get( 'item' );
+            const item = self.ronin.dict.get( 'item' );
             if( item._id === o._id ){
-                Template.projectEdit.fn.actionClose();
+                Template.projectEdit.fn.doClose();
             }
         }
     },
     okLabel: function(){
         const self = Template.instance();
-        const item = self.ronin.get( 'item' );
+        const item = self.ronin.dict.get( 'item' );
         return Template.projectEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
@@ -98,42 +98,46 @@ Template.projectEdit.fn = {
 
 Template.projectEdit.onCreated( function(){
     //console.log( 'projectEdit.onCreated' );
-    this.subscribe( 'articles.actions.all' );
-    this.subscribe( 'articles.projects.all' );
-    this.subscribe( 'topics.all' );
-    this.subscribe( 'contexts.all' );
 
-    this.ronin = new ReactiveDict();
-    this.ronin.set( 'got', false );
+    this.ronin = {
+        dict: new ReactiveDict(),
+        handles: {
+            actions: this.subscribe( 'articles.actions.all' ),
+            projects: this.subscribe( 'articles.projects.all' ),
+            topics: this.subscribe( 'topics.all' ),
+            context: this.subscribe( 'contexts.all' )
+        }
+    };
+    this.ronin.dict.set( 'item', null );
+    this.ronin.dict.set( 'got', false );
 });
 
 Template.projectEdit.onRendered( function(){
     const self = this;
+    const fn = Template.projectEdit.fn;
 
     // get the edited item
     this.autorun(() => {
-        if( !self.ronin.get( 'got' )){
+        if( !self.ronin.dict.get( 'got' ) && self.ronin.handles.projects.ready()){
             const id = FlowRouter.getQueryParam( 'id' );
             if( id ){
                 const item = Articles.findOne({ _id:id });
                 if( item ){
                     if( item.type === 'A' ){
-                        Template.projectEdit.fn.convertFromAction( item );
+                        fn.convertFromAction( item );
                     }
-                    self.ronin.set( 'item', item );
-                    self.ronin.set( 'got', true );
+                    self.ronin.dict.set( 'item', item );
                 }
-            } else {
-                self.ronin.set( 'got', true );
             }
+            self.ronin.dict.set( 'got', true );
         }
     });
 
     // open the window if the manager has been initialized
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
+        if( g[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const context = Template.currentData();
-            const label = Template.projectEdit.fn.okLabel();
+            const label = fn.okLabel();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
                 simone: {
@@ -141,14 +145,14 @@ Template.projectEdit.onRendered( function(){
                         {
                             text: "Cancel",
                             click: function(){
-                                Template.projectEdit.fn.actionClose();
+                                fn.doClose();
                             }
                         },
                         {
                             text: label,
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.project.update', {
-                                    orig: self.ronin.get( 'item' ),
+                                    orig: self.ronin.dict.get( 'item' ),
                                     edit: Template.project_panel.fn.getContent()
                                 });
                             }
@@ -164,24 +168,24 @@ Template.projectEdit.onRendered( function(){
     // this let us close a projectEdit window if the item has been
     //  transformed in something else elsewhere
     $.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
-        Template.projectEdit.fn.forClose( msg, o );
+        fn.forClose( msg, o );
     });
     $.pubsub.subscribe( 'ronin.ui.item.transformed', ( msg, o ) => {
-        Template.projectEdit.fn.forClose( msg, o );
+        fn.forClose( msg, o );
     });
 });
 
 Template.projectEdit.helpers({
     project(){
         const self = Template.instance();
-        return self.ronin.get( 'item' );
+        return self.ronin.dict.get( 'item' );
     },
     okLabel(){
         return Template.projectEdit.fn.okLabel();
     },
     title(){
         const self = Template.instance();
-        const item = self.ronin.get( 'item' );
+        const item = self.ronin.dict.get( 'item' );
         const title = item ?
             ( item.type === 'T' ? 'Transform thought' :
             ( item.type === 'A' ? 'Trasnform action' : 'Edit project' )) : 'New project';
@@ -192,12 +196,12 @@ Template.projectEdit.helpers({
 
 Template.projectEdit.events({
     'click .js-cancel'( ev, instance ){
-        Template.projectEdit.fn.actionClose();
+        Template.projectEdit.fn.doClose();
         return false;
     },
     'click .js-ok'( ev, instance ){
         $.pubsub.publish( 'ronin.model.project.update', {
-            orig: instance.ronin.get( 'item' ),
+            orig: instance.ronin.dict.get( 'item' ),
             edit: Template.project_panel.fn.getContent()
         });
         return false;

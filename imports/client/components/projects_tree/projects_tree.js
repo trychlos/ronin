@@ -35,7 +35,7 @@ Template.projects_tree.fn = {
         if( g.run.layout.get() === LYT_WINDOW ){
             const fn = Template.projects_tree.fn;
             $tree.contextMenu({
-                selector: 'li.jqtree_common span.jqtree-title',
+                selector: 'div.jqtree-element',
                 build: function( elt, ev ){
                     return {
                         items: {
@@ -237,7 +237,7 @@ Template.projects_tree.fn = {
             // last display on future tab the actions attached to a future project
             } else if( tab === 'gtd-review-projects-future' ){
                 if( it.parent ){
-                    const p = Articles.findOne({ _id:it.project, type:'P' });
+                    const p = Articles.findOne({ _id:it.parent, type:'P' });
                     if( p && p.future ){
                         node.parent = it.parent;
                         const added = Template.projects_tree.fn._llt_addNode( $tree, node );
@@ -329,6 +329,7 @@ Template.projects_tree.fn = {
             Template.projects_tree.fn._displayDoneLi( $($li[i]), display );
         }
     },
+
     // dump the tree by HTML elements
     dumpHtml: function( $tree ){
         if( $tree ){
@@ -365,6 +366,7 @@ Template.projects_tree.fn = {
             Template.projects_tree.fn._dumpTreeRec( $tree, node.children[i], prefix+' ' );
         }
     },
+
     // expand the tree
     expandAll: function( $tree ){
         const root = $tree.tree( 'getNodeById', 'root' );
@@ -380,7 +382,7 @@ Template.projects_tree.fn = {
     },
     // transforms the JSON object returned by tree('toJson') by removing all but id's
     //  returns a JSON string
-    jsonFilter: function( json ){
+    _jsonFilter: function( json ){
         const js = JSON.parse( json );
         const out = new Array();
         js.forEach( it => {
@@ -399,7 +401,7 @@ Template.projects_tree.fn = {
         return obj;
     },
     nodeIsRoot: function( node ){
-        return node.id === 'root';
+        return node && node.id === 'root';
     },
     // if $node is activable, then propagate to the up hierarchy
     setActivable: function( $tree, node ){
@@ -425,6 +427,20 @@ Template.projects_tree.fn = {
         if( node.parent ){
             Template.projects_tree.fn._setActivableRec( $tree, node.parent, activable );
         }
+    },
+
+    // update the sorted list of tree nodes that is stored in Counters collection
+    //  this has to be done on reparentings (moving one node elsewhere in the tree)
+    //  but also when deleting a node, and reattaching its children
+    updateNodeList: function( $tree ){
+        const fn = Template.projects_tree.fn;
+        const tab = $tree.data( 'tab' );
+        const json = fn._jsonFilter( $tree.tree( 'toJson' ));
+        Meteor.call( 'counters.setValue', 'tree-'+tab, json, ( e ) => {
+            if( e ){
+                throwError({ message: e.message });
+            }
+        });
     }
 };
 
@@ -497,6 +513,7 @@ Template.projects_tree.onRendered( function(){
 
     // display actions when they are available and the projects have been shown
     //  projects having been shown implies that other prereqs are ok
+    //  + update nodeList with what has been actually made
     this.autorun(() => {
         const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.projects_shown && step < fn.steps.actions_shown && self.ronin.handles.actions.ready()){
@@ -504,6 +521,7 @@ Template.projects_tree.onRendered( function(){
             let filter = { type:'A' };
             filter.parent = self.ronin.tab === 'gtd-review-projects-single' ? null : { $ne:null };
             fn.addActions( $tree, ordering, Articles.find( filter ).fetch());
+            fn.updateNodeList( $tree );
             self.ronin.dict.set( 'step', fn.steps.actions_shown );
         }
     });
@@ -607,14 +625,6 @@ Template.projects_tree.events({
             }
         });
         ev.move_info.do_move();
-        const $tree = $( ev.target );
-        const tab = $tree.data( 'tab' );
-        const json = Template.projects_tree.fn.jsonFilter( $tree.tree( 'toJson' ));
-        Meteor.call( 'counters.setValue', 'tree-'+tab, json, ( e ) => {
-            if( e ){
-                throwError({ message: e.message });
-                return false;
-            }
-        });
+        Template.projects_tree.fn.updateNodeList( $( ev.target ));
     }
 });

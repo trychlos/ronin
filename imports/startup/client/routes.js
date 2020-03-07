@@ -280,7 +280,6 @@ FlowRouter.route('/actions/done', {
 FlowRouter.route('/actions/edit', {
     name: 'rt.actions.edit',
     action(){
-        Session.set( 'projects.tab.name', 'actions' );
         blazeRender( this.name );
     },
 });

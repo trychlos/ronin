@@ -115,10 +115,6 @@
 
   114 2020- 2- 1 fix wsf-footer display
 
-  115 2020- 2- 1 projects_tree: review contextual menu and edit/delete links
-                  in case of a page-based layout
-      2020- 2-24 page layout: context menu doesn't work => do not account for it
-
   118 2020- 2- 1 have a link on the web site to download the apk
 
   119 2020- 2- 1 have in the apk a function to detect and download a new version
@@ -138,6 +134,7 @@
       2020- 3- 6 idem in projects tabs
 
   177 2020- 2-29 project delete seems to not work + re-attach children
+      2020- 3- 7 delete project is ok in windowLayout
 
   182
 
@@ -419,6 +416,11 @@
   113 2020- 1-31 collectList and collectEdit windows should be renamed as
                   thoughtsList and thoughtEdit
       2020- 2- 1 done
+
+  115 2020- 2- 1 projects_tree: review contextual menu and edit/delete links
+                  in case of a page-based layout
+      2020- 2-24 page layout: context menu doesn't work => do not account for it
+      2020- 3- 7 disabled in all usages when in pageLayout
 
   116 2020- 2- 1 merge body+page_layout+window_layout into a single body_layout layout
       2020- 2- 2 done to appLayout

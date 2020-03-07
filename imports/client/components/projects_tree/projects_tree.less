@@ -14,19 +14,32 @@
             .jqtree-element[role=presentation] {
                 align-items: center;
             }
+            .jqtree-element[role=presentation]:hover {
+                background-color: @review-color-lightest;
+            }
             .jqtree-element>svg {
                 width: 1.125rem;
             }
             .jqtree-title {
-                padding-left: 0.5rem;
+                padding: 0 0.5rem;
+            }
+            .contextmenu-showing {
+                background-color: @review-color-l25;
             }
             li.jqtree-folder ul[role=group] {
                 padding-left: 1.5rem;
             }
             li.jqtree-selected > .jqtree-element {
                 background: none;
-                background-color: lighten( @app-color, 50% );
             }
         }
+    }
+}
+.context-menu-root {
+    .context-menu-icon.context-menu-icon--fa5:not(.context-menu-hover) > svg {
+        color: @review-color;
+    }
+    .context-menu-item.context-menu-hover {
+        background-color: @review-color;
     }
 }

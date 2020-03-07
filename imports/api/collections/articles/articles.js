@@ -233,7 +233,7 @@ Articles.fn.check = function( id, o ){
 //  - an 'unset' collection with all *unset* fields
 Articles.fn.cleanup = function( o ){
     let _set = ( dest, src, name ) => {
-        if( src[name] ){
+        if( src[name] && src[name] !== 'none' ){
             dest.set[name] = src[name];
         } else {
             dest.unset[name] = '';

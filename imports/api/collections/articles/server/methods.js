@@ -25,6 +25,21 @@ import { Articles } from '../articles.js';
 
 Meteor.methods({
 
+    // checks that the parent exists (if apply)
+    //  this is to be called before object cleanup
+    _articles_check_parent( it ){
+        if( [ 'A','P' ].includes( it.type )){
+            const parent = it.parent;
+            if( parent && parent !== 'none' ){
+                const obj = Articles.findOne({ type:'P', _id:parent });
+                if( !obj ){
+                    console.log( 'parent='+parent+' not found, resetting' );
+                    it.parent = null;
+                }
+            }
+        }
+    },
+
     // checks that the specified 'it' object is of the expected 'type'
     _articles_check_type( it, type ){
         if( it.type !== type ){
@@ -108,6 +123,7 @@ Meteor.methods({
     'actions.update'( id, o ){
         Meteor.call( '_articles_check_type', o, 'A' );
         Meteor.call( '_articles_check_user', o );
+        Meteor.call( '_articles_check_parent', o );
         const item = Articles.fn.cleanup( o );
         const ret = Articles.update( id, { $set:item.set, $unset:item.unset });
         console.log( 'Articles.actions.update("'+o.name+'") returns '+ret );
@@ -202,8 +218,9 @@ Meteor.methods({
     'projects.update'( id, o ){
         Meteor.call( '_articles_check_type', o, 'P' );
         Meteor.call( '_articles_check_user', o );
+        Meteor.call( '_articles_check_parent', o );
         const item = Articles.fn.cleanup( o );
-        console.log( item );
+        //console.log( item );
         const ret = Articles.update( id, { $set:item.set, $unset:item.unset });
         console.log( 'Articles.projects.update("'+o.name+'") returns '+ret );
         if( !ret ){

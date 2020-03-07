@@ -26,7 +26,7 @@
  *
  *  Variables:
  *  - the item identifier to be edited is specified as the 'id' queryParams;
- *      may be a thought or an action.
+ *      may be a thought or an action, or even not exists at all.
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
@@ -36,8 +36,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './action_edit.html';
 
 Template.actionEdit.fn = {
-    actionClose: function(){
-        //console.log( 'Template.actionEdit.fn.actionClose' );
+    doClose: function(){
+        //console.log( 'Template.actionEdit.fn.doClose' );
         switch( g.run.layout.get()){
             case LYT_PAGE:
                 FlowRouter.go( g.run.back );
@@ -50,18 +50,19 @@ Template.actionEdit.fn = {
     // this let us close an actionEdit window if the action has been
     //  transformed in something else elsewhere
     forClose: function( msg, o ){
+        const fn = Template.actionEdit.fn;
         const self = Template.instance();
-        if( self && self.ronin.get( 'got' )){
+        if( self && self.ronin.dict.get( 'got' )){
             console.log( 'actionEdit '+msg+' '+o._id );
-            const item = self.ronin.get( 'item' );
+            const item = self.ronin.dict.get( 'item' );
             if( item._id === o._id ){
-                Template.actionEdit.fn.actionClose();
+                fn.doClose();
             }
         }
     },
     okLabel: function(){
         const self = Template.instance();
-        const item = self.ronin.get( 'item' );
+        const item = self.ronin.dict.get( 'item' );
         return Template.actionEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
@@ -70,40 +71,43 @@ Template.actionEdit.fn = {
 }
 
 Template.actionEdit.onCreated( function(){
-    this.subscribe( 'articles.actions.all' );
-    this.subscribe( 'articles.projects.all' );
-    this.subscribe( 'topics.all' );
-    this.subscribe( 'contexts.all' );
-
-    this.ronin = new ReactiveDict();
-    this.ronin.set( 'got', false );
+    this.ronin = {
+        dict: new ReactiveDict(),
+        handles: {
+            actions: this.subscribe( 'articles.actions.all' ),
+            projects: this.subscribe( 'articles.projects.all' ),
+            topics: this.subscribe( 'topics.all' ),
+            context: this.subscribe( 'contexts.all' )
+        }
+    };
+    this.ronin.dict.set( 'item', null );
+    this.ronin.dict.set( 'got', false );
 });
 
 Template.actionEdit.onRendered( function(){
     const self = this;
+    const fn = Template.actionEdit.fn;
 
     // get the edited item
     // the rest of the application will not work correctly
     this.autorun(() => {
-        if( !self.ronin.get( 'got' )){
+        if( !self.ronin.dict.get( 'got' ) && self.ronin.handles.actions.ready()){
             const id = FlowRouter.getQueryParam( 'id' );
             if( id ){
                 const item = Articles.findOne({ _id:id });
                 if( item ){
-                    self.ronin.set( 'item', item );
-                    self.ronin.set( 'got', true );
+                    self.ronin.dict.set( 'item', item );
                 }
-            } else {
-                self.ronin.set( 'got', true );
             }
+            self.ronin.dict.set( 'got', true );
         }
     });
 
     // open the window if the manager has been initialized
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
+        if( g[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const context = Template.currentData();
-            const label = Template.actionEdit.fn.okLabel();
+            const label = fn.okLabel();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
                 simone: {
@@ -111,14 +115,14 @@ Template.actionEdit.onRendered( function(){
                         {
                             text: "Cancel",
                             click: function(){
-                                Template.actionEdit.fn.actionClose();
+                                fn.doClose();
                             }
                         },
                         {
                             text: label,
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.action.update', {
-                                    orig: self.ronin.get( 'item' ),
+                                    orig: self.ronin.dict.get( 'item' ),
                                     edit: Template.action_panel.fn.getContent()
                                 });
                             }
@@ -134,24 +138,24 @@ Template.actionEdit.onRendered( function(){
     // this let us close a thoughtEdit window if the thought has been
     //  transformed in something else elsewhere
     $.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
-        Template.actionEdit.fn.forClose( msg, o );
+        fn.forClose( msg, o );
     });
     $.pubsub.subscribe( 'ronin.ui.item.transformed', ( msg, o ) => {
-        Template.actionEdit.fn.forClose( msg, o );
+        fn.forClose( msg, o );
     });
 });
 
 Template.actionEdit.helpers({
     action(){
         const self = Template.instance();
-        return self.ronin.get( 'item' );
+        return self.ronin.dict.get( 'item' );
     },
     okLabel(){
         return Template.actionEdit.fn.okLabel();
     },
     title(){
         const self = Template.instance();
-        const item = self.ronin.get( 'item' );
+        const item = self.ronin.dict.get( 'item' );
         const title = item ? ( item.type === 'T' ? 'Transform thought' : 'Edit action' ) : 'New action';
         Session.set( 'header.title', title );
         return title;
@@ -160,12 +164,12 @@ Template.actionEdit.helpers({
 
 Template.actionEdit.events({
     'click .js-cancel'( ev, instance ){
-        Template.actionEdit.fn.actionClose();
+        Template.actionEdit.fn.doClose();
         return false;
     },
     'click .js-ok'( ev, instance ){
         $.pubsub.publish( 'ronin.model.action.update', {
-            orig: instance.ronin.get( 'item' ),
+            orig: instance.ronin.dict.get( 'item' ),
             edit: Template.action_panel.fn.getContent()
         });
         return false;

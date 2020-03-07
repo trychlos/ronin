@@ -31,8 +31,8 @@ import './thought_edit.html';
 
 Template.thoughtEdit.fn = {
     // on close, go back to thoughtsList window
-    actionClose: function(){
-        //console.log( 'Template.thoughtEdit.fn.actionClose' );
+    doClose: function(){
+        //console.log( 'Template.thoughtEdit.fn.doClose' );
         switch( g.run.layout.get()){
             case LYT_PAGE:
                 FlowRouter.go( g.run.back );
@@ -46,17 +46,17 @@ Template.thoughtEdit.fn = {
     //  should we close this window ?
     forClose: function( msg, o ){
         const self = Template.instance();
-        if( self.ronin.get( 'got' )){
+        if( self.ronin.dict.get( 'got' )){
             console.log( 'thoughtEdit '+msg+' '+o._id );
-            const item = self.ronin.get( 'item' );
+            const item = self.ronin.dict.get( 'item' );
             if( item._id === o._id ){
-                Template.thoughtEdit.fn.actionClose();
+                Template.thoughtEdit.fn.doClose();
             }
         }
     },
     okLabel: function(){
         const self = Template.instance();
-        const item = self.ronin.get( 'item' );
+        const item = self.ronin.dict.get( 'item' );
         return Template.thoughtEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
@@ -65,12 +65,15 @@ Template.thoughtEdit.fn = {
 }
 
 Template.thoughtEdit.onCreated( function(){
-    //console.log( 'thoughtEdit.onCreated' );
-    this.subscribe( 'articles.thoughts.all' );
-    this.subscribe( 'topics.all' );
-
-    this.ronin = new ReactiveDict();
-    this.ronin.set( 'got', false );
+    this.ronin = {
+        dict: new ReactiveDict(),
+        handles: {
+            thoughts: this.subscribe( 'articles.thoughts.all' ),
+            topics: this.subscribe( 'topics.all' )
+        }
+    };
+    this.ronin.dict.set( 'item', null );
+    this.ronin.dict.set( 'got', false );
 });
 
 Template.thoughtEdit.onRendered( function(){
@@ -80,17 +83,15 @@ Template.thoughtEdit.onRendered( function(){
 
     // get the edited item
     this.autorun(() => {
-        if( !self.ronin.get( 'got' )){
+        if( !self.ronin.dict.get( 'got' ) && self.ronin.handles.thoughts.ready()){
             const id = FlowRouter.getQueryParam( 'id' );
             if( id ){
                 const item = Articles.findOne({ _id:id });
                 if( item ){
-                    self.ronin.set( 'item', item );
-                    self.ronin.set( 'got', true );
+                    self.ronin.dict.set( 'item', item );
                 }
-            } else {
-                self.ronin.set( 'got', true );
             }
+            self.ronin.dict.set( 'got', true );
         }
     });
 
@@ -106,14 +107,14 @@ Template.thoughtEdit.onRendered( function(){
                         {
                             text: "Cancel",
                             click: function(){
-                                fn.actionClose();
+                                fn.doClose();
                             }
                         },
                         {
                             text: label,
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.thought.update', {
-                                    orig: self.ronin.get( 'item' ),
+                                    orig: self.ronin.dict.get( 'item' ),
                                     edit: Template.thought_panel.fn.getContent()
                                 });
                             }
@@ -142,11 +143,11 @@ Template.thoughtEdit.helpers({
     },
     thought(){
         const self = Template.instance();
-        return self.ronin.get( 'item' );
+        return self.ronin.dict.get( 'item' );
     },
     title(){
         const self = Template.instance();
-        const item = self.ronin.get( 'item' );
+        const item = self.ronin.dict.get( 'item' );
         const title = item ? 'Edit thought' : 'New thought';
         Session.set( 'header.title', title );
         return title;
@@ -156,13 +157,13 @@ Template.thoughtEdit.helpers({
 Template.thoughtEdit.events({
     // wsf_collapse_buttons cancel button
     'click .js-cancel': function( ev, instance ){
-        Template.thoughtEdit.fn.actionClose();
+        Template.thoughtEdit.fn.doClose();
         return false;
     },
     // wsf_collapse_buttons ok button
     'click .js-ok': function( ev, instance ){
         $.pubsub.publish( 'ronin.model.thought.update', {
-            orig: instance.ronin.get( 'item' ),
+            orig: instance.ronin.dict.get( 'item' ),
             edit: Template.thought_panel.fn.getContent()
         });
         return false;
