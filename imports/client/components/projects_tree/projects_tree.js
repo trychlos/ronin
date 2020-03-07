@@ -504,7 +504,9 @@ Template.projects_tree.onRendered( function(){
                     const future = ( self.ronin.tab === 'gtd-review-projects-future' );
                     let filter = { type:'P' };
                     filter.future = future ? true : { $ne: true };
-                    fn.addProjects( $tree, ordering, future, Articles.find( filter ).fetch());
+                    const projects = Articles.find( filter ).fetch();
+                    $tree.trigger( 'projects-tree-count', { tab:self.ronin.tab, count:projects.length });
+                    fn.addProjects( $tree, ordering, future, projects );
                     self.ronin.dict.set( 'step', fn.steps.projects_shown );
                 }
             }
@@ -520,7 +522,11 @@ Template.projects_tree.onRendered( function(){
             const ordering = self.ronin.dict.get( 'order' ); // may be empty
             let filter = { type:'A' };
             filter.parent = self.ronin.tab === 'gtd-review-projects-single' ? null : { $ne:null };
-            fn.addActions( $tree, ordering, Articles.find( filter ).fetch());
+            const actions = Articles.find( filter ).fetch();
+            if( self.ronin.tab === 'gtd-review-projects-single' ){
+                $tree.trigger( 'projects-tree-count', { tab:self.ronin.tab, count:actions.length });
+            }
+            fn.addActions( $tree, ordering, actions );
             fn.updateNodeList( $tree );
             self.ronin.dict.set( 'step', fn.steps.actions_shown );
         }
@@ -539,7 +545,7 @@ Template.projects_tree.onRendered( function(){
     this.autorun(() => {
         const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.expanded && step < fn.steps.ended ){
-            $tree.trigger( 'projects-tree-built', self.ronin.tab );
+            $tree.trigger( 'projects-tree-built', { tab: self.ronin.tab });
             self.ronin.dict.set( 'step', fn.steps.ended );
         }
     });

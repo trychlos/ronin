@@ -130,8 +130,6 @@
 
   164 2020- 2-24 None topic is not displayed in cards items
 
-  182 2020- 3- 6 have a counter in projects tabs
-
   183
 
 ==============================================================================
@@ -638,5 +636,9 @@
   181 2020- 3- 5 review collect.thought session variable usage vs id queryParam
       2020- 3- 7 removed
 
+  182 2020- 3- 6 have a counter in projects tabs
+      2020- 3- 7 done
+
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
+             Last updated on 2020, Mar. 7th

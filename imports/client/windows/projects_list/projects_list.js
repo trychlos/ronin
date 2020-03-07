@@ -37,7 +37,14 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './projects_list.html';
 
 Template.projectsList.fn = {
-    actionNew: function(){
+    // display count of projects in projects pages, count of actions else
+    displayCounts: function(){
+        const dict = Template.instance().ronin.dict;
+        const total = dict.get( 'total_count' );
+        const tabcount = dict.get( Session.get( 'projects.tab.name' )) || 0;
+        return tabcount+'/'+total;
+    },
+    doNew: function(){
         g.run.back = FlowRouter.current().route.name;
         FlowRouter.go( 'rt.projects.new' );
     }
@@ -47,8 +54,10 @@ Template.projectsList.onCreated( function(){
     //console.log( 'projectsList.onCreated' );
     this.ronin = {
         dict: new ReactiveDict(),
-        spinner: null
+        spinner: null,
+        tabs: {}
     };
+    this.ronin.dict.set( 'total_count', 0 );
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
 });
 
@@ -73,7 +82,7 @@ Template.projectsList.onRendered( function(){
                         {
                             text: "New",
                             click: function(){
-                                Template.projectsList.fn.actionNew();
+                                Template.projectsList.fn.doNew();
                             }
                         }
                     ],
@@ -100,24 +109,42 @@ Template.projectsList.onRendered( function(){
         }
     });
 
-    // stop the spinner at the end
-    $.pubsub.subscribe( 'ronin.ui.spinner.stop', ( msg, o ) => {
+    // child messaging
+    $( '.projectsList' ).on( 'projects-tabs-built', function( ev, o ){
+        //console.log( ev );
+        //console.log( o );
         if( self.ronin.spinner ){
             self.ronin.spinner.stop();
         }
+        return false;
+    });
+    $( '.projectsList' ).on( 'projects-tree-count', function( ev, o ){
+        //console.log( ev );
+        //console.log( o );
+        self.ronin.dict.set( o.tab, o.count );
+        self.ronin.tabs[o.tab] = true;
+        let total = 0;
+        for( let prop in self.ronin.tabs ){
+            if( self.ronin.tabs.hasOwnProperty( prop )){
+                total += self.ronin.dict.get( prop );
+            }
+        }
+        self.ronin.dict.set( 'total_count', total );
+        return false;
     });
 });
 
+Template.projectsList.helpers({
+    // windowLayout template helper
+    count(){
+        return Template.projectsList.fn.displayCounts();
+    }
+});
+
 Template.projectsList.events({
-    // this doesn't work in windowLayout
-    'projects-tabs-built .projectsList'( ev, instance ){
-        if( instance.ronin.spinner ){
-            instance.ronin.spinner.stop();
-        }
-    },
     // page layout
     'click .js-new'( ev, instance ){
-        Template.projectsList.fn.actionNew();
+        Template.projectsList.fn.doNew();
         return false;
     }
 });

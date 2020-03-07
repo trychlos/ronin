@@ -1,6 +1,10 @@
 <template name="projectsList">
     <div class="projectsList wsf-parent ronin-window">
 
+        {{#if isWindowLayout}}
+            {{> window_badge text=count }}
+        {{/if}}
+
         {{> projects_tabs }}
 
         {{#if isPageLayout}}

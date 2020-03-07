@@ -26,16 +26,32 @@ Template.projects_tabs.fn = {
 Template.projects_tabs.onCreated( function(){
     this.ronin = {
         dict:  new ReactiveDict(),
-        total: 0
+        tabs_count: 0
     };
     this.ronin.dict.set( 'count', 0 );
 });
 
 Template.projects_tabs.onRendered( function(){
+    const self = this;
+
     this.autorun(() => {
         $( '.projects-tabbed' ).ITabbed({
             tab: Session.get( 'projects.tab.name' )
         });
+    });
+
+    // when all the tabs have been rendered, advertise the window
+    // use a jQuery message to get its attached data (here, the built tab)
+    //  + the jQuery message is the only way to trigger the parent window in windowLayout :(
+    $( '.projects-tabs' ).on( 'projects-tree-built', function( ev, o ){
+        //console.log( ev );
+        //console.log( o );
+        let count = self.ronin.dict.get( 'count' );
+        count += 1;
+        self.ronin.dict.set( 'count', count );
+        if( count === self.ronin.tabs_count ){
+            $( ev.target ).trigger( 'projects-tabs-built', { count:count });
+        }
     });
 });
 
@@ -43,7 +59,7 @@ Template.projects_tabs.helpers({
     gtdItems(){
         const items = gtd.items( 'projects' );
         const self = Template.instance();
-        self.ronin.total = items.length;
+        self.ronin.tabs_count = items.length;
         return items;
     },
     gtdLabel( item ){
@@ -63,19 +79,5 @@ Template.projects_tabs.helpers({
             }
         }
         return visible;
-    }
-});
-
-Template.projects_tabs.events({
-    // when all the trees have been rendered, advertise the window
-    //  NB: triggering an event to the window doesn't work in windowLayout
-    'projects-tree-built .projects-tabs'( ev, instance ){
-        let count = instance.ronin.dict.get( 'count' );
-        count += 1;
-        instance.ronin.dict.set( 'count', count );
-        if( count === instance.ronin.total ){
-            $( ev.target ).trigger( 'projects-tabs-built', count );
-            $.pubsub.publish( 'ronin.ui.spinner.stop' );
-        }
     }
 });
