@@ -1,5 +1,5 @@
 /*
- * 'fhsf_footer_panel' component.
+ * 'lyt_footer_panel' component.
  *  Display a button fot each group of options, letting the user choose his page content.
  *
  *  Session variables:
@@ -7,9 +7,9 @@
  *      (maybe not anything to do with the actual current route, indeed).
  */
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
-import './fhsf_footer_panel.html';
+import './lyt_footer_panel.html';
 
-Template.fhsf_footer_panel.helpers({
+Template.lyt_footer_panel.helpers({
     // activate in the footer the item which corresponds to the saved route
     active( it ){
         const active = Session.get( 'page.group' );
@@ -23,7 +23,7 @@ Template.fhsf_footer_panel.helpers({
     }
 });
 
-Template.fhsf_footer_panel.events({
+Template.lyt_footer_panel.events({
     'click .js-item'( ev, instance ){
         const id = $( ev.target ).data( 'ronin-gtdid' );
         const route = gtd.routeId( 'footer', id );
