@@ -8,10 +8,10 @@ Meteor.publish( 'articles.actions.all', function(){
 
 Meteor.publish( 'articles.actions.status.count', function(){
     ReactiveAggregate( this, Articles, [
-        { $match: { type:'A' }},
+        { $match: { type:'A', $or: [{ userId:null }, { userId:Meteor.userId()}]}},
         { $group: { _id:'$status', count: { $sum:1 }}}
     ], {
-        clientCollection: 'actionsStatus'
+        clientCollection: 'actionsByStatus'
     });
 });
 
