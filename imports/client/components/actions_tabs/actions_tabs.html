@@ -5,13 +5,19 @@
             <ul>
                 {{#each it in gtdItems}}
                     <li data-itabbed="{{it.id}}" data-ronin-itb-route="{{gtdRoute it}}">
-                        <a href="#{{it.id}}">{{gtdLabel it}}</a>
+                        <a href="#">{{gtdLabel it}}</a>
                     </li>
                 {{/each}}
             </ul>
             {{#each it in gtdItems}}
                 <div id="{{it.id}}">
-                    {{> actions_grid tab=it.id actions=(actions it)}}
+                    {{#if isPageLayout}}
+                        {{#each art in (actions it)}}
+                            {{> actions_list_item action=art }}
+                        {{/each}}
+                    {{else}}
+                        {{> actions_grid tab=it.id actions=(actions it)}}
+                    {{/if}}
                 </div>
             {{/each}}
         </div>

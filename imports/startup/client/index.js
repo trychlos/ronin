@@ -26,7 +26,7 @@ import 'jquery-contextmenu/dist/jquery.ui.position.min.js';
 import '@fortawesome/fontawesome-free/js/all.js';
 
 // jqWidgets base code is made globally available in the application
-//  notably used for jqxGrid (cf. IGrid interface) and jqxSplitter
+//  notably used for jqxGrid (cf. IGrid interface), jqxSplitter and jqxTabs.
 import '/imports/client/third-party/jqwidgets/jqx.base.css';
 import '/imports/client/third-party/jqwidgets/jqxcore-patched.js';
 

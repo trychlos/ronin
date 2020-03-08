@@ -17,23 +17,14 @@ import '/imports/client/interfaces/itabbed/itabbed.js';
 import './projects_tabs.html';
 
 Template.projects_tabs.fn = {
-    alwaysVisible: [
-        'gtd-review-projects-current',
-        'gtd-review-projects-future'
-    ],
+    _gtditems: null,
     getItems: function(){
-        return gtd.items( 'projects' );
-    },
-    //  limiting to two tabs in pageLayout if width < 480
-    isVisibleItem: function( it ){
-        let visible = true;
-        if( g.run.layout.get() === LYT_PAGE && g.run.width.get() < 480 ){
-            const fn = Template.projects_tabs.fn;
-            if( !fn.alwaysVisible.includes( it.id )){
-                visible = false;
-            }
+        const fn = Template.projects_tabs.fn;
+        if( !fn._gtditems ){
+            fn._gtditems = gtd.items( 'projects' );
+            Template.instance().ronin.tabs_count = fn._gtditems.length;
         }
-        return visible;
+        return fn._gtditems
     }
 };
 
@@ -70,15 +61,6 @@ Template.projects_tabs.onRendered( function(){
 });
 
 Template.projects_tabs.helpers({
-    countItems(){
-        const fn = Template.projects_tabs.fn;
-        let count = 0;
-        fn.getItems().forEach( it => {
-            count += fn.isVisibleItem( it ) ? 1 : 0;
-        });
-        const self = Template.instance();
-        self.ronin.tabs_count = count;
-    },
     gtdItems(){
         const fn = Template.projects_tabs.fn;
         return fn.getItems();
@@ -88,10 +70,5 @@ Template.projects_tabs.helpers({
     },
     gtdRoute( item ){
         return gtd.routeItem( 'projects', item );
-    },
-    // class helper
-    isVisible( item ){
-        const fn = Template.projects_tabs.fn;
-        return fn.isVisibleItem( item ) ? '' : 'x-hidden';
     }
 });

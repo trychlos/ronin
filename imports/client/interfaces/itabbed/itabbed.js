@@ -2,9 +2,12 @@
  * 'ITabbed' pseudo-interface.
  *  To be used by every tabbed window.
  *
- *  We have chosen to use jQuery Tabs.
- *  jQuery Tabs relies on a specific HTML markup
- *  see API documentation https://api.jqueryui.com/tabs/.
+ *  Modules story:
+ *  1. first choice was jQuery Tabs
+ *      https://api.jqueryui.com/tabs/
+ *      Cancelled as non scrollable.
+ *  2. Current choice is jqxTabs
+ *      https://www.jqwidgets.com/jquery-widgets-documentation/documentation/jqxtabs/jquery-tabs-getting-started.htm
  *
  *  A ITabbed-able page should be built as:
  *  1. a <ul></ul> index section
@@ -22,6 +25,7 @@
  *  From https://github.com/jquery-boilerplate/jquery-boilerplate/blob/master/src/jquery.boilerplate.js
  */
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
+import '/imports/client/third-party/jqwidgets/jqxtabs.js';
 
 ;( function( $, window, document ){
     "use strict";
@@ -53,57 +57,56 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
         },
         // we have asked to show a new tabbed panel: create it
         _create: function(){
-            //console.log( this );
+            const self = this;
             let settings = $.extend( true, {}, this.args, $.fn[pluginName].defaults );
             // set a 'ronin-itabbed' class on the root element
             this.$dom.addClass( 'ronin-itabbed' );
             //console.log( settings );
-            this.$dom.tabs( settings.jquery );
+            this.$dom.jqxTabs( settings.jqxTabs );
             // if defined, make sure the requested tab is activated
             if( this.args.tab ){
-                this.$dom.tabs({ active: this._index( this.args.tab )});
+                this.$dom.jqxTabs( 'select', this._index( this.args.tab ));
             }
             // set event handlers
             //  passing this to the handler, getting back in event.data
             //  in the handler, this is the attached dom element
-            $( this.dom ).on( 'tabsactivate', this, function( ev, ui ){
-                const route = $( ui.newTab ).attr( 'data-ronin-itb-route' );
-                $().IWindowed.setRoute( ui.newTab, route );
+            this.$dom.on( 'selected', function( ev ){
+                const tab = self._byIndex( ev.args.item );
+                const route = $( tab ).attr( 'data-ronin-itb-route' );
+                $().IWindowed.setRoute( '.ronin-itabbed', route );
             });
-            //console.log( $( this.dom ));
+        },
+        // return the tab at the specified index
+        _byIndex: function( idx ){
+            return this.$dom.find('li[role=tab]')[idx];
         },
         // return the index of the named tab
         //  defaulting to the first tab
         _index: function( name ){
             const tabs = this._tabs();
-            for( let i=0 ; i<tabs.length ; ++i ){
-                if( name === tabs[i] ){
-                    return i;
-                }
-            }
-            return 0;
+            return tabs[name];
         },
         // re-calling an already initialized plugin
         _methods: function( opts ){
             //console.log( opts );
             if( typeof opts === 'object' ){
                 if( opts.tab ){
-                    this.$dom.tabs({ active: this._index( opts.tab )});
+                    this.$dom.jqxTabs( 'select', this._index( opts.tab ));
                 }
             }
         },
-        // return the array of tab identifiers (marked as 'data-itabbed')
+        // return a hash tabid -> tabidx (marked as 'data-itabbed')
         //  NB: only works after first initialization
         _tabs: function( element ){
             //console.log( 'classes='+element.attr('class'));
-            let tabs = new Array();
+            let o = {}
             let idx = 0;
-            $( this.dom ).find('li[role=tab]').each( function(){
+            this.$dom.find( 'li[role=tab]' ).each( function(){
                 const id = $( this ).attr('data-itabbed');
-                tabs.push( id ? id : idx );
+                o[id] = idx;
                 idx += 1;
             });
-            return tabs;
+            return o;
         }
     });
 
@@ -129,7 +132,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 
     // default values, overridable by the user at global level
     $.fn[pluginName].defaults = {
-        jquery: {
+        jqxTabs: {
         }
     };
 })( jQuery, window, document );
