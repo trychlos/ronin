@@ -33,20 +33,13 @@ import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/actions_list/actions_list.js';
 import '/imports/client/components/actions_tabs/actions_tabs.js';
-import '/imports/client/components/window_badge/window_badge.js';
+import '/imports/client/components/text_badge/text_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_list.html';
 
 const actionsStatus = new Mongo.Collection( 'actionsStatus' );
 
 Template.actionsList.fn = {
-    displayCounts: function(){
-        const dict = Template.instance().ronin.dict;
-        const total = dict.get( 'total_count' );
-        const status = gtd.statusId( Session.get( 'actions.tab.name' ));
-        const tabcount = dict.get( 'status_'+status ) || 0;
-        return tabcount+'/'+total;
-    },
     doNew: function(){
         g.run.back = FlowRouter.current().route.name;
         FlowRouter.go( 'rt.actions.new' );
@@ -155,16 +148,23 @@ Template.actionsList.onRendered( function(){
             self.ronin.spinner.stop();
         }
     });
+
+    // reactively update the counts badge
+    this.autorun(() => {
+        const total = self.ronin.dict.get( 'total_count' );
+        const status = gtd.statusId( Session.get( 'actions.tab.name' ));
+        const tabcount = self.ronin.dict.get( 'status_'+status ) || 0;
+        Session.set( 'text_badge.text', tabcount+'/'+total );
+    });
 });
 
 Template.actionsList.helpers({
     actions(){
         return Articles.find({ type:'A' }, { sort:{ createdAt: -1 }});
     },
-    // display in the window title (in windowLayout) the counts
-    //  in_current_tab/total
+    // display current counts
     count(){
-        return Template.actionsList.fn.displayCounts();
+        return Session.get( 'text_badge.text' );
     }
 });
 
@@ -177,5 +177,5 @@ Template.actionsList.events({
 });
 
 Template.actionsList.onDestroyed( function(){
-    //console.log( 'actionsList.onDestroyed' );
+    Session.set( 'text_badge.text', null );
 });

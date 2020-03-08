@@ -20,7 +20,21 @@ Template.projects_tabs.fn = {
     alwaysVisible: [
         'gtd-review-projects-current',
         'gtd-review-projects-future'
-    ]
+    ],
+    getItems: function(){
+        return gtd.items( 'projects' );
+    },
+    //  limiting to two tabs in pageLayout if width < 480
+    isVisibleItem: function( it ){
+        let visible = true;
+        if( g.run.layout.get() === LYT_PAGE && g.run.width.get() < 480 ){
+            const fn = Template.projects_tabs.fn;
+            if( !fn.alwaysVisible.includes( it.id )){
+                visible = false;
+            }
+        }
+        return visible;
+    }
 };
 
 Template.projects_tabs.onCreated( function(){
@@ -56,11 +70,18 @@ Template.projects_tabs.onRendered( function(){
 });
 
 Template.projects_tabs.helpers({
-    gtdItems(){
-        const items = gtd.items( 'projects' );
+    countItems(){
+        const fn = Template.projects_tabs.fn;
+        let count = 0;
+        fn.getItems().forEach( it => {
+            count += fn.isVisibleItem( it ) ? 1 : 0;
+        });
         const self = Template.instance();
-        self.ronin.tabs_count = items.length;
-        return items;
+        self.ronin.tabs_count = count;
+    },
+    gtdItems(){
+        const fn = Template.projects_tabs.fn;
+        return fn.getItems();
     },
     gtdLabel( item ){
         return gtd.labelItem( 'projects', item );
@@ -69,15 +90,8 @@ Template.projects_tabs.helpers({
         return gtd.routeItem( 'projects', item );
     },
     // class helper
-    //  limiting to two tabs in pageLayout if width < 480
     isVisible( item ){
-        let visible = '';
-        if( g.run.layout.get() === LYT_PAGE && g.run.width.get() < 480 ){
-            const fn = Template.projects_tabs.fn;
-            if( !fn.alwaysVisible.includes( item.id )){
-                visible = 'x-hidden';
-            }
-        }
-        return visible;
+        const fn = Template.projects_tabs.fn;
+        return fn.isVisibleItem( item ) ? '' : 'x-hidden';
     }
 });

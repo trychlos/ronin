@@ -33,17 +33,11 @@ import { Topics } from '/imports/api/collections/topics/topics.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/projects_tabs/projects_tabs.js';
+import '/imports/client/components/text_badge/text_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './projects_list.html';
 
 Template.projectsList.fn = {
-    // display count of projects in projects pages, count of actions else
-    displayCounts: function(){
-        const dict = Template.instance().ronin.dict;
-        const total = dict.get( 'total_count' );
-        const tabcount = dict.get( Session.get( 'projects.tab.name' )) || 0;
-        return tabcount+'/'+total;
-    },
     doNew: function(){
         g.run.back = FlowRouter.current().route.name;
         FlowRouter.go( 'rt.projects.new' );
@@ -109,6 +103,13 @@ Template.projectsList.onRendered( function(){
         }
     });
 
+    // reactively update the counts badge
+    this.autorun(() => {
+        const total = self.ronin.dict.get( 'total_count' );
+        const tabcount = self.ronin.dict.get( Session.get( 'projects.tab.name' )) || 0;
+        Session.set( 'text_badge.text', tabcount+'/'+total );
+    });
+
     // child messaging
     $( '.projectsList' ).on( 'projects-tabs-built', function( ev, o ){
         //console.log( ev );
@@ -135,9 +136,9 @@ Template.projectsList.onRendered( function(){
 });
 
 Template.projectsList.helpers({
-    // windowLayout template helper
+    // display current counts
     count(){
-        return Template.projectsList.fn.displayCounts();
+        return Session.get( 'text_badge.text' );
     }
 });
 
@@ -150,5 +151,5 @@ Template.projectsList.events({
 });
 
 Template.projectsList.onDestroyed( function(){
-    //console.log( 'projectsList.onDestroyed' );
+    Session.set( 'text_badge.text', null );
 });

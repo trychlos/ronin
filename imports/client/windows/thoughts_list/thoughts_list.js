@@ -31,7 +31,7 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/thoughts_list/thoughts_list.js';
-import '/imports/client/components/window_badge/window_badge.js';
+import '/imports/client/components/text_badge/text_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
@@ -46,10 +46,10 @@ Template.thoughtsList.onCreated( function(){
     //console.log( 'thoughtsList.onCreated' );
     this.ronin = {
         dict: new ReactiveDict(),
-        handles: [
-            this.subscribe( 'articles.thoughts.all' ),
-            this.subscribe( 'topics.all' )
-        ],
+        handles: {
+            thoughts: this.subscribe( 'articles.thoughts.all' ),
+            topics: this.subscribe( 'topics.all' )
+        },
         spinner: null
     };
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
@@ -105,12 +105,24 @@ Template.thoughtsList.onRendered( function(){
         }
     });
 
-    // wait for subscriptions are ready
+    // count the thoughts
+    this.autorun(() => {
+        if( self.ronin.handles.thoughts.ready()){
+            Session.set( 'text_badge.text', Articles.find({ type:'T' }).count());
+        }
+    });
+
+    // wait for all subscriptions are ready
     this.autorun(() => {
         let ready = true;
-        self.ronin.handles.forEach( h => {
-            ready = ready && h.ready();
-        });
+        for( let prop in self.ronin.handles ){
+            if( self.ronin.handles.hasOwnProperty( prop )){
+                ready = ready && self.ronin.handles[prop].ready();
+                if( !ready ){
+                    break;
+                }
+            }
+        }
         self.ronin.dict.set( 'subscriptions_ready', ready );
     });
 
@@ -124,7 +136,7 @@ Template.thoughtsList.onRendered( function(){
 
 Template.thoughtsList.helpers({
     count(){
-        return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }}).count();
+        return Session.get( 'text_badge.text' );
     },
     thoughts(){
         return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
@@ -137,4 +149,8 @@ Template.thoughtsList.events({
         Template.thoughtsList.fn.actionNew();
         return false;
     }
+});
+
+Template.thoughtsList.onDestroyed( function(){
+    Session.set( 'text_badge.text', null );
 });

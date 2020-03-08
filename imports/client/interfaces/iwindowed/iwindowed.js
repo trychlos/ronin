@@ -433,8 +433,8 @@
             const list = $( selector ).parents( '.ronin-iwm-window' );
             if( list && list[0] ){
                 $( list[0] ).attr( 'data-ronin-iwm-route', route );
-                FlowRouter.go( route );
             }
+            FlowRouter.go( route );
         }
     };
 

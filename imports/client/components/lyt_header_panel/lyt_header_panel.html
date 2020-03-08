@@ -19,9 +19,16 @@
         {{/if}}
 
         <div class="x-hidew580">
-            {{{ preSpacer }}}
-            {{> layout_select }}
-        </div>
+                {{{ preSpacer }}}
+                {{> layout_select }}
+            </div>
+
+        {{#if isPageLayout}}
+            <div class="x-hidew480">
+                {{{ preSpacer }}}
+                {{> text_badge text=displayBadge }}
+            </div>
+        {{/if}}
 
         {{{ preSpacer }}}
         {{> loginButtons align="right" }}

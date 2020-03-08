@@ -1,5 +1,8 @@
 <template name="projects_tabs">
     <div class="projects-tabs ronin-wnd-content">
+
+        {{countItems}}
+
         <div class="projects-tabbed">
             <ul>
                 {{#each it in gtdItems}}
@@ -14,5 +17,6 @@
                 </div>
             {{/each}}
         </div>
+
     </div>
 </template>
