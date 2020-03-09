@@ -18,11 +18,5 @@ Template.text_badge.helpers({
     //  nothing at all is displayed if text is empty
     visibleClass(){
         return this.text ? '' : 'x-hidden';
-    },
-    // class helper
-    //  in windowLayout, the IWindowed interface takes care of moving the DOM
-    //  element to the widget titlebar
-    windowClass(){
-        return g.run.layout.get() === LYT_WINDOW ? 'ronin-iwm-titlebadge' : '';
     }
 });

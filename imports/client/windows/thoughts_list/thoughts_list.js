@@ -31,7 +31,7 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/thoughts_list/thoughts_list.js';
-import '/imports/client/components/text_badge/text_badge.js';
+import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 

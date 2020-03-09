@@ -32,7 +32,7 @@ import { Topics } from '/imports/api/collections/topics/topics.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/actions_tabs/actions_tabs.js';
-import '/imports/client/components/text_badge/text_badge.js';
+import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_list.html';
 

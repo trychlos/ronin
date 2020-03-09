@@ -1,11 +1,7 @@
 <template name="thoughtsList">
     <div class="thoughtsList wsf-parent ronin-window">
 
-        {{#if isWindowLayout}}
-            <!-- <button class="js-new ui-button ui-corner-all">New</button> -->
-            {{> text_badge text=count }}
-        {{/if}}
-
+        {{> window_badge text=count }}
         {{> thoughts_list thoughts=thoughts }}
 
         {{#if isPageLayout}}
