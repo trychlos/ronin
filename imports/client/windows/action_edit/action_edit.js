@@ -74,7 +74,7 @@ Template.actionEdit.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
         handles: {
-            actions: this.subscribe( 'articles.actions.all' ),
+            article: this.subscribe( 'articles.one', FlowRouter.getQueryParam( 'id' )),
             projects: this.subscribe( 'articles.projects.all' ),
             topics: this.subscribe( 'topics.all' ),
             context: this.subscribe( 'contexts.all' )
@@ -91,7 +91,7 @@ Template.actionEdit.onRendered( function(){
     // get the edited item
     // the rest of the application will not work correctly
     this.autorun(() => {
-        if( !self.ronin.dict.get( 'got' ) && self.ronin.handles.actions.ready()){
+        if( self.ronin.handles.article.ready()){
             const id = FlowRouter.getQueryParam( 'id' );
             if( id ){
                 const item = Articles.findOne({ _id:id });

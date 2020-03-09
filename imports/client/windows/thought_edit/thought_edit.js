@@ -68,7 +68,7 @@ Template.thoughtEdit.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
         handles: {
-            thoughts: this.subscribe( 'articles.thoughts.all' ),
+            article: this.subscribe( 'articles.one', FlowRouter.getQueryParam( 'id' )),
             topics: this.subscribe( 'topics.all' )
         }
     };
@@ -83,7 +83,7 @@ Template.thoughtEdit.onRendered( function(){
 
     // get the edited item
     this.autorun(() => {
-        if( !self.ronin.dict.get( 'got' ) && self.ronin.handles.thoughts.ready()){
+        if( self.ronin.handles.article.ready()){
             const id = FlowRouter.getQueryParam( 'id' );
             if( id ){
                 const item = Articles.findOne({ _id:id });

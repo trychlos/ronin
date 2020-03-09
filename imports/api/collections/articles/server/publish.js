@@ -2,6 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { ReactiveAggregate } from 'meteor/tunguska:reactive-aggregate';
 import { Articles } from '../articles.js';
 
+Meteor.publish( 'articles.one', function( id ){
+    return Articles.find({ _id:id });
+});
+
 Meteor.publish( 'articles.actions.all', function(){
     return Articles.find({ type: 'A', $or: [{ userId:null }, { userId:Meteor.userId()}]});
 });
