@@ -61,24 +61,44 @@ import '/imports/client/third-party/jqwidgets/jqxtabs.js';
             let settings = $.extend( true, {}, this.args, $.fn[pluginName].defaults );
             // set a 'ronin-itabbed' class on the root element
             this.$dom.addClass( 'ronin-itabbed' );
-            //console.log( settings );
-            this.$dom.jqxTabs( settings.jqxTabs );
+            $( this.$dom.find( '.nav-tabs' )[0] ).scrollingTabs( settings.jquery );
             // if defined, make sure the requested tab is activated
             if( this.args.tab ){
-                this.$dom.jqxTabs( 'select', this._index( this.args.tab ));
+                this._activate( this.args.tab );
             }
             // set event handlers
             //  passing this to the handler, getting back in event.data
             //  in the handler, this is the attached dom element
+            /*
             this.$dom.on( 'selected', function( ev ){
                 const tab = self._byIndex( ev.args.item );
                 const route = $( tab ).attr( 'data-ronin-itb-route' );
                 $().IWindowed.setRoute( '.ronin-itabbed', route );
             });
+            */
         },
-        // return the tab at the specified index
+        // activating a tab means
+        //  - desactivating the previous tab
+        //  - activating and showing the designated tab
+        _activate: function( name ){
+            this.$dom.find( '.nav-tabs>ul>li' ).removeClass( 'active' );
+            const $tab = this._byName( name );
+            $tab.addClass( 'active' );
+            this.$dom.find( '#'+name ).addClass( 'active show' );
+        },
+        // return the jQuery tab at the specified index
         _byIndex: function( idx ){
-            return this.$dom.find('li[role=tab]')[idx];
+            return $( this.$dom.find('li.nav-item[role=presentation]')[idx] );
+        },
+        // return the named tab
+        _byName: function( name ){
+            return this._byIndex( this._index( name ) );
+        },
+        // select the named tab
+        _go: function( name ){
+            const $tab = this._byName( name );
+            const route = $tab.attr( 'data-ronin-itb-route' );
+            $().IWindowed.setRoute( '.ronin-itabbed', route );
         },
         // return the index of the named tab
         //  defaulting to the first tab
@@ -89,10 +109,17 @@ import '/imports/client/third-party/jqwidgets/jqxtabs.js';
         // re-calling an already initialized plugin
         _methods: function( opts ){
             //console.log( opts );
+            //console.log( arguments );
             if( typeof opts === 'object' ){
                 if( opts.tab ){
                     this.$dom.jqxTabs( 'select', this._index( opts.tab ));
                 }
+            // programatically activating and showing a tab
+            } else if( arguments[0] === 'activate' ){
+                this._activate( arguments[1] );
+            // update the route after a user selection
+            } else if( arguments[0] === 'go' ){
+                this._go( arguments[1] );
             }
         },
         // return a hash tabid -> tabidx (marked as 'data-itabbed')
@@ -101,7 +128,7 @@ import '/imports/client/third-party/jqwidgets/jqxtabs.js';
             //console.log( 'classes='+element.attr('class'));
             let o = {}
             let idx = 0;
-            this.$dom.find( 'li[role=tab]' ).each( function(){
+            this.$dom.find( 'li.nav-item[role=presentation]' ).each( function(){
                 const id = $( this ).attr('data-itabbed');
                 o[id] = idx;
                 idx += 1;
@@ -121,6 +148,7 @@ import '/imports/client/third-party/jqwidgets/jqxtabs.js';
             //console.log( plugin );
             if( plugin ){
                 //console.log( 'reusing already initialized plugin' );
+                //console.log( opts );
                 myPlugin.prototype._methods.apply( plugin, opts );
             } else {
                 //console.log( 'allocating new plugin instance' );
@@ -132,7 +160,23 @@ import '/imports/client/third-party/jqwidgets/jqxtabs.js';
 
     // default values, overridable by the user at global level
     $.fn[pluginName].defaults = {
-        jqxTabs: {
+        jquery: {
+            scrollToTabEdge: true,
+            enableSwiping: true,
+            disableArrowsOnFullyScrolled: false,
+            bootstrapVersion: 4,
+            tabClickHandler: function( ev ){
+                let $li = $( this );
+                if( this.nodeName === 'A' ){
+                    $li = $( this ).parent( 'li' );
+                }
+                const name = $li.attr( 'data-itabbed' );
+                //console.log( 'switching to '+name );
+                const tabbed = $li.parents( '.ronin-itabbed' )[0];
+                if( tabbed ){
+                    $( tabbed ).ITabbed( 'go', name );
+                }
+            }
         }
     };
 })( jQuery, window, document );
