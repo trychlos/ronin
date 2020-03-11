@@ -1,4 +1,10 @@
 .ronin-itabbed {
+    .scrtabs-tab-container,
+    .scrtabs-tabs-fixed-container,
+    .scrtabs-tab-scroll-arrow,
+    a {
+        height: 2.5rem;
+    }
     .scrtabs-tab-container {
         .nav-tabs {
             .nav-item {
@@ -10,6 +16,10 @@
             .nav-item:not(:active){
                 background-color: #eeeeee;
             }
+        }
+        .scrtabs-tab-scroll-arrow-left,
+        .scrtabs-tab-scroll-arrow-right {
+            padding-left: 5px;
         }
     }
 }

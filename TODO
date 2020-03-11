@@ -141,14 +141,9 @@
                  lists should be displayed in reverse order of creation
                  (or have a sorting button)
 
-  188 2020- 3-11 scrollingTabs: have arrows
-
   189 2020- 3-11 adapt projects tabs to scrollingTabs
 
   190 2020- 3-11 review text_badge session variable
-
-  192 2020- 3-11 when collapsing an element, removing class and adding class
-                 should happen in the same event (to appear more reactive)
 
   193 2020- 3-11 user+device preference: display lists as grid or cards
                  (only relevant in windowLayout)
@@ -668,8 +663,18 @@
   183 2020- 3- 8 actionsList in pageLayout: should display some tabs (and which ?)
       2020- 3-11 all tabs are displayed in a scrolling area
 
+  188 2020- 3-11 scrollingTabs: have arrows
+      2020- 3-11 done
+
   191 2020- 3-11 review tabs style
       2020- 3-11 done
+
+  192 2020- 3-11 when collapsing an element, removing class and adding class
+                 should happen in the same event (to appear more reactive)
+      2020- 3-11 this is not possible as closing an element involves only removing
+                 class while opening an element also involves adding class
+                 so we have to deal with two different actions
+                 -> cancelled
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

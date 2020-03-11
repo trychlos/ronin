@@ -171,7 +171,9 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
                 if( tabbed ){
                     $( tabbed ).ITabbed( 'go', name );
                 }
-            }
+            },
+            cssClassLeftArrow: 'fas fa-chevron-left',
+            cssClassRightArrow: 'fas fa-chevron-right'
         }
     };
 })( jQuery, window, document );
