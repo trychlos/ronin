@@ -147,8 +147,6 @@
 
   190 2020- 3-11 review text_badge session variable
 
-  191 2020- 3-11 review tabs style
-
   192 2020- 3-11 when collapsing an element, removing class and adding class
                  should happen in the same event (to appear more reactive)
 
@@ -669,6 +667,9 @@
 
   183 2020- 3- 8 actionsList in pageLayout: should display some tabs (and which ?)
       2020- 3-11 all tabs are displayed in a scrolling area
+
+  191 2020- 3-11 review tabs style
+      2020- 3-11 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

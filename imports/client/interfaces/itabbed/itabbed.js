@@ -76,9 +76,9 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
         //  - desactivating the previous tab
         //  - activating and showing the designated tab
         _activate: function( name ){
-            this.$dom.find( '.nav-tabs>ul>li' ).removeClass( 'active' );
+            this.$dom.find( '.nav-tabs>ul>li.nav-item>a.nav-link' ).removeClass( 'active' );
             const $tab = this._byName( name );
-            $tab.addClass( 'active' );
+            $tab.find( 'a.nav-link' ).addClass( 'active' );
             this.$dom.find( '#'+name ).addClass( 'active show' );
         },
         // return the jQuery tab at the specified index
