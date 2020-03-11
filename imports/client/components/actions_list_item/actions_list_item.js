@@ -10,7 +10,10 @@
  *      so that we can open the card when coming back from the edition
  */
 import { Topics } from '/imports/api/collections/topics/topics.js';
-import '/imports/client/components/actions_list_card/actions_list_card.js';
+import '/imports/client/components/delete_button/delete_button.js';
+import '/imports/client/components/edit_button/edit_button.js';
+import '/imports/client/components/ownership_button/ownership_button.js';
+import '/imports/client/components/project_button/project_button.js';
 import './actions_list_item.html';
 
 Template.actions_list_item.fn = {
@@ -29,8 +32,16 @@ Template.actions_list_item.onRendered( function(){
 });
 
 Template.actions_list_item.helpers({
-    classCreatedAt(){
-        return $(window).innerWidth() <= 480 ? 'x-hidew480' : '';
+    checked(){
+        return this.action.doneDate && moment( this.action.doneDate ).isValid() ? 'checked' : '';
+    },
+    classCreatedAt( where ){
+        const width = g.run.width.get();
+        let visible = width <= 480 ? 'x-hidew480' : '';
+        if( where === 'card' ){
+            visible = width <= 480 ? '' : 'x-hidden';
+        }
+        return visible;
     },
     className(){
         return $(window).innerWidth() <= 480 ? 'x-w60' : 'w-50';
@@ -61,6 +72,10 @@ Template.actions_list_item.helpers({
 //  after the 'hide' due to the transition delay...
 //
 Template.actions_list_item.events({
+    'click .js-done'( ev, instance ){
+        $.pubsub.publish( 'ronin.model.action.done.toggle', { action: instance.data.action });
+        return false;
+    },
     // event.currentTarget = actions-list-item div
     // event.target = collapsable div
     'hide.bs.collapse'( ev, instance ){
