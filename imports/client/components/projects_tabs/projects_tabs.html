@@ -1,16 +1,16 @@
 <template name="projects_tabs">
     <div class="projects-tabs ronin-wnd-content">
 
-        <div class="projects-tabbed">
-            <ul>
-                {{#each it in gtdItems}}
-                    <li data-itabbed="{{ it.id }}" data-ronin-itb-route="{{ gtdRoute it }}">
-                        <a href="#">{{ gtdLabel it }}</a>
-                    </li>
-                {{/each}}
-            </ul>
+        <ul class="nav nav-tabs" role="tablist">
             {{#each it in gtdItems}}
-                <div id="{{ it.id }}">
+                <li class="nav-item" role="presentation" data-itabbed="{{ it.id }}" data-ronin-itb-route="{{ gtdRoute it }}">
+                    <a class="nav-link" href="#{{ it.id }}" role="tab" data-toggle="tab">{{ gtdLabel it }}</a>
+                </li>
+            {{/each}}
+        </ul>
+        <div class="tab-content">
+            {{#each it in gtdItems}}
+                <div role="tabpanel" class="tab-pane fade" id="{{ it.id }}">
                     {{> projects_tree tab=it.id label=(gtdLabel it) }}
                 </div>
             {{/each}}

@@ -40,7 +40,7 @@ Template.projects_tabs.onRendered( function(){
     const self = this;
 
     this.autorun(() => {
-        $( '.projects-tabbed' ).ITabbed({
+        $( '.projects-tabs' ).ITabbed({
             tab: Session.get( 'projects.tab.name' )
         });
     });
