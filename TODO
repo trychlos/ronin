@@ -130,11 +130,35 @@
 
   164 2020- 2-24 None topic is not displayed in cards items
 
-  183 2020- 3- 8 actionsList in pageLayout: should display some tabs (and which ?)
-
   184 2020- 3-10 deprecate IGrid
 
-  185
+  185 2020- 3-11 have a site icon (favicon)
+
+  186 2020- 3-11 when a thought is transformed into an action, also take ownership
+                 if needed and possible
+
+  187 2020- 3-11 both in grid and in list, both in thoughts and in actions,
+                 lists should be displayed in reverse order of creation
+                 (or have a sorting button)
+
+  188 2020- 3-11 scrollingTabs: have arrows
+
+  189 2020- 3-11 adapt projects tabs to scrollingTabs
+
+  190 2020- 3-11 review text_badge session variable
+
+  191 2020- 3-11 review tabs style
+
+  192 2020- 3-11 when collapsing an element, removing class and adding class
+                 should happen in the same event (to appear more reactive)
+
+  193 2020- 3-11 user+device preference: display lists as grid or cards
+                 (only relevant in windowLayout)
+
+  194 2020- 3-11 in windowLayout, opening both an action new and an action edit
+                  mixes the two windows - maybe something is too reactive !?
+
+  195
 
 ==============================================================================
  Done
@@ -642,6 +666,9 @@
 
   182 2020- 3- 6 have a counter in projects tabs
       2020- 3- 7 done
+
+  183 2020- 3- 8 actionsList in pageLayout: should display some tabs (and which ?)
+      2020- 3-11 all tabs are displayed in a scrolling area
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

@@ -6,8 +6,12 @@
  *  1. first choice was jQuery Tabs
  *      https://api.jqueryui.com/tabs/
  *      Cancelled as non scrollable.
- *  2. Current choice is jqxTabs
+ *  2. second choice has been jqxTabs
+ *      Cancelled as only scrollable with non-resizable arrows
  *      https://www.jqwidgets.com/jquery-widgets-documentation/documentation/jqxtabs/jquery-tabs-getting-started.htm
+ *  3. current choice is scrolling tab
+ *      both scrollable and swypeable
+ *      https://www.jqueryscript.net/other/jQuery-Plugin-To-Create-Responsive-Scrolling-Bootstrap-Tabs.html
  *
  *  A ITabbed-able page should be built as:
  *  1. a <ul></ul> index section
@@ -22,10 +26,11 @@
  *  - tab (optional) tab identifier
  *  + all jQuery Tabs options.
  *
- *  From https://github.com/jquery-boilerplate/jquery-boilerplate/blob/master/src/jquery.boilerplate.js
+ *  Boilerplate from https://github.com/jquery-boilerplate/jquery-boilerplate/blob/master/src/jquery.boilerplate.js
  */
+import '/imports/client/third-party/scrollingTabs/dist/jquery.scrolling-tabs.min.css';
+import '/imports/client/third-party/scrollingTabs/dist/jquery.scrolling-tabs.min.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
-import '/imports/client/third-party/jqwidgets/jqxtabs.js';
 
 ;( function( $, window, document ){
     "use strict";
@@ -66,16 +71,6 @@ import '/imports/client/third-party/jqwidgets/jqxtabs.js';
             if( this.args.tab ){
                 this._activate( this.args.tab );
             }
-            // set event handlers
-            //  passing this to the handler, getting back in event.data
-            //  in the handler, this is the attached dom element
-            /*
-            this.$dom.on( 'selected', function( ev ){
-                const tab = self._byIndex( ev.args.item );
-                const route = $( tab ).attr( 'data-ronin-itb-route' );
-                $().IWindowed.setRoute( '.ronin-itabbed', route );
-            });
-            */
         },
         // activating a tab means
         //  - desactivating the previous tab
@@ -107,7 +102,7 @@ import '/imports/client/third-party/jqwidgets/jqxtabs.js';
             return tabs[name];
         },
         // re-calling an already initialized plugin
-        _methods: function( opts ){
+        _methods: function(){
             //console.log( opts );
             //console.log( arguments );
             if( typeof opts === 'object' ){
@@ -123,7 +118,7 @@ import '/imports/client/third-party/jqwidgets/jqxtabs.js';
             }
         },
         // return a hash tabid -> tabidx (marked as 'data-itabbed')
-        //  NB: only works after first initialization
+        //  NB: only works after full initialization
         _tabs: function( element ){
             //console.log( 'classes='+element.attr('class'));
             let o = {}

@@ -47,6 +47,13 @@
  *
  *  From https://github.com/jquery-boilerplate/jquery-boilerplate/blob/master/src/jquery.boilerplate.js
  */
+// statically import simone window manager to not run in dynamic problems
+//  even if this is rather useless (as unused) in any touch device
+//  http://cezarykluczynski.github.io/simone/docs/
+import '/imports/client/third-party/simone/simone.min.js';
+import '/imports/client/third-party/simone/i18n/simone.min.custom.js';
+import '/imports/client/third-party/simone/simone.min.css';
+
 ;( function( $, window, document ){
     "use strict";
     const pluginName = "IWindowed";

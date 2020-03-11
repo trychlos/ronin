@@ -16,6 +16,15 @@
  *          settings of a grid definition
  *      > else, it is directly passed to jqxGrid (as is).
  */
+
+// jQuery-bootgrid
+//  http://www.jquery-bootgrid.com/
+//  a nice example but that forces an header and a footer
+/*
+import 'jquery-bootgrid/dist/jquery.bootgrid.min.js';
+import 'jquery-bootgrid/dist/jquery.bootgrid.fa.js';
+import 'jquery-bootgrid/dist/jquery.bootgrid.css';
+*/
 import '/imports/client/third-party/jqwidgets/jqxbuttons-patched.js';
 import '/imports/client/third-party/jqwidgets/jqxdata.js';
 import '/imports/client/third-party/jqwidgets/jqxdropdownlist.js';

@@ -30,30 +30,9 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import '/imports/client/third-party/jqwidgets/jqx.base.css';
 import '/imports/client/third-party/jqwidgets/jqxcore-patched.js';
 
-// statically import simone window manager to not run in dynamic problems
-//  even if this is rather useless (as unused) in any touch device
-//  http://cezarykluczynski.github.io/simone/docs/
-import '/imports/client/third-party/simone/simone.min.js';
-import '/imports/client/third-party/simone/i18n/simone.min.custom.js';
-import '/imports/client/third-party/simone/simone.min.css';
-
-// jQuery-bootgrid
-//  http://www.jquery-bootgrid.com/
-//  a nice example but that forces an header and a footer
-/*
-import 'jquery-bootgrid/dist/jquery.bootgrid.min.js';
-import 'jquery-bootgrid/dist/jquery.bootgrid.fa.js';
-import 'jquery-bootgrid/dist/jquery.bootgrid.css';
-*/
-
 // https://spin.js.org/
 // https://github.com/fgnass/spin.js
 import 'spin.js/spin.css';
-
-// scrolling tabs
-//  https://www.jqueryscript.net/other/jQuery-Plugin-To-Create-Responsive-Scrolling-Bootstrap-Tabs.html
-import '/imports/client/third-party/scrollingTabs/dist/jquery.scrolling-tabs.min.css';
-import '/imports/client/third-party/scrollingTabs/dist/jquery.scrolling-tabs.min.js';
 
 // pub/sub paradigm (nonetheless far from an actual mqtt broker)
 //import '/imports/client/interfaces/pubsub/pubsub.js'; http://fuzzytolerance.info doesn't work oob
