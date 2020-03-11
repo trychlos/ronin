@@ -12,7 +12,7 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/actions_grid/actions_grid.js';
 import '/imports/client/components/actions_list_item/actions_list_item.js';
-//import '/imports/client/interfaces/itabbed/itabbed.js';
+import '/imports/client/interfaces/itabbed/itabbed.js';
 import './actions_tabs.html';
 
 Template.actions_tabs.onRendered( function(){
@@ -35,5 +35,12 @@ Template.actions_tabs.helpers({
     },
     gtdRoute( it ){
         return gtd.routeItem( 'actions', it );
+    }
+});
+
+Template.actions_tabs.events({
+    // when cards are shown instead of grid (pageLayout default)
+    'ronin-collapse-all'( ev, instance ){
+        $( '.actions-list-item' ).removeClass( 'x-opened' );
     }
 });

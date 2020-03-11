@@ -22,6 +22,13 @@ Template.actions_list_item.fn = {
     },
     itemDivId : function(){
         return 'item_div_'+Template.currentData().action._id;
+    },
+    // parent() identifies a selector which adds Bootstrap accordion-like group
+    //  management to a collapsible area;
+    //  all collapsible elements under the specified parent will be closed when
+    //  this collapsible item is shown
+    parent: function(){
+        return '.actions-tabs';
     }
 }
 
@@ -55,6 +62,10 @@ Template.actions_list_item.helpers({
     itemDivId(){
         return Template.actions_list_item.fn.itemDivId();
     },
+    parent(){
+        const fn = Template.actions_list_item.fn;
+        return fn.parent();
+    },
     showDown(){
         return Session.get( 'action.opened' ) === Template.instance().data.action._id ? 'x-hidden' : 'x-inline';
     },
@@ -67,9 +78,10 @@ Template.actions_list_item.helpers({
     }
 });
 
-// note that as of Bootstrap v4.4x, 'show' event is triggered *before* the 'hide' event
-//  though 'show' event is asynchronous, thus less reliable, at least is it triggered
-//  after the 'hide' due to the transition delay...
+// note that as of Bootstrap v4.4x, sequence of events is:
+//  -> show > hide > hidden > shown
+// as we want the previous background be erased before setting another one,
+// we react on 'hidden' and 'shown' messages
 //
 Template.actions_list_item.events({
     'click .js-done'( ev, instance ){
@@ -78,8 +90,15 @@ Template.actions_list_item.events({
     },
     // event.currentTarget = actions-list-item div
     // event.target = collapsable div
+    /*
     'hide.bs.collapse'( ev, instance ){
+        console.log( 'hide.bs.collapse' );
         $.pubsub.publish( 'ronin.ui.actions.list.card.collapse-all' );
+    },
+    */
+    // remove all 'x-opened' classes
+    'hidden.bs.collapse'( ev, instance ){
+        $( ev.target ).trigger( 'ronin-collapse-all' );
     },
     'shown.bs.collapse'( event, instance ){
         $( '#'+Template.actions_list_item.fn.itemDivId()).addClass( 'x-opened' );
