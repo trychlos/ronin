@@ -4,10 +4,6 @@
  *
  *  Parameters:
  *  - action: the one-item cursor (aka an array) to be displayed
- *
- *  Session variables:
- *  - action.opened: the action identifier whose card is opened
- *      so that we can open the card when coming back from the edition
  */
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/delete_button/delete_button.js';
@@ -33,9 +29,7 @@ Template.actions_list_item.fn = {
 }
 
 Template.actions_list_item.onRendered( function(){
-    if( Session.get( 'action.opened' ) === this.data.action._id ){
-        $( '#'+Template.actions_list_item.fn.collapsableId()).collapse( 'show' );
-    }
+    $( '#'+Template.actions_list_item.fn.collapsableId()).collapse( 'show' );
 });
 
 Template.actions_list_item.helpers({
@@ -51,10 +45,10 @@ Template.actions_list_item.helpers({
         return visible;
     },
     className(){
-        return $(window).innerWidth() <= 480 ? 'x-w60' : 'w-50';
+        return g.run.width.get() <= 480 ? 'x-w60' : 'w-50';
     },
     classTopic(){
-        return $(window).innerWidth() <= 480 ? '' : 'xw-30';
+        return g.run.width.get() <= 480 ? '' : 'xw-30';
     },
     collapsableId(){
         return Template.actions_list_item.fn.collapsableId();
@@ -65,12 +59,6 @@ Template.actions_list_item.helpers({
     parent(){
         const fn = Template.actions_list_item.fn;
         return fn.parent();
-    },
-    showDown(){
-        return Session.get( 'action.opened' ) === Template.instance().data.action._id ? 'x-hidden' : 'x-inline';
-    },
-    showUp(){
-        return Session.get( 'action.opened' ) === Template.instance().data.action._id ? 'x-inline' : 'x-hidden';
     },
     topic_byId( id ){
         const obj = id ? Topics.findOne({ _id:id }) : null;
@@ -88,20 +76,11 @@ Template.actions_list_item.events({
         $.pubsub.publish( 'ronin.model.action.done.toggle', { action: instance.data.action });
         return false;
     },
-    // event.currentTarget = actions-list-item div
-    // event.target = collapsable div
-    /*
-    'hide.bs.collapse'( ev, instance ){
-        console.log( 'hide.bs.collapse' );
-        $.pubsub.publish( 'ronin.ui.actions.list.card.collapse-all' );
-    },
-    */
     // remove all 'x-opened' classes
     'hidden.bs.collapse'( ev, instance ){
         $( ev.target ).trigger( 'ronin-collapse-all' );
     },
     'shown.bs.collapse'( event, instance ){
         $( '#'+Template.actions_list_item.fn.itemDivId()).addClass( 'x-opened' );
-        Session.set( 'action.opened', instance.data.action._id );
     }
 });

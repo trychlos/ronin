@@ -7,6 +7,7 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 // toggle the 'done' status of the provided action
 $.pubsub.subscribe( 'ronin.model.action.done.toggle', ( msg, o ) => {
     Articles.fn.doneToggle( o.action );
+    throwSuccess( 'Action successfully toggled' );
 });
 
 // insert or update the provided action
