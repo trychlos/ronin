@@ -56,15 +56,16 @@ Template.thoughts_list_item.helpers({
     }
 });
 
-// note that as of Bootstrap v4.4x, 'show' event is triggered *before* the 'hide' event
-//  though 'show' event is asynchronous, thus less reliable, at least is it triggered
-//  after the 'hide' due to the transition delay...
+// note that as of Bootstrap v4.4x, sequence of events is:
+//  -> show > hide > hidden > shown
+// as we want the previous background be erased before setting another one,
+// we react on 'hidden' and 'shown' messages
 //
 Template.thoughts_list_item.events({
     // event.currentTarget = thoughts-list-item div
     // event.target = collapsable div
-    'hide.bs.collapse'( ev, instance ){
-        $.pubsub.publish( 'ronin.ui.thoughts.list.card.collapse-all' );
+    'hidden.bs.collapse'( ev, instance ){
+        $( ev.target ).trigger( 'ronin-collapse-all' );
     },
     'shown.bs.collapse'( ev, instance ){
         $( '#'+Template.thoughts_list_item.fn.itemDivId()).addClass( 'x-opened' );

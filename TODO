@@ -117,8 +117,6 @@
 
   118 2020- 2- 1 have a link on the web site to download the apk
 
-  119 2020- 2- 1 have in the apk a function to detect and download a new version
-
   125 2020- 2- 6 auto generate routes.js from gtd.js
 
   137 2020- 2-11 set mail-based new account enrollment rules
@@ -438,6 +436,9 @@
 
   117 2020- 2- 1 make the not_found page responsive
       2020- 2- 2 done
+
+  119 2020- 2- 1 have in the apk a function to detect and download a new version
+      2020- 3-12 useless: the apk client automatically updates itself (thanks to Meteor hot-code push)
 
   120 2020- 2- 3 window layout: unable to open two windows of the same group
       2020- 2- 3 fixed by forcing the data context to be a reactive var
