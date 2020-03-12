@@ -77,7 +77,6 @@ Template.actionsList.onRendered( function(){
                         {
                             text: "Close",
                             click: function(){
-                                $.pubsub.publish( 'ronin.ui.actions.list.card.collapse-all' );
                                 $().IWindowed.close( '.'+context.template );
                             }
                         },
