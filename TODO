@@ -141,8 +141,6 @@
                  lists should be displayed in reverse order of creation
                  (or have a sorting button)
 
-  190 2020- 3-11 review text_badge session variable
-
   193 2020- 3-11 user+device preference: display lists as grid or cards
                  (only relevant in windowLayout)
 
@@ -666,6 +664,9 @@
 
   189 2020- 3-11 adapt projects tabs to scrollingTabs
       2020- 3-11 done
+
+  190 2020- 3-11 review text_badge session variable
+      2020- 3-12 done
 
   191 2020- 3-11 review tabs style
       2020- 3-11 done

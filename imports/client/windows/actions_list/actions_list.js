@@ -147,14 +147,6 @@ Template.actionsList.onRendered( function(){
             self.ronin.spinner.stop();
         }
     });
-
-    // reactively update the counts badge
-    this.autorun(() => {
-        const total = self.ronin.dict.get( 'total_count' );
-        const status = gtd.statusId( Session.get( 'actions.tab.name' ));
-        const tabcount = self.ronin.dict.get( 'status_'+status ) || 0;
-        Session.set( 'text_badge.text', tabcount+'/'+total );
-    });
 });
 
 Template.actionsList.helpers({
@@ -163,7 +155,11 @@ Template.actionsList.helpers({
     },
     // display current counts
     count(){
-        return Session.get( 'text_badge.text' );
+        const self = Template.instance();
+        const total = self.ronin.dict.get( 'total_count' );
+        const status = gtd.statusId( Session.get( 'actions.tab.name' ));
+        const tabcount = self.ronin.dict.get( 'status_'+status ) || 0;
+        return tabcount+'/'+total;
     }
 });
 
@@ -173,8 +169,4 @@ Template.actionsList.events({
         Template.actionsList.fn.doNew();
         return false;
     }
-});
-
-Template.actionsList.onDestroyed( function(){
-    Session.set( 'text_badge.text', null );
 });

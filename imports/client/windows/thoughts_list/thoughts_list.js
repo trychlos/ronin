@@ -52,6 +52,7 @@ Template.thoughtsList.onCreated( function(){
         },
         spinner: null
     };
+    this.ronin.dict.set( 'count', 0 );
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
     this.ronin.dict.set( 'subscriptions_ready', false );
 });
@@ -108,7 +109,7 @@ Template.thoughtsList.onRendered( function(){
     // count the thoughts
     this.autorun(() => {
         if( self.ronin.handles.thoughts.ready()){
-            Session.set( 'text_badge.text', Articles.find({ type:'T' }).count());
+            self.ronin.dict.set( 'count', Articles.find({ type:'T' }).count());
         }
     });
 
@@ -136,7 +137,7 @@ Template.thoughtsList.onRendered( function(){
 
 Template.thoughtsList.helpers({
     count(){
-        return Session.get( 'text_badge.text' );
+        return Template.instance().ronin.dict.get( 'count' );
     },
     thoughts(){
         return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
@@ -149,8 +150,4 @@ Template.thoughtsList.events({
         Template.thoughtsList.fn.actionNew();
         return false;
     }
-});
-
-Template.thoughtsList.onDestroyed( function(){
-    Session.set( 'text_badge.text', null );
 });

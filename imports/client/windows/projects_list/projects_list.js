@@ -103,13 +103,6 @@ Template.projectsList.onRendered( function(){
         }
     });
 
-    // reactively update the counts badge
-    this.autorun(() => {
-        const total = self.ronin.dict.get( 'total_count' );
-        const tabcount = self.ronin.dict.get( Session.get( 'projects.tab.name' )) || 0;
-        Session.set( 'text_badge.text', tabcount+'/'+total );
-    });
-
     // child messaging
     $( '.projectsList' ).on( 'projects-tabs-built', function( ev, o ){
         //console.log( ev );
@@ -138,7 +131,10 @@ Template.projectsList.onRendered( function(){
 Template.projectsList.helpers({
     // display current counts
     count(){
-        return Session.get( 'text_badge.text' );
+        const self = Template.instance();
+        const total = self.ronin.dict.get( 'total_count' );
+        const tabcount = self.ronin.dict.get( Session.get( 'projects.tab.name' )) || 0;
+        return tabcount+'/'+total;
     }
 });
 
@@ -148,8 +144,4 @@ Template.projectsList.events({
         Template.projectsList.fn.doNew();
         return false;
     }
-});
-
-Template.projectsList.onDestroyed( function(){
-    Session.set( 'text_badge.text', null );
 });

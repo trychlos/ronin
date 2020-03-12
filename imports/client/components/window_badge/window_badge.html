@@ -1,7 +1,16 @@
 <template name="window_badge">
+
+    <!-- in windowLayout, the badge is displayed in widget titlebar -->
     {{#if isWindowLayout}}
         <div class="window-badge ronin-iwm-titlebadge">
             {{> text_badge text=text}}
         </div>
     {{/if}}
+
+    <!-- in pageLayout, the text is written to a session variable
+            so that it is available to the badge embedded in the header panel -->
+    {{#if isPageLayout}}
+        {{writeToSession text}}
+    {{/if}}
+
 </template>
