@@ -13,31 +13,34 @@
                 <div class="topic {{classTopic}}">
                     <p>{{ topic_byId thought.topic }}</p>
                 </div>
-                <div class="x-createdAt {{classCreatedAt}}">
+                <div class="x-createdAt {{classCreatedAt 'item'}}">
                     <p>{{ lastUpdated thought }}</p>
                 </div>
-                <!--
-                <button
-                    class="ui-button ui-corner-all"
-                    data-toggle="collapse"
-                    data-target="#{{collapsableId}}"
-                    data-thought="{{ thought._id }}"
-                    aria-expanded="false"
-                    title="Open {{thought.name}} details">
-                        <span class="{{showDown}}">
-                            <span class="fas fa-angle-down"></span>
-                        </span>
-                        <span class="{{showUp}}">
-                            <span class="fas fa-angle-up"></span>
-                        </span>
-                </button>
-                -->
             </div>
 
         </a>
 
         <div class="x-px025 collapse" id="{{collapsableId}}" data-parent=".thoughts-list">
-            {{> thoughts_list_card thought=thought }}
+            <div class="thoughts-list-card x-py025">
+
+                <div class="description">{{thought.description}}</div>
+
+                <div class="x-createdAt {{classCreatedAt 'card'}}">
+                    <p>{{ lastUpdated thought }}</p>
+                </div>
+
+                <div class="actions d-flex flex-row justify-content-between align-items-center">
+
+                    {{> edit_button item=thought }}
+                    {{> ownership_button item=thought }}
+                    {{> action_button item=thought }}
+                    {{> project_button item=thought }}
+                    {{> maybe_button item=thought }}
+                    {{> delete_button item=thought }}
+
+                </div>
+
+            </div>
         </div>
 
     </div>

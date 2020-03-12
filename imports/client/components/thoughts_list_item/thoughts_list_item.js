@@ -10,7 +10,12 @@
  *      so that we can open the card when coming back from the edition
  */
 import { Topics } from '/imports/api/collections/topics/topics.js';
-import '/imports/client/components/thoughts_list_card/thoughts_list_card.js';
+import '/imports/client/components/action_button/action_button.js';
+import '/imports/client/components/delete_button/delete_button.js';
+import '/imports/client/components/edit_button/edit_button.js';
+import '/imports/client/components/maybe_button/maybe_button.js';
+import '/imports/client/components/ownership_button/ownership_button.js';
+import '/imports/client/components/project_button/project_button.js';
 import './thoughts_list_item.html';
 
 Template.thoughts_list_item.fn = {
@@ -29,8 +34,13 @@ Template.thoughts_list_item.onRendered( function(){
 });
 
 Template.thoughts_list_item.helpers({
-    classCreatedAt(){
-        return $(window).innerWidth() <= 480 ? 'x-hidew480' : '';
+    classCreatedAt( where ){
+        const width = g.run.width.get();
+        let visible = width <= 480 ? 'x-hidew480' : '';
+        if( where === 'card' ){
+            visible = width <= 480 ? '' : 'x-hidden';
+        }
+        return visible;
     },
     className(){
         return $(window).innerWidth() <= 480 ? 'x-w60' : 'w-50';
