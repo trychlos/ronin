@@ -148,6 +148,7 @@ import '/imports/client/third-party/simone/simone.min.css';
             const storageName = this._settingsName( id );
             if( localStorage[storageName] ){
                 const settings = JSON.parse( localStorage[storageName] );
+                this._shiftMultiple( settings );
                 this.$dom.window( 'option', 'position', {
                     my: settings.my,
                     at: settings.at,
@@ -355,6 +356,20 @@ import '/imports/client/third-party/simone/simone.min.css';
         _settingsName: function( id ){
             return 'spSettings-'+id;
         },
+
+        // shift the window if there are several windows with this same template
+        //  "settings.at": "left+414 top+119"
+        _shiftMultiple( settings ){
+            const plugins = $.fn[pluginName]._getPlugins( this.args.template );
+            if( plugins.length ){
+                const regex = /^([a-z]+)\+(\d+) ([a-z]+)\+(\d+)$/;
+                const matches = regex.exec( settings.at );
+                //console.log( matches );
+                const shift2 = parseInt( matches[2] )+parseInt( this.settings.ronin.shift );
+                const shift4 = parseInt( matches[4] )+parseInt( this.settings.ronin.shift );
+                settings.at = matches[1]+'+'+shift2+' '+matches[3]+'+'+shift4;
+            }
+        }
     });
 
     $.fn[pluginName] = function(){
@@ -378,6 +393,9 @@ import '/imports/client/third-party/simone/simone.min.css';
 
     // default values, overridable by the user at global level
     $.fn[pluginName].defaults = {
+        ronin: {
+            shift: 40
+        },
         simone: {
             icons: {
                 close:      'ui-icon-close',
@@ -385,6 +403,23 @@ import '/imports/client/third-party/simone/simone.min.css';
             },
             widgetClass:    'ronin-iwm-widget'
         }
+    };
+
+    // _getPlugins() private method
+    //  Returns the list of initialized plugins associated with the specified template.
+    $.fn[pluginName]._getPlugins = ( template ) => {
+        const windows = g[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
+        let plugins = [];
+        for( let i=0 ; i<windows.length ; ++i ){
+            const id = $( windows[i] ).attr( 'data-ronin-iwm-id' );
+            if( id === template ){
+                const p = $( windows[i] ).data( pluginName );
+                if( p ){
+                    plugins.push( p );
+                }
+            }
+        }
+        return( plugins );
     };
 
     // close() public method
@@ -459,23 +494,20 @@ import '/imports/client/third-party/simone/simone.min.css';
         if( !template || typeof template !== 'string' ){
             console.log( 'show() expects the template name as single argument, "'+template+'" found' );
         } else {
-            let found = false;
+            let plugin = null;
             if( !data.multiple ){
                 const windows = g[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
-                for( let i=0 ; i<windows.length && !found ; ++i ){
+                for( let i=0 ; i<windows.length && !plugin ; ++i ){
                     const id = $( windows[i] ).attr( 'data-ronin-iwm-id' );
                     if( id === template ){
-                        let plugin = $( windows[i] ).data( pluginName );
-                        if( plugin ){
-                            plugin._moveToTop();
-                            found = true;
-                        } else {
-                            console.log( 'template='+template+' found, but unable to get the plugin' );
-                        }
+                        plugin = $( windows[i] ).data( pluginName );
                     }
                 }
+                if( plugin ){
+                    plugin._moveToTop();
+                }
             }
-            if( !found ){
+            if( !plugin ){
                 Blaze.renderWithData( Template[template], data, document.getElementById( g[LYT_WINDOW].rootId ));
             }
         }

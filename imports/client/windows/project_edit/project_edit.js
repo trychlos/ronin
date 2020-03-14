@@ -98,7 +98,6 @@ Template.projectEdit.fn = {
 
 Template.projectEdit.onCreated( function(){
     //console.log( 'projectEdit.onCreated' );
-
     this.ronin = {
         dict: new ReactiveDict(),
         handles: {
@@ -158,8 +157,8 @@ Template.projectEdit.onRendered( function(){
                             }
                         }
                     ],
-                    group:  context.group,
-                    title:  gtd.labelId( null, context.gtdid )
+                    group: context.group,
+                    title: gtd.labelId( null, context.gtdid )
                 }
             });
         }
@@ -176,7 +175,7 @@ Template.projectEdit.onRendered( function(){
 });
 
 Template.projectEdit.helpers({
-    project(){
+    item(){
         const self = Template.instance();
         return self.ronin.dict.get( 'item' );
     },

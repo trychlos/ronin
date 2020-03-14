@@ -36,9 +36,6 @@
 
    40 2020- 1- 1 to_maybe to be done
 
-   53 2020- 1- 3 when opening several window with the same template
-                  (editWindow typically), shift each new window from the previous
-
    59 2020- 1- 4 save #58 (projects tree display done per tab) in user settings
 
    60 2020- 1- 4 topics color should be user settings
@@ -295,6 +292,10 @@
 
    52 2020- 1- 3 fix close icon display in taskbar (cf. iwindowed.less)
       2020- 2-21 done
+
+   53 2020- 1- 3 when opening several window with the same template
+                  (editWindow typically), shift each new window from the previous
+      2020- 3-14 done
 
    54 2020- 1- 3 project_edit: future checkbox not correctly checked
       2020- 1- 3 done
