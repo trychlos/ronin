@@ -623,12 +623,9 @@ Template.projects_tree.events({
             throwError({ message: 'Refusing to drop elsewhere than the root or a project' });
             return false;
         }
-        const obj = ev.move_info.moved_node.obj;
-        Meteor.call( 'articles.reparent', obj._id, ev.move_info.target_node.id, ( e ) => {
-            if( e ){
-                throwError({ message: e.message });
-                return false;
-            }
+        $.pubsub.publish( 'ronin.model.article.reparent', {
+            item: ev.move_info.moved_node.obj,
+            parent: ev.move_info.target_node.id
         });
         ev.move_info.do_move();
         Template.projects_tree.fn.updateNodeList( $( ev.target ));

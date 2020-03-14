@@ -46,7 +46,7 @@ Template.thoughtEdit.fn = {
     //  should we close this window ?
     forClose: function( msg, o ){
         const self = Template.instance();
-        if( self.ronin.dict.get( 'got' )){
+        if( self && self.ronin.dict.get( 'got' )){
             console.log( 'thoughtEdit '+msg+' '+o._id );
             const item = self.ronin.dict.get( 'item' );
             if( item._id === o._id ){
@@ -56,7 +56,7 @@ Template.thoughtEdit.fn = {
     },
     okLabel: function(){
         const self = Template.instance();
-        const item = self.ronin.dict.get( 'item' );
+        const item = self.ronin.dict.get( 'got' ) ? self.ronin.dict.get( 'item' ) : null;
         return Template.thoughtEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
@@ -97,7 +97,7 @@ Template.thoughtEdit.onRendered( function(){
 
     // open the window if the manager has been initialized
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
+        if( g[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const context = Template.currentData();
             const label = fn.okLabel();
             $( '.'+context.template ).IWindowed({

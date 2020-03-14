@@ -132,9 +132,6 @@
 
   185 2020- 3-11 have a site icon (favicon)
 
-  186 2020- 3-11 when a thought is transformed into an action, also take ownership
-                 if needed and possible
-
   187 2020- 3-11 both in grid and in list, both in thoughts and in actions,
                  lists should be displayed in reverse order of creation
                  (or have a sorting button)
@@ -659,6 +656,10 @@
 
   183 2020- 3- 8 actionsList in pageLayout: should display some tabs (and which ?)
       2020- 3-11 all tabs are displayed in a scrolling area
+
+  186 2020- 3-11 when a thought is transformed into an action, also take ownership
+                 if needed and possible
+      2020- 3-14 done
 
   188 2020- 3-11 scrollingTabs: have arrows
       2020- 3-11 done

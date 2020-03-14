@@ -78,7 +78,7 @@ Template.projectEdit.fn = {
     //  transformed in something else elsewhere
     forClose: function( msg, o ){
         const self = Template.instance();
-        if( self.ronin.dict.get( 'got' )){
+        if( self && self.ronin.dict.get( 'got' )){
             console.log( 'projectEdit '+msg+' '+o._id );
             const item = self.ronin.dict.get( 'item' );
             if( item._id === o._id ){

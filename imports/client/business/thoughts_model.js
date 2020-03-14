@@ -1,6 +1,15 @@
 /*
  * thoughts_model.js
  * To be imported at application layer level.
+ *
+ *  Thoughts business layer involves one main operation: thought update.
+ *  This operation handles both creating a new thought, and updating an
+ *  existing one.
+ *  Other thought operations, e.g. take ownership, are banalized and
+ *  handled at the article level.
+ *
+ * Messages:
+ *  - ronin.model.thought.update
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 
@@ -13,8 +22,10 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
     //console.log( o.edit );
     Session.set( 'collect.dbope', DBOPE_WAIT );
     const id = o.orig ? o.orig._id : null;
+    o.edit.userId = o.orig ? o.orig.userId : null;
     try {
-        Articles.fn.check( id, o.edit );
+        Articles.fn.check( o.edit );
+        Articles.fn.takeOwnership( o.edit );
     } catch( e ){
         console.log( e );
         throwError({ type:e.error, message:e.reason });
@@ -22,13 +33,13 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
     }
     if( o.orig ){
         // if nothing has changed, then does nothing
-        o.edit.userId = o.orig.userId;
         if( Articles.fn.equal( o.orig, o.edit )){
             throwMessage({ type:'warning', message:'Nothing changed' });
             return false;
         }
         Meteor.call('thoughts.update', id, o.edit, ( e, res ) => {
             if( e ){
+                console.log( 'thoughts.update Meteor.call() returned exception' );
                 console.log( e );
                 throwError({ type:e.error, message:e.reason });
                 Session.set( 'collect.dbope', DBOPE_ERROR );
@@ -40,6 +51,7 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
     } else {
         Meteor.call('thoughts.insert', o.edit, ( e, res ) => {
             if( e ){
+                console.log( 'thoughts.insert Meteor.call() returned exception' );
                 console.log( e );
                 throwError({ type:e.error, message:e.reason });
                 Session.set( 'collect.dbope', DBOPE_ERROR );

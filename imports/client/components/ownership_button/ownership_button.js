@@ -13,13 +13,14 @@ Template.ownership_button.helpers({
     // template helper
     //  returns true if this article is owned by the user
     isMine( art ){
-        const status = Articles.fn.isTakeable( art );
+        const status = Articles.fn.takeableGetStatus( art );
+        //console.log( 'isMine: '+art.name+' item.userId='+art.userId+' status='+status );
         return status === 'HAS';
     },
     // class helper
     //  disable the button is the ownership cannot be taken
     takeable( art ){
-        const status = Articles.fn.isTakeable( art );
+        const status = Articles.fn.takeableGetStatus( art );
         return status === 'CAN' ? '' : 'ui-state-disabled';
     }
 });

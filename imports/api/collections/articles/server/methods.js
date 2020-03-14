@@ -23,59 +23,29 @@
 import { Meteor } from 'meteor/meteor';
 import { Articles } from '../articles.js';
 
+/*
+ * See https://guide.meteor.com/methods.html
+ * and https://docs.meteor.com/api/methods.html
+ *
+ * Only write here remote procedures callable from the client.
+ * Keep in Articles.server server-only functions.
+ */
 Meteor.methods({
-
-    // checks that the parent exists (if apply)
-    //  this is to be called before object cleanup
-    _articles_check_parent( it ){
-        if( [ 'A','P' ].includes( it.type )){
-            const parent = it.parent;
-            if( parent && parent !== 'none' ){
-                const obj = Articles.findOne({ type:'P', _id:parent });
-                if( !obj ){
-                    console.log( 'parent='+parent+' not found, resetting' );
-                    it.parent = null;
-                }
-            }
-        }
-    },
-
-    // checks that the specified 'it' object is of the expected 'type'
-    _articles_check_type( it, type ){
-        if( it.type !== type ){
-            throw new Meteor.Error(
-                'articles.invalid_type', art.type+': invalid type ("'+type+'" expected)'
-            );
-        }
-    },
-
-    // checks that the currently logged-in user is able to update the 'it' object
-    //  if user is not logged-in, only update un-owned objects
-    //  if user is logged-in, can update un-owned + its own objects
-    _articles_check_user( it ){
-        if( it.userId ){
-            if( !this.userId || this.userId !== it.userId ){
-                throw new Meteor.Error(
-                    'articles.unauthorized', 'you are not authorized to update this item'
-                );
-            }
-        }
-    },
-
     // action is said undone (back from done)
     //  must be called from Articles.fn.doneToggle()
     //  update does not mean taking ownership
-    '_actions.done.clear'( o ){
-        Meteor.call( '_articles_check_type', o, 'A' );
-        Meteor.call( '_articles_check_user', o );
-        const ret = Articles.update( o._id, { $set: {
-            doneDate: null,
-            status: o.status
-        }});
-        console.log( 'Articles.actions.done.set("'+o.name+'") returns '+ret );
+    'actions.done.clear'( o ){
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
+        const ret = Articles.update( o._id, {
+            $set: { status: o.status },
+            $unset: { doneDate: '' }
+        });
+        console.log( 'Articles.actions.done.clear "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
-                'articles.actions.done.set', 'unable to update "'+o.name+'" action' );
+                'articles.actions.done.clear',
+                'Unable to update "'+o.name+'" action to undone' );
         }
         return ret;
     },
@@ -83,19 +53,19 @@ Meteor.methods({
     // action is said done
     //  must be called from Articles.fn.doneToggle()
     //  update does not mean taking ownership
-    '_actions.done.set'( o ){
-        Meteor.call( '_articles_check_type', o, 'A' );
-        Meteor.call( '_articles_check_user', o );
+    'actions.done.set'( o ){
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
         const ret = Articles.update( o._id, { $set: {
             doneDate: o.doneDate,
             status: o.status,
             last_status: o.last_status
         }});
-        console.log( 'Articles.actions.done.set("'+o.name+'") returns '+ret );
+        console.log( 'Articles.actions.done.set "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.actions.done.set',
-                'unable to update "'+o.name+'" action' );
+                'Unable to update "'+o.name+'" action to done' );
         }
         return ret;
     },
@@ -103,16 +73,16 @@ Meteor.methods({
     // insert a new action
     //  the new action is owned by the currently logged-in user
     'actions.insert'( o ){
-        Meteor.call( '_articles_check_type', o, 'A' );
-        Meteor.call( '_articles_check_user', o );
-        o.userId = Meteor.userId();
-        const item = Articles.fn.cleanup( o );
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
+        Articles.sofns.actionConsistentDone( o );
+        const item = Articles.sofns.cleanup( o );
         const ret = Articles.insert( item.set );
-        console.log( 'Articles.actions.insert("'+o.name+'") returns '+ret );
+        console.log( 'Articles.actions.insert "'+o.name+'" returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.actions.insert',
-                'unable to insert "'+o.name+'" action' );
+                'Unable to insert "'+o.name+'" action' );
         }
         return ret;
     },
@@ -120,16 +90,18 @@ Meteor.methods({
     // update an existing action
     //  or transform a thought into an action
     //  update does not mean taking ownership
-    'actions.update'( id, o ){
-        Meteor.call( '_articles_check_type', o, 'A' );
-        Meteor.call( '_articles_check_user', o );
-        Meteor.call( '_articles_check_parent', o );
-        const item = Articles.fn.cleanup( o );
-        const ret = Articles.update( id, { $set:item.set, $unset:item.unset });
-        console.log( 'Articles.actions.update("'+o.name+'") returns '+ret );
+    'actions.update'( o ){
+        //console.log( o );
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
+        Articles.sofns.actionConsistentDone( o );
+        const item = Articles.sofns.cleanup( o );
+        const ret = Articles.update( o._id, { $set:item.set, $unset:item.unset });
+        console.log( 'Articles.actions.update "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
-                'articles.actions.update', 'unable to update "'+o.name+'" action' );
+                'articles.actions.update',
+                'Unable to update "'+o.name+'" action' );
         }
         return ret;
     },
@@ -137,24 +109,15 @@ Meteor.methods({
     // takes ownership of the article
     //  only applies to thoughts in development phase
     'articles.ownership'( o ){
-        //Meteor.call( '_articles_check_type', o, ['A','T'] );
-        Meteor.call( '_articles_check_user', o );
-        if( o.userId ){
-            throw new Meteor.Error(
-                'articles.ownership', 'article is already owned by a user'
-            );
-        }
-        if( !this.userId ){
-            throw new Meteor.Error(
-                'articles.ownership', 'user must be logged-in'
-            );
-        }
-        const ret = Articles.update( o._id, { $set: { userId: this.userId }});
-        console.log( 'Articles.ownership("'+o.name+'") returns '+ret );
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
+        const item = Articles.sofns.cleanup( o );
+        const ret = Articles.update( o._id, { $set:item.set, $unset:item.unset });
+        console.log( 'Articles.ownership "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.ownership',
-                'unable to take ownership of the "'+o.name+'" article' );
+                'Unable to take ownership of the "'+o.name+'" article' );
         }
         return ret;
     },
@@ -162,44 +125,36 @@ Meteor.methods({
     // delete an article
     //  children are updated to a null/none parent
     'articles.remove'( o ){
-        Meteor.call( '_articles_check_user', o );
+        Articles.sofns.stopIfNotEditable( o );
         let ret = Articles.remove( o._id );
-        console.log( 'Articles.remove("'+o.name+'") returns '+ret );
+        console.log( 'Articles.remove "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.remove',
-                'unable to remove "'+o.name+'" item' );
+                'Unable to remove "'+o.name+'" item' );
         }
         ret = Articles.update({ parent:o._id }, { $unset: { parent:'' }});
-        console.log( 'Articles.update.children("'+o.name+'") returns '+ret );
-        if( !ret ){
-            throw new Meteor.Error(
-                'articles.remove.update.children',
-                'unable to update "'+o.name+'" children' );
-        }
+        console.log( 'Articles.update.children "'+o.name+'" ('+o._id+') returns '+ret );
         return ret;
     },
 
     // change the parent of an action or a project
-    //  update does not mean taking ownership
-    'articles.reparent'( o_id, parent_id ){
+    'articles.reparent'( o ){
         let ret = false;
-        if( parent_id ){
-            if( Articles.findOne({ _id:parent_id, type:'P' })){
-                ret = Articles.update( o_id, { $set: {
-                    parent: parent_id
-                }});
-            }
-        } else {
-            ret = Articles.update( o_id, { $unset: {
-                parent
+        Articles.fn.check( o.item );
+        Articles.fn.takeOwnership( o.item );
+        if( o.parent && Articles.findOne({ _id:o.parent, type:'P' })){
+            ret = Articles.update( o.item._id, { $set: {
+                parent: o.parent
             }});
+        } else {
+            ret = Articles.update( o.item._id, { $unset: { parent: '' }});
         }
-        console.log( 'Articles.reparent("'+o_id+'") returns '+ret );
+        console.log( 'Articles.reparent "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.reparent',
-                'unable to reparent "'+o_id+'" article' );
+                'Unable to reparent "'+o.item.name+'" article' );
         }
         return ret;
     },
@@ -207,33 +162,32 @@ Meteor.methods({
     // insert a new project
     //  the new project is owned by the currently logged-in user
     'projects.insert'( o ){
-        Meteor.call( '_articles_check_type', o, 'P' );
-        Meteor.call( '_articles_check_user', o );
-        o.userId = Meteor.userId();
-        const item = Articles.fn.cleanup( o );
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
+        const item = Articles.sofns.cleanup( o );
         const ret = Articles.insert( item.set );
-        console.log( 'Articles.projects.insert("'+o.name+'") returns '+ret );
+        console.log( 'Articles.projects.insert "'+o.name+'" returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.projects.insert',
-                'unable to insert "'+o.name+'" project' );
+                'Unable to insert "'+o.name+'" project' );
         }
         return ret;
     },
 
     // update an existing project
     //  update does not mean taking ownership
-    'projects.update'( id, o ){
-        Meteor.call( '_articles_check_type', o, 'P' );
-        Meteor.call( '_articles_check_user', o );
-        Meteor.call( '_articles_check_parent', o );
-        const item = Articles.fn.cleanup( o );
+    'projects.update'( o ){
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
+        const item = Articles.sofns.cleanup( o );
         //console.log( item );
-        const ret = Articles.update( id, { $set:item.set, $unset:item.unset });
-        console.log( 'Articles.projects.update("'+o.name+'") returns '+ret );
+        const ret = Articles.update( o._id, { $set:item.set, $unset:item.unset });
+        console.log( 'Articles.projects.update "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
-                'articles.projects.update', 'unable to update "'+o.name+'" project' );
+                'articles.projects.update',
+                'Unable to update "'+o.name+'" project' );
         }
         return ret;
     },
@@ -241,31 +195,30 @@ Meteor.methods({
     // insert returns the newly insert '_id' or throws an exception
     //  the new thought is owned by the currently logged-in user
     'thoughts.insert'( o ){
-        Meteor.call( '_articles_check_type', o, 'T' );
-        Meteor.call( '_articles_check_user', o );
-        o.userId = Meteor.userId();
-        const item = Articles.fn.cleanup( o );
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
+        const item = Articles.sofns.cleanup( o );
         const ret = Articles.insert( item.set );
-        console.log( 'Articles.thoughts.insert("'+o.name+'") returns '+ret );
+        console.log( 'Articles.thoughts.insert "'+o.name+'" returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.thoughts.insert',
-                'unable to insert "'+o.name+'" thought' );
+                'Unable to insert "'+o.name+'" thought' );
         }
         return ret;
     },
 
     // update returns true or throws an exception
     'thoughts.update'( id, o ){
-        Meteor.call( '_articles_check_type', o, 'T' );
-        Meteor.call( '_articles_check_user', o );
-        const item = Articles.fn.cleanup( o );
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
+        const item = Articles.sofns.cleanup( o );
         const ret = Articles.update( id, { $set:item.set, $unset:item.unset });
-        console.log( 'Articles.thoughts.update("'+o.name+'") returns '+ret );
+        console.log( 'Articles.thoughts.update "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
             throw new Meteor.Error(
                 'articles.thoughts.update',
-                'unable to update "'+o.name+'" thought' );
+                'Unable to update "'+o.name+'" thought' );
         }
         return ret;
     }

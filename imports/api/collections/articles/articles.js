@@ -171,147 +171,112 @@ Articles.attachBehaviour( 'timestampable', {
 
 Articles.helpers({
     editableBy( userId ){
-        // unknown or not logged-in user: no edit permission
-        if( !userId ){
-            return false;
-        }
-        // document is not attached to any user: anyone may edit it
-        if( !this.userId ){
-            return true;
-        }
-        return this.userId === userId;
+        console.log( 'Articles.helpers.editableBy()' );
     }
 });
 
-Articles.fn.check = function( id, o ){
-    // type must be valid
-    if( !o || !o.type || !Articles.fn.types.includes( o.type )){
-        throw new Meteor.Error(
-            'articles.invalid_type',
-             o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
-        );
-    }
-    // must have a name
-    if( !o.name ){
-        throw new Meteor.Error(
-            'articles.empty_name',
-            'mandatory name is empty'
-        );
-    }
-    // must be editable by this user
-    //  anyone may edit unowned documents
-    let userId = null;
-    if( Meteor.isServer ){
-        userId = this.userId;
-    }
-    if( Meteor.isClient ){
-        userId = Meteor.userId();
-    }
-    if( o.userId ){
-        if( userId !== o.userId ){
-            throw new Meteor.Error(
-                'articles.unauthorized',
-                'you are not allowed to edit this document'
-            );
-        }
-    }
+/*
+ * Articles.fn are functions which may be called both from the client
+ *  and on the server.
+ *
+ * See server/sofns.js for server-only functions.
+ * See server/methods.js for server functions remotely callable from the client
+ *  (aka Meteor RPC).
+ */
+
+/* Check for the intrinsic validity of an article, whether it be a thought, an
+ *  action, a project or a maybe.
+ *  Doesn't modify the provided object.
+ *  Doesn't return any value, but throws a Meteor.Error if needed.
+ */
+Articles.fn.check = function( o ){
+    Articles.fn.check_object( o );
+    Articles.fn.check_type( o );
+    Articles.fn.check_editable( o );
+    Articles.fn.check_name( o );
+    Articles.fn.check_topic( o );
+
     // plus item dependancies
     switch( o.type ){
         case 'T':
             break;
         case 'A':
+            // if parent set, must be an existing project
+            // status must be valid
+            // if context set, must be referenced in contexts collection
             break;
         case 'M':
             break;
         case 'P':
+            // if parent set, must be an existing project
+            // if parent set, the parent hierarchy must not loop and only contain projects
             break;
     }
 };
 
-// returns an object which contains:
-//  - a 'set' collection with all *set* fields
-//  - an 'unset' collection with all *unset* fields
-Articles.fn.cleanup = function( o ){
-    let _set = ( dest, src, name ) => {
-        if( src[name] && src[name] !== 'none' ){
-            dest.set[name] = src[name];
-        } else {
-            dest.unset[name] = '';
+// must be editable by this user
+//  anyone may edit an un-owned documents
+Articles.fn.check_editable = function( o ){
+    const currentUser = Meteor.userId();
+    //console.log( 'check_editable: current.userId='+currentUser+' o.userId='+o.userId );
+    if( o.userId ){
+        if( currentUser !== o.userId ){
+            throw new Meteor.Error(
+                'unauthorized',
+                'You are not allowed to edit this document'
+            );
         }
-    };
-    if( !o || !o.type || !Articles.fn.types.includes( o.type )){
+    }
+};
+
+// name is mandatory
+Articles.fn.check_name = function( o ){
+    if( !o.name ){
+        throw new ValidationError([{
+            name: 'name',
+            type: 'required',
+            value: o.name,
+            msg: 'mandatory name is empty'
+        }]);
+    }
+};
+
+// object must be defined
+Articles.fn.check_object = function( o ){
+    if( !o ){
         throw new Meteor.Error(
-            'articles.invalid_type',
-             o.type+': invalid type (permitted values are ['+Articles.fn.types.join(',')+']'
+            'undefined',
+            'object is not defined'
         );
     }
-    let ret = { set:{ type: o.type }, unset:{}};
-    _set( ret, o, 'name' );
-    _set( ret, o, 'topic' );
-    _set( ret, o, 'description' );
-    _set( ret, o, 'userId' );
-    switch( o.type ){
-        case 'A':
-            _set( ret, o, 'notes' );
-            _set( ret, o, 'startDate' );
-            _set( ret, o, 'dueDate' );
-            _set( ret, o, 'doneDate' );
-            _set( ret, o, 'parent' );
-            _set( ret, o, 'status' );
-            _set( ret, o, 'last_status' );
-            _set( ret, o, 'context' );
-            _set( ret, o, 'outcome' );
-            break;
-        case 'M':
-            break;
-        case 'P':
-            _set( ret, o, 'notes' );
-            _set( ret, o, 'startDate' );
-            _set( ret, o, 'dueDate' );
-            _set( ret, o, 'doneDate' );
-            _set( ret, o, 'parent' );
-            _set( ret, o, 'future' );
-            _set( ret, o, 'vision' );
-            _set( ret, o, 'brainstorm' );
-            break;
-        case 'T':
-            break;
-    }
-    // makes sure neither set nor unset are empty
-    if( !ret.set.length ){
-        ret.set['name'] = o.name;
-    }
-    if( !ret.unset.length ){
-        ret.unset['xxxxxx'] = '';
-    }
-    return ret;
 };
 
-// Toggle action done status + update database
-//  callable both from client and from server
-Articles.fn.doneToggle = function( action ){
-    if( action.doneDate ){
-        action.doneDate = null;
-        action.status = action.last_status ? action.last_status : 'ina';
-        Meteor.call( '_actions.done.clear', action, ( e, res ) => {
-            if( e ){
-                throwError({ type:e.error, message: e.reason });
-            }
-        });
-    } else {
-        action.doneDate = new Date();
-        action.last_status = action.status;
-        action.status = 'don';
-        Meteor.call( '_actions.done.set', action, ( e, res ) => {
-            if( e ){
-                throwError({ type:e.error, message: e.reason });
-            }
-        });
+// topic must exist
+Articles.fn.check_topic = function( o ){
+    if( o.topic ){
     }
 };
 
-// check if two objects are the same
-// mainly used to prevent too many useless updates
+// type must be known
+Articles.fn.check_type = function( o ){
+    if( !Articles.fn.types.includes( o.type )){
+        throw new ValidationError([{
+            name: 'type',
+            type:'invalid',
+            value: o.type,
+            allowed: Articles.fn.types,
+            msg: 'permitted values: ['+Articles.fn.types.join(',')+']'
+        }]);
+    }
+};
+
+/* Test if two objects are equals
+ *  mainly used to prevent too many useless updates
+ *  Callable both from client and server, but mainly used from the client.
+ *  Doesn't modify any object.
+ *  Doesn't throw any exception, but returns true (resp. false) if the provided
+ *  objects are equal (resp. different).
+ */
 Articles.fn.equal = function( a, b ){
     let _equalDates = ( c, d ) => {
         return _equals( c, d, ( e, f ) => {
@@ -380,13 +345,13 @@ Articles.fn.equal = function( a, b ){
 //  - user already has ownership of the article: taking ownership is not relevant
 //  - the article does not yet belong to anyone: ownership could be taken
 //  - the article belongs to someone else: taking ownership is forbidden.
-Articles.fn.takeable = {
+Articles.fn.takeableStatus = {
     'NOT': 'no user is logged-in; no ownership can be taken',
     'HAS': 'logged-in user already has ownserhip of the item',
     'CAN': 'item does not belong to anyone, ownership can be taken',
     'FOR': 'item belongs to someone else, taking ownship is forbidden'
 };
-Articles.fn.isTakeable = function( item ){
+Articles.fn.takeableGetStatus = function( item ){
     const current = Meteor.userId();
     if( !current ){
         return 'NOT';
@@ -395,4 +360,31 @@ Articles.fn.isTakeable = function( item ){
         return 'HAS';
     }
     return item.userId ? 'FOR' : 'CAN';
+}
+// This function is to be called at the business layer model level
+//  Rationale: when updating an object, take ownership of it if the object
+//  was still un-owned.
+//  Throws an exception is ownership is not takeable here, which should have
+//  been previously checked.
+Articles.fn.takeOwnership = function( item ){
+    let _throwsError = function(){
+        throw new Meteor.Error(
+            'code',
+            'Ownership is not takeable here and there. Should have been prevented sooner'
+        );
+    }
+    const currentId = Meteor.userId();
+    if( currentId ){
+        if( item.userId ){
+            if( currentId !== item.userId ){
+                // item is owned by someone else!
+                _throwsError();
+            }
+        } else {
+            item.userId = currentId;
+        }
+    } else if( item.userId ){
+        // item is owned by somebody, but no one is currently logged-in
+        _throwsError();
+    }
 }

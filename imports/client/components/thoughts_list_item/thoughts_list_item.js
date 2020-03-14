@@ -28,6 +28,7 @@ Template.thoughts_list_item.fn = {
 }
 
 Template.thoughts_list_item.onRendered( function(){
+    //console.log( this );
     if( Session.get( 'collect.opened' ) === this.data.thought._id ){
         $( '#'+Template.thoughts_list_item.fn.collapsableId()).collapse( 'show' );
     }

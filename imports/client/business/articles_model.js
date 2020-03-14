@@ -1,6 +1,11 @@
 /*
  * articles_model.js
  * To be imported at application layer level.
+ *
+ * Messages:
+ *  - ronin.model.article.delete
+ *  - ronin.model.article.ownership
+ *  - ronin.model.article.reparent
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
@@ -43,11 +48,36 @@ $.pubsub.subscribe( 'ronin.model.article.delete', ( msg, o ) => {
 
 // take ownership of the item
 $.pubsub.subscribe( 'ronin.model.article.ownership', ( msg, o ) => {
+    try {
+        Articles.fn.check( o );
+        Articles.fn.takeOwnership( o );
+    } catch( e ){
+        console.log( e );
+        throwError({ type:e.error, message:e.reason });
+        return false;
+    }
     Meteor.call( 'articles.ownership', o, ( e, res ) => {
         if( e ){
             throwError({ type:e.error, message:e.reason });
         } else {
             throwSuccess( 'Ownership successfully taken' );
+        }
+    });
+});
+
+// reparent the item
+$.pubsub.subscribe( 'ronin.model.article.reparent', ( msg, o ) => {
+    try {
+        Articles.fn.check( o.item );
+        Articles.fn.takeOwnership( o.item );
+    } catch( e ){
+        console.log( e );
+        throwError({ type:e.error, message:e.reason });
+        return false;
+    }
+    Meteor.call( 'articles.reparent', o, ( e, res ) => {
+        if( e ){
+            throwError({ type:e.error, message:e.reason });
         }
     });
 });
