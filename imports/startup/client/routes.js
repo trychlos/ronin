@@ -119,22 +119,22 @@ FlowRouter.route('/setup/delegates', {
         BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
     },
 });
-FlowRouter.route('/setup/device', {
-    name: 'rt.setup.device',
+FlowRouter.route('/gear/device', {
+    name: 'rt.gear.device',
     action(){
         Session.set( 'page.group', 'gtd-setup-group' );
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/setup/prefs', {
-    name: 'rt.setup.prefs',
+FlowRouter.route('/gear/prefs', {
+    name: 'rt.gear.prefs',
     action(){
         Session.set( 'page.group', 'gtd-setup-group' );
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/setup/prefs/lists', {
-    name: 'rt.setup.prefs.window.list',
+FlowRouter.route('/gear/prefs/lists', {
+    name: 'rt.gear.prefs.window.list',
     action(){
         Session.set( 'page.group', 'gtd-setup-group' );
         blazeRender( this.name );

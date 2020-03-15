@@ -34,6 +34,10 @@ Template.wsf_collapse_buttons.onRendered( function(){
 });
 
 Template.wsf_collapse_buttons.helpers({
+    // template helper: OK button is hidden if label is '-'
+    hasOKButton( label ){
+        return label !== '-';
+    },
     // class helper: whether the 'down' button should be visible
     showDown(){
         return Template.instance().collapsed.get() ? 'x-inline' : 'x-hidden';

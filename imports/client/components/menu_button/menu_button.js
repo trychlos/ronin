@@ -6,6 +6,16 @@
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
 import './menu_button.html';
 
+Template.menu_button.fn = {
+    recordBack(){
+        const route = FlowRouter.current();
+        const name = route.route.name;
+        if( !name.startsWith( 'rt.gear.' )){
+            g.run.back = route.path;
+        }
+    }
+};
+
 Template.menu_button.events({
     'click .js-about'( ev, instance ){
         bootbox.alert({
@@ -14,11 +24,11 @@ Template.menu_button.events({
         });
     },
     'click .js-device'( ev, instance ){
-        g.run.back = FlowRouter.current().path;
-        FlowRouter.go( 'rt.setup.device' );
+        Template.menu_button.fn.recordBack();
+        FlowRouter.go( 'rt.gear.device' );
     },
     'click .js-prefs'( ev, instance ){
-        g.run.back = FlowRouter.current().path;
-        FlowRouter.go( 'rt.setup.prefs' );
+        Template.menu_button.fn.recordBack();
+        FlowRouter.go( 'rt.gear.prefs' );
     }
 });

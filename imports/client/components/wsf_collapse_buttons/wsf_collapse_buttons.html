@@ -25,13 +25,15 @@
                     {{/if}}
                 </button>
             </div>
-            <button class="js-ok ui-button ui-corner-all {{showUp}}" type="button" title="OK">
-                {{#if okLabel }}
-                    {{ okLabel }}
-                {{else}}
-                    OK
-                {{/if}}
-            </button>
+            {{#if hasOKButton okLabel}}
+                <button class="js-ok ui-button ui-corner-all {{showUp}}" type="button" title="OK">
+                    {{#if okLabel }}
+                        {{ okLabel }}
+                    {{else}}
+                        OK
+                    {{/if}}
+                </button>
+            {{/if}}
         </div>
 
     </div>

@@ -230,18 +230,18 @@ export const gtd = {
                     {
                         id: 'gtd-setup-device',
                         label: 'Device informations',
-                        route: 'rt.setup.device',
+                        route: 'rt.gear.device',
                         template: 'deviceWindow'
                     },
                     {
                         id: 'gtd-setup-prefs',
                         label: 'Preferences',
-                        route: 'rt.setup.prefs',
+                        route: 'rt.gear.prefs',
                         template: 'prefsWindow'
                     },
                     {
                         id: 'gtd-setup-prefs-window-list',
-                        route: 'rt.setup.prefs.window.list',
+                        route: 'rt.gear.prefs.window.list',
                         template: 'prefsWindow',
                         tabs: {
                             prefs: {

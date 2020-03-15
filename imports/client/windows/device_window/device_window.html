@@ -3,5 +3,11 @@
 
         {{> device_panel }}
 
+        {{#if isPageLayout}}
+            <div class="wsf-footer">
+                {{> wsf_collapse_buttons okLabel="-" cancelLabel="Close" }}
+            </div>
+        {{/if}}
+
     </div>
 </template>

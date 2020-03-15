@@ -51,6 +51,7 @@ Template.prefsWindow.fn = {
 };
 
 Template.prefsWindow.onRendered( function(){
+    const fn = Template.prefsWindow.fn;
     const self = this;
 
     this.autorun(() => {
@@ -63,14 +64,14 @@ Template.prefsWindow.onRendered( function(){
                         {
                             text: "Close",
                             click: function(){
-                                Template.prefsWindow.fn.doClose( self );
+                                fn.doClose( self );
                             }
                         },
                         {
                             text: "OK",
                             click: function(){
-                                Template.prefsWindow.fn.doOK( self );
-                                Template.prefsWindow.fn.doClose( self );
+                                fn.doOK( self );
+                                fn.doClose( self );
                             }
                         }
                     ],
