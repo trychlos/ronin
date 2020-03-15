@@ -71,12 +71,15 @@ _ret=$?
     execcmd "rm -f ${apk}" &&
     execcmd "jarsigner -storepass abcdef -keystore ${projectdir}/.keystore -verbose -sigalg SHA1withRSA -digestalg SHA1 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ronin.trychlos.org" &&
     execcmd "${HOME}/data/Android/Sdk/build-tools/29.0.2/zipalign 4 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ${apk}" &&
+    execcmd "rm -fr ${projectdir}/public/res/apk" &&
+    execcmd "mkdir -p ${projectdir}/public/res/apk" &&
+    execcmd "cp ${apk} ${projectdir}/public/res/apk/" &&
     echo "APK prepared as ${apk}"
 _ret=$?
 
 # on successful release, commit the new mobile configuration
 [ $_ret -eq 0 ] &&
-	execcmd "git add ${projectdir}/mobile-config.js ${projectdir}/private/config/public/version.json" &&
+	execcmd "git add ${projectdir}/mobile-config.js ${projectdir}/private/config/public/version.json ${projectdir}/public/res/apk/*.apk" &&
 	echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to integration platforms'" &&
 	git commit -m "Deploy v${version} to integration platforms" &&
 	echo "$(date '+%Y%m%d-%H%M%S') git tag -am 'Releasing v${version}' ${version}" &&
