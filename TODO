@@ -136,9 +136,6 @@
   193 2020- 3-11 user+device preference: display lists as grid or cards
                  (only relevant in windowLayout)
 
-  194 2020- 3-11 in windowLayout, opening both an action new and an action edit
-                  mixes the two windows - maybe something is too reactive !?
-
   195
 
 ==============================================================================
@@ -680,6 +677,10 @@
                  class while opening an element also involves adding class
                  so we have to deal with two different actions
                  -> cancelled
+
+  194 2020- 3-11 in windowLayout, opening both an action new and an action edit
+                  mixes the two windows - maybe something is too reactive !?
+      2020- 3-15 fixed
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

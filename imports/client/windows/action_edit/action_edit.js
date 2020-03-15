@@ -91,7 +91,7 @@ Template.actionEdit.onRendered( function(){
     // get the edited item
     // the rest of the application will not work correctly
     this.autorun(() => {
-        if( self.ronin.handles.article.ready()){
+        if( self.ronin.handles.article.ready() && !self.ronin.dict.get( 'got' )){
             const id = FlowRouter.getQueryParam( 'id' );
             if( id ){
                 const item = Articles.findOne({ _id:id });
@@ -146,7 +146,7 @@ Template.actionEdit.onRendered( function(){
 });
 
 Template.actionEdit.helpers({
-    action(){
+    item(){
         const self = Template.instance();
         return self.ronin.dict.get( 'item' );
     },

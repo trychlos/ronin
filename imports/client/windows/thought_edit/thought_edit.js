@@ -83,7 +83,7 @@ Template.thoughtEdit.onRendered( function(){
 
     // get the edited item
     this.autorun(() => {
-        if( self.ronin.handles.article.ready()){
+        if( self.ronin.handles.article.ready() && !self.ronin.dict.get( 'got' )){
             const id = FlowRouter.getQueryParam( 'id' );
             if( id ){
                 const item = Articles.findOne({ _id:id });
@@ -138,12 +138,12 @@ Template.thoughtEdit.onRendered( function(){
 });
 
 Template.thoughtEdit.helpers({
-    okLabel(){
-        return Template.thoughtEdit.fn.okLabel();
-    },
-    thought(){
+    item(){
         const self = Template.instance();
         return self.ronin.dict.get( 'item' );
+    },
+    okLabel(){
+        return Template.thoughtEdit.fn.okLabel();
     },
     title(){
         const self = Template.instance();

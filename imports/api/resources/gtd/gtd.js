@@ -364,6 +364,7 @@ export const gtd = {
                         label: 'Transform into an action',
                         route: 'rt.actions.thought',
                         template: 'actionEdit',
+                        multiple: true,
                         group: {
                             pageLayout: 'collectGroup'
                         }

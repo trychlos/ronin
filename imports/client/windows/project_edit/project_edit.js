@@ -117,7 +117,7 @@ Template.projectEdit.onRendered( function(){
 
     // get the edited item
     this.autorun(() => {
-        if( self.ronin.handles.article.ready()){
+        if( self.ronin.handles.article.ready() && !self.ronin.dict.get( 'got' )){
             const id = FlowRouter.getQueryParam( 'id' );
             if( id ){
                 const item = Articles.findOne({ _id:id });

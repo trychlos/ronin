@@ -50,6 +50,7 @@ import '/imports/client/groups/collect_group/collect_group.js';
 import '/imports/client/groups/process_group/process_group.js';
 import '/imports/client/groups/review_group/review_group.js';
 import '/imports/client/groups/setup_group/setup_group.js';
+
 import './app_layout.html';
 
 Template.appLayout.fn = {

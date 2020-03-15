@@ -25,14 +25,18 @@
  *  - on the window, one class:
  *      > ronin-iwm-window
  *          (identifies the window parent of a component)
- *  - on the window, two data attributes:
- *      > ronin-iwm-id = <window_template_name>
- *          (identifying already created window for the template)
- *          (saving/restoring size and position)
- *      > data-ronin-iwm-route = last known route name.
+ *  - on the window, two attributes:
+ *      > data-ronin-iwm-name = <window_template_name>
+ *          (identifying already created window(s) for the template)
+ *          (identify saving/restoring size and position: only one per name)
+ *      > data-ronin-iwm-route = last known route path.
  *          (change route on focus change)
+ *           the route path is the actual identifier, and we refuse to create
+ *           several windows which would share the same path (including queryParams)
+ *  - on the window, one data:
+ *      > <pluginName> = <plugin_object>
  *
- *  ronin-iwm-<route> rationale
+ *  ronin-iwm-route rationale
  *      In a window-based layout, we need to reactively adapt the current route
  *      (aka URL) to the focused window.
  *      Recording the current route at window creation, i.e. the route which has
@@ -74,10 +78,8 @@ import '/imports/client/third-party/simone/simone.min.css';
 
         // return the name of the class added to the widget
         //  (aka the parent of the div we are working with)
-        //  to be kept close of $.fn.IWindowed.defaults.widgetClass
-        //  no this here (static call from show() public method)
-        _className: function( id ){
-            return 'ronin-iwm-'+id;
+        _className: function( name ){
+            return 'ronin-iwm-'+name;
         },
 
         // close the current window
@@ -110,14 +112,14 @@ import '/imports/client/third-party/simone/simone.min.css';
             //  as standard jQuery selector, and visible in the web inspector
             //  contrarily data() sets the data inside of an invisible storage space
             //  see https://api.jquery.com/data/
-            const id = this.args.template;
-            this._idSet( id );
+            const name = this.args.template;
+            this._idSet( name );
             this._routeSet();
             this._createSetWidget();
             this._createSetTitlebarDiv();
             this._createSetTitleButtons();
             this._createSetButtonpaneDiv();
-            this._createRestoreSettings( id );
+            this._createRestoreSettings( name );
             // set event handlers
             //  passing this to the handler, getting back in event.data
             //  in the handler, this is the attached dom element
@@ -144,8 +146,8 @@ import '/imports/client/third-party/simone/simone.min.css';
 
         // restore size and position
         //  this = plugin
-        _createRestoreSettings: function( id ){
-            const storageName = this._settingsName( id );
+        _createRestoreSettings: function( name ){
+            const storageName = this._settingsName( name );
             if( localStorage[storageName] ){
                 const settings = JSON.parse( localStorage[storageName] );
                 this._shiftMultiple( settings );
@@ -205,13 +207,18 @@ import '/imports/client/third-party/simone/simone.min.css';
         // returns the identifier set as a data attribute of the window
         //  this = plugin
         _idGet: function(){
-            return this.$dom.attr( 'data-ronin-iwm-id' );
+            return this.$dom.attr( 'data-ronin-iwm-name' );
         },
 
         // setup the identifier of the window
+        //  The name of the template only identifies a generic family of windows
+        //  which is usually uniquely displayed, e.g. thoughtsList, setupWindow, etc.
+        //  But edition windows (thoughtEdit, actionEdit, projectEdit) usually
+        //  accept multiple instances, which causes that the name will not be unique
+        //  in this later case.
         //  this = plugin
-        _idSet: function( id ){
-            this.$dom.attr( 'data-ronin-iwm-id', id );
+        _idSet: function( name ){
+            this.$dom.attr( 'data-ronin-iwm-name', name );
         },
 
         // plugin initialization
@@ -269,7 +276,7 @@ import '/imports/client/third-party/simone/simone.min.css';
         },
 
         _onDragStop: function( ev, ui ){
-            //console.log( '_onDragStop '+$( ev.target ).data( 'ronin-iwm-id' ));
+            //console.log( '_onDragStop '+$( ev.target ).data( 'ronin-iwm-name' ));
             this._saveSettings();
         },
 
@@ -277,7 +284,7 @@ import '/imports/client/third-party/simone/simone.min.css';
         //  update the current route
         //  NB: focus is triggered twice when activated from the taskbar
         _onFocus: function( ev, ui ){
-            //console.log( '_onFocus '+$( ev.target ).data( 'ronin-iwm-id' )+' restoring '+this._routeGet());
+            //console.log( '_onFocus '+$( ev.target ).data( 'ronin-iwm-name' )+' restoring '+this._routeGet());
             const route = this._routeGet();
             if( route ){
                 FlowRouter.go( route );
@@ -315,7 +322,7 @@ import '/imports/client/third-party/simone/simone.min.css';
         },
 
         _onResizeStop: function( ev, ui ){
-            //console.log( '_onResizeStop '+$( ev.target ).data( 'ronin-iwm-id' ));
+            //console.log( '_onResizeStop '+$( ev.target ).data( 'ronin-iwm-name' ));
             this._saveSettings();
         },
 
@@ -328,7 +335,8 @@ import '/imports/client/third-party/simone/simone.min.css';
         //  this = plugin
         _routeSet: function(){
             const route = FlowRouter.current();
-            this.$dom.attr( 'data-ronin-iwm-route', route.route.name );
+            //this.$dom.attr( 'data-ronin-iwm-route', route.route.name );
+            this.$dom.attr( 'data-ronin-iwm-route', route.path );
         },
 
         // save size and position
@@ -346,21 +354,22 @@ import '/imports/client/third-party/simone/simone.min.css';
             //console.log( jsonSettings );
         },
 
-        _setRestoreButtonTitle: function( id ){
+        _setRestoreButtonTitle: function(){
             const maximized = this.$dom.window( 'maximized' );
             const max = this.$widget.find( '.ui-dialog-titlebar > .ui-button[data-button-order="1"]' );
             max.prop( 'title', maximized ? 'Restore' : 'Maximize' );
         },
 
         // return the settings key when saving/restoring size and position
-        _settingsName: function( id ){
-            return 'spSettings-'+id;
+        _settingsName: function( name ){
+            return 'spSettings-'+name;
         },
 
         // shift the window if there are several windows with this same template
         //  "settings.at": "left+414 top+119"
         _shiftMultiple( settings ){
-            const plugins = $.fn[pluginName]._getPlugins( this.args.template );
+            const plugins = $.fn[pluginName].pluginsByName( this.args.template );
+            //console.log( this.args.template+' IWindowed.length='+plugins.length );
             if( plugins.length ){
                 const regex = /^([a-z]+)\+(\d+) ([a-z]+)\+(\d+)$/;
                 const matches = regex.exec( settings.at );
@@ -368,6 +377,7 @@ import '/imports/client/third-party/simone/simone.min.css';
                 const shift2 = parseInt( matches[2] )+parseInt( this.settings.ronin.shift );
                 const shift4 = parseInt( matches[4] )+parseInt( this.settings.ronin.shift );
                 settings.at = matches[1]+'+'+shift2+' '+matches[3]+'+'+shift4;
+                //console.log( 'shifting '+this.args.template+' to '+settings.at );
             }
         }
     });
@@ -405,27 +415,10 @@ import '/imports/client/third-party/simone/simone.min.css';
         }
     };
 
-    // _getPlugins() private method
-    //  Returns the list of initialized plugins associated with the specified template.
-    $.fn[pluginName]._getPlugins = ( template ) => {
-        const windows = g[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
-        let plugins = [];
-        for( let i=0 ; i<windows.length ; ++i ){
-            const id = $( windows[i] ).attr( 'data-ronin-iwm-id' );
-            if( id === template ){
-                const p = $( windows[i] ).data( pluginName );
-                if( p ){
-                    plugins.push( p );
-                }
-            }
-        }
-        return( plugins );
-    };
-
     // close() public method
     //  close the current window
-    //  this method can be called on the current component and will close the
-    //   parent window
+    //  this method can be called on any DOM element and will close the
+    //   parent window (if any)
     //  Rationale:
     //  calling $( selector ).IWindowed( 'close' ) requires that selector be
     //   exactly the window itself
@@ -458,6 +451,44 @@ import '/imports/client/third-party/simone/simone.min.css';
                 $( windows[i] ).window( 'minimize' );
             }
         }
+    },
+
+    // pluginsByName() public method
+    //  Returns the list of initialized plugins associated with the specified template.
+    $.fn[pluginName].pluginsByName = ( template ) => {
+        const windows = g[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
+        let plugins = [];
+        for( let i=0 ; i<windows.length ; ++i ){
+            const name = $( windows[i] ).attr( 'data-ronin-iwm-name' );
+            if( name === template ){
+                const p = $( windows[i] ).data( pluginName );
+                if( p ){
+                    plugins.push( p );
+                }
+            }
+        }
+        return( plugins );
+    };
+
+    // pluginByPath() public method
+    //  Returns the plugin instance which manages the window which exhibits the
+    //  route path, or null
+    //  Even if the template accepts multiple instances, the path, including
+    //  queryParams, is the actual identifier of the window instance, and must
+    //  be kept unique in the interface
+    $.fn[pluginName].pluginByPath = ( path ) => {
+        //console.log( 'searching for '+path );
+        const taskbar = g[LYT_WINDOW].taskbar.get();
+        if( taskbar ){
+            const windows = taskbar.taskbar( 'windows' );
+            for( let i=0 ; i<windows.length ; ++i ){
+                const route = $( windows[i] ).attr( 'data-ronin-iwm-route' );
+                if( route === path ){
+                    return( $( windows[i] ).data( pluginName ));
+                }
+            }
+        }
+        return( null );
     },
 
     // setRoute() public method
@@ -495,19 +526,16 @@ import '/imports/client/third-party/simone/simone.min.css';
             console.log( 'show() expects the template name as single argument, "'+template+'" found' );
         } else {
             let plugin = null;
-            if( !data.multiple ){
-                const windows = g[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
-                for( let i=0 ; i<windows.length && !plugin ; ++i ){
-                    const id = $( windows[i] ).attr( 'data-ronin-iwm-id' );
-                    if( id === template ){
-                        plugin = $( windows[i] ).data( pluginName );
-                    }
-                }
-                if( plugin ){
-                    plugin._moveToTop();
-                }
+            if( data.multiple ){
+                const route = FlowRouter.current();
+                plugin = $.fn[pluginName].pluginByPath( route.path );
+            } else {
+                const plugins = $.fn[pluginName].pluginsByName( template );
+                plugin = plugins ? plugins[0] : null;
             }
-            if( !plugin ){
+            if( plugin ){
+                plugin._moveToTop();
+            } else {
                 Blaze.renderWithData( Template[template], data, document.getElementById( g[LYT_WINDOW].rootId ));
             }
         }
