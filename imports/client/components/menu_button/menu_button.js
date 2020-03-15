@@ -14,9 +14,11 @@ Template.menu_button.events({
         });
     },
     'click .js-device'( ev, instance ){
+        g.run.back = FlowRouter.current().path;
         FlowRouter.go( 'rt.setup.device' );
     },
     'click .js-prefs'( ev, instance ){
+        g.run.back = FlowRouter.current().path;
         FlowRouter.go( 'rt.setup.prefs' );
     }
 });

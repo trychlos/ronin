@@ -3,5 +3,11 @@
 
         {{> prefs_tabs }}
 
+        {{#if isPageLayout}}
+            <div class="wsf-footer">
+                {{> wsf_collapse_buttons okLabel=okLabel cancelLabel="Cancel" }}
+            </div>
+        {{/if}}
+
     </div>
 </template>

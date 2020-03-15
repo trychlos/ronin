@@ -5,10 +5,21 @@
 import { Meteor } from 'meteor/meteor';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/prefs_tabs/prefs_tabs.js';
+import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './prefs_window.html';
 
 Template.prefsWindow.fn = {
+    doClose( self ){
+        switch( g.run.layout.get()){
+            case LYT_PAGE:
+                FlowRouter.go( g.run.back );
+                break;
+            case LYT_WINDOW:
+                $().IWindowed.close( '.prefsWindow' );
+                break;
+        }
+    },
     doOK( self ){
         Template.prefs_lists_panel.fn.doOK();
     },
@@ -52,14 +63,14 @@ Template.prefsWindow.onRendered( function(){
                         {
                             text: "Close",
                             click: function(){
-                                $().IWindowed.close( '.'+context.template );
+                                Template.prefsWindow.fn.doClose( self );
                             }
                         },
                         {
                             text: "OK",
                             click: function(){
                                 Template.prefsWindow.fn.doOK( self );
-                                $().IWindowed.close( '.'+context.template );
+                                Template.prefsWindow.fn.doClose( self );
                             }
                         }
                     ],
@@ -69,4 +80,16 @@ Template.prefsWindow.onRendered( function(){
             });
         }
     });
+});
+
+Template.prefsWindow.events({
+    'click .js-cancel'( ev, instance ){
+        Template.prefsWindow.fn.doClose();
+        return false;
+    },
+    'click .js-ok'( ev, instance ){
+        Template.prefsWindow.fn.doOK( instance );
+        Template.prefsWindow.fn.doClose( instance );
+        return false;
+    }
 });
