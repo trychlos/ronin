@@ -25,3 +25,17 @@ typeOf = function( value ){
     }
     return s;
 }
+
+// compare updatedAt (resp createdAt) of the two provided objects
+//  returns -1 if ita < (older) itb
+//          +1 if ita > (newer) itb
+//           0 if they are equal
+//
+compareUpdates = function( ita, itb ){
+    const da = moment( ita.updatedAt ? ita.updatedAt : ita.createdAt );
+    const db = moment( itb.updatedAt ? itb.updatedAt : itb.createdAt );
+    if( da.isSame( db )){
+        return 0;
+    }
+    return da.isBefore( db ) ? -1 : 1;
+}

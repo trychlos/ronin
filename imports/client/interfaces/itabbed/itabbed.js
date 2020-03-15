@@ -63,7 +63,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
         // we have asked to show a new tabbed panel: create it
         _create: function(){
             const self = this;
-            let settings = $.extend( true, {}, this.args, $.fn[pluginName].defaults );
+            let settings = $.extend( true, {}, $.fn[pluginName].defaults, this.args );
             // set a 'ronin-itabbed' class on the root element
             this.$dom.addClass( 'ronin-itabbed' );
             $( this.$dom.find( '.nav-tabs' )[0] ).scrollingTabs( settings.jquery );

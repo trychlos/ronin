@@ -1,29 +1,29 @@
 <template name="actions_grid">
     <div class="actions-grid">
 
-        <table class="js-grid x-grid">
+        <table class="js-grid">
             <thead>
                 <tr>
-                    <th data-column-id="btn-edit" class="x-wmin"></th>
-                    <th data-column-id="btn-ownership" class="x-wmin"></th>
-                    <th data-column-id="btn-project" class="x-wmin"></th>
-                    <th data-column-id="name" class="x-w15">Name</th>
-                    <th data-column-id="topic" class="x-w15">Topic</th>
-                    <th data-column-id="context" class="x-w15">Context</th>
-                    <th data-column-id="parent" class="x-w15">Project</th>
-                    <th data-column-id="created">Created</th>
+                    <th class="x-w15"></th>
+                    <th data-column-name="name" class="x-w25 igrid-border igrid-sortable">Name</th>
+                    <th data-column-name="topic" class="x-w20 igrid-border igrid-sortable">Topic</th>
+                    <th data-column-name="context" class="x-w20 igrid-border igrid-sortable">Context</th>
+                    <th data-column-name="parent" class="x-w20 igrid-border igrid-sortable">Project</th>
+                    <th data-column-name="created" class="igrid-border igrid-sortable">Created</th>
                     {{#if isDoneTab }}
-                        <th data-column-id="done">Done</th>
+                        <th data-column-name="done" class="igrid-border igrid-sortable">Done</th>
                     {{/if}}
-                    <th data-column-id="btn-delete" class="x-wmin"></th>
+                    <th class="x-wmin"></th>
                 </tr>
             </thead>
             <tbody>
                 {{#each it in actions}}
-                    <tr class="review">
-                        <td class="x-wmin">{{> edit_button item=it }}</td>
-                        <td class="x-wmin">{{> ownership_button item=it }}</td>
-                        <td class="x-wmin">{{> project_button item=it }}</td>
+                    <tr data-row-id="{{ it._id }}">
+                        <td class="btn-actions">
+                            {{> edit_button item=it }}
+                            {{> ownership_button item=it }}
+                            {{> project_button item=it }}
+                        </td>
                         <td class="x-ellipsize"><p>{{ getName it }}</p></td>
                         <td class="x-ellipsize"><p>{{ getTopic it }}</p></td>
                         <td class="x-ellipsize"><p>{{ getContext it }}</p></td>
@@ -32,7 +32,9 @@
                         {{#if isDoneTab }}
                             <td>{{ getDone it }}</td>
                         {{/if}}
-                        <td class="x-wmin">{{> delete_button item=it }}</td>
+                        <td class="btn-actions">
+                            {{> delete_button item=it }}
+                        </td>
                     </tr>
                 {{/each}}
             </tbody>

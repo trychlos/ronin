@@ -10,9 +10,6 @@
  Todo
  ====
 
-    1 2019-11-10 make all the lists sortable by column
-                 see for example mrt:jquery-ui-sortable
-
     4 2019-11-17 when entering in /collect, set the cursor in the name field
       2020- 2-21 ok in windows layout
 
@@ -113,6 +110,7 @@
   114 2020- 2- 1 fix wsf-footer display
 
   118 2020- 2- 1 have a link on the web site to download the apk
+      2020- 3-15 the n-1 APK is available at /res/apk public url
 
   125 2020- 2- 6 auto generate routes.js from gtd.js
 
@@ -122,9 +120,6 @@
 
   164 2020- 2-24 None topic is not displayed in cards items
 
-  184 2020- 3-10 deprecate IGrid
-      2020- 3-15 rather mutualize thoughts and actions grids
-
   185 2020- 3-11 have a site icon (favicon)
 
   195
@@ -132,6 +127,10 @@
 ==============================================================================
  Done
  ====
+
+    1 2019-11-10 make all the lists sortable by column
+                 see for example mrt:jquery-ui-sortable
+      2020- 3-15 done
 
     2 2019-11-10 process thoughts should only be available if there is at
                  least one thought (disable if zero)
@@ -649,6 +648,10 @@
 
   183 2020- 3- 8 actionsList in pageLayout: should display some tabs (and which ?)
       2020- 3-11 all tabs are displayed in a scrolling area
+
+  184 2020- 3-10 deprecate IGrid
+      2020- 3-15 rather mutualize thoughts and actions grids
+      2020- 3-15 done
 
   186 2020- 3-11 when a thought is transformed into an action, also take ownership
                  if needed and possible

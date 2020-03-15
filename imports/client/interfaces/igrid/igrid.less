@@ -1,33 +1,80 @@
-.jqx-grid.pwi-igrid {
-    .jqx-grid-header {
-        height: 2rem;
+.ronin-igrid-table {
+    white-space: nowrap;
+    width: 100%;
+    line-height: 2rem;
+    td.x-wmin {
+        width: 1%;
     }
-    .contextmenu-showing .jqx-grid-cell {
-        background-color: @context-item-bg-color;
+    thead {
+        th {
+            font-size: 1rem;
+            font-weight: normal;
+            .ronin-igrid-name {
+                flex-grow: 1;
+            }
+            .ronin-igrid-sort-btn {
+                cursor: pointer;
+                color: gray;
+            }
+        }
+        th.igrid-border {
+            border: 1px solid lightgray;
+        }
     }
-    .jqx-button span:nth-child(2) {
-        top: 5px;
-        left: 7px;
+    tbody:before {
+        content: "-";
+        display: block;
+        line-height: 1px;
+        color: transparent;
     }
-    .jqx-widget-header,
-    .jqx-widget-content {
+    tbody {
         font-size: 1rem;
+        font-weight: normal;
+        tr:nth-child(2n+1){
+            background-color: lighten( @app-color, 35% );
+        }
+        .btn-actions {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: center;
+        }
     }
-    .jqx-button {
-        cursor: pointer;
+    th, td {
+        padding: 0 0.25rem;
     }
-    .jqx-button.jqx-fill-state-normal {
-        background-color: #ededed;
-    }
-    .jqx-button.jqx-fill-state-normal .btn-disabled {
-        color: #ededed;
-        background-color: white;
-    }
-/*  background-color doesn't work
-    div.jqx-grid-header {
-        background-color: @review-color-l25;
-        color: white;
-        height: 24px;
+}
+/* group-dependant colors
+ * windowLayout only
+ */
+.ronin-lyt-window {
+    /*
+    .ronin-iwm-setupGroup {
+        .ui-tabs-tab.ui-state-active,
+        .ui-widget-header.ui-state-active {
+            background: @setup-color;
+            border: 0;
+        }
     }
     */
+    .ronin-iwm-collectGroup {
+        .ronin-igrid-table tbody tr:hover {
+            background-color: @collect-color-lightest;
+        }
+    }
+    /*
+    .ronin-iwm-processGroup {
+        .ui-tabs-tab.ui-state-active,
+        .ui-widget-header.ui-state-active {
+            background: @process-color;
+            border: 0;
+        }
+    }
+    */
+    .ronin-iwm-reviewGroup {
+        .ronin-igrid-table tbody tr:hover {
+            background-color: @review-color-lightest;
+        }
+    }
 }

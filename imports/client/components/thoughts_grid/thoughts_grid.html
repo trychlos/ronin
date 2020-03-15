@@ -1,30 +1,31 @@
 <template name="thoughts_grid">
     <div class="thoughts-grid">
 
-        <table class="js-grid x-grid">
+        <table class="js-grid">
             <thead>
                 <tr>
-                    <th data-column-id="btn-edit" class="x-wmin"></th>
-                    <th data-column-id="btn-ownership" class="x-wmin"></th>
-                    <th data-column-id="btn-action" class="x-wmin"></th>
-                    <th data-column-id="btn-project" class="x-wmin"></th>
-                    <th data-column-id="name" class="x-w15">Name</th>
-                    <th data-column-id="topic" class="x-w15">Topic</th>
-                    <th data-column-id="created">Created</th>
-                    <th data-column-id="btn-delete" class="x-wmin"></th>
+                    <th class="x-w15"></th>
+                    <th data-column-name="name" class="x-w50 igrid-border igrid-sortable">Name</th>
+                    <th data-column-name="topic" class="x-w30 igrid-border igrid-sortable">Topic</th>
+                    <th data-column-name="created" class="igrid-border igrid-sortable">Updated</th>
+                    <th class="x-wmin"></th>
                 </tr>
             </thead>
             <tbody>
                 {{#each it in thoughts}}
-                    <tr class="collect">
-                        <td class="x-wmin">{{> edit_button item=it }}</td>
-                        <td class="x-wmin">{{> ownership_button item=it }}</td>
-                        <td class="x-wmin">{{> action_button item=it }}</td>
-                        <td class="x-wmin">{{> project_button item=it }}</td>
+                    <tr data-row-id="{{ it._id }}">
+                        <td class="btn-actions">
+                            {{> edit_button item=it }}
+                            {{> ownership_button item=it }}
+                            {{> action_button item=it }}
+                            {{> project_button item=it }}
+                        </td>
                         <td class="x-ellipsize"><p>{{ getName it }}</p></td>
                         <td class="x-ellipsize"><p>{{ getTopic it }}</p></td>
                         <td>{{ getCreated it }}</td>
-                        <td class="x-wmin">{{> delete_button item=it }}</td>
+                        <td class="btn-actions">
+                            {{> delete_button item=it }}
+                        </td>
                     </tr>
                 {{/each}}
             </tbody>
