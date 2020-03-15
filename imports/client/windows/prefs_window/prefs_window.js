@@ -19,7 +19,7 @@ Template.prefsWindow.fn = {
             address = user.emails[0].address;
         }
         const name = 'ronin-prefs-device-'+address;
-        console.log( 'name='+name );
+        //console.log( 'name='+name );
         return name;
     },
     readDevicePrefs(){
@@ -29,7 +29,7 @@ Template.prefsWindow.fn = {
         if( localStorage[name] ){
             prefs = JSON.parse( localStorage[name] );
         }
-        console.log( prefs );
+        //console.log( prefs );
         return( prefs );
     },
     writeDevicePrefs( prefs ){

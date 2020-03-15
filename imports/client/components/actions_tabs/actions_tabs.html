@@ -11,12 +11,12 @@
         <div class="tab-content">
             {{#each it in gtdItems}}
                 <div role="tabpanel" class="tab-pane fade" id="{{it.id}}">
-                    {{#if isPageLayout}}
+                    {{#if tabularIsPreferred}}
+                        {{> actions_grid tab=it.id actions=(actions it)}}
+                    {{else}}
                         {{#each art in (actions it)}}
                             {{> actions_list_item action=art }}
                         {{/each}}
-                    {{else}}
-                        {{> actions_grid tab=it.id actions=(actions it)}}
                     {{/if}}
                 </div>
             {{/each}}

@@ -31,12 +31,15 @@ Template.prefs_lists_panel.fn = {
         return o;
     },
     initEditArea: function(){
-        const prefs = $.extend( true, {},
-            Template.prefs_lists_panel.fn.defaultPrefs(),
-            Template.prefsWindow.fn.readDevicePrefs());
+        const prefs = Template.prefs_lists_panel.fn.readDevicePrefs();
         const $this = $( '.prefs-lists-panel' );
         $this.find( 'input[name=thoughts][value='+prefs.lists.thoughts+']' ).prop( 'checked', true );
         $this.find( 'input[name=actions][value='+prefs.lists.actions+']' ).prop( 'checked', true );
+    },
+    readDevicePrefs(){
+        return( $.extend( true, {},
+            Template.prefs_lists_panel.fn.defaultPrefs(),
+            Template.prefsWindow.fn.readDevicePrefs()));
     }
 };
 
