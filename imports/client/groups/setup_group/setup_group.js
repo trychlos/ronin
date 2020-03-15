@@ -16,6 +16,7 @@
  *      by later changes.
  */
 import '/imports/client/windows/device_window/device_window.js';
+import '/imports/client/windows/prefs_window/prefs_window.js';
 import './setup_group.html';
 
 Template.setupGroup.onCreated( function(){

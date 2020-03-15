@@ -133,9 +133,6 @@
                  lists should be displayed in reverse order of creation
                  (or have a sorting button)
 
-  193 2020- 3-11 user+device preference: display lists as grid or cards
-                 (only relevant in windowLayout)
-
   195
 
 ==============================================================================
@@ -677,6 +674,10 @@
                  class while opening an element also involves adding class
                  so we have to deal with two different actions
                  -> cancelled
+
+  193 2020- 3-11 user+device preference: display lists as grid or cards
+                 (only relevant in windowLayout)
+      2020- 3-15 done
 
   194 2020- 3-11 in windowLayout, opening both an action new and an action edit
                   mixes the two windows - maybe something is too reactive !?

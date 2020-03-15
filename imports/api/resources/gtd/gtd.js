@@ -232,6 +232,24 @@ export const gtd = {
                         label: 'Device informations',
                         route: 'rt.setup.device',
                         template: 'deviceWindow'
+                    },
+                    {
+                        id: 'gtd-setup-prefs',
+                        label: 'Preferences',
+                        route: 'rt.setup.prefs',
+                        template: 'prefsWindow'
+                    },
+                    {
+                        id: 'gtd-setup-prefs-window-list',
+                        route: 'rt.setup.prefs.window.list',
+                        template: 'prefsWindow',
+                        tabs: {
+                            prefs: {
+                                display: true,
+                                panel: 'prefs_lists_panel',
+                                label: 'Display lists'
+                            }
+                        }
                     }
                 ],
             },
@@ -740,6 +758,9 @@ export const gtd = {
         return gtd._items_rec( name, result, gtd.features()).sort( gtd._items_sort( name ));
     },
     _items_rec: function( name, res, inputArray ){
+        //console.log( name );
+        //console.log( res );
+        //console.log( inputArray );
         for( let i=0 ; i<inputArray.length ; ++i ){
             const item = inputArray[i];
             // must have an identifier
@@ -771,6 +792,16 @@ export const gtd = {
     },
     labelItem: function( name, item ){
         return gtd._search( name, item, 'label', true );
+    },
+    // when a tabbed page associates a different panel for each tab, says here
+    //  which panel go where
+    // shouldn't be empty
+    // shouldn't depend of the layout
+    panelId: function( name, id ){
+        return gtd.panelItem( name, gtd._byId( id ));
+    },
+    panelItem: function( name, item ){
+        return gtd._search( name, item, 'panel', false );
     },
     // returns the parent of this item, or null
     _parent_cache: {},

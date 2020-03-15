@@ -1,0 +1,69 @@
+<template name="prefs_lists_panel">
+    <div class="prefs-lists-panel">
+
+        <div class="introduction">
+            <p>
+                How to display our lists ?
+            </p>
+        </div>
+
+        <div class="thoughts group">
+            <div class="subtitle">
+                When collecting thoughts
+                <fieldset class="prefs-choice">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                                name="thoughts" id="prefs-lists-panel-thoughts-def" value="def" checked />
+                        <label class="form-check-label" for="prefs-lists-panel-thoughts-def">
+                            Let the application choose itself depending of the running device
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                                name="thoughts" id="prefs-lists-panel-thoughts-cards" value="cards" />
+                        <label class="form-check-label" for="prefs-lists-panel-thoughts-cards">
+                            As a list of expandable cards
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                                name="thoughts" id="prefs-lists-panel-thoughts-grid" value="grid" />
+                        <label class="form-check-label" for="prefs-lists-panel-thoughts-grid">
+                            As a tabular layout
+                        </label>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="actions group">
+            <div class="subtitle">
+                When reviewing actions
+                <fieldset class="prefs-choice">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                                name="actions" id="prefs-lists-panel-actions-def" value="def" checked />
+                        <label class="form-check-label" for="prefs-lists-panel-actions-def">
+                            Let the application choose itself depending of the running device
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                                name="actions" id="prefs-lists-panel-actions-cards" value="cards" />
+                        <label class="form-check-label" for="prefs-lists-panel-actions-cards">
+                            As a list of expandable cards
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                                name="actions" id="prefs-lists-panel-actions-grid" value="grid" />
+                        <label class="form-check-label" for="prefs-lists-panel-actions-grid">
+                            As a tabular layout
+                        </label>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+    </div>
+</template>

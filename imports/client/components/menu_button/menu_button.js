@@ -15,5 +15,8 @@ Template.menu_button.events({
     },
     'click .js-device'( ev, instance ){
         FlowRouter.go( 'rt.setup.device' );
+    },
+    'click .js-prefs'( ev, instance ){
+        FlowRouter.go( 'rt.setup.prefs' );
     }
 });

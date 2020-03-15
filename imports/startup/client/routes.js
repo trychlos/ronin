@@ -126,6 +126,20 @@ FlowRouter.route('/setup/device', {
         blazeRender( this.name );
     },
 });
+FlowRouter.route('/setup/prefs', {
+    name: 'rt.setup.prefs',
+    action(){
+        Session.set( 'page.group', 'gtd-setup-group' );
+        blazeRender( this.name );
+    },
+});
+FlowRouter.route('/setup/prefs/lists', {
+    name: 'rt.setup.prefs.window.list',
+    action(){
+        Session.set( 'page.group', 'gtd-setup-group' );
+        blazeRender( this.name );
+    },
+});
 FlowRouter.route( '/thoughts', {
     name: 'rt.thoughts.list',
     action(){
