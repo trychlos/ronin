@@ -40,7 +40,9 @@ import './projects_list.html';
 Template.projectsList.fn = {
     doNew: function(){
         g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'rt.projects.new' );
+        const tab = Session.get( 'projects.tab.name' );
+        const route = ( tab === 'gtd-review-projects-single' ? 'rt.actions.new' : 'rt.projects.new' );
+        FlowRouter.go( route );
     }
 };
 
