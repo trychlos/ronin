@@ -8,9 +8,13 @@
         {{/if}}
 
         <div>
-            {{#each it in thoughts}}
-                {{> thoughts_list_item thought=it }}
-            {{/each}}
+            {{#if tabularIsPreferred}}
+                {{> thoughts_grid thoughts=thoughts }}
+            {{else}}
+                {{#each it in thoughts}}
+                    {{> thoughts_list_item thought=it }}
+                {{/each}}
+            {{/if}}
         </div>
 
     </div>

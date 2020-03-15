@@ -16,6 +16,23 @@ import '/imports/client/components/prefs_lists_panel/prefs_lists_panel.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './actions_tabs.html';
 
+Template.actions_tabs.fn = {
+    _prefTabular: null,
+    // use the user+device preferences to choose between cards and grid
+    //  default is layout dependant
+    tabularIsPreferred(){
+        const fn = Template.actions_tabs.fn;
+        if( !fn._prefTabular ){
+            const prefs = Template.prefs_lists_panel.fn.readDevicePrefs();
+            fn._prefTabular = prefs.lists.actions;
+            if( fn._prefTabular === 'def' ){
+                fn._prefTabular = ( g.run.layout.get() === LYT_PAGE ? 'cards' : 'grid' );
+            }
+        }
+        return( fn._prefTabular === 'grid' );
+    }
+};
+
 Template.actions_tabs.onRendered( function(){
     this.autorun(() => {
         $( '.actions-tabs' ).ITabbed({
@@ -37,15 +54,8 @@ Template.actions_tabs.helpers({
     gtdRoute( it ){
         return gtd.routeItem( 'actions', it );
     },
-    // use the user+device preferences to choose between cards and grid
-    //  default is layout dependant
     tabularIsPreferred(){
-        const prefs = Template.prefs_lists_panel.fn.readDevicePrefs();
-        const display = prefs.lists.actions;
-        if( display === 'def' ){
-            display = g.run.layout.get() === LYT_PAGE ? 'cards' : 'grid';
-        }
-        return display === 'grid';
+        return Template.actions_tabs.fn.tabularIsPreferred();
     }
 });
 

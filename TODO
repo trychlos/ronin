@@ -126,12 +126,9 @@
   164 2020- 2-24 None topic is not displayed in cards items
 
   184 2020- 3-10 deprecate IGrid
+      2020- 3-15 rather mutualize thoughts and actions grids
 
   185 2020- 3-11 have a site icon (favicon)
-
-  187 2020- 3-11 both in grid and in list, both in thoughts and in actions,
-                 lists should be displayed in reverse order of creation
-                 (or have a sorting button)
 
   195
 
@@ -655,6 +652,11 @@
   186 2020- 3-11 when a thought is transformed into an action, also take ownership
                  if needed and possible
       2020- 3-14 done
+
+  187 2020- 3-11 both in grid and in list, both in thoughts and in actions,
+                 lists should be displayed in reverse order of creation
+                 (or have a sorting button)
+      2020- 3-15 that's already the case, due to the sorted cursor provided
 
   188 2020- 3-11 scrollingTabs: have arrows
       2020- 3-11 done
