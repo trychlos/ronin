@@ -4,10 +4,7 @@
  *
  *  Parameters:
  *  - thought: the one-item cursor (aka an array) to be displayed
- *
- *  Session variables:
- *  - collect.opened: the thought identifier whose card is opened
- *      so that we can open the card when coming back from the edition
+ *  - parent: the parent selector element that Bootstrap requires to close collapsables.
  */
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/action_button/action_button.js';
