@@ -11,7 +11,7 @@
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/actions_grid/actions_grid.js';
-import '/imports/client/components/actions_list_item/actions_list_item.js';
+import '/imports/client/components/action_card/action_card.js';
 import '/imports/client/components/prefs_lists_panel/prefs_lists_panel.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './actions_tabs.html';
