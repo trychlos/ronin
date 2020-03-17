@@ -28,54 +28,15 @@ import { Articles } from '../articles.js';
  * and https://docs.meteor.com/api/methods.html
  *
  * Only write here remote procedures callable from the client.
- * Keep in Articles.server server-only functions.
+ * Keep in Articles.sofns server-only functions.
  */
 Meteor.methods({
-    // action is said undone (back from done)
-    //  must be called from Articles.fn.doneToggle()
-    //  update does not mean taking ownership
-    'actions.done.clear'( o ){
-        Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
-        const ret = Articles.update( o._id, {
-            $set: { status: o.status },
-            $unset: { doneDate: '' }
-        });
-        console.log( 'Articles.actions.done.clear "'+o.name+'" ('+o._id+') returns '+ret );
-        if( !ret ){
-            throw new Meteor.Error(
-                'articles.actions.done.clear',
-                'Unable to update "'+o.name+'" action to undone' );
-        }
-        return ret;
-    },
-
-    // action is said done
-    //  must be called from Articles.fn.doneToggle()
-    //  update does not mean taking ownership
-    'actions.done.set'( o ){
-        Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
-        const ret = Articles.update( o._id, { $set: {
-            doneDate: o.doneDate,
-            status: o.status,
-            last_status: o.last_status
-        }});
-        console.log( 'Articles.actions.done.set "'+o.name+'" ('+o._id+') returns '+ret );
-        if( !ret ){
-            throw new Meteor.Error(
-                'articles.actions.done.set',
-                'Unable to update "'+o.name+'" action to done' );
-        }
-        return ret;
-    },
-
     // insert a new action
     //  the new action is owned by the currently logged-in user
     'actions.insert'( o ){
         Articles.fn.check( o );
         Articles.fn.takeOwnership( o );
-        Articles.sofns.actionConsistentDone( o );
+        Articles.sofns.doneConsistent( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.insert( item.set );
         console.log( 'Articles.actions.insert "'+o.name+'" returns '+ret );
@@ -94,7 +55,7 @@ Meteor.methods({
         //console.log( o );
         Articles.fn.check( o );
         Articles.fn.takeOwnership( o );
-        Articles.sofns.actionConsistentDone( o );
+        Articles.sofns.doneConsistent( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.update( o._id, { $set:item.set, $unset:item.unset });
         console.log( 'Articles.actions.update "'+o.name+'" ('+o._id+') returns '+ret );
@@ -106,26 +67,10 @@ Meteor.methods({
         return ret;
     },
 
-    // takes ownership of the article
-    //  only applies to thoughts in development phase
-    'articles.ownership'( o ){
-        Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
-        const item = Articles.sofns.cleanup( o );
-        const ret = Articles.update( o._id, { $set:item.set, $unset:item.unset });
-        console.log( 'Articles.ownership "'+o.name+'" ('+o._id+') returns '+ret );
-        if( !ret ){
-            throw new Meteor.Error(
-                'articles.ownership',
-                'Unable to take ownership of the "'+o.name+'" article' );
-        }
-        return ret;
-    },
-
     // delete an article
     //  children are updated to a null/none parent
     'articles.remove'( o ){
-        Articles.sofns.stopIfNotEditable( o );
+        Articles.fn.check_editable( o );
         let ret = Articles.remove( o._id );
         console.log( 'Articles.remove "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
@@ -135,27 +80,6 @@ Meteor.methods({
         }
         ret = Articles.update({ parent:o._id }, { $unset: { parent:'' }});
         console.log( 'Articles.update.children "'+o.name+'" ('+o._id+') returns '+ret );
-        return ret;
-    },
-
-    // change the parent of an action or a project
-    'articles.reparent'( o ){
-        let ret = false;
-        Articles.fn.check( o.item );
-        Articles.fn.takeOwnership( o.item );
-        if( o.parent && Articles.findOne({ _id:o.parent, type:'P' })){
-            ret = Articles.update( o.item._id, { $set: {
-                parent: o.parent
-            }});
-        } else {
-            ret = Articles.update( o.item._id, { $unset: { parent: '' }});
-        }
-        console.log( 'Articles.reparent "'+o.name+'" ('+o._id+') returns '+ret );
-        if( !ret ){
-            throw new Meteor.Error(
-                'articles.reparent',
-                'Unable to reparent "'+o.item.name+'" article' );
-        }
         return ret;
     },
 

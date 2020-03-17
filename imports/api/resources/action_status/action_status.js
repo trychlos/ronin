@@ -60,10 +60,22 @@ export const actionStatus = {
     getDefault: function(){
         return 'ina';
     },
+    // returns the array of valid status
+    getValid: function(){
+        const valid = [];
+        actionStatus.all().forEach(( it ) => {
+            valid.push( it.id );
+        })
+        return valid;
+    },
     // whether this status qualifies an actionable action
     isActionable: function( id ){
         const item = actionStatus._byId( id );
         return item ? item.actionable === true : false;
+    },
+    // whether this status is valid
+    isValid: function( id ){
+        return actionStatus._byId( id ) != null;
     },
     labelById: function( id ){
         const item = actionStatus._byId( id );

@@ -187,7 +187,7 @@ Template.projectEdit.helpers({
         const item = self.ronin.dict.get( 'item' );
         const title = item ?
             ( item.type === 'T' ? 'Transform thought' :
-            ( item.type === 'A' ? 'Trasnform action' : 'Edit project' )) : 'New project';
+            ( item.type === 'A' ? 'Transform action' : 'Edit project' )) : 'New project';
         Session.set( 'header.title', title );
         return title;
     }

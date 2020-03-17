@@ -14,6 +14,13 @@ import _ from 'lodash';
 // delete the provided item
 //  requiring a user confirmation
 $.pubsub.subscribe( 'ronin.model.article.delete', ( msg, o ) => {
+    try {
+        Articles.fn.check_editable( o );
+    } catch( e ){
+        console.log( e );
+        throwError({ type:e.error, message:e.reason });
+        return false;
+    }
     let label = 'item';
     switch( o.type ){
         case 'A':
@@ -56,9 +63,11 @@ $.pubsub.subscribe( 'ronin.model.article.ownership', ( msg, o ) => {
         throwError({ type:e.error, message:e.reason });
         return false;
     }
-    Meteor.call( 'articles.ownership', o, ( e, res ) => {
+    Meteor.call( 'articles.update', o, ( e, res ) => {
         if( e ){
+            console.log( e );
             throwError({ type:e.error, message:e.reason });
+            return false;
         } else {
             throwSuccess( 'Ownership successfully taken' );
         }
@@ -75,9 +84,15 @@ $.pubsub.subscribe( 'ronin.model.article.reparent', ( msg, o ) => {
         throwError({ type:e.error, message:e.reason });
         return false;
     }
-    Meteor.call( 'articles.reparent', o, ( e, res ) => {
+    o.item.parent = o.parent ? o.parent : null;
+    Meteor.call( 'actions.update', o.item, ( e, res ) => {
         if( e ){
+            console.log( e );
             throwError({ type:e.error, message:e.reason });
+            return false;
+        } else {
+            //console.log( 'successful reparenting of '+o.item.name+' to '+o.item.parent );
+            throwSuccess( 'Article successfully reparented' );
         }
     });
 });

@@ -18,28 +18,18 @@ $.pubsub.subscribe( 'ronin.model.action.done.toggle', ( msg, o ) => {
         throwError({ type:e.error, message:e.reason });
         return false;
     }
-    if( o.action.doneDate ){
-        o.action.doneDate = null;
-        o.action.status = o.action.last_status ? o.action.last_status : 'ina';
-        Meteor.call( 'actions.done.clear', o.action, ( e, res ) => {
-            if( e ){
-                throwError({ type:e.error, message: e.reason });
-            } else {
-                throwSuccess( 'Action successfully undone' );
-            }
-        });
+    if( o.action.doneDate || o.action.status === 'don' ){
+        Articles.fn.actionDoneClear( o.action );
     } else {
-        o.action.doneDate = new Date();
-        o.action.last_status = o.action.status;
-        o.action.status = 'don';
-        Meteor.call( 'actions.done.set', o.action, ( e, res ) => {
-            if( e ){
-                throwError({ type:e.error, message: e.reason });
-            } else {
-                throwSuccess( 'Action successfully done' );
-            }
-        });
+        Articles.fn.actionDoneSet( o.action );
     }
+    Meteor.call( 'actions.update', o.action, ( e, res ) => {
+        if( e ){
+            throwError({ type:e.error, message: e.reason });
+        } else {
+            throwSuccess( 'Action successfully toggled' );
+        }
+    });
 });
 
 // insert or update the provided action

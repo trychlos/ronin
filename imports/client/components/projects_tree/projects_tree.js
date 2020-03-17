@@ -157,10 +157,12 @@ Template.projects_tree.fn = {
     // empty the tree
     _llt_empty: function( $tree ){
         const tree = $tree.tree( 'getTree' );
-        const root = tree.children[0];
-        const name = root.name;
-        $tree.tree( 'loadData', [] );
-        Template.projects_tree.fn._llt_setRoot( $tree, name );
+        if( tree ){
+            const root = tree.children[0];
+            const name = root.name;
+            $tree.tree( 'loadData', [] );
+            Template.projects_tree.fn._llt_setRoot( $tree, name );
+        }
     },
     // returns the ad-hoc class for the item LI
     _llt_itemClass: function( node ){
@@ -566,7 +568,7 @@ Template.projects_tree.onRendered( function(){
     //  - idem for the parent of a project
     //  - change of the future status of a project: the origin tab is not updated
     //  we so subscribe to the corresponding messages, and act accordingly
-    $.pubsub.subscribe( 'ronin.ui.item.updated', ( msg, o ) => {
+    jQuery.pubsub.subscribe( 'ronin.ui.item.updated', ( msg, o ) => {
         if( $tree && o.orig ){
             if((( o.edit.type === 'A' || o.edit.type === 'P' ) && ( o.orig.parent !== o.edit.parent )) ||
                 ( o.edit.type === 'P' && o.orig.future !== o.edit.future )){
@@ -576,7 +578,7 @@ Template.projects_tree.onRendered( function(){
             }
         }
     });
-    $.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
+    jQuery.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
         if( $tree ){
             fn._llt_empty( $tree );
             self.ronin.dict.set( 'step', fn.steps.tree_built );

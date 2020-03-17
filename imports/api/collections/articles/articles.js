@@ -67,6 +67,7 @@
  *      defaulting to inactive.
  */
 import { Mongo } from 'meteor/mongo';
+import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
 
 export const Articles = new Mongo.Collection( 'articles' );
 
@@ -184,6 +185,26 @@ Articles.helpers({
  *  (aka Meteor RPC).
  */
 
+/*
+ * Consistently update the done fields of an action
+ *  - if action is done, check that the two fields are consistent
+ */
+Articles.fn.actionDoneClear = function( o ){
+    o.doneDate = null;
+    if( o.status === 'don' ){
+        o.status = o.last_status && o.last_status !== 'don' ? o.last_status : 'ina';
+    }
+};
+Articles.fn.actionDoneSet = function( o ){
+    if( o.status !== 'don' ){
+        o.last_status = o.status;
+    }
+    o.status = 'don';
+    if( !o.doneDate ){
+        o.doneDate = new Date();
+    }
+};
+
 /* Check for the intrinsic validity of an article, whether it be a thought, an
  *  action, a project or a maybe.
  *  Doesn't modify the provided object.
@@ -201,8 +222,8 @@ Articles.fn.check = function( o ){
         case 'T':
             break;
         case 'A':
+            Articles.fn.check_status( o );
             // if parent set, must be an existing project
-            // status must be valid
             // if context set, must be referenced in contexts collection
             break;
         case 'M':
@@ -232,12 +253,10 @@ Articles.fn.check_editable = function( o ){
 // name is mandatory
 Articles.fn.check_name = function( o ){
     if( !o.name ){
-        throw new ValidationError([{
-            name: 'name',
-            type: 'required',
-            value: o.name,
-            msg: 'mandatory name is empty'
-        }]);
+        throw new Meteor.Error(
+            'name.required',
+            'Mandatory name is empty'
+        );
     }
 };
 
@@ -246,7 +265,17 @@ Articles.fn.check_object = function( o ){
     if( !o ){
         throw new Meteor.Error(
             'undefined',
-            'object is not defined'
+            'Object is not defined'
+        );
+    }
+};
+
+// action status must be valid
+Articles.fn.check_status = function( o ){
+    if( !actionStatus.isValid( o.status )){
+        throw new Meteor.Error(
+            'invalid',
+            'Status is not valid, found "'+o.status+'", allowed values are ['+actionStatus.getValid().join( ',' )+']'
         );
     }
 };
@@ -260,13 +289,10 @@ Articles.fn.check_topic = function( o ){
 // type must be known
 Articles.fn.check_type = function( o ){
     if( !Articles.fn.types.includes( o.type )){
-        throw new ValidationError([{
-            name: 'type',
-            type:'invalid',
-            value: o.type,
-            allowed: Articles.fn.types,
-            msg: 'permitted values: ['+Articles.fn.types.join(',')+']'
-        }]);
+        throw new Meteor.Error(
+            'type.invalid',
+            'Type is not valid, found "'+o.type+'", allowed values: ['+Articles.fn.types.join( ',' )+']'
+        );
     }
 };
 
@@ -278,17 +304,17 @@ Articles.fn.check_type = function( o ){
  *  objects are equal (resp. different).
  */
 Articles.fn.equal = function( a, b ){
-    let _equalDates = ( c, d ) => {
+    const _equalDates = ( c, d ) => {
         return _equals( c, d, ( e, f ) => {
             return moment( e ).isSame( f, 'day' );
         })
     };
-    let _equalStrs = ( c, d ) => {
+    const _equalStrs = ( c, d ) => {
         return _equals( c, d, ( e, f ) => {
             return e === f;
         });
     };
-    let _equals = ( c, d, cb ) => {
+    const _equals = ( c, d, cb ) => {
         let ret = true;
         if( c ){
             if( d ){
@@ -360,9 +386,10 @@ Articles.fn.takeableGetStatus = function( item ){
         return 'HAS';
     }
     return item.userId ? 'FOR' : 'CAN';
-}
-// This function is to be called at the business layer model level
-//  Rationale: when updating an object, take ownership of it if the object
+};
+// Take the item ownership if this is possible.
+// Throws a server exception if this is forbidden.
+// Rationale: when updating an object, take ownership of it if the object
 //  was still un-owned.
 //  Throws an exception is ownership is not takeable here, which should have
 //  been previously checked.
@@ -373,18 +400,18 @@ Articles.fn.takeOwnership = function( item ){
             'Ownership is not takeable here and there. Should have been prevented sooner'
         );
     }
-    const currentId = Meteor.userId();
-    if( currentId ){
-        if( item.userId ){
-            if( currentId !== item.userId ){
-                // item is owned by someone else!
-                _throwsError();
-            }
-        } else {
-            item.userId = currentId;
-        }
-    } else if( item.userId ){
-        // item is owned by somebody, but no one is currently logged-in
+    const status = Articles.fn.takeableGetStatus( item );
+    if( status === 'FOR' ){
+        // item is owned by someone else!
+        // the UI should had prevent this
+        _throwsError();
+    }
+    if( status === 'CAN' ){
+        item.userId = Meteor.userId();
+    }
+    if( status === 'NOT' && item.userId ){
+        // item is owned by someone, but nobody is logged-in
+        // the UI should had prevent this
         _throwsError();
     }
 }

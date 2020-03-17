@@ -34,7 +34,10 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
     if( o.orig ){
         // if nothing has changed, then does nothing
         if( Articles.fn.equal( o.orig, o.edit )){
-            throwMessage({ type:'warning', message:'Nothing changed' });
+            throwMessage({
+                type: 'warning',
+                message: 'Nothing changed'
+            });
             return false;
         }
         Meteor.call('thoughts.update', id, o.edit, ( e, res ) => {

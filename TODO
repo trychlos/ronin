@@ -122,7 +122,17 @@
 
   185 2020- 3-11 have a site icon (favicon)
 
-  195
+  195 2020- 3-17 pub/sub paradigm let the UI updates itself when another composant
+                 has changed. But this paradigm is only applyable to the local client
+                 e.g. closing a window when the item has been deleted from another
+                 window.
+                 In order the updates be propagated to other clients, we have to go
+                 through the db collections.
+                 - have the message + maybe a counter
+                 - have params because these detail what has been modified
+                 - make this db collection reactive
+
+  196
 
 ==============================================================================
  Done

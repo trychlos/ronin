@@ -7,23 +7,6 @@ import { Articles } from '../articles.js';
 
 Articles.sofns = {
     /*
-     * Consistently update the done fields of an action
-     *  - if action is done, check that the two fields are consistent
-     */
-    actionConsistentDone( o ){
-        if( o.doneDate || o.status === 'done'){
-            o.status = 'don';
-            if( !o.doneDate ){
-                o.doneDate = new Date();
-            }
-        } else {
-            o.doneDate = null;
-            if( o.status === 'don' && o.last_status ){
-                o.status = o.last_status;
-            }
-        }
-    },
-    /*
      * Returns an object which contains:
      *  - a 'set' collection with all *set* fields
      *  - an 'unset' collection with all *unset* fields
@@ -34,7 +17,7 @@ Articles.sofns = {
      *  have already been caught by check() function above).
      */
     cleanup( o ){
-        let _set = ( dest, src, name ) => {
+        const _set = ( dest, src, name ) => {
             if( src[name] && src[name] !== 'none' ){
                 dest.set[name] = src[name];
             } else {
@@ -83,23 +66,15 @@ Articles.sofns = {
         return ret;
     },
     /*
-     * Checks that the currently logged-in user is able to update the 'it' object
-     *  if user is not logged-in, only update un-owned objects
-     *  if user is logged-in, can update un-owned + its own objects
-     *  + try to take ownership if this later case
+     * Make sure the 'done' attributes are consistent before updating an action
+     *  - status = 'don' and doneDate is set
+     *  - status != 'don' and doneDate is cleared
      */
-    stopIfNotEditable( it ){
-        let _throwsError = function(){
-            throw new Meteor.Error(
-                'code',
-                'Ownership is not takeable here and there. Should have been prevented sooner'
-            );
+    doneConsistent( o ){
+        if( o.doneDate || o.status === 'don' ){
+            Articles.fn.actionDoneSet( o );
+        } else {
+            Articles.fn.actionDoneClear( o );
         }
-        const currentId = Meteor.userId();
-        if( it.userId ){
-            if( !currentId || currentId !== it.userId ){
-                _throwsError();
-            }
-        }
-    },
+    }
 }

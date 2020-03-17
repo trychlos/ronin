@@ -71,7 +71,6 @@ Template.projectsList.onRendered( function(){
                         {
                             text: "Close",
                             click: function(){
-                                $.pubsub.publish( 'ronin.ui.projects.list.card.collapse-all' );
                                 $().IWindowed.close( '.'+context.template );
                             }
                         },
