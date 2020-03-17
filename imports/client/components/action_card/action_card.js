@@ -4,6 +4,7 @@
  *
  *  Parameters:
  *  - action: the one-item cursor (aka an array) to be displayed
+ *  - parent: the parent selector element that Bootstrap requires to close collapsables.
  */
 import { Topics } from '/imports/api/collections/topics/topics.js';
 import '/imports/client/components/delete_button/delete_button.js';
@@ -18,13 +19,6 @@ Template.action_card.fn = {
     },
     itemDivId : function(){
         return 'item_div_'+Template.currentData().action._id;
-    },
-    // parent() identifies a selector which adds Bootstrap accordion-like group
-    //  management to a collapsible area;
-    //  all collapsible elements under the specified parent will be closed when
-    //  this collapsible item is shown
-    parent: function(){
-        return '.actions-tabs';
     }
 }
 
@@ -55,10 +49,6 @@ Template.action_card.helpers({
     },
     itemDivId(){
         return Template.action_card.fn.itemDivId();
-    },
-    parent(){
-        const fn = Template.action_card.fn;
-        return fn.parent();
     },
     topic_byId( id ){
         const obj = id ? Topics.findOne({ _id:id }) : null;

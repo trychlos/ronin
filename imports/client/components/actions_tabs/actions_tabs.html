@@ -15,7 +15,7 @@
                         {{> actions_grid tab=it.id actions=(actions it)}}
                     {{else}}
                         {{#each art in (actions it)}}
-                            {{> action_card action=art }}
+                            {{> action_card action=art parent=".actions-tabs" }}
                         {{/each}}
                     {{/if}}
                 </div>
