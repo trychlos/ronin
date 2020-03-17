@@ -1,5 +1,5 @@
 /*
- * 'thoughts_list_item' component.
+ * 'thought_card' component.
  *  Display one item of a list of thoughts, giving a one-element thought
  *
  *  Parameters:
@@ -16,9 +16,9 @@ import '/imports/client/components/edit_button/edit_button.js';
 import '/imports/client/components/maybe_button/maybe_button.js';
 import '/imports/client/components/ownership_button/ownership_button.js';
 import '/imports/client/components/project_button/project_button.js';
-import './thoughts_list_item.html';
+import './thought_card.html';
 
-Template.thoughts_list_item.fn = {
+Template.thought_card.fn = {
     collapsableId : function(){
         return 'collapsable_'+Template.currentData().thought._id;
     },
@@ -27,14 +27,14 @@ Template.thoughts_list_item.fn = {
     }
 }
 
-Template.thoughts_list_item.onRendered( function(){
+Template.thought_card.onRendered( function(){
     //console.log( this );
     if( Session.get( 'collect.opened' ) === this.data.thought._id ){
-        $( '#'+Template.thoughts_list_item.fn.collapsableId()).collapse( 'show' );
+        $( '#'+Template.thought_card.fn.collapsableId()).collapse( 'show' );
     }
 });
 
-Template.thoughts_list_item.helpers({
+Template.thought_card.helpers({
     classCreatedAt( where ){
         const width = g.run.width.get();
         let visible = width <= 480 ? 'x-hidew480' : '';
@@ -50,10 +50,10 @@ Template.thoughts_list_item.helpers({
         return $(window).innerWidth() <= 480 ? '' : 'xw-30';
     },
     collapsableId(){
-        return Template.thoughts_list_item.fn.collapsableId();
+        return Template.thought_card.fn.collapsableId();
     },
     itemDivId(){
-        return Template.thoughts_list_item.fn.itemDivId();
+        return Template.thought_card.fn.itemDivId();
     },
     showDown(){
         return Session.get( 'collect.opened' ) === Template.instance().data.thought._id ? 'x-hidden' : 'x-inline';
@@ -72,14 +72,14 @@ Template.thoughts_list_item.helpers({
 // as we want the previous background be erased before setting another one,
 // we react on 'hidden' and 'shown' messages
 //
-Template.thoughts_list_item.events({
+Template.thought_card.events({
     // event.currentTarget = thoughts-list-item div
     // event.target = collapsable div
     'hidden.bs.collapse'( ev, instance ){
         $( ev.target ).trigger( 'ronin-collapse-all' );
     },
     'shown.bs.collapse'( ev, instance ){
-        $( '#'+Template.thoughts_list_item.fn.itemDivId()).addClass( 'x-opened' );
+        $( '#'+Template.thought_card.fn.itemDivId()).addClass( 'x-opened' );
         Session.set( 'collect.opened', instance.data.thought._id );
     }
 });

@@ -7,7 +7,7 @@
  */
 import '/imports/client/components/prefs_lists_panel/prefs_lists_panel.js';
 import '/imports/client/components/thoughts_grid/thoughts_grid.js';
-import '/imports/client/components/thoughts_list_item/thoughts_list_item.js';
+import '/imports/client/components/thought_card/thought_card.js';
 import './thoughts_list.html';
 
 Template.thoughts_list.helpers({

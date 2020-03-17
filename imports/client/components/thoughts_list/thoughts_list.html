@@ -12,7 +12,7 @@
                 {{> thoughts_grid thoughts=thoughts }}
             {{else}}
                 {{#each it in thoughts}}
-                    {{> thoughts_list_item thought=it }}
+                    {{> thought_card thought=it }}
                 {{/each}}
             {{/if}}
         </div>
