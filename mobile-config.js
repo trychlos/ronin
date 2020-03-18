@@ -9,7 +9,7 @@
 App.info({
     id: 'org.trychlos.ronin',
     name: 'Ronin',
-    version: '20.03.18.4',
+    version: '20.03.18.5',
     description: 'Getting Things Done',
     author: 'Pierre Wieser',
     email: 'pwieser@trychlos.org',
