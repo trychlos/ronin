@@ -26,10 +26,6 @@
  *  - 'data': the layout context built in appLayout, and passed in by group layer.
  */
 import { Spinner } from 'spin.js';
-import { Articles } from '/imports/api/collections/articles/articles.js';
-import { Contexts } from '/imports/api/collections/contexts/contexts.js';
-import { Topics } from '/imports/api/collections/topics/topics.js';
-import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/actions_tabs/actions_tabs.js';
 import '/imports/client/components/window_badge/window_badge.js';
@@ -50,16 +46,16 @@ Template.actionsList.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
         handles: {
-            actions: this.subscribe( 'articles.actions.all' ),
             projects: this.subscribe( 'articles.projects.all' ),
             topics: this.subscribe( 'topics.all' ),
-            contexts: this.subscribe( 'contexts.all' ),
-            counts: this.subscribe( 'articles.actions.status.count' )
+            contexts: this.subscribe( 'contexts.all' )
+            // no more used, kept as a future reference of reactive aggregate usage
+            //counts: this.subscribe( 'articles.actions.status.count' )
         },
-        spinner: null
+        spinner: null,
+        tabs: {}
     };
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
-    this.ronin.dict.set( 'subscriptions_ready', false );
     this.ronin.dict.set( 'total_count', 0 );
 });
 
@@ -92,73 +88,62 @@ Template.actionsList.onRendered( function(){
                 }
             });
             self.ronin.dict.set( 'window_ready', true );
+            //console.log( 'actionsList window_ready' );
         }
     });
 
     // create the spinner as soon as the window is ready
     this.autorun(() => {
         if( self.ronin.dict.get( 'window_ready' )){
-            let $parent = null;
-            if( g.run.layout.get() === LYT_PAGE ){
-                $parent = $( '.actionsList' );
-            } else {
-                $parent = $( '.actionsList' ).window( 'widget' );
-            }
-            if( $parent ){
-                self.ronin.spinner = new Spinner().spin( $parent[0] );
-            }
+            const $parent =
+                g.run.layout.get() === LYT_PAGE ?
+                    $( '.actionsList' ) :
+                    $( '.actionsList' ).window( 'widget' );
+            self.ronin.spinner = new Spinner().spin( $parent[0] );
+            //console.log( 'actionsList spinner_start' );
         }
     });
 
-    // count total as soon as we got actions
-    this.autorun(() => {
-        if( self.ronin.handles.actions.ready()){
-            self.ronin.dict.set( 'total_count', Articles.find({ type:'A' }).count());
-        }
-    });
-
+    /* no more used, kept as a future reference of reactive aggregate usage
     // setup the count per status (aka per tab)
     this.autorun(() => {
         if( self.ronin.handles.counts.ready()){
             actionsByStatus.find().forEach( o => {
                 self.ronin.dict.set( 'status_'+o._id, o.count );
             });
+            console.log( 'actionsList count_per_tab' );
         }
     });
+    */
 
-    // wait for subscriptions
-    this.autorun(() => {
-        let ready = true;
-        for( let prop in self.ronin.handles ){
-            if( self.ronin.handles.hasOwnProperty( prop )){
-                ready = ready && self.ronin.handles[prop].ready();
-                if( !ready ){
-                    break;
-                }
-            }
-        }
-        self.ronin.dict.set( 'subscriptions_ready', ready );
-    });
-
-    // stop the spinner when subscriptions are ready
-    this.autorun(() => {
-        if( self.ronin.dict.get( 'subscriptions_ready' )){
+    // child messaging
+    //  update the tab's counts and the total count
+    //  stop the spinner when currently displayed tab has sent its message
+    $( '.actionsList' ).on( 'actions-tabs-ready', function( ev, o ){
+        //console.log( ev );
+        //console.log( o );
+        //console.log( ev.type+' '+o.id );
+        // update the counts
+        self.ronin.dict.set( o.id+'_count', o.count );
+        let total = self.ronin.dict.get( 'total_count' );
+        total += o.count;
+        self.ronin.dict.set( 'total_count', total )
+        // maybe stop the spinner
+        if( o.id === Session.get( 'actions.tab.name' ) && self.ronin.spinner ){
             self.ronin.spinner.stop();
+            //console.log( 'actionsList spinner_stop' );
         }
+        return false;
     });
 });
 
 Template.actionsList.helpers({
-    actions(){
-        return Articles.find({ type:'A' }, { sort:{ createdAt: -1 }});
-    },
     // display current counts
     count(){
         const self = Template.instance();
         const total = self.ronin.dict.get( 'total_count' );
-        const status = gtd.statusId( Session.get( 'actions.tab.name' ));
-        const tabcount = self.ronin.dict.get( 'status_'+status ) || 0;
-        return tabcount+'/'+total;
+        const count = self.ronin.dict.get( Session.get( 'actions.tab.name' )+'_count' ) || 0;
+        return count+'/'+total;
     }
 });
 

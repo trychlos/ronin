@@ -39,6 +39,7 @@ Template.actions_grid.fn = {
 }
 
 Template.actions_grid.onRendered( function(){
+    //console.log( 'actions_grid.onRendered '+this.data.tab );
     this.$( '.js-grid' ).IGrid({
         sort: {
             compare: [

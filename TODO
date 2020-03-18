@@ -67,10 +67,6 @@
    79 2020- 1- 9 actions_edit: firefox display calendar button is not ok
                   chrome is ok
 
-   80 2020- 1- 9 projects_tree/actions_grid: split the subscriptions per tab
-                  with goal of gaining some perfs for each individual tab
-                  + same for done/not done
-
    81 2020- 1- 9 action_edit/project_edit: changing anything should either invalidate
                   the whole cursor, or be reported on the initial object
                   so that reopening the window should display the previously set values
@@ -131,9 +127,6 @@
 
   198 2020- 3-17 integration: 1. open new action 2. open edit action 3. close edit action
                  -> result: new action is closed
-
-  199 2020- 3-17 projects_list/actions_list: stop spinner as soon as the current tab
-                 is ready
 
   200
 
@@ -346,6 +339,12 @@
 
    78 2020- 1- 9 actions_edit: date display is not ok
       2020- 1-10 fixed by conversion to Date object
+
+   80 2020- 1- 9 projects_tree/actions_grid: split the subscriptions per tab
+                  with goal of gaining some perfs for each individual tab
+                  + same for done/not done
+      2020- 3-18 done for actionsList, thought not sure if this really improve the
+                 behavior (not measured)
 
    82 2020- 1-11 review counters publications
       2020- 2-21 obsolete
@@ -717,6 +716,10 @@
 
   197 2020- 3-17 integration projects tree spinner does not stop
       2020- 3-18 fixed
+
+  199 2020- 3-17 projects_list/actions_list: stop spinner as soon as the current tab
+                 is ready
+      2020- 3-18 done for actionsList, projectsList does not seem to need that
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

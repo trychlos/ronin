@@ -10,6 +10,10 @@ Meteor.publish( 'articles.actions.all', function(){
     return Articles.find({ type: 'A', $or: [{ userId:null }, { userId:this.userId }]});
 });
 
+Meteor.publish( 'articles.actions.status', function( status ){
+    return Articles.find({ type: 'A', $or: [{ userId:null }, { userId:this.userId }], status:status });
+});
+
 Meteor.publish( 'articles.actions.status.count', function(){
     ReactiveAggregate( this, Articles, [
         { $match: { type:'A', $or: [{ userId:null }, { userId:this.userId }]}},
