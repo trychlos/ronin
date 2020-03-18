@@ -71,7 +71,7 @@ _ret=$?
     execcmd "rm -f ${apk}" &&
     execcmd "jarsigner -storepass abcdef -keystore ${projectdir}/.keystore -verbose -sigalg SHA1withRSA -digestalg SHA1 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ronin.trychlos.org" &&
     execcmd "${HOME}/data/Android/Sdk/build-tools/29.0.2/zipalign 4 /tmp/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ${apk}" &&
-    execcmd "rm -fr ${projectdir}/public/res/apk" &&
+    execcmd "git rm ${projectdir}/public/res/apk/*.apk" &&
     execcmd "mkdir -p ${projectdir}/public/res/apk" &&
     execcmd "cp ${apk} ${projectdir}/public/res/apk/" &&
     echo "APK prepared as ${apk}"
