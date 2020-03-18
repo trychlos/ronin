@@ -16,22 +16,11 @@ import '/imports/client/components/projects_tree/projects_tree.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './projects_tabs.html';
 
-Template.projects_tabs.fn = {
-    _gtditems: null,
-    getItems: function(){
-        const fn = Template.projects_tabs.fn;
-        if( !fn._gtditems ){
-            fn._gtditems = gtd.items( 'projects' );
-            Template.instance().ronin.tabs_count = fn._gtditems.length;
-        }
-        return fn._gtditems
-    }
-};
-
 Template.projects_tabs.onCreated( function(){
+    //console.log( 'projects_tabs.onCreated' );
     this.ronin = {
         dict:  new ReactiveDict(),
-        tabs_count: 0
+        items: null
     };
     this.ronin.dict.set( 'count', 0 );
 });
@@ -52,9 +41,10 @@ Template.projects_tabs.onRendered( function(){
         //console.log( ev );
         //console.log( o );
         let count = self.ronin.dict.get( 'count' );
+        const items = self.ronin.items || [];
         count += 1;
         self.ronin.dict.set( 'count', count );
-        if( count === self.ronin.tabs_count ){
+        if( count === items.length ){
             $( ev.target ).trigger( 'projects-tabs-built', { count:count });
         }
     });
@@ -62,8 +52,11 @@ Template.projects_tabs.onRendered( function(){
 
 Template.projects_tabs.helpers({
     gtdItems(){
-        const fn = Template.projects_tabs.fn;
-        return fn.getItems();
+        const self = Template.instance();
+        if( !self.ronin.items ){
+            self.ronin.items = gtd.items( 'projects' );
+        }
+        return self.ronin.items || [];
     },
     gtdLabel( item ){
         return gtd.labelItem( 'projects', item );
@@ -71,4 +64,8 @@ Template.projects_tabs.helpers({
     gtdRoute( item ){
         return gtd.routeItem( 'projects', item );
     }
+});
+
+Template.projects_tabs.onDestroyed( function(){
+    //console.log( 'projects_tabs.onDestroyed' );
 });

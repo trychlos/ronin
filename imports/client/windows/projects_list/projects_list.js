@@ -81,8 +81,8 @@ Template.projectsList.onRendered( function(){
                             }
                         }
                     ],
-                    group:  context.group,
-                    title:  'Review projects'
+                    group: context.group,
+                    title: 'Review projects'
                 }
             });
             self.ronin.dict.set( 'window_ready', true );

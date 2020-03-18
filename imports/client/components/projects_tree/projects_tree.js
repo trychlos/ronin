@@ -310,7 +310,7 @@ Template.projects_tree.fn = {
         if( node.obj.type !== 'R' ){
             const done = node.obj.doneDate;
             let hidden = !display && done;
-            console.log( node.name+' display='+display+' done='+done+' hidden='+hidden );
+            //console.log( node.name+' display='+display+' done='+done+' hidden='+hidden );
             if( hidden ){
                 display = false;
                 $li.addClass('x-hidden');
@@ -446,7 +446,7 @@ Template.projects_tree.fn = {
     }
 };
 
-// each tab will have have more or less the same things to do, whether it displays
+// each tab will have more or less the same things to do, whether it displays
 //  mainly actions or projects - so each tab has to deal with both actions and
 //  projects subscriptions
 Template.projects_tree.onCreated( function(){

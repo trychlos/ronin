@@ -47,15 +47,11 @@
 
    63 2020- 1- 4 make sure a project is not ended while all actions are not done
 
-   64 2020- 1- 4 have a template for recurrent tasks
+   64 2020- 1- 4 have a template for recurrent actions
 
    65 2020- 1- 5 homogeneize all table editions in setup to jqxGrid idem actions_grid
                   have both the edition icons and the context menu - same color
-
-   68 2020- 1- 5 factorize delete confirmation dialog
-                  + title bar should be shown active
-                  + fix icon
-      2020- 1- 9 + center in the parent window (defaulting to the screen)
+      2020- 3-17 jqxGrid is no more used - Context menu is to be discussed
 
    69 2020- 1- 5 review background-colors
                   tabs / grid headers / selected row / hover row / right-click row
@@ -81,6 +77,7 @@
       2020- 1-11 as of date, both project_edit and action_edit publish a message on update
                   + projects_tree handles this message (three times)
                   todo: handle once / deal with update / same for actions_grid
+      2020- 3-17 see also todo #195
 
    83 2020- 1-11 be able to determine on which tree a project/action should be displayed
                   depending not only of its parent, but also of the parent of its parent
@@ -90,14 +87,9 @@
                   - this is easy as long as the loading cursor is rightly ordered
                      (root first, future first)
 
-   84 2020- 1-11 manage logged-in user
-
    92 2020- 1-17 do not let a project have itself as its own parent
 
    93 2020- 1-17 check that project's parent hierarchy does not loop
-
-   94 2020- 1-18 header_panel: menuButton display should be dynamic and
-                  associated with menu_side (have a media query)
 
    95 2020- 1-18 header_panel: menubar display should be dynamic (have a media query)
 
@@ -130,9 +122,20 @@
                  through the db collections.
                  - have the message + maybe a counter
                  - have params because these detail what has been modified
-                 - make this db collection reactive
+                 - make this db collection reactive.
+                 This todo aims at replacing some or all ronin.ui.xxx messages.
 
-  196
+  196 2020- 3-17 integration does not keep windows size and position
+                 firefox/int is ok
+                 chrome/int is NOT ok
+
+  198 2020- 3-17 integration: 1. open new action 2. open edit action 3. close edit action
+                 -> result: new action is closed
+
+  199 2020- 3-17 projects_list/actions_list: stop spinner as soon as the current tab
+                 is ready
+
+  200
 
 ==============================================================================
  Done
@@ -320,6 +323,12 @@
    67 2020- 1- 5 have a IGrid
       2020- 1- 6 done
 
+   68 2020- 1- 5 factorize delete confirmation dialog
+                  + title bar should be shown active
+                  + fix icon
+      2020- 1- 9 + center in the parent window (defaulting to the screen)
+      2020- 3-17 done with bootbox
+
    70 2020- 1- 5 projects_tree: have expand all / collapse all buttons
       2020- 1-11 expand all button - collapse all is estimated useless
 
@@ -340,6 +349,9 @@
 
    82 2020- 1-11 review counters publications
       2020- 2-21 obsolete
+
+   84 2020- 1-11 manage logged-in user
+      2020- 3-17 done
 
    85 2020- 1-11 root objects of projects_tree should be hard-coded object (as gtd)
       2020- 1-11 done
@@ -362,6 +374,10 @@
 
    91 2020- 1-14 have a touch layout
       2020- 2-21 done
+
+   94 2020- 1-18 header_panel: menuButton display should be dynamic and
+                  associated with menu_side (have a media query)
+      2020- 3-17 done
 
    96 2020- 1-19 header_panel: replace sign-in with a button (depending of the width)
       2020- 2-21 obsolete
@@ -698,6 +714,9 @@
   194 2020- 3-11 in windowLayout, opening both an action new and an action edit
                   mixes the two windows - maybe something is too reactive !?
       2020- 3-15 fixed
+
+  197 2020- 3-17 integration projects tree spinner does not stop
+      2020- 3-18 fixed
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

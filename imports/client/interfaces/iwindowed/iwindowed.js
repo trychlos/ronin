@@ -150,6 +150,8 @@ import '/imports/client/third-party/simone/simone.min.css';
             const storageName = this._settingsName( name );
             if( localStorage[storageName] ){
                 const settings = JSON.parse( localStorage[storageName] );
+                //console.log( 'restoreSettings '+storageName );
+                //console.log( settings );
                 this._shiftMultiple( settings );
                 this.$dom.window( 'option', 'position', {
                     my: settings.my,
@@ -351,6 +353,7 @@ import '/imports/client/third-party/simone/simone.min.css';
             const storageName = this._settingsName( this._idGet());
             localStorage[storageName] = jsonSettings;
             //console.log( '_saveSettings '+storageName );
+            //console.log( settings );
             //console.log( jsonSettings );
         },
 
