@@ -42,7 +42,7 @@ Template.contexts_list.events({
         const id = anchor.id.substring( Template.contexts_list.fn.pfxDelete().length );
         Meteor.call('contexts.remove', id, ( error ) => {
             if( error ){
-                throwError({ message: error.message });
+                messageError({ message: error.message });
             }
         });
         return false;
@@ -54,7 +54,7 @@ Template.contexts_list.events({
         const id = anchor.id.substring( Template.contexts_list.fn.pfxUpdate().length );
         var obj = Contexts.findOne({ _id: id });
         if( !obj ){
-            throwError({ message: 'Context no more exists' });
+            messageError({ message: 'Context no more exists' });
         } else {
             Session.set( 'setup.contexts.obj', obj );
         }

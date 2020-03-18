@@ -41,7 +41,7 @@ Template.time_values_list.events({
         const id = anchor.id.substring( Template.time_values_list.fn.pfxDelete().length );
         Meteor.call('time_values.remove', id, ( error ) => {
             if( error ){
-                throwError({ message: error.message });
+                messageError({ message: error.message });
             }
         });
         return false;
@@ -53,7 +53,7 @@ Template.time_values_list.events({
         const id = anchor.id.substring( Template.time_values_list.fn.pfxUpdate().length );
         var obj = TimeValues.findOne({ _id: id });
         if( !obj ){
-            throwError({ message: 'Time value no more exists' });
+            messageError({ message: 'Time value no more exists' });
         } else {
             Session.set( 'setup.time_values.obj', obj );
         }

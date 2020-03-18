@@ -7,15 +7,8 @@
  *  - edit an existing action.
  *
  *  Parameters:
- *  - route: the route to go back when leaving the panel
- *      Rationale: this panel is used to:
- *      > create/edit actions -> back to actionsList which is the default
- *      > transform a thought into an action -> back to thoughtsList.
- *
- *  Parameters:
- *  - item: the object to be edited, may be null.
+ *  - item: the item to be edited, may be null.
  */
-import { Articles } from '/imports/api/collections/articles/articles.js';
 import '/imports/client/components/action_status_select/action_status_select.js';
 import '/imports/client/components/contexts_select/contexts_select.js';
 import '/imports/client/components/date_select/date_select.js';
@@ -24,68 +17,42 @@ import '/imports/client/components/topics_select/topics_select.js';
 import './action_panel.html';
 
 Template.action_panel.fn = {
-    getContent: function(){
-        const $this = $( '.action-panel' );
-        const o = {
-            type: 'A',
-            name: $this.find('.js-name').val(),
-            topic: Template.topics_select.fn.getSelected(),
-            outcome: $this.find('.js-outcome').val(),
-            context: Template.contexts_select.fn.getSelected(),
-            description: $this.find('.js-description').val(),
-            parent: Template.projects_select.fn.getSelected(),
-            status: Template.action_status_select.fn.getSelected(),
-            startDate: Template.date_select.fn.getDate( '.js-datestart' ),
-            dueDate: Template.date_select.fn.getDate( '.js-datedue' ),
-            doneDate: Template.date_select.fn.getDate( '.js-datedone' ),
-            notes: $('.js-notes').val()
-        };
-        //console.log( o );
+    getContent: function( $dom ){
+        let o = null;
+        if( $dom ){
+            o = {
+                type: 'A',
+                name: $( $dom.find( '.js-name' )[0] ).val(),
+                topic: Template.topics_select.fn.getSelected( $dom ),
+                outcome: $( $dom.find( '.js-outcome' )[0] ).val(),
+                context: Template.contexts_select.fn.getSelected( $dom ),
+                description: $( $dom.find( '.js-description' )[0] ).val(),
+                parent: Template.projects_select.fn.getSelected( $dom ),
+                status: Template.action_status_select.fn.getSelected( $dom ),
+                startDate: Template.date_select.fn.getDate( $( $dom.find( '.js-datestart' )[0] )),
+                dueDate: Template.date_select.fn.getDate( $( $dom.find( '.js-datedue' )[0] )),
+                doneDate: Template.date_select.fn.getDate( $( $dom.find( '.js-datedone' )[0] )),
+                notes: $( $dom.find( '.js-notes' )[0] ).val()
+            };
+        }
         return o;
     },
-    initEditArea: function(){
-        $('.js-name').val('');
-        Template.topics_select.fn.selectDefault();
-        $('.js-outcome').val('');
-        Template.contexts_select.fn.selectDefault();
-        $('.js-description').val('');
-        Template.projects_select.fn.selectDefault();
-        Template.action_status_select.fn.selectDefault();
-        $('.js-datestart').val('');
-        $('.js-datedue').val('');
-        $('.js-datedone').val('');
-        $('.js-notes').val('');
+    initEditArea: function( $dom ){
+        if( $dom ){
+            $( $dom.find('.js-name')[0] ).val('');
+            Template.topics_select.fn.selectDefault( $dom );
+            $( $dom.find( '.js-outcome' )[0] ).val('');
+            Template.contexts_select.fn.selectDefault( $dom );
+            $( $dom.find( '.js-description' )[0] ).val('');
+            Template.projects_select.fn.selectDefault( $dom );
+            Template.action_status_select.fn.selectDefault( $dom );
+            Template.date_select.fn.clearDate( $( $dom.find( '.js-datestart' )[0] ));
+            Template.date_select.fn.clearDate( $( $dom.find( '.js-datedue' )[0] ));
+            Template.date_select.fn.clearDate( $( $dom.find( '.js-datedone' )[0] ));
+                $( $dom.find( '.js-notes' )[0] ).val('');
+        }
     }
 };
-
-Template.action_panel.onRendered( function(){
-    const item = this.data.item;
-    this.autorun(() => {
-        const status = Session.get( 'action.dbope' );
-        switch( status ){
-            // successful update, leave the page
-            case DBOPE_LEAVE:
-                if( item ){
-                    $.pubsub.publish( 'ronin.model.reset', item._id );
-                }
-                switch( g.run.layout.get()){
-                    case LYT_PAGE:
-                        FlowRouter.go( g.run.back );
-                        break;
-                    case LYT_WINDOW:
-                        $().IWindowed.close( '.action-panel' );
-                        break;
-                }
-                break;
-            // successful insert, reinit the page
-            case DBOPE_REINIT:
-                Template.action_panel.fn.initEditArea();
-                break;
-            // all other cases, stay in the page letting it unchanged
-        }
-        Session.set( 'action.dbope', null );
-    });
-});
 
 Template.action_panel.helpers({
     valContext(){

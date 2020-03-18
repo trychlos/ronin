@@ -68,7 +68,7 @@ Template.time_value_edit.events({
             try {
                 TimeValues.fn.check( id, newobj );
             } catch( e ){
-                return throwError({ message: e.message });
+                return messageError({ message: e.message });
             }
             //console.log( 'submit.edit: TimeValues.fn.check() successful' );
             if( obj ){
@@ -78,13 +78,13 @@ Template.time_value_edit.events({
                 }
                 Meteor.call('time_values.update', id, newobj, ( error ) => {
                     if( error ){
-                        return throwError({ message: error.message });
+                        return messageError({ message: error.message });
                     }
                 });
             } else {
                 Meteor.call('time_values.insert', newobj, ( error ) => {
                     if( error ){
-                        return throwError({ message: error.message });
+                        return messageError({ message: error.message });
                     }
                 });
             }

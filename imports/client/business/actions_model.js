@@ -15,7 +15,7 @@ $.pubsub.subscribe( 'ronin.model.action.done.toggle', ( msg, o ) => {
         Articles.fn.takeOwnership( o.action );
     } catch( e ){
         console.log( e );
-        throwError({ type:e.error, message:e.reason });
+        messageError({ type:e.error, message:e.reason });
         return false;
     }
     if( o.action.doneDate || o.action.status === 'don' ){
@@ -25,9 +25,9 @@ $.pubsub.subscribe( 'ronin.model.action.done.toggle', ( msg, o ) => {
     }
     Meteor.call( 'actions.update', o.action, ( e, res ) => {
         if( e ){
-            throwError({ type:e.error, message: e.reason });
+            messageError({ type:e.error, message: e.reason });
         } else {
-            throwSuccess( 'Action successfully toggled' );
+            messageSuccess( 'Action successfully toggled' );
         }
     });
 });
@@ -39,7 +39,6 @@ $.pubsub.subscribe( 'ronin.model.action.done.toggle', ( msg, o ) => {
 $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
     //console.log( msg );
     //console.log( o );
-    Session.set( 'action.dbope', DBOPE_WAIT );
     o.edit._id = o.orig ? o.orig._id : null;
     o.edit.userId = o.orig ? o.orig.userId : null;
     try {
@@ -47,41 +46,49 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
         Articles.fn.takeOwnership( o.edit );
     } catch( e ){
         console.log( e );
-        throwError({ type:e.error, message:e.reason });
+        messageError({ type:e.error, message:e.reason });
         return false;
     }
     if( o.orig ){
         // if nothing has changed, then does nothing
         //console.log( msg+' equal='+Articles.fn.equal( o.orig, o.edit ));
         if( Articles.fn.equal( o.orig, o.edit )){
-            throwMessage({ type:'warning', message:'Nothing changed' });
+            messageWarning({ type:'warning', message:'Nothing changed' });
             return false;
         }
         Meteor.call('actions.update', o.edit, ( e, res ) => {
             if( e ){
                 console.log( e );
-                throwError({ type:e.error, message:e.reason });
-                Session.set( 'action.dbope', DBOPE_ERROR );
+                messageError({ type:e.error, message:e.reason });
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_ERROR });
+                }
             } else {
                 if( o.orig.type === 'T' ){
-                    throwSuccess( 'Thought successfully transformed' );
+                    messageSuccess( 'Thought successfully transformed' );
                     $.pubsub.publish( 'ronin.ui.item.transformed', o.orig );
                 } else {
-                    throwSuccess( 'Action successfully updated' );
+                    messageSuccess( 'Action successfully updated' );
+                }
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_LEAVE });
                 }
                 $.pubsub.publish( 'ronin.ui.item.updated', o );
-                Session.set( 'action.dbope', DBOPE_LEAVE );
             }
         });
     } else {
         Meteor.call('actions.insert', o.edit, ( e, res ) => {
             if( e ){
                 console.log( e );
-                throwError({ type:e.error, message:e.reason });
-                Session.set( 'action.dbope', DBOPE_ERROR );
+                messageError({ type:e.error, message:e.reason });
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_ERROR });
+                }
             } else {
-                throwSuccess( 'Action successfully inserted' );
-                Session.set( 'action.dbope', DBOPE_REINIT );
+                messageSuccess( 'Action successfully inserted' );
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_REINIT });
+                }
             }
         });
     }

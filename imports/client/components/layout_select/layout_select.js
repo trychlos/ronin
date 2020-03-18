@@ -12,7 +12,7 @@ Template.layout_select.helpers({
 
 Template.layout_select.events({
     'click .js-layout-select a'( event, instance ){
-        //instance.$('.js-status-select').trigger('action_status_select-change');
+        //instance.$('.js-status-select').trigger('action-status-select-change');
         const layout = $( event.target ).data( 'ronin-layout' );
         g.run.layout.set( layout );
         g.store.layout = layout;

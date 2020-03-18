@@ -37,14 +37,14 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './project_edit.html';
 
 Template.projectEdit.fn = {
-    doClose: function(){
+    doClose: function( instance ){
         //console.log( 'Template.projectEdit.fn.doClose' );
         switch( g.run.layout.get()){
             case LYT_PAGE:
                 FlowRouter.go( g.run.back );
                 break;
             case LYT_WINDOW:
-                $().IWindowed.close( '.projectEdit' );
+                instance.ronin.$dom.IWindowed( 'close' );
                 break;
         }
     },
@@ -82,7 +82,7 @@ Template.projectEdit.fn = {
             console.log( 'projectEdit '+msg+' '+o._id );
             const item = self.ronin.dict.get( 'item' );
             if( item._id === o._id ){
-                Template.projectEdit.fn.doClose();
+                Template.projectEdit.fn.doClose( self );
             }
         }
     },
@@ -93,6 +93,22 @@ Template.projectEdit.fn = {
     },
     okLabelItem: function( it ){
         return it ? ( it.type === 'T' || it.type === 'A' ? 'Transform' : 'Update' ) : 'Create';
+    },
+    // this function is to be called after model update, with a three states qualifier
+    updateCb: function( instance, o ){
+        if( instance ){
+            switch( o.status ){
+                // successful update, leave the page
+                case DBOPE_LEAVE:
+                    Template.actionEdit.fn.doClose( instance );
+                    break;
+                // successful insert, reinit the page
+                case DBOPE_REINIT:
+                    Template.action_panel.fn.initEditArea( instance.ronin.$dom );
+                    break;
+                // all other cases, stay in the page letting it unchanged
+            }
+        }
     }
 }
 
@@ -105,7 +121,8 @@ Template.projectEdit.onCreated( function(){
             projects: this.subscribe( 'articles.projects.all' ),
             topics: this.subscribe( 'topics.all' ),
             context: this.subscribe( 'contexts.all' )
-        }
+        },
+        $dom: null
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -114,6 +131,9 @@ Template.projectEdit.onCreated( function(){
 Template.projectEdit.onRendered( function(){
     const self = this;
     const fn = Template.projectEdit.fn;
+
+    // stores this $DOM window element
+    self.ronin.$dom = self.$( '.projectEdit' );
 
     // get the edited item
     this.autorun(() => {
@@ -137,14 +157,14 @@ Template.projectEdit.onRendered( function(){
         if( g[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const context = Template.currentData();
             const label = fn.okLabel();
-            $( '.'+context.template ).IWindowed({
+            self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [
                         {
                             text: "Cancel",
                             click: function(){
-                                fn.doClose();
+                                fn.doClose( self );
                             }
                         },
                         {
@@ -152,7 +172,9 @@ Template.projectEdit.onRendered( function(){
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.project.update', {
                                     orig: self.ronin.dict.get( 'item' ),
-                                    edit: Template.project_panel.fn.getContent()
+                                    edit: Template.project_panel.fn.getContent( self.ronin.$dom ),
+                                    cb: fn.updateCb,
+                                    data: self
                                 });
                             }
                         }
@@ -195,13 +217,13 @@ Template.projectEdit.helpers({
 
 Template.projectEdit.events({
     'click .js-cancel'( ev, instance ){
-        Template.projectEdit.fn.doClose();
+        Template.projectEdit.fn.doClose( instance );
         return false;
     },
     'click .js-ok'( ev, instance ){
         $.pubsub.publish( 'ronin.model.project.update', {
             orig: instance.ronin.dict.get( 'item' ),
-            edit: Template.project_panel.fn.getContent()
+            edit: Template.project_panel.fn.getContent( instance.ronin.$dom )
         });
         return false;
     }

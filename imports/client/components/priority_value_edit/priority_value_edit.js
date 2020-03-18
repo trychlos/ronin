@@ -82,7 +82,7 @@ Template.priority_value_edit.events({
             try {
                 PriorityValues.fn.check( id, newobj );
             } catch( e ){
-                return throwError({ message: e.message });
+                return messageError({ message: e.message });
             }
             //console.log( 'submit.edit: PriorityValues.fn.check() successful' );
             if( obj ){
@@ -92,13 +92,13 @@ Template.priority_value_edit.events({
                 }
                 Meteor.call('priority_values.update', id, newobj, ( error ) => {
                     if( error ){
-                        return throwError({ message: error.message });
+                        return messageError({ message: error.message });
                     }
                 });
             } else {
                 Meteor.call('priority_values.insert', newobj, ( error ) => {
                     if( error ){
-                        return throwError({ message: error.message });
+                        return messageError({ message: error.message });
                     }
                 });
             }

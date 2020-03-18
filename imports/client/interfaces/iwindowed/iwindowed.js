@@ -83,7 +83,7 @@ import '/imports/client/third-party/simone/simone.min.css';
         },
 
         // close the current window
-        _close: function(){
+        close: function(){
             //console.log( this );
             this.$dom.window( 'close' );
         },
@@ -246,8 +246,8 @@ import '/imports/client/third-party/simone/simone.min.css';
             //console.log( arguments );
             if( typeof arguments[0] === 'string' ){
                 switch( arguments[0] ){
-                    case '_close':
-                        this._close( Array.prototype.slice.call( arguments, 1 ));
+                    case 'close':
+                        this.close( Array.prototype.slice.call( arguments, 1 ));
                         break;
                 }
             }
@@ -387,6 +387,7 @@ import '/imports/client/third-party/simone/simone.min.css';
 
     $.fn[pluginName] = function(){
         //console.log( this );  // this is the jQuery element on which the interface is called
+        //console.log( arguments );
         const opts = Array.prototype.slice.call( arguments );
         this.each( function(){
             //console.log( this ); // this is the particular DOM element on which the interface will be applied
@@ -394,10 +395,10 @@ import '/imports/client/third-party/simone/simone.min.css';
             let plugin = $.data( this, pluginName );
             //console.log( plugin );
             if( plugin ){
-                console.log( 'reusing already initialized plugin' );
+                //console.log( 'reusing already initialized plugin' );
                 myPlugin.prototype._methods.apply( plugin, opts );
             } else {
-                console.log( 'allocating new plugin instance' );
+                //console.log( 'allocating new plugin instance' );
                 $.data( this, pluginName, new myPlugin( this, opts[0] ));
             }
         });
@@ -430,6 +431,7 @@ import '/imports/client/third-party/simone/simone.min.css';
     //  Args:
     //  - the selector to start with
     $.fn[pluginName].close = ( selector ) => {
+        console.log( this );
         let wnd = $( selector+'.ronin-iwm-window' );
         if( !wnd || !wnd.length ){
             wnd = $( selector ).parents( '.ronin-iwm-window' );
@@ -438,7 +440,7 @@ import '/imports/client/third-party/simone/simone.min.css';
             wnd = $( '#'+g[LYT_WINDOW].rootId+' '+selector+'.ronin-iwm-window' );
         }
         if( wnd && wnd.length ){
-            $( wnd[0] ).IWindowed( '_close' );
+            $( wnd[0] ).IWindowed( 'close' );
         } else {
             console.log( 'IWindowed.close() unable to find '+selector+'.ronin-iwm-window' );
         }
@@ -601,12 +603,12 @@ import '/imports/client/third-party/simone/simone.min.css';
                         this.showNew( argsCount );
                         break;
                     default:
-                        throwError({ message:'IWindowed: unknown method: '+this.args[0] });
+                        messageError({ message:'IWindowed: unknown method: '+this.args[0] });
                 }
                 return;
             }
             if( argsCount != 1 || typeof this.args[0] !== 'object' ){
-                throwError({ message:'IWindowed: options object expected, not found' });
+                messageError({ message:'IWindowed: options object expected, not found' });
                 return;
             }
             this._create();
@@ -618,9 +620,9 @@ import '/imports/client/third-party/simone/simone.min.css';
         //  - selector to be installed
         addButton: function( argsCount ){
             if( argsCount != 2 ){
-                throwError({ message: 'addButton() expects two arguments, '+( argsCount-1 )+' found' });
+                messageError({ message: 'addButton() expects two arguments, '+( argsCount-1 )+' found' });
             } else if( !$( this.dom ).hasClass( 'ronin-iwm-window' )){
-                throwError({ message: 'addButton() must be invoked on the IWindowed element' });
+                messageError({ message: 'addButton() must be invoked on the IWindowed element' });
             } else {
                 const selector = this.args[1];
                 const widget = $( this.dom ).parents( '.ronin-iwm-widget' )[0];

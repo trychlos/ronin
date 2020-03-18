@@ -14,7 +14,6 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 $.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
     //console.log( msg );
     //console.log( o );
-    Session.set( 'project.dbope', DBOPE_WAIT );
     o.edit._id = o.orig ? o.orig._id : null;
     o.edit.userId = o.orig ? o.orig.userId : null;
     try {
@@ -22,13 +21,13 @@ $.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
         Articles.fn.takeOwnership( o.edit );
     } catch( e ){
         console.log( e );
-        throwError({ type:e.error, message:e.reason });
+        messageError({ type:e.error, message:e.reason });
         return false;
     }
     if( o.orig ){
         // if nothing has changed, then does nothing
         if( Articles.fn.equal( o.orig, o.edit )){
-            throwMessage({
+            messageWarning({
                 type: 'warning',
                 message: 'Nothing changed'
             });
@@ -37,28 +36,39 @@ $.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
         Meteor.call('projects.update', o.edit, ( e, res ) => {
             if( e ){
                 console.log( e );
-                throwError({ type:e.error, message:e.reason });
-                Session.set( 'project.dbope', DBOPE_ERROR );
+                messageError({ type:e.error, message:e.reason });
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_ERROR });
+                }
             } else {
-                if( o.orig.type === 'T' ){
-                    throwSuccess( 'Thought successfully transformed' );
+                if( o.orig.type === 'A' ){
+                    messageSuccess( 'Action successfully transformed' );
+                    $.pubsub.publish( 'ronin.ui.item.transformed', o.orig );
+                } else if( o.orig.type === 'T' ){
+                    messageSuccess( 'Thought successfully transformed' );
                     $.pubsub.publish( 'ronin.ui.item.transformed', o.orig );
                 } else {
-                    throwSuccess( 'Project successfully updated' );
+                    messageSuccess( 'Project successfully updated' );
                 }
                 $.pubsub.publish( 'ronin.ui.item.updated', o );
-                Session.set( 'project.dbope', DBOPE_LEAVE );
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_LEAVE });
+                }
             }
         });
     } else {
         Meteor.call('projects.insert', o.edit, ( e, res ) => {
             if( e ){
                 console.log( e );
-                throwError({ type:e.error, message:e.reason });
-                Session.set( 'project.dbope', DBOPE_ERROR );
+                messageError({ type:e.error, message:e.reason });
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_ERROR });
+                }
             } else {
-                throwSuccess( 'Project successfully inserted' );
-                Session.set( 'project.dbope', DBOPE_REINIT );
+                messageSuccess( 'Project successfully inserted' );
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_REINIT });
+                }
             }
         });
     }

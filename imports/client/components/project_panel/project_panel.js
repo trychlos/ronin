@@ -22,70 +22,42 @@ import '/imports/client/components/topics_select/topics_select.js';
 import './project_panel.html';
 
 Template.project_panel.fn = {
-    getContent: function(){
-        const $this = $( '.project-panel' );
-        const o = {
-            type: 'P',
-            name: $this.find('.js-name').val(),
-            topic: Template.topics_select.fn.getSelected(),
-            purpose: $this.find('.js-purpose').val(),
-            vision: $this.find('.js-vision').val(),
-            description: $this.find('.js-description').val(),
-            brainstorm: $this.find('.js-brainstorm').val(),
-            parent: Template.projects_select.fn.getSelected(),
-            future: $this.find('.js-future').prop( 'checked' ),
-            startDate: Template.date_select.fn.getDate( '.js-datestart' ),
-            dueDate: Template.date_select.fn.getDate( '.js-datedue' ),
-            doneDate: Template.date_select.fn.getDate( '.js-datedone' ),
-            notes: $this.find('.js-notes').val()
-        };
-        //console.log( o );
+    getContent: function( $dom ){
+        let o =null;
+        if( $dom ){
+            o = {
+                type: 'P',
+                name: $( $dom.find( '.js-name' )[0] ).val(),
+                topic: Template.topics_select.fn.getSelected( $dom ),
+                purpose: $( $dom.find( '.js-purpose' )[0] ).val(),
+                vision: $( $dom.find( '.js-vision' )[0] ).val(),
+                description: $( $dom.find( '.js-description' )[0] ).val(),
+                brainstorm: $( $dom.find( '.js-brainstorm' )[0] ).val(),
+                parent: Template.projects_select.fn.getSelected( $dom ),
+                future: $( $dom.find( '.js-future' )[0] ).prop( 'checked' ),
+                startDate: Template.date_select.fn.getDate( $( $dom.find( '.js-datestart' )[0] )),
+                dueDate: Template.date_select.fn.getDate( $( $dom.find( '.js-datedue' )[0] )),
+                doneDate: Template.date_select.fn.getDate( $( $dom.find( '.js-datedone' )[0] )),
+                notes: $( $dom.find( '.js-notes' )[0] ).val()
+            };
+        }
         return o;
     },
-    initEditArea: function(){
-        $('.js-name').val('');
-        Template.topics_select.fn.selectDefault();
-        $('.js-purpose').val('');
-        $('.js-vision').val('');
-        $('.js-description').val('');
-        $('.js-brainstorm').val('');
-        Template.projects_select.fn.selectDefault();
-        $('.js-future').prop( 'checked', false ),
-        $('.js-datestart').val('');
-        $('.js-datedue').val('');
-        $('.js-datedone').val('');
-        $('.js-notes').val('');
+    initEditArea: function( $dom ){
+        $( $dom.find( '.js-name' )[0] ).val('');
+        Template.topics_select.fn.selectDefault( $dom );
+        $( $dom.find( '.js-purpose' )[0] ).val('');
+        $( $dom.find( '.js-vision' )[0] ).val('');
+        $( $dom.find( '.js-description' )[0] ).val('');
+        $( $dom.find( '.js-brainstorm' )[0] ).val('');
+        Template.projects_select.fn.selectDefault( $dom );
+        $( $dom.find( '.js-future' )[0] ).prop( 'checked', false ),
+        Template.date_select.fn.clearDate( $( $dom.find( '.js-datestart' )[0] ));
+        Template.date_select.fn.clearDate( $( $dom.find( '.js-datedue' )[0] ));
+        Template.date_select.fn.clearDate( $( $dom.find( '.js-datedone' )[0] ));
+        $( $dom.find( '.js-notes' )[0] ).val('');
     }
 };
-
-Template.project_panel.onRendered( function(){
-    const item = this.data.item;
-    this.autorun(() => {
-        const status = Session.get( 'project.dbope' );
-        switch( status ){
-            // successful update, leave the page
-            case DBOPE_LEAVE:
-                if( item ){
-                    $.pubsub.publish( 'ronin.model.reset', item._id );
-                }
-                switch( g.run.layout.get()){
-                    case LYT_PAGE:
-                        FlowRouter.go( g.run.back );
-                        break;
-                    case LYT_WINDOW:
-                        $().IWindowed.close( '.project-panel' );
-                        break;
-                }
-                break;
-            // successful insert, reinit the page
-            case DBOPE_REINIT:
-                Template.project_panel.fn.initEditArea();
-                break;
-            // all other cases, stay in the page letting it unchanged
-        }
-        Session.set( 'project.dbope', null );
-    });
-});
 
 Template.project_panel.helpers({
     valBrainstorm(){

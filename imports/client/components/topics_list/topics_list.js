@@ -53,7 +53,7 @@ Template.topics_list.events({
         const id = anchor.id.substring( Template.topics_list.fn.pfxDelete().length );
         Meteor.call('topics.remove', id, ( error ) => {
             if( error ){
-                throwError({ message: error.message });
+                messageError({ message: error.message });
             }
         });
         return false;
@@ -65,7 +65,7 @@ Template.topics_list.events({
         const id = anchor.id.substring( Template.topics_list.fn.pfxUpdate().length );
         var obj = Topics.findOne({ _id: id });
         if( !obj ){
-            throwError({ message: 'Topic no more exists' });
+            messageError({ message: 'Topic no more exists' });
         } else {
             Session.set( 'setup.topics.obj', obj );
         }

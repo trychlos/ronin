@@ -18,7 +18,7 @@ $.pubsub.subscribe( 'ronin.model.article.delete', ( msg, o ) => {
         Articles.fn.check_editable( o );
     } catch( e ){
         console.log( e );
-        throwError({ type:e.error, message:e.reason });
+        messageError({ type:e.error, message:e.reason });
         return false;
     }
     let label = 'item';
@@ -42,9 +42,9 @@ $.pubsub.subscribe( 'ronin.model.article.delete', ( msg, o ) => {
             if( ret ){
                 Meteor.call( 'articles.remove', o, ( e, res ) => {
                     if( e ){
-                        throwError({ type:e.error, message:e.reason });
+                        messageError({ type:e.error, message:e.reason });
                     } else {
-                        throwSuccess( _.capitalize( label )+' successfully deleted' );
+                        messageSuccess( _.capitalize( label )+' successfully deleted' );
                         $.pubsub.publish( 'ronin.ui.item.deleted', o );
                     }
                 });
@@ -60,16 +60,16 @@ $.pubsub.subscribe( 'ronin.model.article.ownership', ( msg, o ) => {
         Articles.fn.takeOwnership( o );
     } catch( e ){
         console.log( e );
-        throwError({ type:e.error, message:e.reason });
+        messageError({ type:e.error, message:e.reason });
         return false;
     }
     Meteor.call( 'articles.update', o, ( e, res ) => {
         if( e ){
             console.log( e );
-            throwError({ type:e.error, message:e.reason });
+            messageError({ type:e.error, message:e.reason });
             return false;
         } else {
-            throwSuccess( 'Ownership successfully taken' );
+            messageSuccess( 'Ownership successfully taken' );
         }
     });
 });
@@ -81,18 +81,18 @@ $.pubsub.subscribe( 'ronin.model.article.reparent', ( msg, o ) => {
         Articles.fn.takeOwnership( o.item );
     } catch( e ){
         console.log( e );
-        throwError({ type:e.error, message:e.reason });
+        messageError({ type:e.error, message:e.reason });
         return false;
     }
     o.item.parent = o.parent ? o.parent : null;
     Meteor.call( 'actions.update', o.item, ( e, res ) => {
         if( e ){
             console.log( e );
-            throwError({ type:e.error, message:e.reason });
+            messageError({ type:e.error, message:e.reason });
             return false;
         } else {
             //console.log( 'successful reparenting of '+o.item.name+' to '+o.item.parent );
-            throwSuccess( 'Article successfully reparented' );
+            messageSuccess( 'Article successfully reparented' );
         }
     });
 });

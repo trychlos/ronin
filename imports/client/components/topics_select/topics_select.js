@@ -9,12 +9,16 @@ import './topics_select.html';
 
 Template.topics_select.fn = {
     // return the identifier of the selected topic
-    getSelected: function(){
-        return $( '.topics-select .js-topic option:selected' ).val();
+    getSelected: function( $parent ){
+        return $( $parent.find( '.topics-select .js-topic option:selected' )[0] ).val();
+    },
+    // select a value
+    setSelected: function( $parent, value ){
+        $( $parent.find( '.topics-select .js-topic' )[0] ).val( value );
     },
     // select the default value
-    selectDefault: function(){
-        $('.topics-select .js-topic').val( 'none' );
+    selectDefault: function( $parent ){
+        Template.topics_select.fn.setSelected( $parent, 'none' );
     }
 };
 

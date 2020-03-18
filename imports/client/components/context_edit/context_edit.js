@@ -70,7 +70,7 @@ Template.context_edit.events({
             try {
                 Contexts.fn.check( id, newobj );
             } catch( e ){
-                return throwError({ message: e.message });
+                return messageError({ message: e.message });
             }
             //console.log( 'submit.edit: Contexts.fn.check() successful' );
             if( obj ){
@@ -80,13 +80,13 @@ Template.context_edit.events({
                 }
                 Meteor.call('contexts.update', id, newobj, ( error ) => {
                     if( error ){
-                        return throwError({ message: error.message });
+                        return messageError({ message: error.message });
                     }
                 });
             } else {
                 Meteor.call('contexts.insert', newobj, ( error ) => {
                     if( error ){
-                        return throwError({ message: error.message });
+                        return messageError({ message: error.message });
                     }
                 });
             }

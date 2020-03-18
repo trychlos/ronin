@@ -440,7 +440,7 @@ Template.projects_tree.fn = {
         const json = fn._jsonFilter( $tree.tree( 'toJson' ));
         Meteor.call( 'counters.setValue', 'tree-'+tab, json, ( e ) => {
             if( e ){
-                throwError({ message: e.message });
+                messageError({ message: e.message });
             }
         });
     }
@@ -617,12 +617,12 @@ Template.projects_tree.events({
         //console.log('previous_parent', ev.move_info.previous_parent);
         ev.preventDefault();
         if( ev.move_info.target_node.id === 'root' && ev.move_info.position !== 'inside' ){
-            throwError({ message: 'Refusing to drop outside the root' });
+            messageError({ message: 'Refusing to drop outside the root' });
             return false;
         }
         const target_type = ev.move_info.target_node.obj.type;
         if( target_type !== 'P' && target_type !== 'R' ){
-            throwError({ message: 'Refusing to drop elsewhere than the root or a project' });
+            messageError({ message: 'Refusing to drop elsewhere than the root or a project' });
             return false;
         }
         $.pubsub.publish( 'ronin.model.article.reparent', {

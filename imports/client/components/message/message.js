@@ -8,14 +8,14 @@ Messages = new Mongo.Collection( null );
 // type: a language-agnostic error code
 //       this may be catched by the code
 // message: the message to be displayed to the user
-throwError = function( o ){
+messageError = function( o ){
     Messages.insert({
         type: o.type,
         message: o.message
     })
 };
 
-throwSuccess = function( m ){
+messageSuccess = function( m ){
     Messages.insert({
         type: 'success',
         message: m
@@ -23,7 +23,7 @@ throwSuccess = function( m ){
 };
 
 // general message
-throwMessage = function( o ){
+messageWarning = function( o ){
     Messages.insert({
         type: o.type,
         message: o.message

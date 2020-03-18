@@ -9,12 +9,16 @@ import './projects_select.html';
 
 Template.projects_select.fn = {
     // return the identifier of the selected project
-    getSelected: function(){
-        return $( '.projects-select .js-select option:selected' ).val();
+    getSelected: function( $parent ){
+        return $( $parent.find( '.projects-select .js-select option:selected' )[0] ).val();
+    },
+    // select a value
+    setSelected: function( $parent, value ){
+        $( $parent.find( '.projects-select .js-select' )[0] ).val( value );
     },
     // select the default value
-    selectDefault: function(){
-        $( '.projects-select .js-select' ).val( 'none' );
+    selectDefault: function( $parent ){
+        Template.projects_select.fn.setSelected( $parent, 'none' );
     }
 };
 

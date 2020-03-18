@@ -30,20 +30,21 @@
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
+import '/imports/api/resources/dbope_status/dbope_status.js';
 import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/components/action_panel/action_panel.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './action_edit.html';
 
 Template.actionEdit.fn = {
-    doClose: function(){
-        //console.log( 'Template.actionEdit.fn.doClose' );
+    doClose: function( instance ){
+        //console.log( 'Template.actionEdit.fn.doClose instance='+instance );
         switch( g.run.layout.get()){
             case LYT_PAGE:
                 FlowRouter.go( g.run.back );
                 break;
             case LYT_WINDOW:
-                $().IWindowed.close( '.actionEdit' );
+                instance.ronin.$dom.IWindowed( 'close' );
                 break;
         }
     },
@@ -56,7 +57,7 @@ Template.actionEdit.fn = {
             console.log( 'actionEdit '+msg+' '+o._id );
             const item = self.ronin.dict.get( 'item' );
             if( item._id === o._id ){
-                fn.doClose();
+                fn.doClose( self );
             }
         }
     },
@@ -67,6 +68,23 @@ Template.actionEdit.fn = {
     },
     okLabelItem: function( it ){
         return it ? ( it.type === 'T' ? 'Transform' : 'Update' ) : 'Create';
+    },
+    // this function is to be called after model update, with a three states qualifier
+    updateCb: function( instance, o ){
+        //console.log( 'updateCb instance='+instance+' status='+o.status );
+        if( instance ){
+            switch( o.status ){
+                // successful update, leave the page
+                case DBOPE_LEAVE:
+                    Template.actionEdit.fn.doClose( instance );
+                    break;
+                // successful insert, reinit the page
+                case DBOPE_REINIT:
+                    Template.action_panel.fn.initEditArea( instance.ronin.$dom );
+                    break;
+                // all other cases, stay in the page letting it unchanged
+            }
+        }
     }
 }
 
@@ -78,7 +96,8 @@ Template.actionEdit.onCreated( function(){
             projects: this.subscribe( 'articles.projects.all' ),
             topics: this.subscribe( 'topics.all' ),
             context: this.subscribe( 'contexts.all' )
-        }
+        },
+        $dom: null
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -87,6 +106,10 @@ Template.actionEdit.onCreated( function(){
 Template.actionEdit.onRendered( function(){
     const self = this;
     const fn = Template.actionEdit.fn;
+
+    // stores this $DOM window element
+    self.ronin.$dom = self.$( '.actionEdit' );
+    //console.log( self.ronin.$dom );
 
     // get the edited item
     // the rest of the application will not work correctly
@@ -108,14 +131,14 @@ Template.actionEdit.onRendered( function(){
         if( g[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const context = Template.currentData();
             const label = fn.okLabel();
-            $( '.'+context.template ).IWindowed({
+            self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [
                         {
                             text: "Cancel",
                             click: function(){
-                                fn.doClose();
+                                fn.doClose( self );
                             }
                         },
                         {
@@ -123,7 +146,9 @@ Template.actionEdit.onRendered( function(){
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.action.update', {
                                     orig: self.ronin.dict.get( 'item' ),
-                                    edit: Template.action_panel.fn.getContent()
+                                    edit: Template.action_panel.fn.getContent( self.ronin.$dom ),
+                                    cb: fn.updateCb,
+                                    data: self
                                 });
                             }
                         }
@@ -164,13 +189,15 @@ Template.actionEdit.helpers({
 
 Template.actionEdit.events({
     'click .js-cancel'( ev, instance ){
-        Template.actionEdit.fn.doClose();
+        Template.actionEdit.fn.doClose( instance );
         return false;
     },
     'click .js-ok'( ev, instance ){
         $.pubsub.publish( 'ronin.model.action.update', {
             orig: instance.ronin.dict.get( 'item' ),
-            edit: Template.action_panel.fn.getContent()
+            edit: Template.action_panel.fn.getContent( instance.ronin.$dom ),
+            cb: Template.actionEdit.fn.updateCb,
+            data: instance
         });
         return false;
     }

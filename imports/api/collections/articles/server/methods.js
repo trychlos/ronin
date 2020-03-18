@@ -6,7 +6,7 @@
  *      Meteor.call( methodStr, methodParms, ( error, result ) => {
  *                  if( error ){
  *                      console.log( error );
- *                      throwError( error );
+ *                      messageError( error );
  *                      return false;
  *                  }
  *                  console.log( 'result='+result );

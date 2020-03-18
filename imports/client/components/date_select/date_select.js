@@ -11,8 +11,13 @@ import './date_select.html';
 Template.date_select.fn = {
     // return the currently selected date in ISO format
     //  e.g. 'Sun Dec 22 2019 00:00:00 GMT+0100 (Central European Standard Time)'
-    getDate: function( selector ){
-        return $( selector+' .js-date-select input' ).datepicker( 'getDate' );
+    clearDate: function( $parent ){
+        $( $parent.find( '.js-date-select input' )[0] ).val('');
+    },
+    // return the currently selected date in ISO format
+    //  e.g. 'Sun Dec 22 2019 00:00:00 GMT+0100 (Central European Standard Time)'
+    getDate: function( $parent ){
+        return $( $parent.find( '.js-date-select input' )[0] ).datepicker( 'getDate' );
     },
     // set the default date
     //  converting ISO to our display format
@@ -20,28 +25,24 @@ Template.date_select.fn = {
     //      but jQuery.datepicker doesn't well handle correctly strings
     //      so force a Date conversion
     //  See: ( Object.prototype.toString.call(d) === "[object Date]" && !isNaN(d.getTime())) aka isDate()
-    setDate: function( selector, date ){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            const d = date ? new Date( date ) : null;
-            instance.$(selector+' .js-date-select input').datepicker('setDate',d);
-        }
+    setDate: function( $parent, date ){
+        const d = date ? new Date( date ) : null;
+        $( $parent.find( '.js-date-select input' )[0] ).datepicker( 'setDate', d );
     },
     // set an option
-    setOption: function( selector, name, value ){
-        const instance = Template.instance();
-        if( instance.view.isRendered ){
-            instance.$(selector+' .js-date-select input').datepicker('option',name,value);
-        }
+    setOption: function( $parent, name, value ){
+        $( $parent.find( '.js-date-select input' )[0] ).datepicker('option', name, value);
     }
 };
 
 Template.date_select.onRendered( function(){
-    this.$(' .js-date-select input').datepicker();
+    const $picker = this.$(' .js-date-select input');
+    $picker.datepicker();
+
     this.autorun(() => {
         const data = Template.currentData();
-        if( data === Object( data )){
-            Template.date_select.fn.setDate( '', data.date );
+        if( data && data.date ){
+            $picker.datepicker( 'setDate', new Date( data.date ));
         }
     });
 });

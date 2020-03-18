@@ -20,7 +20,6 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
     //console.log( msg );
     //console.log( o.orig );
     //console.log( o.edit );
-    Session.set( 'collect.dbope', DBOPE_WAIT );
     const id = o.orig ? o.orig._id : null;
     o.edit.userId = o.orig ? o.orig.userId : null;
     try {
@@ -28,13 +27,13 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
         Articles.fn.takeOwnership( o.edit );
     } catch( e ){
         console.log( e );
-        throwError({ type:e.error, message:e.reason });
+        messageError({ type:e.error, message:e.reason });
         return false;
     }
     if( o.orig ){
         // if nothing has changed, then does nothing
         if( Articles.fn.equal( o.orig, o.edit )){
-            throwMessage({
+            messageWarning({
                 type: 'warning',
                 message: 'Nothing changed'
             });
@@ -44,11 +43,15 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
             if( e ){
                 console.log( 'thoughts.update Meteor.call() returned exception' );
                 console.log( e );
-                throwError({ type:e.error, message:e.reason });
-                Session.set( 'collect.dbope', DBOPE_ERROR );
+                messageError({ type:e.error, message:e.reason });
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_ERROR });
+                }
             } else {
-                throwSuccess( 'Thought successfully updated' );
-                Session.set( 'collect.dbope', DBOPE_LEAVE );
+                messageSuccess( 'Thought successfully updated' );
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_LEAVE });
+                }
             }
         });
     } else {
@@ -56,11 +59,15 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
             if( e ){
                 console.log( 'thoughts.insert Meteor.call() returned exception' );
                 console.log( e );
-                throwError({ type:e.error, message:e.reason });
-                Session.set( 'collect.dbope', DBOPE_ERROR );
+                messageError({ type:e.error, message:e.reason });
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_ERROR });
+                }
             } else {
-                throwSuccess( 'Thought successfully inserted' );
-                Session.set( 'collect.dbope', DBOPE_REINIT );
+                messageSuccess( 'Thought successfully inserted' );
+                if( o.cb ){
+                    o.cb( o.data, { status: DBOPE_REINIT });
+                }
             }
         });
     }

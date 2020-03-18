@@ -31,14 +31,14 @@ import './thought_edit.html';
 
 Template.thoughtEdit.fn = {
     // on close, go back to thoughtsList window
-    doClose: function(){
+    doClose: function( instance ){
         //console.log( 'Template.thoughtEdit.fn.doClose' );
         switch( g.run.layout.get()){
             case LYT_PAGE:
                 FlowRouter.go( g.run.back );
                 break;
             case LYT_WINDOW:
-                $().IWindowed.close( '.thoughtEdit' );
+                instance.ronin.$dom.IWindowed( 'close' );
                 break;
         }
     },
@@ -50,7 +50,7 @@ Template.thoughtEdit.fn = {
             console.log( 'thoughtEdit '+msg+' '+o._id );
             const item = self.ronin.dict.get( 'item' );
             if( item._id === o._id ){
-                Template.thoughtEdit.fn.doClose();
+                Template.thoughtEdit.fn.doClose( self );
             }
         }
     },
@@ -61,6 +61,22 @@ Template.thoughtEdit.fn = {
     },
     okLabelItem: function( it ){
         return it ? 'Update' : 'Create';
+    },
+    // this function is to be called after model update, with a three states qualifier
+    updateCb: function( instance, o ){
+        if( instance ){
+            switch( o.status ){
+                // successful update, leave the page
+                case DBOPE_LEAVE:
+                    Template.thoughtEdit.fn.doClose( instance );
+                    break;
+                // successful insert, reinit the page
+                case DBOPE_REINIT:
+                    Template.thought_panel.fn.initEditArea( instance.ronin.$dom );
+                    break;
+                // all other cases, stay in the page letting it unchanged
+            }
+        }
     }
 }
 
@@ -70,7 +86,8 @@ Template.thoughtEdit.onCreated( function(){
         handles: {
             article: this.subscribe( 'articles.one', FlowRouter.getQueryParam( 'id' )),
             topics: this.subscribe( 'topics.all' )
-        }
+        },
+        $dom: null
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -80,6 +97,9 @@ Template.thoughtEdit.onRendered( function(){
     //console.log( 'thoughtEdit.onRendered' );
     const self = this;
     const fn = Template.thoughtEdit.fn;
+
+    // stores this $DOM window element
+    self.ronin.$dom = self.$( '.thoughtEdit' );
 
     // get the edited item
     this.autorun(() => {
@@ -100,14 +120,14 @@ Template.thoughtEdit.onRendered( function(){
         if( g[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const context = Template.currentData();
             const label = fn.okLabel();
-            $( '.'+context.template ).IWindowed({
+            self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [
                         {
                             text: "Cancel",
                             click: function(){
-                                fn.doClose();
+                                fn.doClose( self );
                             }
                         },
                         {
@@ -115,13 +135,15 @@ Template.thoughtEdit.onRendered( function(){
                             click: function(){
                                 $.pubsub.publish( 'ronin.model.thought.update', {
                                     orig: self.ronin.dict.get( 'item' ),
-                                    edit: Template.thought_panel.fn.getContent()
+                                    edit: Template.thought_panel.fn.getContent( self.ronin.$dom ),
+                                    cb: fn.updateCb,
+                                    data: self
                                 });
                             }
                         }
                     ],
-                    group:  context.group,
-                    title:  gtd.labelId( null, context.gtdid )
+                    group: context.group,
+                    title: gtd.labelId( null, context.gtdid )
                 }
             });
         }
@@ -157,14 +179,14 @@ Template.thoughtEdit.helpers({
 Template.thoughtEdit.events({
     // wsf_collapse_buttons cancel button
     'click .js-cancel': function( ev, instance ){
-        Template.thoughtEdit.fn.doClose();
+        Template.thoughtEdit.fn.doClose( instance );
         return false;
     },
     // wsf_collapse_buttons ok button
     'click .js-ok': function( ev, instance ){
         $.pubsub.publish( 'ronin.model.thought.update', {
             orig: instance.ronin.dict.get( 'item' ),
-            edit: Template.thought_panel.fn.getContent()
+            edit: Template.thought_panel.fn.getContent( instance.ronin.$dom )
         });
         return false;
     }

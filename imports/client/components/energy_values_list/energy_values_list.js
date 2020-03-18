@@ -44,7 +44,7 @@ Template.energy_values_list.events({
         const id = anchor.id.substring( Template.energy_values_list.fn.pfxDelete().length );
         Meteor.call('energy_values.remove', id, ( error ) => {
             if( error ){
-                throwError({ message: error.message });
+                messageError({ message: error.message });
             }
         });
         return false;
@@ -56,7 +56,7 @@ Template.energy_values_list.events({
         const id = anchor.id.substring( Template.energy_values_list.fn.pfxUpdate().length );
         var obj = EnergyValues.findOne({ _id: id });
         if( !obj ){
-            throwError({ message: 'Energy value no more exists' });
+            messageError({ message: 'Energy value no more exists' });
         } else {
             Session.set( 'setup.energy_values.obj', obj );
         }

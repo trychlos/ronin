@@ -11,17 +11,16 @@ import './action_status_select.html';
 
 Template.action_status_select.fn = {
     // return the code associated to the selected action_status
-    getSelected: function(){
-        return $( '.action-status-select .js-select option:selected' ).val();
+    getSelected: function( $parent ){
+        return $( $parent.find( '.action-status-select .js-select option:selected' )[0] ).val();
     },
     // select a value
-    setSelected: function( value ){
-        $( '.action-status-select .js-select' ).val( value );
+    setSelected: function( $parent, value ){
+        $( $parent.find( '.action-status-select .js-select' )[0] ).val( value );
     },
     // reset the default value
-    selectDefault: function(){
-        const def = actionStatus.getDefault();
-        $( '.action-status-select .js-select' ).val( def );
+    selectDefault: function( $parent ){
+        Template.action_status_select.fn.setSelected( $parent, actionStatus.getDefault());
     },
 };
 
@@ -40,6 +39,6 @@ Template.action_status_select.helpers({
 
 Template.action_status_select.events({
     'change .js-status-select'( event, instance ){
-        instance.$('.js-status-select').trigger('action_status_select-change');
+        instance.$('.js-status-select').trigger('action-status-select-change');
     }
 });

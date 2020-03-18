@@ -45,7 +45,7 @@ Template.priority_values_list.events({
         const id = anchor.id.substring( Template.priority_values_list.fn.pfxDelete().length );
         Meteor.call('priority_values.remove', id, ( error ) => {
             if( error ){
-                throwError({ message: error.message });
+                messageError({ message: error.message });
             }
         });
         return false;
@@ -57,7 +57,7 @@ Template.priority_values_list.events({
         const id = anchor.id.substring( Template.priority_values_list.fn.pfxUpdate().length );
         var obj = PriorityValues.findOne({ _id: id });
         if( !obj ){
-            throwError({ message: 'Priority value no more exists' });
+            messageError({ message: 'Priority value no more exists' });
         } else {
             Session.set( 'setup.priority_values.obj', obj );
         }

@@ -115,12 +115,13 @@
                  - make this db collection reactive.
                  This todo aims at replacing some or all ronin.ui.xxx messages.
 
-  198 2020- 3-17 production: 1. open new action 2. open edit action 3. close edit action
-                 -> result: new action is closed
+  201 2020- 3-18 display a spinner when projects_tree is refreshed
 
-  200 2020- 3-18 1. edit action from review -> 2. unable to open new action
+  202 2020- 3-18 actions_list: 'Created' should be 'Updated' (like toughts_list)
 
-  201
+  203 2020- 3-18 thought_card, action_card: display all fields
+
+  204
 
 ==============================================================================
  Done
@@ -726,9 +727,16 @@
   197 2020- 3-17 integration projects tree spinner does not stop
       2020- 3-18 fixed
 
+  198 2020- 3-17 production: 1. open new action 2. open edit action 3. close edit action
+                 -> result: new action is closed
+      2020- 3-18 fixed
+
   199 2020- 3-17 projects_list/actions_list: stop spinner as soon as the current tab
                  is ready
       2020- 3-18 done for actionsList, projectsList does not seem to need that
+
+  200 2020- 3-18 1. edit action from review -> 2. unable to open new action
+      2020- 3-18 fixed
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
