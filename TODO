@@ -115,14 +115,12 @@
                  - make this db collection reactive.
                  This todo aims at replacing some or all ronin.ui.xxx messages.
 
-  196 2020- 3-17 integration does not keep windows size and position
-                 firefox/int is ok
-                 chrome/int is NOT ok
-
-  198 2020- 3-17 integration: 1. open new action 2. open edit action 3. close edit action
+  198 2020- 3-17 production: 1. open new action 2. open edit action 3. close edit action
                  -> result: new action is closed
 
-  200
+  200 2020- 3-18 1. edit action from review -> 2. unable to open new action
+
+  201
 
 ==============================================================================
  Done
@@ -716,6 +714,14 @@
   194 2020- 3-11 in windowLayout, opening both an action new and an action edit
                   mixes the two windows - maybe something is too reactive !?
       2020- 3-15 fixed
+
+  196 2020- 3-17 production does not keep windows size and position
+                 firefox/prod is ok
+                 chrome/prod is NOT ok
+                 firefox/dev is ok
+                 chrome/dev is ok
+      2020- 3-18 Seems that the only reproductible case is Chrome+Pro+Zoom 90%+Tab among others
+                 -> abandonned
 
   197 2020- 3-17 integration projects tree spinner does not stop
       2020- 3-18 fixed
