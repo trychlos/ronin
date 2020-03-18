@@ -56,16 +56,10 @@
    69 2020- 1- 5 review background-colors
                   tabs / grid headers / selected row / hover row / right-click row
 
-   73 2020- 1- 7 have edit and delete buttons components
-      2020- 1-11  this would let us also homogeneize font color
-
    74 2020- 1- 8 have a data model on documents: provide classes via transform
       2020- 1-11 it seems that the transform function does not oper on find() cursors :(
 
    77 2020- 1- 9 have ITree interface
-
-   79 2020- 1- 9 actions_edit: firefox display calendar button is not ok
-                  chrome is ok
 
    81 2020- 1- 9 action_edit/project_edit: changing anything should either invalidate
                   the whole cursor, or be reported on the initial object
@@ -331,6 +325,10 @@
    72 2020- 1- 6 have edit and delete buttons in IGrid
       2020- 1- 9 done
 
+   73 2020- 1- 7 have edit and delete buttons components
+      2020- 1-11  this would let us also homogeneize font color
+      2020- 3-18 done
+
    75 2020- 1- 9 rewrite IGrid interface to have our own methods (better isolation from jqxGrid)
       2020- 1-10 cancelled
 
@@ -339,6 +337,11 @@
 
    78 2020- 1- 9 actions_edit: date display is not ok
       2020- 1-10 fixed by conversion to Date object
+
+   79 2020- 1- 9 actions_edit: firefox display calendar button is not ok
+                  chrome is ok
+      2020- 3-18 neither chrome nor firefox are ok
+      2020- 3-18 fixed
 
    80 2020- 1- 9 projects_tree/actions_grid: split the subscriptions per tab
                   with goal of gaining some perfs for each individual tab
