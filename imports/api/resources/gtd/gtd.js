@@ -338,6 +338,7 @@ export const gtd = {
                         id: 'gtd-process-project-new',
                         label: 'New project',
                         template: 'projectEdit',
+                        multiple: true,
                         route: 'rt.projects.new',
                         navs: {
                             side: {
@@ -349,6 +350,7 @@ export const gtd = {
                         id: 'gtd-process-action-new',
                         label: 'New action',
                         template: 'actionEdit',
+                        multiple: true,
                         route: 'rt.actions.new',
                         navs: {
                             side: {
@@ -373,6 +375,7 @@ export const gtd = {
                         label: 'Transform into a project',
                         route: 'rt.projects.thought',
                         template: 'projectEdit',
+                        multiple: true,
                         group: {
                             pageLayout: 'collectGroup'
                         }
