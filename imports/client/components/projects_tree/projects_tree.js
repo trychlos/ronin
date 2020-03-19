@@ -165,21 +165,29 @@ Template.projects_tree.fn = {
         }
     },
     // returns the ad-hoc class for the item LI
+    // depends of the item's type, maybe of its status
     _llt_itemClass: function( node ){
-        let classe = 'node-normal';
+        let classe = ' ';
         if( node && node.obj ){
-            switch( node.obj.type ){
-                case 'A':
-                    if( node.obj.status === 'don' ){
-                        classe = 'rev-status-done';
-                    } else if( actionStatus.isActionable( node.obj.status )){
-                        classe = 'rev-status-activable';
-                    }
-                    break;
-                case 'R':
-                    classe = 'rev-node-root';
-                    break;
+            // by type
+            const byType = {
+                A: 'node-action',
+                M: 'node-maybe',
+                P: 'node-project',
+                T: 'node-thought',
+                R: 'node-root'
+            };
+            classe += byType[node.obj.type];
+            // by status
+            let byStatus = 'status-normal';
+            if( node.obj.type === 'A' ){
+                if( actionStatus.isDone( node.obj.status )){
+                    byStatus = 'status-done';
+                } else if( actionStatus.isActionable( node.obj.status )){
+                    byStatus= 'status-activable';
+                }
             }
+            classe += ' ' + byStatus;
         }
         return classe;
     },

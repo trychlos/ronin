@@ -6,11 +6,6 @@
         }
         ul.jqtree-tree {
             margin-left: 1.5rem;    // toggler width = 1.5rem
-            li.node-normal {
-                .icon {
-                    color: lighten( black, 25% );
-                }
-            }
             .jqtree-toggler {
                 margin-left: -1.5rem;
                 //color: lighten( @review-color, 10%);
@@ -34,6 +29,23 @@
             li.jqtree-selected > .jqtree-element {
                 background: none;
             }
+            /* draw icons */
+            li.status-normal .icon {
+                color: @tree-icon-color;
+            }
+            li.node-root > div > .icon{
+                color: @tree-icon-root-color;
+            }
+            li.status-activable .icon {
+                color: lighten( green, 10% );
+            }
+            li.status-done {
+                text-decoration: line-through;
+                .icon {
+                    color: @tree-icon-done-color;
+                }
+            }
+            /* context menu in windowLayout mode */
             .contextmenu-showing {
                 background-color: @review-color-l25;
             }

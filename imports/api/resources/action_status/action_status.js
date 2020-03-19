@@ -73,6 +73,10 @@ export const actionStatus = {
         const item = actionStatus._byId( id );
         return item ? item.actionable === true : false;
     },
+    // whether the action is done
+    isDone: function( id ){
+        return id === 'don';
+    },
     // whether this status is valid
     isValid: function( id ){
         return actionStatus._byId( id ) != null;
