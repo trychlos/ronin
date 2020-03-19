@@ -119,7 +119,7 @@
 
   202 2020- 3-18 actions_list: 'Created' should be 'Updated' (like toughts_list)
 
-  203 2020- 3-18 thought_card, action_card: display all fields
+  203 2020- 3-18 action_card: display all fields
 
   204 2020- 3-19 replace buttons in projects_tree by same in projects_tabs
 

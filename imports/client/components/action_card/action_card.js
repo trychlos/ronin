@@ -40,10 +40,10 @@ Template.action_card.helpers({
         return visible;
     },
     className(){
-        return g.run.width.get() <= 480 ? 'x-w60' : 'w-50';
+        return g.run.width.get() <= 480 ? 'x-w60' : 'x-w50';
     },
     classTopic(){
-        return g.run.width.get() <= 480 ? '' : 'xw-30';
+        return g.run.width.get() <= 480 ? '' : 'x-w30';
     },
     collapsableId(){
         return Template.action_card.fn.collapsableId();
