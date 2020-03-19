@@ -119,11 +119,6 @@
 
   202 2020- 3-18 actions_list: 'Created' should be 'Updated' (like toughts_list)
 
-  203 2020- 3-18 action_card: display all fields
-      2020- 3-19 nothing to add to cards, rather complete panels
-
-  204 2020- 3-19 replace buttons in projects_tree by same in projects_tabs
-
   205
 
 ==============================================================================
@@ -740,6 +735,13 @@
 
   200 2020- 3-18 1. edit action from review -> 2. unable to open new action
       2020- 3-18 fixed
+
+  203 2020- 3-18 action_card: display all fields
+      2020- 3-19 nothing to add to cards, rather complete panels
+      2020- 3-19 done
+
+  204 2020- 3-19 replace buttons in projects_tree by same in projects_tabs
+      2020- 3-19 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

@@ -203,7 +203,7 @@ Template.projects_tree.fn = {
                     icon = 'fa-folder-open';
                     break;
                 case 'R':
-                    icon = 'fa-compress-arrows-alt';
+                    icon = 'fa-expand-arrows-alt';
                     break;
             }
         }
@@ -308,6 +308,21 @@ Template.projects_tree.fn = {
         }
     },
 
+    // collapse the tree
+    collapseAll: function( instance ){
+        const $tree = instance.$( '.projects-tree .tree' );
+        const root = $tree.tree( 'getNodeById', 'root' );
+        Template.projects_tree.fn._collapseAll_rec( $tree, root );
+    },
+    _collapseAll_rec: function( $tree, node ){
+        if( node.children.length ){
+            $tree.tree( 'closeNode', node )
+            for( let i=0 ; i<node.children.length ; ++i ){
+                Template.projects_tree.fn._collapseAll_rec( $tree, node.children[i] );
+            }
+        }
+    },
+
     // display done items (or not)
     displayDone: function( $tree, display ){
         if( $tree ){
@@ -343,6 +358,12 @@ Template.projects_tree.fn = {
         }
     },
 
+    // dump all
+    dump: function( instance ){
+        const $tree = instance.$( '.projects-tree .tree' );
+        Template.projects_tree.fn.dumpHtml( $tree );
+        Template.projects_tree.fn.dumpTree( $tree );
+    },
     // dump the tree by HTML elements
     dumpHtml: function( $tree ){
         if( $tree ){
@@ -381,7 +402,8 @@ Template.projects_tree.fn = {
     },
 
     // expand the tree
-    expandAll: function( $tree ){
+    expandAll: function( instance ){
+        const $tree = instance.$( '.projects-tree .tree' );
         const root = $tree.tree( 'getNodeById', 'root' );
         Template.projects_tree.fn._expandAll_rec( $tree, root );
     },
@@ -393,6 +415,7 @@ Template.projects_tree.fn = {
             }
         }
     },
+
     // transforms the JSON object returned by tree('toJson') by removing all but id's
     //  returns a JSON string
     _jsonFilter: function( json ){
@@ -416,6 +439,13 @@ Template.projects_tree.fn = {
     nodeIsRoot: function( node ){
         return node && node.id === 'root';
     },
+    // rebuild the tree
+    rebuild: function( instance ){
+        const $tree = instance.$( '.projects-tree .tree' );
+        const fn = Template.projects_tree.fn;
+        fn._llt_empty( $tree );
+        instance.ronin.dict.set( 'step', fn.steps.tree_built );
+    },
     // if $node is activable, then propagate to the up hierarchy
     setActivable: function( $tree, node ){
         if( node.obj.type !== 'A' ){
@@ -433,15 +463,14 @@ Template.projects_tree.fn = {
          */
         const $li = $(node.element).parent('li');
         if( activable ){
-            $li.addClass( 'rev-activable' );
+            $li.addClass( 'status-activable' );
         } else {
-            $li.removeClass( 'rev-activable' );
+            $li.removeClass( 'status-activable' );
         }
         if( node.parent ){
             Template.projects_tree.fn._setActivableRec( $tree, node.parent, activable );
         }
     },
-
     // update the sorted list of tree nodes that is stored in Counters collection
     //  this has to be done on reparentings (moving one node elsewhere in the tree)
     //  but also when deleting a node, and reattaching its children
@@ -549,7 +578,7 @@ Template.projects_tree.onRendered( function(){
     this.autorun(() => {
         const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.actions_shown && step < fn.steps.expanded ){
-            fn.expandAll( $tree );
+            fn.expandAll( self );
             self.ronin.dict.set( 'step', fn.steps.expanded );
         }
     });
@@ -558,7 +587,10 @@ Template.projects_tree.onRendered( function(){
     this.autorun(() => {
         const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.expanded && step < fn.steps.ended ){
-            $tree.trigger( 'projects-tree-built', { tab: self.ronin.tab });
+            $tree.trigger( 'projects-tree-built', {
+                tab: self.ronin.tab,
+                $tree: $tree
+            });
             self.ronin.dict.set( 'step', fn.steps.ended );
         }
     });
@@ -568,8 +600,7 @@ Template.projects_tree.onRendered( function(){
         const current = Meteor.userId();
         if( current !== self.ronin.dict.get( 'userId' )){
             self.ronin.dict.set( 'userId', current );
-            fn._llt_empty( $tree );
-            self.ronin.dict.set( 'step', fn.steps.tree_built );
+            fn.rebuild( self );
         }
     });
 
@@ -584,8 +615,7 @@ Template.projects_tree.onRendered( function(){
             if((( o.edit.type === 'A' || o.edit.type === 'P' ) && ( o.orig.parent !== o.edit.parent )) ||
                 ( o.edit.type === 'P' && o.orig.future !== o.edit.future )){
 
-                fn._llt_empty( $tree );
-                self.ronin.dict.set( 'step', fn.steps.tree_built );
+                fn.rebuild( self );
             }
         }
     });
@@ -595,8 +625,7 @@ Template.projects_tree.onRendered( function(){
             if( node ){
                 $tree.tree( 'removeNode', node );
             } else {
-                fn._llt_empty( $tree );
-                self.ronin.dict.set( 'step', fn.steps.tree_built );
+                fn.rebuild( self );
             }
         }
     });
@@ -607,20 +636,6 @@ Template.projects_tree.events({
         const $tree = $( $( ev.currentTarget ).parents('.projects-tree')[0] ).find( '.tree' );
         const checked = instance.$('.js-done' ).is(':checked');
         Template.projects_tree.fn.displayDone( $tree, checked );
-    },
-    'click .js-expand'( ev, instance ){
-        const $tree = $( $( ev.currentTarget ).parents('.projects-tree')[0] ).find( '.tree' );
-        Template.projects_tree.fn.expandAll( $tree );
-    },
-    'change .js-collapse'( ev, instance ){
-        const tab = $( ev.currentTarget ).parent('.actions').prev('.tree').data('tab');
-        const checked = instance.$('.js-collapse' ).is(':checked');
-        console.log( tab+' collapse '+checked );
-    },
-    'click .js-dump'( ev, instance ){
-        const $tree = $( $( ev.currentTarget ).parents('.projects-tree')[0] ).find( '.tree' );
-        Template.projects_tree.fn.dumpTree( $tree );
-        Template.projects_tree.fn.dumpHtml( $tree );
     },
     // moving a node means both reparenting and reordering it
     // note that we are refusing to move outside of the root node
@@ -647,5 +662,21 @@ Template.projects_tree.events({
         });
         ev.move_info.do_move();
         Template.projects_tree.fn.updateNodeList( $( ev.target ));
+    },
+    // a request to collapse the tree sent by the tabs panel
+    'projects-tree-collapse'( ev, instance ){
+        Template.projects_tree.fn.collapseAll( instance );
+    },
+    // a request to dump the tree sent by the tabs panel
+    'projects-tree-dump'( ev, instance ){
+        Template.projects_tree.fn.dump( instance );
+    },
+    // a request to expand the tree sent by the tabs panel
+    'projects-tree-expand'( ev, instance ){
+        Template.projects_tree.fn.expandAll( instance );
+    },
+    // a request to rebuild the tree sent by the tabs panel
+    'projects-tree-rebuild'( ev, instance ){
+        Template.projects_tree.fn.rebuild( instance );
     }
 });
