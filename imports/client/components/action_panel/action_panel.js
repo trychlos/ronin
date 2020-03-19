@@ -67,6 +67,9 @@ Template.action_panel.helpers({
     valDueDate(){
         return this.item ? this.item.dueDate : '';
     },
+    valId(){
+        return this.item ? this.item._id : '';
+    },
     valName(){
         return this.item ? this.item.name : '';
     },
@@ -75,6 +78,17 @@ Template.action_panel.helpers({
     },
     valOutcome(){
         return this.item ? this.item.outcome : '';
+    },
+    valOwner(){
+        const userId = this.item ? this.item.userId : null;
+        let owner = '<unowned>';
+        if( userId ){
+            const user = Meteor.users.findOne({ _id: userId });
+            if( user ){
+                owner = user.emails[0].address;
+            }
+        }
+        return owner;
     },
     valParent(){
         return this.item ? this.item.parent : '';

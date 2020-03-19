@@ -1,5 +1,5 @@
 <template name="project_panel">
-    <div class="project-panel ronin-wnd-content">
+    <div class="project-panel ronin-panel ronin-wnd-content">
 
         <table class="w-100">
             <tr>
@@ -80,6 +80,14 @@
                         placeholder="Notes"
                         rows="3">{{ valNotes }}</textarea>
                 </td>
+            </tr>
+            <tr>
+                <td class="label panel-owner-title x-hright"><p>Owner:</p></td>
+                <td class="js-owner panel-owner" title="Owner">{{valOwner}}</td>
+            </tr>
+            <tr>
+                <td class="label panel-id-title x-hright"><p>Id.:</p></td>
+                <td class="js-id panel-id" title="Id">{{valId}}</td>
             </tr>
         </table>
 

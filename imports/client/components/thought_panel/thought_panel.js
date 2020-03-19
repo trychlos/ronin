@@ -64,5 +64,19 @@ Template.thought_panel.helpers({
     },
     topic(){
         return this.item ? this.item.topic : null;
+    },
+    valId(){
+        return this.item ? this.item._id : '';
+    },
+    valOwner(){
+        const userId = this.item ? this.item.userId : null;
+        let owner = '<unowned>';
+        if( userId ){
+            const user = Meteor.users.findOne({ _id: userId });
+            if( user ){
+                owner = user.emails[0].address;
+            }
+        }
+        return owner;
     }
 });

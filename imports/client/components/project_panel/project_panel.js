@@ -75,11 +75,25 @@ Template.project_panel.helpers({
     valFuture(){
         return this.item && this.item.future ? 'checked' : '';
     },
+    valId(){
+        return this.item ? this.item._id : '';
+    },
     valName(){
         return this.item ? this.item.name : '';
     },
     valNotes(){
         return this.item ? this.item.notes : '';
+    },
+    valOwner(){
+        const userId = this.item ? this.item.userId : null;
+        let owner = '<unowned>';
+        if( userId ){
+            const user = Meteor.users.findOne({ _id: userId });
+            if( user ){
+                owner = user.emails[0].address;
+            }
+        }
+        return owner;
     },
     valParent(){
         return this.item ? this.item.parent : '';
