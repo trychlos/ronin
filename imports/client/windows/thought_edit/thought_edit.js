@@ -186,7 +186,9 @@ Template.thoughtEdit.events({
     'click .js-ok': function( ev, instance ){
         $.pubsub.publish( 'ronin.model.thought.update', {
             orig: instance.ronin.dict.get( 'item' ),
-            edit: Template.thought_panel.fn.getContent( instance.ronin.$dom )
+            edit: Template.thought_panel.fn.getContent( instance.ronin.$dom ),
+            cb: Template.thoughtEdit.fn.updateCb,
+            data: instance
         });
         return false;
     }

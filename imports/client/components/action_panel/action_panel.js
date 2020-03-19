@@ -49,7 +49,7 @@ Template.action_panel.fn = {
             Template.date_select.fn.clearDate( $( $dom.find( '.js-datestart' )[0] ));
             Template.date_select.fn.clearDate( $( $dom.find( '.js-datedue' )[0] ));
             Template.date_select.fn.clearDate( $( $dom.find( '.js-datedone' )[0] ));
-                $( $dom.find( '.js-notes' )[0] ).val('');
+            $( $dom.find( '.js-notes' )[0] ).val('');
         }
     }
 };

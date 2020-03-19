@@ -181,7 +181,7 @@ Template.actionEdit.helpers({
     title(){
         const self = Template.instance();
         const item = self.ronin.dict.get( 'item' );
-        const title = item ? ( item.type === 'T' ? 'Transform thought' : 'Edit action' ) : 'New action';
+        const title = item ? ( item.type === 'T' ? 'Transform to action' : 'Edit action' ) : 'New action';
         Session.set( 'header.title', title );
         return title;
     }

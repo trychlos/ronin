@@ -166,12 +166,15 @@ Template.projects_tree.fn = {
     },
     // returns the ad-hoc class for the item LI
     _llt_itemClass: function( node ){
-        let classe = '';
+        let classe = 'node-normal';
         if( node && node.obj ){
             switch( node.obj.type ){
                 case 'A':
-                    classe = node.obj.status === 'don' ? 'rev-status-done' :
-                        ( actionStatus.isActionable( node.obj.status ) ? 'rev-status-activable' : '' );
+                    if( node.obj.status === 'don' ){
+                        classe = 'rev-status-done';
+                    } else if( actionStatus.isActionable( node.obj.status )){
+                        classe = 'rev-status-activable';
+                    }
                     break;
                 case 'R':
                     classe = 'rev-node-root';
@@ -580,8 +583,13 @@ Template.projects_tree.onRendered( function(){
     });
     jQuery.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
         if( $tree ){
-            fn._llt_empty( $tree );
-            self.ronin.dict.set( 'step', fn.steps.tree_built );
+            const node = $tree.tree( 'getNodeById', o._id );
+            if( node ){
+                $tree.tree( 'removeNode', node );
+            } else {
+                fn._llt_empty( $tree );
+                self.ronin.dict.set( 'step', fn.steps.tree_built );
+            }
         }
     });
 });

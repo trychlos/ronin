@@ -6,6 +6,11 @@
         }
         ul.jqtree-tree {
             margin-left: 1.5rem;    // toggler width = 1.5rem
+            li.node-normal {
+                .icon {
+                    color: lighten( black, 25% );
+                }
+            }
             .jqtree-toggler {
                 margin-left: -1.5rem;
                 //color: lighten( @review-color, 10%);
@@ -23,14 +28,14 @@
             .jqtree-title {
                 padding: 0 0.5rem;
             }
-            .contextmenu-showing {
-                background-color: @review-color-l25;
-            }
             li.jqtree-folder ul[role=group] {
                 padding-left: 1.5rem;
             }
             li.jqtree-selected > .jqtree-element {
                 background: none;
+            }
+            .contextmenu-showing {
+                background-color: @review-color-l25;
             }
         }
     }

@@ -23,7 +23,7 @@ Template.thought_panel.fn = {
     getContent: function( $dom ){
         let o =  null;
         if( $dom ){
-            $o = {
+            o = {
                 type: 'T',
                 name: $( $dom.find( '.js-name' )[0] ).val(),
                 description: $( $dom.find( '.js-description' )[0] ).val(),

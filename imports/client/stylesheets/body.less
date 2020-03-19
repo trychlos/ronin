@@ -158,12 +158,19 @@ body {
             line-height: 1.5rem;
         }
     }
+    .tab-footer {
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid lightgray;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0 0 0.5rem;
+    }
     .rev-node-root > div > .icon{
-        color: @review-color;
+        color: darken( @review-color, 15% );
     }
     .rev-status-activable {
         .icon {
-            color: green;
+            color: lighten( green, 10% );
         }
     }
     .rev-status-done {

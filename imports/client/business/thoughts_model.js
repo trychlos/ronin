@@ -18,8 +18,7 @@ import { Articles } from '/imports/api/collections/articles/articles.js';
 //  the page is left if this was an update *and* it has been successful
 $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
     //console.log( msg );
-    //console.log( o.orig );
-    //console.log( o.edit );
+    //console.log( o );
     const id = o.orig ? o.orig._id : null;
     o.edit.userId = o.orig ? o.orig.userId : null;
     try {

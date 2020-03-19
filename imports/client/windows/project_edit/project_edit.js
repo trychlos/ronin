@@ -208,8 +208,8 @@ Template.projectEdit.helpers({
         const self = Template.instance();
         const item = self.ronin.dict.get( 'item' );
         const title = item ?
-            ( item.type === 'T' ? 'Transform thought' :
-            ( item.type === 'A' ? 'Transform action' : 'Edit project' )) : 'New project';
+            ( item.type === 'T' ? 'Transform to project' :
+            ( item.type === 'A' ? 'Transform to project' : 'Edit project' )) : 'New project';
         Session.set( 'header.title', title );
         return title;
     }
@@ -223,7 +223,9 @@ Template.projectEdit.events({
     'click .js-ok'( ev, instance ){
         $.pubsub.publish( 'ronin.model.project.update', {
             orig: instance.ronin.dict.get( 'item' ),
-            edit: Template.project_panel.fn.getContent( instance.ronin.$dom )
+            edit: Template.project_panel.fn.getContent( instance.ronin.$dom ),
+            cb: Template.projectEdit.fn.updateCb,
+            data: instance
         });
         return false;
     }
