@@ -25,10 +25,8 @@ Template.thought_card.fn = {
 }
 
 Template.thought_card.onRendered( function(){
-    //console.log( this );
-    if( Session.get( 'collect.opened' ) === this.data.thought._id ){
-        $( '#'+Template.thought_card.fn.collapsableId()).collapse( 'show' );
-    }
+    // do we want open the first card on page display ?
+    //$( '#'+Template.thought_card.fn.collapsableId()).collapse( 'show' );
 });
 
 Template.thought_card.helpers({
@@ -52,12 +50,6 @@ Template.thought_card.helpers({
     itemDivId(){
         return Template.thought_card.fn.itemDivId();
     },
-    showDown(){
-        return Session.get( 'collect.opened' ) === Template.instance().data.thought._id ? 'x-hidden' : 'x-inline';
-    },
-    showUp(){
-        return Session.get( 'collect.opened' ) === Template.instance().data.thought._id ? 'x-inline' : 'x-hidden';
-    },
     topic_byId( id ){
         const obj = id ? Topics.findOne({ _id:id }) : null;
         return obj ? obj.name : '';
@@ -77,6 +69,5 @@ Template.thought_card.events({
     },
     'shown.bs.collapse'( ev, instance ){
         $( '#'+Template.thought_card.fn.itemDivId()).addClass( 'x-opened' );
-        Session.set( 'collect.opened', instance.data.thought._id );
     }
 });

@@ -23,7 +23,8 @@ Template.action_card.fn = {
 }
 
 Template.action_card.onRendered( function(){
-    $( '#'+Template.action_card.fn.collapsableId()).collapse( 'show' );
+    // do we want open the first card on page display ?
+    //$( '#'+Template.action_card.fn.collapsableId()).collapse( 'show' );
 });
 
 Template.action_card.helpers({

@@ -27,6 +27,5 @@ Template.thoughts_list.events({
     // when cards are shown instead of grid (pageLayout default)
     'ronin-collapse-all'( ev, instance ){
         $( '.thoughts-list-item' ).removeClass( 'x-opened' );
-        Session.set( 'collect.opened', null );
     }
 });
