@@ -30,20 +30,20 @@
                 background: none;
             }
             /* draw icons */
-            li.status-normal .icon {
+            li.status-normal > div.jqtree-element .icon {
                 color: @tree-icon-color;
             }
-            li.node-root > div > .icon{
+            li.node-root > div.jqtree-element .icon {
                 color: @tree-icon-root-color;
             }
-            li.status-activable .icon {
-                color: lighten( green, 10% );
+            li.status-activable > div.jqtree-element .icon {
+                color: @tree-icon-activable-color;
             }
             li.status-done {
                 text-decoration: line-through;
-                .icon {
-                    color: @tree-icon-done-color;
-                }
+            }
+            li.status-done > div.jqtree-element .icon {
+                color: @tree-icon-done-color;
             }
             /* context menu in windowLayout mode */
             .contextmenu-showing {

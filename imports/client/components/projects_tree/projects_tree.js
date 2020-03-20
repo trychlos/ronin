@@ -39,7 +39,6 @@ Template.projects_tree.fn = {
                 $.pubsub.publish( 'ronin.model.article.delete', node.obj );
             }
         };
-
         // contextual menu, edit operation
         const menu_nodeEdit = function( $tree, node ){
             if( !fn.node_isRoot( node )){
@@ -54,7 +53,7 @@ Template.projects_tree.fn = {
                 }
             }
         };
-
+        // define the context menu
         if( g.run.layout.get() === LYT_WINDOW ){
             $tree.contextMenu({
                 selector: 'div.jqtree-element',
@@ -115,7 +114,7 @@ Template.projects_tree.fn = {
     // returns the ad-hoc class for the item LI
     // depends of the item's type, maybe of its status
     node_getClass: function( node ){
-        let classe = ' ';
+        let classe = '';
         if( node && node.obj ){
             // by type
             const byType = {
@@ -126,7 +125,7 @@ Template.projects_tree.fn = {
                 R: 'node-root'
             };
             classe += byType[node.obj.type];
-            // by status
+            // by status (actions only at initialization, propagated to projects)
             let byStatus = 'status-normal';
             if( node.obj.type === 'A' ){
                 if( actionStatus.isDone( node.obj.status )){
@@ -136,6 +135,9 @@ Template.projects_tree.fn = {
                 }
             }
             classe += ' ' + byStatus;
+        } else {
+            console.log( 'node_getIcon(): invalid node' );
+            console.log( node );
         }
         return classe;
     },
@@ -154,11 +156,40 @@ Template.projects_tree.fn = {
                     icon = 'fa-expand-arrows-alt';
                     break;
             }
+        } else {
+            console.log( 'node_getIcon(): invalid node' );
+            console.log( node );
         }
         return icon;
     },
     node_isRoot: function( node ){
         return node && node.id === 'root';
+    },
+    // if $node is activable, then propagate to the up hierarchy
+    //  a node is considered activable if at least one of its children is
+    node_setActivable: function( node ){
+        const fn = Template.projects_tree.fn;
+        const _setRec = function( node ){
+            //const li = $( node.element ).parents( 'li' )[0];
+            if( node.activableCount > 0 ){
+                $( node.element ).addClass( 'status-activable' );
+                //console.log( node.name+' id='+node.id+' activableCount='+node.activableCount );
+                //console.log( node );
+            } else {
+                $( node.element ).removeClass( 'status-activable' );
+            }
+            if( node.parent && !fn.node_isRoot( node.parent )){
+                node.parent.activableCount += node.activableCount > 0 ? 1 : 0;
+                _setRec( node.parent );
+            }
+        };
+        if( node.obj.type !== 'A' ){
+            console.log( 'node_setActivable() called for type='+node.obj.type );
+        } else {
+            const status = node.obj.status;
+            node.activableCount = actionStatus.isActionable( status ) ? 1 : 0;
+            _setRec( node );
+        }
     },
 
     // low-level tree functions
@@ -216,12 +247,48 @@ Template.projects_tree.fn = {
             }
         });
     },
+    // dump all
+    tree_dump: function( $tree ){
+        Template.projects_tree.fn.tree_dumpHtml( $tree );
+        Template.projects_tree.fn.tree_dumpTree( $tree );
+    },
+    // dump the tree by HTML elements
+    tree_dumpHtml: function( $tree ){
+        const _dumpLi = function( $li, prefix ){
+            console.log( prefix+$li.attr('class'));
+            console.log( $li.data('node'));
+            const $ul = $li.children('ul');
+            if( $ul && $ul.length ){
+                for( let i=0; i<$ul.length; i++ ){
+                    _dumpUl( $($ul[i]), prefix+' ' );
+                }
+            }
+        };
+        const _dumpUl = function( $ul, prefix ){
+            const $li = $ul.children('li');
+            for( let i=0; i<$li.length; i++ ){
+                _dumpLi( $($li[i]), prefix );
+            }
+        };
+        if( $tree ){
+            const $ul = $tree.children('ul:first-child');
+            _dumpUl( $ul, '' );
+        }
+    },
+    // dump the tree by nodes
+    tree_dumpTree: function( $tree ){
+        const _dumpRec = function( node, prefix ){
+            console.log( prefix+node.name+' ('+node.id+')');
+            for( let i=0; i<node.children.length; i++ ){
+                _dumpRec( node.children[i], prefix+' ' );
+            }
+        };
+        _dumpRec( $tree.tree( 'getNodeById', 'root' ), '' );
+    },
     // empty the tree
     //  leaving only with the root node
     tree_empty: function( $tree ){
-        const fn = Template.projects_tree.fn;
-        const root = $tree.tree( 'getNodeById', 'root' );
-        $tree.tree( 'loadData', [], root );
+        $tree.tree( 'loadData', [], $tree.tree( 'getNodeById', 'root' ));
     },
     // expand the tree
     tree_expand: function( $tree ){
@@ -264,38 +331,39 @@ Template.projects_tree.fn = {
             name: label,
             obj: {
                 type: 'R'
-            }
+            },
+            activableCount: 0
         });
     },
 
     // add actions in each tab
     //  all actions with a parent are passed to projects tab - orphan actions are not detected
-    inst_ActionsAdd: function( instance, order, fetched ){
+    inst_Actions: function( instance, order, fetched ){
         const fn = Template.projects_tree.fn;
         const $tree = instance.ronin.$tree;
         const tab = $tree.data( 'tab' );
         fetched.forEach( it => {
-            //console.log( tab+': inst_ActionsAdd '+it.name );
+            //console.log( tab+': inst_Actions '+it.name );
             let node = {
                 id: it._id,
                 name: it.name,
-                obj: it
+                obj: it,
+                activableCount: 0
             }
+            let added = null;
             // on projects tab, attach to each project their relative actions
             if( tab === 'gtd-review-projects-current' ){
                 if( it.parent ){
                     const p = Articles.findOne({ _id:it.parent, type:'P' });
                     if( p && !p.future ){
                         node.parent = it.parent;
-                        const added = fn.tree_addNode( $tree, node );
-                        fn.setActivable( $tree, added );
+                        added = fn.tree_addNode( $tree, node );
                     }
                 }
             // on actions tab, display actions without a project
             } else if( tab === 'gtd-review-projects-single' ){
                 if( !it.parent ){
-                    const added = fn.tree_addNode( $tree, node );
-                    fn.setActivable( $tree, added );
+                    added = fn.tree_addNode( $tree, node );
                 }
             // last display on future tab the actions attached to a future project
             } else if( tab === 'gtd-review-projects-future' ){
@@ -303,12 +371,15 @@ Template.projects_tree.fn = {
                     const p = Articles.findOne({ _id:it.parent, type:'P' });
                     if( p && p.future ){
                         node.parent = it.parent;
-                        const added = fn.tree_addNode( $tree, node );
-                        fn.setActivable( $tree, added );
+                        added = fn.tree_addNode( $tree, node );
                     }
                 }
             } else {
                 console.log( tab+': unknown tab' );
+            }
+            // propagate the activable status up to the hierarchy
+            if( added ){
+                fn.node_setActivable( added );
             }
         });
     },
@@ -333,7 +404,7 @@ Template.projects_tree.fn = {
     // add the projects in projects and future tabs
     //  note that even if an order has been initially retrieved, fetched must still
     //  be explored for new items
-    inst_ProjectsAdd: function( instance, order, future, fetched ){
+    inst_Projects: function( instance, order, future, fetched ){
         const fn = Template.projects_tree.fn;
         const $tree = instance.ronin.$tree;
         // add a project node
@@ -344,7 +415,8 @@ Template.projects_tree.fn = {
                         id: project._id,
                         name:  project.name,
                         parent: project.parent,
-                        obj: project
+                        obj: project,
+                        activableCount: 0
                     };
                     //console.log( prefix+' adding '+node.obj.type+' '+node.obj.name+' future='+future );
                     fn.tree_addNode( $tree, node );
@@ -384,104 +456,36 @@ Template.projects_tree.fn = {
 
     // display done items (or not)
     displayDone: function( $tree, display ){
+        const _displayLi = function( $li ){
+            const node = $li.data('node');
+            if( node.obj.type !== 'R' ){
+                const done = node.obj.doneDate;
+                let hidden = !display && done;
+                //console.log( node.name+' display='+display+' done='+done+' hidden='+hidden );
+                if( hidden ){
+                    display = false;
+                    $li.addClass( 'x-hidden' );
+                } else {
+                    $li.removeClass( 'x-hidden' );
+                }
+            }
+            const $ul = $li.children('ul');
+            if( $ul ){
+                for( let i=0; i<$ul.length; i++ ){
+                    _displayUl( $( $ul[i] ));
+                }
+            }
+        };
+        const _displayUl = function( $ul ){
+            const $li = $ul.children('li');
+            for( let i=0; i<$li.length; i++ ){
+                _displayLi( $( $li[i] ));
+            }
+        };
         if( $tree ){
             const $ul = $tree.children('ul:first-child');
             //console.log( tab+' displayDone '+display );
-            Template.projects_tree.fn._displayDoneUl( $ul, display );
-        }
-    },
-    _displayDoneLi: function( $li, display ){
-        const node = $li.data('node');
-        if( node.obj.type !== 'R' ){
-            const done = node.obj.doneDate;
-            let hidden = !display && done;
-            //console.log( node.name+' display='+display+' done='+done+' hidden='+hidden );
-            if( hidden ){
-                display = false;
-                $li.addClass('x-hidden');
-            } else {
-                $li.removeClass('x-hidden');
-            }
-        }
-        const $ul = $li.children('ul');
-        if( $ul ){
-            for( let i=0; i<$ul.length; i++ ){
-                Template.projects_tree.fn._displayDoneUl( $($ul[i]), display );
-            }
-        }
-    },
-    _displayDoneUl: function( $ul, display ){
-        const $li = $ul.children('li');
-        for( let i=0; i<$li.length; i++ ){
-            Template.projects_tree.fn._displayDoneLi( $($li[i]), display );
-        }
-    },
-
-    // dump all
-    dump: function( instance ){
-        const $tree = instance.$( '.projects-tree .tree' );
-        Template.projects_tree.fn.dumpHtml( $tree );
-        Template.projects_tree.fn.dumpTree( $tree );
-    },
-    // dump the tree by HTML elements
-    dumpHtml: function( $tree ){
-        if( $tree ){
-            const $ul = $tree.children('ul:first-child');
-            Template.projects_tree.fn._dumpHtmlUl( $ul, '' );
-        }
-    },
-    _dumpHtmlLi: function( $li, prefix ){
-        console.log( prefix+$li.attr('class'));
-        console.log( $li.data('node'));
-        const $ul = $li.children('ul');
-        if( $ul && $ul.length ){
-            for( let i=0; i<$ul.length; i++ ){
-                Template.projects_tree.fn._dumpHtmlUl( $($ul[i]), prefix+' ' );
-            }
-        }
-    },
-    _dumpHtmlUl: function( $ul, prefix ){
-        const $li = $ul.children('li');
-        for( let i=0; i<$li.length; i++ ){
-            Template.projects_tree.fn._dumpHtmlLi( $($li[i]), prefix );
-        }
-    },
-    // dump the tree by nodes
-    dumpTree: function( $tree ){
-        if( $tree ){
-            const root = $tree.tree('getNodeById','root');
-            Template.projects_tree.fn._dumpTreeRec( $tree, root, '' );
-        }
-    },
-    _dumpTreeRec: function( $tree, node, prefix ){
-        console.log( prefix+node.name+' ('+node.id+')');
-        for( let i=0; i<node.children.length; i++ ){
-            Template.projects_tree.fn._dumpTreeRec( $tree, node.children[i], prefix+' ' );
-        }
-    },
-    // if $node is activable, then propagate to the up hierarchy
-    setActivable: function( $tree, node ){
-        if( node.obj.type !== 'A' ){
-            console.log( 'project_tree:setActivable for type='+node.obj.type );
-        } else {
-            const status = node.obj.status;
-            const activable = actionStatus.isActionable( status );
-            //console.log( 'node '+node.name+' status='+status+' activable='+activable );
-            Template.projects_tree.fn._setActivableRec( $tree, node, activable );
-        }
-    },
-    _setActivableRec: function( $tree, node, activable ){
-        /*
-         * doesn't work
-         */
-        const $li = $(node.element).parent('li');
-        if( activable ){
-            $li.addClass( 'status-activable' );
-        } else {
-            $li.removeClass( 'status-activable' );
-        }
-        if( node.parent ){
-            Template.projects_tree.fn._setActivableRec( $tree, node.parent, activable );
+            _displayUl( $ul );
         }
     },
 };
@@ -559,7 +563,7 @@ Template.projects_tree.onRendered( function(){
                     let filter = { type:'P' };
                     filter.future = future ? true : { $ne: true };
                     const projects = Articles.find( filter ).fetch();
-                    fn.inst_ProjectsAdd( self, ordering, future, projects );
+                    fn.inst_Projects( self, ordering, future, projects );
                     self.ronin.$tree.trigger( 'projects-tree-count', {
                         tab: self.ronin.tab,
                         count: projects.length
@@ -581,7 +585,7 @@ Template.projects_tree.onRendered( function(){
             let filter = { type:'A' };
             filter.parent = self.ronin.tab === 'gtd-review-projects-single' ? null : { $ne:null };
             const actions = Articles.find( filter ).fetch();
-            fn.inst_ActionsAdd( self, ordering, actions );
+            fn.inst_Actions( self, ordering, actions );
             fn.inst_CountersUpdate( self );
             if( self.ronin.tab === 'gtd-review-projects-single' ){
                 self.ronin.$tree.trigger( 'projects-tree-count', {
@@ -636,12 +640,17 @@ Template.projects_tree.onRendered( function(){
     //  we so subscribe to the corresponding messages, and act accordingly
     jQuery.pubsub.subscribe( 'ronin.ui.item.updated', ( msg, o ) => {
         if( self.ronin.$tree && o.orig ){
+            /*
             if((( o.edit.type === 'A' || o.edit.type === 'P' ) && ( o.orig.parent !== o.edit.parent )) ||
                 ( o.edit.type === 'P' && o.orig.future !== o.edit.future )){
-
                 fn.inst_rebuildTree( self );
             }
-        }
+            */
+           const node = self.ronin.$tree.tree( 'getNodeById', o.orig._id );
+           if( node ){
+               fn.tree_addNode( self.ronin.$tree, node );
+           }
+       }
     });
     jQuery.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
         if( self.ronin.$tree ){
@@ -693,7 +702,7 @@ Template.projects_tree.events({
     },
     // a request to dump the tree sent by the tabs panel
     'projects-tree-dump'( ev, instance ){
-        Template.projects_tree.fn.dump( instance );
+        Template.projects_tree.fn.tree_dump( instance.ronin.$tree );
     },
     // a request to expand the tree sent by the tabs panel
     'projects-tree-expand'( ev, instance ){
