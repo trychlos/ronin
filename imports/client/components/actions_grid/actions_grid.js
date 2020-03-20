@@ -62,7 +62,7 @@ Template.actions_grid.helpers({
         return context ? context.name : '';
     },
     getCreated( it ){
-        return moment( it.createdAt ).format('DD/MM/GGGG');
+        return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
     },
     getDone( it ){
         return moment( it.doneDate ).format('DD/MM/GGGG');
