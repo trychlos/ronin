@@ -114,7 +114,11 @@
   201 2020- 3-18 display a spinner when projects_tree is refreshed
       2020- 3-21 not sure this is really needed
 
-  205
+  205 2020- 3-21 review pseudo-columns alignment in action/thought cards
+
+  206 2020- 3-21 production: only allow new thought/action/project to a logged-in user
+
+  207
 
 ==============================================================================
  Done
