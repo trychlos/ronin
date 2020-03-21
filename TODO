@@ -102,8 +102,6 @@
 
   164 2020- 2-24 None topic is not displayed in cards items
 
-  185 2020- 3-11 have a site icon (favicon)
-
   195 2020- 3-17 pub/sub paradigm let the UI updates itself when another composant
                  has changed. But this paradigm is only applyable to the local client
                  e.g. closing a window when the item has been deleted from another
@@ -675,6 +673,9 @@
   184 2020- 3-10 deprecate IGrid
       2020- 3-15 rather mutualize thoughts and actions grids
       2020- 3-15 done
+
+  185 2020- 3-11 have a site icon (favicon)
+      2020- 3-21 done
 
   186 2020- 3-11 when a thought is transformed into an action, also take ownership
                  if needed and possible
