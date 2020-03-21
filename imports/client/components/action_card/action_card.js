@@ -53,7 +53,7 @@ Template.action_card.helpers({
     },
     topic_byId( id ){
         const obj = id ? Topics.findOne({ _id:id }) : null;
-        return obj ? obj.name : '';
+        return obj ? obj.name : 'None';
     }
 });
 

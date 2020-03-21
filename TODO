@@ -100,8 +100,6 @@
 
   161 2020- 2-23 env-settings 1.2.0_4 "dev" settings are not available on the server
 
-  164 2020- 2-24 None topic is not displayed in cards items
-
   195 2020- 3-17 pub/sub paradigm let the UI updates itself when another composant
                  has changed. But this paradigm is only applyable to the local client
                  e.g. closing a window when the item has been deleted from another
@@ -114,6 +112,7 @@
                  This todo aims at replacing some or all ronin.ui.xxx messages.
 
   201 2020- 3-18 display a spinner when projects_tree is refreshed
+      2020- 3-21 not sure this is really needed
 
   205
 
@@ -609,6 +608,9 @@
                   between lines
                   + should interpret the '\n' char
       2020- 3- 6 done
+
+  164 2020- 2-24 None topic is not displayed in cards items
+      2020- 3-21 done
 
   165 2020- 2-24 page layout: context menu doesn't work => do not account for it
       2020- 3- 6 merged with #115

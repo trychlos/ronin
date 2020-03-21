@@ -1,20 +1,20 @@
 <template name="action_card">
     <div class="actions-list-item card x-card" id={{itemDivId}}>
 
-        <a class="title x-ellipsize"
+        <a class="title x-px025"
             href="#{{collapsableId}}"
             data-toggle="collapse" data-action="{{ action._id }}">
 
-            <div class="x-px025 d-flex flex-row justify-content-start align-items-center">
+            <div class="d-flex flex-row justify-content-start align-items-center">
 
-                <div class="name {{className}}">
-                    <p>{{ action.name }}</p>
+                <div class="name x-ellipsed {{className}}">
+                    <p class="x-ellipsize">{{ action.name }}</p>
                 </div>
-                <div class="topic {{classTopic}}">
-                    <p>{{ topic_byId action.topic }}</p>
+                <div class="topic x-ellipsed {{classTopic}}">
+                    <p class="x-ellipsize">{{ topic_byId action.topic }}</p>
                 </div>
-                <div class="x-createdAt {{classCreatedAt 'item'}}">
-                    <p>{{ lastUpdated action }}</p>
+                <div class="x-createdAt x-ellipsed {{classCreatedAt 'item'}}">
+                    <p class="x-ellipsize">{{ lastUpdated action }}</p>
                 </div>
             </div>
 

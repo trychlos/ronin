@@ -1,20 +1,20 @@
 <template name="thought_card">
     <div class="thoughts-list-item card x-card" id={{itemDivId}}>
 
-        <a  class="title x-ellipsize"
+        <a  class="title x-px025"
             href="#{{collapsableId}}"
             data-toggle="collapse" data-thought="{{ thought._id }}">
 
-            <div class="x-px025 d-flex flex-row justify-content-start align-items-center">
+            <div class="d-flex flex-row justify-content-start align-items-center">
 
-                <div class="name {{className}}">
-                    <p>{{ thought.name }}</p>
+                <div class="name x-ellipsed {{className}}">
+                    <p class="x-ellipsize">{{ thought.name }}</p>
                 </div>
-                <div class="topic {{classTopic}}">
-                    <p>{{ topic_byId thought.topic }}</p>
+                <div class="topic x-ellipsed {{classTopic}}">
+                    <p class="x-ellipsize">{{ topic_byId thought.topic }}</p>
                 </div>
-                <div class="x-createdAt {{classCreatedAt 'item'}}">
-                    <p>{{ lastUpdated thought }}</p>
+                <div class="x-createdAt x-ellipsed {{classCreatedAt 'item'}}">
+                    <p class="x-ellipsize">{{ lastUpdated thought }}</p>
                 </div>
             </div>
 
@@ -25,7 +25,7 @@
 
                 <div class="description">{{thought.description}}</div>
 
-                <div class="x-createdAt {{classCreatedAt 'card'}}">
+                <div class="x-createdAt x-ellipsize {{classCreatedAt 'card'}}">
                     <p>{{ lastUpdated thought }}</p>
                 </div>
 
