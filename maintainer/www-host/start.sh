@@ -10,6 +10,7 @@
 	export ROOT_URL='http://ronin.trychlos.org'
 	export PORT=10249
 	export MAIL_URL="smtps://ronin%40trychlos.pwi:Cj6GYj7srEoWxVOqLlEZ@mail.trychlos.org:465?tls.rejectUnauthorized=false"
-	export NODE_ENV="prod"
+	export NODE_ENV="production"
+	export RONIN_ENV="prod.1"
 	node main.js &
 

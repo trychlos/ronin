@@ -1,6 +1,6 @@
 Package.describe({
   name: 'env-settings',
-  version: '1.2.0_4',
+  version: '1.2.0_5',
   summary: 'Autoload settings (YAML, JSON) for server and client from private assets based on NODE_ENV.',
   git: 'https://github.com/4commerce-technologies-AG/meteor-package-env-settings',
   documentation: 'README.md'

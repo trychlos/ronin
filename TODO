@@ -98,8 +98,6 @@
 
   137 2020- 2-11 set mail-based new account enrollment rules
 
-  161 2020- 2-23 env-settings 1.2.0_4 "dev" settings are not available on the server
-
   195 2020- 3-17 pub/sub paradigm let the UI updates itself when another composant
                  has changed. But this paradigm is only applyable to the local client
                  e.g. closing a window when the item has been deleted from another
@@ -603,6 +601,9 @@
   160 2020- 2-21 projectEdit/actionEdit: update projects_tree source when an
                   item goes to another tree (resp. subtree)
       2020- 2-22 done
+
+  161 2020- 2-23 env-settings 1.2.0_4 "dev" settings are not available on the server
+      2020- 3-21 fixed with env-settings 1.2.0_5
 
   162 2020- 2-24 a new thought while logged-in in not owned by the current user (but should)
       2020- 2-24 thought ok

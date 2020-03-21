@@ -102,9 +102,12 @@ function getConfig(configPath, scope) {
   var config = {}
   var match_file_ = new RegExp("/" + scope + "\.(json|yml|yaml)$");
   var match_files_ = new RegExp("[^/]+\.(json|yml|yaml)$");
+	const ronin = process.env.RONIN_ENV || "development"; // defaults to mimic Meteor behavior
   
   loadConfigFiles(locateFiles(configPath, false, match_file_), config);
   loadConfigFiles(locateFiles(files.pathJoin(configPath, scope), false, match_files_), config);
+  loadConfigFiles(locateFiles(files.pathJoin(configPath, ronin), false, match_file_), config);
+  loadConfigFiles(locateFiles(files.pathJoin(configPath, ronin, scope), false, match_files_), config);
   loadConfigFiles(locateFiles(files.pathJoin(configPath, process.env.NODE_ENV), false, match_file_), config);
   loadConfigFiles(locateFiles(files.pathJoin(configPath, process.env.NODE_ENV, scope), false, match_files_), config);
 
@@ -115,6 +118,7 @@ function getConfig(configPath, scope) {
 // located at private/config (see function getConfig)
 Meteor.startup(function () {
 
+  //console.log( 'loading settings' );
   // extend the global settings
   var serverConfig = getConfig(configPath, 'server');
   if (Meteor.settings) {
@@ -149,7 +153,9 @@ Meteor.startup(function () {
     serverDir: serverDir    
   }
   Meteor.settings.public.runtime = {
-    env: process.env.NODE_ENV
+    env: process.env.NODE_ENV,
+    roninEnv: process.env.RONIN_ENV
   }
 
 });
+
