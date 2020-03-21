@@ -324,6 +324,11 @@ Template.projects_tree.fn = {
         };
        return _filter( $tree.tree( 'toJson' ));
     },
+    // is this object hold by this tree ?
+    tree_hasId( $tree, id ){
+        const node = $tree.tree( 'getNodeById', id );
+        return node != null;
+    },
     // insert the root node (type='R') of the tree
     tree_setRoot: function( $tree, label ){
         Template.projects_tree.fn.tree_addNode( $tree, {
@@ -638,20 +643,6 @@ Template.projects_tree.onRendered( function(){
     //  - idem for the parent of a project
     //  - change of the future status of a project: the origin tab is not updated
     //  we so subscribe to the corresponding messages, and act accordingly
-    jQuery.pubsub.subscribe( 'ronin.ui.item.updated', ( msg, o ) => {
-        if( self.ronin.$tree && o.orig ){
-            /*
-            if((( o.edit.type === 'A' || o.edit.type === 'P' ) && ( o.orig.parent !== o.edit.parent )) ||
-                ( o.edit.type === 'P' && o.orig.future !== o.edit.future )){
-                fn.inst_rebuildTree( self );
-            }
-            */
-           const node = self.ronin.$tree.tree( 'getNodeById', o.orig._id );
-           if( node ){
-               fn.tree_addNode( self.ronin.$tree, node );
-           }
-       }
-    });
     jQuery.pubsub.subscribe( 'ronin.ui.item.deleted', ( msg, o ) => {
         if( self.ronin.$tree ){
             const node = self.ronin.$tree.tree( 'getNodeById', o._id );

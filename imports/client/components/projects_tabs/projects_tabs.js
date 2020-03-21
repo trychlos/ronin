@@ -16,18 +16,32 @@ import '/imports/client/components/projects_tree/projects_tree.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './projects_tabs.html';
 
+Template.projects_tabs.fn = {
+    // search the built trees for the one which holds this object
+    getTab( instance, obj_id ){
+        const items = instance.ronin.gtdItems || [];
+        for( let i=0 ; i<items.length ; ++i ){
+            if( Template.projects_tree.fn.tree_hasId( instance.ronin.$trees[items[i].id], obj_id )){
+                return items[i].id;
+            }
+        }
+        return null;
+    }
+};
+
 Template.projects_tabs.onCreated( function(){
     //console.log( 'projects_tabs.onCreated' );
     this.ronin = {
         dict:  new ReactiveDict(),
-        gtdItems: null,
-        $trees: {}
+        gtdItems: null,     // array of gtm items
+        $trees: {}          // hash gtd_id -> $tree
     };
     this.ronin.dict.set( 'count', 0 );
 });
 
 Template.projects_tabs.onRendered( function(){
     const self = this;
+    const fn = Template.projects_tabs.fn;
 
     this.autorun(() => {
         $( '.projects-tabs' ).ITabbed({
@@ -50,6 +64,27 @@ Template.projects_tabs.onRendered( function(){
         }
         if( !self.ronin.$trees[o.tab] ){
             self.ronin.$trees[o.tab] = o.$tree;
+        }
+    });
+
+    // it happends that the tree hierarchy does not react well to certains changes,
+    //  and notably:
+    //  - change of the parent of an action: the origin project is not updated
+    //  - idem for the parent of a project
+    //  - change of the future status of a project: the origin tab is not updated
+    //  we so subscribe to the corresponding messages, and act accordingly
+    jQuery.pubsub.subscribe( 'ronin.ui.item.updated', ( msg, o ) => {
+        if( o.orig ){
+            let orig = fn.getTab( self, o.orig._id );
+            if( orig ){
+                self.ronin.$trees[orig].trigger( 'projects-tree-rebuild' );
+            }
+            if( o.edit && o.edit.parent !== o.orig.parent ){
+                const dest = o.edit.parent ? fn.getTab( self, o.edit.parent ) : 'gtd-review-projects-single';
+                if( dest !== orig ){
+                    self.ronin.$trees[dest].trigger( 'projects-tree-rebuild' );
+                }
+            }
         }
     });
 });
