@@ -60,7 +60,7 @@ Contexts.fn = {
         return undefined;
     },
     equal: function( a,b ){
-        return
+        return true &&
             ( a.name === b.name ) &&
             ( a.description === b.description ) &&
             ( a.deletable === b.deletable );
