@@ -669,10 +669,10 @@ export const gtd = {
             if( route ){
                 FlowRouter.go( route );
             } else {
-                console.log( id+': route is undefined' );
+                messageWarning( id+': route is undefined' );
             }
         } else {
-            console.log( id+' is not activable' );
+            messageWarning( id+' is not activable' );
         }
     },
     // return the item whose id is specified
