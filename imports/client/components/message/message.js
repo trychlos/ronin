@@ -23,10 +23,10 @@ messageSuccess = function( m ){
 };
 
 // general message
-messageWarning = function( o ){
+messageWarning = function( m ){
     Messages.insert({
-        type: o.type,
-        message: o.message
+        type: 'warning',
+        message: m
     })
 };
 

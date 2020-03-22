@@ -53,7 +53,7 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
         // if nothing has changed, then does nothing
         //console.log( msg+' equal='+Articles.fn.equal( o.orig, o.edit ));
         if( Articles.fn.equal( o.orig, o.edit )){
-            messageWarning({ type:'warning', message:'Nothing changed' });
+            messageWarning( 'Nothing changed' );
             return false;
         }
         Meteor.call('actions.update', o.edit, ( e, res ) => {

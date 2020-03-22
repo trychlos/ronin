@@ -27,10 +27,7 @@ $.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
     if( o.orig ){
         // if nothing has changed, then does nothing
         if( Articles.fn.equal( o.orig, o.edit )){
-            messageWarning({
-                type: 'warning',
-                message: 'Nothing changed'
-            });
+            messageWarning( 'Nothing changed' );
             return false;
         }
         Meteor.call('projects.update', o.edit, ( e, res ) => {
