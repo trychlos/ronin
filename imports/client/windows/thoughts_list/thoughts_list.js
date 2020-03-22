@@ -36,9 +36,9 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
 Template.thoughtsList.fn = {
-    actionNew: function(){
+    doNew: function(){
         g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'rt.thoughts.new' );
+        gtd.activateId( 'gtd-collect-thoughts-new' );
     }
 };
 
@@ -78,7 +78,7 @@ Template.thoughtsList.onRendered( function(){
                         {
                             text: "New",
                             click: function(){
-                                Template.thoughtsList.fn.actionNew();
+                                Template.thoughtsList.fn.doNew();
                             }
                         }
                     ],
@@ -146,7 +146,7 @@ Template.thoughtsList.helpers({
 Template.thoughtsList.events({
     // page layout
     'click .js-new'( ev, instance ){
-        Template.thoughtsList.fn.actionNew();
+        Template.thoughtsList.fn.doNew();
         return false;
     }
 });

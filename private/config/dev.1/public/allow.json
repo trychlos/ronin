@@ -1,0 +1,11 @@
+{
+	"allow":  {
+		"comment": "whether actions are allowed in this environment to an unknown user",
+		"edit": {
+			"action": true,
+			"maybe": true,
+			"project": true,
+			"thought": true
+		}
+	}
+}

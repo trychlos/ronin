@@ -19,8 +19,8 @@ Template.overview.fn = {
         return route ? "</a>" : "";
     },
     routingPara: function( o,s,route ){
-        var str = '<p class="ui-corner-all';
-        str += gtd.classes( 'overview', s ) ;
+        var str = '<p class="ui-corner-all ';
+        str += gtd.classes( 'overview', s ).join( ' ' );
         str += '"';
         str += ' data-ronin-gtdid="'+s.id+'"';
         str += '>'+gtd.labelItem( 'overview', s )+'</p>';
@@ -46,8 +46,8 @@ Template.overview.helpers({
     gtdFeatures(){
         return gtd.features();
     },
-    gtdLabel( it ){
-        return gtd.labelItem( 'overview', it );
+    gtdLabel( item ){
+        return gtd.labelItem( 'overview', item );
     },
     isVisible( item ){
         return gtd.isVisible( 'overview', item );
@@ -65,13 +65,7 @@ Template.overview.helpers({
 Template.overview.events({
     'click .overview .items'( ev, instance ){
         // target=[object HTMLParagraphElement]
-        const id = $( ev.target ).data( 'ronin-gtdid' );
-        const route = gtd.routeId( 'overview', id );
-        if( route ){
-            FlowRouter.go( route );
-        } else {
-            console.log( 'route is undefined' );
-        }
+        gtd.activateId( $( ev.target ).attr( 'data-ronin-gtdid' ));
         return false;
     },
 });

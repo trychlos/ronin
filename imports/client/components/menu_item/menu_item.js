@@ -10,42 +10,35 @@ import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import './menu_item.html';
 
 Template.menu_item.helpers({
+    // template helper
+    //  whether this item is activable
+    isActivable( type, item ){
+        return gtd.isActivableItem( item );
+    },
+    // template helper
+    //  whether this item is to be displayed in this navigation menu (resp. tabs page)
     isVisible( type, item ){
         return gtd.isVisible( type, item );
     },
-    // have a div, maybe an anchor, and the label
-    itemHtml( type, item ){
-        let htmlBegin = '';
-        let htmlEnd = '';
-        htmlBegin += '<div';
-        let classes = gtd.classes( type, item );
-        if( classes.length ){
-            htmlBegin += ' class="'+classes.join(' ')+'"';
-        }
-        htmlBegin += ' data-ronin-group="'+gtd.groupId( item.id )+'"';
-        htmlBegin += '>';
-        htmlEnd = '</div>'+htmlEnd;
-        if( gtd.routeItem( type, item )){
-            htmlBegin += '<a href="#" data-ronin-gtdid="'+item.id+'">';
-            htmlEnd = '</a>'+htmlEnd;
-        }
-        return htmlBegin+gtd.labelItem( type, item )+htmlEnd;
+    // class helper
+    itemClasses( type, item ){
+        return gtd.classes( type, item ).join(' ');
     },
-    hasChildren( item ){
-        return gtd.hasChildren( item );
+    // template helper
+    //  attach each item to its gtd group
+    itemGroup( type, item ){
+        return gtd.groupId( item.id );
+    },
+    // template helper
+    //  returns the item label
+    itemLabel( type, item ){
+        return gtd.labelItem( type, item );
     }
 });
 
 Template.menu_item.events({
     'click .menu-item a'( ev, instance ){
-        const id = $( ev.target ).data( 'ronin-gtdid' );
-        const name = instance.data.type;
-        const route = gtd.routeId( name, id );
-        if( route ){
-            FlowRouter.go( route );
-        } else {
-            console.log( 'route is undefined' );
-        }
+        gtd.activateId( $( ev.target ).attr( 'data-ronin-gtdid' ));
         return false;
     },
 });

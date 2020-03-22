@@ -89,13 +89,15 @@
  *
  */
 Meteor.startup( function(){
-    console.log( '/imports/startup/both/env-config.js' );
-    console.log( Meteor.settings );
-    console.log( 'RONIN_ENV='+process.env.RONIN_ENV );
-    console.log( 'NODE_ENV='+process.env.NODE_ENV );
-    console.log( 'Meteor.isClient='+Meteor.isClient );
-    console.log( 'Meteor.isServer='+Meteor.isServer );
-    console.log( 'Meteor.isCordova='+Meteor.isCordova );
-    console.log( 'Meteor.isDevelopment='+Meteor.isDevelopment );
-    console.log( 'Meteor.isProduction='+Meteor.isProduction );
+    if( Meteor.isServer ){
+        console.log( '/imports/startup/both/env-config.js' );
+        console.log( Meteor.settings );
+        console.log( 'RONIN_ENV='+process.env.RONIN_ENV );
+        console.log( 'NODE_ENV='+process.env.NODE_ENV );
+        console.log( 'Meteor.isClient='+Meteor.isClient );
+        console.log( 'Meteor.isServer='+Meteor.isServer );
+        console.log( 'Meteor.isCordova='+Meteor.isCordova );
+        console.log( 'Meteor.isDevelopment='+Meteor.isDevelopment );
+        console.log( 'Meteor.isProduction='+Meteor.isProduction );
+    }
 });

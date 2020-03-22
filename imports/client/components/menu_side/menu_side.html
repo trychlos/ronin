@@ -1,12 +1,6 @@
 <template name="menu_side">
     <div class="menu-side">
 
-        <!--
-        <div class="menu-button">
-            <button class="ui-button ui-corner-all js-close">&lt;</button>
-        </div>
-        -->
-
         <ul>
             {{#each item in gtdFeatures}}
                 {{> menu_item item=item type='side' }}

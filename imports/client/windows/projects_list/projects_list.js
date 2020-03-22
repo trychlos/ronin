@@ -41,8 +41,7 @@ Template.projectsList.fn = {
     doNew: function(){
         g.run.back = FlowRouter.current().route.name;
         const tab = Session.get( 'projects.tab.name' );
-        const route = ( tab === 'gtd-review-projects-single' ? 'rt.actions.new' : 'rt.projects.new' );
-        FlowRouter.go( route );
+        gtd.activateId( tab === 'gtd-review-projects-single' ? 'gtd-process-action-new' : 'gtd-process-project-new' );
     }
 };
 

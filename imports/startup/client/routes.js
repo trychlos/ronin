@@ -46,7 +46,18 @@ let blazeRender = ( name ) => {
         group: gtd.groupItem( item ),
         template:gtd.templateItem( item )
     });
-}
+};
+
+// Define a group which requires the user to be logged-in
+const loggedInRoutes = FlowRouter.group({
+    name: "logged-in",
+    triggersEnter: [ function( context, redirect ){
+        console.log( 'loggedInRoutes triggersEnter()' );
+        const route = context.route.name;
+        console.log( context );
+        console.log( 'route='+route );
+    }]
+});
 
 // Set up all routes in the app
 FlowRouter.route('/', {
@@ -126,14 +137,14 @@ FlowRouter.route('/gear/device', {
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/gear/prefs', {
+loggedInRoutes.route('/gear/prefs', {
     name: 'rt.gear.prefs',
     action(){
         Session.set( 'page.group', 'gtd-setup-group' );
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/gear/prefs/lists', {
+loggedInRoutes.route('/gear/prefs/lists', {
     name: 'rt.gear.prefs.window.list',
     action(){
         Session.set( 'page.group', 'gtd-setup-group' );
@@ -148,37 +159,37 @@ FlowRouter.route( '/thoughts', {
         blazeRender( this.name );
     },
 });
-FlowRouter.route( '/thoughts/edit', {
+loggedInRoutes.route( '/thoughts/edit', {
     name: 'rt.thoughts.edit',
     action(){
         blazeRender( this.name );
     },
 });
-FlowRouter.route( '/thoughts/new', {
+loggedInRoutes.route( '/thoughts/new', {
     name: 'rt.thoughts.new',
     action(){
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/projects/new', {
+loggedInRoutes.route('/projects/new', {
     name: 'rt.projects.new',
     action(){
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/actions/new', {
+loggedInRoutes.route('/actions/new', {
     name: 'rt.actions.new',
     action(){
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/projects/thought', {
+loggedInRoutes.route('/projects/thought', {
     name: 'rt.projects.thought',
     action(){
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/actions/thought', {
+loggedInRoutes.route('/actions/thought', {
     name: 'rt.actions.thought',
     action(){
         blazeRender( this.name );
@@ -221,7 +232,7 @@ FlowRouter.route('/projects/future', {
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/projects/edit', {
+loggedInRoutes.route('/projects/edit', {
     name: 'rt.projects.edit',
     action(){
         blazeRender( this.name );
@@ -291,7 +302,7 @@ FlowRouter.route('/actions/done', {
         blazeRender( this.name );
     },
 });
-FlowRouter.route('/actions/edit', {
+loggedInRoutes.route('/actions/edit', {
     name: 'rt.actions.edit',
     action(){
         blazeRender( this.name );

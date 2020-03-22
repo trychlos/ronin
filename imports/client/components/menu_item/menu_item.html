@@ -1,18 +1,18 @@
 <template name="menu_item">
     <div class="menu-item">
 
+        <!-- nb: this.type === type and this.item === item -->
         {{#if isVisible this.type this.item }}
             <li>
-                {{{ itemHtml this.type this.item }}}
-                <!--
-                {{#if hasChildren this.item}}
-                    <ul>
-                        {{#each child in this.item.children}}
-                            {{> menu_item item=child type=this.type }}
-                        {{/each}}
-                    </ul>
-                {{/if}}
-                -->
+                <div class="{{ itemClasses type item }}" data-ronin-group="{{ itemGroup type item }}">
+                    {{#if isActivable type item}}
+                        <a href="#" data-ronin-gtdid="{{ item.id }}">
+                            {{ itemLabel type item }}
+                        </a>
+                    {{else}}
+                            {{ itemLabel type item }}
+                    {{/if}}
+                </div>
             </li>
         {{/if}}
 

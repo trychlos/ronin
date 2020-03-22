@@ -431,7 +431,7 @@ import '/imports/client/third-party/simone/simone.min.css';
     //  Args:
     //  - the selector to start with
     $.fn[pluginName].close = ( selector ) => {
-        console.log( this );
+        //console.log( this );
         let wnd = $( selector+'.ronin-iwm-window' );
         if( !wnd || !wnd.length ){
             wnd = $( selector ).parents( '.ronin-iwm-window' );

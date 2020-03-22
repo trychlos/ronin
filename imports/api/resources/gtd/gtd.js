@@ -298,12 +298,16 @@ export const gtd = {
                         label: 'Edit thought',
                         route: 'rt.thoughts.edit',
                         template: 'thoughtEdit',
+                        multiple: true,
+                        settingsAllow: 'allow.edit.thought'
                     },
                     {
                         id: 'gtd-collect-thoughts-new',
                         label: 'Insert thoughts',
                         route: 'rt.thoughts.new',
                         template: 'thoughtEdit',
+                        multiple: true,
+                        settingsAllow: 'allow.edit.thought'
                     }
                 ]
             },
@@ -339,6 +343,7 @@ export const gtd = {
                         label: 'New project',
                         template: 'projectEdit',
                         multiple: true,
+                        settingsAllow: 'allow.edit.project',
                         route: 'rt.projects.new',
                         navs: {
                             side: {
@@ -351,6 +356,7 @@ export const gtd = {
                         label: 'New action',
                         template: 'actionEdit',
                         multiple: true,
+                        settingsAllow: 'allow.edit.action',
                         route: 'rt.actions.new',
                         navs: {
                             side: {
@@ -375,6 +381,7 @@ export const gtd = {
                         label: 'Transform into a project',
                         route: 'rt.projects.thought',
                         template: 'projectEdit',
+                        settingsAllow: 'allow.edit.project',
                         multiple: true,
                         group: {
                             pageLayout: 'collectGroup'
@@ -386,6 +393,7 @@ export const gtd = {
                         route: 'rt.actions.thought',
                         template: 'actionEdit',
                         multiple: true,
+                        settingsAllow: 'allow.edit.action',
                         group: {
                             pageLayout: 'collectGroup'
                         }
@@ -499,6 +507,7 @@ export const gtd = {
                         label: 'Edit project',
                         template: 'projectEdit',
                         multiple: true,
+                        settingsAllow: 'allow.edit.project',
                         route: 'rt.projects.edit'
                     },
                     {
@@ -644,11 +653,27 @@ export const gtd = {
                         label: 'Edit action',
                         template: 'actionEdit',
                         multiple: true,
+                        settingsAllow: 'allow.edit.action',
                         route: 'rt.actions.edit'
                     }
                 ]
             }
         ];
+    },
+    // activate the identified item (if this is possible and allowed)
+    // return the item whose id is specified
+    //  return null if id is empty or not found
+    activateId: function( id ){
+        if( gtd.isActivableId( id )){
+            const route = gtd.routeId( name, id );
+            if( route ){
+                FlowRouter.go( route );
+            } else {
+                console.log( id+': route is undefined' );
+            }
+        } else {
+            console.log( id+' is not activable' );
+        }
     },
     // return the item whose id is specified
     //  return null if id is empty or not found
@@ -680,13 +705,14 @@ export const gtd = {
     // provides the CSS classes to be set for this item in a menu
     classes: function( name, item ){
         //console.log( 'classes: type='+type+' item='+JSON.stringify( item ));
-        classes = [];
+        let classes = [];
         if( item.qualifier === 'disabled' ){
-            classes.push('disabled-item');
+            classes.push( 'disabled-item' );
         }
         if( gtd.hasChildren( item )){
-            classes.push('header-item');
+            classes.push( 'header-item' );
         }
+        classes.push( gtd.isActivableItem( item ) ? 'activable' : 'inactivable' );
         return classes;
     },
     // returns the named sub-element from 'navs' or 'tabs' for this item, or null
@@ -713,7 +739,31 @@ export const gtd = {
     hasChildren: function( item ){
         return item.children && item.children.length > 0 ;
     },
+    // an item is activable if and only if all these conditions are met:
+    //  - a route is attached to the item
+    //  - in production (actually depending of Meteor.settings),
+    //      new thought/action/project is only allowed to logged-in user
+    //      this is marked by the 'settingsAllow' attribute
+    isActivableId: function( id ){
+        return gtd.isActivableItem( gtd._byId( id ));
+    },
+    isActivableItem: function( item ){
+        if( !gtd.routeItem( null, item )){
+            return false;
+        }
+        const settingsKey = gtd.settingsAllowItem( null, item );
+        if( !settingsKey ){
+            return true;
+        }
+        const allowed = objectKey( Meteor.settings.public, settingsKey );
+        //console.log( item.id+' activable_by_settings='+allowed );
+        return allowed || Meteor.userId();
+    },
     // whether this item is displayed in the named navigation menu
+    // the visibility of an item is such navigation menu (resp. tab) is determined
+    //  by a 'display=true|false' data, which defaults to false
+    //  this information may be overriden on a layout basis
+    //  NB: visible here does not mean activable
     isVisible: function( name, item ){
         const sub = gtd._getNavTab( name, item );
         let display = sub && sub.display;
@@ -854,6 +904,7 @@ export const gtd = {
     //  which may or not depend of the current layout
     //  or null
     // if 'name' is null, then does not search in navs nor tabs
+    // doesn't distinguish between a not found value and a value set to null
     _search( name, item, key, layout ){
         if( !item || !key ){
             return null;
@@ -861,6 +912,7 @@ export const gtd = {
         let ret = null;
         //console.log( item );
         //console.log( 'name='+name+' item='+item.id+' key='+key+' layout='+layout );
+        // first search for the key in a child (nav/tab) of the item
         const sub = gtd._getNavTab( name, item );
         if( sub ){
             ret = gtd._search_sub( sub, key, layout );
@@ -894,6 +946,14 @@ export const gtd = {
             ret = sub[key];
         }
         return ret;
+    },
+    // returns whether the logged-in is required for this item
+    // defaulting to false (item allowed to anyone)
+    settingsAllowId: function( name, id ){
+        return gtd.settingsAllowItem( name, gtd._byId( id ));
+    },
+    settingsAllowItem: function( name, item ){
+        return gtd._search( name, item, 'settingsAllow', true );
     },
     // returns the status attached to the item
     statusId( id ){

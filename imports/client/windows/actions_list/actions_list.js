@@ -31,13 +31,14 @@ import '/imports/client/components/actions_tabs/actions_tabs.js';
 import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_list.html';
+import { gtd } from '../../../api/resources/gtd/gtd';
 
 const actionsByStatus = new Mongo.Collection( 'actionsByStatus' );
 
 Template.actionsList.fn = {
     doNew: function(){
         g.run.back = FlowRouter.current().route.name;
-        FlowRouter.go( 'rt.actions.new' );
+        gtd.activateId( 'gtd-process-action-new' );
     }
 };
 

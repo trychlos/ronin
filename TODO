@@ -94,8 +94,6 @@
   118 2020- 2- 1 have a link on the web site to download the apk
       2020- 3-15 the n-1 APK is available at /res/apk public url
 
-  125 2020- 2- 6 auto generate routes.js from gtd.js
-
   137 2020- 2-11 set mail-based new account enrollment rules
 
   195 2020- 3-17 pub/sub paradigm let the UI updates itself when another composant
@@ -114,9 +112,11 @@
 
   205 2020- 3-21 review pseudo-columns alignment in action/thought cards
 
-  206 2020- 3-21 production: only allow new thought/action/project to a logged-in user
+  207 2020- 3-21 add createdAt/updatedAt to thought/action/project panels
 
-  207
+  208 2020- 3-22 replace menu_bar / menu_side with gtd_menu + extend to overview
+
+  209
 
 ==============================================================================
  Done
@@ -477,6 +477,10 @@
                  have nonetheless to keep data-ronin-itb-route attribute for each tab
                  done
 
+  125 2020- 2- 6 auto generate routes.js from gtd.js
+      2020- 3-21 not sure this is really needed (nor even easily possible)
+                 -> cancelled
+
   126 2020- 2- 8 four main pages are identified for the four gtd features groups
                   what to do with other pages ?
       2020- 2- 8 pages are to be deprecated - replaced with four 'group' pages
@@ -751,6 +755,10 @@
 
   204 2020- 3-19 replace buttons in projects_tree by same in projects_tabs
       2020- 3-19 done
+
+  206 2020- 3-21 production: only allow new thought/action/project to a logged-in user
+                 + edit/delete
+      2020- 3-22 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
