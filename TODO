@@ -111,12 +111,21 @@
       2020- 3-21 not sure this is really needed
 
   205 2020- 3-21 review pseudo-columns alignment in action/thought cards
+      2020- 3-23 this very clearly seems as a typical use case of 'maybe' items
 
   207 2020- 3-21 add createdAt/updatedAt to thought/action/project panels
 
   208 2020- 3-22 replace menu_bar / menu_side with gtd_menu + extend to overview
 
-  209
+  209 2020- 3-23 have a GAction-like interface ?
+
+  210 2020- 3-23 review ANDROID_HOME env variable regarding the announced deprecation
+
+  211 2020- 3-23 review the announced errors about missing default Cordova files
+
+  212 2020- 3-23 projectsList in pageLayout: plus button override projects_tabs buttons
+
+  213
 
 ==============================================================================
  Done

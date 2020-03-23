@@ -42,5 +42,11 @@ div.menu-side {
         li>div[data-ronin-group*='reviewGroup']:not(.header-item):hover {
             background-color: @review-color;
         }
+        li>div.inactivable:not(.header-item) {
+            font-style: italic;
+        }
+        li>div.inactivable:not(.header-item):hover {
+            background-color: lightgray;
+        }
     }
 }
