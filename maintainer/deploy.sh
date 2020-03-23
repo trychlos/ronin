@@ -38,6 +38,33 @@ next_version(){
     echo "${_today}.${_count}"
 }
 
+check_space(){
+	_last="$(ssh ${target} "du -sm ${ronin}/bundle/" | awk '{ print $1 }')"
+	_needed=$(( _last*2 ))
+    _avail="$(ssh ${target} "df -BM" | grep ${ronin} | awk '{ print $4 }' | sed 's/.$//')"
+	#echo "last=${_last} needed=${_needed} available=${_avail} MB"
+	if [ ${_avail} -gt ${_needed} ]; then
+		echo "Available space=${_avail} MB, needed=${_needed} MB: OK"
+	else
+		echo "Available space=${_avail} MB, needed=${_needed} MB: have to free up some space"
+		_count="$(ssh ${target} "ls -1dt /home/ronin/bundle-*" | wc -l)"
+		_keep=$(( _count/3 ))
+		_delete=$(( _count-_keep ))
+		echo "  ${_count} versions found, ${_delete} to be removed"
+		_i=0
+		for dir in $(ssh ${target} "ls -1dt /home/ronin/bundle-*"); do
+			_i=$(( _i+1 ))
+			if [ ${_i} -le ${_keep} ]; then
+				echo "  keeping ${dir}"
+			else
+				echo "  $(execssh "rm -fr ${dir}")"
+				#echo "@ rm -fr ${dir}"
+			fi
+		done
+	fi
+	return 0
+}
+
 # compute the current version and update the mobile configuration accordingly
 # pwi 2020- 2-23 also update the private/config/public/version.json configuration file
 version="$(next_version)"
@@ -51,6 +78,7 @@ _ret=$?
 
 # server deployement
 [ $_ret -eq 0 ] &&
+	check_space &&
     execcmd "scp /tmp/ronin.tar.gz ${target}:/tmp" &&
     execssh "systemctl stop ronin" &&
     execssh "cd ${ronin} && rm -f bundle" &&
