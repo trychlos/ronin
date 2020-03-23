@@ -9,7 +9,7 @@
 App.info({
     id: 'org.trychlos.ronin',
     name: 'Ronin',
-    version: '20.03.23.5',
+    version: '20.03.23.6',
     description: 'Getting Things Done',
     author: 'Pierre Wieser',
     email: 'pwieser@trychlos.org',
@@ -60,72 +60,3 @@ App.setPreference( 'Orientation', 'all', 'ios' );
 
 // https://guide.meteor.com/mobile.html#domain-whitelisting
 App.accessRule('data:*', { type: 'navigation' });
-
-// Pass preferences for a particular PhoneGap/Cordova plugin.
-/*
-App.configurePlugin('com.phonegap.plugins.facebookconnect', {
-    APP_ID: '1234567890',
-    API_KEY: 'supersecretapikey'
-});
-*/
-
-// Add custom tags for a particular PhoneGap/Cordova plugin to the end of the
-// generated config.xml. 'Universal Links' is shown as an example here.
-/*
-App.appendToConfig(`
-    <universal-links>
-        <host name="localhost:3000" />
-    </universal-links>
-`);
-*/
-
-/*
- * According to https://cordova.apache.org/docs/en/latest/config_ref/images.html
- *  Only cordova v9.x is ready for Android adaptive icons
- *  As of 2020- 1-23, Meteor 1.9 is shipped with Cordova >7 but <9
- *
-    <platform name="android">
-        <edit-config file="app/src/main/AndroidManifest.xml"
-            mode="merge"
-            target="/manifest/application">
-            <application
-                android:icon="@mipmap/ic_launcher"
-                android:roundIcon="@mipmap/ic_launcher_round"
-                xmlns:android="http://schemas.android.com/apk/res/android"/>
-        </edit-config>
-    </platform>
-*/
-/*
-    <platform name="android">
-        <edit-config file="app/src/main/AndroidManifest.xml"
-            mode="merge"
-            target="/manifest/application">
-            <application
-                android:icon="@mipmap/ic_launcher"
-                android:roundIcon="@mipmap/ic_launcher_round"
-                xmlns:android="http://schemas.android.com/apk/res/android"/>
-        </edit-config>
-        <resource-file src="platforms/android/res/mipmap-anydpi-v26/ic_launcher.xml" target="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" />
-        <resource-file src="platforms/android/res/mipmap-anydpi-v26/ic_launcher_round.xml" target="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" />
-        <resource-file src="platforms/android/res/mipmap-hdpi/ic_launcher.png" target="app/src/main/res/mipmap-hdpi/ic_launcher.png" />
-        <resource-file src="platforms/android/res/mipmap-hdpi/ic_launcher_background.png" target="app/src/main/res/mipmap-hdpi/ic_launcher_background.png" />
-        <resource-file src="platforms/android/res/mipmap-hdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" />
-        <resource-file src="platforms/android/res/mipmap-hdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-hdpi/ic_launcher_round.png" />
-        <resource-file src="platforms/android/res/mipmap-mdpi/ic_launcher.png" target="app/src/main/res/mipmap-mdpi/ic_launcher.png" />
-        <resource-file src="platforms/android/res/mipmap-mdpi/ic_launcher_background.png" target="app/src/main/res/mipmap-mdpi/ic_launcher_background.png" />
-        <resource-file src="platforms/android/res/mipmap-mdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" />
-        <resource-file src="platforms/android/res/mipmap-mdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-mdpi/ic_launcher_round.png" />
-        <resource-file src="platforms/android/res/mipmap-xhdpi/ic_launcher.png" target="app/src/main/res/mipmap-xhdpi/ic_launcher.png" />
-        <resource-file src="platforms/android/res/mipmap-xhdpi/ic_launcher_background.png" target="app/src/main/res/mipmap-xhdpi/ic_launcher_background.png" />
-        <resource-file src="platforms/android/res/mipmap-xhdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" />
-        <resource-file src="platforms/android/res/mipmap-xhdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" />
-        <resource-file src="platforms/android/res/mipmap-xxhdpi/ic_launcher.png" target="app/src/main/res/mipmap-xxhdpi/ic_launcher.png" />
-        <resource-file src="platforms/android/res/mipmap-xxhdpi/ic_launcher_background.png" target="app/src/main/res/mipmap-xxhdpi/ic_launcher_background.png" />
-        <resource-file src="platforms/android/res/mipmap-xxhdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" />
-        <resource-file src="platforms/android/res/mipmap-xxhdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" />
-        <resource-file src="platforms/android/res/mipmap-xxxhdpi/ic_launcher.png" target="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
-        <resource-file src="platforms/android/res/mipmap-xxxhdpi/ic_launcher_background.png" target="app/src/main/res/mipmap-xxxhdpi/ic_launcher_background.png" />
-        <resource-file src="platforms/android/res/mipmap-xxxhdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" />
-        <resource-file src="platforms/android/res/mipmap-xxxhdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" />
-    </platform>
-*/
