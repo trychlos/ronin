@@ -119,8 +119,6 @@
 
   209 2020- 3-23 have a GAction-like interface ?
 
-  210 2020- 3-23 review ANDROID_HOME env variable regarding the announced deprecation
-
   211 2020- 3-23 review the announced errors about missing default Cordova files
 
   212 2020- 3-23 projectsList in pageLayout: plus button override projects_tabs buttons
@@ -768,6 +766,9 @@
   206 2020- 3-21 production: only allow new thought/action/project to a logged-in user
                  + edit/delete
       2020- 3-22 done
+
+  210 2020- 3-23 review ANDROID_HOME env variable regarding the announced deprecation
+      2020- 3-23 done (has required a reboot)
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
