@@ -5,7 +5,7 @@
 			"action": true,
 			"maybe": true,
 			"project": true,
-			"thought": false
+			"thought": true
 		}
 	}
 }

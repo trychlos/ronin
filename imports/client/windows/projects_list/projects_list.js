@@ -38,10 +38,17 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './projects_list.html';
 
 Template.projectsList.fn = {
-    doNew: function(){
+    newActivate: function(){
         g.run.back = FlowRouter.current().route.name;
         const tab = Session.get( 'projects.tab.name' );
-        gtd.activateId( tab === 'gtd-review-projects-single' ? 'gtd-process-action-new' : 'gtd-process-project-new' );
+        gtd.activateId( Template.projectsList.fn.newItem());
+    },
+    newClasses: function(){
+        return gtd.classesId( Template.projectsList.fn.newItem()).join( ' ' );
+    },
+    newItem: function(){
+        const tab = Session.get( 'projects.tab.name' );
+        return tab === 'gtd-review-projects-single' ? 'gtd-process-action-new' : 'gtd-process-project-new';
     }
 };
 
@@ -54,11 +61,13 @@ Template.projectsList.onCreated( function(){
     };
     this.ronin.dict.set( 'total_count', 0 );
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
+    this.ronin.dict.set( 'userId', Meteor.userId());
 });
 
 Template.projectsList.onRendered( function(){
     //console.log( 'projectsList.onRendered' );
     const self = this;
+    const fn = Template.projectsList.fn;
 
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
@@ -75,8 +84,9 @@ Template.projectsList.onRendered( function(){
                         },
                         {
                             text: "New",
+                            class: fn.newClasses(),
                             click: function(){
-                                Template.projectsList.fn.doNew();
+                                fn.newActivate();
                             }
                         }
                     ],
@@ -100,6 +110,17 @@ Template.projectsList.onRendered( function(){
             if( $parent ){
                 self.ronin.spinner = new Spinner().spin( $parent[0] );
             }
+        }
+    });
+
+    // activate the actions depending of the logged-in user
+    this.autorun(() => {
+        const userId = Meteor.userId();
+        if( userId !== self.ronin.dict.get( 'userId' )){
+            if( g.run.layout.get() === LYT_WINDOW ){
+                $( '.projectsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
+            }
+            self.ronin.dict.set( 'userId', userId );
         }
     });
 
@@ -141,7 +162,7 @@ Template.projectsList.helpers({
 Template.projectsList.events({
     // page layout
     'click .js-new'( ev, instance ){
-        Template.projectsList.fn.doNew();
+        Template.projectsList.fn.newActivate();
         return false;
     }
 });

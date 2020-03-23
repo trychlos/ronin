@@ -20,7 +20,7 @@ Template.overview.fn = {
     },
     routingPara: function( o,s,route ){
         var str = '<p class="ui-corner-all ';
-        str += gtd.classes( 'overview', s ).join( ' ' );
+        str += gtd.classesItem( s ).join( ' ' );
         str += '"';
         str += ' data-ronin-gtdid="'+s.id+'"';
         str += '>'+gtd.labelItem( 'overview', s )+'</p>';

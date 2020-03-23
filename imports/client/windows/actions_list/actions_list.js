@@ -36,9 +36,12 @@ import { gtd } from '../../../api/resources/gtd/gtd';
 const actionsByStatus = new Mongo.Collection( 'actionsByStatus' );
 
 Template.actionsList.fn = {
-    doNew: function(){
+    newActivate: function(){
         g.run.back = FlowRouter.current().route.name;
         gtd.activateId( 'gtd-process-action-new' );
+    },
+    newClasses: function(){
+        return gtd.classesId( 'gtd-process-action-new' ).join( ' ' );
     }
 };
 
@@ -58,11 +61,13 @@ Template.actionsList.onCreated( function(){
     };
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
     this.ronin.dict.set( 'total_count', 0 );
+    this.ronin.dict.set( 'userId', Meteor.userId());
 });
 
 Template.actionsList.onRendered( function(){
     //console.log( 'actionsList.onRendered' );
     const self = this;
+    const fn = Template.actionsList.fn;
 
     this.autorun(() => {
         if( g[LYT_WINDOW].taskbar.get()){
@@ -79,8 +84,9 @@ Template.actionsList.onRendered( function(){
                         },
                         {
                             text: "New",
+                            class: fn.newClasses(),
                             click: function(){
-                                Template.actionsList.fn.doNew();
+                                fn.newActivate();
                             }
                         }
                     ],
@@ -117,6 +123,17 @@ Template.actionsList.onRendered( function(){
     });
     */
 
+    // activate the actions depending of the logged-in user
+    this.autorun(() => {
+        const userId = Meteor.userId();
+        if( userId !== self.ronin.dict.get( 'userId' )){
+            if( g.run.layout.get() === LYT_WINDOW ){
+                $( '.actionsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
+            }
+            self.ronin.dict.set( 'userId', userId );
+        }
+    });
+
     // child messaging
     //  update the tab's counts and the total count
     //  stop the spinner when currently displayed tab has sent its message
@@ -151,7 +168,7 @@ Template.actionsList.helpers({
 Template.actionsList.events({
     // page layout
     'click .js-new'( ev, instance ){
-        Template.actionsList.fn.doNew();
+        Template.actionsList.fn.newActivate();
         return false;
     }
 });

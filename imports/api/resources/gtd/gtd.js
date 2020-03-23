@@ -302,7 +302,7 @@ export const gtd = {
                         settingsAllow: 'allow.edit.thought'
                     },
                     {
-                        id: 'gtd-collect-thoughts-new',
+                        id: 'gtd-collect-thought-new',
                         label: 'Insert thoughts',
                         route: 'rt.thoughts.new',
                         template: 'thoughtEdit',
@@ -703,7 +703,10 @@ export const gtd = {
         return null;
     },
     // provides the CSS classes to be set for this item in a menu
-    classes: function( name, item ){
+    classesId: function( id ){
+        return gtd.classesItem( gtd._byId( id ));
+    },
+    classesItem: function( item ){
         //console.log( 'classes: type='+type+' item='+JSON.stringify( item ));
         let classes = [];
         if( item.qualifier === 'disabled' ){

@@ -76,6 +76,24 @@ import '/imports/client/third-party/simone/simone.min.css';
 
     $.extend( myPlugin.prototype, {
 
+        buttonClasses: [
+            'ui-button',
+            'ui-corner-all',
+            'ui-widget'
+        ],
+        // reset the classes of the specified button
+        //  args is [ button_number, classes_string ]
+        buttonPaneResetClass: function( args ){
+            if( args ){
+                const $button = $( this.$widget.find( '.ui-dialog-buttonset button' )[args[0]]);
+                $button
+                    .removeClass()
+                    .addClass( this.buttonClasses.join( ' '))
+                    .addClass( args[1] );
+            }
+            this.$widget.find( '.ui-dialog-buttonset button.inactivable' ).addClass( 'ui-state-disabled' );
+        },
+
         // return the name of the class added to the widget
         //  (aka the parent of the div we are working with)
         _className: function( name ){
@@ -117,8 +135,9 @@ import '/imports/client/third-party/simone/simone.min.css';
             this._routeSet();
             this._createSetWidget();
             this._createSetTitlebarDiv();
-            this._createSetTitleButtons();
+            this._createSetButtonsTitle();
             this._createSetButtonpaneDiv();
+            this.buttonPaneResetClass();
             this._createRestoreSettings( name );
             // set event handlers
             //  passing this to the handler, getting back in event.data
@@ -172,6 +191,17 @@ import '/imports/client/third-party/simone/simone.min.css';
             this.$widget.find( '.ui-dialog-buttonset button' ).wrap( '<div></div>');
         },
 
+        // set the title of the minimize/maximize/close buttons
+        //  buttons in the titlebar are numbered from right to left
+        //  this = plugin
+        _createSetButtonsTitle: function(){
+            const close = this.$widget.find( '.ui-dialog-titlebar > .ui-button[data-button-order="0"]' );
+            close.prop( 'title', 'Close' );
+            this._setRestoreButtonTitle();
+            const min = this.$widget.find( '.ui-dialog-titlebar > .ui-button[data-button-order="2"]' );
+            min.prop( 'title', 'Minimize' );
+        },
+
         // add a flexbox div inside of the titlebar
         //  this let the application put buttons later inside of this div
         //  + append inside of this titlebar all 'ronin-iwm-titlebadge' children
@@ -184,16 +214,6 @@ import '/imports/client/third-party/simone/simone.min.css';
                 $( elt ).detach();
                 $( bar ).append( elt );
             });
-        },
-
-        // set the title of the minimize/maximize/close buttons
-        //  this = plugin
-        _createSetTitleButtons: function(){
-            const close = this.$widget.find( '.ui-dialog-titlebar > .ui-button[data-button-order="0"]' );
-            close.prop( 'title', 'Close' );
-            this._setRestoreButtonTitle();
-            const min = this.$widget.find( '.ui-dialog-titlebar > .ui-button[data-button-order="2"]' );
-            min.prop( 'title', 'Minimize' );
         },
 
         // return the widget, parent of 'this' window
@@ -246,6 +266,9 @@ import '/imports/client/third-party/simone/simone.min.css';
             //console.log( arguments );
             if( typeof arguments[0] === 'string' ){
                 switch( arguments[0] ){
+                    case 'buttonPaneResetClass':
+                        this.buttonPaneResetClass( Array.prototype.slice.call( arguments, 1 ));
+                        break;
                     case 'close':
                         this.close( Array.prototype.slice.call( arguments, 1 ));
                         break;

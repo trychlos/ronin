@@ -36,9 +36,12 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
 Template.thoughtsList.fn = {
-    doNew: function(){
+    newActivate: function(){
         g.run.back = FlowRouter.current().route.name;
-        gtd.activateId( 'gtd-collect-thoughts-new' );
+        gtd.activateId( 'gtd-collect-thought-new' );
+    },
+    newClasses: function(){
+        return gtd.classesId( 'gtd-collect-thought-new' ).join( ' ' );
     }
 };
 
@@ -55,11 +58,13 @@ Template.thoughtsList.onCreated( function(){
     this.ronin.dict.set( 'count', 0 );
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
     this.ronin.dict.set( 'subscriptions_ready', false );
+    this.ronin.dict.set( 'userId', Meteor.userId());
 });
 
 Template.thoughtsList.onRendered( function(){
     //console.log( 'thoughtsList.onRendered' );
     const self = this;
+    const fn = Template.thoughtsList.fn;
 
     // create the window
     this.autorun(() => {
@@ -77,8 +82,9 @@ Template.thoughtsList.onRendered( function(){
                         },
                         {
                             text: "New",
+                            class: fn.newClasses(),
                             click: function(){
-                                Template.thoughtsList.fn.doNew();
+                                fn.newActivate();
                             }
                         }
                     ],
@@ -132,6 +138,17 @@ Template.thoughtsList.onRendered( function(){
             self.ronin.spinner.stop();
         }
     });
+
+    // activate the actions depending of the logged-in user
+    this.autorun(() => {
+        const userId = Meteor.userId();
+        if( userId !== self.ronin.dict.get( 'userId' )){
+            if( g.run.layout.get() === LYT_WINDOW ){
+                $( '.thoughtsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
+            }
+            self.ronin.dict.set( 'userId', userId );
+        }
+    });
 });
 
 Template.thoughtsList.helpers({
@@ -146,7 +163,7 @@ Template.thoughtsList.helpers({
 Template.thoughtsList.events({
     // page layout
     'click .js-new'( ev, instance ){
-        Template.thoughtsList.fn.doNew();
+        Template.thoughtsList.fn.newActivate();
         return false;
     }
 });

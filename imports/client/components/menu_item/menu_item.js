@@ -22,7 +22,7 @@ Template.menu_item.helpers({
     },
     // class helper
     itemClasses( type, item ){
-        return gtd.classes( type, item ).join(' ');
+        return gtd.classesItem( item ).join(' ');
     },
     // template helper
     //  attach each item to its gtd group
