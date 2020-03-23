@@ -1,6 +1,6 @@
 .meteor
 .vscode
-imports/unused
 node_modules/
-packages/jqwidgets*
-packages/simone*
+cordova-build-override/
+maintainer/packages/
+maintainer/unused/
