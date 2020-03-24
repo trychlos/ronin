@@ -1,9 +1,9 @@
 /*
- * 'topics_grid' component.
-
- *  Display topics in a grid.
+ * 'time_values_grid' component.
  *
- *  NB: this topics_grid is only displayed in windowLayout mode.
+ *  Display time values in a grid.
+ *
+ *  NB: this time_values_grid is only displayed in windowLayout mode.
  *
  *  Rationale: see actions_grid.js
  *
@@ -13,40 +13,38 @@
  *  Session variables:
  *  - setup.tab.name: the current tab.
  */
-import { Topics } from '/imports/api/collections/topics/topics.js';
+import { TimeValues } from '/imports/api/collections/time_values/time_values.js';
 import '/imports/client/components/delete_button/delete_button.js';
 import '/imports/client/components/edit_button/edit_button.js';
 import '/imports/client/interfaces/igrid/igrid.js';
-import './topics_grid.html';
+import './time_values_grid.html';
 
-Template.topics_grid.fn = {
+Template.time_values_grid.fn = {
     compare( a, b ){
         const ita = Topics.findOne({ _id: $( a ).attr( 'data-row-id' )});
         const itb = Topics.findOne({ _id: $( b ).attr( 'data-row-id' )});
         return compareUpdates( ita, itb );
     }
-}
+};
 
-Template.topics_grid.onRendered( function(){
-    //console.log( 'topics_grid.onRendered '+this.data.gtdid );
-
+Template.time_values_grid.onRendered( function(){
     this.$( '.js-grid' ).IGrid({
         sort: {
             compare: [
                 {
                     column: 'created',
-                    compare: Template.topics_grid.fn.compare
+                    compare: Template.time_values_grid.fn.compare
                 }
             ]
         }
     });
 });
 
-Template.topics_grid.helpers({
+Template.time_values_grid.helpers({
     getCreated( it ){
         return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
     },
     items(){
-        return Topics.find();
+        return TimeValues.find();
     }
 });

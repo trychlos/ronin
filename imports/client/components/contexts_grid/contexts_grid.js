@@ -1,6 +1,6 @@
 /*
  * 'contexts_grid' component.
-
+ *
  *  Display contexts in a grid.
  *
  *  NB: this topics_grid is only displayed in windowLayout mode.
@@ -14,6 +14,9 @@
  *  - setup.tab.name: the current tab.
  */
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
+import '/imports/client/components/delete_button/delete_button.js';
+import '/imports/client/components/edit_button/edit_button.js';
+import '/imports/client/interfaces/igrid/igrid.js';
 import './contexts_grid.html';
 
 Template.contexts_grid.fn = {
@@ -41,9 +44,6 @@ Template.contexts_grid.onRendered( function(){
 Template.contexts_grid.helpers({
     getCreated( it ){
         return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
-    },
-    getName( it ){
-        return it.name;
     },
     items(){
         return Contexts.find();

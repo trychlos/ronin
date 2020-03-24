@@ -84,11 +84,10 @@ FlowRouter.route('/setup/contexts', {
     },
 });
 FlowRouter.route('/setup/time', {
-    name: 'setup.time',
+    name: 'rt.setup.time',
     action(){
-        Session.set('setup.tab.name','time');
-        Session.set('setup.time_values.obj',null);
-        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
+        Session.set( 'setup.tab.name', 'gtd-setup-time' );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/setup/energy', {

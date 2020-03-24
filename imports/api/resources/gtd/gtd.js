@@ -113,9 +113,9 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'time',
+                        id: 'gtd-setup-time',
                         label: 'Setup time values',
-                        route: 'setup.time',
+                        route: 'rt.setup.time',
                         navs: {
                             header: {
                                 display: true
@@ -126,7 +126,8 @@ export const gtd = {
                         },
                         tabs: {
                             setup: {
-                                display: true
+                                display: true,
+                                label: 'Time values'
                             }
                         }
                     },

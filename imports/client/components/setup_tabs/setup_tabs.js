@@ -17,16 +17,8 @@
  */
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/prefs_lists_panel/prefs_lists_panel.js';
-/*
-import '/imports/client/components/setup_contexts/setup_contexts.js';
-import '/imports/client/components/setup_delegates/setup_delegates.js';
-import '/imports/client/components/setup_energy/setup_energy.js';
-import '/imports/client/components/setup_priority/setup_priority.js';
-import '/imports/client/components/setup_refs/setup_refs.js';
-import '/imports/client/components/setup_time/setup_time.js';
-import '/imports/client/components/setup_topics/setup_topics.js';
-*/
 import '/imports/client/components/contexts_grid/contexts_grid.js';
+import '/imports/client/components/time_values_grid/time_values_grid.js';
 import '/imports/client/components/topics_grid/topics_grid.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './setup_tabs.html';
@@ -57,6 +49,11 @@ Template.setup_tabs.onCreated( function(){
                 gtd: 'gtd-setup-contexts',
                 component: 'contexts_grid',
                 handle: this.subscribe( 'contexts.all' )
+            },
+            {
+                gtd: 'gtd-setup-time',
+                component: 'time_values_grid',
+                handle: this.subscribe( 'time_values.all' )
             },
             {
                 gtd: 'gtd-setup-topics',
