@@ -1,3 +1,14 @@
+/*
+ * Contexts
+ *
+ * This is the context into which an action is to be executed.
+ *
+ * As of v20.03.xx.x, contexts are common to each and every user.
+ * Any logged-in user may create a new context, but only an admin (role to be
+ * defined) could delete them.
+ *
+ * The user interface takes care of proposing a default 'None' context.
+ */
 import { Mongo } from 'meteor/mongo';
 
 export const Contexts = new Mongo.Collection('contexts');

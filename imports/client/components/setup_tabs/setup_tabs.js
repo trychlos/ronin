@@ -66,7 +66,7 @@ Template.setup_tabs.onCreated( function(){
             {
                 gtd: 'gtd-setup-delegates',
                 component: 'delegates_grid',
-                handle: null
+                handle: this.subscribe( 'delegates.all' )
             },
             {
                 gtd: 'gtd-setup-energy',
@@ -81,7 +81,7 @@ Template.setup_tabs.onCreated( function(){
             {
                 gtd: 'gtd-setup-refs',
                 component: 'references_grid',
-                handle: null
+                handle: this.subscribe( 'references.all' )
             },
             {
                 gtd: 'gtd-setup-time',

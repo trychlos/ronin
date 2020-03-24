@@ -13,13 +13,14 @@
  *  Session variables:
  *  - setup.tab.name: the current tab.
  */
+import { References } from '/imports/api/collections/references/references.js';
 import './references_grid.html';
 
 Template.references_grid.onRendered( function(){
     this.autorun(() => {
         $( '.references-grid' ).trigger( 'setup-tab-ready', {
             id: 'gtd-setup-refs',
-            count: 0
+            count: References.find().count()
         });
     });
 });

@@ -13,6 +13,7 @@
  *  Session variables:
  *  - setup.tab.name: the current tab.
  */
+import { Delegates } from '/imports/api/collections/delegates/delegates.js';
 import './delegates_grid.html';
 
 Template.delegates_grid.onRendered( function(){
@@ -20,7 +21,7 @@ Template.delegates_grid.onRendered( function(){
     this.autorun(() => {
         $( '.delegates-grid' ).trigger( 'setup-tab-ready', {
             id: 'gtd-setup-delegates',
-            count: 0
+            count: Delegates.find().count()
         });
     });
 });
