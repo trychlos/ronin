@@ -105,8 +105,8 @@ Template.setupWindow.onRendered( function(){
     $( '.setupWindow' ).on( 'setup-tab-ready', function( ev, o ){
     //document.addEventListener( 'setup-tab-ready', function( ev, o ){
         //console.log( ev );
-        //console.log( o );
-        //console.log( 'setup.tab.name='+Session.get( 'setup.tab.name' ));
+        console.log( o );
+        console.log( 'setup.tab.name='+Session.get( 'setup.tab.name' ));
         self.ronin.dict.set( o.id+'_count', o.count );
         // maybe stop the spinner
         if( o.id === Session.get( 'setup.tab.name' ) && self.ronin.spinner ){
