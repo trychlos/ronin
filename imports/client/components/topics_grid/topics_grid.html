@@ -1,0 +1,30 @@
+<template name="topics_grid">
+    <div class="topics-grid">
+
+        <table class="js-grid">
+            <thead>
+                <tr>
+                    <th class="x-wmin"></th>
+                    <th data-column-name="name" class="x-w85 igrid-border igrid-sortable">Name</th>
+                    <th data-column-name="created" class="x-w15 igrid-border igrid-sortable">Updated</th>
+                    <th class="x-wmin"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each it in items }}
+                    <tr data-row-id="{{ it._id }}">
+                        <td class="btn-actions">
+                            {{> edit_button item=it }}
+                        </td>
+                        <td class="x-ellipsize"><p>{{ getName it }}</p></td>
+                        <td>{{ getCreated it }}</td>
+                        <td class="btn-actions">
+                            {{> delete_button item=it }}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+</template>

@@ -2,9 +2,9 @@
 	"allow":  {
 		"comment": "whether actions are allowed in this environment to an unknown user",
 		"edit": {
-			"action": false,
+			"action": true,
 			"maybe": true,
-			"project": false,
+			"project": true,
 			"thought": true
 		}
 	}

@@ -77,11 +77,10 @@ FlowRouter.route('/', {
     },
 });
 FlowRouter.route('/setup/contexts', {
-    name: 'setup.contexts',
+    name: 'rt.setup.contexts',
     action(){
-        Session.set('setup.tab.name','contexts');
-        Session.set('setup.contexts.obj',null);
-        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
+        Session.set( 'setup.tab.name', 'gtd-setup-contexts' );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/setup/time', {
@@ -109,11 +108,10 @@ FlowRouter.route('/setup/priority', {
     },
 });
 FlowRouter.route('/setup/topics', {
-    name: 'setup.topics',
+    name: 'rt.setup.topics',
     action(){
-        Session.set('setup.tab.name','topics');
-        Session.set('setup.topics.obj',null);
-        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
+        Session.set( 'setup.tab.name', 'gtd-setup-topics' );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/setup/refs', {

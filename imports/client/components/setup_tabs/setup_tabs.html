@@ -1,5 +1,7 @@
 <template name="setup_tabs">
     <div class="setup-tabs">
+
+        <!--
         <div class="setup-tabbed">
             <ul>
                 {{#each it in gtdItems}}
@@ -14,5 +16,33 @@
                 </div>
             {{/each}}
         </div>
+        -->
+
+        <ul class="nav nav-tabs" role="tablist">
+                {{#each it in gtdItems}}
+                    <li class="nav-item" role="presentation" data-itabbed="{{it.id}}" data-ronin-itb-route="{{gtdRoute it}}">
+                        <a class="nav-link" href="#{{it.id}}" role="tab" data-toggle="tab">{{gtdLabel it}}</a>
+                    </li>
+                {{/each}}
+            </ul>
+
+            <div class="tab-content">
+                {{#each it in gtdItems}}
+                    <div role="tabpanel" class="tab-pane fade" id="{{it.id}}">
+                        {{#if tabularIsPreferred}}
+                            {{#if gtdComponent it}}
+                                {{> Template.dynamic template=(gtdComponent it) }}
+                            {{/if}}
+                        {{else}}
+                        <!--
+                            {{#each art in (actions it)}}
+                                {{> action_card action=art parent=".actions-tabs" }}
+                            {{/each}}
+                            -->
+                        {{/if}}
+                    </div>
+                {{/each}}
+            </div>
+
     </div>
 </template>

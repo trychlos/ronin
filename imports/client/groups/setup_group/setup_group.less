@@ -1,20 +1,24 @@
-.device-panel {
-    padding: 0.25rem 0;
-    td div.title {
-            padding: 0.25rem 0 0.25rem 0.5rem;
-            color: white;
-            font-weight: bold;
-            background-color: @setup-color-l25;
-    }
-    td.label p {
-        color: gray;
-        font-style: italic;
-        padding-right: 0.5rem;
+.deviceWindow {
+    .device-panel {
+        padding: 0.25rem 0;
+        td div.title {
+                padding: 0.25rem 0 0.25rem 0.5rem;
+                color: white;
+                font-weight: bold;
+                background-color: @setup-color-l25;
+        }
+        td.label p {
+            color: gray;
+            font-style: italic;
+            padding-right: 0.5rem;
+        }
     }
 }
 .ronin-lyt-page {
-    .device-panel td div.title {
-        background-color: lighten( @page-color, 50% );
-        color: darken( @page-color, 15% );
+    .deviceWindow {
+        .device-panel td div.title {
+            background-color: lighten( @page-color, 50% );
+            color: darken( @page-color, 15% );
+        }
     }
 }

@@ -90,9 +90,10 @@ export const gtd = {
                         label: 'Setup criteria',    // this item for the sake of completeness as it is not used here
                     },
                     {
-                        id: 'contexts',
+                        id: 'gtd-setup-contexts',
                         label: 'Setup contexts',
-                        route: 'setup.contexts',
+                        route: 'rt.setup.contexts',
+                        template: 'setupWindow',
                         navs: {
                             header: {
                                 display: true
@@ -106,7 +107,8 @@ export const gtd = {
                         },
                         tabs: {
                             setup: {
-                                display: true
+                                display: true,
+                                label: 'Contexts'
                             }
                         }
                     },
@@ -165,9 +167,10 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'topics',
+                        id: 'gtd-setup-topics',
                         label: 'Setup topics',
-                        route: 'setup.topics',
+                        route: 'rt.setup.topics',
+                        template: 'setupWindow',
                         navs: {
                             header: {
                                 display: true
@@ -181,7 +184,8 @@ export const gtd = {
                         },
                         tabs: {
                             setup: {
-                                display: true
+                                display: true,
+                                label: 'Topics'
                             }
                         }
                     },

@@ -54,11 +54,13 @@ Template.actions_tabs.onCreated( function(){
 Template.actions_tabs.onRendered( function(){
     const self = this;
     //console.log( 'actions_tabs.onRendered' );
+
     this.autorun(() => {
         $( '.actions-tabs' ).ITabbed({
             tab: Session.get( 'actions.tab.name' )
         });
     });
+
     // send the count when each tab subscription is ready
     this.autorun(() => {
         self.ronin.items.forEach( it => {

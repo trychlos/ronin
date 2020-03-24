@@ -24,6 +24,9 @@
  *
  *  Parameters:
  *  - 'data': the layout context built in appLayout, and passed in by group layer.
+ *
+ *  Session variables:
+ *  - 'actions.tab.name': GTD identifier of the active tab.
  */
 import { Spinner } from 'spin.js';
 import '/imports/client/components/plus_button/plus_button.js';
@@ -90,8 +93,8 @@ Template.actionsList.onRendered( function(){
                             }
                         }
                     ],
-                    group:  context.group,
-                    title:  'Review actions'
+                    group: context.group,
+                    title: 'Review actions'
                 }
             });
             self.ronin.dict.set( 'window_ready', true );

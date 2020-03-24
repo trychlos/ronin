@@ -1,7 +1,8 @@
 <template name="setupWindow">
-    <div class="setupWindow {{#if isPageLayout }}x-mt025{{/if}}">
+    <div class="setupWindow wsf-parent ronin-window">
 
-        {{> setup_tabs}}
+        {{> window_badge text=count }}
+        {{> setup_tabs }}
 
     </div>
 </template>
