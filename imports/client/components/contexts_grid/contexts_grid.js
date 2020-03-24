@@ -3,7 +3,7 @@
  *
  *  Display contexts in a grid.
  *
- *  NB: this topics_grid is only displayed in windowLayout mode.
+ *  NB: this contexts_grid is only displayed in windowLayout mode.
  *
  *  Rationale: see actions_grid.js
  *

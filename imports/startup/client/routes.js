@@ -112,17 +112,17 @@ FlowRouter.route('/setup/topics', {
     },
 });
 FlowRouter.route('/setup/refs', {
-    name: 'setup.ref',
+    name: 'rt.setup.ref',
     action(){
-        Session.set('setup.tab.name','refs');
-        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
+        Session.set( 'setup.tab.name', 'gtd-setup-refs' );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/setup/delegates', {
-    name: 'setup.delegates',
+    name: 'rt.setup.delegates',
     action(){
-        Session.set('setup.tab.name','delegates');
-        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
+        Session.set( 'setup.tab.name', 'gtd-setup-delegates' );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/gear/device', {

@@ -116,6 +116,7 @@ export const gtd = {
                         id: 'gtd-setup-time',
                         label: 'Setup time values',
                         route: 'rt.setup.time',
+                        template: 'setupWindow',
                         navs: {
                             header: {
                                 display: true
@@ -135,6 +136,7 @@ export const gtd = {
                         id: 'gtd-setup-energy',
                         label: 'Setup energy values',
                         route: 'rt.setup.energy',
+                        template: 'setupWindow',
                         navs: {
                             header: {
                                 display: true
@@ -154,6 +156,7 @@ export const gtd = {
                         id: 'gtd-setup-priority',
                         label: 'Setup priority values',
                         route: 'rt.setup.priority',
+                        template: 'setupWindow',
                         navs: {
                             header: {
                                 display: true
@@ -193,9 +196,10 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'refs',
+                        id: 'gtd-setup-refs',
                         label: 'Setup reference items',
-                        route: 'setup.ref',
+                        route: 'rt.setup.ref',
+                        template: 'setupWindow',
                         navs: {
                             header: {
                                 display: true
@@ -209,14 +213,16 @@ export const gtd = {
                         },
                         tabs: {
                             setup: {
-                                display: true
+                                display: true,
+                                label: 'Reference items'
                             }
                         }
                     },
                     {
-                        id: 'delegates',
+                        id: 'gtd-setup-delegates',
                         label: 'Setup delegates',
-                        route: 'setup.delegates',
+                        route: 'rt.setup.delegates',
+                        template: 'setupWindow',
                         navs: {
                             header: {
                                 display: true
@@ -230,7 +236,8 @@ export const gtd = {
                         },
                         tabs: {
                             setup: {
-                                display: true
+                                display: true,
+                                label: 'Delegates'
                             }
                         }
                     },

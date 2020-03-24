@@ -1,0 +1,16 @@
+/*
+ * 'delegates_grid' component.
+ *
+ *  Display reference items in a grid.
+ *
+ *  NB: this delegates_grid is only displayed in windowLayout mode.
+ *
+ *  Rationale: see actions_grid.js
+ *
+ *  Parameters:
+ *  - 'data': the layout context built in appLayout, and passed in by group layer.
+ *
+ *  Session variables:
+ *  - setup.tab.name: the current tab.
+ */
+import './delegates_grid.html';

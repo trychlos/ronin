@@ -18,8 +18,10 @@
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/prefs_lists_panel/prefs_lists_panel.js';
 import '/imports/client/components/contexts_grid/contexts_grid.js';
+import '/imports/client/components/delegates_grid/delegates_grid.js';
 import '/imports/client/components/energy_values_grid/energy_values_grid.js';
 import '/imports/client/components/priority_values_grid/priority_values_grid.js';
+import '/imports/client/components/references_grid/references_grid.js';
 import '/imports/client/components/time_values_grid/time_values_grid.js';
 import '/imports/client/components/topics_grid/topics_grid.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
@@ -53,6 +55,11 @@ Template.setup_tabs.onCreated( function(){
                 handle: this.subscribe( 'contexts.all' )
             },
             {
+                gtd: 'gtd-setup-delegates',
+                component: 'delegates_grid',
+                handle: null
+            },
+            {
                 gtd: 'gtd-setup-energy',
                 component: 'energy_values_grid',
                 handle: this.subscribe( 'energy_values.all' )
@@ -61,6 +68,11 @@ Template.setup_tabs.onCreated( function(){
                 gtd: 'gtd-setup-priority',
                 component: 'priority_values_grid',
                 handle: this.subscribe( 'priority_values.all' )
+            },
+            {
+                gtd: 'gtd-setup-refs',
+                component: 'references_grid',
+                handle: null
             },
             {
                 gtd: 'gtd-setup-time',
