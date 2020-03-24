@@ -36,7 +36,7 @@ Template.projects_tree.fn = {
         // contextual menu, delete operation
         const menu_nodeDelete = function( $tree, node ){
             if( !fn.node_isRoot( node )){
-                $.pubsub.publish( 'ronin.model.article.delete', node.obj );
+                $.pubsub.publish( 'ronin.model.item.delete', node.obj );
             }
         };
         // contextual menu, edit operation

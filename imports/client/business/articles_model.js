@@ -3,7 +3,7 @@
  * To be imported at application layer level.
  *
  * Messages:
- *  - ronin.model.article.delete
+ *  - ronin.model.item.delete
  *  - ronin.model.article.ownership
  *  - ronin.model.article.reparent
  */
@@ -13,7 +13,7 @@ import _ from 'lodash';
 
 // delete the provided item
 //  requiring a user confirmation
-$.pubsub.subscribe( 'ronin.model.article.delete', ( msg, o ) => {
+$.pubsub.subscribe( 'ronin.model.item.delete', ( msg, o ) => {
     try {
         Articles.fn.check_editable( o );
     } catch( e ){

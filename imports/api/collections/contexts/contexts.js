@@ -14,23 +14,11 @@ import { Mongo } from 'meteor/mongo';
 export const Contexts = new Mongo.Collection('contexts');
 
 Contexts.schema = new SimpleSchema({
-    code: {
-        type: String,
-        optional: true
-    },
     name: {
         type: String
     },
     description: {
         type: String,
-        optional: true
-    },
-    deletable: {
-        type: Boolean,
-        optional: true
-    },
-    default: {
-        type: Boolean,
         optional: true
     }
 });
@@ -39,15 +27,6 @@ Contexts.attachSchema( Contexts.schema );
 Contexts.attachBehaviour( 'timestampable', {
     createdBy: false,
     updatedBy: false
-});
-
-Contexts.helpers({
-    isDefault: function(){
-        return this.default === undefined ? false : this.default;
-    },
-    isDeletable: function(){
-        return this.deletable === undefined ? true : this.deletable;
-    }
 });
 
 Contexts.fn = {

@@ -37,6 +37,7 @@
  */
 import '/imports/client/business/articles_model.js';
 import '/imports/client/business/actions_model.js';
+import '/imports/client/business/contexts_model.js';
 import '/imports/client/business/projects_model.js';
 import '/imports/client/business/thoughts_model.js';
 

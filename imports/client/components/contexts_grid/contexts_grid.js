@@ -51,6 +51,11 @@ Template.contexts_grid.onRendered( function(){
 });
 
 Template.contexts_grid.helpers({
+    // template helper
+    //  activates 'disabled' state if the item is non deletable
+    isDeletable( it ){
+        return '';
+    },
     getCreated( it ){
         return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
     },

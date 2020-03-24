@@ -123,7 +123,10 @@
 
   212 2020- 3-23 projectsList in pageLayout: plus button override projects_tabs buttons
 
-  213
+  213 2020- 3-24 contexts collection: tranform it on publication to have a 'deletable'
+                 flag taking into account whether the context is used in an action
+
+  214
 
 ==============================================================================
  Done
