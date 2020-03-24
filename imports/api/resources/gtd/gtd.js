@@ -132,9 +132,9 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'energy',
+                        id: 'gtd-setup-energy',
                         label: 'Setup energy values',
-                        route: 'setup.energy',
+                        route: 'rt.setup.energy',
                         navs: {
                             header: {
                                 display: true
@@ -145,7 +145,8 @@ export const gtd = {
                         },
                         tabs: {
                             setup: {
-                                display: true
+                                display: true,
+                                label: 'Energy values'
                             }
                         }
                     },
