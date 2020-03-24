@@ -21,6 +21,7 @@
  *  }
  */
 import { Meteor } from 'meteor/meteor';
+import { csfns } from '/imports/startup/both/collections-csfns.js';
 import { Articles } from '../articles.js';
 
 /*
@@ -35,7 +36,7 @@ Meteor.methods({
     //  the new action is owned by the currently logged-in user
     'actions.insert'( o ){
         Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
+        csfns.takeOwnership( o );
         Articles.sofns.doneConsistent( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.insert( item.set );
@@ -54,7 +55,7 @@ Meteor.methods({
     'actions.update'( o ){
         //console.log( o );
         Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
+        csfns.takeOwnership( o );
         Articles.sofns.doneConsistent( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.update( o._id, { $set:item.set, $unset:item.unset });
@@ -70,7 +71,7 @@ Meteor.methods({
     // delete an article
     //  children are updated to a null/none parent
     'articles.remove'( o ){
-        Articles.fn.check_editable( o );
+        csfns.check_editable( o );
         let ret = Articles.remove( o._id );
         console.log( 'Articles.remove "'+o.name+'" ('+o._id+') returns '+ret );
         if( !ret ){
@@ -87,7 +88,7 @@ Meteor.methods({
     //  the new project is owned by the currently logged-in user
     'projects.insert'( o ){
         Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
+        csfns.takeOwnership( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.insert( item.set );
         console.log( 'Articles.projects.insert "'+o.name+'" returns '+ret );
@@ -103,7 +104,7 @@ Meteor.methods({
     //  update does not mean taking ownership
     'projects.update'( o ){
         Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
+        csfns.takeOwnership( o );
         const item = Articles.sofns.cleanup( o );
         //console.log( item );
         const ret = Articles.update( o._id, { $set:item.set, $unset:item.unset });
@@ -120,7 +121,7 @@ Meteor.methods({
     //  the new thought is owned by the currently logged-in user
     'thoughts.insert'( o ){
         Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
+        csfns.takeOwnership( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.insert( item.set );
         console.log( 'Articles.thoughts.insert "'+o.name+'" returns '+ret );
@@ -135,7 +136,7 @@ Meteor.methods({
     // update returns true or throws an exception
     'thoughts.update'( id, o ){
         Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
+        csfns.takeOwnership( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.update( id, { $set:item.set, $unset:item.unset });
         console.log( 'Articles.thoughts.update "'+o.name+'" ('+o._id+') returns '+ret );

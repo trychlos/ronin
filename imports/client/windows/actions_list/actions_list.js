@@ -29,12 +29,12 @@
  *  - 'actions.tab.name': GTD identifier of the active tab.
  */
 import { Spinner } from 'spin.js';
+import { gtd } from '/imports/api/resources/gtd/gtd';
 import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/actions_tabs/actions_tabs.js';
 import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_list.html';
-import { gtd } from '../../../api/resources/gtd/gtd';
 
 const actionsByStatus = new Mongo.Collection( 'actionsByStatus' );
 

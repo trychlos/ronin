@@ -67,7 +67,7 @@
  *      defaulting to inactive.
  */
 import { Mongo } from 'meteor/mongo';
-import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
+import { csfns } from '/imports/startup/both/collections-csfns.js';
 
 export const Articles = new Mongo.Collection( 'articles' );
 
@@ -211,18 +211,18 @@ Articles.fn.actionDoneSet = function( o ){
  *  Doesn't return any value, but throws a Meteor.Error if needed.
  */
 Articles.fn.check = function( o ){
-    Articles.fn.check_object( o );
+    csfns.check_object( o );
     Articles.fn.check_type( o );
-    Articles.fn.check_editable( o );
-    Articles.fn.check_name( o );
-    Articles.fn.check_topic( o );
+    csfns.check_editable( o );
+    csfns.check_name( o );
+    csfns.check_topic( o );
 
     // plus item dependancies
     switch( o.type ){
         case 'T':
             break;
         case 'A':
-            Articles.fn.check_status( o );
+            csfns.check_status( o );
             // if parent set, must be an existing project
             // if context set, must be referenced in contexts collection
             break;
@@ -232,57 +232,6 @@ Articles.fn.check = function( o ){
             // if parent set, must be an existing project
             // if parent set, the parent hierarchy must not loop and only contain projects
             break;
-    }
-};
-
-// must be editable by this user
-//  anyone may edit an un-owned documents
-Articles.fn.check_editable = function( o ){
-    const currentUser = Meteor.userId();
-    //console.log( 'check_editable: current.userId='+currentUser+' o.userId='+o.userId );
-    if( o.userId ){
-        if( currentUser !== o.userId ){
-            throw new Meteor.Error(
-                'unauthorized',
-                'You are not allowed to edit this document'
-            );
-        }
-    }
-};
-
-// name is mandatory
-Articles.fn.check_name = function( o ){
-    if( !o.name ){
-        throw new Meteor.Error(
-            'name.required',
-            'Mandatory name is empty'
-        );
-    }
-};
-
-// object must be defined
-Articles.fn.check_object = function( o ){
-    if( !o ){
-        throw new Meteor.Error(
-            'undefined',
-            'Object is not defined'
-        );
-    }
-};
-
-// action status must be valid
-Articles.fn.check_status = function( o ){
-    if( !actionStatus.isValid( o.status )){
-        throw new Meteor.Error(
-            'invalid',
-            'Status is not valid, found "'+o.status+'", allowed values are ['+actionStatus.getValid().join( ',' )+']'
-        );
-    }
-};
-
-// topic must exist
-Articles.fn.check_topic = function( o ){
-    if( o.topic ){
     }
 };
 
@@ -304,114 +253,36 @@ Articles.fn.check_type = function( o ){
  *  objects are equal (resp. different).
  */
 Articles.fn.equal = function( a, b ){
-    const _equalDates = ( c, d ) => {
-        return _equals( c, d, ( e, f ) => {
-            return moment( e ).isSame( f, 'day' );
-        })
-    };
-    const _equalStrs = ( c, d ) => {
-        return _equals( c, d, ( e, f ) => {
-            return e === f;
-        });
-    };
-    const _equals = ( c, d, cb ) => {
-        let ret = true;
-        if( c ){
-            if( d ){
-                ret = cb( c, d );
-            } else {
-                ret = false;
-            }
-        } else if( d ){
-            ret = false;
-        }
-        //if( !ret ){
-        //    console.log( '"'+c+'" !== "'+d+'"' );
-        //}
-        return ret;
-    };
     //console.log( a );
     //console.log( b );
-    let ret = _equalStrs( a.type, b.type ) &&
-        _equalStrs( a.name, b.name ) &&
-        _equalStrs( a.description, b.description ) &&
-        _equalStrs( a.topic, b.topic );
+    let ret = csfns.equalStrs( a.type, b.type ) &&
+        csfns.equalStrs( a.name, b.name ) &&
+        csfns.equalStrs( a.description, b.description ) &&
+        csfns.equalStrs( a.topic, b.topic );
     if( ret ){
         switch( a.type ){
             case 'A':
-                ret = _equalStrs( a.notes, b.notes ) &&
-                        _equalDates( a.startDate, b.startDate ) &&
-                        _equalDates( a.dueDate, b.dueDate ) &&
-                        _equalDates( a.doneDate, b.doneDate ) &&
-                        _equalStrs( a.parent, b.parent ) &&
-                        _equalStrs( a.status, b.status ) &&
-                        _equalStrs( a.outcome, b.outcome );
+                ret = csfns.equalStrs( a.notes, b.notes ) &&
+                        csfns.equalDates( a.startDate, b.startDate ) &&
+                        csfns.equalDates( a.dueDate, b.dueDate ) &&
+                        csfns.equalDates( a.doneDate, b.doneDate ) &&
+                        csfns.equalStrs( a.parent, b.parent ) &&
+                        csfns.equalStrs( a.status, b.status ) &&
+                        csfns.equalStrs( a.outcome, b.outcome );
                 break;
             case 'M':
                 break;
             case 'P':
-                    ret = _equalStrs( a.notes, b.notes ) &&
-                    _equalDates( a.startDate, b.startDate ) &&
-                    _equalDates( a.dueDate, b.dueDate ) &&
-                    _equalDates( a.doneDate, b.doneDate ) &&
-                    _equalStrs( a.parent, b.parent ) &&
-                    _equalStrs( a.future, b.future ) &&
-                    _equalStrs( a.vision, b.vision ) &&
-                    _equalStrs( a.brainstorm, b.brainstorm );
+                ret = csfns.equalStrs( a.notes, b.notes ) &&
+                        csfns.equalDates( a.startDate, b.startDate ) &&
+                        csfns.equalDates( a.dueDate, b.dueDate ) &&
+                        csfns.equalDates( a.doneDate, b.doneDate ) &&
+                        csfns.equalStrs( a.parent, b.parent ) &&
+                        csfns.equalStrs( a.future, b.future ) &&
+                        csfns.equalStrs( a.vision, b.vision ) &&
+                        csfns.equalStrs( a.brainstorm, b.brainstorm );
             break;
         }
     }
     return ret;
 };
-
-// Rationale: if the article is not owned by anyone, then the currently logged-in
-//  user may take ownership of it.
-//  We have so four states:
-//  - there is no user currently logged in: no ownership can be taken
-//  - user already has ownership of the article: taking ownership is not relevant
-//  - the article does not yet belong to anyone: ownership could be taken
-//  - the article belongs to someone else: taking ownership is forbidden.
-Articles.fn.takeableStatus = {
-    'NOT': 'no user is logged-in; no ownership can be taken',
-    'HAS': 'logged-in user already has ownserhip of the item',
-    'CAN': 'item does not belong to anyone, ownership can be taken',
-    'FOR': 'item belongs to someone else, taking ownship is forbidden'
-};
-Articles.fn.takeableGetStatus = function( item ){
-    const current = Meteor.userId();
-    if( !current ){
-        return 'NOT';
-    }
-    if( item.userId === current ){
-        return 'HAS';
-    }
-    return item.userId ? 'FOR' : 'CAN';
-};
-// Take the item ownership if this is possible.
-// Throws a server exception if this is forbidden.
-// Rationale: when updating an object, take ownership of it if the object
-//  was still un-owned.
-//  Throws an exception is ownership is not takeable here, which should have
-//  been previously checked.
-Articles.fn.takeOwnership = function( item ){
-    let _throwsError = function(){
-        throw new Meteor.Error(
-            'code',
-            'Ownership is not takeable here and there. Should have been prevented sooner'
-        );
-    }
-    const status = Articles.fn.takeableGetStatus( item );
-    if( status === 'FOR' ){
-        // item is owned by someone else!
-        // the UI should had prevent this
-        _throwsError();
-    }
-    if( status === 'CAN' ){
-        item.userId = Meteor.userId();
-    }
-    if( status === 'NOT' && item.userId ){
-        // item is owned by someone, but nobody is logged-in
-        // the UI should had prevent this
-        _throwsError();
-    }
-}

@@ -1,0 +1,23 @@
+<template name="contextEdit">
+    <div class="contextEdit wsf-parent ronin-window">
+
+        <div class="wsf-header">
+            {{#if isPageLayout}}
+                <div class="x-hidden">
+                    {{title}}
+                </div>
+            {{/if}}
+        </div>
+
+        <div class="wsf-content">
+            {{> context_panel item=item }}
+        </div>
+
+        {{#if isPageLayout}}
+            <div class="wsf-footer">
+                {{> wsf_collapse_buttons okLabel=okLabel cancelLabel="Cancel" }}
+            </div>
+        {{/if}}
+
+    </div>
+</template>

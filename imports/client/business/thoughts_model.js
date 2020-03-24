@@ -12,6 +12,7 @@
  *  - ronin.model.thought.update
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import { csfns } from '/imports/startup/both/collections-csfns.js';
 
 // insert or update the provided thought
 //  if a previous object already existed, then this is an update
@@ -23,7 +24,7 @@ $.pubsub.subscribe( 'ronin.model.thought.update', ( msg, o ) => {
     o.edit.userId = o.orig ? o.orig.userId : null;
     try {
         Articles.fn.check( o.edit );
-        Articles.fn.takeOwnership( o.edit );
+        csfns.takeOwnership( o.edit );
     } catch( e ){
         console.log( e );
         messageError({ type:e.error, message:e.reason });

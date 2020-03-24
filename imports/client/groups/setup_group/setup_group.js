@@ -15,6 +15,7 @@
  *      Caution: must only be used at rendering time, as it will be superseded
  *      by later changes.
  */
+import '/imports/client/windows/context_edit/context_edit.js';
 import '/imports/client/windows/device_window/device_window.js';
 import '/imports/client/windows/prefs_window/prefs_window.js';
 import '/imports/client/windows/setup_window/setup_window.js';

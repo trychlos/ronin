@@ -27,10 +27,24 @@
  *  - 'actions.tab.name': GTD identifier of the active tab.
  */
 import { Spinner } from 'spin.js';
+import { gtd } from '/imports/api/resources/gtd/gtd';
 import '/imports/client/components/setup_tabs/setup_tabs.js';
 import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './setup_window.html';
+
+Template.setupWindow.fn = {
+    newActivate: function(){
+        g.run.back = FlowRouter.current().route.name;
+        const gtdid = gtd.newId( Session.get( 'setup.tab.name' ));
+        if( gtdid ){
+            gtd.activateId( gtdid );
+        }
+    },
+    newClasses: function(){
+        return '';// gtd.classesId( 'gtd-process-action-new' ).join( ' ' );
+    }
+};
 
 Template.setupWindow.onCreated( function(){
     this.ronin = {
@@ -42,6 +56,7 @@ Template.setupWindow.onCreated( function(){
 
 Template.setupWindow.onRendered( function(){
     const self = this;
+    const fn = Template.setupWindow.fn;
 
     // open the window if the manager has been initialized
     this.autorun(() => {
@@ -50,6 +65,21 @@ Template.setupWindow.onRendered( function(){
             $( '.'+context.template ).IWindowed({
                 template: context.template,
                 simone: {
+                    buttons: [
+                        {
+                            text: "Close",
+                            click: function(){
+                                $().IWindowed.close( '.'+context.template );
+                            }
+                        },
+                        {
+                            text: "New",
+                            class: fn.newClasses(),
+                            click: function(){
+                                fn.newActivate();
+                            }
+                        }
+                    ],
                     group: context.group,
                     title: 'Setup'
                 }

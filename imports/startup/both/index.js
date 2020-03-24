@@ -4,5 +4,6 @@
  *  Both server and client common initialization code.
  */
 import './collections-config.js';
+import './collections-csfns.js';
 import './settings-config.js';
 import './misc.js';

@@ -94,6 +94,7 @@ export const gtd = {
                         label: 'Setup contexts',
                         route: 'rt.setup.contexts',
                         template: 'setupWindow',
+                        new: 'gtd-setup-context-new',
                         navs: {
                             header: {
                                 display: true
@@ -111,6 +112,18 @@ export const gtd = {
                                 label: 'Contexts'
                             }
                         }
+                    },
+                    {
+                        id: 'gtd-setup-context-new',
+                        label: 'New context',
+                        route: 'rt.setup.context.new',
+                        template: 'contextEdit'
+                    },
+                    {
+                        id: 'gtd-setup-context-edit',
+                        label: 'Edit context',
+                        route: 'rt.setup.context.edit',
+                        template: 'contextEdit'
                     },
                     {
                         id: 'gtd-setup-time',
@@ -862,6 +875,13 @@ export const gtd = {
     },
     labelItem: function( name, item ){
         return gtd._search( name, item, 'label', true );
+    },
+    // returns the value of the 'new' key
+    newId( id ){
+        return gtd.newItem( gtd._byId( id ));
+    },
+    newItem( item ){
+        return gtd._search( null, item, 'new', true );
     },
     // when a tabbed page associates a different panel for each tab, says here
     //  which panel go where

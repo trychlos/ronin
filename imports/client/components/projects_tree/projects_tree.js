@@ -664,7 +664,7 @@ Template.projects_tree.events({
     // moving a node means both reparenting and reordering it
     // note that we are refusing to move outside of the root node
     //  + we also refuse to drop an action inside another action
-    'tree.move .projects-tree .tree'( ev ){
+    'tree.move .projects-tree .tree'( ev, instance ){
         //console.log( 'ev ', ev );
         //console.log( 'moved_node', ev.move_info.moved_node );
         //console.log('target_node', ev.move_info.target_node);

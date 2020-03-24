@@ -8,6 +8,7 @@
  *  - ronin.model.article.reparent
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import { csfns } from '/imports/startup/both/collections-csfns.js';
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
 import _ from 'lodash';
 
@@ -15,7 +16,7 @@ import _ from 'lodash';
 //  requiring a user confirmation
 $.pubsub.subscribe( 'ronin.model.item.delete', ( msg, o ) => {
     try {
-        Articles.fn.check_editable( o );
+        csfns.check_editable( o );
     } catch( e ){
         console.log( e );
         messageError({ type:e.error, message:e.reason });
@@ -57,7 +58,7 @@ $.pubsub.subscribe( 'ronin.model.item.delete', ( msg, o ) => {
 $.pubsub.subscribe( 'ronin.model.article.ownership', ( msg, o ) => {
     try {
         Articles.fn.check( o );
-        Articles.fn.takeOwnership( o );
+        csfns.takeOwnership( o );
     } catch( e ){
         console.log( e );
         messageError({ type:e.error, message:e.reason });
@@ -78,7 +79,7 @@ $.pubsub.subscribe( 'ronin.model.article.ownership', ( msg, o ) => {
 $.pubsub.subscribe( 'ronin.model.article.reparent', ( msg, o ) => {
     try {
         Articles.fn.check( o.item );
-        Articles.fn.takeOwnership( o.item );
+        csfns.takeOwnership( o.item );
     } catch( e ){
         console.log( e );
         messageError({ type:e.error, message:e.reason });

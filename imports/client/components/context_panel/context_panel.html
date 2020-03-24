@@ -1,0 +1,33 @@
+<template name="context_panel">
+    <div class="context-panel ronin-panel ronin-wnd-content">
+
+        <table class="w-100">
+            <tr>
+                <td class="label x-hright"><p>Context:</p></td>
+                <td>
+                    <input class="js-name w-100 form-control"
+                            type="text" placeholder="Name" value="{{ valName }}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-vtop"><p>Description:</p></td>
+                <td>
+                    <textarea
+                        name="description"
+                        class="js-description w-100 form-control"
+                        placeholder="Description of the context"
+                        rows="3">{{ valDescription }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="label panel-owner-title x-hright"><p>Owner:</p></td>
+                <td class="js-owner panel-owner" title="Owner">{{valOwner}}</td>
+            </tr>
+            <tr>
+                <td class="label panel-id-title x-hright"><p>Id.:</p></td>
+                <td class="js-id panel-id" title="Id">{{valId}}</td>
+            </tr>
+        </table>
+
+    </div>
+</template>

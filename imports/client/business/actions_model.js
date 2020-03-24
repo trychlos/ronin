@@ -7,12 +7,13 @@
  *  - ronin.model.action.update
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import { csfns } from '/imports/startup/both/collections-csfns.js';
 
 // toggle the 'done' status of the provided action
 $.pubsub.subscribe( 'ronin.model.action.done.toggle', ( msg, o ) => {
     try {
         Articles.fn.check( o.action );
-        Articles.fn.takeOwnership( o.action );
+        csfns.takeOwnership( o.action );
     } catch( e ){
         console.log( e );
         messageError({ type:e.error, message:e.reason });
@@ -43,7 +44,7 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
     o.edit.userId = o.orig ? o.orig.userId : null;
     try {
         Articles.fn.check( o.edit );
-        Articles.fn.takeOwnership( o.edit );
+        csfns.takeOwnership( o.edit );
     } catch( e ){
         console.log( e );
         messageError({ type:e.error, message:e.reason });

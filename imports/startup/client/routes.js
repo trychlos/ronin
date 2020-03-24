@@ -83,6 +83,18 @@ FlowRouter.route('/setup/contexts', {
         blazeRender( this.name );
     },
 });
+FlowRouter.route('/setup/contexts/new', {
+    name: 'rt.setup.context.new',
+    action(){
+        blazeRender( this.name );
+    },
+});
+FlowRouter.route('/setup/contexts/edit', {
+    name: 'rt.setup.context.edit',
+    action(){
+        blazeRender( this.name );
+    },
+});
 FlowRouter.route('/setup/time', {
     name: 'rt.setup.time',
     action(){

@@ -6,6 +6,7 @@
  *  - ronin.model.project.update
  */
 import { Articles } from '/imports/api/collections/articles/articles.js';
+import { csfns } from '/imports/startup/both/collections-csfns.js';
 
 // insert or update the provided project
 //  or transform a thought into a project
@@ -18,7 +19,7 @@ $.pubsub.subscribe( 'ronin.model.project.update', ( msg, o ) => {
     o.edit.userId = o.orig ? o.orig.userId : null;
     try {
         Articles.fn.check( o.edit );
-        Articles.fn.takeOwnership( o.edit );
+        csfns.takeOwnership( o.edit );
     } catch( e ){
         console.log( e );
         messageError({ type:e.error, message:e.reason });
