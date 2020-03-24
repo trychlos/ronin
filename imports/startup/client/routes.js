@@ -98,11 +98,10 @@ FlowRouter.route('/setup/energy', {
     },
 });
 FlowRouter.route('/setup/priority', {
-    name: 'setup.priority',
+    name: 'rt.setup.priority',
     action(){
-        Session.set('setup.tab.name','priority');
-        Session.set('setup.priority_values.obj',null);
-        BlazeLayout.render( 'appLayout', { gtd:'setup', page:'setupPage', window:'setupWindow' });
+        Session.set( 'setup.tab.name', 'gtd-setup-priority' );
+        blazeRender( this.name );
     },
 });
 FlowRouter.route('/setup/topics', {

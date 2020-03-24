@@ -151,9 +151,9 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'priority',
+                        id: 'gtd-setup-priority',
                         label: 'Setup priority values',
-                        route: 'setup.priority',
+                        route: 'rt.setup.priority',
                         navs: {
                             header: {
                                 display: true
@@ -164,7 +164,8 @@ export const gtd = {
                         },
                         tabs: {
                             setup: {
-                                display: true
+                                display: true,
+                                label: 'Priority values'
                             }
                         }
                     },
