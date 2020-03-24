@@ -38,6 +38,13 @@ Template.time_values_grid.onRendered( function(){
             ]
         }
     });
+
+    this.autorun(() => {
+        $( '.time-values-grid' ).trigger( 'setup-tab-ready', {
+            id: 'gtd-setup-time',
+            count: TimeValues.find().count()
+        });
+    });
 });
 
 Template.time_values_grid.helpers({

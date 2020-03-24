@@ -38,6 +38,13 @@ Template.priority_values_grid.onRendered( function(){
             ]
         }
     });
+
+    this.autorun(() => {
+        $( '.priority-values-grid' ).trigger( 'setup-tab-ready', {
+            id: 'gtd-setup-priority',
+            count: PriorityValues.find().count()
+        });
+    });
 });
 
 Template.priority_values_grid.helpers({

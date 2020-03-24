@@ -29,6 +29,8 @@ Template.contexts_grid.fn = {
 
 Template.contexts_grid.onRendered( function(){
     //console.log( 'topics_grid.onRendered '+this.data.tab );
+    //console.log( this );
+
     this.$( '.js-grid' ).IGrid({
         sort: {
             compare: [
@@ -38,6 +40,13 @@ Template.contexts_grid.onRendered( function(){
                 }
             ]
         }
+    });
+
+    this.autorun(() => {
+        $( '.contexts-grid' ).trigger( 'setup-tab-ready', {
+            id: 'gtd-setup-contexts',
+            count: Contexts.find().count()
+        });
     });
 });
 

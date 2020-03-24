@@ -14,3 +14,13 @@
  *  - setup.tab.name: the current tab.
  */
 import './delegates_grid.html';
+
+Template.delegates_grid.onRendered( function(){
+    //
+    this.autorun(() => {
+        $( '.delegates-grid' ).trigger( 'setup-tab-ready', {
+            id: 'gtd-setup-delegates',
+            count: 0
+        });
+    });
+});

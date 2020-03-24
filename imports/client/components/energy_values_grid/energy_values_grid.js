@@ -38,6 +38,13 @@ Template.energy_values_grid.onRendered( function(){
             ]
         }
     });
+
+    this.autorun(() => {
+        $( '.energy-values-grid' ).trigger( 'setup-tab-ready', {
+            id: 'gtd-setup-energy',
+            count: EnergyValues.find().count()
+        });
+    });
 });
 
 Template.energy_values_grid.helpers({

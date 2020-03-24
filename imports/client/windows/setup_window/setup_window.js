@@ -35,11 +35,9 @@ import './setup_window.html';
 Template.setupWindow.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
-        spinner: null,
-        tabs: {}
+        spinner: null
     };
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
-    this.ronin.dict.set( 'total_count', 0 );
 });
 
 Template.setupWindow.onRendered( function(){
@@ -70,14 +68,27 @@ Template.setupWindow.onRendered( function(){
             self.ronin.spinner = new Spinner().spin( $parent[0] );
         }
     });
+
+    // child messaging
+    //  update the tab's count
+    //  stop the spinner when currently displayed tab has sent its message
+    $( '.setupWindow' ).on( 'setup-tab-ready', function( ev, o ){
+    //document.addEventListener( 'setup-tab-ready', function( ev, o ){
+        //console.log( ev );
+        //console.log( o );
+        //console.log( 'setup.tab.name='+Session.get( 'setup.tab.name' ));
+        self.ronin.dict.set( o.id+'_count', o.count );
+        // maybe stop the spinner
+        if( o.id === Session.get( 'setup.tab.name' ) && self.ronin.spinner ){
+            self.ronin.spinner.stop();
+        }
+    });
 });
 
 Template.setupWindow.helpers({
     // display current counts
     count(){
         const self = Template.instance();
-        const total = self.ronin.dict.get( 'total_count' );
-        const count = self.ronin.dict.get( Session.get( 'actions.tab.name' )+'_count' ) || 0;
-        return count+'/'+total;
+        return self.ronin.dict.get( Session.get( 'setup.tab.name' )+'_count' ) || 0;
     }
 });

@@ -40,6 +40,13 @@ Template.topics_grid.onRendered( function(){
             ]
         }
     });
+
+    this.autorun(() => {
+        $( '.topics-grid' ).trigger( 'setup-tab-ready', {
+            id: 'gtd-setup-topics',
+            count: Topics.find().count()
+        });
+    });
 });
 
 Template.topics_grid.helpers({

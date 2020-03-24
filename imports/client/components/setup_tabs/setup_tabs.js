@@ -41,6 +41,15 @@ Template.setup_tabs.fn = {
             }
         }
         return( fn._prefTabular === 'grid' );
+    },
+    // return the element of the 'ronin.tabs' array which corresponds to the specified id
+    tab( instance, name ){
+        for( let i=0 ; i<instance.ronin.tabs.length ; ++i ){
+            if( instance.ronin.tabs[i].gtd === name ){
+                return instance.ronin.tabs[i];
+            }
+        }
+        return null;
     }
 };
 
@@ -93,18 +102,13 @@ Template.setup_tabs.onRendered( function(){
         $( '.setup-tabs' ).ITabbed({
             tab: Session.get( 'setup.tab.name' )
         });
-    })
+    });
 });
 
 Template.setup_tabs.helpers({
     gtdComponent( it ){
-        const self = Template.instance();
-        for( let i=0 ; i<self.ronin.tabs.length ; ++i ){
-            if( self.ronin.tabs[i].gtd === it.id ){
-                return self.ronin.tabs[i].component;
-            }
-        }
-        return null;
+        const tab = Template.setup_tabs.fn.tab( Template.instance(), it.id );
+        return tab ? tab.component : null;
     },
     gtdItems(){
         const self = Template.instance();
