@@ -1,24 +1,12 @@
-<template name="priority_value_panel">
-    <div class="priority-value-panel">
+<template name="time_value_panel">
+    <div class="time-value-panel">
 
         <table class="w-100">
             <tr>
-                <td class="label x-hright"><p>Priority value:</p></td>
+                <td class="label x-hright"><p>Time value:</p></td>
                 <td>
                     <input class="js-name w-100 form-control"
                             type="text" placeholder="Name" value="{{ valName }}" />
-                </td>
-            </tr>
-            <tr>
-                <td class="label x-hright"><p>Calendar value:</p></td>
-                <td>
-                    <input
-                        name="calendar"
-                        class="js-calendar"
-                        size="4"
-                        type="text"
-                        placeholder="Calendar value"
-                        value="{{valCalendar}}" />
                 </td>
             </tr>
             <tr>
@@ -27,7 +15,7 @@
                     <textarea
                         name="description"
                         class="js-description w-100 form-control"
-                        placeholder="Description of the priority value"
+                        placeholder="Description of the time value"
                         rows="3">{{ valDescription }}</textarea>
                 </td>
             </tr>

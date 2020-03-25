@@ -102,6 +102,18 @@ FlowRouter.route('/setup/time', {
         blazeRender( this.name );
     },
 });
+FlowRouter.route('/setup/time/new', {
+    name: 'rt.setup.time.new',
+    action(){
+        blazeRender( this.name );
+    },
+});
+FlowRouter.route('/setup/time/edit', {
+    name: 'rt.setup.time.edit',
+    action(){
+        blazeRender( this.name );
+    },
+});
 FlowRouter.route('/setup/energy', {
     name: 'rt.setup.energy',
     action(){

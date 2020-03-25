@@ -130,6 +130,7 @@ export const gtd = {
                         label: 'Setup time values',
                         route: 'rt.setup.time',
                         template: 'setupWindow',
+                        new: 'gtd-setup-time-new',
                         navs: {
                             header: {
                                 display: true
@@ -144,6 +145,18 @@ export const gtd = {
                                 label: 'Time values'
                             }
                         }
+                    },
+                    {
+                        id: 'gtd-setup-time-new',
+                        label: 'New time value',
+                        route: 'rt.setup.time.new',
+                        template: 'timeValueEdit'
+                    },
+                    {
+                        id: 'gtd-setup-time-edit',
+                        label: 'Edit time value',
+                        route: 'rt.setup.time.edit',
+                        template: 'timeValueEdit'
                     },
                     {
                         id: 'gtd-setup-energy',
