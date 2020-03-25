@@ -129,7 +129,10 @@
   214 2020- 3-25 tabbed windows: when activating an item side, the route is updated
                  but the active tab is not switched
 
-  215
+  215 2020- 3-25 setupWindow: depending on which action has led to the window creation,
+                  the badge may or may not be displayed
+
+  216
 
 ==============================================================================
  Done

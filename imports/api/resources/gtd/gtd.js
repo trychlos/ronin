@@ -183,6 +183,7 @@ export const gtd = {
                         label: 'Setup priority values',
                         route: 'rt.setup.priority',
                         template: 'setupWindow',
+                        new: 'gtd-setup-priority-new',
                         navs: {
                             header: {
                                 display: true
@@ -197,6 +198,18 @@ export const gtd = {
                                 label: 'Priority values'
                             }
                         }
+                    },
+                    {
+                        id: 'gtd-setup-priority-new',
+                        label: 'New priority value',
+                        route: 'rt.setup.priority.new',
+                        template: 'priorityValueEdit'
+                    },
+                    {
+                        id: 'gtd-setup-priority-edit',
+                        label: 'Edit priority value',
+                        route: 'rt.setup.priority.edit',
+                        template: 'priorityValueEdit'
                     },
                     {
                         id: 'gtd-setup-topics',

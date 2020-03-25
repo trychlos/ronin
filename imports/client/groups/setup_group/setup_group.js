@@ -19,6 +19,7 @@ import '/imports/client/windows/context_edit/context_edit.js';
 import '/imports/client/windows/device_window/device_window.js';
 import '/imports/client/windows/energy_value_edit/energy_value_edit.js';
 import '/imports/client/windows/prefs_window/prefs_window.js';
+import '/imports/client/windows/priority_value_edit/priority_value_edit.js';
 import '/imports/client/windows/setup_window/setup_window.js';
 import './setup_group.html';
 

@@ -128,6 +128,18 @@ FlowRouter.route('/setup/priority', {
         blazeRender( this.name );
     },
 });
+FlowRouter.route('/setup/priority/new', {
+    name: 'rt.setup.priority.new',
+    action(){
+        blazeRender( this.name );
+    },
+});
+FlowRouter.route('/setup/priority/edit', {
+    name: 'rt.setup.priority.edit',
+    action(){
+        blazeRender( this.name );
+    },
+});
 FlowRouter.route('/setup/topics', {
     name: 'rt.setup.topics',
     action(){
