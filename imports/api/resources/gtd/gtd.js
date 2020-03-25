@@ -150,6 +150,7 @@ export const gtd = {
                         label: 'Setup energy values',
                         route: 'rt.setup.energy',
                         template: 'setupWindow',
+                        new: 'gtd-setup-energy-new',
                         navs: {
                             header: {
                                 display: true
@@ -164,6 +165,18 @@ export const gtd = {
                                 label: 'Energy values'
                             }
                         }
+                    },
+                    {
+                        id: 'gtd-setup-energy-new',
+                        label: 'New energy value',
+                        route: 'rt.setup.energy.new',
+                        template: 'energyValueEdit'
+                    },
+                    {
+                        id: 'gtd-setup-energy-edit',
+                        label: 'Edit energy value',
+                        route: 'rt.setup.energy.edit',
+                        template: 'energyValueEdit'
                     },
                     {
                         id: 'gtd-setup-priority',

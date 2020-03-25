@@ -109,6 +109,18 @@ FlowRouter.route('/setup/energy', {
         blazeRender( this.name );
     },
 });
+FlowRouter.route('/setup/energy/new', {
+    name: 'rt.setup.energy.new',
+    action(){
+        blazeRender( this.name );
+    },
+});
+FlowRouter.route('/setup/energy/edit', {
+    name: 'rt.setup.energy.edit',
+    action(){
+        blazeRender( this.name );
+    },
+});
 FlowRouter.route('/setup/priority', {
     name: 'rt.setup.priority',
     action(){

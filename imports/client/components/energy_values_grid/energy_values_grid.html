@@ -14,12 +14,12 @@
                 {{#each it in items }}
                     <tr data-row-id="{{ it._id }}">
                         <td class="btn-actions">
-                            {{> edit_button item=it }}
+                            {{> edit_button item=it disabled="(isEditable it)" route="rt.setup.energy.edit" }}
                         </td>
                         <td class="x-ellipsed"><p class="x-ellipsize">{{ it.name }}</p></td>
                         <td>{{ getCreated it }}</td>
                         <td class="btn-actions">
-                            {{> delete_button item=it }}
+                            {{> delete_button item=it disabled="(isDeletable it)" message="ronin.model.energy_value.delete" }}
                         </td>
                     </tr>
                 {{/each}}

@@ -14,11 +14,15 @@
  *      +-> <app layout layer> { gtdid, group, template }
  *              +-> <group layer> { gtdid, group, template }
  *                      |
- *                      +-> thoughtsList { gtdid, group, template }
+ *                      +-> setupWindow { gtdid, group, template }
  *                              +-> thoughts_list
  *                              +-> plus_button in page-based layout
  *                      |
- *                      +-> thoughtEdit { gtdid, group, template }
+ *                      +-> contextEdit { gtdid, group, template }
+ *                      |
+ *                      +-> energyValueEdit { gtdid, group, template }
+ *                      |
+ *                      +-> priorityValueEdit { gtdid, group, template }
  *
  *  Parameters:
  *  - 'data': the layout context built in appLayout, and passed in by group layer.
@@ -39,6 +43,9 @@ Template.setupWindow.fn = {
         const gtdid = gtd.newId( Session.get( 'setup.tab.name' ));
         if( gtdid ){
             gtd.activateId( gtdid );
+        } else {
+            console.log( 'Unable to find which gtdId to be run for New activation.' );
+            console.log( 'Please make sure a "new" key is defined in gtd.js' );
         }
     },
     newClasses: function(){
@@ -105,8 +112,8 @@ Template.setupWindow.onRendered( function(){
     $( '.setupWindow' ).on( 'setup-tab-ready', function( ev, o ){
     //document.addEventListener( 'setup-tab-ready', function( ev, o ){
         //console.log( ev );
-        console.log( o );
-        console.log( 'setup.tab.name='+Session.get( 'setup.tab.name' ));
+        //console.log( o );
+        //console.log( 'setup.tab.name='+Session.get( 'setup.tab.name' ));
         self.ronin.dict.set( o.id+'_count', o.count );
         // maybe stop the spinner
         if( o.id === Session.get( 'setup.tab.name' ) && self.ronin.spinner ){

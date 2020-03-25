@@ -4,9 +4,10 @@ import { Delegates } from '../delegates.js';
 
 Meteor.methods({
     'delegates.insert'( o ){
-        delegates.fn.check( o );
+        Delegates.fn.check( o );
+        Delegates.schema.validate( o );
         csfns.takeOwnership( o );
-        const item = delegates.sofns.cleanup( o );
+        const item = Delegates.sofns.cleanup( o );
         const ret = Delegates.insert( item.set );
         console.log( 'delegates.insert "'+o.name+'" returns '+ret );
         if( !ret ){
@@ -28,7 +29,8 @@ Meteor.methods({
         return ret;
     },
    'delegates.update'( o ){
-        delegates.fn.check( o );
+        Delegates.fn.check( o );
+        Delegates.schema.validate( o );
         csfns.takeOwnership( o );
         const item = Delegates.sofns.cleanup( o );
         const ret = Delegates.update( o._id, { $set:item.set, $unset:item.unset });

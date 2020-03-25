@@ -19,6 +19,10 @@ Delegates.schema = new SimpleSchema({
         type: String,
         optional: true
     },
+    _id: {
+        type: String,
+        optional: true
+    },
     xxxxxx: {   // unused key to be sure we always have something to unset
         type: String,
         optional: true
