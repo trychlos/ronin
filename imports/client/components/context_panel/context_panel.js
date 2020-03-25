@@ -16,7 +16,7 @@ Template.context_panel.fn = {
         if( $dom ){
             o = {
                 name: $( $dom.find( '.js-name' )[0] ).val(),
-                description: $( $dom.find( '.js-description' )[0] ).val(),
+                description: $( $dom.find( '.js-description' )[0] ).val()
             };
         }
         return o;

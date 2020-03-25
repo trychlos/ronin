@@ -22,6 +22,7 @@ import '/imports/client/windows/prefs_window/prefs_window.js';
 import '/imports/client/windows/priority_value_edit/priority_value_edit.js';
 import '/imports/client/windows/setup_window/setup_window.js';
 import '/imports/client/windows/time_value_edit/time_value_edit.js';
+import '/imports/client/windows/topic_edit/topic_edit.js';
 import './setup_group.html';
 
 Template.setupGroup.onCreated( function(){

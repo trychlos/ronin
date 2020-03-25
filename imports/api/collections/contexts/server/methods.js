@@ -6,7 +6,6 @@ import { Contexts } from '../contexts.js';
 Meteor.methods({
     'contexts.insert'( o ){
         Contexts.fn.check( o );
-        Contexts.schema.validate( o );
         csfns.takeOwnership( o );
         const item = Contexts.sofns.cleanup( o );
         const ret = Contexts.insert( item.set );
@@ -31,7 +30,6 @@ Meteor.methods({
     },
    'contexts.update'( o ){
         Contexts.fn.check( o );
-        Contexts.schema.validate( o );
         csfns.takeOwnership( o );
         const item = Contexts.sofns.cleanup( o );
         const ret = Contexts.update( o._id, { $set:item.set, $unset:item.unset });

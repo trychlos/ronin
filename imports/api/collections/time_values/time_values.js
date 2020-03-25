@@ -44,6 +44,7 @@ TimeValues.fn = {
         csfns.check_object( o );
         csfns.check_editable( o );
         csfns.check_name( o );
+        TimeValues.schema.validate( o );
     },
     /* Test if two objects are equals
     *  mainly used to prevent too many useless updates

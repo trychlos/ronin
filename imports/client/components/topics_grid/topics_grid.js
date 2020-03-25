@@ -50,6 +50,36 @@ Template.topics_grid.onRendered( function(){
 });
 
 Template.topics_grid.helpers({
+    colorBackground(){
+        const instance = Template.instance();
+        let color = 'white';
+        if( instance.view.isRendered ){
+            const elt = instance.ronin.dom.backcolor;
+            color = this.item ? this.item.backgroundColor : elt.spectrum( 'get' );
+            elt.spectrum( 'set', color );
+        }
+        return color;
+    },
+    colorText(){
+        const instance = Template.instance();
+        let color = 'black';
+        if( instance.view.isRendered ){
+            const elt = instance.ronin.dom.textcolor;
+            const color = this.item ? this.item.textColor : elt.spectrum( 'get' );
+            elt.spectrum( 'set', color );
+        }
+        return color;
+    },
+    // template helper
+    //  activates 'disabled' state if the item is non deletable
+    isDeletable( it ){
+        return '';
+    },
+    // template helper
+    //  activates 'disabled' state if the item is non editable
+    isEditable( it ){
+        return '';
+    },
     getCreated( it ){
         return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
     },

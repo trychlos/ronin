@@ -229,6 +229,7 @@ export const gtd = {
                         label: 'Setup topics',
                         route: 'rt.setup.topics',
                         template: 'setupWindow',
+                        new: 'gtd-setup-topic-new',
                         navs: {
                             header: {
                                 display: true
@@ -246,6 +247,18 @@ export const gtd = {
                                 label: 'Topics'
                             }
                         }
+                    },
+                    {
+                        id: 'gtd-setup-topic-new',
+                        label: 'New topic',
+                        route: 'rt.setup.topic.new',
+                        template: 'topicEdit'
+                    },
+                    {
+                        id: 'gtd-setup-topic-edit',
+                        label: 'Edit topic',
+                        route: 'rt.setup.topic.edit',
+                        template: 'topicEdit'
                     },
                     {
                         id: 'gtd-setup-refs',

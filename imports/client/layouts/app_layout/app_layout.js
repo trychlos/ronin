@@ -44,6 +44,7 @@ import '/imports/client/business/priority_values_model.js';
 import '/imports/client/business/projects_model.js';
 import '/imports/client/business/thoughts_model.js';
 import '/imports/client/business/time_values_model.js';
+import '/imports/client/business/topics_model.js';
 
 import '/imports/client/components/lyt_footer_panel/lyt_footer_panel.js';
 import '/imports/client/components/lyt_header_panel/lyt_header_panel.js';

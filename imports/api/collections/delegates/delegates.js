@@ -48,6 +48,7 @@ Delegates.fn = {
         csfns.check_object( o );
         csfns.check_editable( o );
         csfns.check_name( o );
+        Delegates.schema.validate( o );
     },
     /* Test if two objects are equals
     *  mainly used to prevent too many useless updates

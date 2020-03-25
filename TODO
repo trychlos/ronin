@@ -132,7 +132,9 @@
   215 2020- 3-25 setupWindow: depending on which action has led to the window creation,
                   the badge may or may not be displayed
 
-  216
+  216 2020- 3-25 setupWindowm: spinner may not stop until a tab change
+
+  217
 
 ==============================================================================
  Done

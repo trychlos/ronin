@@ -6,7 +6,6 @@ import { PriorityValues } from '../priority_values.js';
 Meteor.methods({
     'priority_values.insert'( o ){
         PriorityValues.fn.check( o );
-        PriorityValues.schema.validate( o );
         csfns.takeOwnership( o );
         const item = PriorityValues.sofns.cleanup( o );
         const ret = PriorityValues.insert( item.set );
@@ -32,7 +31,6 @@ Meteor.methods({
     },
    'priority_values.update'( o ){
         PriorityValues.fn.check( o );
-        PriorityValues.schema.validate( o );
         csfns.takeOwnership( o );
         const item = PriorityValues.sofns.cleanup( o );
         const ret = PriorityValues.update( o._id, { $set:item.set, $unset:item.unset });

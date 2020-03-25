@@ -5,7 +5,6 @@ import { Delegates } from '../delegates.js';
 Meteor.methods({
     'delegates.insert'( o ){
         Delegates.fn.check( o );
-        Delegates.schema.validate( o );
         csfns.takeOwnership( o );
         const item = Delegates.sofns.cleanup( o );
         const ret = Delegates.insert( item.set );
@@ -30,7 +29,6 @@ Meteor.methods({
     },
    'delegates.update'( o ){
         Delegates.fn.check( o );
-        Delegates.schema.validate( o );
         csfns.takeOwnership( o );
         const item = Delegates.sofns.cleanup( o );
         const ret = Delegates.update( o._id, { $set:item.set, $unset:item.unset });

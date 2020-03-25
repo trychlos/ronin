@@ -6,7 +6,6 @@ import { TimeValues } from '../time_values.js';
 Meteor.methods({
     'time_values.insert'( o ){
         TimeValues.fn.check( o );
-        TimeValues.schema.validate( o );
         csfns.takeOwnership( o );
         const item = TimeValues.sofns.cleanup( o );
         const ret = TimeValues.insert( item.set );
@@ -32,7 +31,6 @@ Meteor.methods({
     },
    'time_values.update'( o ){
         TimeValues.fn.check( o );
-        TimeValues.schema.validate( o );
         csfns.takeOwnership( o );
         const item = TimeValues.sofns.cleanup( o );
         const ret = TimeValues.update( o._id, { $set:item.set, $unset:item.unset });

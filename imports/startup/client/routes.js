@@ -159,6 +159,18 @@ FlowRouter.route('/setup/topics', {
         blazeRender( this.name );
     },
 });
+FlowRouter.route('/setup/topics/new', {
+    name: 'rt.setup.topic.new',
+    action(){
+        blazeRender( this.name );
+    },
+});
+FlowRouter.route('/setup/topics/edit', {
+    name: 'rt.setup.topic.edit',
+    action(){
+        blazeRender( this.name );
+    },
+});
 FlowRouter.route('/setup/refs', {
     name: 'rt.setup.ref',
     action(){

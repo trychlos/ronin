@@ -6,7 +6,6 @@ import { EnergyValues } from '../energy_values.js';
 Meteor.methods({
     'energy_values.insert'( o ){
         EnergyValues.fn.check( o );
-        EnergyValues.schema.validate( o );
         csfns.takeOwnership( o );
         const item = EnergyValues.sofns.cleanup( o );
         const ret = EnergyValues.insert( item.set );
@@ -32,7 +31,6 @@ Meteor.methods({
     },
    'energy_values.update'( o ){
         EnergyValues.fn.check( o );
-        EnergyValues.schema.validate( o );
         csfns.takeOwnership( o );
         const item = EnergyValues.sofns.cleanup( o );
         const ret = EnergyValues.update( o._id, { $set:item.set, $unset:item.unset });

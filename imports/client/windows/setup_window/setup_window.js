@@ -44,8 +44,8 @@ Template.setupWindow.fn = {
         if( gtdid ){
             gtd.activateId( gtdid );
         } else {
-            console.log( 'Unable to find which gtdId to be run for New activation.' );
-            console.log( 'Please make sure a "new" key is defined in gtd.js' );
+            console.log( 'Unable to find which gtdId to be run for New activation. '+
+                            'Please make sure a "new" key is defined in gtd.js' );
         }
     },
     newClasses: function(){

@@ -233,6 +233,7 @@ Articles.fn.check = function( o ){
             // if parent set, the parent hierarchy must not loop and only contain projects
             break;
     }
+    Articles.schema.validate( o );
 };
 
 // type must be known
