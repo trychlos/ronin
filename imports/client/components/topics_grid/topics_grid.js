@@ -85,5 +85,25 @@ Template.topics_grid.helpers({
     },
     items(){
         return Topics.find();
+    },
+    // do not specify the style if it is the default value
+    styleItem( it ){
+        // attribute helper as an object doesn't work oob
+        // see https://github.com/meteor/blaze/issues/254
+        //return {
+        //    style: {
+        //        color: it.textColor || Topics.fn.textColor,
+        //        background: it.backgroundColor || Topics.fn.backgroundColor
+        //    }
+        //};
+        // also unable to return the full 'style=...' string
+        //  as the browser complains DOMException: "String contains an invalid character"
+        //const style = 'style="..."'+
+        let style = 'color:'+( it.textColor || Topics.fn.colorText )+';';
+        if( it.backgroundColor && it.backgroundColor !== Topics.fn.colorBackground ){
+            style += 'background-color:'+it.backgroundColor+';';
+        }
+        //console.log( style );
+        return style;
     }
 });

@@ -56,8 +56,8 @@ Topics.fn = {
     },
     /* Default colors
      */
-    colorBackground: 'white',
-    colorText: 'black',
+    colorBackground: '#ffffff',
+    colorText: '#000000',
     /* Test if two objects are equals
      *  mainly used to prevent too many useless updates
      *  Callable both from client and server, but mainly used from the client.

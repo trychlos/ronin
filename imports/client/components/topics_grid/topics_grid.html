@@ -16,10 +16,10 @@
                         <td class="btn-actions">
                             {{> edit_button item=it disabled="(isEditable it)" route="rt.setup.topic.edit" }}
                         </td>
-                        <td class="x-ellipsed">
+                        <td class="x-ellipsed" style="{{ styleItem it }}">
                                 <p class="x-ellipsize">{{ it.name }}</p>
                         </td>
-                        <td>
+                        <td style="{{ styleItem it }}">
                             {{ getCreated it }}
                         </td>
                         <td class="btn-actions">
