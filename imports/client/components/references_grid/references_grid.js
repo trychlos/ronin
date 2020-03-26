@@ -8,19 +8,12 @@
  *  Rationale: see actions_grid.js
  *
  *  Parameters:
- *  - 'data': the layout context built in appLayout, and passed in by group layer.
+ *  - 'data' passed from setup_tabs:
+ *      > gtd: the GTD item, here 'gtd-setup-contexts'
+ *      > items: the cursor to the setup elements.
  *
  *  Session variables:
  *  - setup.tab.name: the current tab.
  */
 import { References } from '/imports/api/collections/references/references.js';
 import './references_grid.html';
-
-Template.references_grid.onRendered( function(){
-    this.autorun(() => {
-        $( '.references-grid' ).trigger( 'setup-tab-ready', {
-            id: 'gtd-setup-refs',
-            count: References.find().count()
-        });
-    });
-});

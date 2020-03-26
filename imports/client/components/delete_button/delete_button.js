@@ -21,6 +21,7 @@ Template.delete_button.helpers({
 
 Template.delete_button.events({
     'click .js-delete'( event, instance ){
+        //console.log( instance );
         const msg = instance.data.message || 'ronin.model.item.delete';
         $.pubsub.publish( msg, instance.data.item );
         return false;

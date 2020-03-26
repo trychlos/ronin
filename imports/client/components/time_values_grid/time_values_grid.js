@@ -8,7 +8,9 @@
  *  Rationale: see actions_grid.js
  *
  *  Parameters:
- *  - 'data': the layout context built in appLayout, and passed in by group layer.
+ *  - 'data' passed from setup_tabs:
+ *      > gtd: the GTD item, here 'gtd-setup-contexts'
+ *      > items: the cursor to the setup elements.
  *
  *  Session variables:
  *  - setup.tab.name: the current tab.
@@ -37,13 +39,6 @@ Template.time_values_grid.onRendered( function(){
                 }
             ]
         }
-    });
-
-    this.autorun(() => {
-        $( '.time-values-grid' ).trigger( 'setup-tab-ready', {
-            id: 'gtd-setup-time',
-            count: TimeValues.find().count()
-        });
     });
 });
 

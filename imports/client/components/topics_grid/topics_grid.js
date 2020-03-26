@@ -8,7 +8,9 @@
  *  Rationale: see actions_grid.js
  *
  *  Parameters:
- *  - 'data': the layout context built in appLayout, and passed in by group layer.
+ *  - 'data' passed from setup_tabs:
+ *      > gtd: the GTD item, here 'gtd-setup-contexts'
+ *      > items: the cursor to the setup elements.
  *
  *  Session variables:
  *  - setup.tab.name: the current tab.
@@ -29,7 +31,6 @@ Template.topics_grid.fn = {
 
 Template.topics_grid.onRendered( function(){
     //console.log( 'topics_grid.onRendered '+this.data.gtdid );
-
     this.$( '.js-grid' ).IGrid({
         sort: {
             compare: [
@@ -39,13 +40,6 @@ Template.topics_grid.onRendered( function(){
                 }
             ]
         }
-    });
-
-    this.autorun(() => {
-        $( '.topics-grid' ).trigger( 'setup-tab-ready', {
-            id: 'gtd-setup-topics',
-            count: Topics.find().count()
-        });
     });
 });
 

@@ -76,9 +76,20 @@ FlowRouter.route('/', {
         BlazeLayout.render( 'appLayout', {});
     },
 });
+FlowRouter.route('/setup', {
+    name: 'rt.setup.lists',
+    triggersEnter: [ function( context, redirect ){
+        if( !Session.get( 'setup.tab.name' )){
+            Session.set( 'setup.tab.name', 'gtd-setup-contexts' );
+        }
+        const route = gtd.routeId( 'setup', Session.get( 'setup.tab.name' ));
+        redirect( FlowRouter.path( route ));
+    }]
+});
 FlowRouter.route('/setup/contexts', {
     name: 'rt.setup.contexts',
     action(){
+        Session.set( 'page.group', 'gtd-setup-page' );
         Session.set( 'setup.tab.name', 'gtd-setup-contexts' );
         blazeRender( this.name );
     },
@@ -98,6 +109,7 @@ FlowRouter.route('/setup/contexts/edit', {
 FlowRouter.route('/setup/time', {
     name: 'rt.setup.time',
     action(){
+        Session.set( 'page.group', 'gtd-setup-page' );
         Session.set( 'setup.tab.name', 'gtd-setup-time' );
         blazeRender( this.name );
     },
@@ -117,6 +129,7 @@ FlowRouter.route('/setup/time/edit', {
 FlowRouter.route('/setup/energy', {
     name: 'rt.setup.energy',
     action(){
+        Session.set( 'page.group', 'gtd-setup-page' );
         Session.set( 'setup.tab.name', 'gtd-setup-energy' );
         blazeRender( this.name );
     },
@@ -136,6 +149,7 @@ FlowRouter.route('/setup/energy/edit', {
 FlowRouter.route('/setup/priority', {
     name: 'rt.setup.priority',
     action(){
+        Session.set( 'page.group', 'gtd-setup-page' );
         Session.set( 'setup.tab.name', 'gtd-setup-priority' );
         blazeRender( this.name );
     },
@@ -155,6 +169,7 @@ FlowRouter.route('/setup/priority/edit', {
 FlowRouter.route('/setup/topics', {
     name: 'rt.setup.topics',
     action(){
+        Session.set( 'page.group', 'gtd-setup-page' );
         Session.set( 'setup.tab.name', 'gtd-setup-topics' );
         blazeRender( this.name );
     },
@@ -174,6 +189,7 @@ FlowRouter.route('/setup/topics/edit', {
 FlowRouter.route('/setup/refs', {
     name: 'rt.setup.ref',
     action(){
+        Session.set( 'page.group', 'gtd-setup-page' );
         Session.set( 'setup.tab.name', 'gtd-setup-refs' );
         blazeRender( this.name );
     },
@@ -181,6 +197,7 @@ FlowRouter.route('/setup/refs', {
 FlowRouter.route('/setup/delegates', {
     name: 'rt.setup.delegates',
     action(){
+        Session.set( 'page.group', 'gtd-setup-page' );
         Session.set( 'setup.tab.name', 'gtd-setup-delegates' );
         blazeRender( this.name );
     },
@@ -188,21 +205,21 @@ FlowRouter.route('/setup/delegates', {
 FlowRouter.route('/gear/device', {
     name: 'rt.gear.device',
     action(){
-        Session.set( 'page.group', 'gtd-setup-group' );
+        Session.set( 'page.group', 'gtd-setup-page' );
         blazeRender( this.name );
     },
 });
 loggedInRoutes.route('/gear/prefs', {
     name: 'rt.gear.prefs',
     action(){
-        Session.set( 'page.group', 'gtd-setup-group' );
+        Session.set( 'page.group', 'gtd-setup-page' );
         blazeRender( this.name );
     },
 });
 loggedInRoutes.route('/gear/prefs/lists', {
     name: 'rt.gear.prefs.window.list',
     action(){
-        Session.set( 'page.group', 'gtd-setup-group' );
+        Session.set( 'page.group', 'gtd-setup-page' );
         blazeRender( this.name );
     },
 });

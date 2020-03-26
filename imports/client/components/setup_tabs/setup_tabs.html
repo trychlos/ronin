@@ -2,30 +2,29 @@
     <div class="setup-tabs">
 
         <ul class="nav nav-tabs" role="tablist">
-                {{#each it in gtdItems}}
-                    <li class="nav-item" role="presentation" data-itabbed="{{it.id}}" data-ronin-itb-route="{{gtdRoute it}}">
-                        <a class="nav-link" href="#{{it.id}}" role="tab" data-toggle="tab">{{gtdLabel it}}</a>
-                    </li>
-                {{/each}}
-            </ul>
+            {{#each it in gtdItems}}
+                <li class="nav-item" role="presentation" data-itabbed="{{it.id}}" data-ronin-itb-route="{{gtdRoute it}}">
+                    <a class="nav-link" href="#{{it.id}}" role="tab" data-toggle="tab">{{gtdLabel it}}</a>
+                </li>
+            {{/each}}
+        </ul>
 
-            <div class="tab-content">
-                {{#each it in gtdItems}}
-                    <div role="tabpanel" class="tab-pane fade" id="{{it.id}}">
-                        {{#if tabularIsPreferred}}
-                            {{#if gtdComponent it}}
-                                {{> Template.dynamic template=(gtdComponent it) }}
-                            {{/if}}
-                        {{else}}
-                        <!--
-                            {{#each art in (actions it)}}
-                                {{> action_card action=art parent=".actions-tabs" }}
-                            {{/each}}
-                            -->
+        <div class="tab-content">
+            {{#each it in gtdItems}}
+                <div role="tabpanel" class="tab-pane fade" id="{{it.id}}">
+                    {{#if tabularIsPreferred}}
+                        {{#if it.gridComponent }}
+                            {{> Template.dynamic template=it.gridComponent data=(dataTab it)}}
                         {{/if}}
-                    </div>
-                {{/each}}
-            </div>
+                    {{else}}
+                        {{#each art in (tabItems it)}}
+                            {{> setup_card item=art parent=".setup-tabs" gtd=it }}
+                        {{/each}}
+                    {{/if}}
+                </div>
+                {{ msgWindow it }}
+            {{/each}}
+        </div>
 
     </div>
 </template>

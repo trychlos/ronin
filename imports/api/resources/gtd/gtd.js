@@ -71,10 +71,6 @@ export const gtd = {
                 label: 'Setup',
                 group: 'setupGroup',
                 navs: {
-                    footer: {
-                        display: true,
-                        sort: 1
-                    },
                     overview: {
                         display: true
                     },
@@ -90,11 +86,26 @@ export const gtd = {
                         label: 'Setup criteria',    // this item for the sake of completeness as it is not used here
                     },
                     {
+                        id: 'gtd-setup-page',
+                        label: 'Setup',
+                        route: 'rt.setup.lists',
+                        template: 'setupWindow',
+                        navs: {
+                            footer: {
+                                display: true,
+                                sort: 1
+                            }
+                        }
+                    },
+                    {
                         id: 'gtd-setup-contexts',
                         label: 'Setup contexts',
                         route: 'rt.setup.contexts',
                         template: 'setupWindow',
-                        new: 'gtd-setup-context-new',
+                        newId: 'gtd-setup-context-new',
+                        gridComponent: 'contexts_grid',
+                        deleteMsg: 'ronin.model.context.delete',
+                        editRoute: 'rt.setup.context.edit',
                         navs: {
                             header: {
                                 display: true
@@ -130,7 +141,10 @@ export const gtd = {
                         label: 'Setup time values',
                         route: 'rt.setup.time',
                         template: 'setupWindow',
-                        new: 'gtd-setup-time-new',
+                        newId: 'gtd-setup-time-new',
+                        gridComponent: 'time_values_grid',
+                        deleteMsg: 'ronin.model.time_value.delete',
+                        editRoute: 'rt.setup.time.edit',
                         navs: {
                             header: {
                                 display: true
@@ -163,7 +177,10 @@ export const gtd = {
                         label: 'Setup energy values',
                         route: 'rt.setup.energy',
                         template: 'setupWindow',
-                        new: 'gtd-setup-energy-new',
+                        newId: 'gtd-setup-energy-new',
+                        gridComponent: 'energy_values_grid',
+                        deleteMsg: 'ronin.model.energy_value.delete',
+                        editRoute: 'rt.setup.energy.edit',
                         navs: {
                             header: {
                                 display: true
@@ -196,7 +213,10 @@ export const gtd = {
                         label: 'Setup priority values',
                         route: 'rt.setup.priority',
                         template: 'setupWindow',
-                        new: 'gtd-setup-priority-new',
+                        newId: 'gtd-setup-priority-new',
+                        gridComponent: 'priority_values_grid',
+                        deleteMsg: 'ronin.model.priority_value.delete',
+                        editRoute: 'rt.setup.priority.edit',
                         navs: {
                             header: {
                                 display: true
@@ -229,7 +249,10 @@ export const gtd = {
                         label: 'Setup topics',
                         route: 'rt.setup.topics',
                         template: 'setupWindow',
-                        new: 'gtd-setup-topic-new',
+                        newId: 'gtd-setup-topic-new',
+                        gridComponent: 'topics_grid',
+                        deleteMsg: 'ronin.model.topic.delete',
+                        editRoute: 'rt.setup.topic.edit',
                         navs: {
                             header: {
                                 display: true
@@ -265,6 +288,7 @@ export const gtd = {
                         label: 'Setup reference items',
                         route: 'rt.setup.ref',
                         template: 'setupWindow',
+                        gridComponent: 'references_grid',
                         navs: {
                             header: {
                                 display: true
@@ -288,6 +312,8 @@ export const gtd = {
                         label: 'Setup delegates',
                         route: 'rt.setup.delegates',
                         template: 'setupWindow',
+                        gridComponent: 'delegates_grid',
+                        deleteMsg: 'ronin.model.delegate.delete',
                         navs: {
                             header: {
                                 display: true
@@ -928,12 +954,13 @@ export const gtd = {
     labelItem: function( name, item ){
         return gtd._search( name, item, 'label', true );
     },
-    // returns the value of the 'new' key
+    // returns the value of the 'newId' key
+    //  identifies 'new' GTD item for a setup element
     newId( id ){
         return gtd.newItem( gtd._byId( id ));
     },
     newItem( item ){
-        return gtd._search( null, item, 'new', true );
+        return gtd._search( null, item, 'newId', true );
     },
     // when a tabbed page associates a different panel for each tab, says here
     //  which panel go where
