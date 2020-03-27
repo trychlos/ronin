@@ -76,10 +76,14 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
         //  - desactivating the previous tab
         //  - activating and showing the designated tab
         _activate: function( name ){
-            this.$dom.find( '.nav-tabs>ul>li.nav-item>a.nav-link' ).removeClass( 'active' );
-            const $tab = this._byName( name );
-            $tab.find( 'a.nav-link' ).addClass( 'active' );
+            //console.log( '_activate '+name );
+            this.$dom.find( 'li.nav-item > a.nav-link' ).removeClass( 'active' );
+            this.$dom.find( 'div.tab-pane' ).removeClass( 'active show' );
+            this.$dom.find( 'li.nav-item[data-itabbed='+name+'] > a.nav-link' ).addClass( 'active' );
             this.$dom.find( '#'+name ).addClass( 'active show' );
+            //const $tab = this._byName( name );
+            //$tab.find( 'a.nav-link' ).addClass( 'active' );
+            //this.$dom.find( '#'+name ).addClass( 'active show' );
         },
         // return the jQuery tab at the specified index
         _byIndex: function( idx ){
@@ -103,11 +107,12 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
         },
         // re-calling an already initialized plugin
         _methods: function(){
-            //console.log( opts );
             //console.log( arguments );
-            if( typeof opts === 'object' ){
-                if( opts.tab ){
-                    this.$dom.jqxTabs( 'select', this._index( opts.tab ));
+            if( typeof arguments[0] === 'object' ){
+                if( arguments[0].tab ){
+                    //console.log( 'to be migrated from jqxTabs' );
+                    //.this.$dom.jqxTabs( 'select', this._index( opts.tab ));
+                    this._activate( arguments[0].tab );
                 }
             // programatically activating and showing a tab
             } else if( arguments[0] === 'activate' ){

@@ -123,12 +123,6 @@
 
   212 2020- 3-23 projectsList in pageLayout: plus button override projects_tabs buttons
 
-  213 2020- 3-24 contexts collection: tranform it on publication to have a 'deletable'
-                 flag taking into account whether the context is used in an action
-
-  214 2020- 3-25 tabbed windows: when activating an item side, the route is updated
-                 but the active tab is not switched
-
   215 2020- 3-25 setupWindow: depending on which action has led to the window creation,
                   the badge may or may not be displayed
 
@@ -780,6 +774,15 @@
 
   210 2020- 3-23 review ANDROID_HOME env variable regarding the announced deprecation
       2020- 3-23 done (has required a reboot)
+
+  213 2020- 3-24 contexts collection: tranform it on publication to have a 'deletable'
+                 flag taking into account whether the context is used in an action
+      2020- 3-26 duplicate of #26
+
+  214 2020- 3-25 tabbed windows: when activating an item side, the route is updated
+                 but the active tab is not switched
+      2020- 3-26 same for all tabbed windows (probably a consequence of scrollingTabs migration)
+      2020- 3-27 fixed
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
