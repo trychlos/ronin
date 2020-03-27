@@ -121,8 +121,6 @@
 
   211 2020- 3-23 review the announced errors about missing default Cordova files
 
-  217 2020- 3-27 projectsList: have projects and actions distinct counters
-
   218
 
 ==============================================================================
@@ -788,6 +786,9 @@
 
   216 2020- 3-25 setupWindowm: spinner may not stop until a tab change
       2020- 3-27 unreproductible
+
+  217 2020- 3-27 projectsList: have projects and actions distinct counters
+      2020- 3-27 done + fix actions counter
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

@@ -86,6 +86,22 @@ Template.projectsList.fn = {
         }
     },
     rebuildClass: function(){
+    },
+    spinnerStart: function( instance ){
+        let $parent = null;
+        if( g.run.layout.get() === LYT_PAGE ){
+            $parent = $( '.projectsList' );
+        } else {
+            $parent = $( '.projectsList' ).window( 'widget' );
+        }
+        if( $parent ){
+            instance.ronin.spinner = new Spinner().spin( $parent[0] );
+        }
+    },
+    spinnerStop: function( instance ){
+        if( instance.ronin.spinner ){
+            instance.ronin.spinner.stop();
+        }
     }
 };
 
@@ -94,12 +110,13 @@ Template.projectsList.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
         spinner: null,
-        tabsView: null,
-        tabs: {}
+        tabsView: null
     };
-    this.ronin.dict.set( 'total_count', 0 );
+    this.ronin.dict.set( 'projects_count', 0 );
+    this.ronin.dict.set( 'actions_count', 0 );
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
     this.ronin.dict.set( 'userId', Meteor.userId());
+    this.ronin.dict.set( 'tabs', {} );
 });
 
 Template.projectsList.onRendered( function(){
@@ -175,15 +192,7 @@ Template.projectsList.onRendered( function(){
     // create a new spinner as soon as the window is ready
     this.autorun(() => {
         if( self.ronin.dict.get( 'window_ready' )){
-            let $parent = null;
-            if( g.run.layout.get() === LYT_PAGE ){
-                $parent = $( '.projectsList' );
-            } else {
-                $parent = $( '.projectsList' ).window( 'widget' );
-            }
-            if( $parent ){
-                self.ronin.spinner = new Spinner().spin( $parent[0] );
-            }
+            fn.spinnerStart( self );
         }
     });
 
@@ -199,17 +208,28 @@ Template.projectsList.onRendered( function(){
     });
 
     // each tree advertises itself when it has finished its build
-    //  stop the spinner when the current is built
     $( '.projects-tabs' ).on( 'projects-tab-built', function( ev, o ){
         //console.log( ev );
         //console.log( o );
         self.ronin.tabsView = o.view;
-        self.ronin.tabs[o.tab] = {
+        let tabs = self.ronin.dict.get( 'tabs' );
+        tabs[o.tab] = {
             projects_count: o.projects_count,
             actions_count: o.actions_count
         };
-        if( o.tab === Session.get( 'projects.tab.name' ) && self.ronin.spinner ){
-            self.ronin.spinner.stop();
+        // update the totals
+        projects_count = 0;
+        actions_count = 0
+        Object.keys( tabs ).forEach( tab => {
+            projects_count += tabs[tab].projects_count;
+            actions_count += tabs[tab].actions_count;
+        });
+        self.ronin.dict.set( 'tabs', tabs );
+        self.ronin.dict.set( 'projects_count', projects_count );
+        self.ronin.dict.set( 'actions_count', actions_count );
+        // stop the spinner when the current tree is built
+        if( o.tab === Session.get( 'projects.tab.name' )){
+            fn.spinnerStop( self );
         }
     });
 
@@ -230,16 +250,20 @@ Template.projectsList.onRendered( function(){
 
 Template.projectsList.helpers({
     // display current counts
-    actions_count(){
+    actionsCount(){
         const self = Template.instance();
-        const total = 0;//self.ronin.dict.get( 'total_count' );
-        const tabcount = 0;//self.ronin.dict.get( Session.get( 'projects.tab.name' )) || 0;
-        return tabcount+'/'+total;
+        const tabs = self.ronin.dict.get( 'tabs' );
+        const o = tabs[Session.get( 'projects.tab.name' )];
+        const total = self.ronin.dict.get( 'actions_count' ) || 0;
+        const tabcount = o ? o.actions_count : 0;
+        return 'Act '+tabcount+'/'+total;
     },
-    projects_count(){
+    projectsCount(){
         const self = Template.instance();
-        const total = 0;//self.ronin.dict.get( 'total_count' );
-        const tabcount = 0;//self.ronin.dict.get( Session.get( 'projects.tab.name' )) || 0;
-        return tabcount+'/'+total;
+        const tabs = self.ronin.dict.get( 'tabs' );
+        const o = tabs[Session.get( 'projects.tab.name' )];
+        const total = self.ronin.dict.get( 'projects_count' ) || 0;
+        const tabcount = o ? o.projects_count : 0;
+        return 'Pro '+tabcount+'/'+total;
     }
 });

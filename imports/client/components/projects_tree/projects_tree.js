@@ -347,6 +347,7 @@ Template.projects_tree.fn = {
         const fn = Template.projects_tree.fn;
         const $tree = instance.ronin.$tree;
         const tab = $tree.data( 'tab' );
+        let count = 0;
         fetched.forEach( it => {
             //console.log( tab+': inst_Actions '+it.name );
             let node = {
@@ -356,28 +357,23 @@ Template.projects_tree.fn = {
                 activableCount: 0
             }
             let added = null;
+            const p = it.parent ? Articles.findOne({ _id:it.parent, type:'P' }) : null;
             // on projects tab, attach to each project their relative actions
             if( tab === 'gtd-review-projects-current' ){
-                if( it.parent ){
-                    const p = Articles.findOne({ _id:it.parent, type:'P' });
-                    if( p && !p.future ){
-                        node.parent = it.parent;
-                        added = fn.tree_addNode( $tree, node );
-                    }
+                if( p && !p.future ){
+                    node.parent = it.parent;
+                    added = fn.tree_addNode( $tree, node );
                 }
             // on actions tab, display actions without a project
             } else if( tab === 'gtd-review-projects-single' ){
-                if( !it.parent ){
+                if( !p ){
                     added = fn.tree_addNode( $tree, node );
                 }
             // last display on future tab the actions attached to a future project
             } else if( tab === 'gtd-review-projects-future' ){
-                if( it.parent ){
-                    const p = Articles.findOne({ _id:it.parent, type:'P' });
-                    if( p && p.future ){
-                        node.parent = it.parent;
-                        added = fn.tree_addNode( $tree, node );
-                    }
+                if( p && p.future ){
+                    node.parent = it.parent;
+                    added = fn.tree_addNode( $tree, node );
                 }
             } else {
                 console.log( tab+': unknown tab' );
@@ -385,8 +381,10 @@ Template.projects_tree.fn = {
             // propagate the activable status up to the hierarchy
             if( added ){
                 fn.node_setActivable( added );
+                count += 1;
             }
         });
+        instance.ronin.dict.set( 'actions_count', count );
     },
 
     // we store in Counters collection the ordering of nodes for the current tree
@@ -412,6 +410,7 @@ Template.projects_tree.fn = {
     inst_Projects: function( instance, order, future, fetched ){
         const fn = Template.projects_tree.fn;
         const $tree = instance.ronin.$tree;
+        let count = 0;
         // add a project node
         const _addNode = function( project, prefix ){
             if( project && ( future ? project.future : !project.future )){
@@ -425,6 +424,7 @@ Template.projects_tree.fn = {
                     };
                     //console.log( prefix+' adding '+node.obj.type+' '+node.obj.name+' future='+future );
                     fn.tree_addNode( $tree, node );
+                    count += 1;
                 }
             }
         };
@@ -451,6 +451,7 @@ Template.projects_tree.fn = {
         fetched.forEach( it => {
             _addNode( it, '' );
         });
+        instance.ronin.dict.set( 'projects_count', count );
     },
 
     inst_rebuildTree: function( instance ){
@@ -507,10 +508,7 @@ Template.projects_tree.onCreated( function(){
             projects: this.subscribe( 'articles.projects.all' ),
             actions: this.subscribe( 'articles.actions.all' )
         },
-        $tree: null,
-        rebuild: {
-            spinner: null
-        }
+        $tree: null
     };
     this.ronin.dict.set( 'order', null );
     this.ronin.dict.set( 'step', 0 );
@@ -581,13 +579,12 @@ Template.projects_tree.onRendered( function(){
     // display actions when they are available and the projects have been shown
     //  projects having been shown implies that other prereqs are ok
     //  + update nodeList with what has been actually made
+    // doesn't filter on the parent: this let us be tolerant about no more existant projects
     this.autorun(() => {
         const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.PROJECTS_SHOWN && step < fn.steps.ACTIONS_SHOWN && self.ronin.handles.actions.ready()){
             const ordering = self.ronin.dict.get( 'order' ); // may be empty
-            let filter = { type:'A' };
-            filter.parent = self.ronin.tab === 'gtd-review-projects-single' ? null : { $ne:null };
-            const actions = Articles.find( filter ).fetch();
+            const actions = Articles.find({ type:'A' }).fetch();
             fn.inst_Actions( self, ordering, actions );
             fn.inst_CountersUpdate( self );
             self.ronin.dict.set( 'step', fn.steps.ACTIONS_SHOWN );
@@ -617,9 +614,6 @@ Template.projects_tree.onRendered( function(){
                 actions_count: self.ronin.dict.get( 'actions_count' )
             });
             self.ronin.dict.set( 'step', fn.steps.ENDED );
-            if( self.ronin.rebuild.spinner ){
-                self.ronin.rebuild.spinner.stop();
-            }
         }
     });
 
