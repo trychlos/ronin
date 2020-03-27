@@ -164,11 +164,20 @@ body {
             line-height: 1.5rem;
         }
     }
-    .tab-footer {
-        display: flex;
-        justify-content: space-between;
-        border-top: 1px solid lightgray;
-        margin-top: 0.5rem;
-        padding: 0.5rem 0 0 0.5rem;
+    button.x-with-label {
+        svg {
+            display: none;
+        }
+        .label {
+            display: block;
+        }
+    }
+    button.x-with-icon {
+        svg {
+            display: block;
+        }
+        .label {
+            display: none;
+        }
     }
 }

@@ -53,9 +53,9 @@ const loggedInRoutes = FlowRouter.group({
     name: "logged-in",
     triggersEnter: [ function( context, redirect ){
         console.log( 'loggedInRoutes triggersEnter()' );
-        const route = context.route.name;
-        console.log( context );
-        console.log( 'route='+route );
+        //const route = context.route.name;
+        //console.log( context );
+        //console.log( 'route='+route );
     }]
 });
 

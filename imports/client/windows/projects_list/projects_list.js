@@ -26,29 +26,66 @@
  *  - 'data': the layout context built in appLayout, and passed in by group layer.
  */
 import { Spinner } from 'spin.js';
-import { Articles } from '/imports/api/collections/articles/articles.js';
-import { Contexts } from '/imports/api/collections/contexts/contexts.js';
-import { Counters } from '/imports/api/collections/counters/counters.js';
-import { Topics } from '/imports/api/collections/topics/topics.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/plus_button/plus_button.js';
+import '/imports/client/components/projects_footer/projects_footer.js';
 import '/imports/client/components/projects_tabs/projects_tabs.js';
 import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './projects_list.html';
 
 Template.projectsList.fn = {
+    collapseActivate: function( instance ){
+        const tabsView = instance.ronin.tabsView;
+        const tab = Session.get( 'projects.tab.name' );
+        const $tree = Template.projects_tabs.fn.getTabTree( tabsView, tab );
+        if( $tree ){
+            $tree.trigger( 'projects-tree-collapse' );
+        }
+    },
+    collapseClass: function(){
+    },
+    dumpActivate: function( instance ){
+        const tabsView = instance.ronin.tabsView;
+        const tab = Session.get( 'projects.tab.name' );
+        const $tree = Template.projects_tabs.fn.getTabTree( tabsView, tab );
+        if( $tree ){
+            $tree.trigger( 'projects-tree-dump' );
+        }
+    },
+    dumpClass: function(){
+    },
+    expandActivate: function( instance ){
+        const tabsView = instance.ronin.tabsView;
+        const tab = Session.get( 'projects.tab.name' );
+        const $tree = Template.projects_tabs.fn.getTabTree( tabsView, tab );
+        if( $tree ){
+            $tree.trigger( 'projects-tree-expand' );
+        }
+    },
+    expandClass: function(){
+    },
     newActivate: function(){
         g.run.back = FlowRouter.current().route.name;
         const tab = Session.get( 'projects.tab.name' );
         gtd.activateId( Template.projectsList.fn.newItem());
     },
-    newClasses: function(){
+    newClass: function(){
         return gtd.classesId( Template.projectsList.fn.newItem()).join( ' ' );
     },
     newItem: function(){
         const tab = Session.get( 'projects.tab.name' );
         return tab === 'gtd-review-projects-single' ? 'gtd-process-action-new' : 'gtd-process-project-new';
+    },
+    rebuildActivate: function( instance ){
+        const tabsView = instance.ronin.tabsView;
+        const tab = Session.get( 'projects.tab.name' );
+        const $tree = Template.projects_tabs.fn.getTabTree( tabsView, tab );
+        if( $tree ){
+            $tree.trigger( 'projects-tree-rebuild' );
+        }
+    },
+    rebuildClass: function(){
     }
 };
 
@@ -57,6 +94,7 @@ Template.projectsList.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
         spinner: null,
+        tabsView: null,
         tabs: {}
     };
     this.ronin.dict.set( 'total_count', 0 );
@@ -77,14 +115,50 @@ Template.projectsList.onRendered( function(){
                 simone: {
                     buttons: [
                         {
-                            text: "Close",
+                            text: 'Close',
                             click: function(){
                                 $().IWindowed.close( '.'+context.template );
                             }
                         },
                         {
-                            text: "New",
-                            class: fn.newClasses(),
+                            //text: "Expand all",
+                            title: 'Expand all',
+                            icon: 'fas fa-expand-arrows-alt',
+                            class: fn.expandClass(),
+                            click: function(){
+                                fn.expandActivate( self );
+                            }
+                        },
+                        {
+                            //text: "Rebuild",
+                            title: 'Rebuild',
+                            icon: 'fas fa-redo-alt',
+                            class: fn.rebuildClass(),
+                            click: function(){
+                                fn.rebuildActivate( self );
+                            }
+                        },
+                        {
+                            //text: "Collapse all",
+                            title: 'Collapse all',
+                            icon: 'fas fa-compress-arrows-alt',
+                            class: fn.collapseClass(),
+                            click: function(){
+                                fn.collapseActivate( self );
+                            }
+                        },
+                        {
+                            //text: "Dump",
+                            title: 'Dump',
+                            icon: 'fas fa-print',
+                            class: fn.dumpClass(),
+                            click: function(){
+                                fn.dumpActivate( self );
+                            }
+                        },
+                        {
+                            text: 'New',
+                            class: fn.newClass(),
                             click: function(){
                                 fn.newActivate();
                             }
@@ -113,56 +187,59 @@ Template.projectsList.onRendered( function(){
         }
     });
 
-    // activate the actions depending of the logged-in user
+    // enable the actions depending of the logged-in user
     this.autorun(() => {
         const userId = Meteor.userId();
         if( userId !== self.ronin.dict.get( 'userId' )){
             if( g.run.layout.get() === LYT_WINDOW ){
-                $( '.projectsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
+                $( '.projectsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClass());
             }
             self.ronin.dict.set( 'userId', userId );
         }
     });
 
-    // child messaging
-    $( '.projectsList' ).on( 'projects-tabs-built', function( ev, o ){
+    // each tree advertises itself when it has finished its build
+    //  stop the spinner when the current is built
+    $( '.projects-tabs' ).on( 'projects-tab-built', function( ev, o ){
         //console.log( ev );
         //console.log( o );
-        if( self.ronin.spinner ){
+        self.ronin.tabsView = o.view;
+        self.ronin.tabs[o.tab] = {
+            projects_count: o.projects_count,
+            actions_count: o.actions_count
+        };
+        if( o.tab === Session.get( 'projects.tab.name' ) && self.ronin.spinner ){
             self.ronin.spinner.stop();
         }
-        return false;
     });
-    $( '.projectsList' ).on( 'projects-tree-count', function( ev, o ){
-        //console.log( ev );
-        //console.log( o );
-        self.ronin.dict.set( o.tab, o.count );
-        self.ronin.tabs[o.tab] = true;
-        let total = 0;
-        for( let prop in self.ronin.tabs ){
-            if( self.ronin.tabs.hasOwnProperty( prop )){
-                total += self.ronin.dict.get( prop );
-            }
-        }
-        self.ronin.dict.set( 'total_count', total );
-        return false;
+
+    // handle the events of the buttons of the footer in layoutPage
+    $( '.js-collapse' ).click(() => {
+        Template.projectsList.fn.collapseActivate( self );
+    });
+    $( '.js-dump' ).click(() => {
+        Template.projectsList.fn.dumpActivate( self );
+    });
+    $( '.js-expand' ).click(() => {
+        Template.projectsList.fn.expandActivate( self );
+    });
+    $( '.js-rebuild' ).click(() => {
+        Template.projectsList.fn.rebuildActivate( self );
     });
 });
 
 Template.projectsList.helpers({
     // display current counts
-    count(){
+    actions_count(){
         const self = Template.instance();
-        const total = self.ronin.dict.get( 'total_count' );
-        const tabcount = self.ronin.dict.get( Session.get( 'projects.tab.name' )) || 0;
+        const total = 0;//self.ronin.dict.get( 'total_count' );
+        const tabcount = 0;//self.ronin.dict.get( Session.get( 'projects.tab.name' )) || 0;
         return tabcount+'/'+total;
-    }
-});
-
-Template.projectsList.events({
-    // page layout
-    'click .js-new'( ev, instance ){
-        Template.projectsList.fn.newActivate();
-        return false;
+    },
+    projects_count(){
+        const self = Template.instance();
+        const total = 0;//self.ronin.dict.get( 'total_count' );
+        const tabcount = 0;//self.ronin.dict.get( Session.get( 'projects.tab.name' )) || 0;
+        return tabcount+'/'+total;
     }
 });

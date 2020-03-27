@@ -61,6 +61,7 @@ div.ronin-layout.ronin-lyt-page {
             display: hidden;
         }
         .wsf-content {
+            width: 100%;
             position: fixed;
             top: @topbar-height;
             bottom: calc( @bottombar-height + @bottombar-height );
@@ -69,11 +70,10 @@ div.ronin-layout.ronin-lyt-page {
         }
         .wsf-footer {
             position :fixed;
-            bottom: @bottombar-height;
+            bottom: calc( @bottombar-height - 0.25rem );
             height: @bottombar-height;
             width: 100%;
-            padding: 0.25rem 0;
-            padding-right: 1rem;
+            padding: 0.5rem 1rem 0.5rem 0;
             border-top: 1px solid @border-color;
         }
     }

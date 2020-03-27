@@ -515,6 +515,8 @@ Template.projects_tree.onCreated( function(){
     this.ronin.dict.set( 'order', null );
     this.ronin.dict.set( 'step', 0 );
     this.ronin.dict.set( 'userId', Meteor.userId());
+    this.ronin.dict.set( 'projects_count', 0 );
+    this.ronin.dict.set( 'actions_count', 0 );
 });
 
 // the instance is rendered
@@ -569,10 +571,6 @@ Template.projects_tree.onRendered( function(){
                     filter.future = future ? true : { $ne: true };
                     const projects = Articles.find( filter ).fetch();
                     fn.inst_Projects( self, ordering, future, projects );
-                    self.ronin.$tree.trigger( 'projects-tree-count', {
-                        tab: self.ronin.tab,
-                        count: projects.length
-                    });
                     self.ronin.dict.set( 'step', fn.steps.PROJECTS_SHOWN );
                     //console.log( 'step='+fn.steps.PROJECTS_SHOWN );
                 }
@@ -592,12 +590,6 @@ Template.projects_tree.onRendered( function(){
             const actions = Articles.find( filter ).fetch();
             fn.inst_Actions( self, ordering, actions );
             fn.inst_CountersUpdate( self );
-            if( self.ronin.tab === 'gtd-review-projects-single' ){
-                self.ronin.$tree.trigger( 'projects-tree-count', {
-                    tab: self.ronin.tab,
-                    count: actions.length
-                });
-            }
             self.ronin.dict.set( 'step', fn.steps.ACTIONS_SHOWN );
             //console.log( 'step='+fn.steps.ACTIONS_SHOWN );
             //fn.dumpTree( self.ronin.$tree );
@@ -614,12 +606,15 @@ Template.projects_tree.onRendered( function(){
     });
 
     // send the termination message
+    //  it will be handled by the projectsList window
     this.autorun(() => {
         const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.EXPANDED && step < fn.steps.ENDED ){
             self.ronin.$tree.trigger( 'projects-tree-built', {
                 tab: self.ronin.tab,
-                $tree: self.ronin.$tree
+                $tree: self.ronin.$tree,
+                projects_count: self.ronin.dict.get( 'projects_count' ),
+                actions_count: self.ronin.dict.get( 'actions_count' )
             });
             self.ronin.dict.set( 'step', fn.steps.ENDED );
             if( self.ronin.rebuild.spinner ){

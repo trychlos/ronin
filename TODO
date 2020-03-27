@@ -121,9 +121,9 @@
 
   211 2020- 3-23 review the announced errors about missing default Cordova files
 
-  212 2020- 3-23 projectsList in pageLayout: plus button override projects_tabs buttons
+  217 2020- 3-27 projectsList: have projects and actions distinct counters
 
-  217
+  218
 
 ==============================================================================
  Done
@@ -769,6 +769,9 @@
 
   210 2020- 3-23 review ANDROID_HOME env variable regarding the announced deprecation
       2020- 3-23 done (has required a reboot)
+
+  212 2020- 3-23 projectsList in pageLayout: plus button override projects_tabs buttons
+      2020- 3-27 done
 
   213 2020- 3-24 contexts collection: tranform it on publication to have a 'deletable'
                  flag taking into account whether the context is used in an action

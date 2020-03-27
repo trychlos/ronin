@@ -1,13 +1,15 @@
 <template name="projectsList">
     <div class="projectsList wsf-parent ronin-window">
 
-        {{> window_badge text=count }}
-        {{> projects_tabs }}
+        <div class="wsf-header">
+            {{> window_badge text=projects_count }}
+            {{> window_badge text=actions_count }}
+        </div>
 
-        {{#if isPageLayout}}
-            <div class="js-new">
-                {{> plus_button }}
-            </div>
+        {{#if isWindowLayout}}
+            {{> projects_tabs }}
+        {{else}}
+            {{> projects_footer }}
         {{/if}}
 
     </div>

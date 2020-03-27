@@ -1,37 +1,23 @@
 <template name="projects_tabs">
     <div class="projects-tabs ronin-panel ronin-wnd-content">
 
-        <ul class="nav nav-tabs" role="tablist">
-            {{#each it in gtdItems}}
-                <li class="nav-item" role="presentation" data-itabbed="{{ it.id }}" data-ronin-itb-route="{{ gtdRoute it }}">
-                    <a class="nav-link" href="#{{ it.id }}" role="tab" data-toggle="tab">{{ gtdLabel it }}</a>
-                </li>
-            {{/each}}
-        </ul>
-        <div class="tab-content">
-            {{#each it in gtdItems}}
-                <div role="tabpanel" class="tab-pane fade" id="{{ it.id }}">
-                    {{> projects_tree tab=it.id label=(gtdLabel it) }}
-                </div>
-            {{/each}}
-        </div>
-        <div class="tab-footer">
-            <button type="button" class="js-expand ui-corner-all ui-button {{widthClass}}" title="Expand all">
-                <span class="fas fa-expand-arrows-alt"></span>
-                <span class="label">Expand all</span>
-            </button>
-            <button type="button" class="js-rebuild ui-corner-all ui-button {{widthClass}}" title="Rebuild">
-                    <span class="fas fa-redo-alt"></span>
-                    <span class="label">Rebuild</span>
-            </button>
-            <button type="button" class="js-collapse ui-corner-all ui-button {{widthClass}}" title="Collapse all">
-                <span class="fas fa-compress-arrows-alt"></span>
-                <span class="label">Collapse all</span>
-            </button>
-            <button type="button" class="js-dump x-hidden ui-corner-all ui-button {{widthClass}}" title="Dump">
-                <span class="fas fa-print"></span>
-                <span class="label">Dump</span>
-            </button>
+        <div class="wsf-content">
+
+            <ul class="nav nav-tabs" role="tablist">
+                {{#each it in gtdItems}}
+                    <li class="nav-item" role="presentation" data-itabbed="{{ it.id }}" data-ronin-itb-route="{{ gtdRoute it }}">
+                        <a class="nav-link" href="#{{ it.id }}" role="tab" data-toggle="tab">{{ gtdLabel it }}</a>
+                    </li>
+                {{/each}}
+            </ul>
+            <div class="tab-content">
+                {{#each it in gtdItems}}
+                    <div role="tabpanel" class="tab-pane fade" id="{{ it.id }}">
+                        {{> projects_tree tab=it.id label=(gtdLabel it) }}
+                    </div>
+                {{/each}}
+            </div>
+
         </div>
 
     </div>

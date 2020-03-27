@@ -4,39 +4,35 @@
  *
  *  Session variables:
  *  - projects.tab.name: the current tab.
- *
- *  Parameters:
- *  - label: the label to be displayed as the root node
- *  - tab: the identifier of the created instance (may not be the one currently shown).
  */
-import { Articles } from '/imports/api/collections/articles/articles.js';
-import { Counters } from '/imports/api/collections/counters/counters.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/projects_tree/projects_tree.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
 import './projects_tabs.html';
 
 Template.projects_tabs.fn = {
-    // search the built trees for the one which holds this object
-    getTab( instance, obj_id ){
-        const items = instance.ronin.gtdItems || [];
-        for( let i=0 ; i<items.length ; ++i ){
-            if( Template.projects_tree.fn.tree_hasId( instance.ronin.$trees[items[i].id], obj_id )){
-                return items[i].id;
+    // returns the tab whose tree holds this object (may be null)
+    getObjectTab( instance, obj_id ){
+        const tabs = Object.keys( instance.ronin.tabs );
+        for( let i=0 ; i<tabs.length ; ++i ){
+            if( Template.projects_tree.fn.tree_hasId( instance.ronin.tabs[tabs[i]], obj_id )){
+                return tabs[i];
             }
         }
         return null;
+    },
+    // returns the tree held by this tab (may be null)
+    getTabTree( instance, tab ){
+        return instance.ronin.tabs[tab];
     }
 };
 
 Template.projects_tabs.onCreated( function(){
     //console.log( 'projects_tabs.onCreated' );
     this.ronin = {
-        dict:  new ReactiveDict(),
         gtdItems: null,     // array of gtm items
-        $trees: {}          // hash gtd_id -> $tree
+        tabs: {}
     };
-    this.ronin.dict.set( 'count', 0 );
 });
 
 Template.projects_tabs.onRendered( function(){
@@ -49,22 +45,17 @@ Template.projects_tabs.onRendered( function(){
         });
     });
 
-    // when all the tabs have been rendered, advertise the window
-    // use a jQuery message to get its attached data (here, the built tab)
-    //  + the jQuery message is the only way to trigger the parent window in windowLayout :(
+    // each tree advertises itself when it has finished its build
     $( '.projects-tabs' ).on( 'projects-tree-built', function( ev, o ){
         //console.log( ev );
         //console.log( o );
-        let count = self.ronin.dict.get( 'count' );
-        count += 1;
-        self.ronin.dict.set( 'count', count );
-        const items = self.ronin.gtdItems || [];
-        if( count === items.length ){
-            $( ev.target ).trigger( 'projects-tabs-built', { count:count });
-        }
-        if( !self.ronin.$trees[o.tab] ){
-            self.ronin.$trees[o.tab] = o.$tree;
-        }
+        self.ronin.tabs[o.tab] = o.$tree;
+        $( '.projects-tabs' ).trigger( 'projects-tab-built', {
+            tab: o.tab,
+            view: self,
+            projects_count: o.projects_count,
+            actions_count: o.actions_count
+        });
     });
 
     // it happends that the tree hierarchy does not react well to certains changes,
@@ -75,14 +66,14 @@ Template.projects_tabs.onRendered( function(){
     //  we so subscribe to the corresponding messages, and act accordingly
     jQuery.pubsub.subscribe( 'ronin.ui.item.updated', ( msg, o ) => {
         if( o.orig ){
-            let orig = fn.getTab( self, o.orig._id );
+            let orig = fn.getObjectTab( self, o.orig._id );
             if( orig ){
-                self.ronin.$trees[orig].trigger( 'projects-tree-rebuild' );
+                self.ronin.tabs[orig].$tree.trigger( 'projects-tree-rebuild' );
             }
             if( o.edit && o.edit.parent !== o.orig.parent ){
-                const dest = o.edit.parent ? fn.getTab( self, o.edit.parent ) : 'gtd-review-projects-single';
+                const dest = o.edit.parent ? fn.getObjectTab( self, o.edit.parent ) : 'gtd-review-projects-single';
                 if( dest !== orig ){
-                    self.ronin.$trees[dest].trigger( 'projects-tree-rebuild' );
+                    self.ronin.tabs[dest].$tree.trigger( 'projects-tree-rebuild' );
                 }
             }
         }
@@ -93,56 +84,16 @@ Template.projects_tabs.helpers({
     gtdItems(){
         const self = Template.instance();
         if( !self.ronin.gtdItems ){
-            self.ronin.gtdItems = [];
-            gtd.items( 'projects' ).forEach( it => {
-                self.ronin.gtdItems.push( it );
-                self.ronin.$trees[it.id] = null;
-            });
+            self.ronin.gtdItems = gtd.items( 'projects' );
         }
         return self.ronin.gtdItems;
     },
-    gtdLabel( item ){
-        return gtd.labelItem( 'projects', item );
+    gtdLabel( it ){
+        return gtd.labelItem( 'projects', it );
     },
-    gtdRoute( item ){
-        return gtd.routeItem( 'projects', item );
+    gtdRoute( it ){
+        return gtd.routeItem( 'projects', it );
     },
-    // class helper
-    widthClass(){
-        //return g.run.layout.get() === LYT_PAGE && g.run.width.get() < 400 ? 'with-icon': 'with-label';
-        return g.run.width.get() < 400 ? 'with-icon': 'with-label';
-    }
-});
-
-Template.projects_tabs.events({
-    'click .js-collapse'( ev, instance ){
-        const tab = Session.get( 'projects.tab.name' );
-        const $tree = instance.ronin.$trees[tab];
-        if( $tree ){
-            $tree.trigger( 'projects-tree-collapse' );
-        }
-    },
-    'click .js-dump'( ev, instance ){
-        const tab = Session.get( 'projects.tab.name' );
-        const $tree = instance.ronin.$trees[tab];
-        if( $tree ){
-            $tree.trigger( 'projects-tree-dump' );
-        }
-    },
-    'click .js-expand'( ev, instance ){
-        const tab = Session.get( 'projects.tab.name' );
-        const $tree = instance.ronin.$trees[tab];
-        if( $tree ){
-            $tree.trigger( 'projects-tree-expand' );
-        }
-    },
-    'click .js-rebuild'( ev, instance ){
-        const tab = Session.get( 'projects.tab.name' );
-        const $tree = instance.ronin.$trees[tab];
-        if( $tree ){
-            $tree.trigger( 'projects-tree-rebuild' );
-        }
-    }
 });
 
 Template.projects_tabs.onDestroyed( function(){
