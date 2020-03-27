@@ -62,6 +62,7 @@ Template.setupWindow.onCreated( function(){
 });
 
 Template.setupWindow.onRendered( function(){
+    //console.log( 'setupWindow.onRendered' );
     const self = this;
     const fn = Template.setupWindow.fn;
 
@@ -102,18 +103,20 @@ Template.setupWindow.onRendered( function(){
                 g.run.layout.get() === LYT_PAGE ?
                     $( '.setupWindow' ) :
                     $( '.setupWindow' ).window( 'widget' );
+            //console.log( 'start the spinner' );
             self.ronin.spinner = new Spinner().spin( $parent[0] );
         }
     });
 
     // child messaging
     //  update the tab's count
-    //  stop the spinner when currently displayed tab has sent its message
+    //  doesn't receive the first (zero) message sent by the child
+    //  doesn't receive any more message if the collection is empty
+    //console.log( 'attaching the event handler' );
     $( '.setupWindow' ).on( 'setup-tab-ready', function( ev, o ){
         //console.log( ev );
         //console.log( o );
         self.ronin.dict.set( o.id+'_count', o.count );
-        // maybe stop the spinner
         if( o.id === Session.get( 'setup.tab.name' ) && self.ronin.spinner ){
             self.ronin.spinner.stop();
         }

@@ -123,11 +123,6 @@
 
   212 2020- 3-23 projectsList in pageLayout: plus button override projects_tabs buttons
 
-  215 2020- 3-25 setupWindow: depending on which action has led to the window creation,
-                  the badge may or may not be displayed
-
-  216 2020- 3-25 setupWindowm: spinner may not stop until a tab change
-
   217
 
 ==============================================================================
@@ -783,6 +778,13 @@
                  but the active tab is not switched
       2020- 3-26 same for all tabbed windows (probably a consequence of scrollingTabs migration)
       2020- 3-27 fixed
+
+  215 2020- 3-25 setupWindow: depending on which action has led to the window creation,
+                  the badge may or may not be displayed
+      2020- 3-27 not reproductible + text_badge extended to display zero values
+
+  216 2020- 3-25 setupWindowm: spinner may not stop until a tab change
+      2020- 3-27 unreproductible
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

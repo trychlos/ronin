@@ -15,8 +15,11 @@ import './text_badge.html';
 
 Template.text_badge.helpers({
     // class helper
-    //  nothing at all is displayed if text is empty
+    //  nothing at all is displayed if text is not defined
     visibleClass(){
+        if( this.text === 0 ){
+            return '';
+        }
         return this.text ? '' : 'x-hidden';
     }
 });

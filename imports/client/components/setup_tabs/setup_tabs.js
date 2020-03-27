@@ -49,15 +49,6 @@ Template.setup_tabs.fn = {
             }
         }
         return( fn._prefTabular === 'grid' );
-    },
-    // return the element of the 'ronin.tabs' array which corresponds to the specified id
-    tab( instance, name ){
-        for( let i=0 ; i<instance.ronin.tabs.length ; ++i ){
-            if( instance.ronin.tabs[i].gtd === name ){
-                return instance.ronin.tabs[i];
-            }
-        }
-        return null;
     }
 };
 
@@ -65,43 +56,36 @@ Template.setup_tabs.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
         items: gtd.items( 'setup' ),
-        tabs: [
-            {
-                gtd: 'gtd-setup-contexts',
+        tabs: {
+            'gtd-setup-contexts': {
                 handle: this.subscribe( 'contexts.all' ),
                 cursorFn: function(){ return Contexts.find(); }
             },
-            {
-                gtd: 'gtd-setup-delegates',
+            'gtd-setup-delegates': {
                 handle: this.subscribe( 'delegates.all' ),
                 cursorFn: function(){ return Delegates.find(); }
             },
-            {
-                gtd: 'gtd-setup-energy',
+            'gtd-setup-energy': {
                 handle: this.subscribe( 'energy_values.all' ),
                 cursorFn: function(){ return EnergyValues.find(); }
             },
-            {
-                gtd: 'gtd-setup-priority',
+            'gtd-setup-priority': {
                 handle: this.subscribe( 'priority_values.all' ),
                 cursorFn: function(){ return PriorityValues.find(); }
             },
-            {
-                gtd: 'gtd-setup-refs',
+            'gtd-setup-refs': {
                 handle: this.subscribe( 'references.all' ),
                 cursorFn: function(){ return References.find(); }
             },
-            {
-                gtd: 'gtd-setup-time',
+            'gtd-setup-time': {
                 handle: this.subscribe( 'time_values.all' ),
                 cursorFn: function(){ return TimeValues.find(); }
             },
-            {
-                gtd: 'gtd-setup-topics',
+            'gtd-setup-topics': {
                 handle: this.subscribe( 'topics.all' ),
                 cursorFn: function(){ return Topics.find(); }
             }
-        ]
+        }
     };
 });
 
@@ -115,10 +99,10 @@ Template.setup_tabs.onRendered( function(){
 
 Template.setup_tabs.helpers({
     dataTab( it ){
-        const tab = Template.setup_tabs.fn.tab( Template.instance(), it.id );
+        const instance = Template.instance();
         return {
             gtd: it,
-            items: tab ? tab.cursorFn() : null
+            items: instance.ronin.tabs[it.id].cursorFn()
         };
     },
     gtdItems(){
@@ -131,16 +115,21 @@ Template.setup_tabs.helpers({
     gtdRoute( it ){
         return gtd.routeItem( 'setup', it );
     },
+    // the message is first sent with a zero count at creation time
+    //  but it is too soon for the parent having already subscribed to it
+    // then resent when the subscription is ready and the count changes
+    // unfortunately, the message is not resent if the collection is empty
     msgWindow( it ){
-        const tab = Template.setup_tabs.fn.tab( Template.instance(), it.id );
+        const count = Template.instance().ronin.tabs[it.id].cursorFn().count()
+        //console.log( 'msgWindow '+it.id+' count='+count );
         $( '.setup-tabs' ).trigger( 'setup-tab-ready', {
             id: it.id,
-            count: tab ? tab.cursorFn().count() : null
+            count: count
         });
     },
     tabItems( it ){
-        const tab = Template.setup_tabs.fn.tab( Template.instance(), it.id );
-        return tab ? tab.cursorFn() : null;
+        const instance = Template.instance();
+        return instance.ronin.tabs[it.id].cursorFn();
     },
     tabularIsPreferred(){
         return Template.setup_tabs.fn.tabularIsPreferred();

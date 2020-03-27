@@ -14,12 +14,12 @@
                 {{#each it in items }}
                     <tr data-row-id="{{ it._id }}">
                         <td class="btn-actions">
-                            {{> edit_button item=it disabled="(isEditable it)" route="{{ gtd.editRoute }}" }}
+                            {{> edit_button item=it disabled="(isEditable it)" route=gtd.editRoute }}
                         </td>
                         <td class="x-ellipsed"><p class="x-ellipsize">{{ it.name }}</p></td>
                         <td>{{ getCreated it }}</td>
                         <td class="btn-actions">
-                            {{> delete_button item=it disabled="(isDeletable it)" message="{{ gtd.deleteMsg }}" }}
+                            {{> delete_button item=it disabled="(isDeletable it)" message=gtd.deleteMsg }}
                         </td>
                     </tr>
                 {{/each}}

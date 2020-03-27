@@ -1,0 +1,40 @@
+<template name="setup_card">
+    <div class="setup-card card x-card" id={{itemDivId}}>
+
+        <a class="title x-px025"
+            href="#{{collapsableId}}"
+            data-toggle="collapse" data-setup="{{ item._id }}">
+
+            <div class="d-flex flex-row justify-content-start align-items-center">
+
+                <div class="name x-ellipsed {{className}}">
+                    <p class="x-ellipsize">{{ item.name }}</p>
+                </div>
+                <div class="x-createdAt x-ellipsed {{classCreatedAt 'item'}}">
+                    <p class="x-ellipsize">{{ lastUpdated item }}</p>
+                </div>
+            </div>
+
+        </a>
+
+        <div class="x-px025 collapse" id="{{collapsableId}}" data-parent="{{ parent }}">
+            <div class="setups-list-card x-py025">
+
+                    <div class="description">{{item.description}}</div>
+
+                    <div class="x-createdAt {{classCreatedAt 'card'}}">
+                        <p>{{ lastUpdated item }}</p>
+                    </div>
+
+                    <div class="setups d-flex flex-row justify-content-between align-items-center">
+
+                        {{> edit_button item=item route=gtd.editRoute }}
+                        {{> delete_button item=item message=gtd.deleteMsg }}
+
+                    </div>
+
+                </div>
+            </div>
+
+    </div>
+</template>
