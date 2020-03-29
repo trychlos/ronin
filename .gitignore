@@ -1,6 +1,5 @@
-.meteor
 .vscode
 node_modules/
-cordova-build-override/
+cordova-build-override/platforms/android/res/
 maintainer/packages/
 maintainer/unused/

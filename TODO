@@ -77,9 +77,8 @@
                   - this is easy as long as the loading cursor is rightly ordered
                      (root first, future first)
 
-   92 2020- 1-17 do not let a project have itself as its own parent
-
    93 2020- 1-17 check that project's parent hierarchy does not loop
+      2020- 3-28 extend the #92 which is closed
 
    95 2020- 1-18 header_panel: menubar display should be dynamic (have a media query)
 
@@ -88,8 +87,6 @@
 
   104 2020- 1-23 mobile_footer bar is not visible without scrolling on browser's tablet
                   (miss the url bar and the tabs heights)
-
-  114 2020- 2- 1 fix wsf-footer display
 
   118 2020- 2- 1 have a link on the web site to download the apk
       2020- 3-15 the n-1 APK is available at /res/apk public url
@@ -120,8 +117,26 @@
   209 2020- 3-23 have a GAction-like interface ?
 
   211 2020- 3-23 review the announced errors about missing default Cordova files
+      2020- 3-28 try lintOptions in build-extras.gradle, but is not enough
+                 seems that the consequence would be that the android client doesn't update itself
 
-  218
+  218 2020- 3-28 layout menu: rather display the current layout
+                 + rename to page/window layout
+
+  219 2020- 3-28 projectsList in pageLayout: when not signed, the 'new' button
+                 should be disabled
+
+  220 2020- 3-28 /actions/edit: leave a trace in g.back, but shouldn'tab
+
+  221 2020- 3-28 setup in pageLayout: should have a plus button
+
+  222 2020- 3-28 pageLayout when not signed-in, the plus button should be disabled
+
+  223 2020- 3-28 preferences: should have one (card/table) for setup window
+
+  224 2020- 3-28 not found url no more works
+
+  225
 
 ==============================================================================
  Done
@@ -376,6 +391,9 @@
    91 2020- 1-14 have a touch layout
       2020- 2-21 done
 
+   92 2020- 1-17 do not let a project have itself as its own parent
+      2020- 3-28 closed as a particular case of more general #93
+
    94 2020- 1-18 header_panel: menuButton display should be dynamic and
                   associated with menu_side (have a media query)
       2020- 3-17 done
@@ -437,6 +455,9 @@
   113 2020- 1-31 collectList and collectEdit windows should be renamed as
                   thoughtsList and thoughtEdit
       2020- 2- 1 done
+
+  114 2020- 2- 1 fix wsf-footer display
+      2020- 3-28 is fine as of v20.03.27.1
 
   115 2020- 2- 1 projects_tree: review contextual menu and edit/delete links
                   in case of a page-based layout

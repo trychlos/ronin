@@ -383,7 +383,7 @@ loggedInRoutes.route('/actions/edit', {
 FlowRouter.notFound = {
     name: 'not.found',
     action(){
-        blazeRender( this.name );
+        BlazeLayout.render( 'appLayout', { main: 'notFound' });
     },
 };
 

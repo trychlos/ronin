@@ -1,5 +1,6 @@
 #!/bin/sh
 # This script is run from the maintainer/ directory of the project
+# pwi 2020- 3-29 do not git add/git commit if not on the deployment branch
 
 maintainerdir="$(cd ${0%/*}; pwd)"
 projectdir="${maintainerdir%/*}"
@@ -9,6 +10,9 @@ service_src="${maintainerdir}/www-host/ronin.service"
 service_dest="/etc/systemd/system/"
 start_src="${maintainerdir}/www-host/start.sh"
 start_dest="${ronin}/"
+
+# we are deploying from the master branch
+deploy_branch="master"
 
 [ ! -f "${projectdir}/mobile-config.js" ] &&
     echo "This script must be run from project root dir" 1>&2 &&
@@ -106,13 +110,17 @@ _ret=$?
 _ret=$?
 
 # on successful release, commit the new mobile configuration
-[ $_ret -eq 0 ] &&
-	execcmd "git add ${projectdir}/mobile-config.js ${projectdir}/private/config/public/version.json ${projectdir}/public/res/apk/*.apk" &&
-	echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to integration platforms'" &&
-	git commit -m "Deploy v${version} to integration platforms" &&
-	echo "$(date '+%Y%m%d-%H%M%S') git tag -am 'Releasing v${version}' ${version}" &&
-	git tag -am "Releasing v${version}" ${version}
-_ret=$?
+if [ $_ret -eq 0 ]; then
+	_branch="$(git branch | awk '/^\* / { print $2 }')"
+	if [ "${_branch}" == "${deploy_branch}" ]; then
+		execcmd "git add ${projectdir}/mobile-config.js ${projectdir}/private/config/public/version.json ${projectdir}/public/res/apk/*.apk" &&
+		echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to integration platforms'" &&
+		git commit -m "Deploy v${version} to integration platforms" &&
+		echo "$(date '+%Y%m%d-%H%M%S') git tag -am 'Releasing v${version}' ${version}" &&
+		git tag -am "Releasing v${version}" ${version}
+		_ret=$?
+	fi
+fi
 
 exit ${_ret}
 
