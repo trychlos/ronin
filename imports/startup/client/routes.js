@@ -202,6 +202,13 @@ FlowRouter.route('/setup/delegates', {
         blazeRender( this.name );
     },
 });
+FlowRouter.route('/gear/apk', {
+    name: 'rt.gear.apk',
+    action(){
+        Session.set( 'page.group', 'gtd-setup-page' );
+        blazeRender( this.name );
+    },
+});
 FlowRouter.route('/gear/device', {
     name: 'rt.gear.device',
     action(){

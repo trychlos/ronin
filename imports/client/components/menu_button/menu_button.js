@@ -23,6 +23,10 @@ Template.menu_button.events({
             closeButton: false
         });
     },
+    'click .js-apk'( ev, instance ){
+        Template.menu_button.fn.recordBack();
+        FlowRouter.go( 'rt.gear.apk' );
+    },
     'click .js-device'( ev, instance ){
         Template.menu_button.fn.recordBack();
         FlowRouter.go( 'rt.gear.device' );

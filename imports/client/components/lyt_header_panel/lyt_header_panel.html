@@ -1,6 +1,9 @@
 <template name="lyt_header_panel">
     <div class="lyt-header-panel d-flex justify-content-start align-items-center">
 
+        <!-- make sure the first preSpacer is empty -->
+        {{ preSpacerInit }}
+
         {{#if hasMenuButton}}
             {{{ preSpacer }}}
             {{> menu_button }}
@@ -31,6 +34,7 @@
         {{/if}}
 
         {{{ preSpacer }}}
+        {{ loginConsole }}
         {{> loginButtons align="right" }}
         <!-- {{> atForm }} -->
     </div>

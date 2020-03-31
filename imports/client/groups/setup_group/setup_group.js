@@ -15,6 +15,7 @@
  *      Caution: must only be used at rendering time, as it will be superseded
  *      by later changes.
  */
+import '/imports/client/windows/apk_window/apk_window.js';
 import '/imports/client/windows/context_edit/context_edit.js';
 import '/imports/client/windows/device_window/device_window.js';
 import '/imports/client/windows/energy_value_edit/energy_value_edit.js';

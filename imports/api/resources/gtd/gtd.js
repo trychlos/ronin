@@ -333,6 +333,12 @@ export const gtd = {
                         }
                     },
                     {
+                        id: 'gtd-setup-apk',
+                        label: 'Download Android APK',
+                        route: 'rt.gear.apk',
+                        template: 'apkWindow'
+                    },
+                    {
                         id: 'gtd-setup-device',
                         label: 'Device informations',
                         route: 'rt.gear.device',

@@ -20,6 +20,12 @@ import '/imports/client/components/menu_button/menu_button.js';
 import '/imports/client/components/text_badge/text_badge.js';
 import './lyt_header_panel.html';
 
+Template.lyt_header_panel.onCreated( function(){
+    this.ronin = {
+        spacerCount: 0
+    };
+});
+
 Template.lyt_header_panel.helpers({
     // template helper
     //  only displayed in pageLayout
@@ -38,19 +44,24 @@ Template.lyt_header_panel.helpers({
     hasTitle(){
         return true; //g.run.mobile;
     },
+    // console helper - debug accounts-ui
+    loginConsole(){
+        //console.log( Accounts.ui );
+    },
     // set a spacer between each element
     //  elements count is set on the instance itself
     preSpacer(){
-        let count = Template.instance().eltCount;
+        const spacerCount = Template.instance().ronin.spacerCount;
         let spacer = '';
-        if( !count ){
-            count = 0;
-        }
-        if( count ){
+        if( spacerCount > 0 ){
             spacer = '<span class="spacer"></span>';
         }
-        Template.instance().eltCount = 1+count;
+        Template.instance().ronin.spacerCount += 1;
         return spacer;
+    },
+    // make sure the first preSpacer is empty
+    preSpacerInit(){
+        Template.instance().ronin.spacerCount = 0;
     },
     // only change title on the page-based layout
     title(){

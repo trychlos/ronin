@@ -126,7 +126,8 @@
   219 2020- 3-28 projectsList in pageLayout: when not signed, the 'new' button
                  should be disabled
 
-  220 2020- 3-28 /actions/edit: leave a trace in g.back, but shouldn'tab
+  220 2020- 3-28 /actions/edit: leave a trace in g.back, but shouldn't
+      2020- 3-30 review/systematise the g.back management
 
   221 2020- 3-28 setup in pageLayout: should have a plus button
 
