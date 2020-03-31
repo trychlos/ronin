@@ -88,9 +88,6 @@
   104 2020- 1-23 mobile_footer bar is not visible without scrolling on browser's tablet
                   (miss the url bar and the tabs heights)
 
-  118 2020- 2- 1 have a link on the web site to download the apk
-      2020- 3-15 the n-1 APK is available at /res/apk public url
-
   137 2020- 2-11 set mail-based new account enrollment rules
 
   195 2020- 3-17 pub/sub paradigm let the UI updates itself when another composant
@@ -470,6 +467,10 @@
 
   117 2020- 2- 1 make the not_found page responsive
       2020- 2- 2 done
+
+  118 2020- 2- 1 have a link on the web site to download the apk
+      2020- 3-15 the n-1 APK is available at /res/apk public url
+      2020- 3-31 done
 
   119 2020- 2- 1 have in the apk a function to detect and download a new version
       2020- 3-12 useless: the apk client automatically updates itself (thanks to Meteor hot-code push)

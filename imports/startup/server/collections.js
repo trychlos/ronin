@@ -4,6 +4,7 @@ import '/imports/api/collections/contexts/server';
 import '/imports/api/collections/counters/server';
 import '/imports/api/collections/delegates/server';
 import '/imports/api/collections/energy_values/server';
+import '/imports/api/collections/fs/server';
 import '/imports/api/collections/priority_values/server';
 import '/imports/api/collections/references/server';
 import '/imports/api/collections/time_values/server';
