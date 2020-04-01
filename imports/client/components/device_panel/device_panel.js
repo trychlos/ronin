@@ -4,28 +4,43 @@
 import './device_panel.html';
 
 Template.device_panel.helpers({
-    back(){
-        return g.run.back;
-    },
-    deviceType(){
+    detectDeviceType(){
         return g.detectIt.deviceType;
     },
-    hasMouse(){
+    detectHasMouse(){
         return g.detectIt.hasMouse ? 'true' : 'false';
     },
-    hasTouch(){
+    detectHasTouch(){
         return g.detectIt.hasTouch ? 'true' : 'false';
     },
-    height(){
-        return g.run.height.get()+'px';
-    },
-    layout(){
-        return g.run.layout.get();
-    },
-    primaryInput(){
+    detectPrimaryInput(){
         return g.detectIt.primaryInput;
     },
-    width(){
+    runBack(){
+        return g.run.back;
+    },
+    runHeight(){
+        return g.run.height.get()+'px';
+    },
+    runLayout(){
+        return g.run.layout.get();
+    },
+    runWidth(){
         return g.run.width.get()+'px';
+    },
+    statusConnected(){
+        return Meteor.status().connected;
+    },
+    statusReason(){
+        return Meteor.status().reason;
+    },
+    statusRetryCount(){
+        return Meteor.status().retryCount;
+    },
+    statusRetryTime(){
+        return Meteor.status().retryTime;
+    },
+    statusStatus(){
+        return Meteor.status().status;
     }
 });
