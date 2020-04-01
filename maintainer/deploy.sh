@@ -10,6 +10,7 @@ service_src="${maintainerdir}/www-host/ronin.service"
 service_dest="/etc/systemd/system/"
 start_src="${maintainerdir}/www-host/start.sh"
 start_dest="${ronin}/"
+root_url="http://ronin.trychlos.org"
 
 # we are deploying from the master branch
 deploy_branch="master"
@@ -77,7 +78,7 @@ sed -i -e "s|[0-9\.]\+|$version|" "${projectdir}/private/config/public/version.j
 echo "Deploying v ${version}..."
 
 # build server+mobile versions
-execcmd "meteor build /tmp --server ronin.trychlos.org"
+execcmd "meteor build /tmp --server ${target_url}"
 _ret=$?
 
 # server deployement
