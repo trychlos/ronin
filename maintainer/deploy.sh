@@ -4,13 +4,13 @@
 
 maintainerdir="$(cd ${0%/*}; pwd)"
 projectdir="${maintainerdir%/*}"
-target="www8"
-ronin="/home/ronin"
+prod_host="www8"
+prod_home="/home/ronin"
 service_src="${maintainerdir}/www-host/ronin.service"
 service_dest="/etc/systemd/system/"
 start_src="${maintainerdir}/www-host/start.sh"
-start_dest="${ronin}/"
-root_url="http://ronin.trychlos.org"
+start_dest="${prod_home}/"
+target_url="http://ronin.trychlos.org"
 
 # we are deploying from the master branch
 deploy_branch="master"
@@ -27,11 +27,11 @@ execcmd(){
 
 execssh(){
     _cmd="${*}"
-    execcmd ssh ${target} ${_cmd}
+    execcmd ssh ${prod_host} ${_cmd}
 }
 
 next_version(){
-    _line="$(execssh "ls -l ${ronin}/bundle")"
+    _line="$(execssh "ls -l ${prod_home}/bundle")"
     _last="$(echo ${_line} | awk '{ print $NF }' | sed -e 's|bundle-||')"
 	_last_date="$(echo ${_last:0:8})"
     _today="$(date +'%y.%m.%d')"
@@ -44,20 +44,20 @@ next_version(){
 }
 
 check_space(){
-	_last="$(ssh ${target} "du -sm ${ronin}/bundle/" | awk '{ print $1 }')"
+	_last="$(ssh ${prod_host} "du -sm ${prod_home}/bundle/" | awk '{ print $1 }')"
 	_needed=$(( _last*2 ))
-    _avail="$(ssh ${target} "df -BM" | grep ${ronin} | awk '{ print $4 }' | sed 's/.$//')"
+    _avail="$(ssh ${prod_host} "df -BM" | grep ${prod_home} | awk '{ print $4 }' | sed 's/.$//')"
 	#echo "last=${_last} needed=${_needed} available=${_avail} MB"
 	if [ ${_avail} -gt ${_needed} ]; then
 		echo "Available space=${_avail} MB, needed=${_needed} MB: OK"
 	else
 		echo "Available space=${_avail} MB, needed=${_needed} MB: have to free up some space"
-		_count="$(ssh ${target} "ls -1dt /home/ronin/bundle-*" | wc -l)"
+		_count="$(ssh ${prod_host} "ls -1dt ${prod_home}/bundle-*" | wc -l)"
 		_keep=$(( _count/3 ))
 		_delete=$(( _count-_keep ))
 		echo "  ${_count} versions found, ${_delete} to be removed"
 		_i=0
-		for dir in $(ssh ${target} "ls -1dt /home/ronin/bundle-*"); do
+		for dir in $(ssh ${prod_host} "ls -1dt ${prod_home}/bundle-*"); do
 			_i=$(( _i+1 ))
 			if [ ${_i} -le ${_keep} ]; then
 				echo "  keeping ${dir}"
@@ -84,16 +84,16 @@ _ret=$?
 # server deployement
 [ $_ret -eq 0 ] &&
 	check_space &&
-    execcmd "scp /tmp/ronin.tar.gz ${target}:/tmp" &&
+    execcmd "scp /tmp/ronin.tar.gz ${prod_host}:/tmp" &&
     execssh "systemctl stop ronin" &&
-    execssh "cd ${ronin} && rm -f bundle" &&
-    execssh "cd ${ronin} && tar -xzf /tmp/ronin.tar.gz" &&
-    execssh "cd ${ronin} && chown -R ronin:ronin bundle" &&
-    execssh "cd ${ronin} && mv bundle bundle-${version}" &&
-    execssh "cd ${ronin} && ln -s bundle-${version} bundle" &&
-    execcmd "scp ${service_src} ${target}:${service_dest}" &&
+    execssh "cd ${prod_home} && rm -f bundle" &&
+    execssh "cd ${prod_home} && tar -xzf /tmp/ronin.tar.gz" &&
+    execssh "cd ${prod_home} && chown -R ronin:ronin bundle" &&
+    execssh "cd ${prod_home} && mv bundle bundle-${version}" &&
+    execssh "cd ${prod_home} && ln -s bundle-${version} bundle" &&
+    execcmd "scp ${service_src} ${prod_host}:${service_dest}" &&
     execssh "systemctl daemon-reload" &&
-    execcmd "scp ${start_src} ${target}:${start_dest}" &&
+    execcmd "scp ${start_src} ${prod_host}:${start_dest}" &&
     execssh "systemctl start ronin" &&
     echo "Server deployed as v ${version}"
 _ret=$?
