@@ -115,8 +115,8 @@ if [ $_ret -eq 0 ]; then
 	_branch="$(git branch | awk '/^\* / { print $2 }')"
 	if [ "${_branch}" == "${deploy_branch}" ]; then
 		execcmd "git add ${projectdir}/mobile-config.js ${projectdir}/private/config/public/version.json ${projectdir}/public/res/apk/*.apk" &&
-		echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to integration platforms'" &&
-		git commit -m "Deploy v${version} to integration platforms" &&
+		echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to production platforms'" &&
+		git commit -m "Deploy v${version} to production platforms" &&
 		echo "$(date '+%Y%m%d-%H%M%S') git tag -am 'Releasing v${version}' ${version}" &&
 		git tag -am "Releasing v${version}" ${version}
 		_ret=$?
