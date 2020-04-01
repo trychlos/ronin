@@ -32,7 +32,6 @@ Meteor.publish( 'articles.projects.all', function(){
 });
 
 Meteor.publish( 'articles.thoughts.all', function(){
-    console.log( "Meteor.publish( 'articles.thoughts.all' )" );
     return Articles.find({ type: 'T', $or: [{ userId:null }, { userId:this.userId }]});
 });
 
