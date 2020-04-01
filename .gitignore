@@ -1,6 +1,5 @@
 .keystore
 .vscode
-node_modules/
 cordova-build-override/platforms/android/res/
 maintainer/packages/
 maintainer/unused/
