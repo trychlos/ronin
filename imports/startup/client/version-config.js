@@ -5,6 +5,6 @@
 (function(){
     if( process.env.NODE_ENV === 'development' ){
         const version = Meteor.settings.public.ronin.version;
-        Meteor.settings.public.ronin.version = version+'-dev';
+        Meteor.settings.public.ronin.version = version+'+dev';
     }
 })();
