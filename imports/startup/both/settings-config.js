@@ -1,5 +1,5 @@
 /*
- * env-config.js
+ * settings-config.js
  *
  * About https://atmospherejs.com/4commerce/env-settings
  *  This is our choice for reading settings depending of the current environment.
@@ -90,7 +90,7 @@
  */
 Meteor.startup( function(){
     if( Meteor.isServer ){
-        console.log( '/imports/startup/both/env-config.js' );
+        console.log( '/imports/startup/both/settings-config.js' );
         console.log( Meteor.settings );
         console.log( 'RONIN_ENV='+process.env.RONIN_ENV );
         console.log( 'NODE_ENV='+process.env.NODE_ENV );
