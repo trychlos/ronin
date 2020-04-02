@@ -27,9 +27,10 @@
  *  Variables:
  *  - the action identifier to be edited is specified as the 'id' queryParams.
  */
+import { ActionStatus } from 'meteor/pwi:ronin-action-status';
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
-import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
+//import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import '/imports/client/components/project_panel/project_panel.js';
 import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
@@ -56,7 +57,7 @@ Template.projectEdit.fn = {
             } else {
                 item.notes = '';
             }
-            item.notes += 'Status: '+actionStatus.labelById( item.status );
+            item.notes += 'Status: '+ActionStatus.labelById( item.status );
             item.status = null;
             item.last_status = null;
             if( item.context ){

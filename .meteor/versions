@@ -80,6 +80,7 @@ npm-mongo@3.7.0
 observe-sequence@1.0.16
 ordered-dict@1.1.0
 promise@0.11.2
+pwi:ronin-action-status@1.0.0
 raix:eventemitter@0.1.3
 random@1.2.0
 rate-limit@1.0.9

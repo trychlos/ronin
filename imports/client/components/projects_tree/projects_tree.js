@@ -7,10 +7,11 @@
  *  - label: the label to be displayed as the root node
  *  - tab: the identifier of the created instance (may not be the one currently shown).
  */
+import { ActionStatus } from 'meteor/pwi:ronin-action-status';
 import { Spinner } from 'spin.js';
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Counters } from '/imports/api/collections/counters/counters.js';
-import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
+//import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import 'jqtree/tree.jquery.js';
 import 'jqtree/jqtree.css';
@@ -128,9 +129,9 @@ Template.projects_tree.fn = {
             // by status (actions only at initialization, propagated to projects)
             let byStatus = 'status-normal';
             if( node.obj.type === 'A' ){
-                if( actionStatus.isDone( node.obj.status )){
+                if( ActionStatus.isDone( node.obj.status )){
                     byStatus = 'status-done';
-                } else if( actionStatus.isActionable( node.obj.status )){
+                } else if( ActionStatus.isActionable( node.obj.status )){
                     byStatus= 'status-activable';
                 }
             }
@@ -187,7 +188,7 @@ Template.projects_tree.fn = {
             console.log( 'node_setActivable() called for type='+node.obj.type );
         } else {
             const status = node.obj.status;
-            node.activableCount = actionStatus.isActionable( status ) ? 1 : 0;
+            node.activableCount = ActionStatus.isActionable( status ) ? 1 : 0;
             _setRec( node );
         }
     },

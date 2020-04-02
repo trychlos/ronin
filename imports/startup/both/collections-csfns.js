@@ -1,5 +1,5 @@
 /*
- * /imports/startup/both/collections-misc.js
+ * /imports/startup/both/collections-csfns.js
  *
  * Collections miscellaneous functions.
  *
@@ -9,7 +9,7 @@
  * See <collection>/server/methods.js for server functions remotely callable from
  *  the client (aka Meteor RPC).
  */
-import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
+import { ActionStatus } from 'meteor/pwi:ronin-action-status';
 
 export const csfns = {
     // must be editable by this user
@@ -46,10 +46,10 @@ export const csfns = {
     },
     // action status must be valid
     check_status: function( o ){
-        if( !actionStatus.isValid( o.status )){
+        if( !ActionStatus.isValid( o.status )){
             throw new Meteor.Error(
                 'invalid',
-                'Status is not valid, found "'+o.status+'", allowed values are ['+actionStatus.getValid().join( ',' )+']'
+                'Status is not valid, found "'+o.status+'", allowed values are ['+ActionStatus.getValid().join( ',' )+']'
             );
         }
     },

@@ -12,7 +12,7 @@
  *
  *  NB: see https://stackoverflow.com/questions/33611812/export-const-vs-export-default-in-es6
  */
-export const actionStatus = {
+export const ActionStatus = {
     all: function(){
         return [
             {
@@ -46,14 +46,14 @@ export const actionStatus = {
         ];
     },
     // returns the item for this id
-    _byId: function( id ){
-        const all = actionStatus.all();
+    byId: function( id ){
+        const all = ActionStatus.all();
         for( let i=0 ; i<all.length ; ++i ){
             if( all[i].id === id ){
                 return all[i];
             }
         }
-        console.log( 'actionStatus='+id+' not found' );
+        console.log( 'ActionStatus='+id+' not found' );
         return null;
     },
     // returns the default action status
@@ -63,14 +63,14 @@ export const actionStatus = {
     // returns the array of valid status
     getValid: function(){
         const valid = [];
-        actionStatus.all().forEach(( it ) => {
+        ActionStatus.all().forEach(( it ) => {
             valid.push( it.id );
         })
         return valid;
     },
     // whether this status qualifies an actionable action
     isActionable: function( id ){
-        const item = actionStatus._byId( id );
+        const item = ActionStatus.byId( id );
         return item ? item.actionable === true : false;
     },
     // whether the action is done
@@ -79,10 +79,10 @@ export const actionStatus = {
     },
     // whether this status is valid
     isValid: function( id ){
-        return actionStatus._byId( id ) != null;
+        return ActionStatus.byId( id ) != null;
     },
     labelById: function( id ){
-        const item = actionStatus._byId( id );
+        const item = ActionStatus.byId( id );
         return item ? item.label : '';
     }
 };
