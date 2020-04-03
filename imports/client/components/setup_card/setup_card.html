@@ -28,8 +28,8 @@
 
                     <div class="setups d-flex flex-row justify-content-between align-items-center">
 
-                        {{> edit_button item=item route=gtd.editRoute }}
-                        {{> delete_button item=item message=gtd.deleteMsg }}
+                        {{> edit_button item=item disabled=(isEditable item) route=gtd.editRoute }}
+                        {{> delete_button item=item disabled=(isDeletable item) message=gtd.deleteMsg }}
 
                     </div>
 

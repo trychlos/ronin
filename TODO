@@ -20,8 +20,6 @@
 
    21 2019-12- 5 do not delete a topic used by a thought or an action
 
-   26 2019-12- 8 do not delete a context used by an action
-
    30 2019-12-23 projects_tree: projects/actions should have the color of
                  their attached topic
 
@@ -211,6 +209,10 @@
    25 2019-12- 8 disable the whole page after having processed the last
                  thought + hide the badge
       2020- 2-21 obsoleted
+
+   26 2019-12- 8 do not delete a context used by an action
+      2020- 4- 3 maximum:server-transform does the trick
+      2020- 4- 3 done
 
    27 2019-12- 8 do not delete an action status used by an action
       2019-12-27 action_status should not be editable at all

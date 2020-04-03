@@ -48,7 +48,7 @@ Template.contexts_grid.helpers({
     // template helper
     //  activates 'disabled' state if the item is non deletable
     isDeletable( it ){
-        return '';
+        return it.useCount ? 'disabled' : '';
     },
     // template helper
     //  activates 'disabled' state if the item is non editable

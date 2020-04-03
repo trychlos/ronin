@@ -41,6 +41,16 @@ Template.setup_card.helpers({
     collapsableId(){
         return Template.setup_card.fn.collapsableId();
     },
+    // template helper
+    //  activates 'disabled' state if the item is non deletable
+    isDeletable( it ){
+        return it.useCount ? 'disabled' : '';
+    },
+    // template helper
+    //  activates 'disabled' state if the item is non editable
+    isEditable( it ){
+        return '';
+    },
     itemDivId(){
         return Template.setup_card.fn.itemDivId();
     }

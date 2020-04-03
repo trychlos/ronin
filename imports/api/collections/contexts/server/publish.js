@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Contexts } from '../contexts.js';
 
-Meteor.publish('contexts.all', function(){
+Meteor.publishTransformed('contexts.all', function(){
     return Contexts.find();
 });

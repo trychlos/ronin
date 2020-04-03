@@ -10,7 +10,6 @@
  * The user interface takes care of proposing a default 'None' context.
  */
 import { Mongo } from 'meteor/mongo';
-import { Articles } from '/imports/api/collections/articles/articles.js';
 import { csfns } from '/imports/startup/both/collections-csfns.js';
 
 export const Contexts = new Mongo.Collection('contexts');
@@ -72,21 +71,10 @@ Contexts.fn = {
 };
 
 Contexts.helpers({
-    /* though the helper is available from the client, and even if Articles have
-     * been subscribed to, this doesn't work as of Meteor 1.10.1.
-     *  fetch() returns an empty array
-     *  findOne returns undefined
-     */
+    // works but rather useless
+    /*
     isDeletable(){
-        /*
-        console.log( this );
-        const fetched = Articles.find({ type:'A', context:this._id }).fetch();
-        console.log( fetched );
-        //const count = Articles.find({ type:'A', context:this._id }).fetch().count();
-        //console.log( this.name+' count='+count );
-        const action = Articles.findOne({ type:'A', context:this._id });
-        console.log( action );
-        return !Boolean( action );
-        */
+        return this.useCount === 0;
     }
+    */
 });
