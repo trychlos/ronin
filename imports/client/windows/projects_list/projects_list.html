@@ -6,9 +6,9 @@
             {{> window_badge text=actionsCount }}
         </div>
 
-        {{#if isWindowLayout}}
-            {{> projects_tabs }}
-        {{else}}
+        {{> projects_tabs }}
+
+        {{#if isPageLayout}}
             {{> projects_footer }}
         {{/if}}
 
