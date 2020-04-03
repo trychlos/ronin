@@ -12,6 +12,7 @@
 
     4 2019-11-17 when entering in /collect, set the cursor in the name field
       2020- 2-21 ok in windows layout
+      2020- 4- 3 even autofocus="autofocus" doesn't work in pageLayout
 
    16 2019-12- 1 delegates crud
 
