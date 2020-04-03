@@ -18,16 +18,9 @@
 
    17 2019-12- 1 goal levels crud
 
-   18 2019-12- 2 ellipsize long strings (eg. topic on thoughts list)
-
    21 2019-12- 5 do not delete a topic used by a thought or an action
 
    26 2019-12- 8 do not delete a context used by an action
-
-   29 2019-12-15 projects hierarchy icon should be green if there is at
-                 least one actionable action
-      2020- 1- 2 for now, only the action's icon itself is colored because jqtree does
-                  not provide any primitive to associate a HTML element with a node
 
    30 2019-12-23 projects_tree: projects/actions should have the color of
                  their attached topic
@@ -36,10 +29,8 @@
 
    59 2020- 1- 4 save #58 (projects tree display done per tab) in user settings
 
-   60 2020- 1- 4 topics color should be user settings
-
-   61 2020- 1- 4 define color for action_status to be displayed in icons in projects tree
-                  -> user settings
+   60 2020- 1- 4 topics color should be a user settings
+      2020- 4- 3 or set the colors of a topic may be reserved to a dedicated user role
 
    62 2020- 1- 4 server consistency check
                   parent action is a project or none
@@ -50,15 +41,10 @@
 
    64 2020- 1- 4 have a template for recurrent actions
 
-   65 2020- 1- 5 homogeneize all table editions in setup to jqxGrid idem actions_grid
-                  have both the edition icons and the context menu - same color
-      2020- 3-17 jqxGrid is no more used - Context menu is to be discussed
-
-   69 2020- 1- 5 review background-colors
-                  tabs / grid headers / selected row / hover row / right-click row
-
    74 2020- 1- 8 have a data model on documents: provide classes via transform
       2020- 1-11 it seems that the transform function does not oper on find() cursors :(
+      2020- 4- 3 have a try at dburles:collection-helpers to manage the deletable status
+                 of a context or a topic
 
    77 2020- 1- 9 have ITree interface
 
@@ -203,6 +189,9 @@
    15 2019-12- 1 time values crud
       2019-12- 5 done
 
+   18 2019-12- 2 ellipsize long strings (eg. topic on thoughts list)
+      2020- 4- 3 done with two x-ellipsed and x-ellipsized classes
+
    19 2019-12- 5 after page reload, go back to the same page and tab
       2019-12-20 done
 
@@ -230,6 +219,12 @@
       2020- 1- 2 running work: have a menu_side + a menu bar placeholder
                   + each principal theme has its own window
       2002- 2-21 architecture is OK
+
+   29 2019-12-15 projects hierarchy icon should be green if there is at
+                 least one actionable action
+      2020- 1- 2 for now, only the action's icon itself is colored because jqtree does
+                  not provide any primitive to associate a HTML element with a node
+      2020- 4- 3 done
 
    31 2019-12-23 projects_tree: have a specific icon for actions
       2019-12-23 done
@@ -332,6 +327,17 @@
    58 2020- 1- 4 projects tree per tab: display or not done items
       2020- 1- 4 done
 
+   61 2020- 1- 4 define color for action_status to be displayed in icons in projects tree
+                  -> user settings
+      2020- 4- 3 there is already a color for activable items which is a composite of action status
+                 + there would be too many color ta;ing into account topic color
+                 => cancelled
+
+   65 2020- 1- 5 homogeneize all table editions in setup to jqxGrid idem actions_grid
+                  have both the edition icons and the context menu - same color
+      2020- 3-17 jqxGrid is no more used - Context menu is to be discussed
+      2020- 4- 3 done with IGrid interface
+
    66 2020- 1- 5 action_status should be hard-coded object (as gtd)
       2020- 1-13 done
 
@@ -343,6 +349,10 @@
                   + fix icon
       2020- 1- 9 + center in the parent window (defaulting to the screen)
       2020- 3-17 done with bootbox
+
+   69 2020- 1- 5 review background-colors
+                  tabs / grid headers / selected row / hover row / right-click row
+      2020- 4- 3 done
 
    70 2020- 1- 5 projects_tree: have expand all / collapse all buttons
       2020- 1-11 expand all button - collapse all is estimated useless

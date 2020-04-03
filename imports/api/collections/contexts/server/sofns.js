@@ -8,8 +8,8 @@ import { Contexts } from '../contexts.js';
 Contexts.sofns = {
     /*
      * Returns an object which contains:
-     *  - a 'set' collection with all *set* fields
-     *  - an 'unset' collection with all *unset* fields
+     *  - a 'set' hash with all *set* fields and their value
+     *  - an 'unset' hash with all *unset* fields
      *  This is only used on the server before every insert/update, to make sure
      *  only actually  used fields are written in Mongo collections.
      *  Doesn't modify the provided object.
