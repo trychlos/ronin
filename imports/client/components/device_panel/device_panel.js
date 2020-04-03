@@ -16,6 +16,9 @@ Template.device_panel.helpers({
     detectPrimaryInput(){
         return g.detectIt.primaryInput;
     },
+    runAbsoluteUrl(){
+        return Meteor.absoluteUrl();
+    },
     runBack(){
         return g.run.back;
     },
