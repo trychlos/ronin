@@ -111,10 +111,8 @@
   208 2020- 3-22 replace menu_bar / menu_side with gtd_menu + extend to overview
 
   209 2020- 3-23 have a GAction-like interface ?
-
-  211 2020- 3-23 review the announced errors about missing default Cordova files
-      2020- 3-28 try lintOptions in build-extras.gradle, but is not enough
-                 seems that the consequence would be that the android client doesn't update itself
+      2020- 4- 3 as a reminder, the goal is to be able to desactivate an action (say, 'new thought')
+                 and have all html/js implementations reflect this desactivation
 
   219 2020- 3-28 projectsList in pageLayout: when not signed, the 'new' button
                  should be disabled
@@ -130,12 +128,28 @@
 
   224 2020- 3-28 not found url no more works
 
-  225 2020- 3-31 choose et homogeneize localStorage vs amplify
+  225 2020- 3-31 choose and homogeneize localStorage vs amplify
       2020- 4- 1 plus check usage of g.store
 
   226 2020- 3-31 use target_url variable from deploy.sh in start.sh files
 
-  227
+  227 2020- 4- 3 choose and homogeneize pubsub vs amplify publication/subscription
+
+  228 2020- 4- 3 status & device informations: have a tabbed window
+
+  229 2020- 4- 3 would have a tool to display the component hierarchy
+                 which should be something like gtd <-> route -> group -> window -> components tree
+                 first goal is to make sure all panels have wsf-content class
+
+  230 2020- 4- 3 package candidate: ronin-common usable from both client and server
+
+  231 2020- 4- 3 have a global var 'Ronin' embeds current 'g'
+
+  232 2020- 4- 3 spinner doesn't stop when there is no data (which may be the root cause of #216)
+
+  233 2020- 4- 3 move action_status_select component to ronin-action-status package
+
+  234
 
 ==============================================================================
  Done
@@ -791,6 +805,11 @@
 
   210 2020- 3-23 review ANDROID_HOME env variable regarding the announced deprecation
       2020- 3-23 done (has required a reboot)
+
+  211 2020- 3-23 review the announced errors about missing default Cordova files
+      2020- 3-28 try lintOptions in build-extras.gradle, but is not enough
+                 seems that the consequence would be that the android client doesn't update itself
+      2020- 4- 3 fixed with the permission to use clear text traffic
 
   212 2020- 3-23 projectsList in pageLayout: plus button override projects_tabs buttons
       2020- 3-27 done

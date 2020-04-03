@@ -112,3 +112,18 @@ ronin directory tree
     └── TODO
 
 	see also https://forums.meteor.com/t/whats-the-new-application-structure-for-1-7/44466/4
+
+Packages
+    Packaging the application is supposed to force the developer to better
+    modularize it, because, by definition, a package is expected to be
+    replacable by another package with the same API.
+    From Ronin point of view, this also may be seen as a exercize of style, and
+    a way to learn how to reach this goal. Hopefully, this will be reusable with
+    another framework.
+    Given the size and the perimeter of the application (which are both small),
+    we should end with no more than about ~20 packages, and rather less than that.
+
+    From the client point of view, packages MUST be compatible with all targeted
+    clients, and in particular both with web.browser and Cordova clients.
+    We MUST forbid ourself to have packages dedicated to either windowLayout or
+    pageLayout. Contrarily, all our UI packages must be both layout compatible.
