@@ -18,8 +18,6 @@
 
    17 2019-12- 1 goal levels crud
 
-   21 2019-12- 5 do not delete a topic used by a thought or an action
-
    30 2019-12-23 projects_tree: projects/actions should have the color of
                  their attached topic
 
@@ -195,6 +193,9 @@
 
    20 2019-12- 5 priority_value_edit: spinner buttons are not visible
       2019-12-31 fixed
+
+   21 2019-12- 5 do not delete a topic used by a thought or an action
+      2020- 4- 4 done
 
    22 2019-12- 7 have default=true in the reference tables
       2019-12- 7 done

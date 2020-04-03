@@ -64,18 +64,18 @@ Template.topics_grid.helpers({
         }
         return color;
     },
+    getCreated( it ){
+        return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
+    },
     // template helper
     //  activates 'disabled' state if the item is non deletable
     isDeletable( it ){
-        return '';
+        return it.useCount ? 'disabled' : '';
     },
     // template helper
     //  activates 'disabled' state if the item is non editable
     isEditable( it ){
         return '';
-    },
-    getCreated( it ){
-        return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
     },
     items(){
         return Topics.find();

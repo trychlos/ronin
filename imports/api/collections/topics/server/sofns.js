@@ -3,6 +3,7 @@
  *  server-only functions
  */
 import { Meteor } from 'meteor/meteor';
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Topics } from '../topics.js';
 
 Topics.sofns = {
@@ -40,3 +41,11 @@ Topics.sofns = {
         return ret;
     }
 }
+
+Topics.serverTransform({
+    // add a 'useCount' property to the Topic document
+    useCount( self ) {
+        const count = Articles.find({ topic:self._id }).count();
+        return count;
+    }
+});
