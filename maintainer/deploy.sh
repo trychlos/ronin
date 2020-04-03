@@ -82,6 +82,9 @@ echo "Deploying v ${version}..."
 execcmd "meteor build /tmp --server ${target_url} --architecture ${prod_arch}"
 _ret=$?
 
+# make sure the target url is up to date in the server startup script
+sed -i -e "s|^\(\s*export\s\+ROOT_URL=\).*$|\1'$target_url'|" "${start_src}"
+
 # server deployement
 [ $_ret -eq 0 ] &&
 	check_space &&
