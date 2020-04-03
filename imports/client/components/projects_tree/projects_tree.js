@@ -8,10 +8,8 @@
  *  - tab: the identifier of the created instance (may not be the one currently shown).
  */
 import { ActionStatus } from 'meteor/pwi:ronin-action-status';
-import { Spinner } from 'spin.js';
 import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Counters } from '/imports/api/collections/counters/counters.js';
-//import { actionStatus } from '/imports/api/resources/action_status/action_status.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import 'jqtree/tree.jquery.js';
 import 'jqtree/jqtree.css';
