@@ -6,6 +6,7 @@ maintainerdir="$(cd ${0%/*}; pwd)"
 projectdir="${maintainerdir%/*}"
 prod_host="www8"
 prod_home="/home/ronin"
+prod_arch="os.linux.x86_64"
 service_src="${maintainerdir}/www-host/ronin.service"
 service_dest="/etc/systemd/system/"
 start_src="${maintainerdir}/www-host/start.sh"
@@ -78,7 +79,7 @@ sed -i -e "s|[0-9\.]\+|$version|" "${projectdir}/private/config/public/version.j
 echo "Deploying v ${version}..."
 
 # build server+mobile versions
-execcmd "meteor build /tmp --server ${target_url}"
+execcmd "meteor build /tmp --server ${target_url} --architecture ${prod_arch}"
 _ret=$?
 
 # server deployement
