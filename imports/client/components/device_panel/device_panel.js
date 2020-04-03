@@ -38,7 +38,8 @@ Template.device_panel.helpers({
         return Meteor.status().retryCount;
     },
     statusRetryTime(){
-        return Meteor.status().retryTime;
+        const time = Meteor.status().retryTime;
+        return time ? moment( time ).format( 'YYYY-MM-DD HH:mm:ss') : '';
     },
     statusStatus(){
         return Meteor.status().status;
