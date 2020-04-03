@@ -36,7 +36,7 @@ import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './actions_list.html';
 
-const actionsByStatus = new Mongo.Collection( 'actionsByStatus' );
+const ActionsByStatus = new Mongo.Collection( 'ActionsByStatus' );
 
 Template.actionsList.fn = {
     newActivate: function(){
@@ -118,7 +118,7 @@ Template.actionsList.onRendered( function(){
     // setup the count per status (aka per tab)
     this.autorun(() => {
         if( self.ronin.handles.counts.ready()){
-            actionsByStatus.find().forEach( o => {
+            ActionsByStatus.find().forEach( o => {
                 self.ronin.dict.set( 'status_'+o._id, o.count );
             });
             console.log( 'actionsList count_per_tab' );

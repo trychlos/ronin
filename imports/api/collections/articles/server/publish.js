@@ -19,7 +19,7 @@ Meteor.publish( 'articles.actions.status.count', function(){
         { $match: { type:'A', $or: [{ userId:null }, { userId:this.userId }]}},
         { $group: { _id:'$status', count: { $sum:1 }}}
     ], {
-        clientCollection: 'actionsByStatus'
+        clientCollection: 'ActionsByStatus'
     });
 });
 
