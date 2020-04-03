@@ -25,11 +25,6 @@ import 'jquery-contextmenu/dist/jquery.ui.position.min.js';
 // see also https://fontawesome.com/how-to-use/on-the-web/setup/getting-started
 import '@fortawesome/fontawesome-free/js/all.js';
 
-// jqWidgets base code is made globally available in the application
-//  notably used for jqxGrid (cf. IGrid interface), jqxSplitter and jqxTabs.
-import '/imports/client/third-party/jqwidgets/jqx.base.css';
-import '/imports/client/third-party/jqwidgets/jqxcore-patched.js';
-
 // https://spin.js.org/
 // https://github.com/fgnass/spin.js
 import 'spin.js/spin.css';
