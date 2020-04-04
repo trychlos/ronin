@@ -121,7 +121,7 @@ Template.setup_tabs.helpers({
     // unfortunately, the message is not resent if the collection is empty
     msgWindow( it ){
         const count = Template.instance().ronin.tabs[it.id].cursorFn().count()
-        //console.log( 'msgWindow '+it.id+' count='+count );
+        //console.log( 'setup_tabs '+it.id+' count='+count );
         $( '.setup-tabs' ).trigger( 'setup-tab-ready', {
             id: it.id,
             count: count

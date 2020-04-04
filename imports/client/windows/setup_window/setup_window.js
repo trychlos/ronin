@@ -56,7 +56,8 @@ Template.setupWindow.fn = {
 Template.setupWindow.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
-        spinner: null
+        spinner: null,
+        timeout: null
     };
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
 });
@@ -105,6 +106,12 @@ Template.setupWindow.onRendered( function(){
                     $( '.setupWindow' ).window( 'widget' );
             //console.log( 'start the spinner' );
             self.ronin.spinner = new Spinner().spin( $parent[0] );
+            self.ronin.timeout = Meteor.setTimeout(() => {
+                if( self.ronin.spinner ){
+                    self.ronin.spinner.stop();
+                    self.ronin.spinner = null;
+                }
+            }, 10000 );
         }
     });
 
@@ -117,8 +124,10 @@ Template.setupWindow.onRendered( function(){
         //console.log( ev );
         //console.log( o );
         self.ronin.dict.set( o.id+'_count', o.count );
+        //console.log( 'setupWindow '+Session.get( 'setup.tab.name' )+' '+o.id+' '+Boolean(self.ronin.spinner));
         if( o.id === Session.get( 'setup.tab.name' ) && self.ronin.spinner ){
             self.ronin.spinner.stop();
+            self.ronin.spinner = null;
         }
     });
 });
@@ -128,5 +137,12 @@ Template.setupWindow.helpers({
     count(){
         const self = Template.instance();
         return self.ronin.dict.get( Session.get( 'setup.tab.name' )+'_count' ) || 0;
+    }
+});
+
+Template.setupWindow.onDestroyed( function(){
+    if( this.ronin.timeout ){
+        Meteor.clearTimeout( this.ronin.timeout );
+        this.ronin.timeout = null;
     }
 });

@@ -53,7 +53,8 @@ Template.thoughtsList.onCreated( function(){
             thoughts: this.subscribe( 'articles.thoughts.all' ),
             topics: this.subscribe( 'topics.all' )
         },
-        spinner: null
+        spinner: null,
+        timeout: null
     };
     this.ronin.dict.set( 'count', 0 );
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
@@ -107,6 +108,12 @@ Template.thoughtsList.onRendered( function(){
             }
             if( $parent ){
                 self.ronin.spinner = new Spinner().spin( $parent[0] );
+                Meteor.setTimeout(() => {
+                    if( self.ronin.spinner ){
+                        self.ronin.spinner.stop();
+                        self.ronin.spinner = null;
+                    }
+                }, 15000 );
             }
         }
     });
@@ -136,6 +143,7 @@ Template.thoughtsList.onRendered( function(){
     this.autorun(() => {
         if( self.ronin.dict.get( 'subscriptions_ready' ) && self.ronin.spinner ){
             self.ronin.spinner.stop();
+            self.ronin.spinner = null;
         }
     });
 
@@ -165,5 +173,12 @@ Template.thoughtsList.events({
     'click .js-new'( ev, instance ){
         Template.thoughtsList.fn.newActivate();
         return false;
+    }
+});
+
+Template.thoughtsList.onDestroyed( function(){
+    if( this.ronin.timeout ){
+        Meteor.clearTimeout( this.ronin.timeout );
+        this.ronin.timeout = null;
     }
 });

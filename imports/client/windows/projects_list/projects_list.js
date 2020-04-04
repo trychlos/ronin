@@ -96,11 +96,18 @@ Template.projectsList.fn = {
         }
         if( $parent ){
             instance.ronin.spinner = new Spinner().spin( $parent[0] );
+            Meteor.setTimeout(() => {
+                if( instance.ronin.spinner ){
+                    instance.ronin.spinner.stop();
+                    instance.ronin.spinner = null;
+                }
+            }, 15000 );
         }
     },
     spinnerStop: function( instance ){
         if( instance.ronin.spinner ){
             instance.ronin.spinner.stop();
+            instance.ronin.spinner = null;
         }
     }
 };
@@ -110,6 +117,7 @@ Template.projectsList.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
         spinner: null,
+        timeout: null,
         tabsView: null
     };
     this.ronin.dict.set( 'projects_count', 0 );
@@ -265,5 +273,12 @@ Template.projectsList.helpers({
         const total = self.ronin.dict.get( 'projects_count' ) || 0;
         const tabcount = o ? o.projects_count : 0;
         return 'Pro '+tabcount+'/'+total;
+    }
+});
+
+Template.projectsList.onDestroyed( function(){
+    if( this.ronin.timeout ){
+        Meteor.clearTimeout( this.ronin.timeout );
+        this.ronin.timeout = null;
     }
 });

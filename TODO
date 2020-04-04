@@ -103,7 +103,7 @@
   220 2020- 3-28 /actions/edit: leave a trace in g.back, but shouldn't
       2020- 3-30 review and systematise the g.back management -> see History
 
-  221 2020- 3-28 setup in pageLayout: should have a plus button
+  221 2020- 3-28 setup in pageLayout: should have a plus button in each tab
 
   222 2020- 3-28 pageLayout when not signed-in, the plus button should be disabled
 
@@ -125,8 +125,7 @@
   230 2020- 4- 3 package candidate: ronin-common usable from both client and server
 
   231 2020- 4- 3 have a global var 'Ronin' embeds current 'g'
-
-  232 2020- 4- 3 spinner doesn't stop when there is no data (which may be the root cause of #216)
+      2020- 4- 4 decide whether server.Ronin and client.Ronin are the same variable
 
   233 2020- 4- 3 move action_status_select component to ronin-action-status package
 
@@ -851,6 +850,13 @@
 
   226 2020- 3-31 use target_url variable from deploy.sh in start.sh files
       2020- 4- 4 done
+
+  232 2020- 4- 3 spinner doesn't stop when there is no data (which may be the root cause of #216)
+      2020- 4- 4 long story is:
+                    - child component is rendered before parent component
+                    - so event triggered from the child has a good chance to reach the
+                    parent before this one has had the time to set a handler for this event
+                 So fixed by timeout (other way would have been a pub/sub)
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

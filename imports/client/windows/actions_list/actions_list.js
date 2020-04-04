@@ -60,6 +60,7 @@ Template.actionsList.onCreated( function(){
             //counts: this.subscribe( 'articles.actions.status.count' )
         },
         spinner: null,
+        timeout: null,
         tabs: {}
     };
     this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
@@ -110,7 +111,12 @@ Template.actionsList.onRendered( function(){
                     $( '.actionsList' ) :
                     $( '.actionsList' ).window( 'widget' );
             self.ronin.spinner = new Spinner().spin( $parent[0] );
-            //console.log( 'actionsList spinner_start' );
+            self.ronin.timeout = Meteor.setTimeout(() => {
+                if( self.ronin.spinner ){
+                    self.ronin.spinner.stop();
+                    self.ronin.spinner = null;
+                }
+            }, 15000 );
         }
     });
 
@@ -152,7 +158,7 @@ Template.actionsList.onRendered( function(){
         // maybe stop the spinner
         if( o.id === Session.get( 'actions.tab.name' ) && self.ronin.spinner ){
             self.ronin.spinner.stop();
-            //console.log( 'actionsList spinner_stop' );
+            self.ronin.spinner = null;
         }
         return false;
     });
@@ -173,5 +179,12 @@ Template.actionsList.events({
     'click .js-new'( ev, instance ){
         Template.actionsList.fn.newActivate();
         return false;
+    }
+});
+
+Template.actionsList.onDestroyed( function(){
+    if( this.ronin.timeout ){
+        Meteor.clearTimeout( this.ronin.timeout );
+        this.ronin.timeout = null;
     }
 });
