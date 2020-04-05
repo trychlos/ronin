@@ -1,5 +1,5 @@
 /*
- * 'lyt_footer' component.
+ * 'footer_nav' component.
  *
  * 'pageLayout' sticky footer.
  *  Display a button for each group of options, letting the user choose his page content.
@@ -9,9 +9,9 @@
  *      (maybe not anything to do with the actual current route, indeed).
  */
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
-import './lyt_footer.html';
+import './footer_nav.html';
 
-Template.lyt_footer.helpers({
+Template.footer_nav.helpers({
     // activate in the footer the item which corresponds to the saved route
     active( it ){
         const active = Session.get( 'page.group' );
@@ -25,7 +25,7 @@ Template.lyt_footer.helpers({
     }
 });
 
-Template.lyt_footer.events({
+Template.footer_nav.events({
     'click .js-item'( ev, instance ){
         const id = $( ev.target ).data( 'ronin-gtdid' );
         const route = gtd.routeId( 'footer', id );

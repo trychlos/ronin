@@ -5,14 +5,14 @@
  *  It dynamically adapts itself depending of the runtime detected configuration.
  *
  *  On a page-based (LYT_PAGE) layout:
- *  1. the 'ronin-page-layout' class is added to the topmost div
+ *  1. the 'ronin-lyt-page' class is added to the topmost div
  *  2. this is a fixed layout, with:
  *      - lyt-header    a fixed sticky header,
  *      - lyt-content   a scrollable content,
  *      - lyt-footer    a fixed sticky footer.
  *
  *  On a window-based (LYT_WINDOW) layout:
- *  1. the 'ronin-window-layout' class is added to the topmost div
+ *  1. the 'ronin-lyt-window' class is added to the topmost div
  *  2. this is a fixed layout, with detached windows:
  *      - lyt-header    the same fixed sticky header than in LYT_PAGE layout,
  *      - lyt-content   a full page, not designed for scroll, content,
@@ -46,8 +46,8 @@ import '/imports/client/business/thoughts_model.js';
 import '/imports/client/business/time_values_model.js';
 import '/imports/client/business/topics_model.js';
 
-import '/imports/client/components/lyt_footer/lyt_footer.js';
-import '/imports/client/components/lyt_header/lyt_header.js';
+import '/imports/client/components/footer_nav/footer_nav.js';
+import '/imports/client/components/header_nav/header_nav.js';
 import '/imports/client/components/menu_side/menu_side.js';
 import '/imports/client/components/message/message.js';
 import '/imports/client/components/overview/overview.js';

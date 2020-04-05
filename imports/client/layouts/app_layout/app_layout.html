@@ -5,7 +5,7 @@
         <div class="lyt-parent fhsf-parent">
 
             <div class="lyt-header fhsf-header">
-                {{> lyt_header }}
+                {{> header_nav }}
             </div>
 
             <div class="lyt-content fhsf-content d-flex flex-row">
@@ -26,11 +26,12 @@
 
             </div>
 
-            {{#if isPageLayout }}
-                <div class="lyt-footer fhsf-footer">
-                    {{> lyt_footer }}
-                </div>
-            {{/if}}
+            <!-- footer navigation only appears in pageLayout / is displayed as a sticky footer -->
+            <div class="lyt-footer fhsf-footer">
+                {{#if isPageLayout }}
+                    {{> footer_nav }}
+                {{/if}}
+            </div>
 
         </div>
 

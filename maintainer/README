@@ -127,3 +127,31 @@ Packages
     clients, and in particular both with web.browser and Cordova clients.
     We MUST forbid ourself to have packages dedicated to either windowLayout or
     pageLayout. Contrarily, all our UI packages must be both layout compatible.
+
+GTD vs. Routes relationship
+    Each GTD item is identified by a unique GTD identifier (!), which is expected
+    to be of the form 'gtd-xxx'.
+    Each route is uniquely identified by a name of the form 'rt.xxx'.
+    Each unique route MUST be associated to a unique GTD item.
+
+    Each unique GTD item, aka each unique route, means that an independant window
+    can be displayed for this item, that the route can be bookmarked and go back
+    again.
+    So we do have:
+        gtd.id / route.name -> layout -> group -> window -> components.
+
+Ronin CSS classes
+    appLayout       ronin-layout ronin-lyt-page (resp. ronin-lyt-window)
+                        lyt-parent fhsf-parent
+                            lyt-header fhsf-header
+                            lyt-content fhsf-content
+                            lyt-footer fhsf-footer
+
+    fhsf- classes determine the position of:
+    - header_nav pageLayout and windowLayout
+    - footer_nav pageLayout only.
+
+    wsf- classes determine the position of:
+    - sticky footer on top of footer_nav in pageLayout only.
+
+    ronin-window is a class attached to each window, not used for styling.

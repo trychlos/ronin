@@ -1,5 +1,5 @@
 /*
- * 'lyt_header' component.
+ * 'header_nav' component.
  *
  *  pageLayout / windowLayout
  *  Display a navigation bar on top of the pages.
@@ -20,15 +20,15 @@ import '/imports/client/components/layout_select/layout_select.js';
 import '/imports/client/components/menu_bar/menu_bar.js';
 import '/imports/client/components/menu_button/menu_button.js';
 import '/imports/client/components/text_badge/text_badge.js';
-import './lyt_header.html';
+import './header_nav.html';
 
-Template.lyt_header.onCreated( function(){
+Template.header_nav.onCreated( function(){
     this.ronin = {
         spacerCount: 0
     };
 });
 
-Template.lyt_header.helpers({
+Template.header_nav.helpers({
     // template helper
     //  only displayed in pageLayout
     displayBadge(){
