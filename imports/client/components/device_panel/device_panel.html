@@ -1,83 +1,79 @@
 <template name="device_panel">
-    <div class="device-panel ronin-panel ronin-wnd-content">
+    <div class="device-panel ronin-content">
 
-        <div class="wsf-content">
-
-            <table class="w-100">
-                <tr>
-                    <td colspan="2">
-                        <div class="title">detectIt</div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>deviceType:</p></td>
-                    <td>{{detectDeviceType}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>hasMouse:</p></td>
-                    <td>{{detectHasMouse}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>hasTouch:</p></td>
-                    <td>{{detectHasTouch}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>primaryInput:</p></td>
-                    <td>{{detectPrimaryInput}}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="title">run</div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>layout:</p></td>
-                    <td>{{runLayout}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>back:</p></td>
-                    <td>{{runBack}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>width:</p></td>
-                    <td>{{runWidth}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>height:</p></td>
-                    <td>{{runHeight}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>absoluteUrl:</p></td>
-                    <td>{{runAbsoluteUrl}}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="title">Connection status</div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>connected:</p></td>
-                    <td>{{statusConnected}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>status:</p></td>
-                    <td>{{statusStatus}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>retryCount:</p></td>
-                    <td>{{statusRetryCount}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>retryTime:</p></td>
-                    <td>{{statusRetryTime}}</td>
-                </tr>
-                <tr>
-                    <td class="label x-hright x-pl1"><p>reason:</p></td>
-                    <td>{{statusReason}}</td>
-                </tr>
-            </table>
-
-        </div>
+        <table class="w-100">
+            <tr>
+                <td colspan="2">
+                    <div class="title">detectIt</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>deviceType:</p></td>
+                <td>{{detectDeviceType}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>hasMouse:</p></td>
+                <td>{{detectHasMouse}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>hasTouch:</p></td>
+                <td>{{detectHasTouch}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>primaryInput:</p></td>
+                <td>{{detectPrimaryInput}}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="title">run</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>layout:</p></td>
+                <td>{{runLayout}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>back:</p></td>
+                <td>{{runBack}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>width:</p></td>
+                <td>{{runWidth}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>height:</p></td>
+                <td>{{runHeight}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>absoluteUrl:</p></td>
+                <td>{{runAbsoluteUrl}}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="title">Connection status</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>connected:</p></td>
+                <td>{{statusConnected}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>status:</p></td>
+                <td>{{statusStatus}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>retryCount:</p></td>
+                <td>{{statusRetryCount}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>retryTime:</p></td>
+                <td>{{statusRetryTime}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright x-pl1"><p>reason:</p></td>
+                <td>{{statusReason}}</td>
+            </tr>
+        </table>
 
     </div>
 </template>

@@ -124,7 +124,13 @@
 
   233 2020- 4- 3 move action_status_select component to ronin-action-status package
 
-  234
+  234 2020- 4- 5 windowLayout: setup contexts doesn't display the badge on the titlebar
+
+  235 2020- 4- 5 ronin-itabbed: only the content should be scrollable, not the tabs part
+
+  236 2020- 4- 5 projects_tree: replace the done checkbox with a button in the projects_footer
+
+  237
 
 ==============================================================================
  Done

@@ -1,21 +1,13 @@
 <template name="thoughts_list">
-    <div class="thoughts-list ronin-wnd-content">
+    <div class="thoughts-list ronin-content">
 
-        {{#if isWindowLayout}}
-            {{#if title }}
-                <p class="x-h2">Thoughts list</p>
-            {{/if}}
+        {{#if tabularIsPreferred}}
+            {{> thoughts_grid thoughts=thoughts }}
+        {{else}}
+            {{#each it in thoughts}}
+                {{> thought_card thought=it parent=".thoughts-list" }}
+            {{/each}}
         {{/if}}
-
-        <div>
-            {{#if tabularIsPreferred}}
-                {{> thoughts_grid thoughts=thoughts }}
-            {{else}}
-                {{#each it in thoughts}}
-                    {{> thought_card thought=it parent=".thoughts-list" }}
-                {{/each}}
-            {{/if}}
-        </div>
 
     </div>
 </template>
