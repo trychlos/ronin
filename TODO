@@ -113,6 +113,7 @@
 
   225 2020- 3-31 choose and homogeneize localStorage vs amplify
       2020- 4- 1 plus check usage of g.store
+      2020- 4- 5 choose amplifyjs
 
   227 2020- 4- 3 choose and homogeneize pubsub vs amplify publication/subscription
 

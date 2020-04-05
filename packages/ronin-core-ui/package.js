@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwi:ronin-core-ui',
-    version: '1.0.0',
+    version: '1.0.1',
     summary: 'Ronin core user interface management',
     git: '',
     documentation: 'README.md'

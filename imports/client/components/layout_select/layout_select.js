@@ -24,8 +24,5 @@ Template.layout_select.events({
         //instance.$('.js-status-select').trigger('action-status-select-change');
         const layout = $( event.target ).attr( 'data-ronin-layout' );
         Ronin.ui.runLayout( layout );
-        g.store.layout = layout;
-        amplify.store( 'ronin', g.store );
-        console.log( 'changing layout to '+layout );
     }
 });

@@ -55,6 +55,16 @@ if( Meteor.isClient ){
 
     import detectIt from 'detect-it';
 
+    // a private function which acts as a getter/setter
+    //  returns the (get/set) value
+    const _runContext = function( name, value ){
+        if( value ){
+            Ronin.ui.runContext.set( name, value );
+            return value;
+        }
+        return Ronin.ui.runContext.get( name );
+    };
+
     // exported global constants
     LYT_PAGE = 'pageLayout';
     LYT_WINDOW = 'windowLayout';
@@ -97,53 +107,25 @@ if( Meteor.isClient ){
         runContext: new ReactiveDict(),
 
         // getters / setters
-        runBack( route ){
-            if( route ){
-                Ronin.ui.runContext.set( 'back', route );
-                return route;
-            }
-            return Ronin.ui.runContext.get( 'back' );
-        },
-        runHeight( height ){
-            if( height ){
-                Ronin.ui.runContext.set( 'height', height );
-                return height;
-            }
-            return Ronin.ui.runContext.get( 'height' );
-        },
-        runLayout( layout ){
-            if( layout ){
-                Ronin.ui.runContext.set( 'layout', layout );
-                return layout;
-            }
-            return Ronin.ui.runContext.get( 'layout' );
-        },
-        runResize( stamp ){
-            if( stamp ){
-                Ronin.ui.runContext.set( 'resize', stamp );
-                return stamp;
-            }
-            return Ronin.ui.runContext.get( 'resize' );
-        },
-        runWidth( width ){
-            if( width ){
-                Ronin.ui.runContext.set( 'width', width );
-                return width;
-            }
-            return Ronin.ui.runContext.get( 'width' );
-        }
+        runBack( route ){ return _runContext( 'back', route ); },
+        runHeight( height ){ return _runContext( 'height', height ); },
+        runLayout( layout ){ return _runContext( 'layout', layout ); },
+        runMobile( mobile ){ return _runContext( 'mobile', mobile ); },
+        runResize( stamp ){ return _runContext( 'resize', stamp ); },
+        runWidth( width ){ return _runContext( 'width', width ); }
     };
 
-    Ronin.ui.runContext.set( 'back', null );
-    Ronin.ui.runContext.set( 'height', $( window ).height());
-    Ronin.ui.runContext.set( 'layout', detectIt.primaryInput === 'mouse' ? LYT_WINDOW : LYT_PAGE);
-    Ronin.ui.runContext.set( 'mobile', Meteor.isCordova );
-    Ronin.ui.runContext.set( 'resize', null );
-    Ronin.ui.runContext.set( 'width', $( window ).width());
+    Ronin.ui.runBack( null );
+    Ronin.ui.runHeight( $( window ).height());
+    Ronin.ui.runLayout( detectIt.primaryInput === 'mouse' ? LYT_WINDOW : LYT_PAGE );
+    Ronin.ui.runMobile( Meteor.isCordova );
+    Ronin.ui.runResize( new Date());
+    Ronin.ui.runWidth( $( window ).width());
 
     // set a default route for the page-based layouts
     const page = Session.get( 'page.group' );
     if( !page || !page.startsWith( 'gtd-' )){
         Session.set( 'page.group', Ronin.ui.defaults['page.group'] );
     }
-}
+
+} // Meteor.isClient
