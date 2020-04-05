@@ -107,14 +107,12 @@
 
   222 2020- 3-28 pageLayout when not signed-in, the plus button should be disabled
 
-  223 2020- 3-28 preferences: should have one (card/table) for setup window
-
   224 2020- 3-28 not found url no more works
 
   229 2020- 4- 3 would have a tool to display the component hierarchy
                  which should be something like gtd <-> route -> group -> window -> components tree
                  first goal is to make sure all panels have wsf-content class
-      2020- 4- 5 all windows are make sure to hold the full wsf-{header,content,footer} hierarchy
+      2020- 4- 5 all windows are made sure to hold the full wsf-{header,content,footer} hierarchy
                  + all first-level 'panels' exhibit the 'ronin-content' class
 
   233 2020- 4- 3 move action_status_select component to ronin-action-status package
@@ -841,6 +839,9 @@
   218 2020- 3-28 layout menu: rather display the current layout
                  + rename to page/window layout
       2020- 4- 1 done
+
+  223 2020- 3-28 preferences: should have one (card/table) for setup window
+      2020- 4- 5 done
 
   225 2020- 3-31 choose and homogeneize localStorage vs amplify
       2020- 4- 1 plus check usage of g.store

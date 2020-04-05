@@ -13,8 +13,9 @@ Template.prefs_lists_panel.fn = {
     defaultPrefs(){
         return {
             lists: {
-                thoughts: 'def',
-                actions:  'def'
+                actions:  'def',
+                setup: 'def',
+                thoughts: 'def'
             }
         }
     },
@@ -25,16 +26,18 @@ Template.prefs_lists_panel.fn = {
     getContent: function(){
         const $this = $( '.prefs-lists-panel' );
         const o = {
-            thoughts: $this.find( 'input[name=thoughts]:checked' ).val(),
-            actions: $this.find( 'input[name=actions]:checked' ).val()
+            actions: $this.find( 'input[name=actions]:checked' ).val(),
+            setup: $this.find( 'input[name=setup]:checked' ).val(),
+            thoughts: $this.find( 'input[name=thoughts]:checked' ).val()
         };
         return o;
     },
     initEditArea: function(){
         const prefs = Template.prefs_lists_panel.fn.readDevicePrefs();
         const $this = $( '.prefs-lists-panel' );
-        $this.find( 'input[name=thoughts][value='+prefs.lists.thoughts+']' ).prop( 'checked', true );
         $this.find( 'input[name=actions][value='+prefs.lists.actions+']' ).prop( 'checked', true );
+        $this.find( 'input[name=setup][value='+prefs.lists.setup+']' ).prop( 'checked', true );
+        $this.find( 'input[name=thoughts][value='+prefs.lists.thoughts+']' ).prop( 'checked', true );
     },
     readDevicePrefs(){
         return( $.extend( true, {},
@@ -45,7 +48,4 @@ Template.prefs_lists_panel.fn = {
 
 Template.prefs_lists_panel.onRendered( function(){
     Template.prefs_lists_panel.fn.initEditArea();
-});
-
-Template.prefs_lists_panel.helpers({
 });

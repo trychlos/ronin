@@ -30,7 +30,6 @@ Template.prefsWindow.fn = {
             address = user.emails[0].address;
         }
         const name = 'ronin-prefs-device-'+address;
-        //console.log( 'name='+name );
         return name;
     },
     readDevicePrefs(){
