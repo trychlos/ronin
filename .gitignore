@@ -3,3 +3,4 @@
 cordova-build-override/platforms/android/res/
 maintainer/packages/
 maintainer/unused/
+node_modules/
