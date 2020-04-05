@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwi:ronin-core',
-    version: '1.0.0',
+    version: '1.1.0',
     summary: 'Core common package for Ronin application',
     git: '',
     documentation: 'README.md'
@@ -23,6 +23,7 @@ Package.onTest( function( api ){
 function configure( api ){
     api.versionsFrom( '1.8.1' );
     api.use( 'ecmascript' );
+    api.use( 'env-settings' );
     api.addFiles( 'client/index.js', 'client' );
     api.addFiles( 'server/index.js', 'server' );
 }

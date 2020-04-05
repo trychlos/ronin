@@ -90,7 +90,7 @@
  */
 Meteor.startup( function(){
     if( Meteor.isServer ){
-        console.log( '/imports/startup/both/settings-config.js' );
+        console.log( 'pwi:ronin-core::common/settings_config.js' );
         console.log( Meteor.settings );
         console.log( 'RONIN_ENV='+process.env.RONIN_ENV );
         console.log( 'NODE_ENV='+process.env.NODE_ENV );
