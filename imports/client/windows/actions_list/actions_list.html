@@ -1,14 +1,21 @@
 <template name="actionsList">
     <div class="actionsList wsf-parent ronin-window">
 
-        {{> window_badge text=count }}
-        {{> actions_tabs }}
+        <div class="wsf-header">
+            {{> window_badge text=count }}
+        </div>
 
-        {{#if isPageLayout}}
-            <div class="js-new">
-                {{> plus_button }}
-            </div>
-        {{/if}}
+        <div class="wsf-content">
+            {{> actions_tabs }}
+        </div>
+
+        <div class="wsf-footer">
+            {{#if isPageLayout}}
+                <div class="js-new">
+                    {{> plus_button }}
+                </div>
+            {{/if}}
+        </div>
 
     </div>
 </template>

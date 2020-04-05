@@ -6,11 +6,15 @@
             {{> window_badge text=actionsCount }}
         </div>
 
-        {{> projects_tabs }}
+        <div class="wsf-content">
+            {{> projects_tabs }}
+        </div>
 
-        {{#if isPageLayout}}
-            {{> projects_footer }}
-        {{/if}}
+        <div class="wsf-footer">
+            {{#if isPageLayout}}
+                {{> projects_footer }}
+            {{/if}}
+        </div>
 
     </div>
 </template>

@@ -1,8 +1,16 @@
 <template name="setupWindow">
     <div class="setupWindow wsf-parent ronin-window">
 
-        {{> window_badge text=count }}
-        {{> setup_tabs }}
+        <div class="wsf-header">
+            {{> window_badge text=count }}
+        </div>
+
+        <div class="wsf-content">
+            {{> setup_tabs }}
+        </div>
+
+        <div class="wsf-footer">
+        </div>
 
     </div>
 </template>

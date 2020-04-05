@@ -1,13 +1,18 @@
 <template name="apkWindow">
     <div class="apkWindow wsf-parent ronin-window">
 
-        {{> apk_panel }}
+        <div class="wsf-header">
+        </div>
 
-        {{#if isPageLayout}}
-            <div class="wsf-footer">
+        <div class="wsf-content">
+            {{> apk_panel }}
+        </div>
+
+        <div class="wsf-footer">
+            {{#if isPageLayout}}
                 {{> wsf_collapse_buttons okLabel="-" cancelLabel="Close" }}
-            </div>
-        {{/if}}
+            {{/if}}
+        </div>
 
     </div>
 </template>
