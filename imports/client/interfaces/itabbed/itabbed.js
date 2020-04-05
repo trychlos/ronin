@@ -16,8 +16,8 @@
  *  A ITabbed-able page should be built as:
  *  1. a <ul></ul> index section
  *      where each <li> item must hold
- *      > a 'data-itabbed' attribute which holds the item identifier
- *      > a 'data-ronin-itb-route' attribute which holds the corresponding route name
+ *      > a 'data-ronin-itabbed-id' attribute which holds the item identifier
+ *      > a 'data-ronin-itabbed-route' attribute which holds the corresponding route name
  *  2. the content of each item.
  *
  *  The ITabbed interface adds a 'ronin-itabbed' class to the callee element.
@@ -70,7 +70,13 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
             // if defined, make sure the requested tab is activated
             if( this.args.tab ){
                 this._activate( this.args.tab );
+            } else {
+                const $tab = this._byIndex( 0 );
+                this._activate( $tab.attr( 'data-ronin-itabbed-id' ));
             }
+            this.$dom.on( 'ronin-itabbed-clicked', function( ev, o ){
+                self._go( o.name );
+            });
         },
         // activating a tab means
         //  - desactivating the previous tab
@@ -79,7 +85,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
             //console.log( '_activate '+name );
             this.$dom.find( 'li.nav-item > a.nav-link' ).removeClass( 'active' );
             this.$dom.find( 'div.tab-pane' ).removeClass( 'active show' );
-            this.$dom.find( 'li.nav-item[data-itabbed='+name+'] > a.nav-link' ).addClass( 'active' );
+            this.$dom.find( 'li.nav-item[data-ronin-itabbed-id='+name+'] > a.nav-link' ).addClass( 'active' );
             this.$dom.find( '#'+name ).addClass( 'active show' );
             //const $tab = this._byName( name );
             //$tab.find( 'a.nav-link' ).addClass( 'active' );
@@ -96,7 +102,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
         // select the named tab
         _go: function( name ){
             const $tab = this._byName( name );
-            const route = $tab.attr( 'data-ronin-itb-route' );
+            const route = $tab.attr( 'data-ronin-itabbed-route' );
             $().IWindowed.setRoute( '.ronin-itabbed', route );
         },
         // return the index of the named tab
@@ -122,14 +128,14 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
                 this._go( arguments[1] );
             }
         },
-        // return a hash tabid -> tabidx (marked as 'data-itabbed')
+        // return a hash tabid -> tabidx (marked as 'data-ronin-itabbed-id')
         //  NB: only works after full initialization
         _tabs: function( element ){
             //console.log( 'classes='+element.attr('class'));
             let o = {}
             let idx = 0;
             this.$dom.find( 'li.nav-item[role=presentation]' ).each( function(){
-                const id = $( this ).attr('data-itabbed');
+                const id = $( this ).attr('data-ronin-itabbed-id');
                 o[id] = idx;
                 idx += 1;
             });
@@ -170,11 +176,12 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
                 if( this.nodeName === 'A' ){
                     $li = $( this ).parent( 'li' );
                 }
-                const name = $li.attr( 'data-itabbed' );
+                const name = $li.attr( 'data-ronin-itabbed-id' );
                 //console.log( 'switching to '+name );
                 const tabbed = $li.parents( '.ronin-itabbed' )[0];
                 if( tabbed ){
-                    $( tabbed ).ITabbed( 'go', name );
+                    //$( tabbed ).ITabbed( 'go', name );
+                    $( tabbed ).trigger( 'ronin-itabbed-clicked', { name: name })
                 }
             },
             cssClassLeftArrow: 'fas fa-chevron-left',

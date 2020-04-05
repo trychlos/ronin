@@ -3,7 +3,7 @@
 
         <ul class="nav nav-tabs" role="tablist">
             {{#each it in gtdItems}}
-                <li class="nav-item" role="presentation" data-itabbed="{{ it.id }}" data-ronin-itb-route="{{ gtdRoute it }}">
+                <li class="nav-item" role="presentation" data-ronin-itabbed-id="{{ it.id }}" data-ronin-itabbed-route="{{ gtdRoute it }}">
                     <a class="nav-link" href="#{{ it.id }}" role="tab" data-toggle="tab">{{ gtdLabel it }}</a>
                 </li>
             {{/each}}

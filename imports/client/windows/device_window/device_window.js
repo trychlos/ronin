@@ -3,7 +3,7 @@
  *  Displays device informations.
  */
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
-import '/imports/client/components/device_panel/device_panel.js';
+import '/imports/client/components/device_tabs/device_tabs.js';
 import '/imports/client/components/wsf_collapse_buttons/wsf_collapse_buttons.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './device_window.html';

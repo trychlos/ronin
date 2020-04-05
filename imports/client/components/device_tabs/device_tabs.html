@@ -1,0 +1,26 @@
+<template name="device_tabs">
+    <div class="device-tabs ronin-content">
+
+        <ul class="nav nav-tabs" role="tablist">
+            {{#each it in tabsList}}
+                <li class="nav-item"
+                    role="presentation"
+                    data-ronin-itabbed-id="{{it.id}}"
+                    data-ronin-itabbed-route="{{route}}">
+                        <a class="nav-link" href="#{{it.id}}" role="tab" data-toggle="tab">
+                            {{it.label}}
+                        </a>
+                </li>
+            {{/each}}
+        </ul>
+
+        <div class="tab-content">
+            {{#each it in tabsList}}
+                <div role="tabpanel" class="tab-pane fade" id="{{it.id}}">
+                    {{> Template.dynamic template=it.component }}
+                </div>
+            {{/each}}
+        </div>
+
+    </div>
+</template>

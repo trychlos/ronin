@@ -45,5 +45,3 @@ import './routes.js';
 
 console.log( 'startup/client' );
 console.log( Ronin );
-console.log( 'LYT_PAGE='+LYT_PAGE );
-console.log( 'LYT_WINDOW='+LYT_WINDOW );

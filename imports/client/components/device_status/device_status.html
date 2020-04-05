@@ -1,0 +1,28 @@
+<template name="device_status">
+    <div class="device-status">
+
+        <table class="w-100">
+            <tr>
+                <td class="label x-hright w-50 disabled"><p>connected:</p></td>
+                <td>{{statusConnected}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright w-50 disabled"><p>status:</p></td>
+                <td>{{statusStatus}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright w-50 disabled"><p>retryCount:</p></td>
+                <td>{{statusRetryCount}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright w-50 disabled"><p>retryTime:</p></td>
+                <td>{{statusRetryTime}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright w-50 disabled"><p>reason:</p></td>
+                <td>{{statusReason}}</td>
+            </tr>
+        </table>
+
+    </div>
+</template>

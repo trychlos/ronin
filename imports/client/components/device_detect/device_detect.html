@@ -1,0 +1,24 @@
+<template name="device_detect">
+    <div class="device-detect">
+
+        <table class="w-100">
+            <tr>
+                <td class="label x-hright w-50 disabled"><p>deviceType:</p></td>
+                <td>{{detectDeviceType}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright w-50 disabled"><p>hasMouse:</p></td>
+                <td>{{detectHasMouse}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright w-50 disabled"><p>hasTouch:</p></td>
+                <td>{{detectHasTouch}}</td>
+            </tr>
+            <tr>
+                <td class="label x-hright w-50 disabled"><p>primaryInput:</p></td>
+                <td>{{detectPrimaryInput}}</td>
+            </tr>
+        </table>
+
+    </div>
+</template>

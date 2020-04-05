@@ -30,8 +30,10 @@ function configure( api ){
 
 // The ronin-core-ui Meteor package depends of following NPM packages:
 //  - detect-it
-// Unfortunatly, we are unable to import these NPM packages from the Meteor
-// package without having first imported them in the application :()
+// Unfortunatly, we are unable to import these NPM packages from this Meteor
+// package without having first installed them at the application level
+// So as of Meteor 1.10.1, first install the module 'meteor npm install detect-it'
+//  then only the module is importable in the package
 //Npm.depends({
 //    'detect-it': 'git+https://github.com/rafrex/detect-it#master'
 //});
