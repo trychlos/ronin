@@ -1,5 +1,7 @@
 /*
- * 'lyt_header_panel' component.
+ * 'lyt_header' component.
+ *
+ *  pageLayout / windowLayout
  *  Display a navigation bar on top of the pages.
  *
  *  If the display is wide enough, the menu is displayed on the left side.
@@ -18,15 +20,15 @@ import '/imports/client/components/layout_select/layout_select.js';
 import '/imports/client/components/menu_bar/menu_bar.js';
 import '/imports/client/components/menu_button/menu_button.js';
 import '/imports/client/components/text_badge/text_badge.js';
-import './lyt_header_panel.html';
+import './lyt_header.html';
 
-Template.lyt_header_panel.onCreated( function(){
+Template.lyt_header.onCreated( function(){
     this.ronin = {
         spacerCount: 0
     };
 });
 
-Template.lyt_header_panel.helpers({
+Template.lyt_header.helpers({
     // template helper
     //  only displayed in pageLayout
     displayBadge(){

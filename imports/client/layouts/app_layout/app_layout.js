@@ -46,8 +46,8 @@ import '/imports/client/business/thoughts_model.js';
 import '/imports/client/business/time_values_model.js';
 import '/imports/client/business/topics_model.js';
 
-import '/imports/client/components/lyt_footer_panel/lyt_footer_panel.js';
-import '/imports/client/components/lyt_header_panel/lyt_header_panel.js';
+import '/imports/client/components/lyt_footer/lyt_footer.js';
+import '/imports/client/components/lyt_header/lyt_header.js';
 import '/imports/client/components/menu_side/menu_side.js';
 import '/imports/client/components/message/message.js';
 import '/imports/client/components/overview/overview.js';
