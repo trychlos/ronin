@@ -37,7 +37,7 @@ import './thoughts_list.html';
 
 Template.thoughtsList.fn = {
     newActivate: function(){
-        g.run.back = FlowRouter.current().route.name;
+        Ronin.ui.runBack( FlowRouter.current().route.name );
         gtd.activateId( 'gtd-collect-thought-new' );
     },
     newClasses: function(){
@@ -57,7 +57,7 @@ Template.thoughtsList.onCreated( function(){
         timeout: null
     };
     this.ronin.dict.set( 'count', 0 );
-    this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
+    this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === LYT_PAGE );
     this.ronin.dict.set( 'subscriptions_ready', false );
     this.ronin.dict.set( 'userId', Meteor.userId());
 });
@@ -69,7 +69,7 @@ Template.thoughtsList.onRendered( function(){
 
     // create the window
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
@@ -101,7 +101,7 @@ Template.thoughtsList.onRendered( function(){
     this.autorun(() => {
         if( self.ronin.dict.get( 'window_ready' )){
             let $parent = null;
-            if( g.run.layout.get() === LYT_PAGE ){
+            if( Ronin.ui.runLayout() === LYT_PAGE ){
                 $parent = $( '.thoughtsList' );
             } else {
                 $parent = $( '.thoughtsList' ).window( 'widget' );
@@ -151,7 +151,7 @@ Template.thoughtsList.onRendered( function(){
     this.autorun(() => {
         const userId = Meteor.userId();
         if( userId !== self.ronin.dict.get( 'userId' )){
-            if( g.run.layout.get() === LYT_WINDOW ){
+            if( Ronin.ui.runLayout() === LYT_WINDOW ){
                 $( '.thoughtsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
             }
             self.ronin.dict.set( 'userId', userId );

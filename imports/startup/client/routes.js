@@ -11,8 +11,6 @@ import '/imports/client/layouts/test_layout/test_layout.js';
 
 import '/imports/client/pages/not_found/not_found.js';
 
-console.log( g );
-
 // A takes-all route for tests purpose
 /*
 FlowRouter.route('/*', {
@@ -63,7 +61,7 @@ const loggedInRoutes = FlowRouter.group({
 FlowRouter.route('/', {
     name: 'rt.home',
     triggersEnter: [ function( context, redirect ){
-        switch( g.run.layout.get()){
+        switch( Ronin.ui.runLayout()){
             case LYT_PAGE:
                 redirect( '/thoughts' );
                 break;
@@ -395,8 +393,7 @@ FlowRouter.notFound = {
 };
 
 // in page-based layout, reactive the last known group at startup time
-const layout = g.run.layout.get();
-if( layout === LYT_PAGE ){
+if( Ronin.ui.runLayout() === LYT_PAGE ){
     const id = Session.get( 'page.group' );
     const route = gtd.routeId( 'footer', id );
     if( route ){

@@ -38,3 +38,4 @@ http
 pwi:ronin-action-status
 maximum:server-transform
 pwi:ronin-core
+pwi:ronin-core-ui

@@ -27,9 +27,9 @@ import './topic_edit.html';
 Template.topicEdit.fn = {
     doClose: function( instance ){
         //console.log( 'Template.topicEdit.fn.doClose instance='+instance );
-        switch( g.run.layout.get()){
+        switch( Ronin.ui.runLayout()){
             case LYT_PAGE:
-                FlowRouter.go( g.run.back );
+                FlowRouter.go( Ronin.ui.runBack());
                 break;
             case LYT_WINDOW:
                 instance.ronin.$dom.IWindowed( 'close' );
@@ -110,7 +110,7 @@ Template.topicEdit.onRendered( function(){
 
     // open the window if the manager has been initialized
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const topic = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({

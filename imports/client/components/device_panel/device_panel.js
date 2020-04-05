@@ -5,31 +5,31 @@ import './device_panel.html';
 
 Template.device_panel.helpers({
     detectDeviceType(){
-        return g.detectIt.deviceType;
+        return Ronin.ui.detectIt.deviceType;
     },
     detectHasMouse(){
-        return g.detectIt.hasMouse ? 'true' : 'false';
+        return Ronin.ui.detectIt.hasMouse ? 'true' : 'false';
     },
     detectHasTouch(){
-        return g.detectIt.hasTouch ? 'true' : 'false';
+        return Ronin.ui.detectIt.hasTouch ? 'true' : 'false';
     },
     detectPrimaryInput(){
-        return g.detectIt.primaryInput;
+        return Ronin.ui.detectIt.primaryInput;
     },
     runAbsoluteUrl(){
         return Meteor.absoluteUrl();
     },
     runBack(){
-        return g.run.back;
+        return Ronin.ui.runBack();
     },
     runHeight(){
-        return g.run.height.get()+'px';
+        return Ronin.ui.runHeight()+'px';
     },
     runLayout(){
-        return g.run.layout.get();
+        return Ronin.ui.runLayout();
     },
     runWidth(){
-        return g.run.width.get()+'px';
+        return Ronin.ui.runWidth()+'px';
     },
     statusConnected(){
         return Meteor.status().connected;

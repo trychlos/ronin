@@ -7,5 +7,5 @@
  */
 
 Ronin = {
-    'my_ronin_key': 'any_value'
+    common: 'my_value'
 };

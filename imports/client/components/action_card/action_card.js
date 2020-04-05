@@ -32,7 +32,7 @@ Template.action_card.helpers({
         return this.action.doneDate && moment( this.action.doneDate ).isValid() ? 'checked' : '';
     },
     classCreatedAt( where ){
-        const width = g.run.width.get();
+        const width = Ronin.ui.runWidth();
         let visible = width <= 480 ? 'x-hidew480' : '';
         if( where === 'card' ){
             visible = width <= 480 ? '' : 'x-hidden';
@@ -40,10 +40,10 @@ Template.action_card.helpers({
         return visible;
     },
     className(){
-        return g.run.width.get() <= 480 ? 'x-w60' : 'x-w50';
+        return Ronin.ui.runWidth() <= 480 ? 'x-w60' : 'x-w50';
     },
     classTopic(){
-        return g.run.width.get() <= 480 ? '' : 'x-w30';
+        return Ronin.ui.runWidth() <= 480 ? '' : 'x-w30';
     },
     collapsableId(){
         return Template.action_card.fn.collapsableId();

@@ -11,7 +11,7 @@ Template.menu_button.fn = {
         const route = FlowRouter.current();
         const name = route.route.name;
         if( !name.startsWith( 'rt.gear.' )){
-            g.run.back = route.path;
+            Ronin.ui.runBack( route.path );
         }
     }
 };

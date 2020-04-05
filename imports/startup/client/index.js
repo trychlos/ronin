@@ -41,5 +41,10 @@ import './version-config.js';
 
 // compute the default layout
 //  maybe initializing a window manager if the desktop layout is chosen
-import './layout-config.js'
+//import './layout-config.js'
 import './routes.js';
+
+console.log( 'startup/client' );
+console.log( Ronin );
+console.log( 'LYT_PAGE='+LYT_PAGE );
+console.log( 'LYT_WINDOW='+LYT_WINDOW );

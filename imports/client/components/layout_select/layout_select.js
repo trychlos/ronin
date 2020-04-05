@@ -9,13 +9,13 @@ import './layout_select.html';
 
 Template.layout_select.helpers({
     altLabel(){
-        return g.run.layout.get() === LYT_PAGE ? 'Window layout' : 'Page layout';
+        return Ronin.ui.runLayout() === LYT_PAGE ? 'Window layout' : 'Page layout';
     },
     altLayout(){
-        return g.run.layout.get() === LYT_PAGE ? LYT_WINDOW : LYT_PAGE;
+        return Ronin.ui.runLayout() === LYT_PAGE ? LYT_WINDOW : LYT_PAGE;
     },
     layoutLabel(){
-        return g.run.layout.get() === LYT_PAGE ? 'Page layout' : 'Window layout';
+        return Ronin.ui.runLayout() === LYT_PAGE ? 'Page layout' : 'Window layout';
     }
 });
 
@@ -23,7 +23,7 @@ Template.layout_select.events({
     'click .js-layout-select a'( event, instance ){
         //instance.$('.js-status-select').trigger('action-status-select-change');
         const layout = $( event.target ).attr( 'data-ronin-layout' );
-        g.run.layout.set( layout );
+        Ronin.ui.runLayout( layout );
         g.store.layout = layout;
         amplify.store( 'ronin', g.store );
         console.log( 'changing layout to '+layout );

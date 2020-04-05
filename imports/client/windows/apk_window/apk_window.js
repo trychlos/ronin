@@ -12,9 +12,9 @@ import './apk_window.html';
 Template.apkWindow.fn = {
     doClose(){
         //console.log( 'Template.actionEdit.fn.doClose' );
-        switch( g.run.layout.get()){
+        switch( Ronin.ui.runLayout()){
             case LYT_PAGE:
-                FlowRouter.go( g.run.back );
+                FlowRouter.go( Ronin.ui.runBack());
                 break;
             case LYT_WINDOW:
                 $().IWindowed.close( '.apkWindow' );
@@ -26,7 +26,7 @@ Template.apkWindow.fn = {
 Template.apkWindow.onRendered( function(){
     const fn = Template.apkWindow.fn;
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
             $( '.'+context.template ).IWindowed({
                 template: context.template,

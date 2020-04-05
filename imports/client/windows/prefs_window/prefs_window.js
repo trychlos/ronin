@@ -11,9 +11,9 @@ import './prefs_window.html';
 
 Template.prefsWindow.fn = {
     doClose( self ){
-        switch( g.run.layout.get()){
+        switch( Ronin.ui.runLayout()){
             case LYT_PAGE:
-                FlowRouter.go( g.run.back );
+                FlowRouter.go( Ronin.ui.runBack());
                 break;
             case LYT_WINDOW:
                 $().IWindowed.close( '.prefsWindow' );
@@ -55,7 +55,7 @@ Template.prefsWindow.onRendered( function(){
     const self = this;
 
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
             $( '.'+context.template ).IWindowed({
                 template: context.template,

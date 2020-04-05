@@ -39,7 +39,7 @@ import './setup_window.html';
 
 Template.setupWindow.fn = {
     newActivate: function(){
-        g.run.back = FlowRouter.current().route.name;
+        Ronin.ui.runBack( FlowRouter.current().route.name );
         const gtdid = gtd.newId( Session.get( 'setup.tab.name' ));
         if( gtdid ){
             gtd.activateId( gtdid );
@@ -59,7 +59,7 @@ Template.setupWindow.onCreated( function(){
         spinner: null,
         timeout: null
     };
-    this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
+    this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === LYT_PAGE );
 });
 
 Template.setupWindow.onRendered( function(){
@@ -69,7 +69,7 @@ Template.setupWindow.onRendered( function(){
 
     // open the window if the manager has been initialized
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
@@ -101,7 +101,7 @@ Template.setupWindow.onRendered( function(){
     this.autorun(() => {
         if( self.ronin.dict.get( 'window_ready' )){
             const $parent =
-                g.run.layout.get() === LYT_PAGE ?
+                Ronin.ui.runLayout() === LYT_PAGE ?
                     $( '.setupWindow' ) :
                     $( '.setupWindow' ).window( 'widget' );
             //console.log( 'start the spinner' );

@@ -28,7 +28,7 @@ Template.setup_card.onRendered( function(){
 
 Template.setup_card.helpers({
     classCreatedAt( where ){
-        const width = g.run.width.get();
+        const width = Ronin.ui.runWidth();
         let visible = width <= 480 ? 'x-hidew480' : '';
         if( where === 'card' ){
             visible = width <= 480 ? '' : 'x-hidden';
@@ -36,7 +36,7 @@ Template.setup_card.helpers({
         return visible;
     },
     className(){
-        return g.run.width.get() <= 480 ? 'x-w60' : 'x-w50';
+        return Ronin.ui.runWidth() <= 480 ? 'x-w60' : 'x-w50';
     },
     collapsableId(){
         return Template.setup_card.fn.collapsableId();

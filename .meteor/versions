@@ -90,6 +90,7 @@ peerlibrary:server-autorun@0.5.2
 promise@0.11.2
 pwi:ronin-action-status@1.0.0
 pwi:ronin-core@1.0.0
+pwi:ronin-core-ui@1.0.0
 raix:eventemitter@0.1.3
 random@1.2.0
 rate-limit@1.0.9

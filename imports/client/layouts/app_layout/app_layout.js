@@ -76,9 +76,9 @@ Template.appLayout.fn = {
         return res;
     },
     updateSize(){
-        g.run.resize.set( new Date());
-        g.run.width.set( $( window ).width());
-        g.run.height.set( $( window ).height());
+        Ronin.ui.runResize( new Date());
+        Ronin.ui.runWidth( $( window ).width());
+        Ronin.ui.runHeight( $( window ).height());
     }
 };
 
@@ -104,9 +104,8 @@ Template.pageLayout.onRendered( function(){
 Template.appLayout.onRendered( function(){
     //console.log( 'appLayout.onRendered' );
     this.autorun(() => {
-        if( g.run.layout.get() === LYT_WINDOW ){
-            if( !g[LYT_WINDOW].taskbar.get()){
-                //console.log( 'appLayout:autorun layout='+g.run.layout.get());
+        if( Ronin.ui.runLayout() === LYT_WINDOW ){
+            if( !Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
                 const taskbar = $('.lyt-taskbar').taskbar({
                     //buttonsTooltips: true,
                     localization: {
@@ -118,8 +117,8 @@ Template.appLayout.onRendered( function(){
                         }
                     },
                     viewportMargins: {
-                        top   : [ g[LYT_WINDOW].barTopHeight, "correctNone" ],
-                        left  : [ g[LYT_WINDOW].barSideWidth, "correctNone" ]
+                        top   : [ Ronin.ui.layouts[LYT_WINDOW].barTopHeight, "correctNone" ],
+                        left  : [ Ronin.ui.layouts[LYT_WINDOW].barSideWidth, "correctNone" ]
                     },
                     windowButtonsSortable: false,
                     windowsContainment: 'visible',
@@ -142,7 +141,7 @@ Template.appLayout.onRendered( function(){
                     }
                 });
                 //console.log( taskbar );
-                g[LYT_WINDOW].taskbar.set( taskbar );
+                Ronin.ui.layouts[LYT_WINDOW].taskbar.set( taskbar );
             }
         }
     })
@@ -172,11 +171,11 @@ Template.appLayout.helpers({
     },
     // page-base layout: just a place holder to be sure resizing is reactive
     pblResized(){
-        return 'resized helper run at '+g.run.resize.get();
+        return 'resized helper run at '+Ronin.ui.runResize();
     },
     // window-based layout: the parent node of WM windows
     wblRootId(){
-        return g[LYT_WINDOW].rootId;
+        return Ronin.ui.layouts[LYT_WINDOW].rootId;
     }
 });
 

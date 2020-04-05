@@ -13,6 +13,6 @@ Template.projects_footer.helpers({
     },
     // class helper: only display icons on small widths
     widthClass(){
-        return g.run.width.get() < 400 ? 'x-with-icon': 'x-with-label';
+        return Ronin.ui.runWidth() < 400 ? 'x-with-icon': 'x-with-label';
     }
 });

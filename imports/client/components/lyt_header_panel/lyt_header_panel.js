@@ -33,7 +33,7 @@ Template.lyt_header_panel.helpers({
         return Session.get( 'text_badge.text' );
     },
     hasMenuBar(){
-        return g.run.width.get() > 750;
+        return Ronin.ui.runWidth() > 750;
     },
     // menu_side is 150px width, should not use more than 20% of the viewport
     // so, minimal width to have always shown side menu is 750
@@ -66,12 +66,12 @@ Template.lyt_header_panel.helpers({
     // only change title on the page-based layout
     title(){
         let title = null;
-        const last = g.run.resize.get();    // be reactive vs orientation change
-        if( g.run.layout.get() === LYT_PAGE ){
+        const last = Ronin.ui.runResize();    // be reactive vs orientation change
+        if( Ronin.ui.runLayout() === LYT_PAGE ){
             title = Session.get( 'header.title' );
         }
         if( !title ){
-            const width = g.run.width.get();
+            const width = Ronin.ui.runWidth();
             title = 'Ronin '+( width <= 480 ? 'rocks!' : 'takes care of your thoughts' );
         }
         return title;

@@ -27,7 +27,7 @@ Template.collectGroup.onRendered( function(){
     //console.log( 'collectGroup.onRendered' );
     this.autorun(() => {
         const context = Template.currentData();
-        if( context.template && g[LYT_WINDOW].taskbar.get()){
+        if( context.template && Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
             $().IWindowed.show( context.template, context );
         }
     })

@@ -41,7 +41,7 @@ Template.projects_tree.fn = {
         // contextual menu, edit operation
         const menu_nodeEdit = function( $tree, node ){
             if( !fn.node_isRoot( node )){
-                g.run.back = FlowRouter.current().route.name;
+                Ronin.ui.runBack( FlowRouter.current().route.name );
                 switch( node.obj.type ){
                     case 'A':
                         FlowRouter.go( 'rt.actions.edit', null, { id:node.obj._id });
@@ -53,7 +53,7 @@ Template.projects_tree.fn = {
             }
         };
         // define the context menu
-        if( g.run.layout.get() === LYT_WINDOW ){
+        if( Ronin.ui.runLayout() === LYT_WINDOW ){
             $tree.contextMenu({
                 selector: 'div.jqtree-element',
                 build: function( elt, ev ){

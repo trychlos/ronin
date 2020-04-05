@@ -66,7 +66,7 @@ Template.projectsList.fn = {
     expandClass: function(){
     },
     newActivate: function(){
-        g.run.back = FlowRouter.current().route.name;
+        Ronin.ui.runBack( FlowRouter.current().route.name );
         const tab = Session.get( 'projects.tab.name' );
         gtd.activateId( Template.projectsList.fn.newItem());
     },
@@ -89,7 +89,7 @@ Template.projectsList.fn = {
     },
     spinnerStart: function( instance ){
         let $parent = null;
-        if( g.run.layout.get() === LYT_PAGE ){
+        if( Ronin.ui.runLayout() === LYT_PAGE ){
             $parent = $( '.projectsList' );
         } else {
             $parent = $( '.projectsList' ).window( 'widget' );
@@ -122,7 +122,7 @@ Template.projectsList.onCreated( function(){
     };
     this.ronin.dict.set( 'projects_count', 0 );
     this.ronin.dict.set( 'actions_count', 0 );
-    this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
+    this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === LYT_PAGE );
     this.ronin.dict.set( 'userId', Meteor.userId());
     this.ronin.dict.set( 'tabs', {} );
 });
@@ -133,7 +133,7 @@ Template.projectsList.onRendered( function(){
     const fn = Template.projectsList.fn;
 
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
@@ -208,7 +208,7 @@ Template.projectsList.onRendered( function(){
     this.autorun(() => {
         const userId = Meteor.userId();
         if( userId !== self.ronin.dict.get( 'userId' )){
-            if( g.run.layout.get() === LYT_WINDOW ){
+            if( Ronin.ui.runLayout() === LYT_WINDOW ){
                 $( '.projectsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClass());
             }
             self.ronin.dict.set( 'userId', userId );

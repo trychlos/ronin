@@ -8,29 +8,29 @@
 //  define a topmost class, besides of 'ronin-layout', depending of the runtime
 //  detected layout
 Template.registerHelper( 'currentLayout', function(){
-    const layout = g.run.layout.get();
+    const layout = Ronin.ui.runLayout();
     return layout === LYT_PAGE ? 'ronin-lyt-page' :
         ( layout === LYT_WINDOW ? 'ronin-lyt-window' : '' );
 });
 
 // class helper
 Template.registerHelper( 'hideIfPageLayout', function(){
-    return g.run.layout.get() === LYT_PAGE ? 'x-hidden':'';
+    return Ronin.ui.runLayout() === LYT_PAGE ? 'x-hidden':'';
 });
 
 // class helper
 Template.registerHelper( 'hideIfWindowLayout', function(){
-    return g.run.layout.get() === LYT_WINDOW ? 'x-hidden':'';
+    return Ronin.ui.runLayout() === LYT_WINDOW ? 'x-hidden':'';
 });
 
 // template helper
 Template.registerHelper( 'isPageLayout', function(){
-    return g.run.layout.get() === LYT_PAGE;
+    return Ronin.ui.runLayout() === LYT_PAGE;
 });
 
 // template helper
 Template.registerHelper( 'isWindowLayout', function(){
-    return g.run.layout.get() === LYT_WINDOW;
+    return Ronin.ui.runLayout() === LYT_WINDOW;
 });
 
 // template helper

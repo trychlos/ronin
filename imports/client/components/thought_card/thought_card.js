@@ -31,7 +31,7 @@ Template.thought_card.onRendered( function(){
 
 Template.thought_card.helpers({
     classCreatedAt( where ){
-        const width = g.run.width.get();
+        const width = Ronin.ui.runWidth();
         let visible = width <= 480 ? 'x-hidew480' : '';
         if( where === 'card' ){
             visible = width <= 480 ? '' : 'x-hidden';

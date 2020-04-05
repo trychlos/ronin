@@ -33,9 +33,9 @@ Template.thoughtEdit.fn = {
     // on close, go back to thoughtsList window
     doClose: function( instance ){
         //console.log( 'Template.thoughtEdit.fn.doClose' );
-        switch( g.run.layout.get()){
+        switch( Ronin.ui.runLayout()){
             case LYT_PAGE:
-                FlowRouter.go( g.run.back );
+                FlowRouter.go( Ronin.ui.runBack());
                 break;
             case LYT_WINDOW:
                 instance.ronin.$dom.IWindowed( 'close' );
@@ -117,7 +117,7 @@ Template.thoughtEdit.onRendered( function(){
 
     // open the window if the manager has been initialized
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const context = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({

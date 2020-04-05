@@ -40,7 +40,7 @@ const ActionsByStatus = new Mongo.Collection( 'ActionsByStatus' );
 
 Template.actionsList.fn = {
     newActivate: function(){
-        g.run.back = FlowRouter.current().route.name;
+        Ronin.ui.runBack( FlowRouter.current().route.name );
         gtd.activateId( 'gtd-process-action-new' );
     },
     newClasses: function(){
@@ -63,7 +63,7 @@ Template.actionsList.onCreated( function(){
         timeout: null,
         tabs: {}
     };
-    this.ronin.dict.set( 'window_ready', g.run.layout.get() === LYT_PAGE );
+    this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === LYT_PAGE );
     this.ronin.dict.set( 'total_count', 0 );
     this.ronin.dict.set( 'userId', Meteor.userId());
 });
@@ -74,7 +74,7 @@ Template.actionsList.onRendered( function(){
     const fn = Template.actionsList.fn;
 
     this.autorun(() => {
-        if( g[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
             const context = Template.currentData();
             $( '.'+context.template ).IWindowed({
                 template: context.template,
@@ -107,7 +107,7 @@ Template.actionsList.onRendered( function(){
     this.autorun(() => {
         if( self.ronin.dict.get( 'window_ready' )){
             const $parent =
-                g.run.layout.get() === LYT_PAGE ?
+                Ronin.ui.runLayout() === LYT_PAGE ?
                     $( '.actionsList' ) :
                     $( '.actionsList' ).window( 'widget' );
             self.ronin.spinner = new Spinner().spin( $parent[0] );
@@ -136,7 +136,7 @@ Template.actionsList.onRendered( function(){
     this.autorun(() => {
         const userId = Meteor.userId();
         if( userId !== self.ronin.dict.get( 'userId' )){
-            if( g.run.layout.get() === LYT_WINDOW ){
+            if( Ronin.ui.runLayout() === LYT_WINDOW ){
                 $( '.actionsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
             }
             self.ronin.dict.set( 'userId', userId );

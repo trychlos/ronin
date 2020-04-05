@@ -881,14 +881,8 @@ export const gtd = {
     isVisible: function( name, item ){
         const sub = gtd._getNavTab( name, item );
         let display = sub && sub.display;
-        if( display ){
-            if( typeof sub.display === 'object' ){
-                display = false;
-                if( g && g.run && g.run.layout ){
-                    const layout = g.run.layout.get();
-                    display = sub.display[layout] || false;
-                }
-            }
+        if( display && typeof sub.display === 'object' ){
+            display = sub.display[Ronin.ui.runLayout()] || false;
         }
         return display;
     },
@@ -1060,7 +1054,7 @@ export const gtd = {
         let ret = null;
         if( typeof sub[key] !== 'string' ){
             if( layout ){
-                ret = sub[key][g.run.layout.get()];
+                ret = sub[key][Ronin.ui.runLayout()];
             } else {
                 console.log( 'gtd: '+key+' is layout-dependant=false but is wrongly specified in gtd.js' );
             }
