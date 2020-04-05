@@ -111,10 +111,6 @@
 
   224 2020- 3-28 not found url no more works
 
-  225 2020- 3-31 choose and homogeneize localStorage vs amplify
-      2020- 4- 1 plus check usage of g.store
-      2020- 4- 5 choose amplifyjs
-
   227 2020- 4- 3 choose and homogeneize pubsub vs amplify publication/subscription
 
   228 2020- 4- 3 status & device informations: have a tabbed window
@@ -849,6 +845,10 @@
   218 2020- 3-28 layout menu: rather display the current layout
                  + rename to page/window layout
       2020- 4- 1 done
+
+  225 2020- 3-31 choose and homogeneize localStorage vs amplify
+      2020- 4- 1 plus check usage of g.store
+      2020- 4- 5 choose localStorage
 
   226 2020- 3-31 use target_url variable from deploy.sh in start.sh files
       2020- 4- 4 done
