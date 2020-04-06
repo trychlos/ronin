@@ -11,6 +11,10 @@ Template.projects_footer.helpers({
     develClass(){
         return Meteor.isDevelopment ? '' : 'x-hidden';
     },
+    // class helper: display only in development environment
+    enabledClass(){
+        return Meteor.userId() ? '' : 'ui-state-disabled';
+    },
     // class helper: only display icons on small widths
     widthClass(){
         return Ronin.ui.runWidth() < 400 ? 'x-with-icon': 'x-with-label';

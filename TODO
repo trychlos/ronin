@@ -97,11 +97,6 @@
       2020- 4- 3 as a reminder, the goal is to be able to desactivate an action (say, 'new thought')
                  and have all html/js implementations reflect this desactivation
 
-  219 2020- 3-28 projectsList in pageLayout: when not signed, the 'new' button
-                 should be disabled
-
-  222 2020- 3-28 pageLayout when not signed-in, the plus button should be disabled
-
   224 2020- 3-28 not found url no more works
 
   229 2020- 4- 3 would have a tool to display the component hierarchy
@@ -115,9 +110,6 @@
   235 2020- 4- 5 ronin-itabbed: only the content should be scrollable, not the tabs part
 
   236 2020- 4- 5 projects_tree: replace the done checkbox with a button in the projects_footer
-
-  237 2020- 4- 6 in pageLayout, doesn't display the horizontal line on bottom of the main pages
-                 -> hide empty wsf-footer div
 
   241 2020- 4- 6 move Simone WM + IWindowed interface to ronin-ui-wm or ronin-core-wm
 
@@ -840,12 +832,19 @@
                  + rename to page/window layout
       2020- 4- 1 done
 
+  219 2020- 3-28 projectsList in pageLayout: when not signed, the 'new' button
+                 should be disabled
+      2020- 4- 6 done (to be set in accordance with dev settings)
+
   220 2020- 3-28 /actions/edit: leave a trace in g.back, but shouldn't
       2020- 3-30 review and systematise the g.back management -> see History
       2020- 4- 6 fixed
 
   221 2020- 3-28 setup in pageLayout: should have a plus button in each tab
       2020- 4- 5 done
+
+  222 2020- 3-28 pageLayout when not signed-in, the plus button should be disabled
+      2020- 4- 6 done
 
   223 2020- 3-28 preferences: should have one (card/table) for setup window
       2020- 4- 5 done
@@ -879,6 +878,10 @@
 
   234 2020- 4- 5 windowLayout: setup contexts doesn't display the badge on the titlebar
                  no more reproductible
+
+  237 2020- 4- 6 in pageLayout, doesn't display the horizontal line on bottom of the main pages
+                 -> hide empty wsf-footer div
+      2020- 4- 6 there is no more any page without a button in its footer
 
   238 2020- 4- 6 regression: no more hover in bootstrap menus (gear / layout)
       2020- 4- 6 fixed

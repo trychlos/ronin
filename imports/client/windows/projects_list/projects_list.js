@@ -206,12 +206,12 @@ Template.projectsList.onRendered( function(){
 
     // enable the actions depending of the logged-in user
     this.autorun(() => {
-        const userId = Meteor.userId();
-        if( userId !== self.ronin.dict.get( 'userId' )){
-            if( Ronin.ui.runLayout() === LYT_WINDOW ){
-                self.ronin.$dom.IWindowed( 'buttonPaneResetClass', 1, fn.newClass());
+        if( Ronin.ui.runLayout() === LYT_WINDOW ){
+            const userId = Meteor.userId();
+            if( userId !== self.ronin.dict.get( 'userId' )){
+                self.ronin.$dom.IWindowed( 'buttonPaneResetClass', 5, fn.newClass());
+                self.ronin.dict.set( 'userId', userId );
             }
-            self.ronin.dict.set( 'userId', userId );
         }
     });
 
