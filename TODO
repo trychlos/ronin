@@ -123,9 +123,9 @@
 
   238 2020- 4- 6 regression: no more hover in bootstrap menus (gear / layout)
 
-  239 2020- 4- 6 deprecate IWindowed.close()
+  241 2020- 4- 6 move Simone WM + IWindowed interface to ronin-ui-wm or ronin-core-wm
 
-  241
+  242
 
 ==============================================================================
  Done
@@ -880,6 +880,9 @@
 
   234 2020- 4- 5 windowLayout: setup contexts doesn't display the badge on the titlebar
                  no more reproductible
+
+  239 2020- 4- 6 deprecate IWindowed.close()
+      2020- 4- 6 done
 
   240 2020- 4- 6 deprecate Ronin.ui.dict( 'back' ) ?
       2020- 4- 6 done

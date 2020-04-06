@@ -442,34 +442,6 @@ import '/imports/client/third-party/simone/simone.min.css';
         }
     };
 
-    // close() public method
-    //  close the current window
-    //  this method can be called on any DOM element and will close the
-    //   parent window (if any)
-    //  Rationale:
-    //  calling $( selector ).IWindowed( 'close' ) requires that selector be
-    //   exactly the window itself
-    //  instead of that, accepting $().IWindowed.close( selector ) let the user
-    //   require the closing from any child, as long as the specified selector
-    //   uniquely identifies a window...
-    //  Args:
-    //  - the selector to start with
-    $.fn[pluginName].close = ( selector ) => {
-        //console.log( this );
-        let wnd = $( selector+'.ronin-iwm-window' );
-        if( !wnd || !wnd.length ){
-            wnd = $( selector ).parents( '.ronin-iwm-window' );
-        }
-        if( !wnd || !wnd.length ){
-            wnd = $( '#'+Ronin.ui.layouts[LYT_WINDOW].rootId+' '+selector+'.ronin-iwm-window' );
-        }
-        if( wnd && wnd.length ){
-            $( wnd[0] ).IWindowed( 'close' );
-        } else {
-            console.log( 'IWindowed.close() unable to find '+selector+'.ronin-iwm-window' );
-        }
-    };
-
     // minimizeAll() public method
     //  minimize all windows
     $.fn[pluginName].minimizeAll = () => {
