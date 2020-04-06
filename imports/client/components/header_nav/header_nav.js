@@ -18,7 +18,7 @@
  */
 import '/imports/client/components/layout_select/layout_select.js';
 import '/imports/client/components/menu_bar/menu_bar.js';
-import '/imports/client/components/menu_button/menu_button.js';
+import '/imports/client/components/gear_menu/gear_menu.js';
 import '/imports/client/components/text_badge/text_badge.js';
 import './header_nav.html';
 

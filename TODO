@@ -100,8 +100,6 @@
   219 2020- 3-28 projectsList in pageLayout: when not signed, the 'new' button
                  should be disabled
 
-  221 2020- 3-28 setup in pageLayout: should have a plus button in each tab
-
   222 2020- 3-28 pageLayout when not signed-in, the plus button should be disabled
 
   224 2020- 3-28 not found url no more works
@@ -845,6 +843,9 @@
   220 2020- 3-28 /actions/edit: leave a trace in g.back, but shouldn't
       2020- 3-30 review and systematise the g.back management -> see History
       2020- 4- 6 fixed
+
+  221 2020- 3-28 setup in pageLayout: should have a plus button in each tab
+      2020- 4- 5 done
 
   223 2020- 3-28 preferences: should have one (card/table) for setup window
       2020- 4- 5 done

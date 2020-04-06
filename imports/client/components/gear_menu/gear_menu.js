@@ -1,18 +1,18 @@
 /*
- * 'menu_button' template.
+ * 'gear_menu' template.
  *
  *  Display a button on the left of the navbar to open the menu.
  */
 import bootbox from 'bootbox/dist/bootbox.all.min.js';
-import './menu_button.html';
+import './gear_menu.html';
 
-Template.menu_button.helpers({
+Template.gear_menu.helpers({
     link( js, label ){
         return '<a class="'+js+' dropdown-item" href="javascript:void(0);">'+label+'</a>';
     }
 });
 
-Template.menu_button.events({
+Template.gear_menu.events({
     'click .js-about'( ev, instance ){
         bootbox.alert({
             message: 'Ronin version '+Meteor.settings.public.ronin.version,
