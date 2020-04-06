@@ -35,7 +35,7 @@ Template.setupGroup.onRendered( function(){
     this.autorun(() => {
         const context = Template.currentData();
         if( context.template && Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
-            $().IWindowed.show( context.template, context );
+            $().IWindowed.show( context );
         }
     })
 });

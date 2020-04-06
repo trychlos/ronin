@@ -71,7 +71,7 @@ Template.thoughtsList.onRendered( function(){
 
     // create the window
     this.autorun(() => {
-        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && !self.ronin.dict.get( 'window_ready' )){
             self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {

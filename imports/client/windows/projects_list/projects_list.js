@@ -66,7 +66,6 @@ Template.projectsList.fn = {
     expandClass: function(){
     },
     newActivate: function(){
-        const tab = Session.get( 'projects.tab.name' );
         gtd.activateId( Template.projectsList.fn.newItem());
     },
     newClass: function(){
@@ -89,9 +88,9 @@ Template.projectsList.fn = {
     spinnerStart: function( instance ){
         let $parent = null;
         if( Ronin.ui.runLayout() === LYT_PAGE ){
-            $parent = $( '.projectsList' );
+            $parent = instance.ronin.$dom;
         } else {
-            $parent = $( '.projectsList' ).window( 'widget' );
+            $parent = instance.ronin.$dom.window( 'widget' );
         }
         if( $parent ){
             instance.ronin.spinner = new Spinner().spin( $parent[0] );
@@ -134,7 +133,8 @@ Template.projectsList.onRendered( function(){
     self.ronin.$dom = self.$( '.'+context.template );
 
     this.autorun(() => {
-        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
+        //console.log( 'projectsList.onRendered autorun()' );
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && !self.ronin.dict.get( 'window_ready' )){
             self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
@@ -264,7 +264,7 @@ Template.projectsList.helpers({
         const o = tabs[Session.get( 'projects.tab.name' )];
         const total = self.ronin.dict.get( 'actions_count' ) || 0;
         const tabcount = o ? o.actions_count : 0;
-        return 'Act '+tabcount+'/'+total;
+        return 'A: '+tabcount+'/'+total;
     },
     projectsCount(){
         const self = Template.instance();
@@ -272,7 +272,7 @@ Template.projectsList.helpers({
         const o = tabs[Session.get( 'projects.tab.name' )];
         const total = self.ronin.dict.get( 'projects_count' ) || 0;
         const tabcount = o ? o.projects_count : 0;
-        return 'Pro '+tabcount+'/'+total;
+        return 'P: '+tabcount+'/'+total;
     }
 });
 

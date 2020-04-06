@@ -71,7 +71,7 @@ Template.setupWindow.onRendered( function(){
 
     // open the window if the manager has been initialized
     this.autorun(() => {
-        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && !self.ronin.dict.get( 'window_ready' )){
             self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {

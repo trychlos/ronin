@@ -60,8 +60,7 @@ Template.actionsList.onCreated( function(){
             //counts: this.subscribe( 'articles.actions.status.count' )
         },
         spinner: null,
-        timeout: null,
-        tabs: {}
+        timeout: null
     };
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === LYT_PAGE );
     this.ronin.dict.set( 'total_count', 0 );
@@ -75,7 +74,7 @@ Template.actionsList.onRendered( function(){
     self.ronin.$dom = self.$( '.'+context.template );
 
     this.autorun(() => {
-        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && !self.ronin.dict.get( 'window_ready' )){
             self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
@@ -107,8 +106,8 @@ Template.actionsList.onRendered( function(){
         if( self.ronin.dict.get( 'window_ready' )){
             const $parent =
                 Ronin.ui.runLayout() === LYT_PAGE ?
-                    $( '.actionsList' ) :
-                    $( '.actionsList' ).window( 'widget' );
+                    self.ronin.$dom :
+                    self.ronin.$dom.window( 'widget' );
             self.ronin.spinner = new Spinner().spin( $parent[0] );
             self.ronin.timeout = Meteor.setTimeout(() => {
                 if( self.ronin.spinner ){
@@ -144,6 +143,10 @@ Template.actionsList.onRendered( function(){
 
     // child messaging
     //  update the tab's counts and the total count
+    //  object:
+    //  - id: tab gtd id
+    //  - status: action status
+    //  - count: actions count
     //  stop the spinner when currently displayed tab has sent its message
     self.ronin.$dom.on( 'actions-tabs-ready', function( ev, o ){
         //console.log( ev );

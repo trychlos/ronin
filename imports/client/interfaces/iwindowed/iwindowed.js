@@ -114,6 +114,7 @@ import '/imports/client/third-party/simone/simone.min.css';
                 console.log( 'IWindowed: template name not set' );
                 return;
             }
+            //console.log( 'creating '+this.args.template );
             // we set on the window's widget a 'ronin-iwm-<template_name>' class
             //  plus maybe a 'ronin-iwm-<group>' one if specified and different
             //  of the template name
@@ -249,10 +250,10 @@ import '/imports/client/third-party/simone/simone.min.css';
             if( typeof options === 'object' || !options ){
                 this.settings = $.extend( true, {}, $.fn[pluginName].defaults, options, {
                     simone: {
-                        appendTo:    '#'+Ronin.ui.layouts[LYT_WINDOW].rootId,
-                        beforeClose:  this._onBeforeClose,
-                        close:        this._onClose,
-                        taskbar:      Ronin.ui.layouts[LYT_WINDOW].taskbar.get()
+                        appendTo:   '#'+Ronin.ui.layouts[LYT_WINDOW].rootId,
+                        beforeClose: this._onBeforeClose,
+                        close:       this._onClose,
+                        taskbar:     Ronin.ui.layouts[LYT_WINDOW].taskbar.get()
                     }
                 });
                 this._create();
@@ -311,7 +312,7 @@ import '/imports/client/third-party/simone/simone.min.css';
         _onFocus: function( ev, ui ){
             //console.log( '_onFocus '+$( ev.target ).data( 'ronin-iwm-name' )+' restoring '+this._routeGet());
             const route = this._routeGet();
-            if( route ){
+            if( route && route !== FlowRouter.getRouteName()){
                 FlowRouter.go( route );
             }
            return false;
@@ -510,7 +511,7 @@ import '/imports/client/third-party/simone/simone.min.css';
             }
         }
         return( null );
-    },
+    };
 
     // setRoute() public method
     //  inside of a window, set an internal route as the 'data-ronin-iwm-route'
@@ -538,34 +539,30 @@ import '/imports/client/third-party/simone/simone.min.css';
     //  as a consequence, the plugin is not activated here, but will be on the actual
     //  window creation
     //  Args:
-    //  - template name
-    $.fn[pluginName].show = ( template, data ) => {
+    //  - context as sent by routes.js:blazeRender()
+    $.fn[pluginName].show = ( data ) => {
         //console.log( this );
         //console.log( myPlugin );
         //console.log( data );
-        if( !template || typeof template !== 'string' ){
-            console.log( 'show() expects the template name as single argument, "'+template+'" found' );
+        if( !data || !data.template || typeof data.template !== 'string' ){
+            console.log( 'show() expects the passed-in data context contains the template name, "'+data.template+'" found' );
         } else {
             let plugin = null;
             if( data.multiple ){
                 const route = FlowRouter.current();
                 plugin = $.fn[pluginName].pluginByPath( route.path );
             } else {
-                const plugins = $.fn[pluginName].pluginsByName( template );
+                const plugins = $.fn[pluginName].pluginsByName( data.template );
                 plugin = plugins ? plugins[0] : null;
             }
+            //console.log( plugin );
             if( plugin ){
+                plugin._routeSet();
                 plugin._moveToTop();
             } else {
-                Blaze.renderWithData( Template[template], data, document.getElementById( Ronin.ui.layouts[LYT_WINDOW].rootId ));
+                Blaze.renderWithData( Template[data.template], data, document.getElementById( Ronin.ui.layouts[LYT_WINDOW].rootId ));
             }
         }
-    };
-
-    // showNew() public method
-    //  show unconditionally a new window, passing it the provided context
-    $.fn[pluginName].showNew = ( template, data ) => {
-        Blaze.renderWithData( Template[template], data, document.getElementById( Ronin.ui.layouts[LYT_WINDOW].rootId ));
     };
 
 }( jQuery, window, document ));
@@ -647,5 +644,6 @@ import '/imports/client/third-party/simone/simone.min.css';
                 $( titlebar ).append( content );
             }
         },
+
     });
 */
