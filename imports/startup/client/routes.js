@@ -37,6 +37,7 @@ FlowRouter.route('/setup/criterias', {
 */
 
 let blazeRender = ( name ) => {
+    Session.set( 'header.title', null );
     const item = gtd.itemRoute( name );
     BlazeLayout.render( 'appLayout', {
         gtdid: item ? item.id : null,
@@ -232,7 +233,6 @@ FlowRouter.route( '/thoughts', {
     name: 'rt.thoughts.list',
     action(){
         Session.set( 'page.group', 'gtd-collect-thoughts-list' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });
@@ -287,7 +287,6 @@ FlowRouter.route('/projects/current', {
     action(){
         Session.set( 'page.group', 'gtd-review-projects' );
         Session.set( 'projects.tab.name', 'gtd-review-projects-current' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });
@@ -296,7 +295,6 @@ FlowRouter.route('/projects/single', {
     action(){
         Session.set( 'page.group', 'gtd-review-projects' );
         Session.set( 'projects.tab.name', 'gtd-review-projects-single' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });
@@ -305,7 +303,6 @@ FlowRouter.route('/projects/future', {
     action(){
         Session.set( 'page.group', 'gtd-review-projects' );
         Session.set( 'projects.tab.name', 'gtd-review-projects-future' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });
@@ -330,7 +327,6 @@ FlowRouter.route('/actions/inactive', {
     action(){
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-inactive' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });
@@ -339,7 +335,6 @@ FlowRouter.route('/actions/asap', {
     action(){
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-asap' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });
@@ -348,7 +343,6 @@ FlowRouter.route('/actions/delegated', {
     action(){
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-delegated' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });
@@ -357,7 +351,6 @@ FlowRouter.route('/actions/scheduled', {
     action(){
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-scheduled' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });
@@ -366,7 +359,6 @@ FlowRouter.route('/actions/waiting', {
     action(){
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-waiting' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });
@@ -375,7 +367,6 @@ FlowRouter.route('/actions/done', {
     action(){
         Session.set( 'page.group', 'gtd-review-actions' );
         Session.set( 'actions.tab.name', 'gtd-review-actions-done' );
-        Session.set( 'header.title', null );
         blazeRender( this.name );
     },
 });

@@ -30,17 +30,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thought_edit.html';
 
 Template.thoughtEdit.fn = {
-    // on close, go back to thoughtsList window
-    doClose: function( instance ){
-        //console.log( 'Template.thoughtEdit.fn.doClose' );
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                instance.ronin.$dom.IWindowed( 'close' );
-                break;
-        }
+    doClose( instance ){
+        $().IWindowed.pageClose( instance.ronin.$dom );
     },
     // an item has been deleted or has been transformed
     //  should we close this window ?
@@ -78,16 +69,16 @@ Template.thoughtEdit.fn = {
             }
         }
     }
-}
+};
 
 Template.thoughtEdit.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
+        $dom: null,
         handles: {
             article: this.subscribe( 'articles.one', FlowRouter.getQueryParam( 'id' )),
             topics: this.subscribe( 'topics.all' )
-        },
-        $dom: null
+        }
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -97,9 +88,8 @@ Template.thoughtEdit.onRendered( function(){
     //console.log( 'thoughtEdit.onRendered' );
     const self = this;
     const fn = Template.thoughtEdit.fn;
-
-    // stores this $DOM window element
-    self.ronin.$dom = self.$( '.thoughtEdit' );
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // get the edited item
     this.autorun(() => {
@@ -118,7 +108,6 @@ Template.thoughtEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
-            const context = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
                 template: context.template,

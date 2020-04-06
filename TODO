@@ -100,9 +100,6 @@
   219 2020- 3-28 projectsList in pageLayout: when not signed, the 'new' button
                  should be disabled
 
-  220 2020- 3-28 /actions/edit: leave a trace in g.back, but shouldn't
-      2020- 3-30 review and systematise the g.back management -> see History
-
   221 2020- 3-28 setup in pageLayout: should have a plus button in each tab
 
   222 2020- 3-28 pageLayout when not signed-in, the plus button should be disabled
@@ -121,7 +118,14 @@
 
   236 2020- 4- 5 projects_tree: replace the done checkbox with a button in the projects_footer
 
-  237
+  237 2020- 4- 6 in pageLayout, doesn't display the horizontal line on bottom of the main pages
+                 -> hide empty wsf-footer div
+
+  238 2020- 4- 6 regression: no more hover in bootstrap menus (gear / layout)
+
+  239 2020- 4- 6 deprecate IWindowed.close()
+
+  241
 
 ==============================================================================
  Done
@@ -840,6 +844,10 @@
                  + rename to page/window layout
       2020- 4- 1 done
 
+  220 2020- 3-28 /actions/edit: leave a trace in g.back, but shouldn't
+      2020- 3-30 review and systematise the g.back management -> see History
+      2020- 4- 6 fixed
+
   223 2020- 3-28 preferences: should have one (card/table) for setup window
       2020- 4- 5 done
 
@@ -872,6 +880,9 @@
 
   234 2020- 4- 5 windowLayout: setup contexts doesn't display the badge on the titlebar
                  no more reproductible
+
+  240 2020- 4- 6 deprecate Ronin.ui.dict( 'back' ) ?
+      2020- 4- 6 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

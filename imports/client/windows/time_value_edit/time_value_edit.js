@@ -25,16 +25,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './time_value_edit.html';
 
 Template.timeValueEdit.fn = {
-    doClose: function( instance ){
-        //console.log( 'Template.timeValueEdit.fn.doClose instance='+instance );
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                instance.ronin.$dom.IWindowed( 'close' );
-                break;
-        }
+    doClose( instance ){
+        $().IWindowed.pageClose( instance.ronin.$dom );
     },
     // this let us close an timeValueEdit window if the timeValue has been
     //  transformed in something else elsewhere
@@ -79,8 +71,8 @@ Template.timeValueEdit.fn = {
 Template.timeValueEdit.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
-        handle: this.subscribe( 'time_values.all' ),
-        $dom: null
+        $dom: null,
+        handle: this.subscribe( 'time_values.all' )
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -89,9 +81,8 @@ Template.timeValueEdit.onCreated( function(){
 Template.timeValueEdit.onRendered( function(){
     const self = this;
     const fn = Template.timeValueEdit.fn;
-
-    // stores this $DOM window element
-    self.ronin.$dom = self.$( '.timeValueEdit' );
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // get the edited item
     // the rest of the application will not work correctly else
@@ -111,10 +102,9 @@ Template.timeValueEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
-            const timeValue = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
-                template: timeValue.template,
+                template: context.template,
                 simone: {
                     buttons: [
                         {
@@ -135,8 +125,8 @@ Template.timeValueEdit.onRendered( function(){
                             }
                         }
                     ],
-                    group: timeValue.group,
-                    title: gtd.labelId( null, timeValue.gtdid )
+                    group: context.group,
+                    title: gtd.labelId( null, context.gtdid )
                 }
             });
         }

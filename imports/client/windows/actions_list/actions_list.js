@@ -40,7 +40,6 @@ const ActionsByStatus = new Mongo.Collection( 'ActionsByStatus' );
 
 Template.actionsList.fn = {
     newActivate: function(){
-        Ronin.ui.runBack( FlowRouter.current().route.name );
         gtd.activateId( 'gtd-process-action-new' );
     },
     newClasses: function(){
@@ -52,6 +51,7 @@ Template.actionsList.onCreated( function(){
     //console.log( 'actionsList.onCreated' );
     this.ronin = {
         dict: new ReactiveDict(),
+        $dom: null,
         handles: {
             projects: this.subscribe( 'articles.projects.all' ),
             topics: this.subscribe( 'topics.all' ),
@@ -69,21 +69,21 @@ Template.actionsList.onCreated( function(){
 });
 
 Template.actionsList.onRendered( function(){
-    //console.log( 'actionsList.onRendered' );
     const self = this;
     const fn = Template.actionsList.fn;
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
-            const context = Template.currentData();
-            $( '.'+context.template ).IWindowed({
+            self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [
                         {
                             text: "Close",
                             click: function(){
-                                $().IWindowed.close( '.'+context.template );
+                                self.ronin.$dom.IWindowed( 'close' );
                             }
                         },
                         {
@@ -99,7 +99,6 @@ Template.actionsList.onRendered( function(){
                 }
             });
             self.ronin.dict.set( 'window_ready', true );
-            //console.log( 'actionsList window_ready' );
         }
     });
 
@@ -137,7 +136,7 @@ Template.actionsList.onRendered( function(){
         const userId = Meteor.userId();
         if( userId !== self.ronin.dict.get( 'userId' )){
             if( Ronin.ui.runLayout() === LYT_WINDOW ){
-                $( '.actionsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
+                self.ronin.$dom.IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
             }
             self.ronin.dict.set( 'userId', userId );
         }
@@ -146,7 +145,7 @@ Template.actionsList.onRendered( function(){
     // child messaging
     //  update the tab's counts and the total count
     //  stop the spinner when currently displayed tab has sent its message
-    $( '.actionsList' ).on( 'actions-tabs-ready', function( ev, o ){
+    self.ronin.$dom.on( 'actions-tabs-ready', function( ev, o ){
         //console.log( ev );
         //console.log( o );
         //console.log( ev.type+' '+o.id );

@@ -41,7 +41,6 @@ Template.projects_tree.fn = {
         // contextual menu, edit operation
         const menu_nodeEdit = function( $tree, node ){
             if( !fn.node_isRoot( node )){
-                Ronin.ui.runBack( FlowRouter.current().route.name );
                 switch( node.obj.type ){
                     case 'A':
                         FlowRouter.go( 'rt.actions.edit', null, { id:node.obj._id });

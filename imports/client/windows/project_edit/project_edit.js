@@ -38,15 +38,7 @@ import './project_edit.html';
 
 Template.projectEdit.fn = {
     doClose: function( instance ){
-        //console.log( 'Template.projectEdit.fn.doClose' );
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                instance.ronin.$dom.IWindowed( 'close' );
-                break;
-        }
+        $().IWindowed.pageClose( instance.ronin.$dom );
     },
     // convert from action
     convertFromAction: function( item ){
@@ -116,13 +108,13 @@ Template.projectEdit.onCreated( function(){
     //console.log( 'projectEdit.onCreated' );
     this.ronin = {
         dict: new ReactiveDict(),
+        $dom: null,
         handles: {
             article: this.subscribe( 'articles.one', FlowRouter.getQueryParam( 'id' )),
             projects: this.subscribe( 'articles.projects.all' ),
             topics: this.subscribe( 'topics.all' ),
             context: this.subscribe( 'contexts.all' )
-        },
-        $dom: null
+        }
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -131,9 +123,8 @@ Template.projectEdit.onCreated( function(){
 Template.projectEdit.onRendered( function(){
     const self = this;
     const fn = Template.projectEdit.fn;
-
-    // stores this $DOM window element
-    self.ronin.$dom = self.$( '.projectEdit' );
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // get the edited item
     this.autorun(() => {
@@ -155,7 +146,6 @@ Template.projectEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
-            const context = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
                 template: context.template,

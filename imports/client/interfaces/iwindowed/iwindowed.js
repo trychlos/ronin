@@ -450,7 +450,8 @@ import '/imports/client/third-party/simone/simone.min.css';
     //  calling $( selector ).IWindowed( 'close' ) requires that selector be
     //   exactly the window itself
     //  instead of that, accepting $().IWindowed.close( selector ) let the user
-    //   require the closing from any child
+    //   require the closing from any child, as long as the specified selector
+    //   uniquely identifies a window...
     //  Args:
     //  - the selector to start with
     $.fn[pluginName].close = ( selector ) => {
@@ -480,6 +481,26 @@ import '/imports/client/third-party/simone/simone.min.css';
             }
         }
     },
+
+    // pageClose() public method
+    //  in windowLayout mode, close the current window
+    //  in pageLayout mode, change the route
+    //  Args:
+    //  - none
+    $.fn[pluginName].pageClose = ( $window ) => {
+        switch( Ronin.ui.runLayout()){
+            case LYT_PAGE:
+                if( history.length > 1 ){
+                    history.back();
+                } else {
+                    FlowRouter.go( Ronin.ui.defaults.pageItem );
+                }
+                break;
+            case LYT_WINDOW:
+                $window.IWindowed( 'close' );
+                break;
+        }
+    };
 
     // pluginsByName() public method
     //  Returns the list of initialized plugins associated with the specified template.

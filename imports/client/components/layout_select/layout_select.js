@@ -8,14 +8,13 @@
 import './layout_select.html';
 
 Template.layout_select.helpers({
-    altLabel(){
-        return Ronin.ui.runLayout() === LYT_PAGE ? 'Window layout' : 'Page layout';
-    },
-    altLayout(){
-        return Ronin.ui.runLayout() === LYT_PAGE ? LYT_WINDOW : LYT_PAGE;
-    },
     layoutLabel(){
         return Ronin.ui.runLayout() === LYT_PAGE ? 'Page layout' : 'Window layout';
+    },
+    link(){
+        return '<a class="dropdown-item" href="javascript:void(0);"'+
+            ' data-ronin-layout="'+( Ronin.ui.runLayout() === LYT_PAGE ? LYT_WINDOW : LYT_PAGE )+'">'+
+            ( Ronin.ui.runLayout() === LYT_PAGE ? 'Window layout' : 'Page layout' )+'</a>';
     }
 });
 

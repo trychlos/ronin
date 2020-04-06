@@ -1,16 +1,13 @@
 <template name="menu_item">
     <div class="menu-item">
 
-        <!-- nb: this.type === type and this.item === item -->
         {{#if isVisible this.type this.item }}
             <li>
                 <div class="{{ itemClasses type item }}" data-ronin-group="{{ itemGroup type item }}">
                     {{#if isActivable type item}}
-                        <a href="#" data-ronin-gtdid="{{ item.id }}">
-                            {{ itemLabel type item }}
-                        </a>
+                        {{{ link type item }}}
                     {{else}}
-                            {{ itemLabel type item }}
+                        {{ itemLabel type item }}
                     {{/if}}
                 </div>
             </li>

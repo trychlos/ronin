@@ -32,6 +32,7 @@
  */
 import { Spinner } from 'spin.js';
 import { gtd } from '/imports/api/resources/gtd/gtd';
+import '/imports/client/components/plus_button/plus_button.js';
 import '/imports/client/components/setup_tabs/setup_tabs.js';
 import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
@@ -39,7 +40,6 @@ import './setup_window.html';
 
 Template.setupWindow.fn = {
     newActivate: function(){
-        Ronin.ui.runBack( FlowRouter.current().route.name );
         const gtdid = gtd.newId( Session.get( 'setup.tab.name' ));
         if( gtdid ){
             gtd.activateId( gtdid );
@@ -56,6 +56,7 @@ Template.setupWindow.fn = {
 Template.setupWindow.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
+        $dom: null,
         spinner: null,
         timeout: null
     };
@@ -63,22 +64,22 @@ Template.setupWindow.onCreated( function(){
 });
 
 Template.setupWindow.onRendered( function(){
-    //console.log( 'setupWindow.onRendered' );
     const self = this;
     const fn = Template.setupWindow.fn;
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
-            const context = Template.currentData();
-            $( '.'+context.template ).IWindowed({
+            self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [
                         {
                             text: "Close",
                             click: function(){
-                                $().IWindowed.close( '.'+context.template );
+                                self.ronin.$dom.IWindowed( 'close' );
                             }
                         },
                         {
@@ -102,8 +103,8 @@ Template.setupWindow.onRendered( function(){
         if( self.ronin.dict.get( 'window_ready' )){
             const $parent =
                 Ronin.ui.runLayout() === LYT_PAGE ?
-                    $( '.setupWindow' ) :
-                    $( '.setupWindow' ).window( 'widget' );
+                    self.ronin.$dom :
+                    self.ronin.$dom.window( 'widget' );
             //console.log( 'start the spinner' );
             self.ronin.spinner = new Spinner().spin( $parent[0] );
             self.ronin.timeout = Meteor.setTimeout(() => {
@@ -120,7 +121,7 @@ Template.setupWindow.onRendered( function(){
     //  doesn't receive the first (zero) message sent by the child
     //  doesn't receive any more message if the collection is empty
     //console.log( 'attaching the event handler' );
-    $( '.setupWindow' ).on( 'setup-tab-ready', function( ev, o ){
+    self.ronin.$dom.on( 'setup-tab-ready', function( ev, o ){
         //console.log( ev );
         //console.log( o );
         self.ronin.dict.set( o.id+'_count', o.count );
@@ -137,6 +138,14 @@ Template.setupWindow.helpers({
     count(){
         const self = Template.instance();
         return self.ronin.dict.get( Session.get( 'setup.tab.name' )+'_count' ) || 0;
+    }
+});
+
+Template.setupWindow.events({
+    // page layout
+    'click .js-new'( ev, instance ){
+        Template.setupWindow.fn.newActivate();
+        return false;
     }
 });
 

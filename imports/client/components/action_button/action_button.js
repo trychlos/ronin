@@ -10,7 +10,6 @@ import './action_button.html';
 
 Template.action_button.events({
     'click .js-action'( event, instance ){
-        Ronin.ui.runBack( FlowRouter.current().route.name );
         FlowRouter.go( 'rt.actions.thought', null, { id:instance.data.item._id });
         return false;
     }

@@ -13,7 +13,7 @@ Template.overview.fn = {
     // - or a 'a' link <a data-router='xxx' href='#'><p>label</p></a>
     //
     routingBegin: function( o,s,route ){
-        return route ? "<a href='#'>" : "";
+        return route ? "<a href='javascript:void(0);'>" : "";
     },
     routingEnd: function( o,s,route ){
         return route ? "</a>" : "";

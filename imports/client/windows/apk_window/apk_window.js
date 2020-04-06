@@ -10,32 +10,33 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './apk_window.html';
 
 Template.apkWindow.fn = {
-    doClose(){
-        //console.log( 'Template.actionEdit.fn.doClose' );
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                $().IWindowed.close( '.apkWindow' );
-                break;
-        }
+    doClose( instance ){
+        $().IWindowed.pageClose( instance.ronin.$dom );
     }
 };
 
+Template.apkWindow.onCreated( function(){
+    this.ronin = {
+        $dom: null
+    };
+});
+
 Template.apkWindow.onRendered( function(){
+    const self = this;
     const fn = Template.apkWindow.fn;
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
+
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
-            const context = Template.currentData();
-            $( '.'+context.template ).IWindowed({
+            self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [
                         {
                             text: "Close",
                             click: function(){
-                                fn.doClose();
+                                fn.doClose( self );
                             }
                         }
                     ],
@@ -49,7 +50,7 @@ Template.apkWindow.onRendered( function(){
 
 Template.apkWindow.events({
     'click .js-cancel'( ev, instance ){
-        Template.apkWindow.fn.doClose();
+        Template.apkWindow.fn.doClose( instance );
         return false;
     }
 });

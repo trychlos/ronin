@@ -25,16 +25,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './context_edit.html';
 
 Template.contextEdit.fn = {
-    doClose: function( instance ){
-        //console.log( 'Template.contextEdit.fn.doClose instance='+instance );
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                instance.ronin.$dom.IWindowed( 'close' );
-                break;
-        }
+    doClose( instance ){
+        $().IWindowed.pageClose( instance.ronin.$dom );
     },
     // this let us close an contextEdit window if the context has been
     //  transformed in something else elsewhere
@@ -79,8 +71,8 @@ Template.contextEdit.fn = {
 Template.contextEdit.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
-        handle: this.subscribe( 'contexts.all' ),
-        $dom: null
+        $dom: null,
+        handle: this.subscribe( 'contexts.all' )
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -89,9 +81,8 @@ Template.contextEdit.onCreated( function(){
 Template.contextEdit.onRendered( function(){
     const self = this;
     const fn = Template.contextEdit.fn;
-
-    // stores this $DOM window element
-    self.ronin.$dom = self.$( '.contextEdit' );
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // get the edited item
     // the rest of the application will not work correctly else
@@ -111,7 +102,6 @@ Template.contextEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
-            const context = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
                 template: context.template,

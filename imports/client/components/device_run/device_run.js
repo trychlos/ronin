@@ -7,11 +7,11 @@ Template.device_run.helpers({
     runAbsoluteUrl(){
         return Meteor.absoluteUrl();
     },
-    runBack(){
-        return Ronin.ui.runBack();
-    },
     runHeight(){
         return Ronin.ui.runHeight()+'px';
+    },
+    runHistoryLength(){
+        return history.length;
     },
     runLayout(){
         return Ronin.ui.runLayout();

@@ -25,16 +25,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './priority_value_edit.html';
 
 Template.priorityValueEdit.fn = {
-    doClose: function( instance ){
-        //console.log( 'Template.priorityValueEdit.fn.doClose instance='+instance );
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                instance.ronin.$dom.IWindowed( 'close' );
-                break;
-        }
+    doClose( instance ){
+        $().IWindowed.pageClose( instance.ronin.$dom );
     },
     // this let us close an priorityValueEdit window if the priorityValue has been
     //  transformed in something else elsewhere
@@ -79,8 +71,8 @@ Template.priorityValueEdit.fn = {
 Template.priorityValueEdit.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
-        handle: this.subscribe( 'priority_values.all' ),
-        $dom: null
+        $dom: null,
+        handle: this.subscribe( 'priority_values.all' )
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -89,9 +81,8 @@ Template.priorityValueEdit.onCreated( function(){
 Template.priorityValueEdit.onRendered( function(){
     const self = this;
     const fn = Template.priorityValueEdit.fn;
-
-    // stores this $DOM window element
-    self.ronin.$dom = self.$( '.priorityValueEdit' );
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // get the edited item
     // the rest of the application will not work correctly else
@@ -111,10 +102,9 @@ Template.priorityValueEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
-            const priorityValue = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
-                template: priorityValue.template,
+                template: context.template,
                 simone: {
                     buttons: [
                         {
@@ -135,8 +125,8 @@ Template.priorityValueEdit.onRendered( function(){
                             }
                         }
                     ],
-                    group: priorityValue.group,
-                    title: gtd.labelId( null, priorityValue.gtdid )
+                    group: context.group,
+                    title: gtd.labelId( null, context.gtdid )
                 }
             });
         }

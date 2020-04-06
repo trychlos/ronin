@@ -10,7 +10,6 @@ import './maybe_button.html';
 
 Template.maybe_button.events({
     'click .js-maybe'( event, instance ){
-        Ronin.ui.runBack( FlowRouter.current().route.name );
         console.log( 'not implemented' );
         return false;
     }

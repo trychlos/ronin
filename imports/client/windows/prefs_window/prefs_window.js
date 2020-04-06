@@ -10,15 +10,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './prefs_window.html';
 
 Template.prefsWindow.fn = {
-    doClose( self ){
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                $().IWindowed.close( '.prefsWindow' );
-                break;
-        }
+    doClose( instance ){
+        $().IWindowed.pageClose( instance.ronin.$dom );
     },
     doOK( self ){
         Template.prefs_lists_panel.fn.doOK();
@@ -49,14 +42,21 @@ Template.prefsWindow.fn = {
     }
 };
 
+Template.prefsWindow.onCreated( function(){
+    this.ronin = {
+        $dom: null
+    };
+});
+
 Template.prefsWindow.onRendered( function(){
-    const fn = Template.prefsWindow.fn;
     const self = this;
+    const fn = Template.prefsWindow.fn;
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
-            const context = Template.currentData();
-            $( '.'+context.template ).IWindowed({
+            self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [
@@ -84,7 +84,7 @@ Template.prefsWindow.onRendered( function(){
 
 Template.prefsWindow.events({
     'click .js-cancel'( ev, instance ){
-        Template.prefsWindow.fn.doClose();
+        Template.prefsWindow.fn.doClose( instance );
         return false;
     },
     'click .js-ok'( ev, instance ){

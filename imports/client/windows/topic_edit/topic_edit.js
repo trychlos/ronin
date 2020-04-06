@@ -26,15 +26,7 @@ import './topic_edit.html';
 
 Template.topicEdit.fn = {
     doClose: function( instance ){
-        //console.log( 'Template.topicEdit.fn.doClose instance='+instance );
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                instance.ronin.$dom.IWindowed( 'close' );
-                break;
-        }
+        $().IWindowed.pageClose( instance.ronin.$dom );
     },
     // this let us close an topicEdit window if the topic has been
     //  transformed in something else elsewhere
@@ -79,8 +71,8 @@ Template.topicEdit.fn = {
 Template.topicEdit.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
-        handle: this.subscribe( 'topics.all' ),
-        $dom: null
+        $dom: null,
+        handle: this.subscribe( 'topics.all' )
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -89,9 +81,8 @@ Template.topicEdit.onCreated( function(){
 Template.topicEdit.onRendered( function(){
     const self = this;
     const fn = Template.topicEdit.fn;
-
-    // stores this $DOM window element
-    self.ronin.$dom = self.$( '.topicEdit' );
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // get the edited item
     // the rest of the application will not work correctly else
@@ -111,10 +102,9 @@ Template.topicEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
-            const topic = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
-                template: topic.template,
+                template: context.template,
                 simone: {
                     buttons: [
                         {
@@ -135,8 +125,8 @@ Template.topicEdit.onRendered( function(){
                             }
                         }
                     ],
-                    group: topic.group,
-                    title: gtd.labelId( null, topic.gtdid )
+                    group: context.group,
+                    title: gtd.labelId( null, context.gtdid )
                 }
             });
         }

@@ -25,16 +25,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './energy_value_edit.html';
 
 Template.energyValueEdit.fn = {
-    doClose: function( instance ){
-        //console.log( 'Template.energyValueEdit.fn.doClose instance='+instance );
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                instance.ronin.$dom.IWindowed( 'close' );
-                break;
-        }
+    doClose( instance ){
+        $().IWindowed.pageClose( instance.ronin.$dom );
     },
     // this let us close an energyValueEdit window if the energyValue has been
     //  transformed in something else elsewhere
@@ -79,8 +71,8 @@ Template.energyValueEdit.fn = {
 Template.energyValueEdit.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
-        handle: this.subscribe( 'energy_values.all' ),
-        $dom: null
+        $dom: null,
+        handle: this.subscribe( 'energy_values.all' )
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -89,9 +81,8 @@ Template.energyValueEdit.onCreated( function(){
 Template.energyValueEdit.onRendered( function(){
     const self = this;
     const fn = Template.energyValueEdit.fn;
-
-    // stores this $DOM window element
-    self.ronin.$dom = self.$( '.energyValueEdit' );
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // get the edited item
     // the rest of the application will not work correctly else
@@ -111,7 +102,6 @@ Template.energyValueEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
-            const energyValue = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
                 template: energyValue.template,

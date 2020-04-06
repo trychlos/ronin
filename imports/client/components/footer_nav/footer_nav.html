@@ -3,11 +3,7 @@
 
         <nav class="nav nav-pills nav-justified">
             {{#each it in gtdItems}}
-                <a
-                    class="js-item nav-item nav-link {{active it}}"
-                    data-toggle="pill"
-                    data-ronin-gtdid="{{it.id}}"
-                    href="#">{{gtdLabel it}}</a>
+                {{{link it}}}
             {{/each}}
         </nav>
 

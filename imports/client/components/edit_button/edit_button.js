@@ -39,7 +39,6 @@ Template.edit_button.events({
             }
         }
         if( route ){
-            Ronin.ui.runBack( FlowRouter.current().route.name );
             FlowRouter.go( route, null, { id:item._id });
         }
         return false;

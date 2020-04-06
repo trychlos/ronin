@@ -66,7 +66,6 @@ Template.projectsList.fn = {
     expandClass: function(){
     },
     newActivate: function(){
-        Ronin.ui.runBack( FlowRouter.current().route.name );
         const tab = Session.get( 'projects.tab.name' );
         gtd.activateId( Template.projectsList.fn.newItem());
     },
@@ -116,6 +115,7 @@ Template.projectsList.onCreated( function(){
     //console.log( 'projectsList.onCreated' );
     this.ronin = {
         dict: new ReactiveDict(),
+        $dom: null,
         spinner: null,
         timeout: null,
         tabsView: null
@@ -128,21 +128,21 @@ Template.projectsList.onCreated( function(){
 });
 
 Template.projectsList.onRendered( function(){
-    //console.log( 'projectsList.onRendered' );
     const self = this;
     const fn = Template.projectsList.fn;
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
-            const context = Template.currentData();
-            $( '.'+context.template ).IWindowed({
+            self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [
                         {
                             text: 'Close',
                             click: function(){
-                                $().IWindowed.close( '.'+context.template );
+                                self.ronin.$dom.IWindowed( 'close' );
                             }
                         },
                         {
@@ -209,7 +209,7 @@ Template.projectsList.onRendered( function(){
         const userId = Meteor.userId();
         if( userId !== self.ronin.dict.get( 'userId' )){
             if( Ronin.ui.runLayout() === LYT_WINDOW ){
-                $( '.projectsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClass());
+                self.ronin.$dom.IWindowed( 'buttonPaneResetClass', 1, fn.newClass());
             }
             self.ronin.dict.set( 'userId', userId );
         }

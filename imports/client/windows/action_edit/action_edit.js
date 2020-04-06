@@ -37,16 +37,8 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './action_edit.html';
 
 Template.actionEdit.fn = {
-    doClose: function( instance ){
-        //console.log( 'Template.actionEdit.fn.doClose instance='+instance );
-        switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
-                FlowRouter.go( Ronin.ui.runBack());
-                break;
-            case LYT_WINDOW:
-                instance.ronin.$dom.IWindowed( 'close' );
-                break;
-        }
+    doClose( instance ){
+        $().IWindowed.pageClose( instance.ronin.$dom );
     },
     // this let us close an actionEdit window if the action has been
     //  transformed in something else elsewhere
@@ -91,13 +83,13 @@ Template.actionEdit.fn = {
 Template.actionEdit.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
+        $dom: null,
         handles: {
             article: this.subscribe( 'articles.one', FlowRouter.getQueryParam( 'id' )),
             projects: this.subscribe( 'articles.projects.all' ),
             topics: this.subscribe( 'topics.all' ),
             context: this.subscribe( 'contexts.all' )
-        },
-        $dom: null
+        }
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
@@ -106,10 +98,8 @@ Template.actionEdit.onCreated( function(){
 Template.actionEdit.onRendered( function(){
     const self = this;
     const fn = Template.actionEdit.fn;
-
-    // stores this $DOM window element
-    self.ronin.$dom = self.$( '.actionEdit' );
-    //console.log( self.ronin.$dom );
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // get the edited item
     // the rest of the application will not work correctly
@@ -129,7 +119,6 @@ Template.actionEdit.onRendered( function(){
     // open the window if the manager has been initialized
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
-            const context = Template.currentData();
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
                 template: context.template,

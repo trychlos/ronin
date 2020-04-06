@@ -3,7 +3,7 @@
  *
  *  Display (at least) the list of thoughts.
  *  Each thought has buttons:
- *  - to create/update/delete the thought
+ *  - to update/delete the thought
  *  - or to transform it to action, project or maybe.
  *
  *  pageLayout:
@@ -37,7 +37,6 @@ import './thoughts_list.html';
 
 Template.thoughtsList.fn = {
     newActivate: function(){
-        Ronin.ui.runBack( FlowRouter.current().route.name );
         gtd.activateId( 'gtd-collect-thought-new' );
     },
     newClasses: function(){
@@ -49,6 +48,7 @@ Template.thoughtsList.onCreated( function(){
     //console.log( 'thoughtsList.onCreated' );
     this.ronin = {
         dict: new ReactiveDict(),
+        $dom: null,
         handles: {
             thoughts: this.subscribe( 'articles.thoughts.all' ),
             topics: this.subscribe( 'topics.all' )
@@ -66,19 +66,20 @@ Template.thoughtsList.onRendered( function(){
     //console.log( 'thoughtsList.onRendered' );
     const self = this;
     const fn = Template.thoughtsList.fn;
+    const context = Template.currentData();
+    self.ronin.$dom = self.$( '.'+context.template );
 
     // create the window
     this.autorun(() => {
         if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
-            const context = Template.currentData();
-            $( '.'+context.template ).IWindowed({
+            self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
                     buttons: [
                         {
                             text: "Close",
                             click: function(){
-                                $().IWindowed.close( '.'+context.template );
+                                self.ronin.$dom.IWindowed( 'close' );
                             }
                         },
                         {
@@ -102,9 +103,9 @@ Template.thoughtsList.onRendered( function(){
         if( self.ronin.dict.get( 'window_ready' )){
             let $parent = null;
             if( Ronin.ui.runLayout() === LYT_PAGE ){
-                $parent = $( '.thoughtsList' );
+                $parent = self.ronin.$dom;
             } else {
-                $parent = $( '.thoughtsList' ).window( 'widget' );
+                $parent = self.ronin.$dom.window( 'widget' );
             }
             if( $parent ){
                 self.ronin.spinner = new Spinner().spin( $parent[0] );

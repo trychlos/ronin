@@ -2,13 +2,17 @@
     <div class="layout-select">
 
         <div class="dropdown">
+
             <button class="ui-button ui-corner-all dropdown-toggle" data-toggle="dropdown">
                 <span class="fas fa-cubes"></span>
                 <span class="text">{{ layoutLabel }}</span>
             </button>
-            <div class="js-layout-select dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLayoutMenuButton">
-                <a class="dropdown-item" href="#" data-ronin-layout="{{ altLayout }}">{{ altLabel }}</a>
+
+            <div class="js-layout-select dropdown-menu dropdown-menu-right"
+                  aria-labelledby="dropdownLayoutMenuButton">
+                  {{{ link }}}
             </div>
+
         </div>
 
     </div>

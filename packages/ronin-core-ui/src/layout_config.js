@@ -73,8 +73,12 @@ if( Meteor.isClient ){
     Ronin.ui = {
 
         // user interface default values
+        //  pageGroup: the GTD default group identifier
+        //  pageItem: the corresponding GTD item identifier (footer.display=true)
+        //      recorded here to not have to import gtd
         defaults: {
-            'page.group': 'gtd-collect-thoughts-list'
+            pageGroup: 'gtd-collect-group',
+            pageItem: 'gtd-collect-thoughts-list'
         },
 
         // available (and managed) layouts
@@ -107,7 +111,6 @@ if( Meteor.isClient ){
         runContext: new ReactiveDict(),
 
         // getters / setters
-        runBack( route ){ return _runContext( 'back', route ); },
         runHeight( height ){ return _runContext( 'height', height ); },
         runLayout( layout ){ return _runContext( 'layout', layout ); },
         runMobile( mobile ){ return _runContext( 'mobile', mobile ); },
@@ -115,17 +118,22 @@ if( Meteor.isClient ){
         runWidth( width ){ return _runContext( 'width', width ); }
     };
 
-    Ronin.ui.runBack( null );
     Ronin.ui.runHeight( $( window ).height());
     Ronin.ui.runLayout( detectIt.primaryInput === 'mouse' ? LYT_WINDOW : LYT_PAGE );
     Ronin.ui.runMobile( Meteor.isCordova );
     Ronin.ui.runResize( new Date());
     Ronin.ui.runWidth( $( window ).width());
 
-    // set a default route for the page-based layouts
+    // In pageLayout mode, a footer navigation bar displays the four main groups
+    //  (setup, collect, actions, projects), and we want that a page be always
+    //  displayed, so that the user doesn't have to face an empty screen.
+    //  We have defined in Ronin.ui.defaults above, that 'gtd-collect-group' was
+    //  the default GTD group item in this layout.
+    //  For each group, the GTD definitions defines the item which is identified
+    //  to be the target of the footer navigation bar.
     const page = Session.get( 'page.group' );
     if( !page || !page.startsWith( 'gtd-' )){
-        Session.set( 'page.group', Ronin.ui.defaults['page.group'] );
+        Session.set( 'page.group', Ronin.ui.defaults.pageItem );
     }
 
 } // Meteor.isClient

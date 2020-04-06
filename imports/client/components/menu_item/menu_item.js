@@ -33,6 +33,9 @@ Template.menu_item.helpers({
     //  returns the item label
     itemLabel( type, item ){
         return gtd.labelItem( type, item );
+    },
+    link( type, item ){
+        return '<a href="javascript:void(0);" data-ronin-gtdid="'+item.id+'">'+gtd.labelItem( type, item )+'</a>';
     }
 });
 

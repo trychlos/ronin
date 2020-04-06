@@ -12,16 +12,15 @@ import { gtd } from '/imports/api/resources/gtd/gtd.js';
 import './footer_nav.html';
 
 Template.footer_nav.helpers({
-    // activate in the footer the item which corresponds to the saved route
-    active( it ){
-        const active = Session.get( 'page.group' );
-        return active === it.id ? 'active' : '';
-    },
     gtdItems(){
         return gtd.items( 'footer' );
     },
-    gtdLabel( it ){
-        return gtd.labelItem( 'footer', it );
+    link( it ){
+        const active = Session.get( 'page.group' );
+        const cit = ( active === it.id ? ' active' : '' );
+        return '<a class="js-item nav-item nav-link'+cit+'"'+
+                ' data-toggle="pill" href="javascript:void(0);"'+
+                ' data-ronin-gtdid="'+it.id+'">'+gtd.labelItem( 'footer', it )+'</a>';
     }
 });
 

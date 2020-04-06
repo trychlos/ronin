@@ -1,4 +1,8 @@
+# ignored for confidentiality reasons
 .keystore
+maintainer/www-host/start.sh
+
+# ignored as useless in a repository
 .vscode
 cordova-build-override/platforms/android/res/
 maintainer/packages/
