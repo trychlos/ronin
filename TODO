@@ -121,8 +121,6 @@
   237 2020- 4- 6 in pageLayout, doesn't display the horizontal line on bottom of the main pages
                  -> hide empty wsf-footer div
 
-  238 2020- 4- 6 regression: no more hover in bootstrap menus (gear / layout)
-
   241 2020- 4- 6 move Simone WM + IWindowed interface to ronin-ui-wm or ronin-core-wm
 
   242
@@ -880,6 +878,9 @@
 
   234 2020- 4- 5 windowLayout: setup contexts doesn't display the badge on the titlebar
                  no more reproductible
+
+  238 2020- 4- 6 regression: no more hover in bootstrap menus (gear / layout)
+      2020- 4- 6 fixed
 
   239 2020- 4- 6 deprecate IWindowed.close()
       2020- 4- 6 done
