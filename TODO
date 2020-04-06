@@ -65,9 +65,6 @@
 
    95 2020- 1-18 header_panel: menubar display should be dynamic (have a media query)
 
-  102 2020- 1-23 when changing touch to desktop layout and back, list grows
-                  (e.g. on collect page)
-
   104 2020- 1-23 mobile_footer bar is not visible without scrolling on browser's tablet
                   (miss the url bar and the tabs heights)
 
@@ -85,7 +82,7 @@
                  This todo aims at replacing some or all ronin.ui.xxx messages.
 
   201 2020- 3-18 display a spinner when projects_tree is refreshed
-      2020- 3-21 not sure this is really needed
+      2020- 3-21 not sure this is really needed ?
 
   205 2020- 3-21 review pseudo-columns alignment in action/thought cards
 
@@ -428,6 +425,10 @@
   101 2020- 1-23 get and display version from mobile.json
       2020- 1-30 version 'yymmddn' is dynamically computed at deployement time
       2020- 3- 6 done in gear menu
+
+  102 2020- 1-23 when changing touch to desktop layout and back, list grows
+                  (e.g. on collect page)
+      2020- 4- 6 no more appears in new architecture (lists have been fixed)
 
   103 2020- 1-23 header_panel: most left button is not displayed on browser's tablet
       2020- 1-30 normal as the menu_side is expected to be displayed in this case
@@ -881,7 +882,7 @@
 
   237 2020- 4- 6 in pageLayout, doesn't display the horizontal line on bottom of the main pages
                  -> hide empty wsf-footer div
-      2020- 4- 6 there is no more any page without a button in its footer
+      2020- 4- 6 fixed in 20.04.06.1+dev
 
   238 2020- 4- 6 regression: no more hover in bootstrap menus (gear / layout)
       2020- 4- 6 fixed

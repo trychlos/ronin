@@ -9,13 +9,13 @@
             {{> setup_tabs }}
         </div>
 
-        <div class="wsf-footer">
-            {{#if isPageLayout}}
-                <div class="js-new">
-                    {{> plus_button }}
-                </div>
-            {{/if}}
-        </div>
+        {{#if isPageLayout}}
+            <div class="wsf-footer x-hidden">
+            </div>
+            <div class="js-new">
+                {{> plus_button }}
+            </div>
+        {{/if}}
 
     </div>
 </template>
