@@ -4,17 +4,17 @@
  *  This is the only layout template of the application.
  *  It dynamically adapts itself depending of the runtime detected configuration.
  *
- *  On a page-based (LYT_PAGE) layout:
+ *  On a page-based (R_LYT_PAGE) layout:
  *  1. the 'ronin-lyt-page' class is added to the topmost div
  *  2. this is a fixed layout, with:
  *      - lyt-header    a fixed sticky header,
  *      - lyt-content   a scrollable content,
  *      - lyt-footer    a fixed sticky footer.
  *
- *  On a window-based (LYT_WINDOW) layout:
+ *  On a window-based (R_LYT_WINDOW) layout:
  *  1. the 'ronin-lyt-window' class is added to the topmost div
  *  2. this is a fixed layout, with detached windows:
- *      - lyt-header    the same fixed sticky header than in LYT_PAGE layout,
+ *      - lyt-header    the same fixed sticky header than in R_LYT_PAGE layout,
  *      - lyt-content   a full page, not designed for scroll, content,
  *                      which contains 'side' and 'overview' navigation panels
  *  3. in this layout, each page is opened in its own detached 'window'.
@@ -104,8 +104,8 @@ Template.pageLayout.onRendered( function(){
 Template.appLayout.onRendered( function(){
     //console.log( 'appLayout.onRendered' );
     this.autorun(() => {
-        if( Ronin.ui.runLayout() === LYT_WINDOW ){
-            if( !Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
+            if( !Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get()){
                 const taskbar = $('.lyt-taskbar').taskbar({
                     //buttonsTooltips: true,
                     localization: {
@@ -117,8 +117,8 @@ Template.appLayout.onRendered( function(){
                         }
                     },
                     viewportMargins: {
-                        top   : [ Ronin.ui.layouts[LYT_WINDOW].barTopHeight, "correctNone" ],
-                        left  : [ Ronin.ui.layouts[LYT_WINDOW].barSideWidth, "correctNone" ]
+                        top   : [ Ronin.ui.layouts[R_LYT_WINDOW].barTopHeight, "correctNone" ],
+                        left  : [ Ronin.ui.layouts[R_LYT_WINDOW].barSideWidth, "correctNone" ]
                     },
                     windowButtonsSortable: false,
                     windowsContainment: 'visible',
@@ -141,7 +141,7 @@ Template.appLayout.onRendered( function(){
                     }
                 });
                 //console.log( taskbar );
-                Ronin.ui.layouts[LYT_WINDOW].taskbar.set( taskbar );
+                Ronin.ui.layouts[R_LYT_WINDOW].taskbar.set( taskbar );
             }
         }
     })
@@ -175,7 +175,7 @@ Template.appLayout.helpers({
     },
     // window-based layout: the parent node of WM windows
     wblRootId(){
-        return Ronin.ui.layouts[LYT_WINDOW].rootId;
+        return Ronin.ui.layouts[R_LYT_WINDOW].rootId;
     }
 });
 

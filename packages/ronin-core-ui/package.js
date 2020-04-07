@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwi:ronin-core-ui',
-    version: '1.0.1',
+    version: '1.1.0',
     summary: 'Ronin core user interface management',
     git: '',
     documentation: 'README.md'
@@ -10,8 +10,8 @@ Package.onUse( function( api ){
     configure( api );
     api.mainModule( 'ronin-core-ui.js', 'client' );
     api.export([
-        'LYT_PAGE',
-        'LYT_WINDOW'
+        'R_LYT_PAGE',
+        'R_LYT_WINDOW'
     ])
 });
 

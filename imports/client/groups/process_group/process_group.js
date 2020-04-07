@@ -27,7 +27,7 @@ Template.processGroup.onRendered( function(){
     //console.log( 'processGroup.onRendered' );
     this.autorun(() => {
         const context = Template.currentData();
-        if( context.template && Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
+        if( context.template && Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get()){
             $().IWindowed.show( context );
         }
     })

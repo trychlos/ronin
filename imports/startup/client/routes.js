@@ -63,10 +63,10 @@ FlowRouter.route( '/', {
     name: 'rt.home',
     triggersEnter: [ function( context, redirect ){
         switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
+            case R_LYT_PAGE:
                 redirect( '/thoughts' );
                 break;
-            case LYT_WINDOW:
+            case R_LYT_WINDOW:
                 $().IWindowed.minimizeAll();
                 break;
         }
@@ -384,7 +384,7 @@ FlowRouter.notFound = {
 };
 
 // in page-based layout, reactive the last known group at startup time
-if( Ronin.ui.runLayout() === LYT_PAGE ){
+if( Ronin.ui.runLayout() === R_LYT_PAGE ){
     const id = Session.get( 'page.group' );
     const route = gtd.routeId( 'footer', id );
     if( route ){

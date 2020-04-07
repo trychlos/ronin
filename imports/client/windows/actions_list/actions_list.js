@@ -62,7 +62,7 @@ Template.actionsList.onCreated( function(){
         spinner: null,
         timeout: null
     };
-    this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === LYT_PAGE );
+    this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
     this.ronin.dict.set( 'total_count', 0 );
     this.ronin.dict.set( 'userId', Meteor.userId());
 });
@@ -74,7 +74,7 @@ Template.actionsList.onRendered( function(){
     self.ronin.$dom = self.$( '.'+context.template );
 
     this.autorun(() => {
-        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && !self.ronin.dict.get( 'window_ready' )){
+        if( Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get() && !self.ronin.dict.get( 'window_ready' )){
             self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
@@ -105,7 +105,7 @@ Template.actionsList.onRendered( function(){
     this.autorun(() => {
         if( self.ronin.dict.get( 'window_ready' )){
             const $parent =
-                Ronin.ui.runLayout() === LYT_PAGE ?
+                Ronin.ui.runLayout() === R_LYT_PAGE ?
                     self.ronin.$dom :
                     self.ronin.$dom.window( 'widget' );
             self.ronin.spinner = new Spinner().spin( $parent[0] );
@@ -134,7 +134,7 @@ Template.actionsList.onRendered( function(){
     this.autorun(() => {
         const userId = Meteor.userId();
         if( userId !== self.ronin.dict.get( 'userId' )){
-            if( Ronin.ui.runLayout() === LYT_WINDOW ){
+            if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
                 self.ronin.$dom.IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
             }
             self.ronin.dict.set( 'userId', userId );

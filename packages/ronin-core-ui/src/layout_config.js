@@ -66,8 +66,8 @@ if( Meteor.isClient ){
     };
 
     // exported global constants
-    LYT_PAGE = 'pageLayout';
-    LYT_WINDOW = 'windowLayout';
+    R_LYT_PAGE = 'pageLayout';
+    R_LYT_WINDOW = 'windowLayout';
 
     // update the Ronin global
     Ronin.ui = {
@@ -119,7 +119,7 @@ if( Meteor.isClient ){
     };
 
     Ronin.ui.runHeight( $( window ).height());
-    Ronin.ui.runLayout( detectIt.primaryInput === 'mouse' ? LYT_WINDOW : LYT_PAGE );
+    Ronin.ui.runLayout( detectIt.primaryInput === 'mouse' ? R_LYT_WINDOW : R_LYT_PAGE );
     Ronin.ui.runMobile( Meteor.isCordova );
     Ronin.ui.runResize( new Date());
     Ronin.ui.runWidth( $( window ).width());

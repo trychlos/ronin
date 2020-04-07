@@ -45,7 +45,7 @@ Template.setup_tabs.fn = {
             const prefs = Template.prefs_lists_panel.fn.readDevicePrefs();
             fn._prefTabular = prefs.lists.setup || 'def';
             if( fn._prefTabular === 'def' ){
-                fn._prefTabular = ( Ronin.ui.runLayout() === LYT_PAGE ? 'cards' : 'grid' );
+                fn._prefTabular = ( Ronin.ui.runLayout() === R_LYT_PAGE ? 'cards' : 'grid' );
             }
         }
         return( fn._prefTabular === 'grid' );

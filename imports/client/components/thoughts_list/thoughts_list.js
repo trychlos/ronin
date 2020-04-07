@@ -17,7 +17,7 @@ Template.thoughts_list.helpers({
         const prefs = Template.prefs_lists_panel.fn.readDevicePrefs();
         let display = prefs.lists.thoughts;
         if( display === 'def' ){
-            display = Ronin.ui.runLayout() === LYT_PAGE ? 'cards' : 'grid';
+            display = Ronin.ui.runLayout() === R_LYT_PAGE ? 'cards' : 'grid';
         }
         return display === 'grid';
     }

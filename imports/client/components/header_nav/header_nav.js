@@ -69,7 +69,7 @@ Template.header_nav.helpers({
     title(){
         let title = null;
         const last = Ronin.ui.runResize();    // be reactive vs orientation change
-        if( Ronin.ui.runLayout() === LYT_PAGE ){
+        if( Ronin.ui.runLayout() === R_LYT_PAGE ){
             title = Session.get( 'header.title' );
         }
         if( !title ){

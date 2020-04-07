@@ -9,12 +9,12 @@ import './layout_select.html';
 
 Template.layout_select.helpers({
     layoutLabel(){
-        return Ronin.ui.runLayout() === LYT_PAGE ? 'Page layout' : 'Window layout';
+        return Ronin.ui.runLayout() === R_LYT_PAGE ? 'Page layout' : 'Window layout';
     },
     link(){
         return '<a class="dropdown-item" href="javascript:void(0);"'+
-            ' data-ronin-layout="'+( Ronin.ui.runLayout() === LYT_PAGE ? LYT_WINDOW : LYT_PAGE )+'">'+
-            ( Ronin.ui.runLayout() === LYT_PAGE ? 'Window layout' : 'Page layout' )+'</a>';
+            ' data-ronin-layout="'+( Ronin.ui.runLayout() === R_LYT_PAGE ? R_LYT_WINDOW : R_LYT_PAGE )+'">'+
+            ( Ronin.ui.runLayout() === R_LYT_PAGE ? 'Window layout' : 'Page layout' )+'</a>';
     }
 });
 

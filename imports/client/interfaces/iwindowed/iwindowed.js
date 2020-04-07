@@ -250,10 +250,10 @@ import '/imports/client/third-party/simone/simone.min.css';
             if( typeof options === 'object' || !options ){
                 this.settings = $.extend( true, {}, $.fn[pluginName].defaults, options, {
                     simone: {
-                        appendTo:   '#'+Ronin.ui.layouts[LYT_WINDOW].rootId,
+                        appendTo:   '#'+Ronin.ui.layouts[R_LYT_WINDOW].rootId,
                         beforeClose: this._onBeforeClose,
                         close:       this._onClose,
-                        taskbar:     Ronin.ui.layouts[LYT_WINDOW].taskbar.get()
+                        taskbar:     Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get()
                     }
                 });
                 this._create();
@@ -446,7 +446,7 @@ import '/imports/client/third-party/simone/simone.min.css';
     // minimizeAll() public method
     //  minimize all windows
     $.fn[pluginName].minimizeAll = () => {
-        const taskbar = Ronin.ui.layouts[LYT_WINDOW].taskbar.get();
+        const taskbar = Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get();
         if( taskbar ){
             const windows = taskbar.taskbar( 'windows' );
             for( let i=0 ; i<windows.length ; ++i ){
@@ -462,14 +462,14 @@ import '/imports/client/third-party/simone/simone.min.css';
     //  - none
     $.fn[pluginName].pageClose = ( $window ) => {
         switch( Ronin.ui.runLayout()){
-            case LYT_PAGE:
+            case R_LYT_PAGE:
                 if( history.length > 1 ){
                     history.back();
                 } else {
                     FlowRouter.go( Ronin.ui.defaults.pageItem );
                 }
                 break;
-            case LYT_WINDOW:
+            case R_LYT_WINDOW:
                 $window.IWindowed( 'close' );
                 break;
         }
@@ -478,7 +478,7 @@ import '/imports/client/third-party/simone/simone.min.css';
     // pluginsByName() public method
     //  Returns the list of initialized plugins associated with the specified template.
     $.fn[pluginName].pluginsByName = ( template ) => {
-        const windows = Ronin.ui.layouts[LYT_WINDOW].taskbar.get().taskbar( 'windows' );
+        const windows = Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get().taskbar( 'windows' );
         let plugins = [];
         for( let i=0 ; i<windows.length ; ++i ){
             const name = $( windows[i] ).attr( 'data-ronin-iwm-name' );
@@ -500,7 +500,7 @@ import '/imports/client/third-party/simone/simone.min.css';
     //  be kept unique in the interface
     $.fn[pluginName].pluginByPath = ( path ) => {
         //console.log( 'searching for '+path );
-        const taskbar = Ronin.ui.layouts[LYT_WINDOW].taskbar.get();
+        const taskbar = Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get();
         if( taskbar ){
             const windows = taskbar.taskbar( 'windows' );
             for( let i=0 ; i<windows.length ; ++i ){
@@ -560,7 +560,7 @@ import '/imports/client/third-party/simone/simone.min.css';
                 plugin._routeSet();
                 plugin._moveToTop();
             } else {
-                Blaze.renderWithData( Template[data.template], data, document.getElementById( Ronin.ui.layouts[LYT_WINDOW].rootId ));
+                Blaze.renderWithData( Template[data.template], data, document.getElementById( Ronin.ui.layouts[R_LYT_WINDOW].rootId ));
             }
         }
     };

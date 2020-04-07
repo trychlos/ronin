@@ -60,7 +60,7 @@ Template.setupWindow.onCreated( function(){
         spinner: null,
         timeout: null
     };
-    this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === LYT_PAGE );
+    this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
 });
 
 Template.setupWindow.onRendered( function(){
@@ -71,7 +71,7 @@ Template.setupWindow.onRendered( function(){
 
     // open the window if the manager has been initialized
     this.autorun(() => {
-        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && !self.ronin.dict.get( 'window_ready' )){
+        if( Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get() && !self.ronin.dict.get( 'window_ready' )){
             self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
@@ -102,7 +102,7 @@ Template.setupWindow.onRendered( function(){
     this.autorun(() => {
         if( self.ronin.dict.get( 'window_ready' )){
             const $parent =
-                Ronin.ui.runLayout() === LYT_PAGE ?
+                Ronin.ui.runLayout() === R_LYT_PAGE ?
                     self.ronin.$dom :
                     self.ronin.$dom.window( 'widget' );
             //console.log( 'start the spinner' );

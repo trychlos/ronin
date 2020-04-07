@@ -116,8 +116,6 @@
                  to associate with Article.isEditAllowed....
       2020- 4- 7 done in ronin-core v1.2.0
 
-  244 2020- 4- 7 ronin-core-ui: rename LYT_ to R_LYT_
-
   245
 
 ==============================================================================
@@ -900,6 +898,9 @@
 
   240 2020- 4- 6 deprecate Ronin.ui.dict( 'back' ) ?
       2020- 4- 6 done
+
+  244 2020- 4- 7 ronin-core-ui: rename LYT_ to R_LYT_
+      2020- 4- 7 done in ronin-core-ui v1.1.0
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

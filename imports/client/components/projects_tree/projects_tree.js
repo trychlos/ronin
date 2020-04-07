@@ -52,7 +52,7 @@ Template.projects_tree.fn = {
             }
         };
         // define the context menu
-        if( Ronin.ui.runLayout() === LYT_WINDOW ){
+        if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
             $tree.contextMenu({
                 selector: 'div.jqtree-element',
                 build: function( elt, ev ){

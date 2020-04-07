@@ -118,7 +118,7 @@ Template.actionEdit.onRendered( function(){
 
     // open the window if the manager has been initialized
     this.autorun(() => {
-        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
+        if( Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
                 template: context.template,

@@ -55,7 +55,7 @@ Template.prefsWindow.onRendered( function(){
     self.ronin.$dom = self.$( '.'+context.template );
 
     this.autorun(() => {
-        if( Ronin.ui.layouts[LYT_WINDOW].taskbar.get()){
+        if( Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get()){
             self.ronin.$dom.IWindowed({
                 template: context.template,
                 simone: {
