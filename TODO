@@ -116,7 +116,9 @@
                  to associate with Article.isEditAllowed....
       2020- 4- 7 done in ronin-core v1.2.0
 
-  245
+  245 2020- 4- 7 on user login, actions list is updated, but not actions count
+
+  246
 
 ==============================================================================
  Done
