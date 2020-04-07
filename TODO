@@ -31,7 +31,7 @@
    62 2020- 1- 4 server consistency check
                   parent action is a project or none
                   project parent is a project or none
-                  all topics, contexts, action status are referenced in db
+                  all topics, contexts, projects are referenced in db
 
    63 2020- 1- 4 make sure a project is not ended while all actions are not done
 
@@ -110,7 +110,15 @@
 
   241 2020- 4- 6 move Simone WM + IWindowed interface to ronin-ui-wm or ronin-core-wm
 
-  242
+  242 2020- 4- 7 move constants.less to ronin-core-ui
+
+  243 2020- 4- 7 have settings.isEditAllowed/isDeleteAllowed/isNewAllowed()
+                 to associate with Article.isEditAllowed....
+      2020- 4- 7 done in ronin-core v1.2.0
+
+  244 2020- 4- 7 ronin-core-ui: rename LYT_ to R_LYT_
+
+  245
 
 ==============================================================================
  Done

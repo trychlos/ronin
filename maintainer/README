@@ -155,3 +155,6 @@ Ronin CSS classes
     - sticky footer on top of footer_nav in pageLayout only.
 
     ronin-window is a class attached to each window, not used for styling.
+
+Bundle visualizer
+    meteor --extra-packages bundle-visualizer --production

@@ -88,16 +88,29 @@
         ebdc91e1dff844baa5b0e38638744f9a76daf16e.js?meteor_js_resource=true:494 Meteor.isProduction=true
  *
  */
-Meteor.startup( function(){
-    if( Meteor.isServer ){
-        console.log( 'pwi:ronin-core::common/settings_config.js' );
-        console.log( Meteor.settings );
-        console.log( 'RONIN_ENV='+process.env.RONIN_ENV );
-        console.log( 'NODE_ENV='+process.env.NODE_ENV );
-        console.log( 'Meteor.isClient='+Meteor.isClient );
-        console.log( 'Meteor.isServer='+Meteor.isServer );
-        console.log( 'Meteor.isCordova='+Meteor.isCordova );
-        console.log( 'Meteor.isDevelopment='+Meteor.isDevelopment );
-        console.log( 'Meteor.isProduction='+Meteor.isProduction );
+
+// Meteor.settings.public let the environment define whether an R_OBJ_xxx object
+// type is allowed to be edited regarding the requested action and the current
+// runtime environment.
+// The keys hierarchy is of the form 'allow.<action>.<objtype>' and defines if
+// the action is allowed to an unknowed user (not logged-in) in this environment.
+// Defaults to false, i.e. must be explicitely set to true to be allowed.
+
+function _isAllowed( objType, action ){
+    if( Meteor.userId()){
+        return true;
     }
-});
+    const o = Ronin.managed[objType] ? Ronin.managed[objType] : Ronin.managed[R_OBJ_SETUP];
+    const key = 'allow.'+action+'.'+o.label.toLowerCase();
+    return Boolean( Ronin.objectKey( Meteor.settings.public, key ));
+}
+
+Meteor.settings.isDeleteAllowed = ( objType ) => {
+    return _isAllowed( objType, 'delete' );
+};
+Meteor.settings.isEditAllowed = ( objType ) => {
+    return _isAllowed( objType, 'edit' );
+};
+Meteor.settings.isNewAllowed = ( objType ) => {
+    return _isAllowed( objType, 'new' );
+};

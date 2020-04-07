@@ -43,5 +43,7 @@ import './version-config.js';
 //  maybe initializing a window manager if the desktop layout is chosen
 import './routes.js';
 
-console.log( 'startup/client' );
+console.log( 'startup/client: Meteor.settings' );
+console.log( Meteor.settings );
+console.log( 'startup/client: Ronin' );
 console.log( Ronin );
