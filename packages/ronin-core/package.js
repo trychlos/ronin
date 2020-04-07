@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwi:ronin-core',
-    version: '1.2.0',
+    version: '1.3.0',
     summary: 'Core common package for Ronin application',
     git: '',
     documentation: 'README.md'
@@ -16,7 +16,8 @@ Package.onUse( function( api ){
         'R_OBJ_PROJECT',
         'R_OBJ_SETUP',
         'R_OBJ_THOUGHT',
-        'R_OBJ_TOPIC'
+        'R_OBJ_TOPIC',
+        'Action'
     ])
 });
 

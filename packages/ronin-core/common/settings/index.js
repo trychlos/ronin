@@ -1,5 +1,6 @@
 /*
- * settings-config.js
+ * ronin-core package
+ *  common/settings/index.js
  *
  * About https://atmospherejs.com/4commerce/env-settings
  *  This is our choice for reading settings depending of the current environment.

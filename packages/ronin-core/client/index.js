@@ -1,4 +1,5 @@
 /*
- * ronin-core package - client-specific part.
+ * ronin-core package
+ *  client/index.js
  */
 import '../common';

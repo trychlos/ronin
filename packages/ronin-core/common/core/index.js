@@ -1,5 +1,6 @@
 /*
- * ronin-core package - common part.
+ * ronin-core package
+ *  common/core/index.js
  *
  * Defines the Ronin global variable.
  *      The Ronin global variable is available both on the client and on the

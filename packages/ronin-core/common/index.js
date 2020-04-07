@@ -6,8 +6,9 @@
 // 'this' here is a Meteor object which contains some global functions and
 //  packages objects (but not ours :(...)
 
-import './core.js';
-import './settings_config.js';
+import './core';
+import './settings';
+import './action';
 
 Meteor.startup( function(){
     if( Meteor.isServer ){
