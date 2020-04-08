@@ -47,15 +47,3 @@ console.log( 'startup/client: Meteor.settings' );
 console.log( Meteor.settings );
 console.log( 'startup/client: Ronin' );
 console.log( Ronin );
-
-let newThought = new ActionNew( R_OBJ_THOUGHT );
-
-console.log( newThought );
-console.log( newThought.IActionable());
-console.log( newThought );
-console.log( newThought.IActionable( true ));
-console.log( newThought );
-console.log( newThought.IActionable( false ));
-console.log( newThought );
-console.log( newThought.IActionable());
-console.log( newThought );

@@ -34,28 +34,27 @@ Ronin = {
 
     // a list of description of main managed object types
     // unknwon object types default to R_OBJ_SETUP which acts as a general stuff
-    objTypes: {}
-
-};
-
-Ronin.objTypes[R_OBJ_ACTION] = {
-    label: 'Action'
-};
-Ronin.objTypes[R_OBJ_CONTEXT] = {
-    label: 'Context'
-};
-Ronin.objTypes[R_OBJ_MAYBE] = {
-    label: 'Maybe'
-};
-Ronin.objTypes[R_OBJ_PROJECT] = {
-    label: 'Project'
-};
-Ronin.objTypes[R_OBJ_SETUP] = {
-    label: 'Setup'
-};
-Ronin.objTypes[R_OBJ_THOUGHT] = {
-    label: 'Thought'
-};
-Ronin.objTypes[R_OBJ_TOPIC] = {
-    label: 'Topic'
+    objTypes: {
+        A: {
+            label: 'Action'
+        },
+        C: {
+            label: 'Context'
+        },
+        M: {
+            label: 'Maybe'
+        },
+        O: {
+            label: 'Topic'
+        },
+        P: {
+            label: 'Project'
+        },
+        S: {
+            label: 'Setup'
+        },
+        T: {
+            label: 'Thought'
+        },
+    }
 };

@@ -4,9 +4,11 @@
  */
 import './Action.js';
 
-Action.prototype.IActionable = function( actionable ){
+const _actionable = new WeakMap();
+
+Ronin.Action.prototype.IActionable = function( actionable ){
     if( typeof actionable === 'boolean' ){
-        this.actionable = actionable;
+        _actionable.set( this, actionable );
     }
-    return this.actionable;
+    return _actionable.get( this ) || false;
 }
