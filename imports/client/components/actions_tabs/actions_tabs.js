@@ -46,7 +46,6 @@ Template.actions_tabs.onCreated( function(){
             status: status,
             h: self.subscribe( 'articles.actions.status', status )
         };
-        self.ronin.dict.set( 'item_'+it.id, false );
         self.ronin.dict.set( 'count_'+it.id, 0 );
     });
 });
@@ -64,16 +63,18 @@ Template.actions_tabs.onRendered( function(){
     // send the count when each tab subscription is ready
     this.autorun(() => {
         self.ronin.items.forEach( it => {
-            if( self.ronin.handles[it.id].h.ready() && !self.ronin.dict.get( 'item_'+it.id )){
+            if( self.ronin.handles[it.id].h.ready()){
                 const status = self.ronin.handles[it.id].status;
                 const count = Articles.find({ type:'A', status:status }).count();
-                $( '.actions-tabs' ).trigger( 'actions-tabs-ready', {
-                    id: it.id,
-                    status: status,
-                    count: count
-                });
-                self.ronin.dict.set( 'item_'+it.id, true );
-                self.ronin.dict.set( 'count_'+it.id, count );
+                const prev = self.ronin.dict.get( 'count_'+it.id );
+                if( count !== prev ){
+                    $( '.actions-tabs' ).trigger( 'actions-tabs-ready', {
+                        id: it.id,
+                        status: status,
+                        count: count
+                    });
+                    self.ronin.dict.set( 'count_'+it.id, count );
+                }
             }
         });
     });

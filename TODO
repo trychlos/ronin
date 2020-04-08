@@ -115,9 +115,7 @@
 
   243 2020- 4- 7 have settings.isEditAllowed/isDeleteAllowed/isNewAllowed()
                  to associate with Article.isEditAllowed....
-      2020- 4- 7 done in ronin-core v1.2.0
-
-  245 2020- 4- 7 on user login, actions list is updated, but not actions count
+      2020- 4- 7 done in ronin-core v1.2.0 - not used at this time
 
   246
 
@@ -904,6 +902,9 @@
 
   244 2020- 4- 7 ronin-core-ui: rename LYT_ to R_LYT_
       2020- 4- 7 done in ronin-core-ui v1.1.0
+
+  245 2020- 4- 7 on user login, actions list is updated, but not actions count
+      2020- 4- 8 fixed
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

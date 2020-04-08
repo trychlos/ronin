@@ -60,6 +60,7 @@ Template.actionsList.onCreated( function(){
             //counts: this.subscribe( 'articles.actions.status.count' )
         },
         spinner: null,
+        tabs: {},
         timeout: null
     };
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
@@ -151,11 +152,12 @@ Template.actionsList.onRendered( function(){
     self.ronin.$dom.on( 'actions-tabs-ready', function( ev, o ){
         //console.log( ev );
         //console.log( o );
-        //console.log( ev.type+' '+o.id );
         // update the counts
-        self.ronin.dict.set( o.id+'_count', o.count );
-        let total = self.ronin.dict.get( 'total_count' );
-        total += o.count;
+        self.ronin.tabs[o.id] = o.count;
+        let total = 0;
+        Object.keys( self.ronin.tabs ).forEach( id => {
+            total += self.ronin.tabs[id];
+        });
         self.ronin.dict.set( 'total_count', total )
         // maybe stop the spinner
         if( o.id === Session.get( 'actions.tab.name' ) && self.ronin.spinner ){
@@ -171,7 +173,7 @@ Template.actionsList.helpers({
     count(){
         const self = Template.instance();
         const total = self.ronin.dict.get( 'total_count' );
-        const count = self.ronin.dict.get( Session.get( 'actions.tab.name' )+'_count' ) || 0;
+        const count = self.ronin.tabs[ Session.get( 'actions.tab.name' )] || 0;
         return count+'/'+total;
     }
 });
