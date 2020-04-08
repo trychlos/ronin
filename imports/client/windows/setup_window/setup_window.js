@@ -61,6 +61,9 @@ Template.setupWindow.onCreated( function(){
         timeout: null
     };
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
+
+    // doing that in routes.js is not enough as the window is not always fully rebuilt
+    Session.set( 'header.badges', {} );
 });
 
 Template.setupWindow.onRendered( function(){

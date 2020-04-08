@@ -120,13 +120,13 @@
 
   246 2020- 4- 8 move (relevant) Blaze helpers to ronin-core-ui/layout
 
-  247 2020- 4- 8 display all available badges (if possible) in heander nav panel
-
   248 2020- 4- 8 tabular layout choice is not applied to setup lists
 
   249 2020- 4- 8 tabular layout choice should  be reactive
 
-  250
+  250 2020- 4- 8 move appLayout:resize to ronin-core-ui layout
+
+  251
 
 ==============================================================================
  Done
@@ -914,6 +914,9 @@
 
   245 2020- 4- 7 on user login, actions list is updated, but not actions count
       2020- 4- 8 fixed
+
+  247 2020- 4- 8 display all available badges (if possible) in header nav panel
+      2020- 4- 8 done and display is fully reactive
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

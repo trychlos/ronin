@@ -3,11 +3,17 @@
  *  Display a drop-down dialog to select the display layout.
  *
  *  Parameters:
- *  - 'selected=id' (optional) initial selected status's identifier.
+ *  - 'mode'='text|icon|none'.
  */
 import './layout_select.html';
 
 Template.layout_select.helpers({
+    hasMenu(){
+        return this.mode !== 'none';
+    },
+    hasText(){
+        return this.mode === 'text';
+    },
     layoutLabel(){
         return Ronin.ui.runLayout() === R_LYT_PAGE ? 'Page layout' : 'Window layout';
     },

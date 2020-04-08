@@ -6,6 +6,7 @@
  *  Display nothing in pageLayout.
  *
  *  Parameters:
+ *  - name: the (local to the window) identifier of the badge
  *  - text: the text to be displayed
  *      if empty, 'text_badge' takes care that nothing is displayed at all.
  */
@@ -13,16 +14,12 @@ import '/imports/client/components/text_badge/text_badge.js';
 import './window_badge.html';
 
 Template.window_badge.helpers({
-    // session variable is written when in pageLayout only
-    //  in order to be used by the text_badge embedded in header panel
+    // session variable is used in pageLayout only
+    //  in order to be read by the text_badge embedded in header panel
     //  and only displayed when in pageLayout
-    writeToSession( text ){
-        Session.set( 'text_badge.text', text );
+    toPage( name, text ){
+        let hash = Session.get( 'header.badges' );
+        hash[name] = text;
+        Session.set( 'header.badges', hash );
     }
-});
-
-Template.window_badge.onDestroyed( function(){
-    // as this is only used in pageLayout, we are able to reset the variable
-    //  when this instance is destroyed
-    Session.set( 'text_badge.text', null );
 });

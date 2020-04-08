@@ -10,7 +10,7 @@
     <!-- in pageLayout, the text is written to a session variable
             so that it is available to the badge embedded in the header panel -->
     {{#if isPageLayout}}
-        {{writeToSession text}}
+        {{toPage name text}}
     {{/if}}
 
 </template>

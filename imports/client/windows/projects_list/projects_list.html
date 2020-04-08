@@ -2,19 +2,19 @@
     <div class="projectsList wsf-parent ronin-window">
 
         <div class="wsf-header">
-            {{> window_badge text=projectsCount }}
-            {{> window_badge text=actionsCount }}
+            {{> window_badge name="1" text=projectsCount }}
+            {{> window_badge name="2" text=actionsCount }}
         </div>
 
         <div class="wsf-content">
             {{> projects_tabs }}
         </div>
 
-        <div class="wsf-footer">
-            {{#if isPageLayout}}
+        {{#if isPageLayout}}
+            <div class="wsf-footer">
                 {{> projects_footer }}
-            {{/if}}
-        </div>
+            </div>
+        {{/if}}
 
     </div>
 </template>

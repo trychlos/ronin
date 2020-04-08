@@ -124,6 +124,11 @@ Template.projectsList.onCreated( function(){
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
     this.ronin.dict.set( 'userId', Meteor.userId());
     this.ronin.dict.set( 'tabs', {} );
+
+    // doing that in routes.js is not enough as the window is not always fully rebuilt
+    //  the badges of projectsList continue to be written during the next window build
+    //  so each window has to take care itself of initializing what is will use
+    Session.set( 'header.badges', {} );
 });
 
 Template.projectsList.onRendered( function(){

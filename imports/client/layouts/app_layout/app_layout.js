@@ -144,7 +144,7 @@ Template.appLayout.onRendered( function(){
                 Ronin.ui.layouts[R_LYT_WINDOW].taskbar.set( taskbar );
             }
         }
-    })
+    });
 });
 
 Template.appLayout.helpers({

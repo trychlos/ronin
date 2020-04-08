@@ -1,39 +1,35 @@
 <template name="header_nav">
     <div class="header-nav d-flex justify-content-start align-items-center">
 
-        <!-- make sure the first preSpacer is empty -->
-        {{ preSpacerInit }}
+        {{ templateInit }}
 
-        {{#if hasMenuButton}}
-            {{{ preSpacer }}}
-            {{> gear_menu }}
-        {{/if}}
+        {{> gear_menu }}
 
-        {{#if hasTitle}}
-            {{{ preSpacer }}}
-            <div class="title flex-grow-1">
-                {{title}}
-            </div>
-        {{/if}}
+        <span class="spacer"></span>
+        <div class="title flex-grow-1">
+            {{titleLabel}}
+        </div>
 
         {{#if hasMenuBar}}
-            {{{ preSpacer }}}
+            <span class="spacer"></span>
             {{> menu_bar }}
         {{/if}}
 
-        <div class="x-hidew580">
-                {{{ preSpacer }}}
-                {{> layout_select }}
-            </div>
-
-        {{#if isPageLayout}}
-            <div class="x-hidew480">
-                {{{ preSpacer }}}
-                {{> text_badge text=displayBadge }}
-            </div>
+        {{#if hasLayout}}
+            <span class="spacer"></span>
+            {{> layout_select mode=layoutMode }}
         {{/if}}
 
-        {{{ preSpacer }}}
+        {{#if isPageLayout}}
+            {{#if hasBadges}}
+                <span class="spacer"></span>
+                {{#each badge in badgesList}}
+                    {{> text_badge text=(badgeText badge) }}
+                {{/each}}
+            {{/if}}
+        {{/if}}
+
+        <span class="spacer"></span>
         {{ loginConsole }}
         {{> loginButtons align="right" }}
         <!-- {{> atForm }} -->

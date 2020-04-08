@@ -66,6 +66,9 @@ Template.actionsList.onCreated( function(){
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
     this.ronin.dict.set( 'total_count', 0 );
     this.ronin.dict.set( 'userId', Meteor.userId());
+
+    // doing that in routes.js is not enough as the window is not always fully rebuilt
+    Session.set( 'header.badges', {} );
 });
 
 Template.actionsList.onRendered( function(){
