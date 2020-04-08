@@ -110,6 +110,7 @@
   236 2020- 4- 5 projects_tree: replace the done checkbox with a button in the projects_footer
 
   241 2020- 4- 6 move Simone WM + IWindowed interface to ronin-ui-wm or ronin-core-wm
+      2020- 4- 6 ronin-ui-wm initialized, not finalized (nor used)
 
   242 2020- 4- 7 move constants.less to ronin-core-ui
 
@@ -117,7 +118,15 @@
                  to associate with Article.isEditAllowed....
       2020- 4- 7 done in ronin-core v1.2.0 - not used at this time
 
-  246
+  246 2020- 4- 8 move (relevant) Blaze helpers to ronin-core-ui/layout
+
+  247 2020- 4- 8 display all available badges (if possible) in heander nav panel
+
+  248 2020- 4- 8 tabular layout choice is not applied to setup lists
+
+  249 2020- 4- 8 tabular layout choice should  be reactive
+
+  250
 
 ==============================================================================
  Done

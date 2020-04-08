@@ -4,21 +4,25 @@
  *  pageLayout / windowLayout
  *  Display a navigation bar on top of the pages.
  *
- *  If the display is wide enough, the menu is displayed on the left side.
- *  Else, a button on the navbar let it be hide or shown.
- *
- *  In a browser window, the title is displayed as the browser tab title.
- *  Else, it is displayed here.
- *
- *  In a browser window, and if it is wide enough, an horizontal menu bar is displayed here.
+ *  This area is a restricted resource. Its content depends of the available
+ *  width:
+ *  - always displayed:
+ *      > the gear menu
+ *      > at least a short title
+ *      > the sign-in area (resp. a signed-in indicator)
+ *  - depending of the available width:
+ *      > a longer title
+ *      > the layout menu, maybe with its label
+ *      > zero to n badges
+ *      > the email address of the signed-in user
  *
  *  Available buttons:
  *  - change the layout mode (desktop vs touchable device)
  *  - let the user sign in / sign out.
  */
+import '/imports/client/components/gear_menu/gear_menu.js';
 import '/imports/client/components/layout_select/layout_select.js';
 import '/imports/client/components/menu_bar/menu_bar.js';
-import '/imports/client/components/gear_menu/gear_menu.js';
 import '/imports/client/components/text_badge/text_badge.js';
 import './header_nav.html';
 
