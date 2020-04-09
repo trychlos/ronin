@@ -4,6 +4,7 @@ maintainer/www-host/start.sh
 
 # ignored as useless in a repository
 .vscode
+*.apk
 cordova-build-override/platforms/android/res/
 maintainer/packages/
 maintainer/unused/
