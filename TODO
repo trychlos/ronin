@@ -126,7 +126,9 @@
 
   250 2020- 4- 8 move appLayout:resize to ronin-core-ui layout
 
-  251
+  251 2020- 4- 9 factorize spinner usage
+
+  252
 
 ==============================================================================
  Done

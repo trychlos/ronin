@@ -45,7 +45,7 @@ Template.thoughtsList.fn = {
 };
 
 Template.thoughtsList.onCreated( function(){
-    console.log( 'thoughtsList.onCreated' );
+    //console.log( 'thoughtsList.onCreated' );
     this.ronin = {
         dict: new ReactiveDict(),
         $dom: null,
@@ -67,7 +67,7 @@ Template.thoughtsList.onCreated( function(){
 });
 
 Template.thoughtsList.onRendered( function(){
-    console.log( 'thoughtsList.onRendered' );
+    //console.log( 'thoughtsList.onRendered' );
     const self = this;
     const fn = Template.thoughtsList.fn;
     const context = Template.currentData();
