@@ -46,7 +46,7 @@ import './header_nav.html';
 Template.header_nav.fn = {
     // return the total count of chars of all badges
     badgesCount(){
-        const hash = Session.get( 'header.badges' );
+        const hash = Session.get( 'header.badges' ) || {};
         let count = 0;
         Object.keys( hash ).forEach( name => {
             count += hash[name].toString().length;
@@ -105,13 +105,13 @@ Template.header_nav.helpers({
     // template helper
     //  only used in pageLayout
     badgesList(){
-        return Object.keys( Session.get( 'header.badges' ));
+        return Object.keys( Session.get( 'header.badges' ) || {} );
     },
     // template helper
     //  only used in pageLayout
     badgeText( badge ){
-        const hash = Session.get( 'header.badges' );
-        return hash[badge];
+        const hash = Session.get( 'header.badges' ) || {};
+        return hash[badge] || '';
     },
     hasBadges(){
         return Template.instance().ronin.dict.get( 'badges' );
