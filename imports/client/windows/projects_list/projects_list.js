@@ -125,9 +125,8 @@ Template.projectsList.onCreated( function(){
     this.ronin.dict.set( 'userId', Meteor.userId());
     this.ronin.dict.set( 'tabs', {} );
 
-    // doing that in routes.js is not enough as the window is not always fully rebuilt
-    //  the badges of projectsList continue to be written during the next window build
-    //  so each window has to take care itself of initializing what is will use
+    // initialize the mobile datas for this window
+    Session.set( 'header.title', null );
     Session.set( 'header.badges', {} );
 });
 
@@ -282,6 +281,7 @@ Template.projectsList.helpers({
 });
 
 Template.projectsList.onDestroyed( function(){
+    //console.log( 'projectsList.onDestroyed' );
     if( this.ronin.timeout ){
         Meteor.clearTimeout( this.ronin.timeout );
         this.ronin.timeout = null;

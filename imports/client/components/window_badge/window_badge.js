@@ -21,5 +21,7 @@ Template.window_badge.helpers({
         let hash = Session.get( 'header.badges' );
         hash[name] = text;
         Session.set( 'header.badges', hash );
+        //console.log( "Session.set( 'header.badges', hash )" );
+        //console.log( hash );
     }
 });

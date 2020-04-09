@@ -37,7 +37,6 @@ FlowRouter.route('/setup/criterias', {
 */
 
 let blazeRender = ( name ) => {
-    Session.set( 'header.title', null );
     const item = gtd.itemRoute( name );
     BlazeLayout.render( 'appLayout', {
         gtdid: item ? item.id : null,

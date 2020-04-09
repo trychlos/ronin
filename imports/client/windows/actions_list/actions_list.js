@@ -67,7 +67,8 @@ Template.actionsList.onCreated( function(){
     this.ronin.dict.set( 'total_count', 0 );
     this.ronin.dict.set( 'userId', Meteor.userId());
 
-    // doing that in routes.js is not enough as the window is not always fully rebuilt
+    // initialize the mobile datas for this window
+    Session.set( 'header.title', null );
     Session.set( 'header.badges', {} );
 });
 

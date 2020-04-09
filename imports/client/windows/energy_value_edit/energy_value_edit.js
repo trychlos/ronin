@@ -76,6 +76,10 @@ Template.energyValueEdit.onCreated( function(){
     };
     this.ronin.dict.set( 'item', null );
     this.ronin.dict.set( 'got', false );
+
+    // initialize the mobile datas for this window
+    Session.set( 'header.title', null );
+    Session.set( 'header.badges', {} );
 });
 
 Template.energyValueEdit.onRendered( function(){

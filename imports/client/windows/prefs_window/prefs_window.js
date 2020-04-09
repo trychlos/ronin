@@ -46,6 +46,10 @@ Template.prefsWindow.onCreated( function(){
     this.ronin = {
         $dom: null
     };
+
+    // initialize the mobile datas for this window
+    Session.set( 'header.title', null );
+    Session.set( 'header.badges', {} );
 });
 
 Template.prefsWindow.onRendered( function(){

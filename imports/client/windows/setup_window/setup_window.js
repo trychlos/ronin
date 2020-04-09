@@ -62,7 +62,8 @@ Template.setupWindow.onCreated( function(){
     };
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
 
-    // doing that in routes.js is not enough as the window is not always fully rebuilt
+    // initialize the mobile datas for this window
+    Session.set( 'header.title', null );
     Session.set( 'header.badges', {} );
 });
 

@@ -1,0 +1,46 @@
+div.menu-side {
+    height: 100%;
+    width: max-content;
+    font-size: 1rem;
+    padding-right: @global-px;
+    margin-right: @global-px;
+    border-right: 1px solid @border-color;
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    ul {
+        padding: 0;
+        list-style-type: none;
+    }
+    li>div.disabled-item {
+        display: none;
+    }
+    li>div.header-item {
+        font-weight: bold;
+    }
+    div.menu-item {
+        margin-left: -@global-px/2;
+        margin-right: -@global-px/2;
+        li>div {
+            padding-left: @global-px/2;
+            padding-right: @global-px/2;
+        }
+        li>div:not(.header-item):hover {
+            background-color: @active-color;
+            color: white;
+        }
+        li>div[data-ronin-group*='setupGroup']:not(.header-item):hover {
+            background-color: @setup-color;
+        }
+        li>div[data-ronin-group*='collectGroup']:not(.header-item):hover {
+            background-color: @collect-color;
+        }
+        li>div[data-ronin-group*='processGroup']:not(.header-item):hover {
+            background-color: @process-color;
+        }
+        li>div[data-ronin-group*='reviewGroup']:not(.header-item):hover {
+            background-color: @review-color;
+        }
+    }
+}

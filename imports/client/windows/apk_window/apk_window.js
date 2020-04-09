@@ -19,6 +19,10 @@ Template.apkWindow.onCreated( function(){
     this.ronin = {
         $dom: null
     };
+
+    // initialize the mobile datas for this window
+    Session.set( 'header.title', null );
+    Session.set( 'header.badges', {} );
 });
 
 Template.apkWindow.onRendered( function(){

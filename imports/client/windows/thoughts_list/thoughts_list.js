@@ -45,7 +45,7 @@ Template.thoughtsList.fn = {
 };
 
 Template.thoughtsList.onCreated( function(){
-    //console.log( 'thoughtsList.onCreated' );
+    console.log( 'thoughtsList.onCreated' );
     this.ronin = {
         dict: new ReactiveDict(),
         $dom: null,
@@ -61,12 +61,13 @@ Template.thoughtsList.onCreated( function(){
     this.ronin.dict.set( 'subscriptions_ready', false );
     this.ronin.dict.set( 'userId', Meteor.userId());
 
-    // doing that in routes.js is not enough as the window is not always fully rebuilt
+    // initialize the mobile datas for this window
+    Session.set( 'header.title', null );
     Session.set( 'header.badges', {} );
 });
 
 Template.thoughtsList.onRendered( function(){
-    //console.log( 'thoughtsList.onRendered' );
+    console.log( 'thoughtsList.onRendered' );
     const self = this;
     const fn = Template.thoughtsList.fn;
     const context = Template.currentData();

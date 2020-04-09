@@ -1,0 +1,11 @@
+<template name="menu_side">
+    <div class="menu-side">
+
+        <ul>
+            {{#each item in gtdFeatures}}
+                {{> menu_item item=item type='side' }}
+            {{/each}}
+        </ul>
+
+    </div>
+</template>
