@@ -114,7 +114,7 @@ _ret=$?
     echo "APK prepared as ${apk}"
 _ret=$?
 
-# on successful release, commit the new mobile configuration
+# on successful release, commit the new mobile configuration + github push
 if [ $_ret -eq 0 ]; then
 	_branch="$(git branch | awk '/^\* / { print $2 }')"
 	if [ "${_branch}" == "${deploy_branch}" ]; then
@@ -122,7 +122,9 @@ if [ $_ret -eq 0 ]; then
 		echo "$(date '+%Y%m%d-%H%M%S') git commit -m 'Deploy v${version} to production platforms'" &&
 		git commit -m "Deploy v${version} to production platforms" &&
 		echo "$(date '+%Y%m%d-%H%M%S') git tag -am 'Releasing v${version}' ${version}" &&
-		git tag -am "Releasing v${version}" ${version}
+		git tag -am "Releasing v${version}" ${version} &&
+		execcmd "git push" &&
+		execcmd "git push --tags"
 		_ret=$?
 	fi
 fi
