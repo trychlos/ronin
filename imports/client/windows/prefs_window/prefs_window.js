@@ -1,6 +1,11 @@
 /*
  * 'prefsWindow' window.
  *  User preferences.
+ *
+ *  User preferences may be for the application wide, and/or for a specific device.
+ *  They are used as a global hash.
+ *  Being organized per tabs, each tab should manage exclusively one or more keys,
+ *  the global hash being the concatenation of each tab hash part.
  */
 import { Meteor } from 'meteor/meteor';
 import { gtd } from '/imports/api/resources/gtd/gtd.js';
@@ -13,32 +18,10 @@ Template.prefsWindow.fn = {
     doClose( instance ){
         $().IWindowed.pageClose( instance.ronin.$dom );
     },
-    doOK( self ){
-        Template.prefs_lists_panel.fn.doOK();
-    },
-    getDeviceStorageName(){
-        const user = Meteor.user();
-        let address = 'default';
-        if( user && user.emails && user.emails[0] && user.emails[0].address ){
-            address = user.emails[0].address;
-        }
-        const name = 'ronin-prefs-device-'+address;
-        return name;
-    },
-    readDevicePrefs(){
-        const fn = Template.prefsWindow.fn;
-        const name = fn.getDeviceStorageName();
-        let prefs = null;
-        if( localStorage[name] ){
-            prefs = JSON.parse( localStorage[name] );
-        }
-        //console.log( prefs );
-        return( prefs );
-    },
-    writeDevicePrefs( prefs ){
-        const fn = Template.prefsWindow.fn;
-        const name = fn.getDeviceStorageName();
-        localStorage[name] = JSON.stringify( prefs );
+    doOK( instance ){
+        Template.prefs_lists_panel.fn.updatePrefs();
+        Ronin.prefs.save();
+        $.pubsub.publish( 'ronin.ui.prefs.updated' );
     }
 };
 

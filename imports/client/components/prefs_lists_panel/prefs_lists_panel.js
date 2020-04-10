@@ -10,18 +10,8 @@
 import './prefs_lists_panel.html';
 
 Template.prefs_lists_panel.fn = {
-    defaultPrefs(){
-        return {
-            lists: {
-                actions:  'def',
-                setup: 'def',
-                thoughts: 'def'
-            }
-        }
-    },
-    doOK(){
-        const prefs = Template.prefs_lists_panel.fn.getContent();
-        Template.prefsWindow.fn.writeDevicePrefs({ lists:prefs });
+    updatePrefs(){
+        Ronin.prefs.local.lists = Template.prefs_lists_panel.fn.getContent();
     },
     getContent: function(){
         const $this = $( '.prefs-lists-panel' );
@@ -33,19 +23,26 @@ Template.prefs_lists_panel.fn = {
         return o;
     },
     initEditArea: function(){
-        const prefs = Template.prefs_lists_panel.fn.readDevicePrefs();
+        const prefs = Ronin.prefs.local.lists || {};
         const $this = $( '.prefs-lists-panel' );
-        $this.find( 'input[name=actions][value='+prefs.lists.actions+']' ).prop( 'checked', true );
-        $this.find( 'input[name=setup][value='+prefs.lists.setup+']' ).prop( 'checked', true );
-        $this.find( 'input[name=thoughts][value='+prefs.lists.thoughts+']' ).prop( 'checked', true );
-    },
-    readDevicePrefs(){
-        return( $.extend( true, {},
-            Template.prefs_lists_panel.fn.defaultPrefs(),
-            Template.prefsWindow.fn.readDevicePrefs()));
+        $this.find( 'input[name=actions][value='+prefs.actions+']' ).prop( 'checked', true );
+        $this.find( 'input[name=setup][value='+prefs.setup+']' ).prop( 'checked', true );
+        $this.find( 'input[name=thoughts][value='+prefs.thoughts+']' ).prop( 'checked', true );
     }
 };
 
 Template.prefs_lists_panel.onRendered( function(){
     Template.prefs_lists_panel.fn.initEditArea();
+});
+
+Template.prefs_lists_panel.helpers({
+    listDefault(){
+        return R_LIST_DEFAULT;
+    },
+    listCard(){
+        return R_LIST_CARD;
+    },
+    listGrid(){
+        return R_LIST_GRID;
+    }
 });

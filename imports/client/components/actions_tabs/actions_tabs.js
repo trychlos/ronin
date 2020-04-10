@@ -17,24 +17,15 @@ import '/imports/client/interfaces/itabbed/itabbed.js';
 import './actions_tabs.html';
 
 Template.actions_tabs.fn = {
-    _prefTabular: null,
-    // use the user+device preferences to choose between cards and grid
-    //  default is layout dependant
-    tabularIsPreferred(){
-        const fn = Template.actions_tabs.fn;
-        if( !fn._prefTabular ){
-            const prefs = Template.prefs_lists_panel.fn.readDevicePrefs();
-            fn._prefTabular = prefs.lists.actions;
-            if( fn._prefTabular === 'def' ){
-                fn._prefTabular = ( Ronin.ui.runLayout() === R_LYT_PAGE ? 'cards' : 'grid' );
-            }
-        }
-        return( fn._prefTabular === 'grid' );
+    tabular( instance ){
+        instance.ronin.dict.set( 'tabular', Ronin.prefs.listsPref( 'actions' ) === R_LIST_GRID );
     }
 };
 
 Template.actions_tabs.onCreated( function(){
     const self = this;
+    const fn = Template.actions_tabs.fn;
+
     this.ronin = {
         dict: new ReactiveDict(),
         items: gtd.items( 'actions' ),
@@ -47,6 +38,11 @@ Template.actions_tabs.onCreated( function(){
             h: self.subscribe( 'articles.actions.status', status )
         };
         self.ronin.dict.set( 'count_'+it.id, 0 );
+    });
+    fn.tabular( self );
+
+    $.pubsub.subscribe( 'ronin.ui.prefs.updated', ( msg ) => {
+        fn.tabular( self );
     });
 });
 
@@ -96,7 +92,7 @@ Template.actions_tabs.helpers({
         return gtd.routeItem( 'actions', it );
     },
     tabularIsPreferred(){
-        return Template.actions_tabs.fn.tabularIsPreferred();
+        return Template.instance().ronin.dict.get( 'tabular' );
     }
 });
 

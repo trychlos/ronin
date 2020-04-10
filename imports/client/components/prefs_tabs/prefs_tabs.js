@@ -21,7 +21,7 @@ Template.prefs_tabs.onRendered( function(){
         $( '.prefs-tabs' ).ITabbed({
             tab: Session.get( 'prefs.tab.name' )
         });
-    })
+    });
 });
 
 Template.prefs_tabs.helpers({

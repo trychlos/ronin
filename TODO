@@ -120,8 +120,6 @@
 
   246 2020- 4- 8 move (relevant) Blaze helpers to ronin-core-ui/layout
 
-  249 2020- 4- 8 tabular layout choice should  be reactive
-
   250 2020- 4- 8 move appLayout:resize to ronin-core-ui layout
 
   251 2020- 4- 9 factorize spinner usage
@@ -925,6 +923,9 @@
 
   248 2020- 4- 8 tabular layout choice is not applied to setup lists
       2020- 4- 9 yes, it is
+
+  249 2020- 4- 8 tabular layout choice should  be reactive
+      2020- 4-10 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

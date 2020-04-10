@@ -36,23 +36,15 @@ import '/imports/client/interfaces/itabbed/itabbed.js';
 import './setup_tabs.html';
 
 Template.setup_tabs.fn = {
-    _prefTabular: null,
-    // use the user+device preferences to choose between cards and grid
-    //  default is layout dependant
-    tabularIsPreferred(){
-        const fn = Template.setup_tabs.fn;
-        if( !fn._prefTabular ){
-            const prefs = Template.prefs_lists_panel.fn.readDevicePrefs();
-            fn._prefTabular = prefs.lists.setup || 'def';
-            if( fn._prefTabular === 'def' ){
-                fn._prefTabular = ( Ronin.ui.runLayout() === R_LYT_PAGE ? 'cards' : 'grid' );
-            }
-        }
-        return( fn._prefTabular === 'grid' );
+    tabular( instance ){
+        instance.ronin.dict.set( 'tabular', Ronin.prefs.listsPref( 'setup' ) === R_LIST_GRID );
     }
 };
 
 Template.setup_tabs.onCreated( function(){
+    const self = this;
+    const fn = Template.setup_tabs.fn;
+
     this.ronin = {
         dict: new ReactiveDict(),
         items: gtd.items( 'setup' ),
@@ -87,6 +79,11 @@ Template.setup_tabs.onCreated( function(){
             }
         }
     };
+    fn.tabular( self );
+
+    $.pubsub.subscribe( 'ronin.ui.prefs.updated', ( msg ) => {
+        fn.tabular( self );
+    });
 });
 
 Template.setup_tabs.onRendered( function(){
@@ -132,7 +129,7 @@ Template.setup_tabs.helpers({
         return instance.ronin.tabs[it.id].cursorFn();
     },
     tabularIsPreferred(){
-        return Template.setup_tabs.fn.tabularIsPreferred();
+        return Template.instance().ronin.dict.get( 'tabular' );
     }
 });
 
