@@ -74,32 +74,8 @@ Template.appLayout.fn = {
             }
         }
         return res;
-    },
-    updateSize(){
-        Ronin.ui.runResize( new Date());
-        Ronin.ui.runWidth( $( window ).width());
-        Ronin.ui.runHeight( $( window ).height());
     }
 };
-
-Template.appLayout.onCreated( function(){
-    //console.log( 'appLayout.onCreated' );
-    const fn = Template.appLayout.fn;
-    window.addEventListener( 'resize', fn.updateSize );
-});
-
-/*
-Template.pageLayout.onRendered( function(){
-    this.autorun(() => {
-        const a = g.run.resize.get();
-        //let height = $(window).height();
-        let height = $( '.js-layout' ).innerHeight();
-        height -= $( '.js-header' ).height();
-        height -= $( '.js-footer' ).height();
-        $('.lyt-body').css({ 'max-height': height+'px' });
-    });
-});
-*/
 
 Template.appLayout.onRendered( function(){
     //console.log( 'appLayout.onRendered' );
