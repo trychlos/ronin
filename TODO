@@ -37,33 +37,10 @@
 
    64 2020- 1- 4 have a template for recurrent actions
 
-   74 2020- 1- 8 have a data model on documents: provide classes via transform
-      2020- 1-11 it seems that the transform function does not oper on find() cursors :(
-      2020- 4- 3 have a try at dburles:collection-helpers to manage the deletable status
-                 of a context or a topic
-
    77 2020- 1- 9 have ITree interface
-
-   81 2020- 1- 9 action_edit/project_edit: changing anything should either invalidate
-                  the whole cursor, or be reported on the initial object
-                  so that reopening the window should display the previously set values
-      2020- 1-11 as of date, both project_edit and action_edit publish a message on update
-                  + projects_tree handles this message (three times)
-                  todo: handle once / deal with update / same for actions_grid
-      2020- 3-17 see also todo #195
-
-   83 2020- 1-11 be able to determine on which tree a project/action should be displayed
-                  depending not only of its parent, but also of the parent of its parent
-                  and so on
-                  - starting from any project, it is set in the 'future' tab as soon as it
-                     is marked as 'future' - all its children are kept attached to it
-                  - this is easy as long as the loading cursor is rightly ordered
-                     (root first, future first)
 
    93 2020- 1-17 check that project's parent hierarchy does not loop
       2020- 3-28 extend the #92 which is closed
-
-   95 2020- 1-18 header_panel: menubar display should be dynamic (have a media query)
 
   104 2020- 1-23 mobile_footer bar is not visible without scrolling on browser's tablet
                   (miss the url bar and the tabs heights)
@@ -113,6 +90,7 @@
       2020- 4- 6 ronin-ui-wm initialized, not finalized (nor used)
 
   242 2020- 4- 7 move constants.less to ronin-core-ui
+      2020- 4-10 see ronin-core-ui-constants-less branch
 
   243 2020- 4- 7 have settings.isEditAllowed/isDeleteAllowed/isNewAllowed()
                  to associate with Article.isEditAllowed....
@@ -363,6 +341,12 @@
       2020- 1-11  this would let us also homogeneize font color
       2020- 3-18 done
 
+   74 2020- 1- 8 have a data model on documents: provide classes via transform
+      2020- 1-11 it seems that the transform function does not oper on find() cursors :(
+      2020- 4- 3 have a try at dburles:collection-helpers to manage the deletable status
+                 of a context or a topic
+      2020- 4-10 collection-helpers + server-transform are ok
+
    75 2020- 1- 9 rewrite IGrid interface to have our own methods (better isolation from jqxGrid)
       2020- 1-10 cancelled
 
@@ -383,8 +367,26 @@
       2020- 3-18 done for actionsList, thought not sure if this really improve the
                  behavior (not measured)
 
+   81 2020- 1- 9 action_edit/project_edit: changing anything should either invalidate
+                  the whole cursor, or be reported on the initial object
+                  so that reopening the window should display the previously set values
+      2020- 1-11 as of date, both project_edit and action_edit publish a message on update
+                  + projects_tree handles this message (three times)
+                  todo: handle once / deal with update / same for actions_grid
+      2020- 3-17 see also todo #195
+      2020- 4-10 closing
+
    82 2020- 1-11 review counters publications
       2020- 2-21 obsolete
+
+   83 2020- 1-11 be able to determine on which tree a project/action should be displayed
+                  depending not only of its parent, but also of the parent of its parent
+                  and so on
+                  - starting from any project, it is set in the 'future' tab as soon as it
+                     is marked as 'future' - all its children are kept attached to it
+                  - this is easy as long as the loading cursor is rightly ordered
+                     (root first, future first)
+      2020- 4-1à the current algorythm seems satisfiying -> close this
 
    84 2020- 1-11 manage logged-in user
       2020- 3-17 done
@@ -417,6 +419,9 @@
    94 2020- 1-18 header_panel: menuButton display should be dynamic and
                   associated with menu_side (have a media query)
       2020- 3-17 done
+
+   95 2020- 1-18 header_panel: menubar display should be dynamic (have a media query)
+      2020- 4-10 yes, it is
 
    96 2020- 1-19 header_panel: replace sign-in with a button (depending of the width)
       2020- 2-21 obsolete

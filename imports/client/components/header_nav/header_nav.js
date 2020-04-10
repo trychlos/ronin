@@ -80,6 +80,8 @@ Template.header_nav.fn = {
             used += 70;
         }
         // have a long title ?
+        //  long title need 160, and is prioritary on layout menu label which only requires 90
+        //  it is so possible to have the later without the former
         if( used+160 <= width ){
             self.ronin.dict.set( 'title', true );
             used += 160;
