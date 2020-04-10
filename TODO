@@ -120,15 +120,18 @@
 
   246 2020- 4- 8 move (relevant) Blaze helpers to ronin-core-ui/layout
 
-  248 2020- 4- 8 tabular layout choice is not applied to setup lists
-
   249 2020- 4- 8 tabular layout choice should  be reactive
 
   250 2020- 4- 8 move appLayout:resize to ronin-core-ui layout
 
   251 2020- 4- 9 factorize spinner usage
 
-  252
+  252 2020- 4- 9 ronin-core should have an objType per collection (not 'setup')
+
+  253 2020- 4-10 ronin-ui-prefs: write _globalWrite() function when a user is loggged-in
+                 reverting to _prefs without local key else
+
+  254
 
 ==============================================================================
  Done
@@ -919,6 +922,9 @@
 
   247 2020- 4- 8 display all available badges (if possible) in header nav panel
       2020- 4- 8 done and display is fully reactive
+
+  248 2020- 4- 8 tabular layout choice is not applied to setup lists
+      2020- 4- 9 yes, it is
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

@@ -63,6 +63,7 @@ matb33:collection-hooks@0.7.15
 maximum:package-base@1.1.2
 maximum:server-transform@0.5.0
 mdg:validation-error@0.2.0
+mdj:reactive-storage@1.0.1
 meteor@1.9.3
 meteor-base@1.4.0
 meteorblackbelt:underscore-deep@0.0.4
@@ -91,6 +92,7 @@ promise@0.11.2
 pwi:ronin-action-status@1.0.0
 pwi:ronin-core@1.3.1
 pwi:ronin-core-ui@1.1.2
+pwi:ronin-ui-prefs@1.0.0
 raix:eventemitter@0.1.3
 random@1.2.0
 rate-limit@1.0.9

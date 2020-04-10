@@ -39,3 +39,5 @@ pwi:ronin-action-status
 maximum:server-transform
 pwi:ronin-core
 pwi:ronin-core-ui
+mdj:reactive-storage
+pwi:ronin-ui-prefs
