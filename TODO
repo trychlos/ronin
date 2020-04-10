@@ -122,8 +122,6 @@
 
   251 2020- 4- 9 factorize spinner usage
 
-  252 2020- 4- 9 ronin-core should have an objType per collection (not 'setup')
-
   253 2020- 4-10 ronin-ui-prefs: write _globalWrite() function when a user is loggged-in
                  reverting to _prefs without local key else
 
@@ -927,6 +925,9 @@
 
   250 2020- 4- 8 move appLayout:resize to ronin-core-ui layout
       2020- 4-10 done with ronin-core-ui v1.1.3
+
+  252 2020- 4- 9 ronin-core should have an objType per collection (not 'setup')
+      2020- 4-10 done ronin-core v1.3.2
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

@@ -9,9 +9,13 @@
 
 R_OBJ_ACTION    = 'A';
 R_OBJ_CONTEXT   = 'C';
+R_OBJ_DELEGATE  = 'D';
+R_OBJ_ENERGY    = 'E';
 R_OBJ_MAYBE     = 'M';
+R_OBJ_PRIORITY  = 'R';
 R_OBJ_PROJECT   = 'P';
-R_OBJ_SETUP     = 'S';
+R_OBJ_REFERENCE = 'F';
+R_OBJ_TIME      = 'I';
 R_OBJ_THOUGHT   = 'T';
 R_OBJ_TOPIC     = 'O';
 
@@ -33,13 +37,25 @@ Ronin = {
     },
 
     // a list of description of main managed object types
-    // unknwon object types default to R_OBJ_SETUP which acts as a general stuff
-    objTypes: {
+    // unknwon object types default should throw an exception
+    managed: {
         A: {
             label: 'Action'
         },
         C: {
             label: 'Context'
+        },
+        D: {
+            label: 'Delegate'
+        },
+        E: {
+            label: 'Energy'
+        },
+        F: {
+            label: 'Reference'
+        },
+        I: {
+            label: 'Time'
         },
         M: {
             label: 'Maybe'
@@ -50,8 +66,8 @@ Ronin = {
         P: {
             label: 'Project'
         },
-        S: {
-            label: 'Setup'
+        R: {
+            label: 'Priority'
         },
         T: {
             label: 'Thought'

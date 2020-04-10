@@ -101,7 +101,10 @@ function _isAllowed( objType, action ){
     if( Meteor.userId()){
         return true;
     }
-    const o = Ronin.managed[objType] ? Ronin.managed[objType] : Ronin.managed[R_OBJ_SETUP];
+    if( !Ronin.managed.includes( objType )){
+           throw "Unknown type: '"+objType+"', allowed values are ["+Ronin.managed.join( ',' )+"]";
+    }
+    const o = Ronin.managed[objType];
     const key = 'allow.'+action+'.'+o.label.toLowerCase();
     return Boolean( Ronin.objectKey( Meteor.settings.public, key ));
 }
