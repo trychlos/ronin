@@ -118,9 +118,9 @@
                  to associate with Article.isEditAllowed....
       2020- 4- 7 done in ronin-core v1.2.0 - not used at this time
 
-  246 2020- 4- 8 move (relevant) Blaze helpers to ronin-core-ui/layout
-
   251 2020- 4- 9 factorize spinner usage
+      2020- 4-10 because spinner uses the 'window()' primitive of the window manager,
+                 then it must taks into account the existance of this WM. How ?
 
   253 2020- 4-10 ronin-ui-prefs: write _globalWrite() function when a user is loggged-in
                  reverting to _prefs without local key else
@@ -913,6 +913,9 @@
 
   245 2020- 4- 7 on user login, actions list is updated, but not actions count
       2020- 4- 8 fixed
+
+  246 2020- 4- 8 move (relevant) Blaze helpers to ronin-core-ui/layout
+      2020- 4-10 done with ronin-core-ui v1.2.0
 
   247 2020- 4- 8 display all available badges (if possible) in header nav panel
       2020- 4- 8 done and display is fully reactive
