@@ -94,27 +94,20 @@
 // type is allowed to be edited regarding the requested action and the current
 // runtime environment.
 // The keys hierarchy is of the form 'allow.<action>.<objtype>' and defines if
-// the action is allowed to an unknowed user (not logged-in) in this environment.
+// the action is allowed to an unknowned user (not logged-in) in this environment.
 // Defaults to false, i.e. must be explicitely set to true to be allowed.
 
 function _isAllowed( objType, action ){
+}
+
+Meteor.settings.isAllowed = ( objType, action ) => {
     if( Meteor.userId()){
         return true;
     }
-    if( !Ronin.managed.includes( objType )){
-           throw "Unknown type: '"+objType+"', allowed values are ["+Ronin.managed.join( ',' )+"]";
+    if( !Ronin.managed[objType] ){
+        throw "Unknown type: '"+objType+"', allowed values are ["+Object.keys( Ronin.managed ).join( ',' )+"]";
     }
     const o = Ronin.managed[objType];
     const key = 'allow.'+action+'.'+o.label.toLowerCase();
     return Boolean( Ronin.objectKey( Meteor.settings.public, key ));
-}
-
-Meteor.settings.isDeleteAllowed = ( objType ) => {
-    return _isAllowed( objType, 'delete' );
-};
-Meteor.settings.isEditAllowed = ( objType ) => {
-    return _isAllowed( objType, 'edit' );
-};
-Meteor.settings.isNewAllowed = ( objType ) => {
-    return _isAllowed( objType, 'new' );
 };

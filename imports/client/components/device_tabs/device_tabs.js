@@ -17,6 +17,7 @@
  *  - device.tab.name: the identifier of the active tab.
  */
 import '/imports/client/components/device_detect/device_detect.js';
+import '/imports/client/components/device_perms/device_perms.js';
 import '/imports/client/components/device_run/device_run.js';
 import '/imports/client/components/device_status/device_status.js';
 import '/imports/client/interfaces/itabbed/itabbed.js';
@@ -38,6 +39,11 @@ Template.device_tabs.fn = {
             id: 'status',
             component: 'device_status',
             label: 'Status'
+        },
+        {
+            id: 'perms',
+            component: 'device_perms',
+            label: 'Permissions'
         }
     ]
 };
@@ -48,6 +54,7 @@ Template.device_tabs.onRendered( function(){
             tab: Session.get( 'device.tab.name' )
         });
     });
+    // this is needed because we do not have a route per tab
     $( '.device-tabs' ).on( 'ronin-itabbed-clicked', function( ev, o ){
         Session.set( 'device.tab.name', o.name );
     });

@@ -207,8 +207,8 @@ FlowRouter.route( '/gear/apk', {
         blazeRender( this.name );
     },
 });
-FlowRouter.route( '/gear/device', {
-    name: 'rt.gear.device',
+FlowRouter.route( '/gear/runtime', {
+    name: 'rt.gear.runtime',
     action(){
         Session.set( 'page.group', 'gtd-setup-page' );
         blazeRender( this.name );

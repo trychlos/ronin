@@ -1,0 +1,32 @@
+<template name="device_perms">
+    <div class="device-perms">
+
+        <table class="js-grid">
+            <thead>
+                <tr>
+                    <th data-column-name="type" class="igrid-border igrid-sortable w-50">Type</th>
+                    <th data-column-name="new" class="igrid-border igrid-sortable">New</th>
+                    <th data-column-name="edit" class="igrid-border igrid-sortable">Edit</th>
+                    <th data-column-name="delete" class="igrid-border igrid-sortable">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each type in typesList}}
+                    <tr>
+                        <td class="label"><p>{{type.label}}</p></td>
+                        {{#each act in actions}}
+                            <td>
+                                {{#if isAllowed type act}}
+                                    <span class="perm allowed"><span class="fas fa-check"></span></span>
+                                {{else}}
+                                    <span class="perm forbidden"><span class="fas fa-times"></span></span>
+                                {{/if}}
+                            </td>
+                        {{/each}}
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+</template>

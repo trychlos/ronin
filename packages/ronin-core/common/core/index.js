@@ -19,7 +19,23 @@ R_OBJ_TIME      = 'I';
 R_OBJ_THOUGHT   = 'T';
 R_OBJ_TOPIC     = 'O';
 
+_managedArray = null;
+
 Ronin = {
+
+    // return the array of managed object types
+    //
+    managedArray(){
+        if( !_managedArray ){
+            _managedArray = [];
+            Object.keys( Ronin.managed ).forEach( key => {
+                let o = { type:key };
+                $.extend( true, o, Ronin.managed[key] );
+                _managedArray.push( o );
+            });
+        }
+        return _managedArray;
+    },
 
     // return the content of the specified key in an object
     // where the key is specified as the 'key1.key2.key3' string

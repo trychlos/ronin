@@ -339,9 +339,9 @@ export const gtd = {
                         template: 'apkWindow'
                     },
                     {
-                        id: 'gtd-setup-device',
-                        label: 'Device informations',
-                        route: 'rt.gear.device',
+                        id: 'gtd-setup-runtime',
+                        label: 'Runtime informations',
+                        route: 'rt.gear.runtime',
                         template: 'deviceWindow'
                     },
                     {
