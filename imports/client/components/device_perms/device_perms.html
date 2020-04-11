@@ -12,7 +12,7 @@
             </thead>
             <tbody>
                 {{#each type in typesList}}
-                    <tr>
+                    <tr data-row-id="{{type.type}}">
                         <td class="label"><p>{{type.label}}</p></td>
                         {{#each act in actions}}
                             <td>

@@ -23,7 +23,7 @@ Template.gear_menu.events({
         FlowRouter.go( 'rt.gear.apk' );
     },
     'click .js-device'( ev, instance ){
-        FlowRouter.go( 'rt.gear.device' );
+        FlowRouter.go( 'rt.gear.runtime' );
     },
     'click .js-prefs'( ev, instance ){
         FlowRouter.go( 'rt.gear.prefs' );
