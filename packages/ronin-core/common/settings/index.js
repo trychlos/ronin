@@ -104,10 +104,10 @@ Meteor.settings.isAllowed = ( objType, action ) => {
     if( Meteor.userId()){
         return true;
     }
-    if( !Ronin.managed[objType] ){
-        throw "Unknown type: '"+objType+"', allowed values are ["+Object.keys( Ronin.managed ).join( ',' )+"]";
+    if( !Ronin.managedTypes[objType] ){
+        throw "Unknown type: '"+objType+"', allowed values are ["+Object.keys( Ronin.managedTypes ).join( ',' )+"]";
     }
-    const o = Ronin.managed[objType];
+    const o = Ronin.managedTypes[objType];
     const key = 'allow.'+action+'.'+o.label.toLowerCase();
     return Boolean( Ronin.objectKey( Meteor.settings.public, key ));
 };

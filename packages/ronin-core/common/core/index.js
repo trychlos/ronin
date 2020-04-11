@@ -7,6 +7,7 @@
  *      server, though its content may depend of the context.
  */
 
+// the managed object types
 R_OBJ_ACTION    = 'A';
 R_OBJ_CONTEXT   = 'C';
 R_OBJ_DELEGATE  = 'D';
@@ -19,6 +20,11 @@ R_OBJ_TIME      = 'I';
 R_OBJ_THOUGHT   = 'T';
 R_OBJ_TOPIC     = 'O';
 
+// the permissions managed in an environment basis, on settings.public
+R_ACT_DELETE    = 'delete';
+R_ACT_EDIT      = 'edit';
+R_ACT_NEW       = 'new';
+
 _managedArray = null;
 
 Ronin = {
@@ -28,9 +34,9 @@ Ronin = {
     managedArray(){
         if( !_managedArray ){
             _managedArray = [];
-            Object.keys( Ronin.managed ).forEach( key => {
+            Object.keys( Ronin.managedTypes ).forEach( key => {
                 let o = { type:key };
-                $.extend( true, o, Ronin.managed[key] );
+                $.extend( true, o, Ronin.managedTypes[key] );
                 _managedArray.push( o );
             });
         }
@@ -52,9 +58,16 @@ Ronin = {
         return o;
     },
 
+    // a list of permissions managed throught the environment-based Meteor.settings
+    managedActions: [
+        R_ACT_DELETE,
+        R_ACT_EDIT,
+        R_ACT_NEW
+    ],
+
     // a list of description of main managed object types
     // unknwon object types default should throw an exception
-    managed: {
+    managedTypes: {
         A: {
             label: 'Action'
         },
