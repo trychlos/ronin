@@ -90,9 +90,9 @@ peerlibrary:reactive-mongo@0.1.1
 peerlibrary:server-autorun@0.5.2
 promise@0.11.2
 pwi:ronin-action-status@1.0.0
-pwi:ronin-core@1.4.0
+pwi:ronin-core@1.5.0
 pwi:ronin-core-ui@1.2.0
-pwi:ronin-ui-prefs@1.0.0
+pwi:ronin-ui-prefs@1.0.1
 raix:eventemitter@0.1.3
 random@1.2.0
 rate-limit@1.0.9

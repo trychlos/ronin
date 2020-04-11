@@ -14,6 +14,8 @@ const _default = {
     }
 };
 
+let _prefs = {};
+
 _globalWrite = () => {
 }
 
@@ -42,7 +44,7 @@ Tracker.autorun(() => {
         }
     }
     $.extend( true, Ronin.prefs.local, _localRead());
-    Ronin._prefs = $.extend( true, {}, Ronin.prefs );
+    _prefs = $.extend( true, {}, Ronin.prefs );
 });
 
 Ronin.prefs.save = () => {

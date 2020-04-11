@@ -70,7 +70,7 @@
   209 2020- 3-23 have a GAction-like interface ?
       2020- 4- 3 as a reminder, the goal is to be able to desactivate an action (say, 'new thought')
                  and have all html/js implementations reflect this desactivation
-      2020- 4- 7 ronin-core v1.3.0 defines Action class + IActionable interface
+      2020- 4- 7 ronin-core v1.3.0 defines Action class + Activable interface
 
   224 2020- 3-28 not found url no more works
 

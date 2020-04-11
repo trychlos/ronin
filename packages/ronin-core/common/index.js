@@ -8,6 +8,7 @@
 
 import './core';
 import './settings';
+import './action-base';
 import './action';
 
 Meteor.startup( function(){
