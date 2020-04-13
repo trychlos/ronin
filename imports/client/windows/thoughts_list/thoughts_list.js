@@ -35,6 +35,15 @@ import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
+Template.thoughtsList.fn = {
+    spinnerStop( instance ){
+        if( instance.ronin.spinner ){
+            instance.ronin.spinner.stop();
+            instance.ronin.spinner = null;
+        }
+    }
+}
+
 Template.thoughtsList.onCreated( function(){
     //console.log( 'thoughtsList.onCreated' );
     this.ronin = {
@@ -104,12 +113,7 @@ Template.thoughtsList.onRendered( function(){
             }
             if( $parent ){
                 self.ronin.spinner = new Spinner().spin( $parent[0] );
-                Meteor.setTimeout(() => {
-                    if( self.ronin.spinner ){
-                        self.ronin.spinner.stop();
-                        self.ronin.spinner = null;
-                    }
-                }, 15000 );
+                Meteor.setTimeout(() => { fn.spinnerStop( self )}, 10000 );
             }
         }
     });
@@ -137,22 +141,21 @@ Template.thoughtsList.onRendered( function(){
 
     // stop the spinner when subscriptions are ready
     this.autorun(() => {
-        if( self.ronin.dict.get( 'subscriptions_ready' ) && self.ronin.spinner ){
-            self.ronin.spinner.stop();
-            self.ronin.spinner = null;
+        if( self.ronin.dict.get( 'subscriptions_ready' )){
+            fn.spinnerStop( self );
         }
     });
 });
 
 Template.thoughtsList.helpers({
-    // display thoughts count
-    count(){
-        return Template.instance().ronin.dict.get( 'count' );
-    },
     // plus_button helper
     //  returns the activable action, or null
     action(){
         return Template.instance().ronin.newAction.get();
+    },
+    // display thoughts count
+    count(){
+        return Template.instance().ronin.dict.get( 'count' );
     },
     thoughts(){
         return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});

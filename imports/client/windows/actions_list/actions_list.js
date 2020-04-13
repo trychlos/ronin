@@ -39,13 +39,13 @@ import './actions_list.html';
 const ActionsByStatus = new Mongo.Collection( 'ActionsByStatus' );
 
 Template.actionsList.fn = {
-    newActivate: function(){
-        gtd.activateId( 'gtd-process-action-new' );
-    },
-    newClasses: function(){
-        return gtd.classesId( 'gtd-process-action-new' ).join( ' ' );
+    spinnerStop( instance ){
+        if( instance.ronin.spinner ){
+            instance.ronin.spinner.stop();
+            instance.ronin.spinner = null;
+        }
     }
-};
+}
 
 Template.actionsList.onCreated( function(){
     //console.log( 'actionsList.onCreated' );
@@ -59,6 +59,7 @@ Template.actionsList.onCreated( function(){
             // no more used, kept as a future reference of reactive aggregate usage
             //counts: this.subscribe( 'articles.actions.status.count' )
         },
+        newAction: new ReactiveVar( new Ronin.ActionEx( R_OBJ_ACTION, R_ACT_NEW, 'gtd-process-action-new' )),
         spinner: null,
         tabs: {},
         timeout: null
@@ -92,9 +93,8 @@ Template.actionsList.onRendered( function(){
                         },
                         {
                             text: "New",
-                            class: fn.newClasses(),
                             click: function(){
-                                fn.newActivate();
+                                self.ronin.newAction.get().activate();
                             }
                         }
                     ],
@@ -103,6 +103,7 @@ Template.actionsList.onRendered( function(){
                 }
             });
             self.ronin.dict.set( 'window_ready', true );
+            self.ronin.$dom.IWindowed( 'actionSet', 1, self.ronin.newAction.get());
         }
     });
 
@@ -114,12 +115,7 @@ Template.actionsList.onRendered( function(){
                     self.ronin.$dom :
                     self.ronin.$dom.window( 'widget' );
             self.ronin.spinner = new Spinner().spin( $parent[0] );
-            self.ronin.timeout = Meteor.setTimeout(() => {
-                if( self.ronin.spinner ){
-                    self.ronin.spinner.stop();
-                    self.ronin.spinner = null;
-                }
-            }, 15000 );
+            self.ronin.timeout = Meteor.setTimeout(() => { fn.spinnerStop( self )}, 10000 );
         }
     });
 
@@ -134,17 +130,6 @@ Template.actionsList.onRendered( function(){
         }
     });
     */
-
-    // activate the actions depending of the logged-in user
-    this.autorun(() => {
-        const userId = Meteor.userId();
-        if( userId !== self.ronin.dict.get( 'userId' )){
-            if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
-                self.ronin.$dom.IWindowed( 'paneSetClass', 1, fn.newClasses());
-            }
-            self.ronin.dict.set( 'userId', userId );
-        }
-    });
 
     // child messaging
     //  update the tab's counts and the total count
@@ -164,29 +149,25 @@ Template.actionsList.onRendered( function(){
         });
         self.ronin.dict.set( 'total_count', total )
         // maybe stop the spinner
-        if( o.id === Session.get( 'actions.tab.name' ) && self.ronin.spinner ){
-            self.ronin.spinner.stop();
-            self.ronin.spinner = null;
+        if( o.id === Session.get( 'actions.tab.name' )){
+            fn.spinnerStop( self );
         }
         return false;
     });
 });
 
 Template.actionsList.helpers({
+    // plus_button helper
+    //  returns the activable action, or null
+    action(){
+        return Template.instance().ronin.newAction.get();
+    },
     // display current counts
     count(){
         const self = Template.instance();
         const total = self.ronin.dict.get( 'total_count' );
         const count = self.ronin.tabs[ Session.get( 'actions.tab.name' )] || 0;
         return count+'/'+total;
-    }
-});
-
-Template.actionsList.events({
-    // page layout
-    'click .js-new'( ev, instance ){
-        Template.actionsList.fn.newActivate();
-        return false;
     }
 });
 

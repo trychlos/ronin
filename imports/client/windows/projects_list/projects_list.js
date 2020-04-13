@@ -83,12 +83,7 @@ Template.projectsList.fn = {
         }
         if( $parent ){
             instance.ronin.spinner = new Spinner().spin( $parent[0] );
-            Meteor.setTimeout(() => {
-                if( instance.ronin.spinner ){
-                    instance.ronin.spinner.stop();
-                    instance.ronin.spinner = null;
-                }
-            }, 15000 );
+            Meteor.setTimeout(() => { Template.projectsList.fn.spinnerStop( instance )}, 10000 );
         }
     },
     spinnerStop: function( instance ){

@@ -48,6 +48,12 @@ Template.setupWindow.fn = {
         //  Instead instance is passed by setup_tabs from its parentView which
         //  is expected to be this setupWindow
         instance.ronin.newAction.set( action );
+    },
+    spinnerStop( instance ){
+        if( instance.ronin.spinner ){
+            instance.ronin.spinner.stop();
+            instance.ronin.spinner = null;
+        }
     }
 };
 
@@ -109,12 +115,7 @@ Template.setupWindow.onRendered( function(){
                     self.ronin.$dom.window( 'widget' );
             //console.log( 'start the spinner' );
             self.ronin.spinner = new Spinner().spin( $parent[0] );
-            self.ronin.timeout = Meteor.setTimeout(() => {
-                if( self.ronin.spinner ){
-                    self.ronin.spinner.stop();
-                    self.ronin.spinner = null;
-                }
-            }, 10000 );
+            self.ronin.timeout = Meteor.setTimeout(() => { fn.spinnerStop( self )}, 10000 );
         }
     });
 
@@ -138,9 +139,8 @@ Template.setupWindow.onRendered( function(){
         //console.log( o );
         self.ronin.dict.set( o.id+'_count', o.count );
         //console.log( 'setupWindow '+Session.get( 'setup.tab.name' )+' '+o.id+' '+Boolean(self.ronin.spinner));
-        if( o.id === Session.get( 'setup.tab.name' ) && self.ronin.spinner ){
-            self.ronin.spinner.stop();
-            self.ronin.spinner = null;
+        if( o.id === Session.get( 'setup.tab.name' )){
+            fn.spinnerStop( self );
         }
     });
 });
