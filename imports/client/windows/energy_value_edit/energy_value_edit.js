@@ -28,7 +28,7 @@ Template.energyValueEdit.fn = {
     doClose( instance ){
         $().IWindowed.pageClose( instance.ronin.$dom );
     },
-    // this let us close an energyValueEdit window if the energyValue has been
+    // this let us close an energyValueEdit window if the EnergyValue has been
     //  transformed in something else elsewhere
     forClose: function( msg, o ){
         const fn = Template.energyValueEdit.fn;
@@ -108,7 +108,7 @@ Template.energyValueEdit.onRendered( function(){
         if( Ronin.ui.layouts[R_LYT_WINDOW].taskbar.get() && self.ronin.dict.get( 'got' )){
             const label = fn.okLabel();
             self.ronin.$dom.IWindowed({
-                template: energyValue.template,
+                template: context.template,
                 simone: {
                     buttons: [
                         {
@@ -129,8 +129,8 @@ Template.energyValueEdit.onRendered( function(){
                             }
                         }
                     ],
-                    group: energyValue.group,
-                    title: gtd.labelId( null, energyValue.gtdid )
+                    group: context.group,
+                    title: gtd.labelId( null, context.gtdid )
                 }
             });
         }
