@@ -82,6 +82,32 @@ import '/imports/client/third-party/simone/simone.min.css';
             'ui-widget'
         ],
 
+        // associates an activable Action with a window button
+        //  args is [ button_number, action ]
+        actionSet: function( args ){
+            if( args.length !== 2 ){
+                console.log( 'actionSet() invalid arguments, expected: [ button_number, action ]' );
+                console.log( args );
+            } else {
+                const $button = $( this.$widget.find( '.ui-dialog-buttonset button' )[args[0]]);
+                if( !$button ){
+                    console.log( 'button '+args[0]+' not found' );
+                } else {
+                    let action = args[1];
+                    $button.data( 'ronin-action', action );
+                    const classes = action ? ( action.activable() ? '' : 'disabled' ) : 'disabled';
+                    this.paneSetClass( [ args[0], classes ]);
+                    // the Simone WM requires a click handler be defined to create the button
+                    //if( !$button.data( 'ronin-activate' )){
+                    //    $button.data( 'ronin-activate', true );
+                    //    $button.click( function(){
+                    //        $button.data( 'ronin-action' ).activate();
+                    //    });
+                    //}
+                }
+            }
+        },
+
         // return the name of the class added to the widget
         //  (aka the parent of the div we are working with)
         _className: function( name ){
@@ -256,6 +282,9 @@ import '/imports/client/third-party/simone/simone.min.css';
             //console.log( arguments );
             if( typeof arguments[0] === 'string' ){
                 switch( arguments[0] ){
+                    case 'actionSet':
+                        this.actionSet( Array.prototype.slice.call( arguments, 1 ));
+                        break;
                     case 'close':
                         this.close( Array.prototype.slice.call( arguments, 1 ));
                         break;

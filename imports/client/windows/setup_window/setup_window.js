@@ -50,8 +50,8 @@ Template.setupWindow.fn = {
         instance.ronin.newAction.set( action );
     },
     newActivate: function( msg, o ){
-        console.log( msg );
-        console.log( o );
+        //console.log( msg );
+        //console.log( o );
         const gtdid = o.userdata.data;
         if( gtdid ){
             gtd.activateId( gtdid );
@@ -131,13 +131,11 @@ Template.setupWindow.onRendered( function(){
 
     // on tab change, a new action should be considered and the buttons should
     //  be updated accordingly to reflect the new activable state
+    //  > the plus_button is associated to the action via the action() helper
+    //  > setup here windowLayout New button
     this.autorun(() => {
-        // the plus_button is associated to the action via the action() helper
-        // windowLayout New button
         if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
-            const action = self.ronin.newAction.get();
-            const classes = action ? ( action.activable() ? '' : 'disabled' ) : 'disabled';
-            self.ronin.$dom.IWindowed( 'paneSetClass', 1, classes );
+            self.ronin.$dom.IWindowed( 'actionSet', 1, self.ronin.newAction.get());
         }
     });
 
