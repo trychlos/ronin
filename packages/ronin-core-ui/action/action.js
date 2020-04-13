@@ -30,6 +30,7 @@ Ronin.Action.prototype.activable = function( activable ){
 
 Ronin.Action.prototype.activate = function(){
     if( this.activable()){
+        //console.log( 'publishing action.activate msg' );
         $.pubsub.publish( 'action.activate', _private.get( this ) || {});
     }
 }
