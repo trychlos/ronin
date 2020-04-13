@@ -81,19 +81,6 @@ import '/imports/client/third-party/simone/simone.min.css';
             'ui-corner-all',
             'ui-widget'
         ],
-        // reset the classes of the specified button
-        //  args is [ button_number, classes_string ]
-        buttonPaneResetClass: function( args ){
-            if( args ){
-                const $button = $( this.$widget.find( '.ui-dialog-buttonset button' )[args[0]]);
-                $button
-                    .removeClass()
-                    .addClass( this.buttonClasses.join( ' '))
-                    .addClass( args[1] );
-            }
-            this.$widget.find( '.ui-dialog-buttonset button.inactivable' ).addClass( 'ui-state-disabled' );
-            this.$widget.find( '.ui-dialog-buttonset button.disabled' ).addClass( 'ui-state-disabled' );
-        },
 
         // return the name of the class added to the widget
         //  (aka the parent of the div we are working with)
@@ -139,7 +126,7 @@ import '/imports/client/third-party/simone/simone.min.css';
             this._createSetTitlebarDiv();
             this._createSetButtonsTitle();
             this._createSetButtonpaneDiv();
-            this.buttonPaneResetClass();
+            this.paneSetClass();
             this._createRestoreSettings( name );
             // set event handlers
             //  passing this to the handler, getting back in event.data
@@ -268,8 +255,8 @@ import '/imports/client/third-party/simone/simone.min.css';
             //console.log( arguments );
             if( typeof arguments[0] === 'string' ){
                 switch( arguments[0] ){
-                    case 'buttonPaneResetClass':
-                        this.buttonPaneResetClass( Array.prototype.slice.call( arguments, 1 ));
+                    case 'paneSetClass':
+                        this.paneSetClass( Array.prototype.slice.call( arguments, 1 ));
                         break;
                     case 'close':
                         this.close( Array.prototype.slice.call( arguments, 1 ));
@@ -351,6 +338,20 @@ import '/imports/client/third-party/simone/simone.min.css';
         _onResizeStop: function( ev, ui ){
             //console.log( '_onResizeStop '+$( ev.target ).data( 'ronin-iwm-name' ));
             this._saveSettings();
+        },
+
+        // reset the classes of the specified button
+        //  args is [ button_number, classes_string ]
+        paneSetClass: function( args ){
+            if( args ){
+                const $button = $( this.$widget.find( '.ui-dialog-buttonset button' )[args[0]]);
+                $button
+                    .removeClass()
+                    .addClass( this.buttonClasses.join( ' '))
+                    .addClass( args[1] );
+            }
+            this.$widget.find( '.ui-dialog-buttonset button.inactivable' ).addClass( 'ui-state-disabled' );
+            this.$widget.find( '.ui-dialog-buttonset button.disabled' ).addClass( 'ui-state-disabled' );
         },
 
         // returns the initial route name attached to this window
@@ -567,84 +568,3 @@ import '/imports/client/third-party/simone/simone.min.css';
     };
 
 }( jQuery, window, document ));
-
-/*
-                    case 'buttonLabel':
-                        this.buttonLabel( Array.prototype.slice.call( arguments, 1 ));
-                        break;
-
-        // buttonLabel() method
-        //  set the label of the specified button in the bottom buttonpane
-        //  - index from zero
-        //  - label
-        buttonLabel: function( args ){
-            const index = args[0];
-            const label = args[1];
-            //console.log( 'buttonLabel index='+index+' label='+label );
-            const buttons = this.$widget.find( '.ui-dialog-buttonset button' );
-            if( buttons ){
-                $( buttons[index] ).html( label );
-            } else {
-                console.log( 'buttonLabel: unable to find buttonPane' );
-            }
-        },
-
-    // Avoid Plugin.prototype conflicts
-    $.extend( Plugin.prototype, {
-        init: function(){
-            // this = {
-            //      dom         DOM callee element (not jQuery)
-            //      args = {
-            //          0: 'show',
-            //          1: 'thoughtEdit'
-            //      }
-            //  }
-            if( typeof this.args[0] === 'string' ){
-                switch( this.args[0] ){
-                    case 'addButton':
-                        this.addButton( argsCount );
-                        break;
-                    case 'minimizeAll':
-                        this.minimizeAll( argsCount );
-                        break;
-                    case 'setRoute':
-                        this.setRoute( argsCount );
-                        break;
-                    case 'show':
-                        this.show( argsCount );
-                        break;
-                    case 'showNew':
-                        this.showNew( argsCount );
-                        break;
-                    default:
-                        messageError({ message:'IWindowed: unknown method: '+this.args[0] });
-                }
-                return;
-            }
-            if( argsCount != 1 || typeof this.args[0] !== 'object' ){
-                messageError({ message:'IWindowed: options object expected, not found' });
-                return;
-            }
-            this._create();
-        },
-        // addButton() method
-        //  must be applied on the window
-        //  adds a button on the right of the titlebar
-        //  expected args:
-        //  - selector to be installed
-        addButton: function( argsCount ){
-            if( argsCount != 2 ){
-                messageError({ message: 'addButton() expects two arguments, '+( argsCount-1 )+' found' });
-            } else if( !$( this.dom ).hasClass( 'ronin-iwm-window' )){
-                messageError({ message: 'addButton() must be invoked on the IWindowed element' });
-            } else {
-                const selector = this.args[1];
-                const widget = $( this.dom ).parents( '.ronin-iwm-widget' )[0];
-                const titlebar = $( widget ).find( '.ronin-iwm-titlebar' );
-                const content = $( this.dom ).find( selector ).detach();
-                $( titlebar ).append( content );
-            }
-        },
-
-    });
-*/

@@ -213,7 +213,7 @@ Template.projectsList.onRendered( function(){
         if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
             const userId = Meteor.userId();
             if( userId !== self.ronin.dict.get( 'userId' )){
-                self.ronin.$dom.IWindowed( 'buttonPaneResetClass', 5, fn.newClass());
+                self.ronin.$dom.IWindowed( 'paneSetClass', 5, fn.newClass());
                 self.ronin.dict.set( 'userId', userId );
             }
         }

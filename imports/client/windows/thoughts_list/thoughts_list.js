@@ -157,7 +157,7 @@ Template.thoughtsList.onRendered( function(){
         const userId = Meteor.userId();
         if( userId !== self.ronin.dict.get( 'userId' )){
             if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
-                $( '.thoughtsList' ).IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
+                $( '.thoughtsList' ).IWindowed( 'paneSetClass', 1, fn.newClasses());
             }
             self.ronin.dict.set( 'userId', userId );
         }

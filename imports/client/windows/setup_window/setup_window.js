@@ -136,7 +136,7 @@ Template.setupWindow.onRendered( function(){
         if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
             const action = self.ronin.newAction.get();
             const classes = action ? ( action.activable() ? '' : 'disabled' ) : 'disabled';
-            self.ronin.$dom.IWindowed( 'buttonPaneResetClass', 1, classes );
+            self.ronin.$dom.IWindowed( 'paneSetClass', 1, classes );
         }
     });
 

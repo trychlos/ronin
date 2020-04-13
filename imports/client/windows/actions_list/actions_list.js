@@ -140,7 +140,7 @@ Template.actionsList.onRendered( function(){
         const userId = Meteor.userId();
         if( userId !== self.ronin.dict.get( 'userId' )){
             if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
-                self.ronin.$dom.IWindowed( 'buttonPaneResetClass', 1, fn.newClasses());
+                self.ronin.$dom.IWindowed( 'paneSetClass', 1, fn.newClasses());
             }
             self.ronin.dict.set( 'userId', userId );
         }
