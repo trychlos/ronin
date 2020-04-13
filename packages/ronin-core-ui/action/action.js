@@ -22,10 +22,8 @@ Ronin.Action = function(){
 };
 
 Ronin.Action.prototype.activable = function( activable ){
-    //let priv = _private.get( this );
     if( activable !== null && activable !== undefined && typeof activable === 'boolean' ){
         this._activable = activable;
-        //_private.set( this, priv );
     }
     return Boolean( this._activable );
 };
@@ -34,4 +32,10 @@ Ronin.Action.prototype.activate = function(){
     if( this.activable()){
         $.pubsub.publish( 'action.activate', _private.get( this ) || {});
     }
+}
+
+Ronin.Action.prototype.setUserData = function( userdata ){
+    let priv = _private.get( this );
+    priv.userdata = userdata;
+    _private.set( this, priv );
 }

@@ -9,10 +9,11 @@
 
 const _private = new WeakMap();
 
-Ronin.ActionEx = function( type, action ){
+Ronin.ActionEx = function( type, action, userdata ){
     Ronin.Action.call( this );
     this._type = type;
     this._action = action;
+    Ronin.Action.prototype.setUserData.call( this, { type:type, action:action, data:userdata });
     let priv = {};
     _private.set( this, priv );
     // just a shortcut as this is not supposed to be reactive
@@ -35,3 +36,4 @@ Ronin.ActionEx.prototype.activable = function( activable ){
 //let o = new Ronin.ActionEx( R_OBJ_CONTEXT, R_ACT_DELETE );
 //console.log( o );
 //console.log( o.activable());
+//console.log( o.activate());
