@@ -30,7 +30,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import 'spin.js/spin.css';
 
 // pub/sub paradigm (nonetheless far from an actual mqtt broker)
-//import '/imports/client/interfaces/pubsub/pubsub.js'; http://fuzzytolerance.info doesn't work oob
+// see https://github.com/digitalxero/jquery-pubsub
 import 'jquery-pubsub/dist/jquery.pubsub.min.js';
 
 import './accounts-config.js';
