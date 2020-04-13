@@ -48,17 +48,6 @@ Template.setupWindow.fn = {
         //  Instead instance is passed by setup_tabs from its parentView which
         //  is expected to be this setupWindow
         instance.ronin.newAction.set( action );
-    },
-    newActivate: function( msg, o ){
-        //console.log( msg );
-        //console.log( o );
-        const gtdid = o.userdata.data;
-        if( gtdid ){
-            gtd.activateId( gtdid );
-        } else {
-            console.log( 'Unable to find which gtdId to be run for New activation. '+
-                            'Please make sure a "newId" key is defined in gtd.js' );
-        }
     }
 };
 
@@ -154,10 +143,6 @@ Template.setupWindow.onRendered( function(){
             self.ronin.spinner = null;
         }
     });
-
-    // deal with the 'new' action
-    //  setup_tabs has taken care of recording the 'new' template as action user data
-    $.pubsub.subscribe( 'action.activate', fn.newActivate );
 });
 
 Template.setupWindow.helpers({
@@ -171,11 +156,6 @@ Template.setupWindow.helpers({
     count(){
         const self = Template.instance();
         return self.ronin.dict.get( Session.get( 'setup.tab.name' )+'_count' ) || 0;
-    },
-    // template helper
-    //  let the child addresses which is its parent instance
-    view(){
-        return Template.instance();
     }
 });
 

@@ -1089,3 +1089,18 @@ export const gtd = {
         return gtd._search( null, item, 'template', false );
     }
 };
+
+// deal with an activated action
+//  provided that the GTD item to be activated has been recorded as action user data
+$.pubsub.subscribe( 'action.activate', ( msg, o ) => {
+    //console.log( msg );
+    //console.log( o );
+    const gtdid = o && o.userdata ? o.userdata.data : null;
+    if( gtdid ){
+        gtd.activateId( gtdid );
+    } else {
+        console.log( msg );
+        console.log( o );
+        console.log( 'Unable to find which gtdId to be run for this activation' );
+    }
+});

@@ -62,17 +62,6 @@ Template.projectsList.fn = {
     newAction( instance, action ){
         instance.ronin.newAction.set( action );
     },
-    newActivate: function( msg, o ){
-        //console.log( msg );
-        //console.log( o );
-        const gtdid = o.userdata.data;
-        if( gtdid ){
-            gtd.activateId( gtdid );
-        } else {
-            console.log( 'Unable to find which gtdId to be run for New activation. '+
-                            'Please make sure a "newId" key is defined in gtd.js' );
-        }
-    },
     newItem: function(){
         const tab = Session.get( 'projects.tab.name' );
         return tab === 'gtd-review-projects-single' ? 'gtd-process-action-new' : 'gtd-process-project-new';
@@ -253,10 +242,6 @@ Template.projectsList.onRendered( function(){
     $( '.js-rebuild' ).click(() => {
         fn.rebuildActivate( self );
     });
-
-    // deal with the 'new' action
-    //  setup_tabs has taken care of recording the 'new' template as action user data
-    $.pubsub.subscribe( 'action.activate', fn.newActivate );
 });
 
 Template.projectsList.helpers({

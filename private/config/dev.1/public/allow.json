@@ -9,7 +9,8 @@
 		},
 		"new": {
 			"project": true,
-			"time": true
+			"time": true,
+			"thought": true
 		}
 	}
 }

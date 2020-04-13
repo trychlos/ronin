@@ -35,15 +35,6 @@ import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './thoughts_list.html';
 
-Template.thoughtsList.fn = {
-    newActivate: function(){
-        gtd.activateId( 'gtd-collect-thought-new' );
-    },
-    newClasses: function(){
-        return gtd.classesId( 'gtd-collect-thought-new' ).join( ' ' );
-    }
-};
-
 Template.thoughtsList.onCreated( function(){
     //console.log( 'thoughtsList.onCreated' );
     this.ronin = {
@@ -53,13 +44,13 @@ Template.thoughtsList.onCreated( function(){
             thoughts: this.subscribe( 'articles.thoughts.all' ),
             topics: this.subscribe( 'topics.all' )
         },
+        newAction: new ReactiveVar( new Ronin.ActionEx( R_OBJ_THOUGHT, R_ACT_NEW, 'gtd-collect-thought-new' )),
         spinner: null,
         timeout: null
     };
     this.ronin.dict.set( 'count', 0 );
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
     this.ronin.dict.set( 'subscriptions_ready', false );
-    this.ronin.dict.set( 'userId', Meteor.userId());
 
     // initialize the mobile datas for this window
     Session.set( 'header.title', null );
@@ -88,9 +79,8 @@ Template.thoughtsList.onRendered( function(){
                         },
                         {
                             text: "New",
-                            class: fn.newClasses(),
                             click: function(){
-                                fn.newActivate();
+                                self.ronin.newAction.get().activate();
                             }
                         }
                     ],
@@ -99,6 +89,7 @@ Template.thoughtsList.onRendered( function(){
                 }
             });
             self.ronin.dict.set( 'window_ready', true );
+            self.ronin.$dom.IWindowed( 'actionSet', 1, self.ronin.newAction.get());
         }
     });
 
@@ -151,33 +142,20 @@ Template.thoughtsList.onRendered( function(){
             self.ronin.spinner = null;
         }
     });
-
-    // activate the actions depending of the logged-in user
-    this.autorun(() => {
-        const userId = Meteor.userId();
-        if( userId !== self.ronin.dict.get( 'userId' )){
-            if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
-                $( '.thoughtsList' ).IWindowed( 'paneSetClass', 1, fn.newClasses());
-            }
-            self.ronin.dict.set( 'userId', userId );
-        }
-    });
 });
 
 Template.thoughtsList.helpers({
+    // display thoughts count
     count(){
         return Template.instance().ronin.dict.get( 'count' );
     },
+    // plus_button helper
+    //  returns the activable action, or null
+    action(){
+        return Template.instance().ronin.newAction.get();
+    },
     thoughts(){
         return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
-    }
-});
-
-Template.thoughtsList.events({
-    // page layout
-    'click .js-new'( ev, instance ){
-        Template.thoughtsList.fn.newActivate();
-        return false;
     }
 });
 
