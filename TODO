@@ -67,11 +67,6 @@
 
   208 2020- 3-22 replace menu_bar / menu_side with gtd_menu + extend to overview
 
-  209 2020- 3-23 have a GAction-like interface ?
-      2020- 4- 3 as a reminder, the goal is to be able to desactivate an action (say, 'new thought')
-                 and have all html/js implementations reflect this desactivation
-      2020- 4- 7 ronin-core v1.3.0 defines Action class + Activable interface
-
   224 2020- 3-28 not found url no more works
 
   229 2020- 4- 3 would have a tool to display the component hierarchy
@@ -92,10 +87,6 @@
   242 2020- 4- 7 move constants.less to ronin-core-ui
       2020- 4-10 see ronin-core-ui-constants-less branch
 
-  243 2020- 4- 7 have settings.isEditAllowed/isDeleteAllowed/isNewAllowed()
-                 to associate with Article.isEditAllowed....
-      2020- 4- 7 done in ronin-core v1.2.0 - not used at this time
-
   251 2020- 4- 9 factorize spinner usage
       2020- 4-10 because spinner uses the 'window()' primitive of the window manager,
                  then it must take into account the existance of this WM. How ?
@@ -105,7 +96,13 @@
 
   255 2020- 4-12 gtd.classesId: replace activable/inactivable classes with just 'disabled'
 
-  256
+  256 2020- 4-13 remove newId code from gtd
+
+  257 2020- 4-13 remove activability code from gtd
+
+  258 2020- 4-13 ActionEx is not reactive to signin/signoff
+
+  259
 
 ==============================================================================
  Done
@@ -821,6 +818,12 @@
                  + edit/delete
       2020- 3-22 done
 
+  209 2020- 3-23 have a GAction-like interface ?
+      2020- 4- 3 as a reminder, the goal is to be able to desactivate an action (say, 'new thought')
+                 and have all html/js implementations reflect this desactivation
+      2020- 4- 7 ronin-core v1.3.0 defines Action class + Activable interface
+      2020- 4-13 Action and ActionEx classes are moved to ronin-core-ui v1.3.0
+
   210 2020- 3-23 review ANDROID_HOME env variable regarding the announced deprecation
       2020- 3-23 done (has required a reboot)
 
@@ -914,6 +917,10 @@
 
   240 2020- 4- 6 deprecate Ronin.ui.dict( 'back' ) ?
       2020- 4- 6 done
+
+  243 2020- 4- 7 have settings.isEditAllowed/isDeleteAllowed/isNewAllowed()
+                 to associate with Article.isEditAllowed....
+      2020- 4- 7 done in ronin-core v1.2.0 - not used at this time
 
   244 2020- 4- 7 ronin-core-ui: rename LYT_ to R_LYT_
       2020- 4- 7 done in ronin-core-ui v1.1.0
