@@ -28,8 +28,7 @@
  *  - 'data': the layout context built in appLayout, and passed in by group layer.
  *
  *  Session variables:
- *  - 'setup.tab.name': GTD identifier of the active tab
- *  - 'setup.tab.action.new': the 'New' Activable() action for the current tab.
+ *  - 'setup.tab.name': GTD identifier of the active tab.
  */
 import { Spinner } from 'spin.js';
 import { gtd } from '/imports/api/resources/gtd/gtd';
@@ -46,15 +45,19 @@ Template.setupWindow.fn = {
         //  so is useless here
         //const instance = Template.instance();
         //console.log( instance );
+        //  Instead instance is passed by setup_tabs from its parentView which
+        //  is expected to be this setupWindow
         instance.ronin.newAction.set( action );
     },
-    newActivate: function(){
-        const gtdid = gtd.newId( Session.get( 'setup.tab.name' ));
+    newActivate: function( msg, o ){
+        console.log( msg );
+        console.log( o );
+        const gtdid = o.userdata.data;
         if( gtdid ){
             gtd.activateId( gtdid );
         } else {
             console.log( 'Unable to find which gtdId to be run for New activation. '+
-                            'Please make sure a "new" key is defined in gtd.js' );
+                            'Please make sure a "newId" key is defined in gtd.js' );
         }
     }
 };
@@ -95,7 +98,9 @@ Template.setupWindow.onRendered( function(){
                         },
                         {
                             text: "New",
-                            click: fn.newActivate
+                            click: function(){
+                                self.ronin.newAction.get().activate();
+                            }
                         }
                     ],
                     group: context.group,
@@ -151,6 +156,10 @@ Template.setupWindow.onRendered( function(){
             self.ronin.spinner = null;
         }
     });
+
+    // deal with the 'new' action
+    //  setup_tabs has taken care of recording the 'new' template as action user data
+    $.pubsub.subscribe( 'action.activate', fn.newActivate );
 });
 
 Template.setupWindow.helpers({
@@ -169,14 +178,6 @@ Template.setupWindow.helpers({
     //  let the child addresses which is its parent instance
     view(){
         return Template.instance();
-    }
-});
-
-Template.setupWindow.events({
-    // page layout
-    'click .js-new'( ev, instance ){
-        Template.setupWindow.fn.newActivate();
-        return false;
     }
 });
 
