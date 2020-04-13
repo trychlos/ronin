@@ -43,8 +43,6 @@ Template.projectsList.fn = {
             $tree.trigger( 'projects-tree-collapse' );
         }
     },
-    collapseClass: function(){
-    },
     dumpActivate: function( instance ){
         const tabsView = instance.ronin.tabsView;
         const tab = Session.get( 'projects.tab.name' );
@@ -52,8 +50,6 @@ Template.projectsList.fn = {
         if( $tree ){
             $tree.trigger( 'projects-tree-dump' );
         }
-    },
-    dumpClass: function(){
     },
     expandActivate: function( instance ){
         const tabsView = instance.ronin.tabsView;
@@ -63,13 +59,19 @@ Template.projectsList.fn = {
             $tree.trigger( 'projects-tree-expand' );
         }
     },
-    expandClass: function(){
+    newAction( instance, action ){
+        instance.ronin.newAction.set( action );
     },
-    newActivate: function(){
-        gtd.activateId( Template.projectsList.fn.newItem());
-    },
-    newClass: function(){
-        return gtd.classesId( Template.projectsList.fn.newItem()).join( ' ' );
+    newActivate: function( msg, o ){
+        //console.log( msg );
+        //console.log( o );
+        const gtdid = o.userdata.data;
+        if( gtdid ){
+            gtd.activateId( gtdid );
+        } else {
+            console.log( 'Unable to find which gtdId to be run for New activation. '+
+                            'Please make sure a "newId" key is defined in gtd.js' );
+        }
     },
     newItem: function(){
         const tab = Session.get( 'projects.tab.name' );
@@ -82,8 +84,6 @@ Template.projectsList.fn = {
         if( $tree ){
             $tree.trigger( 'projects-tree-rebuild' );
         }
-    },
-    rebuildClass: function(){
     },
     spinnerStart: function( instance ){
         let $parent = null;
@@ -115,9 +115,10 @@ Template.projectsList.onCreated( function(){
     this.ronin = {
         dict: new ReactiveDict(),
         $dom: null,
+        newAction: new ReactiveVar( null ),
         spinner: null,
-        timeout: null,
-        tabsView: null
+        tabsView: null,
+        timeout: null
     };
     this.ronin.dict.set( 'projects_count', 0 );
     this.ronin.dict.set( 'actions_count', 0 );
@@ -153,7 +154,6 @@ Template.projectsList.onRendered( function(){
                             //text: "Expand all",
                             title: 'Expand all',
                             icon: 'fas fa-expand-arrows-alt',
-                            class: fn.expandClass(),
                             click: function(){
                                 fn.expandActivate( self );
                             }
@@ -162,7 +162,6 @@ Template.projectsList.onRendered( function(){
                             //text: "Rebuild",
                             title: 'Rebuild',
                             icon: 'fas fa-redo-alt',
-                            class: fn.rebuildClass(),
                             click: function(){
                                 fn.rebuildActivate( self );
                             }
@@ -171,7 +170,6 @@ Template.projectsList.onRendered( function(){
                             //text: "Collapse all",
                             title: 'Collapse all',
                             icon: 'fas fa-compress-arrows-alt',
-                            class: fn.collapseClass(),
                             click: function(){
                                 fn.collapseActivate( self );
                             }
@@ -180,16 +178,14 @@ Template.projectsList.onRendered( function(){
                             //text: "Dump",
                             title: 'Dump',
                             icon: 'fas fa-print',
-                            class: fn.dumpClass(),
                             click: function(){
                                 fn.dumpActivate( self );
                             }
                         },
                         {
                             text: 'New',
-                            class: fn.newClass(),
                             click: function(){
-                                fn.newActivate();
+                                self.ronin.newAction.get().activate();
                             }
                         }
                     ],
@@ -208,19 +204,18 @@ Template.projectsList.onRendered( function(){
         }
     });
 
-    // enable the actions depending of the logged-in user
+    // on tab change, a new 'New' action should be considered and the buttons
+    //  should be updated accordingly to reflect the new activable state
+    //  > the plus_button is associated to the action via the action() helper
+    //  > setup here windowLayout New button
     this.autorun(() => {
         if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
-            const userId = Meteor.userId();
-            if( userId !== self.ronin.dict.get( 'userId' )){
-                self.ronin.$dom.IWindowed( 'paneSetClass', 5, fn.newClass());
-                self.ronin.dict.set( 'userId', userId );
-            }
+            self.ronin.$dom.IWindowed( 'actionSet', 5, self.ronin.newAction.get());
         }
     });
 
     // each tree advertises itself when it has finished its build
-    $( '.projects-tabs' ).on( 'projects-tab-built', function( ev, o ){
+    $( '.projects-tabs' ).on( 'projects-tab-ready', function( ev, o ){
         //console.log( ev );
         //console.log( o );
         self.ronin.tabsView = o.view;
@@ -247,21 +242,25 @@ Template.projectsList.onRendered( function(){
 
     // handle the events of the buttons of the footer in layoutPage
     $( '.js-collapse' ).click(() => {
-        Template.projectsList.fn.collapseActivate( self );
+        fn.collapseActivate( self );
     });
     $( '.js-dump' ).click(() => {
-        Template.projectsList.fn.dumpActivate( self );
+        fn.dumpActivate( self );
     });
     $( '.js-expand' ).click(() => {
-        Template.projectsList.fn.expandActivate( self );
+        fn.expandActivate( self );
     });
     $( '.js-rebuild' ).click(() => {
-        Template.projectsList.fn.rebuildActivate( self );
+        fn.rebuildActivate( self );
     });
+
+    // deal with the 'new' action
+    //  setup_tabs has taken care of recording the 'new' template as action user data
+    $.pubsub.subscribe( 'action.activate', fn.newActivate );
 });
 
 Template.projectsList.helpers({
-    // display current counts
+    // display actions count
     actionsCount(){
         const self = Template.instance();
         const tabs = self.ronin.dict.get( 'tabs' );
@@ -270,6 +269,11 @@ Template.projectsList.helpers({
         const tabcount = o ? o.actions_count : 0;
         return 'A: '+tabcount+'/'+total;
     },
+    // associate the 'New' action with the 'New' button
+    newAction(){
+        return Template.instance().ronin.newAction.get();
+    },
+    // display projects count
     projectsCount(){
         const self = Template.instance();
         const tabs = self.ronin.dict.get( 'tabs' );

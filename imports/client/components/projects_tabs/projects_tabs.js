@@ -15,7 +15,7 @@ Template.projects_tabs.fn = {
     getObjectTab( instance, obj_id ){
         const tabs = Object.keys( instance.ronin.tabs );
         for( let i=0 ; i<tabs.length ; ++i ){
-            if( Template.projects_tree.fn.tree_hasId( instance.ronin.tabs[tabs[i]], obj_id )){
+            if( Template.projects_tree.fn.tree_hasId( instance.ronin.tabs[tabs[i]].$tree, obj_id )){
                 return tabs[i];
             }
         }
@@ -23,15 +23,28 @@ Template.projects_tabs.fn = {
     },
     // returns the tree held by this tab (may be null)
     getTabTree( instance, tab ){
-        return instance.ronin.tabs[tab];
+        return instance.ronin.tabs[tab].$tree;
     }
 };
 
 Template.projects_tabs.onCreated( function(){
     //console.log( 'projects_tabs.onCreated' );
     this.ronin = {
-        gtdItems: null,     // array of gtm items
-        tabs: {}
+        gtdItems: gtd.items( 'projects' ),
+        tabs: {
+            'gtd-review-projects-current': {
+                action: new Ronin.ActionEx( R_OBJ_PROJECT, R_ACT_NEW, 'gtd-process-project-new' ),
+                $tree: null
+            },
+            'gtd-review-projects-single': {
+                action: new Ronin.ActionEx( R_OBJ_ACTION, R_ACT_NEW, 'gtd-process-action-new' ),
+                $tree: null
+            },
+            'gtd-review-projects-future': {
+                action: new Ronin.ActionEx( R_OBJ_PROJECT, R_ACT_NEW, 'gtd-process-project-new' ),
+                $tree: null
+            }
+        }
     };
 });
 
@@ -40,17 +53,19 @@ Template.projects_tabs.onRendered( function(){
     const fn = Template.projects_tabs.fn;
 
     this.autorun(() => {
-        $( '.projects-tabs' ).ITabbed({
-            tab: Session.get( 'projects.tab.name' )
-        });
+        const tab = Session.get( 'projects.tab.name' );
+        $( '.projects-tabs' ).ITabbed({ tab:tab });
+        const pv = self.view.parentView;    // aka Template.projectsList
+        pv.template.fn.newAction( pv._templateInstance, self.ronin.tabs[tab].action );
     });
 
     // each tree advertises itself when it has finished its build
+    //  this is handled by the projectsList window
     $( '.projects-tabs' ).on( 'projects-tree-built', function( ev, o ){
         //console.log( ev );
         //console.log( o );
-        self.ronin.tabs[o.tab] = o.$tree;
-        $( '.projects-tabs' ).trigger( 'projects-tab-built', {
+        self.ronin.tabs[o.tab].$tree = o.$tree;
+        $( '.projects-tabs' ).trigger( 'projects-tab-ready', {
             tab: o.tab,
             view: self,
             projects_count: o.projects_count,
@@ -82,11 +97,7 @@ Template.projects_tabs.onRendered( function(){
 
 Template.projects_tabs.helpers({
     gtdItems(){
-        const self = Template.instance();
-        if( !self.ronin.gtdItems ){
-            self.ronin.gtdItems = gtd.items( 'projects' );
-        }
-        return self.ronin.gtdItems;
+        return Template.instance().ronin.gtdItems;
     },
     gtdLabel( it ){
         return gtd.labelItem( 'projects', it );

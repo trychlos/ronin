@@ -129,8 +129,8 @@ Template.setupWindow.onRendered( function(){
         }
     });
 
-    // on tab change, a new action should be considered and the buttons should
-    //  be updated accordingly to reflect the new activable state
+    // on tab change, a new 'New' action should be considered and the buttons
+    //  should be updated accordingly to reflect the new activable state
     //  > the plus_button is associated to the action via the action() helper
     //  > setup here windowLayout New button
     this.autorun(() => {
