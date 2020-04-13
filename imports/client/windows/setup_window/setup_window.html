@@ -6,14 +6,14 @@
         </div>
 
         <div class="wsf-content">
-            {{> setup_tabs }}
+            {{> setup_tabs parent=view }}
         </div>
 
         {{#if isPageLayout}}
             <div class="wsf-footer x-hidden">
             </div>
             <div class="js-new">
-                {{> plus_button }}
+                {{> plus_button action=action }}
             </div>
         {{/if}}
 

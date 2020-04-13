@@ -9,11 +9,12 @@
  *  and every collection.
  *
  *  Parameters:
- *  - 'data': the layout context built in appLayout, and passed in by group layer.
+ *  - 'parent': the parent Template instance, aka the parent View.
  *
  *  Session variables:
  *  - setup.tab.name: the identifier of the active tab
- *      aka the identifier of the corresponding option in 'gtd' features.
+ *      aka the identifier of the corresponding option in 'gtd' features
+ *  - 'setup.tab.action.new': the 'New' Activable() action for the current tab.
  */
 import { Contexts } from '/imports/api/collections/contexts/contexts.js';
 import { Delegates } from '/imports/api/collections/delegates/delegates.js';
@@ -47,50 +48,74 @@ Template.setup_tabs.onCreated( function(){
 
     this.ronin = {
         dict: new ReactiveDict(),
+        $dom: null,
         items: gtd.items( 'setup' ),
         tabs: {
             'gtd-setup-contexts': {
                 handle: this.subscribe( 'contexts.all' ),
-                cursorFn: function(){ return Contexts.find(); }
+                cursorFn: function(){ return Contexts.find(); },
+                action: new Ronin.ActionEx( R_OBJ_CONTEXT, R_ACT_NEW )
             },
             'gtd-setup-delegates': {
                 handle: this.subscribe( 'delegates.all' ),
-                cursorFn: function(){ return Delegates.find(); }
+                cursorFn: function(){ return Delegates.find(); },
+                action: new Ronin.ActionEx( R_OBJ_DELEGATE, R_ACT_NEW )
             },
             'gtd-setup-energy': {
                 handle: this.subscribe( 'energy_values.all' ),
-                cursorFn: function(){ return EnergyValues.find(); }
+                cursorFn: function(){ return EnergyValues.find(); },
+                action: new Ronin.ActionEx( R_OBJ_ENERGY, R_ACT_NEW )
             },
             'gtd-setup-priority': {
                 handle: this.subscribe( 'priority_values.all' ),
-                cursorFn: function(){ return PriorityValues.find(); }
+                cursorFn: function(){ return PriorityValues.find(); },
+                action: new Ronin.ActionEx( R_OBJ_PRIORITY, R_ACT_NEW )
             },
             'gtd-setup-refs': {
                 handle: this.subscribe( 'references.all' ),
-                cursorFn: function(){ return References.find(); }
+                cursorFn: function(){ return References.find(); },
+                action: new Ronin.ActionEx( R_OBJ_REFERENCE, R_ACT_NEW )
             },
             'gtd-setup-time': {
                 handle: this.subscribe( 'time_values.all' ),
-                cursorFn: function(){ return TimeValues.find(); }
+                cursorFn: function(){ return TimeValues.find(); },
+                action: new Ronin.ActionEx( R_OBJ_TIME, R_ACT_NEW )
             },
             'gtd-setup-topics': {
                 handle: this.subscribe( 'topics.all' ),
-                cursorFn: function(){ return Topics.find(); }
+                cursorFn: function(){ return Topics.find(); },
+                action: new Ronin.ActionEx( R_OBJ_TOPIC, R_ACT_NEW )
             }
         }
     };
     fn.tabular( self );
 
+    // make the preference reactive
     $.pubsub.subscribe( 'ronin.ui.prefs.updated', ( msg ) => {
         fn.tabular( self );
     });
 });
 
 Template.setup_tabs.onRendered( function(){
+    const self = this;
+    const fn = Template.setup_tabs.fn;
+    this.ronin.$dom = this.$( '.setup-tabs' );
+
     this.autorun(() => {
-        $( '.setup-tabs' ).ITabbed({
-            tab: Session.get( 'setup.tab.name' )
-        });
+        const tab = Session.get( 'setup.tab.name' );
+        self.ronin.$dom.ITabbed({ tab:tab });
+
+        // this is ok and works fine locally
+        //  but does not survive the Session get/set which returns only a plain object
+        //  not the instance with its prototype (because not EJSON-able)
+        //Session.set( 'setup.tab.action.new', self.ronin.tabs[tab].action );
+
+        // the message cannot be handled at initialization time because the handler
+        //  is declared in the parent onRendered() (needs the DOM be available) which
+        //  happens after this one
+        //self.ronin.$dom.trigger( 'setup-tab-action', { action: self.ronin.tabs[tab].action });
+
+        Template.setupWindow.fn.newAction( self.data.parent, self.ronin.tabs[tab].action );
     });
 });
 

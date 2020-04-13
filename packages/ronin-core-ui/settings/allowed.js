@@ -1,6 +1,6 @@
 /*
  * ronin-core package
- *  common/settings/index.js
+ *  common/settings/allowed.js
  *
  * About https://atmospherejs.com/4commerce/env-settings
  *  This is our choice for reading settings depending of the current environment.
@@ -93,7 +93,7 @@
 // Meteor.settings.public let the environment define whether an R_OBJ_xxx object
 // type is allowed to be edited regarding the requested action and the current
 // runtime environment.
-// The keys hierarchy is of the form 'allow.<action>.<objtype>' and defines if
+// The keys hierarchy is of the form 'allow.<action>.<objtype_label>' and defines if
 // the action is allowed to an unknowned user (not logged-in) in this environment.
 // Defaults to false, i.e. must be explicitely set to true to be allowed.
 

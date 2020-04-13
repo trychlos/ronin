@@ -6,6 +6,10 @@
 			"maybe": true,
 			"project": true,
 			"thought": true
+		},
+		"new": {
+			"energy": true,
+			"time": true
 		}
 	}
 }

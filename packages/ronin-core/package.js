@@ -10,11 +10,6 @@ Package.onUse( function( api ){
     configure( api );
     api.export([
         'Ronin',
-        'Action',
-        'ActionBase',
-        'R_ACT_DELETE',
-        'R_ACT_EDIT',
-        'R_ACT_NEW',
         'R_OBJ_ACTION',
         'R_OBJ_CONTEXT',
         'R_OBJ_DELEGATE',

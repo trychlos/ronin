@@ -5,16 +5,16 @@
             <thead>
                 <tr>
                     <th data-column-name="type" class="igrid-border igrid-sortable w-50">Type</th>
-                    <th data-column-name="new" class="igrid-border igrid-sortable">New</th>
-                    <th data-column-name="edit" class="igrid-border igrid-sortable">Edit</th>
-                    <th data-column-name="delete" class="igrid-border igrid-sortable">Delete</th>
+                    {{#each act in actionsList}}
+                        <th data-column-name="{{act.key}}" class="igrid-border igrid-sortable">{{act.label}}</th>
+                    {{/each}}
                 </tr>
             </thead>
             <tbody>
                 {{#each type in typesList}}
-                    <tr data-row-id="{{type.type}}">
+                    <tr data-row-id="{{type.key}}">
                         <td class="label"><p>{{type.label}}</p></td>
-                        {{#each act in actions}}
+                        {{#each act in actionsList}}
                             <td>
                                 {{#if isAllowed type act}}
                                     <span class="perm allowed"><span class="fas fa-check"></span></span>

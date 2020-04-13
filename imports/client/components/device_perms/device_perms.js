@@ -26,15 +26,15 @@ Template.device_perms.onRendered( function(){
         sort: {
             compare: [
                 {
-                    column: 'new',
+                    column: R_ACT_NEW,
                     compare: Template.device_perms.fn.cmpNew
                 },
                 {
-                    column: 'edit',
+                    column: R_ACT_EDIT,
                     compare: Template.device_perms.fn.cmpEdit
                 },
                 {
-                    column: 'delete',
+                    column: R_ACT_DELETE,
                     compare: Template.device_perms.fn.cmpDelete
                 }
             ]
@@ -43,13 +43,13 @@ Template.device_perms.onRendered( function(){
 });
 
 Template.device_perms.helpers({
-    actions(){
-        return Ronin.managedActions;
+    actionsList(){
+        return Ronin.toArray( Ronin.managedActions );
     },
     isAllowed( type, action ){
-        return Meteor.settings.isAllowed( type.type, action );
+        return Meteor.settings.isAllowed( type.key, action.key );
     },
     typesList(){
-        return Ronin.managedArray();
+        return Ronin.toArray( Ronin.managedTypes );
     }
 });

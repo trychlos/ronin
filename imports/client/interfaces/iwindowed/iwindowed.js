@@ -92,6 +92,7 @@ import '/imports/client/third-party/simone/simone.min.css';
                     .addClass( args[1] );
             }
             this.$widget.find( '.ui-dialog-buttonset button.inactivable' ).addClass( 'ui-state-disabled' );
+            this.$widget.find( '.ui-dialog-buttonset button.disabled' ).addClass( 'ui-state-disabled' );
         },
 
         // return the name of the class added to the widget

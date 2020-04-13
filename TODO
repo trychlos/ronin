@@ -103,7 +103,9 @@
   253 2020- 4-10 ronin-ui-prefs: write _globalWrite() function when a user is loggged-in
                  reverting to _prefs without local key else
 
-  255
+  255 2020- 4-12 gtd.classesId: replace activable/inactivable classes with just 'disabled'
+
+  256
 
 ==============================================================================
  Done
