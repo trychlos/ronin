@@ -39,8 +39,6 @@ import '/imports/client/components/window_badge/window_badge.js';
 import '/imports/client/interfaces/iwindowed/iwindowed.js';
 import './setup_window.html';
 
-_self = null;
-
 Template.setupWindow.fn = {
     newAction( instance, action ){
         // Template.instance() here is always the setup_tabs template instance
@@ -62,14 +60,12 @@ Template.setupWindow.fn = {
 };
 
 Template.setupWindow.onCreated( function(){
-    _self = this;
-
     this.ronin = {
         dict: new ReactiveDict(),
         $dom: null,
+        newAction: new ReactiveVar( null ),
         spinner: null,
-        timeout: null,
-        newAction: new ReactiveVar( null )
+        timeout: null
     };
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
 

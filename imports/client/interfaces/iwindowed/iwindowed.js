@@ -249,17 +249,18 @@ import '/imports/client/third-party/simone/simone.min.css';
         },
 
         // public methods applied to the plugin
+        //  first arg is the name of the method to be called
         _methods(){
             //console.log( '_methods' );
             //console.log( this );
             //console.log( arguments );
             if( typeof arguments[0] === 'string' ){
                 switch( arguments[0] ){
-                    case 'paneSetClass':
-                        this.paneSetClass( Array.prototype.slice.call( arguments, 1 ));
-                        break;
                     case 'close':
                         this.close( Array.prototype.slice.call( arguments, 1 ));
+                        break;
+                    case 'paneSetClass':
+                        this.paneSetClass( Array.prototype.slice.call( arguments, 1 ));
                         break;
                 }
             }
@@ -536,10 +537,10 @@ import '/imports/client/third-party/simone/simone.min.css';
     };
 
     // show() public method
-    //  show a window, re-activating it or creating a new one
+    //  request to show a window, re-activating it or creating a new one
     //  this method is to be called on the 'parent' of the to-be-created window
-    //  as a consequence, the plugin is not activated here, but will be on the actual
-    //  window creation
+    //  as a consequence, the plugin is not activated here, and will be only on
+    //  the actual window creation
     //  Args:
     //  - context as sent by routes.js:blazeRender()
     $.fn[pluginName].show = ( data ) => {
