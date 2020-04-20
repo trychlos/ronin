@@ -62,12 +62,12 @@ App.setPreference( 'Orientation', 'all', 'ios' );
 App.accessRule('data:*', { type: 'navigation' });
 
 // https://developer.android.com/training/articles/security-config#CleartextTrafficPermitted
-App.appendToConfig(`
-    <edit-config
-        file="app/src/main/AndroidManifest.xml"
-        mode="merge"
-        target="/manifest/application"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-            <application android:usesCleartextTraffic="true"></application>
-    </edit-config>
-`);
+//App.appendToConfig(`
+//    <edit-config
+//        file="app/src/main/AndroidManifest.xml"
+//        mode="merge"
+//        target="/manifest/application"
+//        xmlns:android="http://schemas.android.com/apk/res/android">
+//            <application android:usesCleartextTraffic="true"></application>
+//    </edit-config>
+//`);
