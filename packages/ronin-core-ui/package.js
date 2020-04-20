@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwi:ronin-core-ui',
-    version: '1.3.0',
+    version: '1.3.1',
     summary: 'Ronin core user interface management',
     git: '',
     documentation: 'README.md'
@@ -30,6 +30,7 @@ Package.onTest( function( api ){
 function configure( api ){
     api.versionsFrom( '1.8.1' );
     api.use( 'ecmascript' );
+    api.use( 'tracker' );
     api.use( 'pwi:ronin-core' );
 }
 
