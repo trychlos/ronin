@@ -5,6 +5,7 @@
  * Reactively read user preferences from Users collection.
  * Reactively read device user preferences from local storage.
  */
+import { Meteor } from 'meteor/meteor';
 import { reactiveLocalStorage } from 'meteor/mdj:reactive-storage';
 import { Ronin } from 'meteor/pwi:ronin-core';
 
@@ -39,8 +40,9 @@ _localWrite = ( o=_default ) => {
 Tracker.autorun(() => {
     $.extend( true, Ronin, _default );
     if( Meteor.userId()){
-        if( Meteor.user().ronin ){
-            $.extend( true, Ronin.prefs, Meteor.user().ronin.prefs );
+        const user = Meteor.user();
+        if( user && user.ronin ){
+            $.extend( true, Ronin.prefs, user.ronin.prefs );
         }
     }
     $.extend( true, Ronin.prefs.local, _localRead());
