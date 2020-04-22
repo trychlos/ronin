@@ -1,10 +1,9 @@
 {
 	"allow":  {
-		"comment": "whether actions are allowed in this environment to an unknown user",
+		"comment1": "whether actions are allowed in this environment to an unknown user",
+		"comment2": "nothing is allowed in production",
 		"delete": {},
 		"edit": {},
-		"new": {
-			"thought": true
-		}
+		"new": {}
 	}
 }

@@ -115,7 +115,9 @@
   264 2020- 4-13 on signoff TypeError: Meteor.user(...) is undefined meteor.js:1059:23
 	             module/<@http://localhost:3000/packages/pwi_ronin-ui-prefs.js
 
-  265
+  265 2020- 4-20 under https, size and position of windows are no more kept
+
+  266
 
 ==============================================================================
  Done
