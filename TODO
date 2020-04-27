@@ -100,8 +100,6 @@
 
   257 2020- 4-13 remove activability code from gtd
 
-  258 2020- 4-13 ActionEx is not reactive to signin/signoff
-
   259 2020- 4-13 packages should throw Meteor.Error instead of standard js exceptions
 
   260 2020- 4-13 edit_button should take advantage of Action (needs a path)
@@ -964,6 +962,9 @@
   254 2020- 4-10 display current permissions in status panel
       2020- 4-11 done
 
+  258 2020- 4-13 ActionEx is not reactive to signin/signoff
+      2020- 4-27 fixed
+
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
-             Last updated on 2020, Apr. 5th
+             Last updated on 2020, Apr. 27th

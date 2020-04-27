@@ -90,6 +90,11 @@ Template.setup_tabs.onCreated( function(){
     };
     fn.tabular( self );
 
+    // new actions default to be activable
+    Object.keys( this.ronin.tabs ).forEach( gtdid => {
+        self.ronin.tabs[gtdid].action.activable( true );
+    });
+
     // make the preference reactive
     $.pubsub.subscribe( 'ronin.ui.prefs.updated', ( msg ) => {
         fn.tabular( self );
