@@ -28,6 +28,8 @@ Template.projects_tabs.fn = {
 };
 
 Template.projects_tabs.onCreated( function(){
+    const self = this;
+
     //console.log( 'projects_tabs.onCreated' );
     this.ronin = {
         gtdItems: gtd.items( 'projects' ),
@@ -46,6 +48,11 @@ Template.projects_tabs.onCreated( function(){
             }
         }
     };
+
+    // new actions default to be activable
+    Object.keys( this.ronin.tabs ).forEach( gtdid => {
+        self.ronin.tabs[gtdid].action.activable( true );
+    });
 });
 
 Template.projects_tabs.onRendered( function(){

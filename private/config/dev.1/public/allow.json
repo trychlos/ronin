@@ -8,7 +8,7 @@
 			"thought": true
 		},
 		"new": {
-			"project": true,
+			"project": false,
 			"time": true,
 			"thought": false
 		}

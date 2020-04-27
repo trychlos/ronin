@@ -110,9 +110,6 @@
 
   263 2020- 4-13 project_button should take advantage of Action (as new project)
 
-  264 2020- 4-13 on signoff TypeError: Meteor.user(...) is undefined meteor.js:1059:23
-	             module/<@http://localhost:3000/packages/pwi_ronin-ui-prefs.js
-
   265 2020- 4-20 under https, size and position of windows are no more kept
 
   266 2020- 4-27 rewrite Articles.fn.types to take advantage of Ronin.managedTypes
@@ -965,6 +962,10 @@
       2020- 4-11 done
 
   258 2020- 4-13 ActionEx is not reactive to signin/signoff
+      2020- 4-27 fixed
+
+  264 2020- 4-13 on signoff TypeError: Meteor.user(...) is undefined meteor.js:1059:23
+	             module/<@http://localhost:3000/packages/pwi_ronin-ui-prefs.js
       2020- 4-27 fixed
 
 -----------------------------------------------------------------------
