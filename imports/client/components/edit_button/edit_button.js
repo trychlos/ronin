@@ -7,11 +7,6 @@
  * - action: may be:
  *   > an activable Action object instance
  *   > a function which returns an activable Action object instance.
- *
- *  - disabled: 'disabled' if the button is to be disabled
- *      default is to enable the button
- *  - route: the route to be used for editing the item
- *      default is to rely on Article type.
  */
 import './edit_button.html';
 
@@ -23,25 +18,25 @@ Template.edit_button.fn = {
     }
 };
 
-Template.edit_button.helpers({
-    classes(){
-        let activable = false;
-        const action = Template.edit_button.fn.action( this );
-        if( action ){
-            activable = action.activable();
+Template.edit_button.onRendered( function(){
+    const self = this;
+
+    this.autorun(() => {
+        const action = Template.edit_button.fn.action( self.data );
+        const activable = action ? action.activable() : false;
+        const $button = self.$( '.js-edit-button' );
+        if( activable ){
+            $button.attr( 'disabled', false );
+            $button.removeClass( 'ui-state-disabled' );
+        } else {
+            $button.attr( 'disabled', true );
+            $button.addClass( 'ui-state-disabled' );
         }
-        return activable ? '': 'disabled';
-    }
-    /*
-    // class helper
-    disabled(){
-        return this.disabled === 'disabled' ? 'ui-state-disabled' : '';
-    }
-    */
+    });
 });
 
 Template.edit_button.events({
-    'click .js-edit'( event, instance ){
+    'click .js-edit-button'( event, instance ){
         const action = Template.edit_button.fn.action( instance.data );
         if( action ){
             action.activate();
