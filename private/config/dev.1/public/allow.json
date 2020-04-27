@@ -10,7 +10,7 @@
 		"new": {
 			"project": true,
 			"time": true,
-			"thought": true
+			"thought": false
 		}
 	}
 }

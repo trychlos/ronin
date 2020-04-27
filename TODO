@@ -115,7 +115,9 @@
 
   265 2020- 4-20 under https, size and position of windows are no more kept
 
-  266
+  266 2020- 4-27 rewrite Articles.fn.types to take advantage of Ronin.managedTypes
+
+  267
 
 ==============================================================================
  Done

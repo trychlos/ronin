@@ -53,13 +53,16 @@ Template.thoughtsList.onCreated( function(){
             thoughts: this.subscribe( 'articles.thoughts.all' ),
             topics: this.subscribe( 'topics.all' )
         },
-        newAction: new ReactiveVar( new Ronin.ActionEx( R_OBJ_THOUGHT, R_ACT_NEW, 'gtd-collect-thought-new' )),
+        newAction: new Ronin.ActionEx( R_OBJ_THOUGHT, R_ACT_NEW, 'gtd-collect-thought-new' ),
         spinner: null,
         timeout: null
     };
     this.ronin.dict.set( 'count', 0 );
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
     this.ronin.dict.set( 'subscriptions_ready', false );
+
+    // new action defaults to be activable
+    this.ronin.newAction.activable( true );
 
     // initialize the mobile datas for this window
     Session.set( 'header.title', null );
@@ -89,7 +92,7 @@ Template.thoughtsList.onRendered( function(){
                         {
                             text: "New",
                             click: function(){
-                                self.ronin.newAction.get().activate();
+                                self.ronin.newAction.activate();
                             }
                         }
                     ],
@@ -98,7 +101,6 @@ Template.thoughtsList.onRendered( function(){
                 }
             });
             self.ronin.dict.set( 'window_ready', true );
-            self.ronin.$dom.IWindowed( 'actionSet', 1, self.ronin.newAction.get());
         }
     });
 
@@ -145,13 +147,20 @@ Template.thoughtsList.onRendered( function(){
             fn.spinnerStop( self );
         }
     });
+
+    // update the 'New' button status according to the action
+    this.autorun(() => {
+        if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
+            self.ronin.$dom.IWindowed( 'actionSet', 1, self.ronin.newAction );
+        }
+    });
 });
 
 Template.thoughtsList.helpers({
     // plus_button helper
     //  returns the activable action, or null
     action(){
-        return Template.instance().ronin.newAction.get();
+        return Template.instance().ronin.newAction;
     },
     // display thoughts count
     count(){
