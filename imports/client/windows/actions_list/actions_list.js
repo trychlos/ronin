@@ -59,7 +59,7 @@ Template.actionsList.onCreated( function(){
             // no more used, kept as a future reference of reactive aggregate usage
             //counts: this.subscribe( 'articles.actions.status.count' )
         },
-        newAction: new ReactiveVar( new Ronin.ActionEx( R_OBJ_ACTION, R_ACT_NEW, 'gtd-process-action-new' )),
+        newAction: new Ronin.ActionEx( R_OBJ_ACTION, R_ACT_NEW, 'gtd-process-action-new' ),
         spinner: null,
         tabs: {},
         timeout: null
@@ -67,6 +67,9 @@ Template.actionsList.onCreated( function(){
     this.ronin.dict.set( 'window_ready', Ronin.ui.runLayout() === R_LYT_PAGE );
     this.ronin.dict.set( 'total_count', 0 );
     this.ronin.dict.set( 'userId', Meteor.userId());
+
+    // new action defaults to be activable
+    this.ronin.newAction.activable( true );
 
     // initialize the mobile datas for this window
     Session.set( 'header.title', null );
@@ -94,7 +97,7 @@ Template.actionsList.onRendered( function(){
                         {
                             text: "New",
                             click: function(){
-                                self.ronin.newAction.get().activate();
+                                self.ronin.newAction.activate();
                             }
                         }
                     ],
@@ -103,7 +106,6 @@ Template.actionsList.onRendered( function(){
                 }
             });
             self.ronin.dict.set( 'window_ready', true );
-            self.ronin.$dom.IWindowed( 'actionSet', 1, self.ronin.newAction.get());
         }
     });
 
@@ -130,6 +132,13 @@ Template.actionsList.onRendered( function(){
         }
     });
     */
+
+    // update the 'New' button status according to the action
+    this.autorun(() => {
+        if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
+            self.ronin.$dom.IWindowed( 'actionSet', 1, self.ronin.newAction );
+        }
+    });
 
     // child messaging
     //  update the tab's counts and the total count
@@ -160,7 +169,7 @@ Template.actionsList.helpers({
     // plus_button helper
     //  returns the activable action, or null
     action(){
-        return Template.instance().ronin.newAction.get();
+        return Template.instance().ronin.newAction;
     },
     // display current counts
     count(){
