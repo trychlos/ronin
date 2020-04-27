@@ -114,7 +114,9 @@
 
   266 2020- 4-27 rewrite Articles.fn.types to take advantage of Ronin.managedTypes
 
-  267
+  267 2020- 4-27 the Projects Dump button should only be available in dev. mode
+
+  268
 
 ==============================================================================
  Done

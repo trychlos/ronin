@@ -136,7 +136,7 @@ Template.actionsList.onRendered( function(){
     // update the 'New' button status according to the action
     this.autorun(() => {
         if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
-            self.ronin.$dom.IWindowed( 'actionSet', 1, self.ronin.newAction );
+            self.ronin.$dom.IWindowed( 'buttonActivate', 1, self.ronin.newAction.activable());
         }
     });
 

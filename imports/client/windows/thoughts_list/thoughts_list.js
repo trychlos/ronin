@@ -151,7 +151,7 @@ Template.thoughtsList.onRendered( function(){
     // update the 'New' button status according to the action
     this.autorun(() => {
         if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
-            self.ronin.$dom.IWindowed( 'actionSet', 1, self.ronin.newAction );
+            self.ronin.$dom.IWindowed( 'buttonActivate', 1, self.ronin.newAction.activable());
         }
     });
 });
@@ -168,6 +168,19 @@ Template.thoughtsList.helpers({
     },
     thoughts(){
         return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
+    }
+});
+
+Template.thoughtsList.events({
+    'click .js-new'( ev, instance ){
+        console.log( 'click .js-new' );
+        /*
+        const action = Template.plus_button.fn.action( instance.data );
+        if( action ){
+            action.activate();
+            return false;
+        }
+        */
     }
 });
 

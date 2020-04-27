@@ -9,7 +9,7 @@
  *  In this case, event propagation will be stopped.
  *
  * Parameters:
- * - action: maybe:
+ * - action: may be:
  *   > an activable Action object instance
  *   > a function which returns an activable Action object instance.
  */
@@ -23,24 +23,31 @@ Template.plus_button.fn = {
     }
 };
 
-Template.plus_button.helpers({
-    // not able to make the 'disabled' Bootstrap button attribute working
-    // the jQuery 'ui-state-disabled' blocks events to be catched here, but not to bubble (!)
-    //  => so use a dedicated class
-    classes(){
-        let activable = false;
-        const action = Template.plus_button.fn.action( this );
-        if( action ){
-            activable = action.activable();
+Template.plus_button.onRendered( function(){
+    const self = this;
+
+    this.autorun(() => {
+        const action = Template.plus_button.fn.action( self.data );
+        const activable = action ? action.activable() : false;
+        const $button = self.$( '.js-plus-button' );
+        if( activable ){
+            $button.attr( 'disabled', false );
+            $button.removeClass( 'ui-state-disabled' );
+        } else {
+            $button.attr( 'disabled', true );
+            $button.addClass( 'ui-state-disabled' );
         }
-        return activable ? '': 'disabled';
-    }
+    });
 });
 
 Template.plus_button.events({
-    'click button.js-button'( ev, instance ){
+    // Please note that even if a disabled button doesn't trigger any event,
+    //  an uncatched click may still be handled by the englobing div
+    //  returning false here does prevent this bubbling
+    'click .js-plus-button'( ev, instance ){
         const action = Template.plus_button.fn.action( instance.data );
         if( action ){
+            //console.log( 'action.activate();' );
             action.activate();
             return false;
         }

@@ -4,7 +4,10 @@
  *  Edit the item.
  *
  *  Parameters:
- *  - item: the article to be edited
+ * - action: may be:
+ *   > an activable Action object instance
+ *   > a function which returns an activable Action object instance.
+ *
  *  - disabled: 'disabled' if the button is to be disabled
  *      default is to enable the button
  *  - route: the route to be used for editing the item
@@ -12,15 +15,39 @@
  */
 import './edit_button.html';
 
+Template.edit_button.fn = {
+    // the action passed in the data context may be an Action object instance
+    //  or a function which is expected to return this Action object instance.
+    action( data ){
+        return data && data.action ? ( typeof data.action === 'function' ? data.action() : data.action ) : null;
+    }
+};
+
 Template.edit_button.helpers({
+    classes(){
+        let activable = false;
+        const action = Template.edit_button.fn.action( this );
+        if( action ){
+            activable = action.activable();
+        }
+        return activable ? '': 'disabled';
+    }
+    /*
     // class helper
     disabled(){
         return this.disabled === 'disabled' ? 'ui-state-disabled' : '';
     }
+    */
 });
 
 Template.edit_button.events({
     'click .js-edit'( event, instance ){
+        const action = Template.edit_button.fn.action( instance.data );
+        if( action ){
+            action.activate();
+            return false;
+        }
+        /*
         let route = instance.data.route;
         const item = instance.data.item;
         if( !route ){
@@ -42,5 +69,6 @@ Template.edit_button.events({
             FlowRouter.go( route, null, { id:item._id });
         }
         return false;
+        */
     }
 });

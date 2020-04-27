@@ -194,7 +194,7 @@ Template.projectsList.onRendered( function(){
     //  > setup here windowLayout New button
     this.autorun(() => {
         if( Ronin.ui.runLayout() === R_LYT_WINDOW ){
-            self.ronin.$dom.IWindowed( 'actionSet', 5, self.ronin.newAction.get());
+            self.ronin.$dom.IWindowed( 'buttonActivate', 5, self.ronin.newAction.get().activable());
         }
     });
 

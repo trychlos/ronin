@@ -414,7 +414,7 @@ export const gtd = {
                     },
                     {
                         id: 'gtd-collect-thought-new',
-                        label: 'Insert thoughts',
+                        label: 'Insert thought',
                         route: 'rt.thoughts.new',
                         template: 'thoughtEdit',
                         multiple: true,
