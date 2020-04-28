@@ -8,6 +8,7 @@
  *  connnection status.
  */
 import { Tracker } from 'meteor/tracker';
+import { ReactiveDict } from 'meteor/reactive-dict';
 
 const _ex_private = new WeakMap();
 
@@ -20,12 +21,15 @@ Ronin.ActionEx = function( type, action, userdata ){
     // be reactive
     const self = this;
     Tracker.autorun(() => {
-        let priv = {
-            userId: Meteor.userId()
-        };
-        _ex_private.set( self, priv );
-        self._allowed = Meteor.settings.isAllowed( self._ex_type, self._ex_action );
-        Ronin.Action.prototype.activable.call( self, self._ex_activable && self._allowed );
+        let priv = _ex_private.get( self ) || new ReactiveDict();
+        const userId = Meteor.userId();
+        if( priv.get( 'userId' ) !== userId ){
+            priv.set( 'userId', userId );
+            priv.set( 'allowed', Meteor.settings.isAllowed( type, action ));
+            _ex_private.set( self, priv );
+        }
+        //console.log( type+' '+action+' '+self._ex_activable );
+        Ronin.Action.prototype.activable.call( self, self._ex_activable && priv.get( 'allowed' ));
     });
 };
 
@@ -36,7 +40,8 @@ Ronin.ActionEx.prototype = Object.create( Ronin.Action.prototype );
 Ronin.ActionEx.prototype.activable = function( activable ){
     if( activable !== null && activable !== undefined && typeof activable === 'boolean' ){
         this._ex_activable = activable;
-        Ronin.Action.prototype.activable.call( this, activable && this._allowed );
+        const priv = _ex_private.get( this );
+        Ronin.Action.prototype.activable.call( this, activable && priv.get( 'allowed' ));
     }
     return Ronin.Action.prototype.activable.call( this );
 }

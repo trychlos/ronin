@@ -12,7 +12,7 @@
  *
  *  - activate():
  *      activate the activable action
- *      publish the 'action.activate' message.
+ *      publish the 'action.activated' message.
  */
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -32,13 +32,13 @@ Ronin.Action.prototype.activable = function( activable ){
 
 Ronin.Action.prototype.activate = function(){
     if( this.activable()){
-        //console.log( 'publishing action.activate msg' );
-        $.pubsub.publish( 'action.activate', _action_private.get( this ) || {});
+        //console.log( 'publishing action.activated msg' );
+        $.pubsub.publish( 'action.activated', _action_private.get( this ) || {});
     }
 }
 
-Ronin.Action.prototype.setUserData = function( userdata ){
+Ronin.Action.prototype.setUserData = function( data ){
     let priv = _action_private.get( this );
-    priv.userdata = userdata;
+    priv.data = data;
     _action_private.set( this, priv );
 }

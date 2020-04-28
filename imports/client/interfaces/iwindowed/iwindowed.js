@@ -364,6 +364,7 @@ import '/imports/client/third-party/simone/simone.min.css';
         // reset the classes of the specified button
         //  args is [ button_number, classes_string ]
         paneSetClass: function( args ){
+            //console.log( this );
             if( args ){
                 const $button = $( this.$widget.find( '.ui-dialog-buttonset button' )[args[0]]);
                 $button

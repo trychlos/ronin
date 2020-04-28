@@ -137,6 +137,10 @@ export const gtd = {
                         template: 'contextEdit'
                     },
                     {
+                        id: 'gtd-setup-context-delete',
+                        msg: 'ronin.model.context.delete'
+                    },
+                    {
                         id: 'gtd-setup-time',
                         label: 'Setup time values',
                         route: 'rt.setup.time',
@@ -1092,10 +1096,19 @@ export const gtd = {
 
 // deal with an activated action
 //  provided that the GTD item to be activated has been recorded as action user data
-$.pubsub.subscribe( 'action.activate', ( msg, o ) => {
+$.pubsub.subscribe( 'action.activated', ( msg, o ) => {
     //console.log( msg );
     //console.log( o );
-    const gtdid = o && o.userdata ? o.userdata.data : null;
+    if( o && o.data ){
+        let gtdid = null;
+        if( o.data.action === R_ACT_NEW ){
+            gtdid = o.data.data;
+        } else if( o.data.action === R_ACT_EDIT || o.data.action === R_ACT_DELETE ){
+            gtdid = o.data.data.gtd;
+            itemid = o.data.data.id;
+        }
+    }
+    const gtdid = o && o.data ? o.data.data : null;
     if( gtdid ){
         gtd.activateId( gtdid );
     } else {

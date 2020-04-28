@@ -46,6 +46,34 @@ Template.contexts_grid.onRendered( function(){
 
 Template.contexts_grid.helpers({
     // template helper
+    //  attach a 'delete' action to the item, activating it if unused
+    deleteAction( it ){
+        let action = it.deleteAction || null;
+        if( !action ){
+            action = new Ronin.ActionEx( R_OBJ_CONTEXT, R_ACT_DELETE, {
+                gtd: 'gtd-setup-context-delete',
+                item: it
+            });
+            it.deleteAction = action;
+        }
+        action.activable( !Boolean( it.useCount ));
+        return action;
+    },
+    // template helper
+    //  activates 'disabled' state if the item is non editable
+    editAction( it ){
+        let action = it.editAction || null;
+        if( !action ){
+            action = new Ronin.ActionEx( R_OBJ_CONTEXT, R_ACT_EDIT, {
+                gtd: 'gtd-setup-context-edit',
+                item: it
+            });
+            it.editAction = action;
+        }
+        action.activable( true );
+        return action;
+    },
+    // template helper
     //  activates 'disabled' state if the item is non deletable
     isDeletable( it ){
         return it.useCount ? 'disabled' : '';

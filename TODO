@@ -103,8 +103,10 @@
   259 2020- 4-13 packages should throw Meteor.Error instead of standard js exceptions
 
   260 2020- 4-13 edit_button should take advantage of Action (needs a path)
+      2020- 4-28 edit_button takes an action as single parameter
 
   261 2020- 4-13 delete_button should take advantage of Action
+      2020- 4-28 delete_button takes an action as single parameter
 
   262 2020- 4-13 action_button should take advantage of Action (as new action)
 
