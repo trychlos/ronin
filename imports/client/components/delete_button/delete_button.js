@@ -36,7 +36,7 @@ Template.delete_button.onRendered( function(){
 });
 
 Template.delete_button.events({
-    'click .js-edit-button'( event, instance ){
+    'click .js-delete-button'( event, instance ){
         const action = Template.delete_button.fn.action( instance.data );
         if( action ){
             action.activate();

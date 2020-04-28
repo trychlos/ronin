@@ -138,7 +138,7 @@ export const gtd = {
                     },
                     {
                         id: 'gtd-setup-context-delete',
-                        msg: 'ronin.model.context.delete'
+                        publish: 'ronin.model.context.delete'
                     },
                     {
                         id: 'gtd-setup-time',
@@ -775,19 +775,20 @@ export const gtd = {
             }
         ];
     },
-    // activate the identified item (if this is possible and allowed)
-    // return the item whose id is specified
-    //  return null if id is empty or not found
-    activateId: function( id ){
-        if( gtd.isActivableId( id )){
-            const route = gtd.routeId( name, id );
-            if( route ){
-                FlowRouter.go( route );
+    // activate the identified GTD item
+    activateId: function( id, item ){
+        const gtdit = gtd._byId( id );
+        if( gtdit ){
+            if( gtdit.route ){
+                const parm = item ? { id: item._id } : null;
+                FlowRouter.go( gtdit.route, null, parm );
+            } else if( gtdit.publish ){
+                $.pubsub.publish( gtdit.publish, item );
             } else {
                 messageWarning( id+': route is undefined' );
             }
         } else {
-            messageWarning( id+' is not activable' );
+            messageWarning( id+': GTD item not found' );
         }
     },
     // return the item whose id is specified
@@ -1099,21 +1100,15 @@ export const gtd = {
 $.pubsub.subscribe( 'action.activated', ( msg, o ) => {
     //console.log( msg );
     //console.log( o );
-    if( o && o.data ){
-        let gtdid = null;
-        if( o.data.action === R_ACT_NEW ){
-            gtdid = o.data.data;
-        } else if( o.data.action === R_ACT_EDIT || o.data.action === R_ACT_DELETE ){
-            gtdid = o.data.data.gtd;
-            itemid = o.data.data.id;
+    if( o && o.data && o.data.action ){
+        const gtdid = o.data.gtd;
+        const item = o.data.item;
+        if( gtdid ){
+            gtd.activateId( gtdid, item );
+        } else {
+            console.log( msg );
+            console.log( o );
+            console.log( 'Unable to find which gtdId to be run for this activation' );
         }
-    }
-    const gtdid = o && o.data ? o.data.data : null;
-    if( gtdid ){
-        gtd.activateId( gtdid );
-    } else {
-        console.log( msg );
-        console.log( o );
-        console.log( 'Unable to find which gtdId to be run for this activation' );
     }
 });

@@ -54,37 +54,65 @@ Template.setup_tabs.onCreated( function(){
             'gtd-setup-contexts': {
                 handle: this.subscribe( 'contexts.all' ),
                 cursorFn: function(){ return Contexts.find(); },
-                action: new Ronin.ActionEx( R_OBJ_CONTEXT, R_ACT_NEW, gtd.newId( 'gtd-setup-contexts' ))
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_CONTEXT,
+                    action: R_ACT_NEW,
+                    gtd: gtd.newId( 'gtd-setup-contexts' )
+                })
             },
             'gtd-setup-delegates': {
                 handle: this.subscribe( 'delegates.all' ),
                 cursorFn: function(){ return Delegates.find(); },
-                action: new Ronin.ActionEx( R_OBJ_DELEGATE, R_ACT_NEW, gtd.newId( 'gtd-setup-delegates' ))
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_DELEGATE,
+                    action: R_ACT_NEW,
+                    gtd: gtd.newId( 'gtd-setup-delegates' )
+                })
             },
             'gtd-setup-energy': {
                 handle: this.subscribe( 'energy_values.all' ),
                 cursorFn: function(){ return EnergyValues.find(); },
-                action: new Ronin.ActionEx( R_OBJ_ENERGY, R_ACT_NEW, gtd.newId( 'gtd-setup-energy' ))
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_ENERGY,
+                    action: R_ACT_NEW,
+                    gtd: gtd.newId( 'gtd-setup-energy' )
+                })
             },
             'gtd-setup-priority': {
                 handle: this.subscribe( 'priority_values.all' ),
                 cursorFn: function(){ return PriorityValues.find(); },
-                action: new Ronin.ActionEx( R_OBJ_PRIORITY, R_ACT_NEW, gtd.newId( 'gtd-setup-priority' ))
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_PRIORITY,
+                    action: R_ACT_NEW,
+                    gtd: gtd.newId( 'gtd-setup-priority' )
+                })
             },
             'gtd-setup-refs': {
                 handle: this.subscribe( 'references.all' ),
                 cursorFn: function(){ return References.find(); },
-                action: new Ronin.ActionEx( R_OBJ_REFERENCE, R_ACT_NEW, gtd.newId( 'gtd-setup-refs' ))
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_REFERENCE,
+                    action: R_ACT_NEW,
+                    gtd: gtd.newId( 'gtd-setup-refs' )
+                })
             },
             'gtd-setup-time': {
                 handle: this.subscribe( 'time_values.all' ),
                 cursorFn: function(){ return TimeValues.find(); },
-                action: new Ronin.ActionEx( R_OBJ_TIME, R_ACT_NEW, gtd.newId( 'gtd-setup-time' ))
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_TIME,
+                    action: R_ACT_NEW,
+                    gtd: gtd.newId( 'gtd-setup-time' )
+                })
             },
             'gtd-setup-topics': {
                 handle: this.subscribe( 'topics.all' ),
                 cursorFn: function(){ return Topics.find(); },
-                action: new Ronin.ActionEx( R_OBJ_TOPIC, R_ACT_NEW, gtd.newId( 'gtd-setup-topics' ))
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_TOPIC,
+                    action: R_ACT_NEW,
+                    gtd: gtd.newId( 'gtd-setup-topics' )
+                })
             }
         }
     };

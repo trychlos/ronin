@@ -50,7 +50,9 @@ Template.contexts_grid.helpers({
     deleteAction( it ){
         let action = it.deleteAction || null;
         if( !action ){
-            action = new Ronin.ActionEx( R_OBJ_CONTEXT, R_ACT_DELETE, {
+            action = new Ronin.ActionEx({
+                type: R_OBJ_CONTEXT,
+                action: R_ACT_DELETE,
                 gtd: 'gtd-setup-context-delete',
                 item: it
             });
@@ -64,7 +66,9 @@ Template.contexts_grid.helpers({
     editAction( it ){
         let action = it.editAction || null;
         if( !action ){
-            action = new Ronin.ActionEx( R_OBJ_CONTEXT, R_ACT_EDIT, {
+            action = new Ronin.ActionEx({
+                type: R_OBJ_CONTEXT,
+                action: R_ACT_EDIT,
                 gtd: 'gtd-setup-context-edit',
                 item: it
             });

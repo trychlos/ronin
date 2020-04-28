@@ -59,7 +59,11 @@ Template.actionsList.onCreated( function(){
             // no more used, kept as a future reference of reactive aggregate usage
             //counts: this.subscribe( 'articles.actions.status.count' )
         },
-        newAction: new Ronin.ActionEx( R_OBJ_ACTION, R_ACT_NEW, 'gtd-process-action-new' ),
+        newAction: new Ronin.ActionEx({
+            type: R_OBJ_ACTION,
+            action: R_ACT_NEW,
+            gtd: 'gtd-process-action-new'
+        }),
         spinner: null,
         tabs: {},
         timeout: null

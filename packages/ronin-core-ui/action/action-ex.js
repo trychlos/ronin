@@ -12,12 +12,15 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 
 const _ex_private = new WeakMap();
 
-Ronin.ActionEx = function( type, action, userdata ){
+Ronin.ActionEx = function( o ){
+    if( !o.type || !o.action ){
+        throw new Meteor.Error('invalid-arguments','Invalid arguments' );
+    }
     Ronin.Action.call( this );
-    this._ex_type = type;
-    this._ex_action = action;
+    this._ex_type = o.type;
+    this._ex_action = o.action;
     this._ex_activable = false;
-    Ronin.Action.prototype.setUserData.call( this, { type:type, action:action, data:userdata });
+    Ronin.Action.prototype.setUserData.call( this, o );
     // be reactive
     const self = this;
     Tracker.autorun(() => {
@@ -25,7 +28,7 @@ Ronin.ActionEx = function( type, action, userdata ){
         const userId = Meteor.userId();
         if( priv.get( 'userId' ) !== userId ){
             priv.set( 'userId', userId );
-            priv.set( 'allowed', Meteor.settings.isAllowed( type, action ));
+            priv.set( 'allowed', Meteor.settings.isAllowed( o.type, o.action ));
             _ex_private.set( self, priv );
         }
         //console.log( type+' '+action+' '+self._ex_activable );
@@ -46,7 +49,10 @@ Ronin.ActionEx.prototype.activable = function( activable ){
     return Ronin.Action.prototype.activable.call( this );
 }
 
-//let o = new Ronin.ActionEx( R_OBJ_CONTEXT, R_ACT_DELETE );
+//let o = new Ronin.ActionEx({
+//    type: R_OBJ_CONTEXT,
+//    action: R_ACT_DELETE
+//});
 //console.log( o );
 //console.log( o.activable());
 //console.log( o.activate());

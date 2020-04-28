@@ -35,15 +35,27 @@ Template.projects_tabs.onCreated( function(){
         gtdItems: gtd.items( 'projects' ),
         tabs: {
             'gtd-review-projects-current': {
-                action: new Ronin.ActionEx( R_OBJ_PROJECT, R_ACT_NEW, 'gtd-process-project-new' ),
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_PROJECT,
+                    action: R_ACT_NEW,
+                    gtd: 'gtd-process-project-new'
+                }),
                 $tree: null
             },
             'gtd-review-projects-single': {
-                action: new Ronin.ActionEx( R_OBJ_ACTION, R_ACT_NEW, 'gtd-process-action-new' ),
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_ACTION,
+                    action: R_ACT_NEW,
+                    gtd: 'gtd-process-action-new'
+                }),
                 $tree: null
             },
             'gtd-review-projects-future': {
-                action: new Ronin.ActionEx( R_OBJ_PROJECT, R_ACT_NEW, 'gtd-process-project-new' ),
+                action: new Ronin.ActionEx({
+                    type: R_OBJ_PROJECT,
+                    action: R_ACT_NEW,
+                    gtd: 'gtd-process-project-new'
+                }),
                 $tree: null
             }
         }

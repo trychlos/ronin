@@ -53,7 +53,11 @@ Template.thoughtsList.onCreated( function(){
             thoughts: this.subscribe( 'articles.thoughts.all' ),
             topics: this.subscribe( 'topics.all' )
         },
-        newAction: new Ronin.ActionEx( R_OBJ_THOUGHT, R_ACT_NEW, 'gtd-collect-thought-new' ),
+        newAction: new Ronin.ActionEx({
+            type: R_OBJ_THOUGHT,
+            action: R_ACT_NEW,
+            gtd: 'gtd-collect-thought-new'
+        }),
         spinner: null,
         timeout: null
     };
