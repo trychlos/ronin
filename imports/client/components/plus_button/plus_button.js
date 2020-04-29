@@ -15,41 +15,16 @@
  */
 import './plus_button.html';
 
-Template.plus_button.fn = {
-    // the action passed in the data context may be an Action object instance
-    //  or a function which is expected to return this Action object instance.
-    action( data ){
-        return data && data.action ? ( typeof data.action === 'function' ? data.action() : data.action ) : null;
-    }
-};
-
 Template.plus_button.onRendered( function(){
     const self = this;
 
     this.autorun(() => {
-        const action = Template.plus_button.fn.action( self.data );
-        const activable = action ? action.activable() : false;
-        const $button = self.$( '.js-plus-button' );
-        if( activable ){
-            $button.attr( 'disabled', false );
-            $button.removeClass( 'ui-state-disabled' );
-        } else {
-            $button.attr( 'disabled', true );
-            $button.addClass( 'ui-state-disabled' );
-        }
+        Ronin.enableActionButton( self.data, self.$( '.js-plus-button' ));
     });
 });
 
 Template.plus_button.events({
-    // Please note that even if a disabled button doesn't trigger any event,
-    //  an uncatched click may still be handled by the englobing div
-    //  returning false here does prevent this bubbling
     'click .js-plus-button'( ev, instance ){
-        const action = Template.plus_button.fn.action( instance.data );
-        if( action ){
-            //console.log( 'action.activate();' );
-            action.activate();
-            return false;
-        }
+        return Ronin.activateActionButton( instance.data );
     }
 });
