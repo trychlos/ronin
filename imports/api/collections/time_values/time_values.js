@@ -59,6 +59,12 @@ TimeValues.fn = {
     }
 };
 
+TimeValues.newAction = new Ronin.ActionEx({
+    type: R_OBJ_TIME,
+    action: R_ACT_NEW,
+    gtd: 'gtd-setup-time-new'
+});
+
 TimeValues.helpers({
     deleteAction(){
         const action = new Ronin.ActionEx({

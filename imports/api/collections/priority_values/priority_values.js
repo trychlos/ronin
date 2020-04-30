@@ -67,6 +67,12 @@ PriorityValues.fn = {
     }
 };
 
+PriorityValues.newAction = new Ronin.ActionEx({
+    type: R_OBJ_PRIORITY,
+    action: R_ACT_NEW,
+    gtd: 'gtd-setup-priority-new'
+});
+
 PriorityValues.helpers({
     deleteAction(){
         const action = new Ronin.ActionEx({

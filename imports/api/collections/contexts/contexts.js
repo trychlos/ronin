@@ -70,13 +70,13 @@ Contexts.fn = {
     }
 };
 
+Contexts.newAction = new Ronin.ActionEx({
+    type: R_OBJ_CONTEXT,
+    action: R_ACT_NEW,
+    gtd: 'gtd-setup-context-new'
+});
+
 Contexts.helpers({
-    // works but rather useless
-    /*
-    isDeletable(){
-        return this.useCount === 0;
-    }
-    */
     deleteAction(){
         const action = new Ronin.ActionEx({
             type: this.objType,

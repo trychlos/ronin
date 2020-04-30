@@ -59,6 +59,12 @@ EnergyValues.fn = {
     }
 };
 
+EnergyValues.newAction = new Ronin.ActionEx({
+    type: R_OBJ_ENERGY,
+    action: R_ACT_NEW,
+    gtd: 'gtd-setup-energy-new'
+});
+
 EnergyValues.helpers({
     deleteAction(){
         const action = new Ronin.ActionEx({

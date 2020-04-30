@@ -73,6 +73,12 @@ Topics.fn = {
     }
 };
 
+Topics.newAction = new Ronin.ActionEx({
+    type: R_OBJ_TOPIC,
+    action: R_ACT_NEW,
+    gtd: 'gtd-setup-topic-new'
+});
+
 Topics.helpers({
     deleteAction(){
         const action = new Ronin.ActionEx({
