@@ -41,38 +41,6 @@ Template.setup_card.helpers({
     collapsableId(){
         return Template.setup_card.fn.collapsableId();
     },
-    // template helper
-    //  attach a 'deleteAction' action to the item, activating it if unused
-    deleteAction( it ){
-        let action = it.deleteAction || null;
-        if( !action ){
-            action = new Ronin.ActionEx({
-                type: R_OBJ_CONTEXT,
-                action: R_ACT_DELETE,
-                gtd: 'gtd-setup-context-delete',
-                item: it
-            });
-            it.deleteAction = action;
-        }
-        action.activable( !Boolean( it.useCount ));
-        return action;
-    },
-    // template helper
-    //  attach an 'editAction' action to the item, always activating it
-    editAction( it ){
-        let action = it.editAction || null;
-        if( !action ){
-            action = new Ronin.ActionEx({
-                type: R_OBJ_CONTEXT,
-                action: R_ACT_EDIT,
-                gtd: 'gtd-setup-context-edit',
-                item: it
-            });
-            it.editAction = action;
-        }
-        action.activable( true );
-        return action;
-    },
     itemDivId(){
         return Template.setup_card.fn.itemDivId();
     },
