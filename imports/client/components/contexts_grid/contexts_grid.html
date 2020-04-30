@@ -14,12 +14,12 @@
                 {{#each it in items }}
                     <tr data-row-id="{{ it._id }}">
                         <td class="btn-actions">
-                            {{> edit_button action=(editAction it)}}
+                            {{> edit_button action=it.editAction }}
                         </td>
                         <td class="x-ellipsed"><p class="x-ellipsize">{{ it.name }}</p></td>
                         <td>{{ getCreated it }}</td>
                         <td class="btn-actions">
-                            {{> delete_button action=(deleteAction it)}}
+                            {{> delete_button action=it.deleteAction }}
                         </td>
                     </tr>
                 {{/each}}

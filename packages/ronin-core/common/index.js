@@ -7,6 +7,8 @@
 //  packages objects (but not ours :(...)
 
 import './core';
+import './action';
+import './settings';
 
 Meteor.startup( function(){
     if( Meteor.isServer ){

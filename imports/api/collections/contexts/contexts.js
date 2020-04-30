@@ -74,7 +74,36 @@ Contexts.helpers({
     // works but rather useless
     /*
     isDeletable(){
-        return this.st_useCount === 0;
+        return this.useCount === 0;
     }
     */
+    deleteAction(){
+        const action = new Ronin.ActionEx({
+            type: this.objType,
+            action: R_ACT_DELETE,
+            gtd: 'gtd-setup-context-delete',
+            item: this
+        });
+        action.activable( !Boolean( this.useCount ));
+        return action;
+    },
+    editAction(){
+        const action = new Ronin.ActionEx({
+            type: this.objType,
+            action: R_ACT_EDIT,
+            gtd: 'gtd-setup-context-edit',
+            item: this
+        });
+        action.activable( true );
+        return action;
+    },
+    newAction(){
+        const action = new Ronin.ActionEx({
+            type: this.objType,
+            action: R_ACT_NEW,
+            gtd: 'gtd-setup-context-new'
+        });
+        action.activable( true );
+        return action;
+    }
 });

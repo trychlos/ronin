@@ -45,30 +45,6 @@ Template.contexts_grid.onRendered( function(){
 });
 
 Template.contexts_grid.helpers({
-    // template helper
-    //  attach a 'deleteAction' action to the item, activating it if unused
-    deleteAction( it ){
-        let action = it.deleteAction || null;
-        if( !action ){
-            const args = $.extend({}, it.st_deleteArgs, { item:it });
-            action = new Ronin.ActionEx( args );
-            it.deleteAction = action;
-        }
-        action.activable( !Boolean( it.st_useCount ));
-        return action;
-    },
-    // template helper
-    //  attach an 'editAction' action to the item, always activating it
-    editAction( it ){
-        let action = it.editAction || null;
-        if( !action ){
-            const args = $.extend({}, it.st_editArgs, { item:it });
-            action = new Ronin.ActionEx( args );
-            it.editAction = action;
-        }
-        action.activable( true );
-        return action;
-    },
     getCreated( it ){
         return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
     },
