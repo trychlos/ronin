@@ -21,13 +21,15 @@ Ronin.activateActionButton = function( context ){
 }
 
 Ronin.enableActionButton = function( context, $button ){
-    const action = _actionContext( context );
-    const activable = action ? action.activable() : false;
-    if( activable ){
-        $button.attr( 'disabled', false );
-        $button.removeClass( 'ui-state-disabled' );
-    } else {
-        $button.attr( 'disabled', true );
-        $button.addClass( 'ui-state-disabled' );
+    if( $button ){
+        const action = _actionContext( context );
+        const activable = action ? action.activable() : false;
+        if( activable ){
+            $button.attr( 'disabled', false );
+            $button.removeClass( 'ui-state-disabled' );
+        } else {
+            $button.attr( 'disabled', true );
+            $button.addClass( 'ui-state-disabled' );
+        }
     }
 }
