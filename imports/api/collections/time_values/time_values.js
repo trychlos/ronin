@@ -58,3 +58,26 @@ TimeValues.fn = {
                 csfns.equalStrs( a.description, b.description );
     }
 };
+
+TimeValues.helpers({
+    deleteAction(){
+        const action = new Ronin.ActionEx({
+            type: this.objType,
+            action: R_ACT_DELETE,
+            gtd: 'gtd-setup-time-delete',
+            item: this
+        });
+        action.activable( !Boolean( this.useCount ));
+        return action;
+    },
+    editAction(){
+        const action = new Ronin.ActionEx({
+            type: this.objType,
+            action: R_ACT_EDIT,
+            gtd: 'gtd-setup-time-edit',
+            item: this
+        });
+        action.activable( true );
+        return action;
+    }
+});

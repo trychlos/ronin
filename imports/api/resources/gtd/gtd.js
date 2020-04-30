@@ -177,6 +177,10 @@ export const gtd = {
                         template: 'timeValueEdit'
                     },
                     {
+                        id: 'gtd-setup-time-delete',
+                        publish: 'ronin.model.time.delete'
+                    },
+                    {
                         id: 'gtd-setup-energy',
                         label: 'Setup energy values',
                         route: 'rt.setup.energy',
@@ -213,6 +217,10 @@ export const gtd = {
                         template: 'energyValueEdit'
                     },
                     {
+                        id: 'gtd-setup-energy-delete',
+                        publish: 'ronin.model.energy.delete'
+                    },
+                    {
                         id: 'gtd-setup-priority',
                         label: 'Setup priority values',
                         route: 'rt.setup.priority',
@@ -247,6 +255,10 @@ export const gtd = {
                         label: 'Edit priority value',
                         route: 'rt.setup.priority.edit',
                         template: 'priorityValueEdit'
+                    },
+                    {
+                        id: 'gtd-setup-priority-delete',
+                        publish: 'ronin.model.priority.delete'
                     },
                     {
                         id: 'gtd-setup-topics',
@@ -286,6 +298,10 @@ export const gtd = {
                         label: 'Edit topic',
                         route: 'rt.setup.topic.edit',
                         template: 'topicEdit'
+                    },
+                    {
+                        id: 'gtd-setup-topic-delete',
+                        publish: 'ronin.model.topic.delete'
                     },
                     {
                         id: 'gtd-setup-refs',

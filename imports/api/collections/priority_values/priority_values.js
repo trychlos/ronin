@@ -66,3 +66,26 @@ PriorityValues.fn = {
                 csfns.equalStrs( a.description, b.description );
     }
 };
+
+PriorityValues.helpers({
+    deleteAction(){
+        const action = new Ronin.ActionEx({
+            type: this.objType,
+            action: R_ACT_DELETE,
+            gtd: 'gtd-setup-priority-delete',
+            item: this
+        });
+        action.activable( !Boolean( this.useCount ));
+        return action;
+    },
+    editAction(){
+        const action = new Ronin.ActionEx({
+            type: this.objType,
+            action: R_ACT_EDIT,
+            gtd: 'gtd-setup-priority-edit',
+            item: this
+        });
+        action.activable( true );
+        return action;
+    }
+});

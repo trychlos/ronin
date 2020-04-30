@@ -72,3 +72,26 @@ Topics.fn = {
                 csfns.equalStrs( a.backgroundColor, b.backgroundColor );
     }
 };
+
+Topics.helpers({
+    deleteAction(){
+        const action = new Ronin.ActionEx({
+            type: this.objType,
+            action: R_ACT_DELETE,
+            gtd: 'gtd-setup-topic-delete',
+            item: this
+        });
+        action.activable( !Boolean( this.useCount ));
+        return action;
+    },
+    editAction(){
+        const action = new Ronin.ActionEx({
+            type: this.objType,
+            action: R_ACT_EDIT,
+            gtd: 'gtd-setup-topic-edit',
+            item: this
+        });
+        action.activable( true );
+        return action;
+    }
+});
