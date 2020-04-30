@@ -300,6 +300,21 @@ Articles.fn.gtdEdit = {
 };
 
 Articles.helpers({
+    // transform a thought into an action
+    actionAction(){
+        let action = null;
+        if( this.type === R_OBJ_THOUGHT ){
+            action = new Ronin.ActionEx({
+                type: R_OBJ_ACTION,
+                action: R_ACT_NEW,
+                gtd: 'gtd-process-thought-action',
+                item: this
+            });
+            action.activable( true );
+        }
+        return action;
+    },
+    // delete an article (action, maybe, project or thought)
     deleteAction(){
         const action = new Ronin.ActionEx({
             type: this.type,
@@ -310,6 +325,7 @@ Articles.helpers({
         action.activable( true );
         return action;
     },
+    // edit an article (action, maybe, project or thought)
     editAction(){
         const action = new Ronin.ActionEx({
             type: this.type,

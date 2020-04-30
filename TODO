@@ -102,8 +102,6 @@
 
   259 2020- 4-13 packages should throw Meteor.Error instead of standard js exceptions
 
-  262 2020- 4-13 action_button should take advantage of Action (as new action)
-
   263 2020- 4-13 project_button should take advantage of Action (as new project)
 
   265 2020- 4-20 under https, size and position of windows are no more kept
@@ -976,6 +974,9 @@
 
   261 2020- 4-13 delete_button should take advantage of Action
       2020- 4-28 delete_button takes an action as single parameter
+      2020- 4-30 done
+
+  262 2020- 4-13 action_button should take advantage of Action (as new action)
       2020- 4-30 done
 
   264 2020- 4-13 on signoff TypeError: Meteor.user(...) is undefined meteor.js:1059:23
