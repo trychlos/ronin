@@ -16,10 +16,8 @@
 import './plus_button.html';
 
 Template.plus_button.onRendered( function(){
-    const self = this;
-
     this.autorun(() => {
-        Ronin.enableActionButton( self.data, self.$( '.js-plus-button' ));
+        Ronin.enableActionButton( Template.currentData(), Template.instance().$( '.js-plus-button' ));
     });
 });
 
