@@ -425,7 +425,7 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'gtd-collect-thoughts-edit',
+                        id: 'gtd-collect-thought-edit',
                         label: 'Edit thought',
                         route: 'rt.thoughts.edit',
                         template: 'thoughtEdit',
@@ -439,6 +439,10 @@ export const gtd = {
                         template: 'thoughtEdit',
                         multiple: true,
                         settingsAllow: 'allow.edit.thought'
+                    },
+                    {
+                        id: 'gtd-article-delete',
+                        publish: 'ronin.model.item.delete'
                     }
                 ]
             },

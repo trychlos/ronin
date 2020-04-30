@@ -15,7 +15,7 @@
                 {{#each it in thoughts}}
                     <tr data-row-id="{{ it._id }}">
                         <td class="btn-actions">
-                            {{> edit_button item=it }}
+                            {{> edit_button action=it.editAction }}
                             {{> ownership_button item=it }}
                             {{> action_button item=it }}
                             {{> project_button item=it }}
@@ -24,7 +24,7 @@
                         <td class="x-ellipsize"><p>{{ getTopic it }}</p></td>
                         <td>{{ getCreated it }}</td>
                         <td class="btn-actions">
-                            {{> delete_button item=it }}
+                            {{> delete_button action=it.deleteAction }}
                         </td>
                     </tr>
                 {{/each}}

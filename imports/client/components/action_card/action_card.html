@@ -31,7 +31,7 @@
 
                     <div class="actions d-flex flex-row justify-content-between align-items-center">
 
-                        {{> edit_button item=action }}
+                        {{> edit_button action=action.editAction }}
                         {{> ownership_button item=action }}
 
                         <div class="x-lh15">
@@ -40,7 +40,7 @@
                         </div>
 
                         {{> project_button item=action }}
-                        {{> delete_button item=action }}
+                        {{> delete_button action=action.deleteAction }}
 
                     </div>
 

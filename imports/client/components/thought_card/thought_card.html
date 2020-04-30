@@ -31,12 +31,12 @@
 
                 <div class="actions d-flex flex-row justify-content-between align-items-center">
 
-                    {{> edit_button item=thought }}
+                    {{> edit_button action=thought.editAction }}
                     {{> ownership_button item=thought }}
                     {{> action_button item=thought }}
                     {{> project_button item=thought }}
                     {{> maybe_button item=thought }}
-                    {{> delete_button item=thought }}
+                    {{> delete_button action=thought.deleteAction }}
 
                 </div>
 

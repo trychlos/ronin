@@ -47,6 +47,3 @@ Template.thoughts_grid.helpers({
         return topic ? topic.name : '';
     }
 });
-
-Template.thoughts_grid.events({
-});

@@ -20,7 +20,7 @@
                 {{#each it in actions}}
                     <tr data-row-id="{{ it._id }}">
                         <td class="btn-actions">
-                            {{> edit_button item=it }}
+                            {{> edit_button action=it.editAction }}
                             {{> ownership_button item=it }}
                             {{> project_button item=it }}
                         </td>
@@ -33,7 +33,7 @@
                             <td>{{ getDone it }}</td>
                         {{/if}}
                         <td class="btn-actions">
-                            {{> delete_button item=it }}
+                            {{> delete_button action=it.deleteAction }}
                         </td>
                     </tr>
                 {{/each}}

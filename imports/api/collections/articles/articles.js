@@ -291,3 +291,33 @@ Articles.fn.equal = function( a, b ){
     }
     return ret;
 };
+
+Articles.fn.gtdEdit = {
+    A: 'gtd-review-actions-edit',
+    M: null,
+    P: 'gtd-review-projects-edit',
+    T: 'gtd-collect-thought-edit'
+};
+
+Articles.helpers({
+    deleteAction(){
+        const action = new Ronin.ActionEx({
+            type: this.type,
+            action: R_ACT_DELETE,
+            gtd: 'gtd-article-delete',
+            item: this
+        });
+        action.activable( true );
+        return action;
+    },
+    editAction(){
+        const action = new Ronin.ActionEx({
+            type: this.type,
+            action: R_ACT_EDIT,
+            gtd: Articles.fn.gtdEdit[this.type],
+            item: this
+        });
+        action.activable( true );
+        return action;
+    }
+});
