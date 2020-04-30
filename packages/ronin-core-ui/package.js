@@ -10,11 +10,6 @@ Package.onUse( function( api ){
     configure( api );
     api.mainModule( 'ronin-core-ui.js', 'client' );
     api.export([
-        'Action',
-        'ActionEx',
-        'R_ACT_DELETE',
-        'R_ACT_EDIT',
-        'R_ACT_NEW',
         'R_LYT_PAGE',
         'R_LYT_WINDOW'
     ])
@@ -22,8 +17,8 @@ Package.onUse( function( api ){
 
 Package.onTest( function( api ){
     configure( api );
-    api.use('tinytest');
-    api.use('pwi:ronin-core-ui');
+    api.use( 'tinytest' );
+    api.use( 'pwi:ronin-core-ui' );
     api.mainModule( 'ronin-core-ui-tests.js' );
 });
 

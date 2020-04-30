@@ -14,8 +14,9 @@ const _ex_private = new WeakMap();
 
 Ronin.ActionEx = function( o ){
     if( !o.type || !o.action ){
-        throw new Meteor.Error('invalid-arguments','Invalid arguments' );
+        throw new Meteor.Error( 'invalid-arguments','Invalid arguments: o.type or o.action missing' );
     }
+    //console.log( 'ActionEx._ctor() '+o.type+' '+o.action );
     Ronin.Action.call( this );
     this._ex_type = o.type;
     this._ex_action = o.action;
@@ -41,6 +42,7 @@ Ronin.ActionEx.prototype = Object.create( Ronin.Action.prototype );
 // set the action activable
 //  this is always dependant of the allowed status from the settings
 Ronin.ActionEx.prototype.activable = function( activable ){
+    //console.log( 'ActionEx.activable() '+activable );
     if( activable !== null && activable !== undefined && typeof activable === 'boolean' ){
         this._ex_activable = activable;
         const priv = _ex_private.get( this );

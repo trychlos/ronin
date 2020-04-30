@@ -1,6 +1,6 @@
 /*
  * ronin-core-ui package
- *  action/action-fn.js: manage the buttons which have an action as a context parameter.
+ *  action/action-button.js: manage the buttons which have an action as a context parameter.
  */
 
 // the action passed in the data context may be an Action object instance

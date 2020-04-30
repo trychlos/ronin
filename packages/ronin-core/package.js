@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwi:ronin-core',
-    version: '1.5.0',
+    version: '1.6.0',
     summary: 'Core common package for Ronin application',
     git: '',
     documentation: 'README.md'
@@ -10,6 +10,11 @@ Package.onUse( function( api ){
     configure( api );
     api.export([
         'Ronin',
+        // managed actions
+        'R_ACT_DELETE',
+        'R_ACT_EDIT',
+        'R_ACT_NEW',
+        // managed types
         'R_OBJ_ACTION',
         'R_OBJ_CONTEXT',
         'R_OBJ_DELEGATE',
