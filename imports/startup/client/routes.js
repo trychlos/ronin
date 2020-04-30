@@ -260,13 +260,13 @@ loggedInRoutes.route( '/actions/new', {
     },
 });
 loggedInRoutes.route( '/projects/thought', {
-    name: 'rt.projects.thought',
+    name: 'rt.to.projects',
     action(){
         blazeRender( this.name );
     },
 });
 loggedInRoutes.route( '/actions/thought', {
-    name: 'rt.actions.thought',
+    name: 'rt.to.actions',
     action(){
         blazeRender( this.name );
     },

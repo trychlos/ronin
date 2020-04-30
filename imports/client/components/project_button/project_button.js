@@ -8,13 +8,20 @@
  *  - last_status is forgiven
  *
  *  Parameters:
- *  - item: the article to be transformed.
+ * - action: may be:
+ *   > an activable Action object instance
+ *   > a function which returns an activable Action object instance.
  */
 import './project_button.html';
 
+Template.project_button.onRendered( function(){
+    this.autorun(() => {
+        Ronin.enableActionButton( Template.currentData(), Template.instance().$( '.js-project' ));
+    });
+});
+
 Template.project_button.events({
     'click .js-project'( event, instance ){
-        FlowRouter.go( 'rt.projects.thought', null, { id:instance.data.item._id });
-        return false;
+        return Ronin.activateActionButton( instance.data );
     }
 });

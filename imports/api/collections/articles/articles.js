@@ -307,7 +307,7 @@ Articles.helpers({
             action = new Ronin.ActionEx({
                 type: R_OBJ_ACTION,
                 action: R_ACT_NEW,
-                gtd: 'gtd-process-thought-action',
+                gtd: 'gtd-process-to-action',
                 item: this
             });
             action.activable( true );
@@ -334,6 +334,20 @@ Articles.helpers({
             item: this
         });
         action.activable( true );
+        return action;
+    },
+    // transform a thought or an action into a project
+    projectAction(){
+        let action = null;
+        if( this.type === R_OBJ_THOUGHT || this.type === R_OBJ_ACTION ){
+            action = new Ronin.ActionEx({
+                type: R_OBJ_PROJECT,
+                action: R_ACT_NEW,
+                gtd: 'gtd-process-to-project',
+                item: this
+            });
+            action.activable( true );
+        }
         return action;
     }
 });

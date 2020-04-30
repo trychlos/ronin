@@ -22,7 +22,7 @@
                         <td class="btn-actions">
                             {{> edit_button action=it.editAction }}
                             {{> ownership_button item=it }}
-                            {{> project_button item=it }}
+                            {{> project_button action=it.projectAction }}
                         </td>
                         <td class="x-ellipsize"><p>{{ getName it }}</p></td>
                         <td class="x-ellipsize"><p>{{ getTopic it }}</p></td>

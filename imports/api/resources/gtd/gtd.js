@@ -512,23 +512,23 @@ export const gtd = {
                         }
                     },
                     {
-                        id: 'gtd-process-thought-project',
+                        id: 'gtd-process-to-project',
                         label: 'Transform into a project',
-                        route: 'rt.projects.thought',
+                        route: 'rt.to.projects',
                         template: 'projectEdit',
-                        settingsAllow: 'allow.edit.project',
+                        settingsAllow: 'allow.new.project',
                         multiple: true,
                         group: {
                             pageLayout: 'collectGroup'
                         }
                     },
                     {
-                        id: 'gtd-process-thought-action',
+                        id: 'gtd-process-to-action',
                         label: 'Transform into an action',
-                        route: 'rt.actions.thought',
+                        route: 'rt.to.actions',
                         template: 'actionEdit',
                         multiple: true,
-                        settingsAllow: 'allow.edit.action',
+                        settingsAllow: 'allow.new.action',
                         group: {
                             pageLayout: 'collectGroup'
                         }
