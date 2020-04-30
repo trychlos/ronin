@@ -97,10 +97,10 @@
 // the action is allowed to an unknowned user (not logged-in) in this environment.
 // Defaults to false, i.e. must be explicitely set to true to be allowed.
 
-function _isAllowed( objType, action ){
-}
-
 Meteor.settings.isAllowed = ( objType, action ) => {
+    if( Meteor.isServer ){
+        return false;
+    }
     if( Meteor.userId()){
         return true;
     }

@@ -10,8 +10,7 @@ Meteor.publishTransformed( 'contexts.all', function(){
         },
         // add a 'useCount' property
         useCount( self ){
-            const count = Articles.find({ type:'A', context:self._id }).count();
-            return count;
+            return Articles.find({ context:self._id }).count();
         }
     });
 });

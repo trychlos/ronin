@@ -178,7 +178,7 @@ export const gtd = {
                     },
                     {
                         id: 'gtd-setup-time-delete',
-                        publish: 'ronin.model.time.delete'
+                        publish: 'ronin.model.time_value.delete'
                     },
                     {
                         id: 'gtd-setup-energy',
@@ -218,7 +218,7 @@ export const gtd = {
                     },
                     {
                         id: 'gtd-setup-energy-delete',
-                        publish: 'ronin.model.energy.delete'
+                        publish: 'ronin.model.energy_value.delete'
                     },
                     {
                         id: 'gtd-setup-priority',
@@ -258,7 +258,7 @@ export const gtd = {
                     },
                     {
                         id: 'gtd-setup-priority-delete',
-                        publish: 'ronin.model.priority.delete'
+                        publish: 'ronin.model.priority_value.delete'
                     },
                     {
                         id: 'gtd-setup-topics',

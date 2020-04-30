@@ -67,16 +67,6 @@ Template.topics_grid.helpers({
     getCreated( it ){
         return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
     },
-    // template helper
-    //  activates 'disabled' state if the item is non deletable
-    isDeletable( it ){
-        return it.useCount ? 'disabled' : '';
-    },
-    // template helper
-    //  activates 'disabled' state if the item is non editable
-    isEditable( it ){
-        return '';
-    },
     items(){
         return Topics.find();
     },

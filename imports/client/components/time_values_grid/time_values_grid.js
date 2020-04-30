@@ -43,16 +43,6 @@ Template.time_values_grid.onRendered( function(){
 });
 
 Template.time_values_grid.helpers({
-    // template helper
-    //  activates 'disabled' state if the item is non deletable
-    isDeletable( it ){
-        return '';
-    },
-    // template helper
-    //  activates 'disabled' state if the item is non editable
-    isEditable( it ){
-        return '';
-    },
     getCreated( it ){
         return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');
     },

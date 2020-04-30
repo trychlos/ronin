@@ -26,7 +26,7 @@ Ronin.ActionEx = function( o ){
     const self = this;
     Tracker.autorun(() => {
         let priv = _ex_private.get( self ) || new ReactiveDict();
-        const userId = Meteor.userId();
+        const userId = Meteor.isClient ? Meteor.userId() : null;
         if( priv.get( 'userId' ) !== userId ){
             priv.set( 'userId', userId );
             priv.set( 'allowed', Meteor.settings.isAllowed( o.type, o.action ));

@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Topics } from '../topics.js';
 
 Meteor.publishTransformed( 'topics.all', function(){
@@ -9,7 +10,7 @@ Meteor.publishTransformed( 'topics.all', function(){
         },
         // add a 'useCount' property
         useCount( self ){
-            return 0;
+            return Articles.find({ topic:self._id }).count();
         }
     });
 });
