@@ -17,6 +17,8 @@
 
         </a>
 
+        {{log item}}
+
         <div class="x-px025 collapse" id="{{collapsableId}}" data-parent="{{ parent }}">
             <div class="setups-list-card x-py025">
 
@@ -28,8 +30,8 @@
 
                     <div class="setups d-flex flex-row justify-content-between align-items-center">
 
-                        {{> edit_button item=item disabled=(isEditable item) route=gtd.editRoute }}
-                        {{> delete_button item=item disabled=(isDeletable item) message=gtd.deleteMsg }}
+                        {{> edit_button action=(editAction item)}}
+                        {{> delete_button action=(deleteAction item)}}
 
                     </div>
 

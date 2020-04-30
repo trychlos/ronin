@@ -3,7 +3,6 @@
  *  server-only functions
  */
 import { Meteor } from 'meteor/meteor';
-import { Articles } from '/imports/api/collections/articles/articles.js';
 import { Contexts } from '../contexts.js';
 
 Contexts.sofns = {
@@ -39,11 +38,3 @@ Contexts.sofns = {
         return ret;
     }
 }
-
-Contexts.serverTransform({
-    // add a 'useCount' property to the Context document
-    useCount( self ) {
-        const count = Articles.find({ type:'A', context:self._id }).count();
-        return count;
-    }
-});

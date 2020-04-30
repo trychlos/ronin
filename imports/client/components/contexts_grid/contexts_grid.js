@@ -46,46 +46,28 @@ Template.contexts_grid.onRendered( function(){
 
 Template.contexts_grid.helpers({
     // template helper
-    //  attach a 'delete' action to the item, activating it if unused
+    //  attach a 'deleteAction' action to the item, activating it if unused
     deleteAction( it ){
         let action = it.deleteAction || null;
         if( !action ){
-            action = new Ronin.ActionEx({
-                type: R_OBJ_CONTEXT,
-                action: R_ACT_DELETE,
-                gtd: 'gtd-setup-context-delete',
-                item: it
-            });
+            const args = $.extend({}, it.st_deleteArgs, { item:it });
+            action = new Ronin.ActionEx( args );
             it.deleteAction = action;
         }
-        action.activable( !Boolean( it.useCount ));
+        action.activable( !Boolean( it.st_useCount ));
         return action;
     },
     // template helper
-    //  activates 'disabled' state if the item is non editable
+    //  attach an 'editAction' action to the item, always activating it
     editAction( it ){
         let action = it.editAction || null;
         if( !action ){
-            action = new Ronin.ActionEx({
-                type: R_OBJ_CONTEXT,
-                action: R_ACT_EDIT,
-                gtd: 'gtd-setup-context-edit',
-                item: it
-            });
+            const args = $.extend({}, it.st_editArgs, { item:it });
+            action = new Ronin.ActionEx( args );
             it.editAction = action;
         }
         action.activable( true );
         return action;
-    },
-    // template helper
-    //  activates 'disabled' state if the item is non deletable
-    isDeletable( it ){
-        return it.useCount ? 'disabled' : '';
-    },
-    // template helper
-    //  activates 'disabled' state if the item is non editable
-    isEditable( it ){
-        return '';
     },
     getCreated( it ){
         return moment( it.updatedAt ? it.updatedAt : it.createdAt ).format('DD/MM/GGGG');

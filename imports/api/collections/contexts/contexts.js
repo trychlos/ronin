@@ -74,7 +74,7 @@ Contexts.helpers({
     // works but rather useless
     /*
     isDeletable(){
-        return this.useCount === 0;
+        return this.st_useCount === 0;
     }
     */
 });
