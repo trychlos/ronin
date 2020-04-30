@@ -4,7 +4,7 @@ import { Contexts } from '../contexts.js';
 
 Meteor.publishTransformed( 'contexts.all', function(){
     return Contexts.find().serverTransform({
-        // add an 'objType' property
+        // add an 'objType' property to the Context document
         objType( self ){
             return R_OBJ_CONTEXT;
         },

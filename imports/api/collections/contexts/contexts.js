@@ -96,14 +96,5 @@ Contexts.helpers({
         });
         action.activable( true );
         return action;
-    },
-    newAction(){
-        const action = new Ronin.ActionEx({
-            type: this.objType,
-            action: R_ACT_NEW,
-            gtd: 'gtd-setup-context-new'
-        });
-        action.activable( true );
-        return action;
     }
 });

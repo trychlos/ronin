@@ -84,10 +84,6 @@ Articles.schema = new SimpleSchema({
     /* this is common to all articles
      * + thoughts only have these
      */
-    _id: {
-        type: String,
-        optional: true
-    },
     type: {
         type: String,
         allowedValues: Articles.fn.types
@@ -158,6 +154,10 @@ Articles.schema = new SimpleSchema({
         optional: true
     },
     brainstorm: {
+        type: String,
+        optional: true
+    },
+    _id: {
         type: String,
         optional: true
     },
