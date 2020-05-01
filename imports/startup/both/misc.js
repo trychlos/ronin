@@ -22,22 +22,6 @@ compareUpdates = function( ita, itb ){
     return da.isBefore( db ) ? -1 : 1;
 }
 
-// return the content of the specified key in an object
-// where the key is specified as the 'key1.key2.key3' string
-//
-objectKey = function( obj, key_str ){
-    const keys = key_str.split( '.' );
-    let o = obj;
-    for( let i=0 ; i<keys.length ; ++i ){
-        if( o[keys[i]] ){
-            o = o[keys[i]];
-        } else {
-            return null;
-        }
-    }
-    return o;
-}
-
 // return the type of the value as a string
 //
 typeOf = function( value ){

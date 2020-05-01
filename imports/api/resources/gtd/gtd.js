@@ -894,7 +894,7 @@ export const gtd = {
         if( !settingsKey ){
             return true;
         }
-        const allowed = objectKey( Meteor.settings.public, settingsKey );
+        const allowed = Ronin.objectKey( Meteor.settings.public, settingsKey );
         //console.log( item.id+' activable_by_settings='+allowed );
         return allowed || Meteor.userId();
     },

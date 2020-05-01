@@ -117,8 +117,6 @@
   274 2020- 5- 1 taking ownership (or not) of an un-owned object should be an admin option
                  (as a matter of fact, not sure today if this is really a good idea)
 
-  275 2020- 5- 1 deprecate startup/both/misc/objectKey()
-
   276
 
 ==============================================================================
@@ -995,6 +993,9 @@
 
   271 2020- 4-30 in layout page, the counter is not displayed if zero (eg. delegates, refs)
       2020- 5- 1 fixed
+
+  275 2020- 5- 1 deprecate startup/both/misc/objectKey()
+      2020- 5- 1 done
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th
