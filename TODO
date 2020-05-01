@@ -114,8 +114,6 @@
 
   270 2020- 4-29 all methods: check that o.type is one of R_OBJ_xxx managed types
 
-  271 2020- 4-30 in layout page, the counter is not displayed if zero (eg. delegates, refs)
-
   272 2020- 4-30 maybe button should take advantage of ActionEx
 
   273 2020- 4-30 ownership button should take advantage of ActionEx
@@ -987,6 +985,9 @@
   264 2020- 4-13 on signoff TypeError: Meteor.user(...) is undefined meteor.js:1059:23
 	             module/<@http://localhost:3000/packages/pwi_ronin-ui-prefs.js
       2020- 4-27 fixed
+
+  271 2020- 4-30 in layout page, the counter is not displayed if zero (eg. delegates, refs)
+      2020- 5- 1 fixed
 
 -----------------------------------------------------------------------
  P. Wieser - Created on 2019, Nov. 19th

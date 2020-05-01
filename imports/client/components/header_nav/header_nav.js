@@ -113,9 +113,10 @@ Template.header_nav.helpers({
     //  only used in pageLayout
     badgeText( badge ){
         const hash = Session.get( 'header.badges' ) || {};
-        return hash[badge] || '';
+        return hash[badge].toString();
     },
     hasBadges(){
+        //console.log( Template.instance().ronin.dict.get( 'badges' ));
         return Template.instance().ronin.dict.get( 'badges' );
     },
     hasMenuBar(){
