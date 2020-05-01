@@ -104,11 +104,7 @@
 
   265 2020- 4-20 under https, size and position of windows are no more kept
 
-  266 2020- 4-27 rewrite Articles.fn.types to take advantage of Ronin.managedTypes
-
   267 2020- 4-27 the Projects Dump button should only be available in dev. mode
-
-  268 2020- 4-29 deprecate csfns:check_editable()
 
   272 2020- 4-30 maybe button should take advantage of ActionEx
 
@@ -984,6 +980,12 @@
   264 2020- 4-13 on signoff TypeError: Meteor.user(...) is undefined meteor.js:1059:23
 	             module/<@http://localhost:3000/packages/pwi_ronin-ui-prefs.js
       2020- 4-27 fixed
+
+  266 2020- 4-27 rewrite Articles.fn.types to take advantage of Ronin.managedTypes
+      2020- 5- 1 done
+
+  268 2020- 4-29 deprecate csfns:check_editable()
+      2020- 5- 1 cancelled - this method is useful and does its role
 
   269 2020- 4-29 sofns.cleanup: ret.set.length is always at least 1 (contains o.type)
       2020- 5- 1 fixed + define startup/server/misc.js:soSet() function

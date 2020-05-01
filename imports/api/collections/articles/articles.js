@@ -73,10 +73,10 @@ export const Articles = new Mongo.Collection( 'articles' );
 
 Articles.fn = {
     types: [
-        'T',    // thought
-        'A',    // action
-        'P',    // project
-        'M'     // maybe
+        R_OBJ_ACTION,
+        R_OBJ_MAYBE,
+        R_OBJ_PROJECT,
+        R_OBJ_THOUGHT
     ]
 };
 
@@ -277,7 +277,9 @@ Articles.fn.equal = function( a, b ){
                         csfns.equalStrs( a.future, b.future ) &&
                         csfns.equalStrs( a.vision, b.vision ) &&
                         csfns.equalStrs( a.brainstorm, b.brainstorm );
-            break;
+                break;
+            case R_OBJ_THOUGHT:
+                break;
         }
     }
     return ret;
