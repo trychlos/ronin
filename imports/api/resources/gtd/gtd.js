@@ -103,7 +103,6 @@ export const gtd = {
                         route: 'rt.setup.contexts',
                         template: 'setupWindow',
                         gridComponent: 'contexts_grid',
-                        deleteMsg: 'ronin.model.context.delete',
                         editRoute: 'rt.setup.context.edit',
                         navs: {
                             header: {
@@ -145,7 +144,6 @@ export const gtd = {
                         route: 'rt.setup.time',
                         template: 'setupWindow',
                         gridComponent: 'time_values_grid',
-                        deleteMsg: 'ronin.model.time_value.delete',
                         editRoute: 'rt.setup.time.edit',
                         navs: {
                             header: {
@@ -184,7 +182,6 @@ export const gtd = {
                         route: 'rt.setup.energy',
                         template: 'setupWindow',
                         gridComponent: 'energy_values_grid',
-                        deleteMsg: 'ronin.model.energy_value.delete',
                         editRoute: 'rt.setup.energy.edit',
                         navs: {
                             header: {
@@ -223,7 +220,6 @@ export const gtd = {
                         route: 'rt.setup.priority',
                         template: 'setupWindow',
                         gridComponent: 'priority_values_grid',
-                        deleteMsg: 'ronin.model.priority_value.delete',
                         editRoute: 'rt.setup.priority.edit',
                         navs: {
                             header: {
@@ -262,7 +258,6 @@ export const gtd = {
                         route: 'rt.setup.topics',
                         template: 'setupWindow',
                         gridComponent: 'topics_grid',
-                        deleteMsg: 'ronin.model.topic.delete',
                         editRoute: 'rt.setup.topic.edit',
                         navs: {
                             header: {
@@ -328,7 +323,6 @@ export const gtd = {
                         route: 'rt.setup.delegates',
                         template: 'setupWindow',
                         gridComponent: 'delegates_grid',
-                        deleteMsg: 'ronin.model.delegate.delete',
                         navs: {
                             header: {
                                 display: true
