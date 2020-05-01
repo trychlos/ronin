@@ -223,20 +223,21 @@ Articles.fn.check = function( o, types ){
 
     // plus item dependancies
     switch( o.type ){
-        case 'T':
-            break;
-        case 'A':
+        case R_OBJ_ACTION:
             csfns.check_status( o );
             // if parent set, must be an existing project
             // if context set, must be referenced in contexts collection
             break;
-        case 'M':
+        case R_OBJ_MAYBE:
             break;
-        case 'P':
+        case R_OBJ_PROJECT:
             // if parent set, must be an existing project
             // if parent set, the parent hierarchy must not loop and only contain projects
             break;
+        case R_OBJ_THOUGHT:
+            break;
     }
+
     Articles.schema.validate( o );
 };
 
@@ -256,7 +257,7 @@ Articles.fn.equal = function( a, b ){
         csfns.equalStrs( a.topic, b.topic );
     if( ret ){
         switch( a.type ){
-            case 'A':
+            case R_OBJ_ACTION:
                 ret = csfns.equalStrs( a.notes, b.notes ) &&
                         csfns.equalDates( a.startDate, b.startDate ) &&
                         csfns.equalDates( a.dueDate, b.dueDate ) &&
@@ -265,9 +266,9 @@ Articles.fn.equal = function( a, b ){
                         csfns.equalStrs( a.status, b.status ) &&
                         csfns.equalStrs( a.outcome, b.outcome );
                 break;
-            case 'M':
+            case R_OBJ_MAYBE:
                 break;
-            case 'P':
+            case R_OBJ_PROJECT:
                 ret = csfns.equalStrs( a.notes, b.notes ) &&
                         csfns.equalDates( a.startDate, b.startDate ) &&
                         csfns.equalDates( a.dueDate, b.dueDate ) &&

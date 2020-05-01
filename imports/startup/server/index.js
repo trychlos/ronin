@@ -4,6 +4,7 @@
 
 import './collections.js';
 import './check.js';
+import './misc.js';
 
 console.log( 'startup/server: Meteor.settings' );
 console.log( Meteor.settings );

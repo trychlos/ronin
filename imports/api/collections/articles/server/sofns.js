@@ -17,49 +17,39 @@ Articles.sofns = {
      *  have already been caught by check() function above).
      */
     cleanup( o ){
-        const _set = ( dest, src, name ) => {
-            if( src[name] && src[name] !== 'none' ){
-                dest.set[name] = src[name];
-            } else {
-                dest.unset[name] = '';
-            }
-        };
         let ret = { set:{ type: o.type }, unset:{}};
-        _set( ret, o, 'name' );
-        _set( ret, o, 'topic' );
-        _set( ret, o, 'description' );
-        _set( ret, o, 'userId' );
+        soSet( ret, o, 'name' );
+        soSet( ret, o, 'topic' );
+        soSet( ret, o, 'description' );
+        soSet( ret, o, 'userId' );
         switch( o.type ){
-            case 'A':
-                _set( ret, o, 'notes' );
-                _set( ret, o, 'startDate' );
-                _set( ret, o, 'dueDate' );
-                _set( ret, o, 'doneDate' );
-                _set( ret, o, 'parent' );
-                _set( ret, o, 'status' );
-                _set( ret, o, 'last_status' );
-                _set( ret, o, 'context' );
-                _set( ret, o, 'outcome' );
+            case R_OBJ_ACTION:
+                soSet( ret, o, 'notes' );
+                soSet( ret, o, 'startDate' );
+                soSet( ret, o, 'dueDate' );
+                soSet( ret, o, 'doneDate' );
+                soSet( ret, o, 'parent' );
+                soSet( ret, o, 'status' );
+                soSet( ret, o, 'last_status' );
+                soSet( ret, o, 'context' );
+                soSet( ret, o, 'outcome' );
                 break;
-            case 'M':
+            case R_OBJ_MAYBE:
                 break;
-            case 'P':
-                _set( ret, o, 'notes' );
-                _set( ret, o, 'startDate' );
-                _set( ret, o, 'dueDate' );
-                _set( ret, o, 'doneDate' );
-                _set( ret, o, 'parent' );
-                _set( ret, o, 'future' );
-                _set( ret, o, 'vision' );
-                _set( ret, o, 'brainstorm' );
+            case R_OBJ_PROJECT:
+                soSet( ret, o, 'notes' );
+                soSet( ret, o, 'startDate' );
+                soSet( ret, o, 'dueDate' );
+                soSet( ret, o, 'doneDate' );
+                soSet( ret, o, 'parent' );
+                soSet( ret, o, 'future' );
+                soSet( ret, o, 'vision' );
+                soSet( ret, o, 'brainstorm' );
                 break;
-            case 'T':
+            case R_OBJ_THOUGHT:
                 break;
         }
-        // makes sure neither set nor unset are empty
-        if( !ret.set.length ){
-            ret.set['name'] = o.name;
-        }
+        // makes sure unset is not empty
         if( !ret.unset.length ){
             ret.unset['xxxxxx'] = '';
         }
