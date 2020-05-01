@@ -54,36 +54,43 @@ Template.setup_tabs.onCreated( function(){
             'gtd-setup-contexts': {
                 handle: this.subscribe( 'contexts.all' ),
                 cursorFn: function(){ return Contexts.find(); },
+                grid: 'contexts_grid',
                 action: Contexts.newAction
             },
             'gtd-setup-delegates': {
                 handle: this.subscribe( 'delegates.all' ),
                 cursorFn: function(){ return Delegates.find(); },
+                grid: 'delegates_grid',
                 action: null
             },
             'gtd-setup-energy': {
                 handle: this.subscribe( 'energy_values.all' ),
                 cursorFn: function(){ return EnergyValues.find(); },
+                grid: 'energy_values_grid',
                 action: EnergyValues.newAction
             },
             'gtd-setup-priority': {
                 handle: this.subscribe( 'priority_values.all' ),
                 cursorFn: function(){ return PriorityValues.find(); },
+                grid: 'priority_values_grid',
                 action: PriorityValues.newAction
             },
             'gtd-setup-refs': {
                 handle: this.subscribe( 'references.all' ),
                 cursorFn: function(){ return References.find(); },
+                grid: 'references_grid',
                 action: null
             },
             'gtd-setup-time': {
                 handle: this.subscribe( 'time_values.all' ),
                 cursorFn: function(){ return TimeValues.find(); },
+                grid: 'time_values_grid',
                 action: TimeValues.newAction
             },
             'gtd-setup-topics': {
                 handle: this.subscribe( 'topics.all' ),
                 cursorFn: function(){ return Topics.find(); },
+                grid: 'topics_grid',
                 action: Topics.newAction
             }
         }
@@ -136,6 +143,10 @@ Template.setup_tabs.helpers({
             gtd: it,
             items: instance.ronin.tabs[it.id].cursorFn()
         };
+    },
+    gridComponent( it ){
+        const self = Template.instance();
+        return self.ronin.tabs[it.id].grid;
     },
     gtdItems(){
         const self = Template.instance();

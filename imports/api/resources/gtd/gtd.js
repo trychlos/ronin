@@ -102,7 +102,6 @@ export const gtd = {
                         label: 'Setup contexts',
                         route: 'rt.setup.contexts',
                         template: 'setupWindow',
-                        gridComponent: 'contexts_grid',
                         editRoute: 'rt.setup.context.edit',
                         navs: {
                             header: {
@@ -143,7 +142,6 @@ export const gtd = {
                         label: 'Setup time values',
                         route: 'rt.setup.time',
                         template: 'setupWindow',
-                        gridComponent: 'time_values_grid',
                         editRoute: 'rt.setup.time.edit',
                         navs: {
                             header: {
@@ -181,7 +179,6 @@ export const gtd = {
                         label: 'Setup energy values',
                         route: 'rt.setup.energy',
                         template: 'setupWindow',
-                        gridComponent: 'energy_values_grid',
                         editRoute: 'rt.setup.energy.edit',
                         navs: {
                             header: {
@@ -219,7 +216,6 @@ export const gtd = {
                         label: 'Setup priority values',
                         route: 'rt.setup.priority',
                         template: 'setupWindow',
-                        gridComponent: 'priority_values_grid',
                         editRoute: 'rt.setup.priority.edit',
                         navs: {
                             header: {
@@ -257,7 +253,6 @@ export const gtd = {
                         label: 'Setup topics',
                         route: 'rt.setup.topics',
                         template: 'setupWindow',
-                        gridComponent: 'topics_grid',
                         editRoute: 'rt.setup.topic.edit',
                         navs: {
                             header: {
@@ -298,7 +293,6 @@ export const gtd = {
                         label: 'Setup reference items',
                         route: 'rt.setup.ref',
                         template: 'setupWindow',
-                        gridComponent: 'references_grid',
                         navs: {
                             header: {
                                 display: true
@@ -322,7 +316,6 @@ export const gtd = {
                         label: 'Setup delegates',
                         route: 'rt.setup.delegates',
                         template: 'setupWindow',
-                        gridComponent: 'delegates_grid',
                         navs: {
                             header: {
                                 display: true

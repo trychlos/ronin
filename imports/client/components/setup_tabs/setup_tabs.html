@@ -13,8 +13,8 @@
             {{#each it in gtdItems}}
                 <div role="tabpanel" class="tab-pane fade" id="{{it.id}}">
                     {{#if tabularIsPreferred}}
-                        {{#if it.gridComponent }}
-                            {{> Template.dynamic template=it.gridComponent data=(dataTab it)}}
+                        {{#if gridComponent it}}
+                            {{> Template.dynamic template=(gridComponent it) data=(dataTab it)}}
                         {{/if}}
                     {{else}}
                         {{#each art in (tabItems it)}}
