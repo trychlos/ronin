@@ -14,7 +14,7 @@ const _ex_private = new WeakMap();
 
 Ronin.ActionEx = function( o ){
     if( !o.type || !o.action ){
-        throw new Meteor.Error( 'invalid-arguments','Invalid arguments: o.type or o.action missing' );
+        throw new Meteor.Error( 'type_action_missing','Invalid arguments: o.type or o.action missing' );
     }
     //console.log( 'ActionEx._ctor() '+o.type+' '+o.action );
     Ronin.Action.call( this );

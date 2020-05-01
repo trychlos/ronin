@@ -41,7 +41,7 @@ Ronin.prefs.listsPref = ( name, format ) => {
         };
     }
     if( !_names.includes( name )){
-        throw 'Unkown name: '+name+', allowed values are ['+_names.join( ',' )+']';
+        throw new Meteor.Error( 'name.invalid', 'Unkown name: '+name+', allowed values are ['+_names.join( ',' )+']' );
     }
     if( format && _formats.includes( format )){
         Ronin.prefs.local.lists[name] = format;

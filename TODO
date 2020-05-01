@@ -100,8 +100,6 @@
 
   257 2020- 4-13 remove activability code from gtd
 
-  259 2020- 4-13 packages should throw Meteor.Error instead of standard js exceptions
-
   265 2020- 4-20 under https, size and position of windows are no more kept
 
   267 2020- 4-27 the Projects Dump button should only be available in dev. mode
@@ -962,6 +960,9 @@
 
   258 2020- 4-13 ActionEx is not reactive to signin/signoff
       2020- 4-27 fixed
+
+  259 2020- 4-13 packages should throw Meteor.Error instead of standard js exceptions
+      2020- 5- 1 done -> ronin-core v1.6.1, ronin-ui-prefs v1.0.3
 
   260 2020- 4-13 edit_button should take advantage of Action (needs a path)
       2020- 4-28 edit_button takes an action as single parameter

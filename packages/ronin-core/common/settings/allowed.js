@@ -105,7 +105,7 @@ Meteor.settings.isAllowed = ( objType, action ) => {
         return true;
     }
     if( !Ronin.managedTypes[objType] ){
-        throw "Unknown type: '"+objType+"', allowed values are ["+Object.keys( Ronin.managedTypes ).join( ',' )+"]";
+        throw new Meteor.Error( 'type.invalid', "Unknown type: '"+objType+"', allowed values are ["+Object.keys( Ronin.managedTypes ).join( ',' )+"]" );
     }
     const o = Ronin.managedTypes[objType];
     const key = 'allow.'+action+'.'+o.label.toLowerCase();

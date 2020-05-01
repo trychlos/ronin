@@ -15,7 +15,7 @@
  */
 Package.describe({
     name: 'pwi:ronin-ui-prefs',
-    version: '1.0.2',
+    version: '1.0.3',
     summary: 'User prefences management',
     git: '',
     documentation: 'README.md'
