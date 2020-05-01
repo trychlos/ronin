@@ -112,13 +112,14 @@
 
   269 2020- 4-29 sofns.cleanup: ret.set.length is always at least 1 (contains o.type)
 
-  270 2020- 4-29 all methods: check that o.type is one of R_OBJ_xxx managed types
-
   272 2020- 4-30 maybe button should take advantage of ActionEx
 
   273 2020- 4-30 ownership button should take advantage of ActionEx
 
-  274
+  274 2020- 5- 1 taking ownership (or not) of an un-owned object should be an admin option
+                 (as a matter of fact, not sure today if this is really a good idea)
+
+  275
 
 ==============================================================================
  Done
@@ -985,6 +986,9 @@
   264 2020- 4-13 on signoff TypeError: Meteor.user(...) is undefined meteor.js:1059:23
 	             module/<@http://localhost:3000/packages/pwi_ronin-ui-prefs.js
       2020- 4-27 fixed
+
+  270 2020- 4-29 all methods: check that o.type is one of R_OBJ_xxx managed types
+      2020- 5- 1 done
 
   271 2020- 4-30 in layout page, the counter is not displayed if zero (eg. delegates, refs)
       2020- 5- 1 fixed

@@ -35,7 +35,7 @@ Meteor.methods({
     // insert a new action
     //  the new action is owned by the currently logged-in user
     'actions.insert'( o ){
-        Articles.fn.check( o );
+        Articles.fn.check( o, [ R_OBJ_ACTION ]);
         csfns.takeOwnership( o );
         Articles.sofns.doneConsistent( o );
         const item = Articles.sofns.cleanup( o );
@@ -54,7 +54,7 @@ Meteor.methods({
     //  update does not mean taking ownership
     'actions.update'( o ){
         //console.log( o );
-        Articles.fn.check( o );
+        Articles.fn.check( o, [ R_OBJ_ACTION ]);
         csfns.takeOwnership( o );
         Articles.sofns.doneConsistent( o );
         const item = Articles.sofns.cleanup( o );
@@ -87,7 +87,7 @@ Meteor.methods({
     // insert a new project
     //  the new project is owned by the currently logged-in user
     'projects.insert'( o ){
-        Articles.fn.check( o );
+        Articles.fn.check( o, [ R_OBJ_PROJECT ]);
         csfns.takeOwnership( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.insert( item.set );
@@ -103,7 +103,7 @@ Meteor.methods({
     // update an existing project
     //  update does not mean taking ownership
     'projects.update'( o ){
-        Articles.fn.check( o );
+        Articles.fn.check( o, [ R_OBJ_PROJECT ]);
         csfns.takeOwnership( o );
         const item = Articles.sofns.cleanup( o );
         //console.log( item );
@@ -120,7 +120,7 @@ Meteor.methods({
     // insert returns the newly insert '_id' or throws an exception
     //  the new thought is owned by the currently logged-in user
     'thoughts.insert'( o ){
-        Articles.fn.check( o );
+        Articles.fn.check( o, [ R_OBJ_THOUGHT ]);
         csfns.takeOwnership( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.insert( item.set );
@@ -135,7 +135,7 @@ Meteor.methods({
 
     // update returns true or throws an exception
     'thoughts.update'( id, o ){
-        Articles.fn.check( o );
+        Articles.fn.check( o, [ R_OBJ_THOUGHT ]);
         csfns.takeOwnership( o );
         const item = Articles.sofns.cleanup( o );
         const ret = Articles.update( id, { $set:item.set, $unset:item.unset });

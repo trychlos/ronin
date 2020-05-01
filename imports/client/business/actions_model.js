@@ -12,7 +12,7 @@ import { csfns } from '/imports/startup/both/collections-csfns.js';
 // toggle the 'done' status of the provided action
 $.pubsub.subscribe( 'ronin.model.action.done.toggle', ( msg, o ) => {
     try {
-        Articles.fn.check( o.action );
+        Articles.fn.check( o.action, [ R_OBJ_ACTION ]);
         csfns.takeOwnership( o.action );
     } catch( e ){
         console.log( e );

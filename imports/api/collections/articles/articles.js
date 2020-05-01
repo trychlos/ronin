@@ -214,9 +214,9 @@ Articles.fn.actionDoneSet = function( o ){
  *  Doesn't modify the provided object.
  *  Doesn't return any value, but throws a Meteor.Error if needed.
  */
-Articles.fn.check = function( o ){
+Articles.fn.check = function( o, types ){
     csfns.check_object( o );
-    Articles.fn.check_type( o );
+    csfns.check_type( o, types );
     csfns.check_editable( o );
     csfns.check_name( o );
     csfns.check_topic( o );
@@ -238,16 +238,6 @@ Articles.fn.check = function( o ){
             break;
     }
     Articles.schema.validate( o );
-};
-
-// type must be known
-Articles.fn.check_type = function( o ){
-    if( !Articles.fn.types.includes( o.type )){
-        throw new Meteor.Error(
-            'type.invalid',
-            'Type is not valid, found "'+o.type+'", allowed values: ['+Articles.fn.types.join( ',' )+']'
-        );
-    }
 };
 
 /* Test if two objects are equals

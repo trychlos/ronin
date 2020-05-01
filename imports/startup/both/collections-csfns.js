@@ -39,7 +39,7 @@ export const csfns = {
     check_object: function( o ){
         if( !o ){
             throw new Meteor.Error(
-                'undefined',
+                'o.undefined',
                 'Object is not defined'
             );
         }
@@ -48,7 +48,7 @@ export const csfns = {
     check_status: function( o ){
         if( !ActionStatus.isValid( o.status )){
             throw new Meteor.Error(
-                'invalid',
+                'status.invalid',
                 'Status is not valid, found "'+o.status+'", allowed values are ['+ActionStatus.getValid().join( ',' )+']'
             );
         }
@@ -58,6 +58,26 @@ export const csfns = {
     //      as this depends of the active subscriptions
     check_topic: function( o ){
         if( o.topic ){
+        }
+    },
+    // type must be the one (or the ones) specified
+    //  arg may be a single type string, or an array of type strings
+    check_type: function( o, arg ){
+        if( !o.type ){
+            throw new Meteor.Error(
+                'type.undefined',
+                'Type is not set'
+            );
+        }
+        let array = arg;
+        if( typeof arg === 'string' ){
+            array = [arg];
+        }
+        if( !array.includes( o.type )){
+            throw new Meteor.Error(
+                'type.invalid',
+                'Type is not valid, found "'+o.type+'", allowed values are ['+array.join( ',' )+']'
+            );
         }
     },
 
