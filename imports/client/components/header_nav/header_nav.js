@@ -112,8 +112,12 @@ Template.header_nav.helpers({
     // template helper
     //  only used in pageLayout
     badgeText( badge ){
-        const hash = Session.get( 'header.badges' ) || {};
-        return hash[badge].toString();
+        const hash = Session.get( 'header.badges' );
+        let text = '';
+        if( typeof hash === 'object' && Object.keys( hash ).includes( badge )){
+            text = hash[badge].toString();
+        }
+        return text;
     },
     hasBadges(){
         //console.log( Template.instance().ronin.dict.get( 'badges' ));
