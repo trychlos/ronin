@@ -102,7 +102,6 @@ export const gtd = {
                         label: 'Setup contexts',
                         route: 'rt.setup.contexts',
                         template: 'setupWindow',
-                        newId: 'gtd-setup-context-new',
                         gridComponent: 'contexts_grid',
                         deleteMsg: 'ronin.model.context.delete',
                         editRoute: 'rt.setup.context.edit',
@@ -145,7 +144,6 @@ export const gtd = {
                         label: 'Setup time values',
                         route: 'rt.setup.time',
                         template: 'setupWindow',
-                        newId: 'gtd-setup-time-new',
                         gridComponent: 'time_values_grid',
                         deleteMsg: 'ronin.model.time_value.delete',
                         editRoute: 'rt.setup.time.edit',
@@ -185,7 +183,6 @@ export const gtd = {
                         label: 'Setup energy values',
                         route: 'rt.setup.energy',
                         template: 'setupWindow',
-                        newId: 'gtd-setup-energy-new',
                         gridComponent: 'energy_values_grid',
                         deleteMsg: 'ronin.model.energy_value.delete',
                         editRoute: 'rt.setup.energy.edit',
@@ -225,7 +222,6 @@ export const gtd = {
                         label: 'Setup priority values',
                         route: 'rt.setup.priority',
                         template: 'setupWindow',
-                        newId: 'gtd-setup-priority-new',
                         gridComponent: 'priority_values_grid',
                         deleteMsg: 'ronin.model.priority_value.delete',
                         editRoute: 'rt.setup.priority.edit',
@@ -265,7 +261,6 @@ export const gtd = {
                         label: 'Setup topics',
                         route: 'rt.setup.topics',
                         template: 'setupWindow',
-                        newId: 'gtd-setup-topic-new',
                         gridComponent: 'topics_grid',
                         deleteMsg: 'ronin.model.topic.delete',
                         editRoute: 'rt.setup.topic.edit',
@@ -978,14 +973,6 @@ export const gtd = {
     },
     labelItem: function( name, item ){
         return gtd._search( name, item, 'label', true );
-    },
-    // returns the value of the 'newId' key
-    //  identifies 'new' GTD item for a setup element
-    newId( id ){
-        return gtd.newItem( gtd._byId( id ));
-    },
-    newItem( item ){
-        return gtd._search( null, item, 'newId', true );
     },
     // when a tabbed page associates a different panel for each tab, says here
     //  which panel go where
