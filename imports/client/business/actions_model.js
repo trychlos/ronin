@@ -43,7 +43,7 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
     o.edit._id = o.orig ? o.orig._id : null;
     o.edit.userId = o.orig ? o.orig.userId : null;
     try {
-        Articles.fn.check( o.edit );
+        Articles.fn.check( o.edit, [ R_OBJ_ACTION ]);
         csfns.takeOwnership( o.edit );
     } catch( e ){
         console.log( e );

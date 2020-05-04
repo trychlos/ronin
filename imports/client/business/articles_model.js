@@ -57,7 +57,7 @@ $.pubsub.subscribe( 'ronin.model.item.delete', ( msg, o ) => {
 // take ownership of the item
 $.pubsub.subscribe( 'ronin.model.article.ownership', ( msg, o ) => {
     try {
-        Articles.fn.check( o );
+        Articles.fn.check( o, Articles.fn.types );
         csfns.takeOwnership( o );
     } catch( e ){
         console.log( e );
@@ -78,7 +78,7 @@ $.pubsub.subscribe( 'ronin.model.article.ownership', ( msg, o ) => {
 // reparent the item
 $.pubsub.subscribe( 'ronin.model.article.reparent', ( msg, o ) => {
     try {
-        Articles.fn.check( o.item );
+        Articles.fn.check( o.item, Articles.fn.types );
         csfns.takeOwnership( o.item );
     } catch( e ){
         console.log( e );
