@@ -35,6 +35,7 @@ Articles.sofns = {
                 soSet( ret, o, 'outcome' );
                 break;
             case R_OBJ_MAYBE:
+                soSet( ret, o, 'tickleDate' );
                 break;
             case R_OBJ_PROJECT:
                 soSet( ret, o, 'notes' );

@@ -8,6 +8,17 @@
  *  - maybe
  *  into a single collection for MongoDB efficiency reasons.
  *
+ *  Allowed transformations:
+ *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
+ *  |                 | To: thought           | To: action            | to: project           | To: maybe             |
+ *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
+ *  | From: thought   |          n/a          |          Yes          |          Yes          |          Yes          |
+ *  | From: action    |          No           |          n/a          |          Yes          |          No           |
+ *  | From: project   |          No           |          No           |          n/a          |          No           |
+ *  | From: maybe     |          No           |          Yes          |          Yes          |          n/a          |
+ *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
+ *
+ *  Data structure:
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
  *  |                 | thought               | action                | project               | maybe                 |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
@@ -64,6 +75,9 @@
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
  *  | purpose         |                       |                       | opt                   |                       |
  *  |                 |                       |                       | no default            |                       |
+ *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
+ *  | tickleDate      |                       |                       |                       | opt                   |
+ *  |                 |                       |                       |                       | no default            |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
  *
  *  1. last_status of the action before done
@@ -164,7 +178,13 @@ Articles.schema = new SimpleSchema({
         type: String,
         optional: true
     },
-    _id: {
+    /* maybe-specific
+     */
+    tickleDate: {
+        type: Date,
+        optional: true
+    },
+    _id: {      // Mongo identifier
         type: String,
         optional: true
     },
@@ -274,6 +294,7 @@ Articles.fn.equal = function( a, b ){
                         csfns.equalStrs( a.outcome, b.outcome );
                 break;
             case R_OBJ_MAYBE:
+                ret = csfns.equalDates( a.tickleDate, b.tickleDate );
                 break;
             case R_OBJ_PROJECT:
                 ret = csfns.equalStrs( a.notes, b.notes ) &&

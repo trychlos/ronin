@@ -109,7 +109,10 @@
   274 2020- 5- 1 taking ownership (or not) of an un-owned object should be an admin option
                  (as a matter of fact, not sure today if this is really a good idea)
 
-  276
+  276 2020- 5- 4 project window: refreshing after item deletion redisplays done actions
+                 even if display done is false
+
+  277
 
 ==============================================================================
  Done
