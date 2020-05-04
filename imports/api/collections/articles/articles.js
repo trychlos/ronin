@@ -62,6 +62,9 @@
  *  | brainstorm      |                       |                       | opt                   |                       |
  *  |                 |                       |                       | no default            |                       |
  *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
+ *  | purpose         |                       |                       | opt                   |                       |
+ *  |                 |                       |                       | no default            |                       |
+ *  +-----------------+-----------------------+-----------------------+-----------------------+-----------------------+
  *
  *  1. last_status of the action before done
  *      defaulting to inactive.
@@ -154,6 +157,10 @@ Articles.schema = new SimpleSchema({
         optional: true
     },
     brainstorm: {
+        type: String,
+        optional: true
+    },
+    purpose: {
         type: String,
         optional: true
     },
@@ -276,7 +283,8 @@ Articles.fn.equal = function( a, b ){
                         csfns.equalStrs( a.parent, b.parent ) &&
                         csfns.equalStrs( a.future, b.future ) &&
                         csfns.equalStrs( a.vision, b.vision ) &&
-                        csfns.equalStrs( a.brainstorm, b.brainstorm );
+                        csfns.equalStrs( a.brainstorm, b.brainstorm ) &&
+                        csfns.equalStrs( a.purpose, b.purpose );
                 break;
             case R_OBJ_THOUGHT:
                 break;

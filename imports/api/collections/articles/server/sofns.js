@@ -45,6 +45,7 @@ Articles.sofns = {
                 soSet( ret, o, 'future' );
                 soSet( ret, o, 'vision' );
                 soSet( ret, o, 'brainstorm' );
+                soSet( ret, o, 'purpose' );
                 break;
             case R_OBJ_THOUGHT:
                 break;
