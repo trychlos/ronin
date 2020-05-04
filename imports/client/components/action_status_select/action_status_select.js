@@ -20,7 +20,7 @@ Template.action_status_select.fn = {
     },
     // reset the default value
     selectDefault: function( $parent ){
-        Template.action_status_select.fn.setSelected( $parent, actionStatus.getDefault());
+        Template.action_status_select.fn.setSelected( $parent, ActionStatus.getDefault());
     },
 };
 
