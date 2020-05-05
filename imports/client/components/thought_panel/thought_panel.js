@@ -24,7 +24,7 @@ Template.thought_panel.fn = {
         let o =  null;
         if( $dom ){
             o = {
-                type: 'T',
+                type: R_OBJ_THOUGHT,
                 name: $( $dom.find( '.js-name' )[0] ).val(),
                 description: $( $dom.find( '.js-description' )[0] ).val(),
                 topic: Template.topics_select.fn.getSelected( $dom )

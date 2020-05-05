@@ -26,7 +26,7 @@ Template.project_panel.fn = {
         let o =null;
         if( $dom ){
             o = {
-                type: 'P',
+                type: R_OBJ_PROJECT,
                 name: $( $dom.find( '.js-name' )[0] ).val(),
                 topic: Template.topics_select.fn.getSelected( $dom ),
                 purpose: $( $dom.find( '.js-purpose' )[0] ).val(),

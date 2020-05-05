@@ -65,7 +65,7 @@ $.pubsub.subscribe( 'ronin.model.action.update', ( msg, o ) => {
                     o.cb( o.data, { status: DBOPE_ERROR });
                 }
             } else {
-                if( o.orig.type === 'T' ){
+                if( o.orig.type === R_OBJ_THOUGHT ){
                     messageSuccess( 'Thought successfully transformed' );
                     $.pubsub.publish( 'ronin.ui.item.transformed', o.orig );
                 } else {

@@ -42,10 +42,10 @@ Template.projects_tree.fn = {
         const menu_nodeEdit = function( $tree, node ){
             if( !fn.node_isRoot( node )){
                 switch( node.obj.type ){
-                    case 'A':
+                    case R_OBJ_ACTION:
                         FlowRouter.go( 'rt.actions.edit', null, { id:node.obj._id });
                         break;
-                    case 'P':
+                    case R_OBJ_PROJECT:
                         FlowRouter.go( 'rt.projects.edit', null, { id:node.obj._id });
                         break;
                 }
@@ -125,7 +125,7 @@ Template.projects_tree.fn = {
             classe += byType[node.obj.type];
             // by status (actions only at initialization, propagated to projects)
             let byStatus = 'status-normal';
-            if( node.obj.type === 'A' ){
+            if( node.obj.type === R_OBJ_ACTION ){
                 if( ActionStatus.isDone( node.obj.status )){
                     byStatus = 'status-done';
                 } else if( ActionStatus.isActionable( node.obj.status )){
@@ -144,10 +144,10 @@ Template.projects_tree.fn = {
         let icon = 'fa-spinner';
         if( node && node.obj ){
             switch( node.obj.type ){
-                case 'A':
+                case R_OBJ_ACTION:
                     icon = 'fa-file-alt';
                     break;
-                case 'P':
+                case R_OBJ_PROJECT:
                     icon = 'fa-folder-open';
                     break;
                 case 'R':
@@ -181,7 +181,7 @@ Template.projects_tree.fn = {
                 _setRec( node.parent );
             }
         };
-        if( node.obj.type !== 'A' ){
+        if( node.obj.type !== R_OBJ_ACTION ){
             console.log( 'node_setActivable() called for type='+node.obj.type );
         } else {
             const status = node.obj.status;
@@ -355,7 +355,7 @@ Template.projects_tree.fn = {
                 activableCount: 0
             }
             let added = null;
-            const p = it.parent ? Articles.findOne({ _id:it.parent, type:'P' }) : null;
+            const p = it.parent ? Articles.findOne({ _id:it.parent, type:R_OBJ_PROJECT }) : null;
             // on projects tab, attach to each project their relative actions
             if( tab === 'gtd-review-projects-current' ){
                 if( p && !p.future ){
@@ -430,7 +430,7 @@ Template.projects_tree.fn = {
         //  note that the project's attributes must be revalidated regarding to the
         //  current tab as they may have been modified since last save
         const _addRec = function( it, prefix ){
-            if( it.id !== 'root' && it.type === 'P' ){
+            if( it.id !== 'root' && it.type === R_OBJ_PROJECT ){
                 _addNode( Articles.findOne({ _id:it.id }), prefix );
             }
             if( it.children ){
@@ -563,7 +563,7 @@ Template.projects_tree.onRendered( function(){
                 if( self.ronin.handles.projects.ready()){
                     const ordering = self.ronin.dict.get( 'order' ); // may be empty
                     const future = ( self.ronin.tab === 'gtd-review-projects-future' );
-                    let filter = { type:'P' };
+                    let filter = { type:R_OBJ_PROJECT };
                     filter.future = future ? true : { $ne: true };
                     const projects = Articles.find( filter ).fetch();
                     fn.inst_Projects( self, ordering, future, projects );
@@ -582,7 +582,7 @@ Template.projects_tree.onRendered( function(){
         const step = self.ronin.dict.get( 'step' );
         if( step >= fn.steps.PROJECTS_SHOWN && step < fn.steps.ACTIONS_SHOWN && self.ronin.handles.actions.ready()){
             const ordering = self.ronin.dict.get( 'order' ); // may be empty
-            const actions = Articles.find({ type:'A' }).fetch();
+            const actions = Articles.find({ type:R_OBJ_ACTION }).fetch();
             fn.inst_Actions( self, ordering, actions );
             fn.inst_CountersUpdate( self );
             self.ronin.dict.set( 'step', fn.steps.ACTIONS_SHOWN );
@@ -663,7 +663,7 @@ Template.projects_tree.events({
             return false;
         }
         const target_type = ev.move_info.target_node.obj.type;
-        if( target_type !== 'P' && target_type !== 'R' ){
+        if( target_type !== R_OBJ_PROJECT && target_type !== 'R' ){
             messageError({ message: 'Refusing to drop elsewhere than the root or a project' });
             return false;
         }

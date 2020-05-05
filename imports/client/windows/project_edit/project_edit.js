@@ -42,7 +42,7 @@ Template.projectEdit.fn = {
     },
     // convert from action
     convertFromAction: function( item ){
-        if( item.type === 'A' ){
+        if( item.type === R_OBJ_ACTION ){
             if( item.notes ){
                 item.notes += '\n';
             } else {
@@ -84,7 +84,7 @@ Template.projectEdit.fn = {
         return Template.projectEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
-        return it ? ( it.type === 'T' || it.type === 'A' ? 'Transform' : 'Update' ) : 'Create';
+        return it ? ( it.type === R_OBJ_THOUGHT || it.type === R_OBJ_ACTION ? 'Transform' : 'Update' ) : 'Create';
     },
     // this function is to be called after model update, with a three states qualifier
     updateCb: function( instance, o ){
@@ -137,7 +137,7 @@ Template.projectEdit.onRendered( function(){
             if( id ){
                 const item = Articles.findOne({ _id:id });
                 if( item ){
-                    if( item.type === 'A' ){
+                    if( item.type === R_OBJ_ACTION ){
                         fn.convertFromAction( item );
                     }
                     self.ronin.dict.set( 'item', item );
@@ -202,8 +202,8 @@ Template.projectEdit.helpers({
         const self = Template.instance();
         const item = self.ronin.dict.get( 'item' );
         const title = item ?
-            ( item.type === 'T' ? 'Transform to project' :
-            ( item.type === 'A' ? 'Transform to project' : 'Edit project' )) : 'New project';
+            ( item.type === R_OBJ_THOUGHT ? 'Transform to project' :
+            ( item.type === R_OBJ_ACTION ? 'Transform to project' : 'Edit project' )) : 'New project';
         Session.set( 'header.title', title );
         return title;
     }

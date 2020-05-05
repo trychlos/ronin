@@ -21,7 +21,7 @@ Template.action_panel.fn = {
         let o = null;
         if( $dom ){
             o = {
-                type: 'A',
+                type: R_OBJ_ACTION,
                 name: $( $dom.find( '.js-name' )[0] ).val(),
                 topic: Template.topics_select.fn.getSelected( $dom ),
                 outcome: $( $dom.find( '.js-outcome' )[0] ).val(),

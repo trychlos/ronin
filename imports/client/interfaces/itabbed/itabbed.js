@@ -173,7 +173,7 @@ import '/imports/client/interfaces/iwindowed/iwindowed.js';
             bootstrapVersion: 4,
             tabClickHandler: function( ev ){
                 let $li = $( this );
-                if( this.nodeName === 'A' ){
+                if( this.nodeName === R_OBJ_ACTION ){
                     $li = $( this ).parent( 'li' );
                 }
                 const name = $li.attr( 'data-ronin-itabbed-id' );

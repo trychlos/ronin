@@ -38,6 +38,6 @@ Template.projects_select.helpers({
         return value;
     },
     projects(){
-        return Articles.find({ type:'P' }, { sort:{ select_order:1, name:1 }});
+        return Articles.find({ type:R_OBJ_PROJECT }, { sort:{ select_order:1, name:1 }});
     }
 });

@@ -127,7 +127,7 @@ Template.thoughtsList.onRendered( function(){
     // count the thoughts
     this.autorun(() => {
         if( self.ronin.handles.thoughts.ready()){
-            self.ronin.dict.set( 'count', Articles.find({ type:'T' }).count());
+            self.ronin.dict.set( 'count', Articles.find({ type:R_OBJ_THOUGHT }).count());
         }
     });
 
@@ -171,20 +171,7 @@ Template.thoughtsList.helpers({
         return Template.instance().ronin.dict.get( 'count' );
     },
     thoughts(){
-        return Articles.find({ type:'T' }, { sort:{ createdAt: -1 }});
-    }
-});
-
-Template.thoughtsList.events({
-    'click .js-new'( ev, instance ){
-        console.log( 'click .js-new' );
-        /*
-        const action = Template.plus_button.fn.action( instance.data );
-        if( action ){
-            action.activate();
-            return false;
-        }
-        */
+        return Articles.find({ type:R_OBJ_THOUGHT }, { sort:{ createdAt: -1 }});
     }
 });
 

@@ -59,7 +59,7 @@ Template.actionEdit.fn = {
         return Template.actionEdit.fn.okLabelItem( item );
     },
     okLabelItem: function( it ){
-        return it ? ( it.type === 'T' ? 'Transform' : 'Update' ) : 'Create';
+        return it ? ( it.type === R_OBJ_THOUGHT ? 'Transform' : 'Update' ) : 'Create';
     },
     // this function is to be called after model update, with a three states qualifier
     updateCb: function( instance, o ){
@@ -174,7 +174,7 @@ Template.actionEdit.helpers({
     title(){
         const self = Template.instance();
         const item = self.ronin.dict.get( 'item' );
-        const title = item ? ( item.type === 'T' ? 'Transform to action' : 'Edit action' ) : 'New action';
+        const title = item ? ( item.type === R_OBJ_THOUGHT ? 'Transform to action' : 'Edit action' ) : 'New action';
         Session.set( 'header.title', title );
         return title;
     }

@@ -61,7 +61,7 @@ Template.actions_tabs.onRendered( function(){
         self.ronin.items.forEach( it => {
             if( self.ronin.handles[it.id].h.ready()){
                 const status = self.ronin.handles[it.id].status;
-                const count = Articles.find({ type:'A', status:status }).count();
+                const count = Articles.find({ type:R_OBJ_ACTION, status:status }).count();
                 const prev = self.ronin.dict.get( 'count_'+it.id );
                 if( count !== prev ){
                     $( '.actions-tabs' ).trigger( 'actions-tabs-ready', {
@@ -79,7 +79,7 @@ Template.actions_tabs.onRendered( function(){
 Template.actions_tabs.helpers({
     actions( it ){
         const self = Template.instance();
-        return Articles.find({ type:'A', status:self.ronin.handles[it.id].status });
+        return Articles.find({ type:R_OBJ_ACTION, status:self.ronin.handles[it.id].status });
     },
     gtdItems(){
         const self = Template.instance();

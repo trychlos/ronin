@@ -24,16 +24,16 @@ $.pubsub.subscribe( 'ronin.model.item.delete', ( msg, o ) => {
     }
     let label = 'item';
     switch( o.type ){
-        case 'A':
+        case R_OBJ_ACTION:
             label = 'action';
             break;
         case 'M':
             label = 'maybe';
             break;
-        case 'P':
+        case R_OBJ_PROJECT:
             label = 'project';
             break;
-        case 'T':
+        case R_OBJ_THOUGHT:
             label = 'thought';
             break;
     }
