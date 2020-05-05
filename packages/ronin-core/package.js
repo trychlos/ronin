@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwi:ronin-core',
-    version: '1.6.1',
+    version: '1.6.2',
     summary: 'Core common package for Ronin application',
     git: '',
     documentation: 'README.md'

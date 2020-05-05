@@ -1,11 +1,15 @@
 /*
- * ronin-core-ui package
+ * ronin-core package
  *  ActionEx class
  *   Extends Action function class.
  *
  *  Inheriting from Action class, this one extends the activable() method
  *  to take into account the environment settings regarding the logged-in
  *  connnection status.
+ *
+ *  In other words, this class automagically answers the question:
+ *  - this action (new, edit, delete) is it allowed to an unknown user
+ *    when it is applied to this object (thought, action, project).
  */
 import { Tracker } from 'meteor/tracker';
 import { ReactiveDict } from 'meteor/reactive-dict';
