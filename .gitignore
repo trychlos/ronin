@@ -3,6 +3,8 @@
 maintainer/www-host/start.sh
 
 # ignored as useless in a repository
+.classpath
+.project
 .vscode
 *.apk
 cordova-build-override/platforms/android/res/
