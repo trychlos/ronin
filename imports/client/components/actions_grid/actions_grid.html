@@ -18,7 +18,7 @@
             </thead>
             <tbody>
                 {{#each it in actions}}
-                    <tr data-row-id="{{ it._id }}">
+                    <tr data-row-id="{{ it._id }}" class="{{doneClass}}">
                         <td class="btn-actions">
                             {{> edit_button action=it.editAction }}
                             {{> ownership_button item=it }}

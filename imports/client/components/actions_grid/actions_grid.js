@@ -57,6 +57,9 @@ Template.actions_grid.onRendered( function(){
 });
 
 Template.actions_grid.helpers({
+    doneClass(){
+        return this.tab === 'gtd-review-actions-done' ? 'x-through' : '';
+    },
     getContext( it ){
         const context = Contexts.findOne({ _id: it.context });
         return context ? context.name : '';
