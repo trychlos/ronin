@@ -359,6 +359,7 @@ Articles.helpers({
         return action;
     },
     // transform a thought or an action into a project
+    //  disabled for done actions
     projectAction(){
         let action = null;
         if( this.type === R_OBJ_THOUGHT || this.type === R_OBJ_ACTION ){
@@ -368,7 +369,7 @@ Articles.helpers({
                 gtd: 'gtd-process-to-project',
                 item: this
             });
-            action.activable( true );
+            action.activable( this.type != R_OBJ_ACTION || this.status != 'don' );
         }
         return action;
     }
