@@ -112,7 +112,11 @@
   276 2020- 5- 4 project window: refreshing after item deletion redisplays done actions
                  even if display done is false
 
-  277
+  277 2020- 5- 6 action_card: unable to done/undone "createdAt is not allowed by the schema"
+
+  278 2020- 5- 6 have isActionDone() Article helper
+
+  279
 
 ==============================================================================
  Done

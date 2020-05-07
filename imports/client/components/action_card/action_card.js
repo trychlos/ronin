@@ -48,6 +48,9 @@ Template.action_card.helpers({
     collapsableId(){
         return Template.action_card.fn.collapsableId();
     },
+    doneClass(){
+        return this.action.doneDate && moment( this.action.doneDate ).isValid() ? 'x-through' : '';
+    },
     itemDivId(){
         return Template.action_card.fn.itemDivId();
     },

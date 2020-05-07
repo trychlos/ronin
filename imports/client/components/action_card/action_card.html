@@ -5,7 +5,7 @@
             href="#{{collapsableId}}"
             data-toggle="collapse" data-action="{{ action._id }}">
 
-            <div class="d-flex flex-row justify-content-start align-items-center">
+            <div class="d-flex flex-row justify-content-start align-items-center {{doneClass}}">
 
                 <div class="name x-ellipsed {{className}}">
                     <p class="x-ellipsize">{{ action.name }}</p>
@@ -21,7 +21,7 @@
         </a>
 
         <div class="x-px025 collapse" id="{{collapsableId}}" data-parent="{{ parent }}">
-            <div class="actions-list-card x-py025">
+            <div class="actions-list-card x-py025 {{doneClass}}">
 
                     <div class="description">{{action.description}}</div>
 
