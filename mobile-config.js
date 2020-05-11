@@ -9,7 +9,7 @@
 App.info({
     id: 'org.trychlos.ronin',
     name: 'Ronin',
-    version: '20.05.08.1',
+    version: '20.05.11.1',
     description: 'Getting Things Done',
     author: 'Pierre Wieser',
     email: 'pwieser@trychlos.org',
@@ -62,12 +62,13 @@ App.setPreference( 'Orientation', 'all', 'ios' );
 App.accessRule('data:*', { type: 'navigation' });
 
 // https://developer.android.com/training/articles/security-config#CleartextTrafficPermitted
-//App.appendToConfig(`
-//    <edit-config
-//        file="app/src/main/AndroidManifest.xml"
-//        mode="merge"
-//        target="/manifest/application"
-//        xmlns:android="http://schemas.android.com/apk/res/android">
-//            <application android:usesCleartextTraffic="true"></application>
-//    </edit-config>
-//`);
+App.appendToConfig(`
+    <edit-config
+        file="app/src/main/AndroidManifest.xml"
+        mode="merge"
+        target="/manifest/application"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+            <application android:usesCleartextTraffic="true"></application>
+    </edit-config>
+`);
+
